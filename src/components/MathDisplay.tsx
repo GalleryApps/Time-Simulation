@@ -23,7 +23,7 @@ export const MathDisplay: React.FC<MathDisplayProps> = ({ math, block = false, c
   if (block) {
     return (
       <div 
-        className={`my-3 overflow-x-auto py-1 text-slate-100 ${className}`}
+        className={`my-3 overflow-x-auto py-1 ${className || 'text-current'}`}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     );
@@ -31,7 +31,7 @@ export const MathDisplay: React.FC<MathDisplayProps> = ({ math, block = false, c
 
   return (
     <span 
-      className={`inline-block px-1 text-slate-100 ${className}`}
+      className={`inline-block px-1 ${className || 'text-current'}`}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

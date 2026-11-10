@@ -25,6 +25,18 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onExpor
       {/* Zone 2: Clean single-line text navigation links */}
       <nav className="hidden lg:flex items-center gap-5 text-xs font-['Poppins'] font-light text-[#475569]">
         <button
+          onClick={() => setActiveTab('harmonized-model')}
+          className={`hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 font-medium ${activeTab === 'harmonized-model' ? 'text-[#EA580C] border-b-2 border-[#EA580C] pb-0.5' : 'text-[#9A3412]'}`}
+        >
+          The Harmonized Model
+        </button>
+        <button
+          onClick={() => setActiveTab('harmonized-paper')}
+          className={`hover:text-[#15803D] transition-colors whitespace-nowrap shrink-0 font-medium ${activeTab === 'harmonized-paper' ? 'text-[#15803D] border-b-2 border-[#15803D] pb-0.5' : 'text-[#166534]'}`}
+        >
+          New Research Paper (40 Experts & 17 Critics)
+        </button>
+        <button
           onClick={() => setActiveTab('criteria500')}
           className={`hover:text-[#081026] transition-colors whitespace-nowrap shrink-0 ${activeTab === 'criteria500' ? 'text-[#081026] font-normal border-b-2 border-[#081026] pb-0.5' : ''}`}
         >

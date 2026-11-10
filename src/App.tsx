@@ -22,9 +22,61 @@ import { Phase4View } from './components/Phase4View';
 import { DualUniverseSimulationView } from './components/DualUniverseSimulationView';
 import { Harmonization1500LabView } from './components/Harmonization1500LabView';
 import { Harmonized500StressTestView } from './components/Harmonized500StressTestView';
+import { HarmonizedModelView } from './components/HarmonizedModelView';
+import { HarmonizedResearchPaperView } from './components/HarmonizedResearchPaperView';
+
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+  fallbackTab: (tab: string) => void;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+}
+
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error("Caught error in App view:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="rounded-2xl border border-rose-300 bg-rose-50 p-8 text-center space-y-4 max-w-xl mx-auto my-12">
+          <h2 className="text-xl font-['Playfair_Display'] text-rose-900 font-normal">
+            View Error Caught
+          </h2>
+          <p className="text-xs text-rose-800 font-mono">
+            {this.state.error?.message || 'An unexpected rendering error occurred.'}
+          </p>
+          <button
+            onClick={() => {
+              this.setState({ hasError: false, error: null });
+              this.props.fallbackTab('harmonized-model');
+            }}
+            className="px-4 py-2 bg-[#0C1836] text-white text-xs rounded-lg hover:bg-[#1A3670]"
+          >
+            Reset to Harmonized Model
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<string>('universesim');
+  const [activeTab, setActiveTab] = useState<string>('harmonized-model');
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
 
   const handleExportLaTeX = () => {
@@ -104,6 +156,28 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
         <div className="max-w-6xl mx-auto flex items-center justify-between overflow-x-auto text-xs gap-3">
           
           <div className="flex items-center gap-1.5 shrink-0 p-1 bg-[#F4EFE6] rounded-xl border border-[#EAE2D2]">
+            <button
+              onClick={() => setActiveTab('harmonized-model')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] flex items-center gap-1.5 ${
+                activeTab === 'harmonized-model' 
+                  ? 'bg-[#EA580C] text-white shadow-xs font-normal ring-2 ring-[#EA580C]/20' 
+                  : 'text-[#9A3412] bg-[#FFEDD5]/90 hover:bg-[#FFEDD5] font-light'
+              }`}
+            >
+              <span>The Harmonized Model</span>
+              <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono ${activeTab === 'harmonized-model' ? 'bg-[#9A3412] text-white' : 'bg-[#EA580C] text-white'}`}>1,500 pts</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('harmonized-paper')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] flex items-center gap-1.5 ${
+                activeTab === 'harmonized-paper' 
+                  ? 'bg-[#15803D] text-white shadow-xs font-normal ring-2 ring-[#15803D]/20' 
+                  : 'text-[#166534] bg-[#DCFCE7]/90 hover:bg-[#DCFCE7] font-light'
+              }`}
+            >
+              <span>Harmonized Research Paper</span>
+              <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono ${activeTab === 'harmonized-paper' ? 'bg-[#14532D] text-white' : 'bg-[#15803D] text-white'}`}>40+17 Reviewers</span>
+            </button>
             <button
               onClick={() => setActiveTab('criteria500')}
               className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] ${
@@ -298,23 +372,32 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8">
-        {activeTab === 'criteria500' && <Criteria500MatrixView />}
-        {activeTab === 'universesim' && <DualUniverseSimulationView />}
-        {activeTab === 'harmonization' && <Harmonization1500LabView />}
-        {activeTab === 'harmonized-stresstest' && <Harmonized500StressTestView />}
-        {activeTab === 'redteam' && <RedTeamLabView />}
-        {activeTab === 'counterfactual' && <CounterfactualWorldsView />}
-        {activeTab === 'igrt' && <IgrtSynthesisLabView />}
-        {activeTab === 'robustness' && <RobustnessLabView />}
-        {activeTab === 'journal' && <JournalTreatiseView />}
-        {activeTab === 'matrix100' && <Factors500MatrixView />}
-        {activeTab === 'layman' && <LaymansGuideView />}
-        {activeTab === 'simulator' && <ResRagSimulatorView />}
-        {activeTab === 'pubdoc' && <PublicationDocumentView />}
-        {activeTab === 'phase1' && <Phase1View />}
-        {activeTab === 'phase2' && <Phase2View />}
-        {activeTab === 'phase3' && <Phase3View />}
-        {activeTab === 'phase4' && <Phase4View />}
+        <ErrorBoundary fallbackTab={setActiveTab}>
+          {activeTab === 'harmonized-model' && (
+            <HarmonizedModelView 
+              onNavigateToPaper={() => setActiveTab('harmonized-paper')}
+              onNavigateToStressTest={() => setActiveTab('harmonized-stresstest')}
+            />
+          )}
+          {activeTab === 'harmonized-paper' && <HarmonizedResearchPaperView />}
+          {activeTab === 'criteria500' && <Criteria500MatrixView />}
+          {activeTab === 'universesim' && <DualUniverseSimulationView />}
+          {activeTab === 'harmonization' && <Harmonization1500LabView />}
+          {activeTab === 'harmonized-stresstest' && <Harmonized500StressTestView />}
+          {activeTab === 'redteam' && <RedTeamLabView />}
+          {activeTab === 'counterfactual' && <CounterfactualWorldsView />}
+          {activeTab === 'igrt' && <IgrtSynthesisLabView />}
+          {activeTab === 'robustness' && <RobustnessLabView />}
+          {activeTab === 'journal' && <JournalTreatiseView />}
+          {activeTab === 'matrix100' && <Factors500MatrixView />}
+          {activeTab === 'layman' && <LaymansGuideView />}
+          {activeTab === 'simulator' && <ResRagSimulatorView />}
+          {activeTab === 'pubdoc' && <PublicationDocumentView />}
+          {activeTab === 'phase1' && <Phase1View />}
+          {activeTab === 'phase2' && <Phase2View />}
+          {activeTab === 'phase3' && <Phase3View />}
+          {activeTab === 'phase4' && <Phase4View />}
+        </ErrorBoundary>
       </main>
 
       {/* Scientific Footer */}

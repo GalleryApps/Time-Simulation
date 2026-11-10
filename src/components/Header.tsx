@@ -4,9 +4,10 @@ interface HeaderProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   onExportLaTeX: () => void;
+  onOpenSearch?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onExportLaTeX }) => {
+export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onExportLaTeX, onOpenSearch }) => {
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between gap-6 border-b border-[#EAE2D2] bg-[#FDFBF7]/95 px-6 py-3.5 backdrop-blur-md">
       {/* Zone 1: Single text element wordmark */}
@@ -34,7 +35,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onExpor
           onClick={() => setActiveTab('harmonized-paper')}
           className={`hover:text-[#15803D] transition-colors whitespace-nowrap shrink-0 font-medium ${activeTab === 'harmonized-paper' ? 'text-[#15803D] border-b-2 border-[#15803D] pb-0.5' : 'text-[#166534]'}`}
         >
-          New Research Paper (40 Experts & 17 Critics)
+          Harmonized Research Paper
         </button>
         <button
           onClick={() => setActiveTab('criteria500')}
@@ -106,6 +107,15 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onExpor
 
       {/* Zone 3: Actions */}
       <div className="flex items-center gap-2.5 shrink-0">
+        <button
+          onClick={onOpenSearch}
+          className="flex items-center gap-2 rounded-lg border border-[#EAE2D2] bg-[#FFFFFF] px-3 py-1.5 text-xs font-['Poppins'] text-[#475569] hover:text-[#081026] hover:bg-[#F9F6F0] transition-colors whitespace-nowrap shrink-0 shadow-2xs"
+          title="Search Academic Suite (Ctrl+K)"
+        >
+          <span>🔍</span>
+          <span className="hidden sm:inline">Search</span>
+          <kbd className="hidden md:inline-block font-mono text-[9px] bg-[#F4EFE6] px-1.5 py-0.2 rounded border border-[#EAE2D2] text-[#64748B]">⌘K</kbd>
+        </button>
         <a
           href="/assets/aistudio/IGEG_vs_RES-RAG_500-Criterion_Journal_Manuscript_3fd82f8c.txt"
           download="IGEG_vs_RES-RAG_500-Criterion_Journal_Manuscript.txt"

@@ -156,3 +156,40 @@
   text-transform: uppercase;
   color: #c2410c;
 }
+
+/* Custom Oxford Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #fdfbf7;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Academic Archival Print Media Formatting */
+@media print {
+  header, nav, .sticky, button, .no-print {
+    display: none !important;
+  }
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+  }
+  .oxford-card, article, section {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .page-break {
+    page-break-before: always;
+  }
+}

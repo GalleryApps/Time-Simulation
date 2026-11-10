@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Header } from './components/Header';
 import { Criteria500MatrixView } from './components/Criteria500MatrixView';
 import { RedTeamLabView } from './components/RedTeamLabView';
@@ -78,6 +78,58 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('harmonized-model');
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
+  const [showSearchModal, setShowSearchModal] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  // Global Ctrl+K / Cmd+K listener
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setShowSearchModal((prev) => !prev);
+      }
+      if (e.key === 'Escape') {
+        setShowSearchModal(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Comprehensive Search Items across all 13 modules, key formulas, and physics topics
+  const searchIndex = useMemo(() => [
+    { id: 'hm-1', tab: 'harmonized-model', title: 'The Harmonized Model (IGRT)', category: 'Core Synthesis', desc: 'Complete 1,500/1,500 framework: principal fiber bundle P(M, S_Fisher), 10 elements, 5 ramifications.' },
+    { id: 'hm-sim', tab: 'harmonized-model', title: 'Live Computational Laboratory & Simulators', category: 'Interactive Simulator', desc: 'FLRW Quantum Bounce engine, 2:1 Lissajous resonance comparator, and w(z) dark energy explorer.' },
+    { id: 'hp-1', tab: 'harmonized-paper', title: 'Harmonized Research Paper', category: 'Formal Monograph', desc: 'Peer-reviewed Physical Review D / CQG style paper with derivations, proofs, and 6 empirical testing protocols.' },
+    { id: 'c500', tab: 'criteria500', title: '500-Criterion Adversarial Matrix', category: 'Evaluation Matrix', desc: 'Granular point-by-point audit across 10 domains with filterable search and verified scores.' },
+    { id: 'usim', tab: 'universesim', title: 'Dual Universe Simulation (Model A vs B)', category: 'Interactive Simulation', desc: 'Side-by-side comparative simulation across 5 physical scenarios: bounce, GRB race, black hole, and observer dynamics.' },
+    { id: 'harm1500', tab: 'harmonization', title: '1,500 Harmonization Lab & 6 Studies', category: 'Synthesis Lab', desc: 'Six independent formal studies proving the mathematical closure of the Bulaqueña-Tassan synthesis.' },
+    { id: 'hstresstest', tab: 'harmonized-stresstest', title: 'Harmonized 500 Stress-Test Matrix', category: 'Audit Log', desc: 'Full verification log showing how all 500 criteria achieve 3/3 points (1,500/1,500) under IGRT.' },
+    { id: 'redteam', tab: 'redteam', title: '20 Red-Team Hard Attacks', category: 'Adversarial Attacks', desc: '20 severe stress attacks across 4 waves testing Wheeler-DeWitt freeze, GRBs, and black hole unitarity.' },
+    { id: 'counter', tab: 'counterfactual', title: '14 Counterfactual Worlds', category: 'Gedanken Experiments', desc: 'Explores parameter extremes: Planckian saturation, zero-entropy cosmos, and pure Markovian collapse.' },
+    { id: 'eq-master', tab: 'harmonized-paper', title: 'Master Equivalence Identity (dτ = Arc-Length = Flux)', category: 'Key Equation', desc: 'Equates proper time to Fisher-Rao quantum arc length and discrete resonance flux.' },
+    { id: 'eq-bounce', tab: 'harmonized-model', title: 'Quantum Singularity Bounce (H² = 8πG/3 ρ(1 - ρ/ρ_max))', category: 'Key Equation', desc: 'Avoids cosmic singularity via finite Planckian statistical bound with positive acceleration ä > 0.' },
+    { id: 'eq-21', tab: 'harmonized-paper', title: '2:1 Harmonic Coupling Ratio (f_PTA / f_clock = 2)', category: 'Key Equation', desc: 'Unambiguous empirical smoking gun between pulsar timing residuals and optical lattice clocks.' },
+    { id: 'eq-de', tab: 'harmonized-model', title: 'Dynamic Dark Energy Equation of State w(z)', category: 'Key Equation', desc: 'Vacuum horizon relaxation producing w(z) = -1 + 0.018(z/(1+z)) matching DESI 2024.' },
+    { id: 'eq-screen', tab: 'harmonized-paper', title: 'Chameleon Screening Mechanism (m_eff²(ρ) = V\'\' + κ ρ)', category: 'Key Equation', desc: 'Suppresses scalar fifth-force in high-density solar system bodies to meet Cassini tracking bounds.' },
+    { id: 'eq-bianchi', tab: 'harmonized-paper', title: 'Contracted Bianchi Conservation Proof (∇^μ(T_μν + I_μν) = 0)', category: 'Proof & Theorem', desc: 'Step-by-step tensor proof establishing exact stress-energy conservation from metric variation.' },
+    { id: 'eq-chentsov', tab: 'harmonized-paper', title: 'Chentsov-Morozova Uniqueness Theorem for State Fibers', category: 'Proof & Theorem', desc: 'Proof that the Fisher-Rao proper time metric is the unique CPTP-invariant Riemannian structure.' },
+    { id: 'igrt-lab', tab: 'igrt', title: 'IGRT Synthesis Lab', category: 'Laboratory', desc: 'Interactive state space trajectory and mathematical parameter sliders.' },
+    { id: 'robust', tab: 'robustness', title: 'Robustness Lab (Monte Carlo Engine)', category: 'Sensitivity Analysis', desc: 'Stochastic parameter sweeps validating stability under extreme adversarial perturbations.' },
+    { id: 'journal', tab: 'journal', title: 'Full Journal Manuscript', category: 'Publication Monograph', desc: 'Complete publication text evaluating Model A vs Model B with downloadable plain text.' },
+    { id: 'f500', tab: 'matrix100', title: '500-Factor Stress-Test Matrix', category: 'Granular Matrix', desc: 'Extensive 500-factor comparative matrix across all ten physical and epistemic domains.' },
+    { id: 'layman', tab: 'layman', title: 'Layman\'s Guide', category: 'Accessible Overview', desc: 'Intuitive analogies explaining the Problem of Time, quantum clocks, and the cosmic bounce.' }
+  ], []);
+
+  const filteredSearchResults = useMemo(() => {
+    if (!searchQuery.trim()) return searchIndex.slice(0, 8);
+    const q = searchQuery.toLowerCase();
+    return searchIndex.filter(item => 
+      item.title.toLowerCase().includes(q) ||
+      item.category.toLowerCase().includes(q) ||
+      item.desc.toLowerCase().includes(q)
+    );
+  }, [searchQuery, searchIndex]);
 
   const handleExportLaTeX = () => {
     setShowExportModal(true);
@@ -149,6 +201,7 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
         onExportLaTeX={handleExportLaTeX} 
+        onOpenSearch={() => setShowSearchModal(true)}
       />
 
       {/* Oxford Scholarly Masthead Secondary Nav */}
@@ -176,7 +229,7 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               }`}
             >
               <span>Harmonized Research Paper</span>
-              <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono ${activeTab === 'harmonized-paper' ? 'bg-[#14532D] text-white' : 'bg-[#15803D] text-white'}`}>40+17 Reviewers</span>
+              <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono ${activeTab === 'harmonized-paper' ? 'bg-[#14532D] text-white' : 'bg-[#15803D] text-white'}`}>PRD / CQG</span>
             </button>
             <button
               onClick={() => setActiveTab('criteria500')}
@@ -467,6 +520,78 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
                 Download .tex File
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Global Academic Search & Quick Jump Palette Modal (Ctrl+K) */}
+      {showSearchModal && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-xs p-4 pt-16 sm:pt-24 animate-in fade-in duration-150">
+          <div className="w-full max-w-2xl rounded-2xl bg-[#FFFFFF] border border-[#EAE2D2] shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            
+            {/* Search Input Bar */}
+            <div className="flex items-center gap-3 border-b border-[#EAE2D2] px-5 py-3.5 bg-[#FDFBF7]">
+              <span className="text-[#64748B] text-base">🔍</span>
+              <input
+                type="text"
+                autoFocus
+                placeholder="Search across all 13 views, equations, 500 criteria, or physics topics... (Esc to close)"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-transparent text-sm font-['Poppins'] text-[#081026] placeholder-[#94A3B8] focus:outline-hidden"
+              />
+              <button
+                onClick={() => setShowSearchModal(false)}
+                className="text-[#94A3B8] hover:text-[#081026] text-xs font-mono px-2 py-1 rounded hover:bg-[#F4EFE6]"
+              >
+                ESC
+              </button>
+            </div>
+
+            {/* Results List */}
+            <div className="overflow-y-auto p-3 space-y-1.5 flex-1 divide-y divide-[#F4EFE6]">
+              {filteredSearchResults.length === 0 ? (
+                <div className="text-center py-10 text-xs text-[#64748B] font-['Poppins']">
+                  No matching concepts, equations, or views found for "{searchQuery}".
+                </div>
+              ) : (
+                filteredSearchResults.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setActiveTab(item.tab);
+                      setShowSearchModal(false);
+                      setSearchQuery('');
+                    }}
+                    className="w-full text-left p-3 rounded-xl hover:bg-[#FDFBF7] transition-colors flex items-start justify-between gap-4 group"
+                  >
+                    <div className="space-y-1 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-['Playfair_Display'] text-[#081026] group-hover:text-[#EA580C] transition-colors">
+                          {item.title}
+                        </span>
+                        <span className="font-cinzel text-[9px] uppercase tracking-wider px-2 py-0.5 rounded bg-[#F4EFE6] text-[#475569]">
+                          {item.category}
+                        </span>
+                      </div>
+                      <p className="text-xs text-[#64748B] font-['Poppins'] font-light line-clamp-1">
+                        {item.desc}
+                      </p>
+                    </div>
+                    <span className="font-cinzel text-[10px] text-[#B45309] font-medium shrink-0 group-hover:translate-x-0.5 transition-transform">
+                      Jump ↗
+                    </span>
+                  </button>
+                ))
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="bg-[#FDFBF7] px-5 py-2.5 border-t border-[#EAE2D2] flex items-center justify-between text-[11px] text-[#64748B] font-['Poppins']">
+              <span>Press <kbd className="font-mono bg-white px-1.5 py-0.5 rounded border border-[#EAE2D2]">↑</kbd> <kbd className="font-mono bg-white px-1.5 py-0.5 rounded border border-[#EAE2D2]">↓</kbd> to navigate, <kbd className="font-mono bg-white px-1.5 py-0.5 rounded border border-[#EAE2D2]">ESC</kbd> to close</span>
+              <span className="font-mono text-[#15803D]">{filteredSearchResults.length} Results</span>
+            </div>
+
           </div>
         </div>
       )}

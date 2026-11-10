@@ -207,13 +207,13 @@ export const Harmonization1500LabView: React.FC = () => {
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE2D2] pb-6">
           <div className="space-y-2 max-w-3xl">
             <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-[#0C1836] text-[#FDFBF7] uppercase tracking-wider">
+              <span className="px-2.5 py-1 rounded-xs text-[11px] font-mono font-bold bg-[#0C1836] text-[#FDFBF7] uppercase tracking-wider">
                 Oxford Monograph Edition · Master Harmonization
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#FFEDD5] text-[#9A3412] border border-[#EA580C]/30">
+              <span className="px-2.5 py-0.5 rounded-xs text-[11px] font-mono font-bold bg-[#FFEDD5] text-[#9A3412] border border-[#EA580C]/30">
                 Audit Score: 1,500 / 1,500 (100.0%)
               </span>
-              <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#FEF3C7] text-[#92400E] border border-[#B45309]/30">
+              <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-xs text-[11px] font-mono font-bold bg-[#FEF3C7] text-[#92400E] border border-[#B45309]/30">
                 String Theory Alternative · HL-LHC Ready
               </span>
             </div>
@@ -379,13 +379,13 @@ export const Harmonization1500LabView: React.FC = () => {
         <div className="border-b border-[#EAE2D2] pb-6 space-y-2">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#0C1836] text-[#FDFBF7] uppercase tracking-wider">
+              <span className="px-2.5 py-1 rounded-xs text-xs font-mono font-bold bg-[#0C1836] text-[#FDFBF7] uppercase tracking-wider">
                 Definitive Research Program
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#FFEDD5] text-[#9A3412] border border-[#EA580C]/30">
+              <span className="px-2.5 py-0.5 rounded-xs text-[11px] font-mono font-bold bg-[#FFEDD5] text-[#9A3412] border border-[#EA580C]/30">
                 6 Exhaustive Studies
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#FEF3C7] text-[#92400E] border border-[#B45309]/30">
+              <span className="px-2.5 py-0.5 rounded-xs text-[11px] font-mono font-bold bg-[#FEF3C7] text-[#92400E] border border-[#B45309]/30">
                 Features LHC String Theory Rival Study
               </span>
             </div>

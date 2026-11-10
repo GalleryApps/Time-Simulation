@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MathDisplay } from './MathDisplay';
 import { 
   HARMONIZED_MODEL_ELEMENTS, 
@@ -32,6 +32,75 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
   const [harmonicFreq, setHarmonicFreq] = useState<number>(1.0);
   const [harmonicPhase, setHarmonicPhase] = useState<number>(0);
   const [darkEnergyZ, setDarkEnergyZ] = useState<number>(1.2);
+  const [isPlayingAudio, setIsPlayingAudio] = useState<boolean>(false);
+
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const osc1Ref = useRef<OscillatorNode | null>(null);
+  const osc2Ref = useRef<OscillatorNode | null>(null);
+
+  const toggleHarmonicAudio = useCallback(() => {
+    if (isPlayingAudio) {
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close().catch(() => {});
+        audioCtxRef.current = null;
+      }
+      setIsPlayingAudio(false);
+    } else {
+      try {
+        const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        const ctx = new AudioCtx();
+        const baseFreq = 220 * harmonicFreq;
+
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        const gain2 = ctx.createGain();
+        const masterGain = ctx.createGain();
+
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(baseFreq, ctx.currentTime);
+        gain1.gain.setValueAtTime(0.08, ctx.currentTime);
+
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(baseFreq * 2, ctx.currentTime);
+        gain2.gain.setValueAtTime(0.05, ctx.currentTime);
+
+        masterGain.gain.setValueAtTime(0.12, ctx.currentTime);
+
+        osc1.connect(gain1);
+        osc2.connect(gain2);
+        gain1.connect(masterGain);
+        gain2.connect(masterGain);
+        masterGain.connect(ctx.destination);
+
+        osc1.start();
+        osc2.start();
+
+        audioCtxRef.current = ctx;
+        osc1Ref.current = osc1;
+        osc2Ref.current = osc2;
+        setIsPlayingAudio(true);
+      } catch (e) {
+        console.error("Web Audio not supported or blocked", e);
+      }
+    }
+  }, [isPlayingAudio, harmonicFreq]);
+
+  useEffect(() => {
+    if (isPlayingAudio && audioCtxRef.current && osc1Ref.current && osc2Ref.current) {
+      const baseFreq = 220 * harmonicFreq;
+      osc1Ref.current.frequency.setTargetAtTime(baseFreq, audioCtxRef.current.currentTime, 0.05);
+      osc2Ref.current.frequency.setTargetAtTime(baseFreq * 2, audioCtxRef.current.currentTime, 0.05);
+    }
+  }, [harmonicFreq, isPlayingAudio]);
+
+  useEffect(() => {
+    return () => {
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close().catch(() => {});
+      }
+    };
+  }, []);
 
   const selectedElement: ModelElement = 
     HARMONIZED_MODEL_ELEMENTS.find(e => e.id === selectedElementId) || HARMONIZED_MODEL_ELEMENTS[0];
@@ -937,18 +1006,31 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
 
           {/* SIMULATOR 2: 2:1 HARMONIC RESONANCE PHASE COMPARATOR */}
           <div className="rounded-2xl border border-[#EAE2D2] bg-[#FFFFFF] p-6 sm:p-8 shadow-xs space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#EAE2D2] pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EAE2D2] dark:border-[#1E293B] pb-4">
               <div>
                 <span className="font-cinzel text-[11px] text-[#EA580C] uppercase font-medium">
                   Simulator 2 · Dual-Sector Metrology
                 </span>
-                <h3 className="text-xl font-['Playfair_Display'] font-normal text-[#081026]">
+                <h3 className="text-xl font-['Playfair_Display'] font-normal text-[#081026] dark:text-white">
                   2:1 Harmonic Resonance Phase Comparator &amp; Lissajous Attractor
                 </h3>
               </div>
-              <span className="font-mono text-xs text-[#EA580C] bg-[#FFEDD5] px-2.5 py-1 rounded shrink-0 font-medium">
-                f_PTA / f_clock = 2.0000000000
-              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={toggleHarmonicAudio}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors flex items-center gap-1.5 shadow-2xs ${
+                    isPlayingAudio 
+                      ? 'bg-[#EA580C] text-white hover:bg-[#C2410C]' 
+                      : 'bg-[#0C1836] text-white dark:bg-[#1A3670] hover:bg-[#1A3670]'
+                  }`}
+                  title="Auditory synthesis of the 2:1 harmonic ratio via Web Audio API"
+                >
+                  <span>{isPlayingAudio ? '🔊 Mute Tone' : '🔈 Play 2:1 Tone'}</span>
+                </button>
+                <span className="font-mono text-xs text-[#EA580C] bg-[#FFEDD5] dark:bg-[#7C2D12]/40 px-2.5 py-1 rounded shrink-0 font-medium">
+                  f_PTA / f_clock = 2.0000000000
+                </span>
+              </div>
             </div>
 
             {/* Controls */}

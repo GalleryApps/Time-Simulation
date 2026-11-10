@@ -101,7 +101,7 @@ export const Factors500MatrixView: React.FC = () => {
               <span className="text-xs font-mono font-bold text-[#EA580C] uppercase tracking-wider">
                 Oxford Technical Stress-Test Matrix
               </span>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#EBF0FE] text-[#1A3670] text-[10px] font-mono font-bold border border-[#CBD9FC]">
+              <span className="px-2.5 py-0.5 rounded-xs bg-[#EBF0FE] text-[#1A3670] text-[10px] font-mono font-bold border border-[#CBD9FC]">
                 500 Factors · Complete Audit
               </span>
             </div>
@@ -275,7 +275,7 @@ export const Factors500MatrixView: React.FC = () => {
 
                 <div className="flex items-center gap-2 shrink-0">
                   <span
-                    className={`px-2.5 py-1 rounded-full text-xs font-mono font-bold ${
+                    className={`px-2.5 py-1 rounded-xs text-xs font-mono font-bold ${
                       factor.verdict === 'Model A Superior'
                         ? 'bg-[#EBF0FE] text-[#1A3670] border border-[#CBD9FC]'
                         : factor.verdict === 'Model B Superior'

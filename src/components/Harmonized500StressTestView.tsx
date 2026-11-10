@@ -371,7 +371,7 @@ export const Harmonized500StressTestView: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#DCFCE7] text-[#166534] border border-[#16A34A]/30">
+                  <span className="px-2.5 py-0.5 rounded-xs text-xs font-mono font-bold bg-[#DCFCE7] text-[#166534] border border-[#16A34A]/30">
                     {item.testStatus}
                   </span>
                   <button className="text-[#64748B] hover:text-[#0C1836] text-xs font-mono px-2 py-1 rounded-lg hover:bg-[#F4EFE6]">

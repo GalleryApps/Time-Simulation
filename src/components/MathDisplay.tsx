@@ -7,7 +7,7 @@ interface MathDisplayProps {
   className?: string;
 }
 
-export const MathDisplay: React.FC<MathDisplayProps> = ({ math, block = false, className = '' }) => {
+export const MathDisplay: React.FC<MathDisplayProps> = React.memo(({ math, block = false, className = '' }) => {
   const html = useMemo(() => {
     try {
       return katex.renderToString(math, {
@@ -35,4 +35,4 @@ export const MathDisplay: React.FC<MathDisplayProps> = ({ math, block = false, c
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
-};
+});

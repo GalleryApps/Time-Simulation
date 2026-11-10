@@ -5,19 +5,25 @@
 
 import React, { useState } from 'react';
 import { Header } from './components/Header';
-import { LaymansGuideView } from './components/LaymansGuideView';
-import { PublicationDocumentView } from './components/PublicationDocumentView';
+import { Criteria500MatrixView } from './components/Criteria500MatrixView';
+import { RedTeamLabView } from './components/RedTeamLabView';
+import { CounterfactualWorldsView } from './components/CounterfactualWorldsView';
+import { IgrtSynthesisLabView } from './components/IgrtSynthesisLabView';
+import { RobustnessLabView } from './components/RobustnessLabView';
+import { JournalTreatiseView } from './components/JournalTreatiseView';
 import { Factors100MatrixView } from './components/Factors100MatrixView';
+import { LaymansGuideView } from './components/LaymansGuideView';
 import { ResRagSimulatorView } from './components/ResRagSimulatorView';
-import { MonographView } from './components/MonographView';
+import { PublicationDocumentView } from './components/PublicationDocumentView';
 import { Phase1View } from './components/Phase1View';
 import { Phase2View } from './components/Phase2View';
 import { Phase3View } from './components/Phase3View';
 import { Phase4View } from './components/Phase4View';
-import { FACTORS_100 } from './types/factors100';
+import { DualUniverseSimulationView } from './components/DualUniverseSimulationView';
+import { Harmonization1500LabView } from './components/Harmonization1500LabView';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<string>('layman');
+  const [activeTab, setActiveTab] = useState<string>('universesim');
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
 
   const handleExportLaTeX = () => {
@@ -29,21 +35,13 @@ export default function App() {
 \\usepackage{xcolor}
 \\usepackage{hyperref}
 
-\\definecolor{deepnavy}{HTML}{1E3A8A}
-\\definecolor{forestgreen}{HTML}{047857}
-\\definecolor{burnedorange}{HTML}{B45309}
-\\definecolor{crimsonred}{HTML}{B91C1C}
-\\definecolor{royalpurple}{HTML}{6D28D9}
-
-\\title{\\textbf{The Quantum Gravity Problem of Time: An Exhaustive 100-Factor Comparative Simulation and Adversarial Stress-Test Between the Bulaqueña Information Geometric Gradient (IGG) Framework and Jean-Charles Tassan's Emergent Resonant-Active Time Framework}}
+\\title{\\textbf{Adversarial Evaluation of Emergent Time Frameworks: A 500-Criterion Stress Test and Synthesis of Information Geometric Extended Gravity (IGEG) and the RES=RAG Resonance Model}}
 
 \\author{
-\\textbf{Model A (Foundational Engine):} Bulaqueña \\\\
-\\textit{Information Geometric Gradient (IGG): The Secret Engine of Physics, Reality, and Everything Else} \\\\
-Academia.edu ID: 164986382 \\quad \\url{https://www.academia.edu/164986382} \\\\[1ex]
-\\textbf{Model B (Emergent Resonance):} Jean-Charles Tassan \\\\
-\\textit{Emergent Resonant-Active Time Framework (RES-RAG via Z-Transforms \\& DTFT)} \\\\[1ex]
-\\textbf{Principal Investigator:} Theoretical Physics \\& Mathematical Rigor Consortium
+\\textbf{Marlon Bulaqueña} \\\\
+ORCID: 0009-0007-3966-0494 \\quad \\url{https://orcid.org/0009-0007-3966-0494} \\\\[1ex]
+\\textbf{Jean-Charles Tassan} \\\\
+ORCID: 0009-0000-8566-0486 \\quad \\url{https://orcid.org/0009-0000-8566-0486}
 }
 \\date{March 2026}
 
@@ -51,40 +49,30 @@ Academia.edu ID: 164986382 \\quad \\url{https://www.academia.edu/164986382} \\\\
 \\maketitle
 
 \\begin{abstract}
-We present an exhaustive, publication-grade comparative simulation, mathematical stress-test, and 100-factor analytical matrix between two foundational paradigms solving the Quantum Gravity Problem of Time: (1) Model A (The Bulaqueña Information Geometric Gradient [IGG] Framework), where time is an intrinsic computational metric operator $d\\tau = \\|\\text{IGG}\\|_g d\\lambda$ driving state updates across quantum statistical manifold $\\mathcal{S}$; and (2) Model B (Jean-Charles Tassan's Emergent Resonant-Active Time Framework), where time is an emergent structural rhythm born from the recursive frequency balance between RES (Resonant Memory) and RAG (Resonant Active Generation) governed by Z-transforms $H(z) = \\text{RAG}(z)/\\text{RES}(z)$. Across 100 granular physical checkpoints spanning four analytical modules, we evaluate Wheeler-DeWitt resolution, covariance preservation, cosmological bounce dynamics, and experimental falsifiability. We establish a definitive Dual-Layer Ultimate Synthesis (Factors 99 \\& 100): Layer 0 (Bulaqueña IGG Software Engine) operates as the microscopic computational substrate, while Layer 1 (Tassan RES-RAG) emerges as its macroscopic acoustic harmonic rhythm.
+The reconciliation of general relativity and quantum mechanics remains hindered by the "problem of time." We present a 500-criterion adversarial evaluation across ten physical and epistemic domains comparing Marlon D. Bulaqueña's Information Geometric Extended Gravity (IGEG) and Jean-Charles Tassan's RES=RAG model. IGEG demonstrated superior physical tenability (712/1500, 47.5%) compared to RES=RAG (264/1500, 17.6%), primarily due to explicit field equations, a General Relativity correspondence limit, and metric time. RES=RAG proved competitive on observer-dependent and cognitive criteria (leading 78 to 51 on the 53-criterion conceptual subset). We propose a unified synthesis, Information-Geometric Resonant Time (IGRT), equating the Fisher-Rao length of retention-generation paths with proper time: $d\\tau = \\sqrt{g_{ij}\\dot{\\theta}^i\\dot{\\theta}^j} d\\lambda \\equiv \\sqrt{-g_{\\mu\\nu}\\dot{x}^\\mu\\dot{x}^\\nu} d\\lambda$, predicting a 2:1 harmonic ratio between pulsar-timing residual modulation ($f_{\\text{PTA}} = \\omega/\\pi$) and optical-clock comparisons.
 \\end{abstract}
 
-\\section{\\color{deepnavy}Module 1: Foundational Axioms \\& The Quantum Problem of Time (Factors 1--25)}
-The Wheeler-DeWitt constraint $\\hat{\\mathcal{H}}|\\Psi\\rangle = 0$ is resolved internally in Model A via self-adjoint Information-Geometric Gradient generation:
+\\section{Framework Formulations}
+IGEG is formulated via minimally coupled scalar field $\\psi$:
 \\begin{equation}
-i\\hbar \\frac{\\partial \\Psi}{\\partial \\tau} = \\hat{\\mathcal{H}}_{\\text{IGG}} \\Psi = \\left( \\hat{H}_{\\text{matter}} + \\hbar \\hat{\\nabla}_{\\text{IGG}} \\right) \\Psi
+G_{\\mu\\nu} = 8\\pi G (T_{\\mu\\nu} + I_{\\mu\\nu})
 \\end{equation}
 \\begin{equation}
-\\text{IGG}^i = g^{ij}(\\theta) \\frac{\\partial \\Phi}{\\partial \\theta^j}, \\quad \\Delta\\tau = \\int \\|\\text{IGG}\\|_g \\, d\\lambda
-\\end{equation}
-Model B resolves $H|\\Psi\\rangle = 0$ via frequency-domain phase balancing where the static state is a DC pole $z=1$ and physical dynamics occur at resonant AC frequencies.
-
-\\section{\\color{forestgreen}Module 2: Field Equations \\& Preservation of Physical Laws (Factors 26--50)}
-General covariance $\\nabla_\\mu T^{\\mu\\nu} = 0$ is strictly preserved in Model A as the Riemannian pullback of Fisher information:
-\\begin{equation}
-g_{\\mu\\nu}(x) = \\frac{\\partial \\theta^i}{\\partial x^\\mu} \\frac{\\partial \\theta^j}{\\partial x^\\nu} \\left( g_{ij}(\\theta) + \\epsilon_{\\text{vac}}\\delta_{ij} \\right)
-\\end{equation}
-Model A enforces exact local Lorentz invariance ($\\Delta t_{\\text{LIV}} = 0$), matching GRB 221009A 18 TeV constraints ($|\\Delta t| < 0.2\\text{ s}$).
-
-\\section{\\color{burnedorange}Module 3: Cosmological Scale-Up \\& Extreme Physics (Factors 51--75)}
-Singularities in both early-universe FLRW expansion and black hole interiors are regularized without infinities:
-\\begin{equation}
-a(\\tau) = \\left( a_{\\text{min}}^4 + \\frac{\\tau^2}{\\alpha_{\\text{IGG}}} \\right)^{1/4}, \\quad \\mathcal{K}_{\\text{max}} < \\infty
+I_{\\mu\\nu} = \\nabla_\\mu \\psi \\nabla_\\nu \\psi - \\frac{1}{2} g_{\\mu\\nu} (\\nabla\\psi)^2 - g_{\\mu\\nu} V(\\psi)
 \\end{equation}
 
-\\section{\\color{crimsonred}Module 4: Counter-Factual Collisions \\& Falsifiability Matrix (Factors 76--100)}
-Complete removal of the external time coordinate confirms that physical dynamics persist along the invariant natural gradient flow. Wick rotation establishes exact mathematical duality between Fisher metrics and Z-transform spectra:
+\\section{The IGRT Core Identification}
 \\begin{equation}
-g_{ij}^{\\text{Fisher}}(\\theta) \\xleftrightarrow{\\quad \\mathcal{W} \\quad} H(z)\\big|_{z=e^{j\\omega}} = \\frac{\\text{RAG}(e^{j\\omega})}{\\text{RES}(e^{j\\omega})}
+\\Delta\\tau = \\int \\sqrt{g_{ij}\\dot{\\theta}^i\\dot{\\theta}^j} \\, d\\lambda \\;\\equiv\\; \\int \\sqrt{-g_{\\mu\\nu}\\dot{x}^\\mu\\dot{x}^\\nu} \\, d\\lambda
+\\end{equation}
+\\begin{equation}
+\\psi^2(x) = \\kappa_\\psi \\lim_{A\\to x} \\frac{S(\\rho_A) - S(\\sigma_A)}{\\text{Vol}(A)}
 \\end{equation}
 
-\\section{\\color{royalpurple}The Dual-Layer Synthesis (Factors 99 \\& 100)}
-Time is fundamentally the Bulaqueña Information Geometric Gradient software engine (Layer 0), perceived macroscopically as the Jean-Charles Tassan RES-RAG resonant acoustic rhythm (Layer 1).
+\\section{Experimental 2:1 Harmonic Test}
+\\begin{equation}
+f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac{\\delta\\nu}{\\nu}(t) = \\varepsilon x_0 \\cos(\\omega t + \\phi)
+\\end{equation}
 
 \\end{document}`;
 
@@ -103,80 +91,198 @@ Time is fundamentally the Bulaqueña Information Geometric Gradient software eng
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-indigo-500/20 selection:text-indigo-900">
       
-      {/* Universal Top Bar Contract - Clean Light Theme */}
+      {/* Universal Top Bar */}
       <Header 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
         onExportLaTeX={handleExportLaTeX} 
       />
 
-      {/* Secondary Clean Workspace Filter Bar */}
-      <div className="border-b border-slate-200 bg-white/80 px-6 py-2.5 backdrop-blur-sm sticky top-[69px] z-40">
-        <div className="max-w-6xl mx-auto flex items-center justify-between overflow-x-auto text-xs">
+      {/* Secondary Clean Workspace Filter & Tab Bar */}
+      <div className="border-b border-slate-200 bg-white/85 px-4 sm:px-6 py-2.5 backdrop-blur-md sticky top-[57px] z-40">
+        <div className="max-w-6xl mx-auto flex items-center justify-between overflow-x-auto text-xs gap-3">
           
           <div className="flex items-center gap-1 shrink-0 p-1 bg-slate-100 rounded-xl border border-slate-200">
             <button
-              onClick={() => setActiveTab('layman')}
-              className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap font-medium ${activeTab === 'layman' ? 'bg-white text-slate-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
+              onClick={() => setActiveTab('criteria500')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+                activeTab === 'criteria500' 
+                  ? 'bg-white text-indigo-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
             >
-              Layman's Guide & Conclusions
+              <span>500-Criterion Matrix</span>
+              <span className="px-1.5 py-0.2 rounded bg-indigo-100 text-indigo-800 text-[10px] font-mono font-bold">500</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('universesim')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+                activeTab === 'universesim' 
+                  ? 'bg-white text-blue-900 shadow-xs font-bold border border-blue-200 ring-2 ring-blue-500/20' 
+                  : 'text-blue-700 bg-blue-50/70 hover:bg-blue-100/70'
+              }`}
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+              </span>
+              <span>Universe Sim: Model A vs B</span>
+              <span className="px-1.5 py-0.2 rounded bg-blue-200 text-blue-900 text-[10px] font-mono font-bold">LIVE</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('harmonization')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+                activeTab === 'harmonization' 
+                  ? 'bg-white text-emerald-900 shadow-xs font-bold border border-emerald-300 ring-2 ring-emerald-500/20' 
+                  : 'text-emerald-700 bg-emerald-50/70 hover:bg-emerald-100/70'
+              }`}
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block animate-pulse" />
+              <span>1,500 Harmonization & 5 Studies</span>
+              <span className="px-1.5 py-0.2 rounded bg-emerald-200 text-emerald-900 text-[10px] font-mono font-bold">1,500/1,500</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('redteam')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+                activeTab === 'redteam' 
+                  ? 'bg-white text-rose-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <span>20 Red-Team Attacks</span>
+              <span className="px-1.5 py-0.2 rounded bg-rose-100 text-rose-800 text-[10px] font-mono font-bold">20</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('counterfactual')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+                activeTab === 'counterfactual' 
+                  ? 'bg-white text-emerald-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <span>14 Counterfactual Worlds</span>
+              <span className="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">14</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('igrt')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+                activeTab === 'igrt' 
+                  ? 'bg-white text-purple-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <span>IGRT Synthesis & Lab</span>
+              <span className="px-1.5 py-0.2 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold">2:1</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('robustness')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+                activeTab === 'robustness' 
+                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <span>Robustness & Monte Carlo</span>
+              <span className="px-1.5 py-0.2 rounded bg-slate-200 text-slate-800 text-[10px] font-mono">20k</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('journal')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+                activeTab === 'journal' 
+                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              Journal Manuscript
+            </button>
+            <button
+              onClick={() => setActiveTab('matrix100')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+                activeTab === 'matrix100' 
+                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              100-Factor Matrix
+            </button>
+            <button
+              onClick={() => setActiveTab('layman')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+                activeTab === 'layman' 
+                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              Layman's Guide
+            </button>
+            <button
+              onClick={() => setActiveTab('simulator')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+                activeTab === 'simulator' 
+                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              RES-RAG Lab
             </button>
             <button
               onClick={() => setActiveTab('pubdoc')}
-              className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap font-medium ${activeTab === 'pubdoc' ? 'bg-white text-slate-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+                activeTab === 'pubdoc' 
+                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
             >
               4-Page Publication & Verdict
             </button>
             <button
-              onClick={() => setActiveTab('matrix100')}
-              className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap font-medium ${activeTab === 'matrix100' ? 'bg-white text-slate-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
-            >
-              100-Factor Stress-Test Matrix
-            </button>
-            <button
-              onClick={() => setActiveTab('simulator')}
-              className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap font-medium ${activeTab === 'simulator' ? 'bg-white text-slate-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
-            >
-              RES-RAG vs IGG Lab
-            </button>
-            <button
-              onClick={() => setActiveTab('monograph')}
-              className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap font-medium ${activeTab === 'monograph' ? 'bg-white text-slate-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
-            >
-              Peer-Reviewed Monograph
-            </button>
-            <button
               onClick={() => setActiveTab('phase1')}
-              className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap font-medium ${activeTab === 'phase1' ? 'bg-white text-slate-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
+              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium text-[11px] ${
+                activeTab === 'phase1' 
+                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
             >
               Phase 1: WDW Freeze
             </button>
             <button
               onClick={() => setActiveTab('phase2')}
-              className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap font-medium ${activeTab === 'phase2' ? 'bg-white text-slate-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
+              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium text-[11px] ${
+                activeTab === 'phase2' 
+                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
             >
               Phase 2: Covariance & LIV
             </button>
             <button
               onClick={() => setActiveTab('phase3')}
-              className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap font-medium ${activeTab === 'phase3' ? 'bg-white text-slate-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
+              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium text-[11px] ${
+                activeTab === 'phase3' 
+                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
             >
               Phase 3: Bounce
             </button>
             <button
               onClick={() => setActiveTab('phase4')}
-              className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap font-medium ${activeTab === 'phase4' ? 'bg-white text-slate-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
+              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium text-[11px] ${
+                activeTab === 'phase4' 
+                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
             >
-              Phase 4: Verdict
+              Phase 4: Empirical Verdict
             </button>
           </div>
 
-          <div className="hidden lg:flex items-center gap-3 text-slate-500 text-xs">
-            <span className="font-semibold text-blue-800">Model A: Bulaqueña IGG</span>
+          <div className="hidden xl:flex items-center gap-3 text-slate-500 text-xs shrink-0 font-mono">
+            <span className="font-semibold text-blue-700">IGEG: 712 (47.5%)</span>
             <span aria-hidden="true">·</span>
-            <span className="font-semibold text-amber-800">Model B: Tassan RES-RAG</span>
+            <span className="font-semibold text-amber-700">RES=RAG: 264 (17.6%)</span>
             <span aria-hidden="true">·</span>
-            <span className="text-emerald-700 font-mono font-bold">100/100 Audited</span>
+            <span className="text-emerald-700 font-bold">500 / 500 Audited</span>
           </div>
 
         </div>
@@ -184,87 +290,89 @@ Time is fundamentally the Bulaqueña Information Geometric Gradient software eng
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8">
-        {activeTab === 'layman' && <LaymansGuideView />}
-        {activeTab === 'pubdoc' && <PublicationDocumentView />}
+        {activeTab === 'criteria500' && <Criteria500MatrixView />}
+        {activeTab === 'universesim' && <DualUniverseSimulationView />}
+        {activeTab === 'harmonization' && <Harmonization1500LabView />}
+        {activeTab === 'redteam' && <RedTeamLabView />}
+        {activeTab === 'counterfactual' && <CounterfactualWorldsView />}
+        {activeTab === 'igrt' && <IgrtSynthesisLabView />}
+        {activeTab === 'robustness' && <RobustnessLabView />}
+        {activeTab === 'journal' && <JournalTreatiseView />}
         {activeTab === 'matrix100' && <Factors100MatrixView />}
+        {activeTab === 'layman' && <LaymansGuideView />}
         {activeTab === 'simulator' && <ResRagSimulatorView />}
-        {activeTab === 'monograph' && <MonographView />}
+        {activeTab === 'pubdoc' && <PublicationDocumentView />}
         {activeTab === 'phase1' && <Phase1View />}
         {activeTab === 'phase2' && <Phase2View />}
         {activeTab === 'phase3' && <Phase3View />}
         {activeTab === 'phase4' && <Phase4View />}
       </main>
 
-      {/* Clean Scientific Footer - Light Theme */}
+      {/* Scientific Footer */}
       <footer className="border-t border-slate-200 bg-white px-6 py-8 text-xs text-slate-500">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-900 tracking-tight">Chronos-QG Workbench</span>
-            <span aria-hidden="true">·</span>
-            <span>100-Factor Quantum Gravity Comparative Laboratory</span>
-            <span aria-hidden="true">·</span>
-            <span>Bulaqueña (2026) & Tassan (2026)</span>
+          <div className="space-y-1 text-center sm:text-left">
+            <div className="font-semibold text-slate-900">
+              Chronos-QG: Adversarial Emergent Time Research Suite
+            </div>
+            <div className="text-slate-500">
+              Marlon Bulaqueña (ORCID: 0009-0007-3966-0494) · Jean-Charles Tassan (ORCID: 0009-0000-8566-0486)
+            </div>
           </div>
-          <div className="flex items-center gap-4 text-slate-600">
-            <button onClick={() => setActiveTab('layman')} className="hover:text-slate-900 transition-colors">
-              Layman's Guide
-            </button>
-            <button onClick={() => setActiveTab('pubdoc')} className="hover:text-slate-900 transition-colors">
-              4-Page Monograph & Verdict
-            </button>
-            <button onClick={() => setActiveTab('matrix100')} className="hover:text-slate-900 transition-colors">
-              100-Factor Matrix
-            </button>
-            <button onClick={() => setActiveTab('simulator')} className="hover:text-slate-900 transition-colors">
-              RES-RAG Lab
-            </button>
-            <button onClick={() => setActiveTab('monograph')} className="hover:text-slate-900 transition-colors">
-              Monograph
+          <div className="flex items-center gap-4 text-xs">
+            <a
+              href="/assets/aistudio/IGEG_vs_RES-RAG_500-Criterion_Journal_Manuscript_3fd82f8c.txt"
+              download="IGEG_vs_RES-RAG_500-Criterion_Journal_Manuscript.txt"
+              className="text-indigo-600 hover:underline font-mono"
+            >
+              Manuscript (.txt) ↗
+            </a>
+            <button
+              onClick={handleExportLaTeX}
+              className="text-slate-700 hover:text-slate-900 font-medium"
+            >
+              Export LaTeX
             </button>
           </div>
         </div>
       </footer>
 
-      {/* Export Modal */}
+      {/* Export LaTeX Modal */}
       {showExportModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4">
-          <div className="max-w-2xl w-full rounded-2xl border border-slate-200 bg-white p-6 space-y-4 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+          <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-xl space-y-4 border border-slate-200">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="text-lg font-bold text-slate-900 font-serif">Export 100-Factor Comparative Monograph</h3>
-              <button 
+              <h3 className="text-lg font-serif font-bold text-slate-900">
+                Export Publication-Grade LaTeX Monograph
+              </h3>
+              <button
                 onClick={() => setShowExportModal(false)}
-                className="text-slate-400 hover:text-slate-700 text-sm"
+                className="text-slate-400 hover:text-slate-600 text-sm font-mono"
               >
                 ✕
               </button>
             </div>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Download the complete, publication-grade 100-factor manuscript formatted for submission to the <em>Physical Review D</em>, <em>Journal of High Energy Physics</em>, or <em>Classical and Quantum Gravity</em>.
+            <p className="text-xs text-slate-600">
+              Ready-to-compile LaTeX source code for the 500-criterion study, including all field equations, mathematical definitions, and the IGRT dual-layer synthesis.
             </p>
-            <div className="rounded-xl bg-slate-50 p-4 font-mono text-[11px] text-slate-800 max-h-52 overflow-y-auto border border-slate-200">
-              <pre>{latexContent}</pre>
-            </div>
-            <div className="flex justify-end gap-3 pt-2">
+            <pre className="max-h-60 overflow-y-auto rounded-xl bg-slate-900 p-4 font-mono text-[11px] text-slate-100 leading-relaxed">
+              {latexContent}
+            </pre>
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
               <button
-                onClick={() => downloadFile(latexContent, 'chronos_qg_100_factor_monograph.tex', 'text/x-tex')}
-                className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold transition-colors shadow-sm"
+                onClick={() => setShowExportModal(false)}
+                className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50"
               >
-                Download LaTeX Source (.tex)
+                Close
               </button>
               <button
                 onClick={() => {
-                  const plainText = document.getElementById('peer-review-monograph')?.innerText || latexContent;
-                  downloadFile(plainText, 'chronos_qg_100_factor_monograph.md', 'text/markdown');
+                  downloadFile(latexContent, 'IGEG_vs_RESRAG_500_Criterion_Monograph.tex', 'application/x-tex');
+                  setShowExportModal(false);
                 }}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold transition-colors"
+                className="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 shadow-sm"
               >
-                Download Markdown (.md)
-              </button>
-              <button
-                onClick={() => setShowExportModal(false)}
-                className="px-4 py-2 bg-transparent hover:bg-slate-100 text-slate-500 rounded-xl text-xs transition-colors"
-              >
-                Close
+                Download .tex File
               </button>
             </div>
           </div>

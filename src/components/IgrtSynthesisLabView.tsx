@@ -29,26 +29,26 @@ export const IgrtSynthesisLabView: React.FC = () => {
   const fClock = (omega / (2 * Math.PI)).toFixed(3);
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-20">
+    <div className="space-y-8 max-w-6xl mx-auto pb-20 text-[#0C1836]">
       
-      {/* Header Banner */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5">
+      {/* Header Banner - Oxford Monograph Masthead */}
+      <div className="oxford-card rounded-2xl p-6 sm:p-8 shadow-xs space-y-6 bg-white border border-[#EAE2D2]">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE2D2] pb-5">
           <div className="space-y-1">
-            <span className="text-xs font-mono font-semibold text-purple-600 uppercase tracking-wider">
+            <span className="text-xs font-mono font-bold text-[#EA580C] uppercase tracking-wider">
               Section 6 · The IGRT Unified Synthesis
             </span>
-            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#081026] tracking-tight">
               Information-Geometric Resonant Time (IGRT)
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 max-w-3xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#475569] max-w-3xl leading-relaxed">
               Constructed directly from the two frameworks and quantum information foundations: IGRT identifies the <strong>Fisher-Rao distance</strong> traversed by the retention-generation events of RES=RAG with the <strong>proper time</strong> of General Relativity, and derives the scalar field <MathDisplay math="\psi" /> from <strong>vacuum-subtracted entanglement entropy density</strong>.
             </p>
           </div>
-          <div className="flex items-center gap-2 font-mono text-xs text-purple-800 bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-200">
-            <span className="font-bold">Dual-Layer Architecture</span>
-            <span aria-hidden="true">·</span>
-            <span>Microscopic Metric + Macroscopic Rhythm</span>
+          <div className="flex items-center gap-2 font-mono text-xs text-[#081026] bg-[#F4EFE6] px-3.5 py-1.5 rounded-lg border border-[#EAE2D2]">
+            <span className="font-serif font-bold text-[#1A3670]">Dual-Layer Architecture</span>
+            <span aria-hidden="true" className="text-[#CBD5E1]">·</span>
+            <span className="text-[#475569]">Microscopic Metric + Macroscopic Rhythm</span>
           </div>
         </div>
 
@@ -58,8 +58,8 @@ export const IgrtSynthesisLabView: React.FC = () => {
             onClick={() => setActiveTab('equations')}
             className={`px-4 py-2 rounded-xl transition-all ${
               activeTab === 'equations'
-                ? 'bg-purple-900 text-white font-semibold shadow-sm'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold shadow-xs'
+                : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'
             }`}
           >
             Core Identification & Field Equations (Eq. 10–16)
@@ -68,8 +68,8 @@ export const IgrtSynthesisLabView: React.FC = () => {
             onClick={() => setActiveTab('signatures')}
             className={`px-4 py-2 rounded-xl transition-all ${
               activeTab === 'signatures'
-                ? 'bg-purple-900 text-white font-semibold shadow-sm'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold shadow-xs'
+                : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'
             }`}
           >
             Interactive 2:1 Dual Observable Simulator (Eq. 17–20)
@@ -78,8 +78,8 @@ export const IgrtSynthesisLabView: React.FC = () => {
             onClick={() => setActiveTab('mapping')}
             className={`px-4 py-2 rounded-xl transition-all ${
               activeTab === 'mapping'
-                ? 'bg-purple-900 text-white font-semibold shadow-sm'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold shadow-xs'
+                : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'
             }`}
           >
             Table 8: Concept Mapping Matrix
@@ -88,8 +88,8 @@ export const IgrtSynthesisLabView: React.FC = () => {
             onClick={() => setActiveTab('program')}
             className={`px-4 py-2 rounded-xl transition-all ${
               activeTab === 'program'
-                ? 'bg-purple-900 text-white font-semibold shadow-sm'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold shadow-xs'
+                : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'
             }`}
           >
             Open Problems & 8-Step Research Program
@@ -102,49 +102,49 @@ export const IgrtSynthesisLabView: React.FC = () => {
         <div className="space-y-6">
           
           {/* Postulate 1: Core Identification */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-4">
+          <div className="oxford-card rounded-2xl p-6 sm:p-8 shadow-xs space-y-4 bg-white border border-[#EAE2D2]">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded bg-purple-100 text-purple-800 text-xs font-mono font-bold">
+              <span className="px-2.5 py-0.5 rounded bg-[#EBF0FE] text-[#1A3670] text-xs font-mono font-bold border border-[#CBD9FC]">
                 Postulate 1 · Equation (10)
               </span>
-              <h2 className="text-lg font-serif font-bold text-slate-900">
+              <h2 className="text-lg font-serif font-bold text-[#081026]">
                 The Core Equivalence: Fisher-Rao Distance = Proper Time
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
               IGRT equates the Fisher-Rao length along the trajectory of distinguishable states on statistical manifold <MathDisplay math="\mathcal{S}" /> with the proper time along the worldline in spacetime:
             </p>
-            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-center font-mono">
+            <div className="p-4 bg-[#F9F6F0] rounded-xl border border-[#EAE2D2] text-center font-mono">
               <MathDisplay math="\Delta\tau = \int \sqrt{g_{ij}\dot{\theta}^i\dot{\theta}^j} \, d\lambda \;\equiv\; \int \sqrt{-g_{\mu\nu}\dot{x}^\mu\dot{x}^\nu} \, d\lambda" />
             </div>
-            <p className="text-xs text-slate-500 leading-relaxed">
+            <p className="text-xs text-[#64748B] leading-relaxed font-sans">
               Here <MathDisplay math="\lambda" /> is an unphysical monotonic gauge label. Each integrand is homogeneous of degree one in velocities, guaranteeing strict <strong>reparametrization invariance</strong>. The left-hand side counts distinguishable states traversed (supplying the measure RES=RAG lacks); the right-hand side is the proper time of General Relativity (which IGEG inherits).
             </p>
-            <div className="p-3 bg-purple-50/60 rounded-xl border border-purple-200 text-xs text-purple-900">
+            <div className="p-3 bg-[#F4F7FF] rounded-xl border border-[#CBD9FC] text-xs text-[#1A3670]">
               <strong>Discrete Event Sum (Eq. 11):</strong> <MathDisplay math="\Delta\tau_N = \sum_{k=1}^N \sqrt{g_{ij}(\theta_k)\Delta\theta_k^i\Delta\theta_k^j} \;\longrightarrow\; \Delta\tau \quad (N\to\infty)" />
             </div>
           </div>
 
           {/* Derivation of Scalar Field from Entanglement */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-4">
+          <div className="oxford-card rounded-2xl p-6 sm:p-8 shadow-xs space-y-4 bg-white border border-[#EAE2D2]">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded bg-blue-100 text-blue-800 text-xs font-mono font-bold">
+              <span className="px-2.5 py-0.5 rounded bg-[#FEF3C7] text-[#92400E] text-xs font-mono font-bold border border-[#FCD34D]">
                 Derivation · Equations (13)–(16)
               </span>
-              <h2 className="text-lg font-serif font-bold text-slate-900">
+              <h2 className="text-lg font-serif font-bold text-[#081026]">
                 Resolving Circularity: <MathDisplay math="\psi" /> as Emergent Entanglement Density
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
               To resolve the circularity of the IGEG engine clock, IGRT invokes the <strong>Page-Wootters mechanism</strong>. A stationary global state obeys <MathDisplay math="(\hat{H}_C + \hat{H}_S)|\Psi\rangle\rangle = 0" />, yielding ordinary Schrödinger evolution for the conditional state <MathDisplay math="|\phi_S(t)\rangle = \langle t|_C |\Psi\rangle\rangle" />:
             </p>
-            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-center font-mono">
+            <div className="p-4 bg-[#F9F6F0] rounded-xl border border-[#EAE2D2] text-center font-mono">
               <MathDisplay math="\psi^2(x) = \kappa_\psi \lim_{A \to x} \frac{S(\rho_A) - S(\sigma_A)}{\text{Vol}(A)}" />
             </div>
-            <p className="text-xs text-slate-500 leading-relaxed">
+            <p className="text-xs text-[#64748B] leading-relaxed font-sans">
               The scalar field <MathDisplay math="\psi" /> is thereby a coarse-grained descriptor of the vacuum-subtracted entanglement entropy density rather than an independent primitive. Fisher geometry and entanglement are linked via the second-order expansion of relative entropy:
             </p>
-            <div className="p-3 bg-slate-100 rounded-xl border border-slate-200 text-center font-mono text-xs">
+            <div className="p-3 bg-[#FDFBF7] rounded-xl border border-[#EAE2D2] text-center font-mono text-xs">
               <MathDisplay math="D(p_{\theta+d\theta} \,\|\, p_\theta) = \frac{1}{2} g_{ij} d\theta^i d\theta^j + \mathcal{O}(|d\theta|^3)" />
             </div>
           </div>

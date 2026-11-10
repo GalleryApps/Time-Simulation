@@ -11,7 +11,7 @@ import { CounterfactualWorldsView } from './components/CounterfactualWorldsView'
 import { IgrtSynthesisLabView } from './components/IgrtSynthesisLabView';
 import { RobustnessLabView } from './components/RobustnessLabView';
 import { JournalTreatiseView } from './components/JournalTreatiseView';
-import { Factors100MatrixView } from './components/Factors100MatrixView';
+import { Factors500MatrixView } from './components/Factors500MatrixView';
 import { LaymansGuideView } from './components/LaymansGuideView';
 import { ResRagSimulatorView } from './components/ResRagSimulatorView';
 import { PublicationDocumentView } from './components/PublicationDocumentView';
@@ -21,6 +21,7 @@ import { Phase3View } from './components/Phase3View';
 import { Phase4View } from './components/Phase4View';
 import { DualUniverseSimulationView } from './components/DualUniverseSimulationView';
 import { Harmonization1500LabView } from './components/Harmonization1500LabView';
+import { Harmonized500StressTestView } from './components/Harmonized500StressTestView';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('universesim');
@@ -89,7 +90,7 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-indigo-500/20 selection:text-indigo-900">
+    <div className="min-h-screen bg-[#FDFBF7] text-[#0C1836] flex flex-col font-sans selection:bg-[#EA580C]/20 selection:text-[#9A3412]">
       
       {/* Universal Top Bar */}
       <Header 
@@ -98,191 +99,198 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
         onExportLaTeX={handleExportLaTeX} 
       />
 
-      {/* Secondary Clean Workspace Filter & Tab Bar */}
-      <div className="border-b border-slate-200 bg-white/85 px-4 sm:px-6 py-2.5 backdrop-blur-md sticky top-[57px] z-40">
+      {/* Oxford Scholarly Masthead Secondary Nav */}
+      <div className="border-b border-[#EAE2D2] bg-[#FDFBF7]/95 px-4 sm:px-6 py-2.5 backdrop-blur-md sticky top-[57px] z-40">
         <div className="max-w-6xl mx-auto flex items-center justify-between overflow-x-auto text-xs gap-3">
           
-          <div className="flex items-center gap-1 shrink-0 p-1 bg-slate-100 rounded-xl border border-slate-200">
+          <div className="flex items-center gap-1.5 shrink-0 p-1 bg-[#F4EFE6] rounded-xl border border-[#EAE2D2]">
             <button
               onClick={() => setActiveTab('criteria500')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] ${
                 activeTab === 'criteria500' 
-                  ? 'bg-white text-indigo-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-normal' 
+                  : 'text-[#475569] hover:text-[#081026] hover:bg-[#EAE2D2]/60 font-light'
               }`}
             >
               <span>500-Criterion Matrix</span>
-              <span className="px-1.5 py-0.2 rounded bg-indigo-100 text-indigo-800 text-[10px] font-mono font-bold">500</span>
+              <span className={`ml-1.5 px-1.5 py-0.2 rounded text-[10px] font-mono ${activeTab === 'criteria500' ? 'bg-[#1A3670] text-[#CBD9FC]' : 'bg-[#EBF0FE] text-[#1A3670]'}`}>500</span>
             </button>
             <button
               onClick={() => setActiveTab('universesim')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] flex items-center gap-1.5 ${
                 activeTab === 'universesim' 
-                  ? 'bg-white text-blue-900 shadow-xs font-bold border border-blue-200 ring-2 ring-blue-500/20' 
-                  : 'text-blue-700 bg-blue-50/70 hover:bg-blue-100/70'
+                  ? 'bg-[#EA580C] text-white shadow-xs font-normal ring-2 ring-[#EA580C]/20' 
+                  : 'text-[#9A3412] bg-[#FFEDD5]/80 hover:bg-[#FFEDD5] font-light'
               }`}
             >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
-              </span>
               <span>Universe Sim: Model A vs B</span>
-              <span className="px-1.5 py-0.2 rounded bg-blue-200 text-blue-900 text-[10px] font-mono font-bold">LIVE</span>
+              <span className={`px-1.5 py-0.2 rounded text-[10px] font-cinzel ${activeTab === 'universesim' ? 'bg-[#9A3412] text-white' : 'bg-[#FFEDD5] text-[#9A3412]'}`}>LIVE</span>
             </button>
             <button
               onClick={() => setActiveTab('harmonization')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] flex items-center gap-1.5 ${
                 activeTab === 'harmonization' 
-                  ? 'bg-white text-emerald-900 shadow-xs font-bold border border-emerald-300 ring-2 ring-emerald-500/20' 
-                  : 'text-emerald-700 bg-emerald-50/70 hover:bg-emerald-100/70'
+                  ? 'bg-[#B45309] text-white shadow-xs font-normal ring-2 ring-[#B45309]/20' 
+                  : 'text-[#92400E] bg-[#FEF3C7]/80 hover:bg-[#FEF3C7] font-light'
               }`}
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block animate-pulse" />
-              <span>1,500 Harmonization & 5 Studies</span>
-              <span className="px-1.5 py-0.2 rounded bg-emerald-200 text-emerald-900 text-[10px] font-mono font-bold">1,500/1,500</span>
+              <span>1,500 Harmonization & 6 Studies</span>
+              <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono ${activeTab === 'harmonization' ? 'bg-[#78350F] text-[#FEF3C7]' : 'bg-[#FEF3C7] text-[#92400E]'}`}>1,500/1,500</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('harmonized-stresstest')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] flex items-center gap-1.5 ${
+                activeTab === 'harmonized-stresstest' 
+                  ? 'bg-[#15803D] text-white shadow-xs font-normal ring-2 ring-[#15803D]/20' 
+                  : 'text-[#166534] bg-[#DCFCE7]/80 hover:bg-[#DCFCE7] font-light'
+              }`}
+            >
+              <span>Harmonized 500 Stress-Test</span>
+              <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono ${activeTab === 'harmonized-stresstest' ? 'bg-[#14532D] text-[#DCFCE7]' : 'bg-[#DCFCE7] text-[#14532D]'}`}>1,500 pts</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('matrix100')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] flex items-center gap-1.5 ${
+                activeTab === 'matrix100' 
+                  ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-normal' 
+                  : 'text-[#475569] hover:text-[#081026] hover:bg-[#EAE2D2]/60 font-light'
+              }`}
+            >
+              <span>500-Factor Stress Matrix</span>
+              <span className="px-1.5 py-0.2 rounded bg-[#EBF0FE] text-[#1A3670] text-[10px] font-mono">500</span>
             </button>
             <button
               onClick={() => setActiveTab('redteam')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] flex items-center gap-1.5 ${
                 activeTab === 'redteam' 
-                  ? 'bg-white text-rose-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#991B1B] text-white shadow-xs font-normal' 
+                  : 'text-[#475569] hover:text-[#081026] hover:bg-[#EAE2D2]/60 font-light'
               }`}
             >
               <span>20 Red-Team Attacks</span>
-              <span className="px-1.5 py-0.2 rounded bg-rose-100 text-rose-800 text-[10px] font-mono font-bold">20</span>
+              <span className="px-1.5 py-0.2 rounded bg-rose-100 text-rose-800 text-[10px] font-mono">20</span>
             </button>
             <button
               onClick={() => setActiveTab('counterfactual')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] flex items-center gap-1.5 ${
                 activeTab === 'counterfactual' 
-                  ? 'bg-white text-emerald-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#047857] text-white shadow-xs font-normal' 
+                  : 'text-[#475569] hover:text-[#081026] hover:bg-[#EAE2D2]/60 font-light'
               }`}
             >
               <span>14 Counterfactual Worlds</span>
-              <span className="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">14</span>
+              <span className="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono">14</span>
             </button>
             <button
               onClick={() => setActiveTab('igrt')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] flex items-center gap-1.5 ${
                 activeTab === 'igrt' 
-                  ? 'bg-white text-purple-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#6D28D9] text-white shadow-xs font-normal' 
+                  : 'text-[#475569] hover:text-[#081026] hover:bg-[#EAE2D2]/60 font-light'
               }`}
             >
-              <span>IGRT Synthesis & Lab</span>
-              <span className="px-1.5 py-0.2 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold">2:1</span>
+              <span>IGRT Synthesis Lab</span>
+              <span className="px-1.5 py-0.2 rounded bg-purple-100 text-purple-800 text-[10px] font-mono">2:1</span>
             </button>
             <button
               onClick={() => setActiveTab('robustness')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] flex items-center gap-1.5 ${
                 activeTab === 'robustness' 
-                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-normal' 
+                  : 'text-[#475569] hover:text-[#081026] hover:bg-[#EAE2D2]/60 font-light'
               }`}
             >
               <span>Robustness & Monte Carlo</span>
-              <span className="px-1.5 py-0.2 rounded bg-slate-200 text-slate-800 text-[10px] font-mono">20k</span>
+              <span className="px-1.5 py-0.2 rounded bg-[#EAE2D2] text-[#475569] text-[10px] font-mono">20k</span>
             </button>
             <button
               onClick={() => setActiveTab('journal')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] ${
                 activeTab === 'journal' 
-                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-normal' 
+                  : 'text-[#475569] hover:text-[#081026] hover:bg-[#EAE2D2]/60 font-light'
               }`}
             >
               Journal Manuscript
             </button>
             <button
-              onClick={() => setActiveTab('matrix100')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
-                activeTab === 'matrix100' 
-                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              100-Factor Matrix
-            </button>
-            <button
               onClick={() => setActiveTab('layman')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] ${
                 activeTab === 'layman' 
-                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-normal' 
+                  : 'text-[#475569] hover:text-[#081026] hover:bg-[#EAE2D2]/60 font-light'
               }`}
             >
               Layman's Guide
             </button>
             <button
               onClick={() => setActiveTab('simulator')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] ${
                 activeTab === 'simulator' 
-                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-normal' 
+                  : 'text-[#475569] hover:text-[#081026] hover:bg-[#EAE2D2]/60 font-light'
               }`}
             >
               RES-RAG Lab
             </button>
             <button
               onClick={() => setActiveTab('pubdoc')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs font-['Poppins'] ${
                 activeTab === 'pubdoc' 
-                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-normal' 
+                  : 'text-[#475569] hover:text-[#081026] hover:bg-[#EAE2D2]/60 font-light'
               }`}
             >
               4-Page Publication & Verdict
             </button>
             <button
               onClick={() => setActiveTab('phase1')}
-              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium text-[11px] ${
+              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap text-[11px] font-['Poppins'] ${
                 activeTab === 'phase1' 
-                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-normal' 
+                  : 'text-[#64748B] hover:text-[#081026] font-light'
               }`}
             >
               Phase 1: WDW Freeze
             </button>
             <button
               onClick={() => setActiveTab('phase2')}
-              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium text-[11px] ${
+              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap text-[11px] font-['Poppins'] ${
                 activeTab === 'phase2' 
-                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-normal' 
+                  : 'text-[#64748B] hover:text-[#081026] font-light'
               }`}
             >
               Phase 2: Covariance & LIV
             </button>
             <button
               onClick={() => setActiveTab('phase3')}
-              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium text-[11px] ${
+              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap text-[11px] font-['Poppins'] ${
                 activeTab === 'phase3' 
-                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-normal' 
+                  : 'text-[#64748B] hover:text-[#081026] font-light'
               }`}
             >
               Phase 3: Bounce
             </button>
             <button
               onClick={() => setActiveTab('phase4')}
-              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium text-[11px] ${
+              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap text-[11px] font-['Poppins'] ${
                 activeTab === 'phase4' 
-                  ? 'bg-white text-slate-900 shadow-xs font-bold border border-slate-200/60' 
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-normal' 
+                  : 'text-[#64748B] hover:text-[#081026] font-light'
               }`}
             >
               Phase 4: Empirical Verdict
             </button>
           </div>
 
-          <div className="hidden xl:flex items-center gap-3 text-slate-500 text-xs shrink-0 font-mono">
-            <span className="font-semibold text-blue-700">IGEG: 712 (47.5%)</span>
-            <span aria-hidden="true">·</span>
-            <span className="font-semibold text-amber-700">RES=RAG: 264 (17.6%)</span>
-            <span aria-hidden="true">·</span>
-            <span className="text-emerald-700 font-bold">500 / 500 Audited</span>
+          <div className="hidden xl:flex items-center gap-3 text-[#64748B] text-xs shrink-0 font-['Poppins'] font-light">
+            <span className="text-[#1A3670] font-normal">IGEG: 712 (47.5%)</span>
+            <span aria-hidden="true" className="text-[#CBD5E1]">·</span>
+            <span className="text-[#B45309] font-normal">RES=RAG: 264 (17.6%)</span>
+            <span aria-hidden="true" className="text-[#CBD5E1]">·</span>
+            <span className="text-[#15803D] font-normal">500 / 500 Audited</span>
           </div>
 
         </div>
@@ -293,12 +301,13 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
         {activeTab === 'criteria500' && <Criteria500MatrixView />}
         {activeTab === 'universesim' && <DualUniverseSimulationView />}
         {activeTab === 'harmonization' && <Harmonization1500LabView />}
+        {activeTab === 'harmonized-stresstest' && <Harmonized500StressTestView />}
         {activeTab === 'redteam' && <RedTeamLabView />}
         {activeTab === 'counterfactual' && <CounterfactualWorldsView />}
         {activeTab === 'igrt' && <IgrtSynthesisLabView />}
         {activeTab === 'robustness' && <RobustnessLabView />}
         {activeTab === 'journal' && <JournalTreatiseView />}
-        {activeTab === 'matrix100' && <Factors100MatrixView />}
+        {activeTab === 'matrix100' && <Factors500MatrixView />}
         {activeTab === 'layman' && <LaymansGuideView />}
         {activeTab === 'simulator' && <ResRagSimulatorView />}
         {activeTab === 'pubdoc' && <PublicationDocumentView />}
@@ -309,29 +318,29 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
       </main>
 
       {/* Scientific Footer */}
-      <footer className="border-t border-slate-200 bg-white px-6 py-8 text-xs text-slate-500">
+      <footer className="border-t border-[#EAE2D2] bg-[#FDFBF7] px-6 py-8 text-xs text-[#64748B]">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="space-y-1 text-center sm:text-left">
-            <div className="font-semibold text-slate-900">
+            <div className="font-['Playfair_Display'] font-normal text-[#081026] text-base">
               Chronos-QG: Adversarial Emergent Time Research Suite
             </div>
-            <div className="text-slate-500">
+            <div className="font-['Poppins'] font-light text-[#64748B]">
               Marlon Bulaqueña (ORCID: 0009-0007-3966-0494) · Jean-Charles Tassan (ORCID: 0009-0000-8566-0486)
             </div>
           </div>
-          <div className="flex items-center gap-4 text-xs">
+          <div className="flex items-center gap-4 text-xs font-['Poppins'] font-light">
             <a
               href="/assets/aistudio/IGEG_vs_RES-RAG_500-Criterion_Journal_Manuscript_3fd82f8c.txt"
               download="IGEG_vs_RES-RAG_500-Criterion_Journal_Manuscript.txt"
-              className="text-indigo-600 hover:underline font-mono"
+              className="text-[#EA580C] hover:underline"
             >
               Manuscript (.txt) ↗
             </a>
             <button
               onClick={handleExportLaTeX}
-              className="text-slate-700 hover:text-slate-900 font-medium"
+              className="text-[#0C1836] hover:text-[#EA580C] font-normal"
             >
-              Export LaTeX
+              Export LaTeX Monograph
             </button>
           </div>
         </div>
@@ -339,29 +348,29 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
 
       {/* Export LaTeX Modal */}
       {showExportModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-          <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-xl space-y-4 border border-slate-200">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="text-lg font-serif font-bold text-slate-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#081026]/70 backdrop-blur-sm p-4">
+          <div className="w-full max-w-2xl rounded-2xl bg-[#FFFFFF] p-6 shadow-xl space-y-4 border border-[#EAE2D2]">
+            <div className="flex items-center justify-between border-b border-[#EAE2D2] pb-3">
+              <h3 className="text-xl font-['Playfair_Display'] font-normal text-[#081026]">
                 Export Publication-Grade LaTeX Monograph
               </h3>
               <button
                 onClick={() => setShowExportModal(false)}
-                className="text-slate-400 hover:text-slate-600 text-sm font-mono"
+                className="text-[#64748B] hover:text-[#081026] text-sm font-mono"
               >
                 ✕
               </button>
             </div>
-            <p className="text-xs text-slate-600">
+            <p className="text-xs font-['Poppins'] font-light text-[#475569]">
               Ready-to-compile LaTeX source code for the 500-criterion study, including all field equations, mathematical definitions, and the IGRT dual-layer synthesis.
             </p>
-            <pre className="max-h-60 overflow-y-auto rounded-xl bg-slate-900 p-4 font-mono text-[11px] text-slate-100 leading-relaxed">
+            <pre className="max-h-60 overflow-y-auto rounded-xl bg-[#081026] p-4 font-mono text-[11px] text-[#CBD9FC] leading-relaxed border border-[#142B5B]">
               {latexContent}
             </pre>
-            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+            <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[#EAE2D2]">
               <button
                 onClick={() => setShowExportModal(false)}
-                className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                className="px-4 py-2 rounded-lg border border-[#EAE2D2] text-xs font-['Poppins'] font-light text-[#475569] hover:bg-[#F9F6F0]"
               >
                 Close
               </button>
@@ -370,7 +379,7 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
                   downloadFile(latexContent, 'IGEG_vs_RESRAG_500_Criterion_Monograph.tex', 'application/x-tex');
                   setShowExportModal(false);
                 }}
-                className="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 shadow-sm"
+                className="px-4 py-2 rounded-lg bg-[#0C1836] text-[#FDFBF7] text-xs font-cinzel hover:bg-[#1A3670] shadow-xs"
               >
                 Download .tex File
               </button>

@@ -12,23 +12,23 @@ export const JournalTreatiseView: React.FC = () => {
   );
 
   return (
-    <div className="space-y-10 max-w-5xl mx-auto pb-24 text-slate-900">
+    <div className="space-y-10 max-w-5xl mx-auto pb-24 text-[#0C1836]">
       
-      {/* Journal Article Title Header */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-10 shadow-sm space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5 text-xs font-mono text-slate-500">
+      {/* Journal Article Title Header - Oxford Monograph Edition */}
+      <div className="oxford-card rounded-2xl p-6 sm:p-10 shadow-xs space-y-6 bg-white border border-[#EAE2D2]">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE2D2] pb-5 text-xs font-mono text-[#64748B]">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-1 rounded bg-slate-100 text-slate-800 font-semibold uppercase tracking-wider">
-              Peer-Reviewed Journal Manuscript
+            <span className="px-2.5 py-1 rounded bg-[#EBF0FE] text-[#1A3670] font-semibold uppercase tracking-wider border border-[#CBD9FC]">
+              Oxford Quarterly Peer-Reviewed Monograph
             </span>
-            <span className="text-slate-400">·</span>
-            <span className="text-emerald-700 font-bold">500 Criteria Completed</span>
+            <span className="text-[#CBD5E1]">·</span>
+            <span className="text-[#15803D] font-bold">500 Criteria Completed</span>
           </div>
           <div className="flex items-center gap-2">
             <a
               href="/assets/aistudio/IGEG_vs_RES-RAG_500-Criterion_Journal_Manuscript_3fd82f8c.txt"
               download="IGEG_vs_RES-RAG_500-Criterion_Journal_Manuscript.txt"
-              className="px-3.5 py-2 rounded-xl bg-slate-900 text-white font-medium hover:bg-slate-800 transition-colors flex items-center gap-1.5 text-xs font-sans shadow-sm"
+              className="px-3.5 py-2 rounded-xl bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold hover:bg-[#1A3670] transition-colors flex items-center gap-1.5 text-xs shadow-xs"
             >
               <span>Download Manuscript (.txt)</span>
               <span aria-hidden="true">↓</span>
@@ -37,30 +37,30 @@ export const JournalTreatiseView: React.FC = () => {
         </div>
 
         <div className="space-y-4">
-          <h1 className="text-2xl sm:text-4xl font-serif font-bold text-slate-900 tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-4xl font-serif font-bold text-[#081026] tracking-tight leading-tight">
             Adversarial Evaluation of Emergent Time Frameworks: A 500-Criterion Stress Test and Synthesis of Information Geometric Extended Gravity (IGEG) and the RES=RAG Resonance Model
           </h1>
 
           {/* Authors Strip */}
           <div className="flex flex-wrap items-center gap-6 pt-2 text-xs">
             <div>
-              <div className="font-bold text-slate-900 text-sm">Marlon Bulaqueña</div>
+              <div className="font-serif font-bold text-[#081026] text-sm">Marlon Bulaqueña</div>
               <a 
                 href="https://orcid.org/0009-0007-3966-0494" 
                 target="_blank" 
                 rel="noreferrer"
-                className="text-indigo-600 hover:underline font-mono"
+                className="text-[#1A3670] hover:underline font-mono"
               >
                 ORCID: 0009-0007-3966-0494 ↗
               </a>
             </div>
             <div>
-              <div className="font-bold text-slate-900 text-sm">Jean-Charles Tassan</div>
+              <div className="font-serif font-bold text-[#081026] text-sm">Jean-Charles Tassan</div>
               <a 
                 href="https://orcid.org/0009-0000-8566-0486" 
                 target="_blank" 
                 rel="noreferrer"
-                className="text-amber-600 hover:underline font-mono"
+                className="text-[#EA580C] hover:underline font-mono"
               >
                 ORCID: 0009-0000-8566-0486 ↗
               </a>
@@ -69,52 +69,52 @@ export const JournalTreatiseView: React.FC = () => {
         </div>
 
         {/* Section Navigation Quick Links */}
-        <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-100 text-xs font-medium">
+        <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[#EAE2D2] text-xs font-medium">
           <button
             onClick={() => setActiveSection('abstract')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'abstract' ? 'bg-slate-900 text-white font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'abstract' ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold' : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'}`}
           >
             Abstract & Significance
           </button>
           <button
             onClick={() => setActiveSection('intro')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'intro' ? 'bg-slate-900 text-white font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'intro' ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold' : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'}`}
           >
             §1 Intro & Frameworks (§2)
           </button>
           <button
             onClick={() => setActiveSection('methods')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'methods' ? 'bg-slate-900 text-white font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'methods' ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold' : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'}`}
           >
             §3 Methods & Rubric
           </button>
           <button
             onClick={() => setActiveSection('results')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'results' ? 'bg-slate-900 text-white font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'results' ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold' : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'}`}
           >
             §4 Results & Scorecards
           </button>
           <button
             onClick={() => setActiveSection('discussion')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'discussion' ? 'bg-slate-900 text-white font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'discussion' ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold' : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'}`}
           >
             §5 Critical Discussion
           </button>
           <button
             onClick={() => setActiveSection('igrt')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'igrt' ? 'bg-slate-900 text-white font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'igrt' ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold' : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'}`}
           >
             §6 IGRT Synthesis
           </button>
           <button
             onClick={() => setActiveSection('conclusions')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'conclusions' ? 'bg-slate-900 text-white font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'conclusions' ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold' : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'}`}
           >
             §7 Conclusions & References
           </button>
           <button
             onClick={() => setActiveSection('glossary')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'glossary' ? 'bg-slate-900 text-white font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+            className={`px-3 py-1.5 rounded-lg transition-colors ${activeSection === 'glossary' ? 'bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold' : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'}`}
           >
             Appendix B: Glossary ({GLOSSARY_TERMS.length})
           </button>

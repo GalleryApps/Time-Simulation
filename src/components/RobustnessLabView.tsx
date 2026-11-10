@@ -97,26 +97,26 @@ export const RobustnessLabView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-20">
+    <div className="space-y-8 max-w-6xl mx-auto pb-20 text-[#0C1836]">
       
-      {/* Header Banner */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5">
+      {/* Header Banner - Oxford Monograph Masthead */}
+      <div className="oxford-card rounded-2xl p-6 sm:p-8 shadow-xs space-y-6 bg-white border border-[#EAE2D2]">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE2D2] pb-5">
           <div className="space-y-1">
-            <span className="text-xs font-mono font-semibold text-indigo-600 uppercase tracking-wider">
+            <span className="text-xs font-mono font-bold text-[#EA580C] uppercase tracking-wider">
               Section 3.5 & Table 7 · Robustness & Sensitivity Laboratory
             </span>
-            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#081026] tracking-tight">
               Scoring Robustness, Sensitivity & Monte Carlo Analysis
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 max-w-3xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#475569] max-w-3xl leading-relaxed">
               Because all scores are structured ordinal judgments, the manuscript subjects the baseline findings to 3 rigorous stress-test batteries: (1) Random noise Monte Carlo simulation; (2) Systematic rater bias (Generosity and Severity scenarios); (3) Structural sensitivity over conceptual subsets.
             </p>
           </div>
           <button
             onClick={runSimulation}
             disabled={mcRunning}
-            className="px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 transition-colors shadow-sm disabled:opacity-50 flex items-center gap-2 shrink-0"
+            className="px-4 py-2.5 rounded-xl bg-[#0C1836] text-[#FDFBF7] text-xs font-serif font-semibold hover:bg-[#1A3670] transition-colors shadow-xs disabled:opacity-50 flex items-center gap-2 shrink-0"
           >
             <span>{mcRunning ? 'Running 20,000 Trials...' : 'Run Monte Carlo (20,000 Trials)'}</span>
             <span aria-hidden="true">↻</span>
@@ -125,49 +125,49 @@ export const RobustnessLabView: React.FC = () => {
 
         {/* Monte Carlo Results Card */}
         {mcResults && (
-          <div className="p-5 rounded-xl border border-indigo-200 bg-indigo-50/40 space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-indigo-100 pb-3">
+          <div className="p-5 rounded-xl border border-[#CBD9FC] bg-[#F4F7FF] space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#CBD9FC] pb-3">
               <div>
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-800">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#1A3670]">
                   Monte Carlo Random Noise Simulation ({mcResults.trialsRun.toLocaleString()} Trials)
                 </span>
-                <p className="text-xs text-slate-600 mt-0.5">
+                <p className="text-xs text-[#475569] mt-0.5">
                   Each score independently shifted −1 (p=0.20) or +1 (p=0.20) bounded to 0–3 range.
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 font-mono text-xs font-bold border border-emerald-200">
+                <span className="px-2.5 py-1 rounded bg-[#DCFCE7] text-[#14532D] font-mono text-xs font-bold border border-[#86EFAC]">
                   IGEG Ahead in {mcResults.igegWinRate.toFixed(1)}% of Trials
                 </span>
               </div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
-              <div className="p-3 bg-white rounded-lg border border-indigo-200">
-                <div className="text-slate-500 text-[10px] uppercase">Trials Evaluated</div>
-                <div className="text-base font-bold text-slate-900 mt-0.5">{mcResults.trialsRun.toLocaleString()}</div>
+              <div className="p-3 bg-white rounded-lg border border-[#CBD9FC] shadow-2xs">
+                <div className="text-[#64748B] text-[10px] uppercase font-bold">Trials Evaluated</div>
+                <div className="text-base font-bold text-[#081026] mt-0.5">{mcResults.trialsRun.toLocaleString()}</div>
               </div>
-              <div className="p-3 bg-white rounded-lg border border-indigo-200">
-                <div className="text-indigo-600 text-[10px] uppercase">Median Net Gap</div>
-                <div className="text-base font-bold text-indigo-900 mt-0.5">+{mcResults.medianGap} pts</div>
+              <div className="p-3 bg-white rounded-lg border border-[#CBD9FC] shadow-2xs">
+                <div className="text-[#1A3670] text-[10px] uppercase font-bold">Median Net Gap</div>
+                <div className="text-base font-bold text-[#1A3670] mt-0.5">+{mcResults.medianGap} pts</div>
               </div>
-              <div className="p-3 bg-white rounded-lg border border-indigo-200">
-                <div className="text-slate-500 text-[10px] uppercase">95% Confidence Interval</div>
-                <div className="text-base font-bold text-slate-900 mt-0.5">+{mcResults.ciLow} to +{mcResults.ciHigh}</div>
+              <div className="p-3 bg-white rounded-lg border border-[#CBD9FC] shadow-2xs">
+                <div className="text-[#64748B] text-[10px] uppercase font-bold">95% Confidence Interval</div>
+                <div className="text-base font-bold text-[#081026] mt-0.5">+{mcResults.ciLow} to +{mcResults.ciHigh}</div>
               </div>
-              <div className="p-3 bg-white rounded-lg border border-indigo-200">
-                <div className="text-emerald-600 text-[10px] uppercase">Ranking Inversions</div>
-                <div className="text-base font-bold text-emerald-900 mt-0.5">0 / {mcResults.trialsRun.toLocaleString()} (0.0%)</div>
+              <div className="p-3 bg-white rounded-lg border border-[#CBD9FC] shadow-2xs">
+                <div className="text-[#15803D] text-[10px] uppercase font-bold">Ranking Inversions</div>
+                <div className="text-base font-bold text-[#14532D] mt-0.5">0 / {mcResults.trialsRun.toLocaleString()} (0.0%)</div>
               </div>
             </div>
 
             {/* Interactive Histogram Visualization */}
             <div className="space-y-1.5 pt-2">
-              <div className="flex justify-between text-[11px] font-mono text-slate-500">
+              <div className="flex justify-between text-[11px] font-mono text-[#64748B]">
                 <span>Distribution of Score Gaps (Min ~+{mcResults.ciLow - 30} pts)</span>
                 <span>Max ~+{mcResults.ciHigh + 30} pts</span>
               </div>
-              <div className="flex items-end gap-1.5 h-16 bg-white p-2 rounded-lg border border-indigo-200">
+              <div className="flex items-end gap-1.5 h-16 bg-white p-2 rounded-lg border border-[#CBD9FC]">
                 {mcResults.histogram.map((count, idx) => {
                   const maxVal = Math.max(...mcResults.histogram);
                   const heightPct = Math.max(8, (count / maxVal) * 100);
@@ -176,7 +176,7 @@ export const RobustnessLabView: React.FC = () => {
                       key={idx}
                       title={`Bin ${idx + 1}: ${count} trials`}
                       style={{ height: `${heightPct}%` }}
-                      className="flex-1 bg-indigo-500 hover:bg-indigo-600 rounded-t transition-all"
+                      className="flex-1 bg-[#1A3670] hover:bg-[#081026] rounded-t transition-all"
                     />
                   );
                 })}
@@ -186,14 +186,14 @@ export const RobustnessLabView: React.FC = () => {
         )}
 
         {/* Interactive Custom Rater Bias Simulator */}
-        <div className="p-5 rounded-xl border border-slate-200 bg-slate-50 space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-800">
+        <div className="p-5 rounded-xl border border-[#EAE2D2] bg-[#F9F6F0] space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE2D2] pb-2">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#081026]">
               Interactive Rater Bias & Shift Sandbox
             </span>
             <button
               onClick={() => { setCustomShiftA(0); setCustomShiftB(0); }}
-              className="text-[11px] font-mono text-indigo-600 hover:underline"
+              className="text-[11px] font-mono text-[#1A3670] hover:underline"
             >
               Reset to Published Baseline
             </button>
@@ -202,7 +202,7 @@ export const RobustnessLabView: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs font-mono">
-                <span className="text-blue-700 font-semibold">Model A (IGEG) Uniform Shift:</span>
+                <span className="text-[#1A3670] font-bold">Model A (IGEG) Uniform Shift:</span>
                 <span className="font-bold">{customShiftA > 0 ? `+${customShiftA}` : customShiftA}</span>
               </div>
               <input
@@ -212,9 +212,9 @@ export const RobustnessLabView: React.FC = () => {
                 step={1}
                 value={customShiftA}
                 onChange={(e) => setCustomShiftA(parseInt(e.target.value, 10))}
-                className="w-full accent-blue-600"
+                className="w-full accent-[#1A3670]"
               />
-              <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+              <div className="flex justify-between text-[10px] text-[#64748B] font-mono">
                 <span>-1 (Severity)</span>
                 <span>0 (Published)</span>
                 <span>+1 (Generosity)</span>

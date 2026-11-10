@@ -5,14 +5,14 @@ export const PublicationDocumentView: React.FC = () => {
   const [activePage, setActivePage] = useState<'page1' | 'page2' | 'page3' | 'page4' | 'verdict'>('page1');
 
   return (
-    <div className="space-y-10 max-w-5xl mx-auto pb-24 text-slate-900">
+    <div className="space-y-10 max-w-5xl mx-auto pb-24 text-[#0C1836]">
       
-      {/* Document Publication Header - Clean Light Theme */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-8 sm:p-10 shadow-sm space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5 text-xs font-mono text-slate-500">
+      {/* Document Publication Header - Oxford Monograph Edition */}
+      <div className="oxford-card rounded-2xl p-8 sm:p-10 shadow-xs space-y-6 bg-white border border-[#EAE2D2]">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE2D2] pb-5 text-xs font-mono text-[#64748B]">
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-800 font-semibold uppercase tracking-wider">
-              Publication Document · QG-2026-IGG-TASSAN
+            <span className="px-3 py-1 rounded-full bg-[#EBF0FE] text-[#1A3670] font-semibold uppercase tracking-wider border border-[#CBD9FC]">
+              Publication Monograph · QG-2026-IGG-TASSAN
             </span>
           </div>
           <div className="flex items-center gap-3">
@@ -20,7 +20,7 @@ export const PublicationDocumentView: React.FC = () => {
               href="https://www.academia.edu/164986382/Information_Geometric_Gradient_IGG_The_Secret_Engine_of_Physics_Reality_and_Everything_Else"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
+              className="text-[#1A3670] hover:text-[#081026] font-medium transition-colors font-serif"
             >
               Academia.edu #164986382 ↗
             </a>
@@ -28,62 +28,62 @@ export const PublicationDocumentView: React.FC = () => {
         </div>
 
         <div className="space-y-3">
-          <h1 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#081026] tracking-tight leading-tight">
             The Quantum Gravity Problem of Time: A Comprehensive Publication Monograph
           </h1>
-          <p className="text-base text-slate-600 leading-relaxed max-w-4xl">
-            An adversarial comparative simulation and mathematical treatise evaluating the <strong>Bulaqueña Information-Geometric Extended Gravity (IGIG / IGG)</strong> model versus <strong>Jean-Charles Tassan’s Emergent Resonant-Active Time (RES=RAG)</strong> framework.
+          <p className="text-base text-[#475569] leading-relaxed max-w-4xl font-sans">
+            An adversarial comparative simulation and mathematical treatise evaluating the <strong>Bulaqueña Information-Geometric Extended Gravity (IGEG / IGG)</strong> model versus <strong>Jean-Charles Tassan’s Emergent Resonant-Active Time (RES=RAG)</strong> framework.
           </p>
         </div>
 
         {/* Multi-Page Navigation Bar */}
-        <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-100">
+        <div className="flex flex-wrap gap-2 pt-2 border-t border-[#EAE2D2]">
           <button
             onClick={() => setActivePage('page1')}
-            className={`px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+            className={`px-4 py-2.5 rounded-xl text-xs font-serif font-semibold transition-all ${
               activePage === 'page1'
-                ? 'bg-slate-900 text-white shadow-sm'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs'
+                : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'
             }`}
           >
             Page 1: Layman Foundations & Equations
           </button>
           <button
             onClick={() => setActivePage('page2')}
-            className={`px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+            className={`px-4 py-2.5 rounded-xl text-xs font-serif font-semibold transition-all ${
               activePage === 'page2'
-                ? 'bg-blue-700 text-white shadow-sm'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                ? 'bg-[#1A3670] text-white shadow-xs'
+                : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'
             }`}
           >
             Page 2: Model A (Bulaqueña IGG)
           </button>
           <button
             onClick={() => setActivePage('page3')}
-            className={`px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+            className={`px-4 py-2.5 rounded-xl text-xs font-serif font-semibold transition-all ${
               activePage === 'page3'
-                ? 'bg-amber-700 text-white shadow-sm'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                ? 'bg-[#B45309] text-white shadow-xs'
+                : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'
             }`}
           >
             Page 3: Model B (Tassan RES=RAG)
           </button>
           <button
             onClick={() => setActivePage('page4')}
-            className={`px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+            className={`px-4 py-2.5 rounded-xl text-xs font-serif font-semibold transition-all ${
               activePage === 'page4'
-                ? 'bg-rose-700 text-white shadow-sm'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                ? 'bg-[#991B1B] text-white shadow-xs'
+                : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'
             }`}
           >
             Page 4: Stress-Tests & Falsifiability
           </button>
           <button
             onClick={() => setActivePage('verdict')}
-            className={`px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+            className={`px-4 py-2.5 rounded-xl text-xs font-serif font-semibold transition-all ${
               activePage === 'verdict'
-                ? 'bg-indigo-600 text-white shadow-sm'
-                : 'bg-indigo-50 text-indigo-800 hover:bg-indigo-100 border border-indigo-200'
+                ? 'bg-[#EA580C] text-white shadow-xs'
+                : 'bg-[#FFEDD5] text-[#9A3412] hover:bg-[#FDBA74]/30 border border-[#FDBA74]'
             }`}
           >
             ★ The Ultimate Layman Verdict

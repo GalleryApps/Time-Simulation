@@ -392,52 +392,55 @@ export const DualUniverseSimulationView: React.FC = () => {
   }, [simTime, scenario, modelBState]);
 
   return (
-    <div className="space-y-10 max-w-6xl mx-auto pb-24 text-slate-900">
+    <div className="space-y-10 max-w-6xl mx-auto pb-24 text-[#0C1836] font-['Poppins'] font-light">
       
-      {/* Simulation Header Banner */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-10 shadow-sm space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5">
-          <div className="space-y-1">
+      {/* Oxford Editorial Simulation Header Banner */}
+      <div className="oxford-card rounded-2xl p-6 sm:p-10 shadow-xs space-y-6 bg-white border border-[#EAE2D2]">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE2D2] pb-5">
+          <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-1 rounded bg-indigo-100 text-indigo-800 text-xs font-mono font-bold uppercase tracking-wider">
-                Full-Scale Interactive Laboratory
+              <span className="font-cinzel text-[10px] tracking-wider uppercase text-[#1A3670] bg-[#EBF0FE] px-2.5 py-1 rounded border border-[#CBD9FC]">
+                Oxford Treatises · Dual Laboratory
               </span>
-              <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">
-                Live Dual Execution Engine
+              <span className="font-cinzel text-[10px] tracking-wider uppercase text-[#9A3412] bg-[#FFEDD5] px-2 py-0.5 rounded border border-[#FDBA74]">
+                Synchronous Execution Engine
+              </span>
+              <span className="font-cinzel text-[10px] tracking-wider uppercase text-[#92400E] bg-[#FEF3C7] px-2 py-0.5 rounded border border-[#FCD34D]">
+                500-Criterion Calibrated
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-serif font-normal text-[#081026] tracking-tight">
               Real-Time Universe Simulation: Model A vs. Model B
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 max-w-3xl leading-relaxed">
-              What physical reality would we inhabit if <strong>Model A (Bulaqueña IGG / IGEG)</strong> were fundamental truth, versus if <strong>Model B (Jean-Charles Tassan RES=RAG)</strong> were fundamental truth? Experience both universes executing in lockstep across cosmological, gravitational, and quantum baselines.
+            <p className="text-xs sm:text-sm text-[#475569] max-w-3xl leading-relaxed font-light">
+              What physical reality would we inhabit if <strong className="font-normal text-[#081026]">Model A (Bulaqueña IGG / IGEG)</strong> were fundamental truth, versus if <strong className="font-normal text-[#081026]">Model B (Jean-Charles Tassan RES=RAG)</strong> were fundamental truth? Experience both universes executing in lockstep across cosmological, gravitational, and quantum baselines.
             </p>
           </div>
           
-          {/* Global Playback Bar */}
-          <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200 shrink-0">
+          {/* Oxford Global Playback Bar */}
+          <div className="flex items-center gap-2 bg-[#F9F6F0] p-2 rounded-xl border border-[#EAE2D2] shrink-0">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
-                isPlaying ? 'bg-amber-600 text-white' : 'bg-emerald-600 text-white'
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-cinzel transition-all shadow-xs ${
+                isPlaying ? 'bg-[#EA580C] text-white hover:bg-[#C2410C]' : 'bg-[#15803D] text-white hover:bg-[#166534]'
               }`}
             >
               {isPlaying ? '⏸ Pause' : '▶ Play'}
             </button>
             <button
               onClick={() => setSimTime(0)}
-              className="px-2.5 py-1.5 rounded-lg bg-slate-200 text-slate-700 text-xs font-mono hover:bg-slate-300"
+              className="px-2.5 py-1.5 rounded-lg bg-[#EAE2D2] text-[#0C1836] text-xs font-['Poppins'] hover:bg-[#D6CABE] font-normal"
             >
               Reset
             </button>
-            <div className="flex items-center gap-1 font-mono text-xs text-slate-600 pl-2 border-l border-slate-200">
-              <span className="text-[10px] text-slate-400">Speed:</span>
+            <div className="flex items-center gap-1 font-['Poppins'] text-xs text-[#475569] pl-2 border-l border-[#CBD5E1]">
+              <span className="text-[10px] text-[#64748B]">Speed:</span>
               {[0.5, 1, 2].map((spd) => (
                 <button
                   key={spd}
                   onClick={() => setSimSpeed(spd)}
-                  className={`px-1.5 py-0.5 rounded text-[10px] ${
-                    simSpeed === spd ? 'bg-slate-900 text-white font-bold' : 'text-slate-600 hover:text-slate-900'
+                  className={`px-2 py-0.5 rounded text-[10px] font-mono transition-colors ${
+                    simSpeed === spd ? 'bg-[#081026] text-[#FDFBF7] font-normal shadow-2xs' : 'text-[#475569] hover:text-[#081026] hover:bg-[#EAE2D2]/50'
                   }`}
                 >
                   {spd}x
@@ -447,80 +450,80 @@ export const DualUniverseSimulationView: React.FC = () => {
           </div>
         </div>
 
-        {/* 5 Scenario Presets */}
+        {/* 5 Scenario Presets - Oxford Scholarly Tab Cards */}
         <div className="space-y-2">
-          <span className="text-[11px] font-mono font-semibold uppercase text-slate-500 tracking-wider">
-            Select Experimental Scenario
+          <span className="font-cinzel text-[10px] uppercase text-[#64748B] tracking-wider">
+            Select Physical Scenario (5 Experimental Regimes)
           </span>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs font-medium">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-xs">
             <button
               onClick={() => { setScenario('bounce'); setSimTime(-3.5); }}
               className={`p-3 rounded-xl border text-left transition-all ${
                 scenario === 'bounce'
-                  ? 'bg-indigo-900 text-white border-indigo-900 shadow-sm font-semibold'
-                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] border-[#081026] shadow-sm font-normal'
+                  : 'bg-[#F9F6F0] text-[#0C1836] border-[#EAE2D2] hover:bg-[#F4EFE6]'
               }`}
             >
-              <div className="font-bold text-[11px] font-mono">1. Big Bounce & Singularity</div>
-              <div className="text-[10px] opacity-75 mt-0.5">Scale factor & Kretschmann curvature</div>
+              <div className="font-serif font-normal text-xs text-inherit">1. Big Bounce & Singularity</div>
+              <div className={`text-[10px] mt-0.5 font-['Poppins'] font-light ${scenario === 'bounce' ? 'text-[#CBD9FC]' : 'text-[#64748B]'}`}>Scale factor & Kretschmann curvature</div>
             </button>
 
             <button
               onClick={() => { setScenario('grb_race'); setSimTime(0); }}
               className={`p-3 rounded-xl border text-left transition-all ${
                 scenario === 'grb_race'
-                  ? 'bg-indigo-900 text-white border-indigo-900 shadow-sm font-semibold'
-                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] border-[#081026] shadow-sm font-normal'
+                  : 'bg-[#F9F6F0] text-[#0C1836] border-[#EAE2D2] hover:bg-[#F4EFE6]'
               }`}
             >
-              <div className="font-bold text-[11px] font-mono">2. 18 TeV Photon Race</div>
-              <div className="text-[10px] opacity-75 mt-0.5">Lorentz Invariance vs LIV Delay</div>
+              <div className="font-serif font-normal text-xs text-inherit">2. 18 TeV Photon Race</div>
+              <div className={`text-[10px] mt-0.5 font-['Poppins'] font-light ${scenario === 'bounce' ? 'text-[#CBD9FC]' : 'text-[#64748B]'}`}>Lorentz Invariance vs LIV Delay</div>
             </button>
 
             <button
               onClick={() => { setScenario('zero_entropy'); setSimTime(0); }}
               className={`p-3 rounded-xl border text-left transition-all ${
                 scenario === 'zero_entropy'
-                  ? 'bg-indigo-900 text-white border-indigo-900 shadow-sm font-semibold'
-                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] border-[#081026] shadow-sm font-normal'
+                  : 'bg-[#F9F6F0] text-[#0C1836] border-[#EAE2D2] hover:bg-[#F4EFE6]'
               }`}
             >
-              <div className="font-bold text-[11px] font-mono">3. Zero-Entropy Freeze</div>
-              <div className="text-[10px] opacity-75 mt-0.5">Vacuum floor vs Memory lock</div>
+              <div className="font-serif font-normal text-xs text-inherit">3. Zero-Entropy Freeze</div>
+              <div className={`text-[10px] mt-0.5 font-['Poppins'] font-light ${scenario === 'zero_entropy' ? 'text-[#CBD9FC]' : 'text-[#64748B]'}`}>Vacuum floor vs Memory lock</div>
             </button>
 
             <button
               onClick={() => { setScenario('observer_deletion'); setSimTime(0); }}
               className={`p-3 rounded-xl border text-left transition-all ${
                 scenario === 'observer_deletion'
-                  ? 'bg-indigo-900 text-white border-indigo-900 shadow-sm font-semibold'
-                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] border-[#081026] shadow-sm font-normal'
+                  : 'bg-[#F9F6F0] text-[#0C1836] border-[#EAE2D2] hover:bg-[#F4EFE6]'
               }`}
             >
-              <div className="font-bold text-[11px] font-mono">4. Observer Deletion</div>
-              <div className="text-[10px] opacity-75 mt-0.5">Objective metric vs Relational void</div>
+              <div className="font-serif font-normal text-xs text-inherit">4. Observer Deletion</div>
+              <div className={`text-[10px] mt-0.5 font-['Poppins'] font-light ${scenario === 'observer_deletion' ? 'text-[#CBD9FC]' : 'text-[#64748B]'}`}>Objective metric vs Relational void</div>
             </button>
 
             <button
               onClick={() => { setScenario('black_hole'); setSimTime(0); }}
               className={`p-3 rounded-xl border text-left transition-all ${
                 scenario === 'black_hole'
-                  ? 'bg-indigo-900 text-white border-indigo-900 shadow-sm font-semibold'
-                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                  ? 'bg-[#0C1836] text-[#FDFBF7] border-[#081026] shadow-sm font-normal'
+                  : 'bg-[#F9F6F0] text-[#0C1836] border-[#EAE2D2] hover:bg-[#F4EFE6]'
               }`}
             >
-              <div className="font-bold text-[11px] font-mono">5. Black Hole Collapse</div>
-              <div className="text-[10px] opacity-75 mt-0.5">Unitary bounce vs Node dissipation</div>
+              <div className="font-serif font-normal text-xs text-inherit">5. Black Hole Collapse</div>
+              <div className={`text-[10px] mt-0.5 font-['Poppins'] font-light ${scenario === 'black_hole' ? 'text-[#CBD9FC]' : 'text-[#64748B]'}`}>Unitary bounce vs Node dissipation</div>
             </button>
           </div>
         </div>
 
-        {/* Scenario Dynamic Sliders */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs">
-          <div className="space-y-1">
-            <div className="flex justify-between font-mono">
-              <span className="text-blue-700 font-semibold">Model A Vacuum Regularizer (ε_vac):</span>
-              <span className="font-bold">{vacuumEpsilon.toFixed(3)}</span>
+        {/* Dynamic Parameter Sliders */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-[#F9F6F0] rounded-xl border border-[#EAE2D2] text-xs">
+          <div className="space-y-1.5">
+            <div className="flex justify-between font-['Poppins']">
+              <span className="text-[#1A3670] font-normal">Model A Vacuum Regularizer (ε_vac):</span>
+              <span className="font-mono text-[#081026] bg-white px-2 py-0.5 rounded border border-[#EAE2D2]">{vacuumEpsilon.toFixed(3)}</span>
             </div>
             <input
               type="range"
@@ -529,15 +532,15 @@ export const DualUniverseSimulationView: React.FC = () => {
               step={0.005}
               value={vacuumEpsilon}
               onChange={(e) => setVacuumEpsilon(parseFloat(e.target.value))}
-              className="w-full accent-blue-600"
+              className="w-full accent-[#1A3670]"
             />
-            <div className="text-[10px] text-slate-400">Guarantees det(g) &gt; 0 even at S=0 (clock never stops)</div>
+            <div className="text-[10px] text-[#64748B] font-['Poppins'] font-light">Guarantees det(g) &gt; 0 even at S=0 (clock rate floor never stops)</div>
           </div>
 
-          <div className="space-y-1">
-            <div className="flex justify-between font-mono">
-              <span className="text-amber-700 font-semibold">Model B Balance Ratio (γ = RAG/RES):</span>
-              <span className="font-bold">{resRagBalance.toFixed(2)}</span>
+          <div className="space-y-1.5">
+            <div className="flex justify-between font-['Poppins']">
+              <span className="text-[#9A3412] font-normal">Model B Balance Ratio (γ = RAG/RES):</span>
+              <span className="font-mono text-[#9A3412] bg-[#FFEDD5] px-2 py-0.5 rounded border border-[#FDBA74]">{resRagBalance.toFixed(2)}</span>
             </div>
             <input
               type="range"
@@ -546,9 +549,9 @@ export const DualUniverseSimulationView: React.FC = () => {
               step={0.05}
               value={resRagBalance}
               onChange={(e) => setResRagBalance(parseFloat(e.target.value))}
-              className="w-full accent-amber-600"
+              className="w-full accent-[#EA580C]"
             />
-            <div className="text-[10px] text-slate-400">γ = 1.0 Equilibrium · γ &lt; 0.5 Memory Lock · γ &gt; 1.5 Decoherence</div>
+            <div className="text-[10px] text-[#64748B] font-['Poppins'] font-light">γ = 1.0 Equilibrium · γ &lt; 0.5 Memory Lock · γ &gt; 1.5 Decoherence</div>
           </div>
         </div>
       </div>
@@ -557,128 +560,132 @@ export const DualUniverseSimulationView: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* UNIVERSE A: MODEL A (IGEG Engine) */}
-        <div className="rounded-2xl border border-blue-200 bg-white shadow-sm overflow-hidden flex flex-col justify-between">
-          <div className="p-5 border-b border-blue-100 bg-blue-50/50 flex items-center justify-between">
+        <div className="rounded-2xl border border-[#CBD9FC] bg-white shadow-xs overflow-hidden flex flex-col justify-between">
+          <div className="p-5 border-b border-[#CBD9FC] bg-gradient-to-r from-[#F4F7FF] to-[#EBF0FE] flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-blue-700">
+              <span className="font-cinzel text-[10px] uppercase tracking-wider text-[#1A3670]">
                 Universe A · If Model A Were Fundamental Reality
               </span>
-              <h2 className="text-lg font-serif font-bold text-slate-900">
-                The Information-Geometric Computational Engine
+              <h2 className="text-xl font-serif font-normal text-[#081026] mt-0.5">
+                Information-Geometric Gravity (IGEG)
               </h2>
             </div>
-            <span className="px-2.5 py-1 rounded bg-blue-100 text-blue-800 text-xs font-mono font-bold">
+            <span className="px-2.5 py-1 rounded bg-[#1A3670] text-[#FDFBF7] text-xs font-cinzel shadow-2xs">
               Continuous Metric
             </span>
           </div>
 
           {/* Canvas A */}
-          <div className="relative aspect-[4/3] w-full bg-slate-950">
+          <div className="relative aspect-[4/3] w-full bg-[#030712] border-y border-[#142B5B]">
             <canvas
               ref={canvasARef}
               width={500}
               height={375}
               className="w-full h-full block"
             />
-            <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-xs px-2.5 py-1 rounded text-[10px] font-mono text-blue-300 border border-blue-500/30">
+            <div className="absolute top-3 left-3 bg-[#081026]/90 backdrop-blur-xs px-2.5 py-1 rounded text-[10px] font-mono text-[#94B2F5] border border-[#315DB2]/40 shadow-xs">
               dτ = ||IGG||_g dλ
             </div>
           </div>
 
           {/* Model A Live Diagnostics */}
-          <div className="p-5 space-y-4 bg-white">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
-              <div className="p-2.5 bg-blue-50/60 rounded-lg border border-blue-100">
-                <div className="text-[10px] text-blue-600 uppercase">Scale a(τ)</div>
-                <div className="text-sm font-bold text-blue-950 mt-0.5">{modelAState.scaleFactor.toFixed(3)}</div>
+          <div className="p-5 space-y-4 bg-[#FDFBF7]">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-['Poppins']">
+              <div className="p-2.5 bg-white rounded-lg border border-[#EAE2D2] shadow-2xs">
+                <div className="text-[10px] text-[#1A3670] uppercase font-cinzel">Scale a(τ)</div>
+                <div className="text-sm font-mono text-[#081026] mt-0.5">{modelAState.scaleFactor.toFixed(3)}</div>
               </div>
-              <div className="p-2.5 bg-blue-50/60 rounded-lg border border-blue-100">
-                <div className="text-[10px] text-blue-600 uppercase">Hubble H(τ)</div>
-                <div className="text-sm font-bold text-blue-950 mt-0.5">{modelAState.hubble.toFixed(3)}</div>
+              <div className="p-2.5 bg-white rounded-lg border border-[#EAE2D2] shadow-2xs">
+                <div className="text-[10px] text-[#1A3670] uppercase font-cinzel">Hubble H(τ)</div>
+                <div className="text-sm font-mono text-[#081026] mt-0.5">{modelAState.hubble.toFixed(3)}</div>
               </div>
-              <div className="p-2.5 bg-blue-50/60 rounded-lg border border-blue-100">
-                <div className="text-[10px] text-blue-600 uppercase">LIV Delay</div>
-                <div className="text-sm font-bold text-emerald-700 mt-0.5">0.000 s (Null)</div>
+              <div className="p-2.5 bg-[#DCFCE7] rounded-lg border border-[#86EFAC] shadow-2xs">
+                <div className="text-[10px] text-[#15803D] uppercase font-cinzel">LIV Delay</div>
+                <div className="text-sm font-mono text-[#14532D] mt-0.5">0.000 s (Null)</div>
               </div>
-              <div className="p-2.5 bg-blue-50/60 rounded-lg border border-blue-100">
-                <div className="text-[10px] text-blue-600 uppercase">Unitary Purity</div>
-                <div className="text-sm font-bold text-blue-950 mt-0.5">1.000000</div>
+              <div className="p-2.5 bg-white rounded-lg border border-[#EAE2D2] shadow-2xs">
+                <div className="text-[10px] text-[#1A3670] uppercase font-cinzel">Unitary Purity</div>
+                <div className="text-sm font-mono text-[#081026] mt-0.5">1.000000</div>
               </div>
             </div>
 
-            <div className="space-y-2 text-xs text-slate-700 font-sans leading-relaxed">
-              <strong className="text-blue-950 font-serif block text-sm">Physical Consequences in Universe A:</strong>
-              <ul className="space-y-1.5 list-disc list-inside text-slate-600">
-                <li><strong>No Big Bang Singularity:</strong> As matter density spikes, holographic information saturation caps the curvature (<MathDisplay math="\mathcal{K}_{\text{max}} < \infty" />), forcing a smooth quantum bounce.</li>
-                <li><strong>Exact Lorentz Invariance:</strong> Photons of all energies (from radio to 18 TeV gamma rays) travel at identical luminal speed <MathDisplay math="c" /> with zero arrival dispersion.</li>
-                <li><strong>Heat Death Resilience:</strong> When matter entropy drops to zero, vacuum regularizer <MathDisplay math="\epsilon_{\text{vac}} > 0" /> ensures time continues ticking (<MathDisplay math="d\tau/d\lambda > 0" />).</li>
-                <li><strong>Objective Spacetime:</strong> Spacetime evolves independently of conscious observers.</li>
+            <div className="space-y-2 text-xs text-[#0C1836] font-['Poppins'] font-light leading-relaxed">
+              <div className="text-[#081026] font-serif font-normal text-base border-b border-[#EAE2D2] pb-1">
+                Physical Reality Under Universe A:
+              </div>
+              <ul className="space-y-1.5 list-disc list-inside text-[#475569]">
+                <li><strong className="font-normal text-[#081026]">No Big Bang Singularity:</strong> As matter density spikes, holographic information saturation caps curvature (<MathDisplay math="\mathcal{K}_{\text{max}} < \infty" />), producing an automatic non-singular quantum bounce.</li>
+                <li><strong className="font-normal text-[#081026]">Exact Lorentz Invariance:</strong> Photons of all energies (from 1 GeV to 18 TeV) travel at identical luminal velocity <MathDisplay math="c" /> with zero arrival dispersion.</li>
+                <li><strong className="font-normal text-[#081026]">Heat Death Resilience:</strong> When matter entropy drops to zero, vacuum regularizer <MathDisplay math="\epsilon_{\text{vac}} > 0" /> ensures time continues ticking (<MathDisplay math="d\tau/d\lambda > 0" />).</li>
+                <li><strong className="font-normal text-[#081026]">Objective Spacetime:</strong> Spacetime geometry exists without conscious minds and evolved 13.8 billion years prior to observers.</li>
               </ul>
             </div>
           </div>
         </div>
 
         {/* UNIVERSE B: MODEL B (RES=RAG Resonance) */}
-        <div className="rounded-2xl border border-amber-200 bg-white shadow-sm overflow-hidden flex flex-col justify-between">
-          <div className="p-5 border-b border-amber-100 bg-amber-50/50 flex items-center justify-between">
+        <div className="rounded-2xl border border-[#FDBA74] bg-white shadow-xs overflow-hidden flex flex-col justify-between">
+          <div className="p-5 border-b border-[#FDBA74] bg-gradient-to-r from-[#FFF7ED] to-[#FFEDD5] flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-700">
+              <span className="font-cinzel text-[10px] uppercase tracking-wider text-[#9A3412]">
                 Universe B · If Model B Were Fundamental Reality
               </span>
-              <h2 className="text-lg font-serif font-bold text-slate-900">
-                The Emergent Resonant Acoustic Network
+              <h2 className="text-xl font-serif font-normal text-[#081026] mt-0.5">
+                Resonant Acoustic Network (RES=RAG)
               </h2>
             </div>
-            <span className="px-2.5 py-1 rounded bg-amber-100 text-amber-800 text-xs font-mono font-bold">
+            <span className="px-2.5 py-1 rounded bg-[#EA580C] text-white text-xs font-cinzel shadow-2xs">
               Discrete Rhythm
             </span>
           </div>
 
           {/* Canvas B */}
-          <div className="relative aspect-[4/3] w-full bg-slate-950">
+          <div className="relative aspect-[4/3] w-full bg-[#030712] border-y border-[#7C2D12]">
             <canvas
               ref={canvasBRef}
               width={500}
               height={375}
               className="w-full h-full block"
             />
-            <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-xs px-2.5 py-1 rounded text-[10px] font-mono text-amber-300 border border-amber-500/30">
+            <div className="absolute top-3 left-3 bg-[#081026]/90 backdrop-blur-xs px-2.5 py-1 rounded text-[10px] font-mono text-[#FDBA74] border border-[#EA580C]/40 shadow-xs">
               H(z) = RAG(z) / RES(z)
             </div>
           </div>
 
           {/* Model B Live Diagnostics */}
-          <div className="p-5 space-y-4 bg-white">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
-              <div className="p-2.5 bg-amber-50/60 rounded-lg border border-amber-100">
-                <div className="text-[10px] text-amber-600 uppercase">Frequency ω</div>
-                <div className="text-sm font-bold text-amber-950 mt-0.5">{modelBState.rhythmFrequency.toFixed(3)} rad/s</div>
+          <div className="p-5 space-y-4 bg-[#FDFBF7]">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-['Poppins']">
+              <div className="p-2.5 bg-white rounded-lg border border-[#EAE2D2] shadow-2xs">
+                <div className="text-[10px] text-[#9A3412] uppercase font-cinzel">Frequency ω</div>
+                <div className="text-sm font-mono text-[#081026] mt-0.5">{modelBState.rhythmFrequency.toFixed(3)} rad/s</div>
               </div>
-              <div className="p-2.5 bg-amber-50/60 rounded-lg border border-amber-100">
-                <div className="text-[10px] text-amber-600 uppercase">Balance γ</div>
-                <div className="text-sm font-bold text-amber-950 mt-0.5">{modelBState.gamma.toFixed(2)}</div>
+              <div className="p-2.5 bg-white rounded-lg border border-[#EAE2D2] shadow-2xs">
+                <div className="text-[10px] text-[#9A3412] uppercase font-cinzel">Balance γ</div>
+                <div className="text-sm font-mono text-[#081026] mt-0.5">{modelBState.gamma.toFixed(2)}</div>
               </div>
-              <div className="p-2.5 bg-amber-50/60 rounded-lg border border-amber-100">
-                <div className="text-[10px] text-amber-600 uppercase">LIV Delay</div>
-                <div className="text-sm font-bold text-rose-700 mt-0.5">
+              <div className="p-2.5 bg-[#FEE2E2] rounded-lg border border-[#FCA5A5] shadow-2xs">
+                <div className="text-[10px] text-[#B91C1C] uppercase font-cinzel">LIV Delay</div>
+                <div className="text-sm font-mono text-[#991B1B] mt-0.5">
                   {typeof modelBState.dispersionDelay === 'number' && isFinite(modelBState.dispersionDelay) 
                     ? `+${modelBState.dispersionDelay.toFixed(2)} s` 
                     : 'Undefined'}
                 </div>
               </div>
-              <div className="p-2.5 bg-amber-50/60 rounded-lg border border-amber-100">
-                <div className="text-[10px] text-amber-600 uppercase">Tics Count</div>
-                <div className="text-sm font-bold text-amber-950 mt-0.5">{modelBState.emergentTimeTics}</div>
+              <div className="p-2.5 bg-white rounded-lg border border-[#EAE2D2] shadow-2xs">
+                <div className="text-[10px] text-[#9A3412] uppercase font-cinzel">Tics Count</div>
+                <div className="text-sm font-mono text-[#081026] mt-0.5">{modelBState.emergentTimeTics}</div>
               </div>
             </div>
 
-            <div className="space-y-2 text-xs text-slate-700 font-sans leading-relaxed">
-              <strong className="text-amber-950 font-serif block text-sm">Physical Consequences in Universe B:</strong>
-              <ul className="space-y-1.5 list-disc list-inside text-slate-600">
-                <li><strong>No Early Pre-Observer Universe:</strong> Time has no metric without relational nodes. The billions of years before life are an unmeasured, timeless topological void.</li>
-                <li><strong>Severe Photon Dispersion (LIV):</strong> High-energy photons experience discrete difference-step delays (<MathDisplay math="\Delta t \propto E" />), conflicting with LHAASO GRB 221009A data.</li>
-                <li><strong>Static Memory Lock at Heat Death:</strong> When generation ceases (<MathDisplay math="\text{RAG} \to 0" />), the universe does not enter de Sitter space—it freezes into a permanent memory lock.</li>
-                <li><strong>Mastery of Non-Locality:</strong> Entangled quantum states couple instantaneously as frequency harmonics across a shared acoustic cavity without signaling across space.</li>
+            <div className="space-y-2 text-xs text-[#0C1836] font-['Poppins'] font-light leading-relaxed">
+              <div className="text-[#081026] font-serif font-normal text-base border-b border-[#EAE2D2] pb-1">
+                Physical Reality Under Universe B:
+              </div>
+              <ul className="space-y-1.5 list-disc list-inside text-[#475569]">
+                <li><strong className="font-normal text-[#081026]">No Early Pre-Observer Universe:</strong> Time has no metric without relational nodes. The billions of years before life are an unmeasured, timeless topological void.</li>
+                <li><strong className="font-normal text-[#081026]">Severe Photon Dispersion (LIV):</strong> High-energy photons experience discrete difference-step delays (<MathDisplay math="\Delta t \propto E" />), conflicting with LHAASO GRB 221009A data.</li>
+                <li><strong className="font-normal text-[#081026]">Static Memory Lock at Heat Death:</strong> When generation ceases (<MathDisplay math="\text{RAG} \to 0" />), the universe does not enter de Sitter space—it freezes into a permanent memory lock.</li>
+                <li><strong className="font-normal text-[#081026]">Mastery of Non-Locality:</strong> Entangled quantum states couple instantaneously as frequency harmonics across a shared acoustic cavity without signaling across space.</li>
               </ul>
             </div>
           </div>
@@ -687,83 +694,86 @@ export const DualUniverseSimulationView: React.FC = () => {
       </div>
 
       {/* COMPREHENSIVE SIDE-BY-SIDE MATRIX */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-4">
-        <div>
-          <h2 className="text-xl font-serif font-bold text-slate-900">
+      <div className="oxford-card rounded-2xl p-6 sm:p-8 shadow-xs space-y-4 bg-white border border-[#EAE2D2]">
+        <div className="border-b border-[#EAE2D2] pb-4">
+          <div className="font-cinzel text-[10px] uppercase tracking-wider text-[#64748B]">
+            Oxford Comparative Table · Direct Contrast
+          </div>
+          <h2 className="text-xl font-serif font-normal text-[#081026] mt-0.5">
             Physical Comparison Matrix: Universe A vs. Universe B
           </h2>
-          <p className="text-xs text-slate-600 mt-1">
+          <p className="text-xs text-[#475569] mt-1 font-['Poppins'] font-light">
             How fundamental laws, astronomical phenomena, and thermodynamic constraints behave under each world assumption.
           </p>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-mono text-[11px] uppercase tracking-wider">
+          <table className="w-full text-left text-xs font-['Poppins'] font-light">
+            <thead className="bg-[#F9F6F0] border-y-2 border-[#0C1836] text-[#0C1836] font-cinzel text-[11px] tracking-wide">
               <tr>
-                <th className="py-3 px-4 w-40 font-semibold">Physical Dimension</th>
-                <th className="py-3 px-4 text-blue-900 font-bold w-1/2">If Universe A (Model A) Is True</th>
-                <th className="py-3 px-4 text-amber-900 font-bold w-1/2">If Universe B (Model B) Is True</th>
+                <th className="py-3 px-4 w-44 font-normal">Physical Dimension</th>
+                <th className="py-3 px-4 text-[#1A3670] font-normal w-1/2">If Universe A (Model A) Is True</th>
+                <th className="py-3 px-4 text-[#9A3412] font-normal w-1/2">If Universe B (Model B) Is True</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-sans">
-              <tr className="hover:bg-slate-50">
-                <td className="py-3.5 px-4 font-mono font-semibold text-slate-800">
+            <tbody className="divide-y divide-[#EAE2D2]">
+              <tr className="hover:bg-[#FDFBF7]">
+                <td className="py-3.5 px-4 font-mono text-[#081026]">
                   1. Big Bang & Singularity
                 </td>
-                <td className="py-3.5 px-4 text-slate-700 leading-relaxed">
-                  <strong>Non-Singular Bounce:</strong> Curvature stays finite (<MathDisplay math="\mathcal{K}_{\text{max}} < \infty" />). As matter collapses, information entropy hits the holographic ceiling, causing an automatic expansion bounce.
+                <td className="py-3.5 px-4 text-[#334155] leading-relaxed">
+                  <strong className="font-normal text-[#081026]">Non-Singular Bounce:</strong> Curvature stays finite (<MathDisplay math="\mathcal{K}_{\text{max}} < \infty" />). As matter collapses, information entropy hits the holographic ceiling, causing an automatic expansion bounce.
                 </td>
-                <td className="py-3.5 px-4 text-slate-700 leading-relaxed">
-                  <strong>Frequency Pole Saturation:</strong> Singularity is treated as a pole on the unit circle. However, there is no spatial metric to compute how small the universe was.
+                <td className="py-3.5 px-4 text-[#334155] leading-relaxed">
+                  <strong className="font-normal text-[#081026]">Frequency Pole Saturation:</strong> Singularity is treated as a pole on the unit circle. However, there is no spatial metric to compute how small the universe was.
                 </td>
               </tr>
 
-              <tr className="hover:bg-slate-50">
-                <td className="py-3.5 px-4 font-mono font-semibold text-slate-800">
+              <tr className="hover:bg-[#FDFBF7]">
+                <td className="py-3.5 px-4 font-mono text-[#081026]">
                   2. Photon Flight & LIV
                 </td>
-                <td className="py-3.5 px-4 text-slate-700 leading-relaxed">
-                  <strong>Exact Luminal Invariance:</strong> Minimally coupled scalar preserves continuous Lorentz symmetry. 18 TeV photons arrive with 0.0s delay, matching Fermi GRB 090510 and LHAASO 221009A.
+                <td className="py-3.5 px-4 text-[#334155] leading-relaxed">
+                  <strong className="font-normal text-[#081026]">Exact Luminal Invariance:</strong> Minimally coupled scalar preserves continuous Lorentz symmetry. 18 TeV photons arrive with 0.0s delay, matching Fermi GRB 090510 and LHAASO 221009A.
                 </td>
-                <td className="py-3.5 px-4 text-slate-700 leading-relaxed">
-                  <strong>Discrete Arrival Dispersion:</strong> Difference equations predict energy-dependent delays (<MathDisplay math="\Delta t \propto E" />). Multi-second delays for TeV photons are excluded at &gt;5.6σ.
+                <td className="py-3.5 px-4 text-[#334155] leading-relaxed">
+                  <strong className="font-normal text-[#081026]">Discrete Arrival Dispersion:</strong> Difference equations predict energy-dependent delays (<MathDisplay math="\Delta t \propto E" />). Multi-second delays for TeV photons are excluded at &gt;5.6σ.
                 </td>
               </tr>
 
-              <tr className="hover:bg-slate-50">
-                <td className="py-3.5 px-4 font-mono font-semibold text-slate-800">
+              <tr className="hover:bg-[#FDFBF7]">
+                <td className="py-3.5 px-4 font-mono text-[#081026]">
                   3. Zero-Entropy Vacuum
                 </td>
-                <td className="py-3.5 px-4 text-slate-700 leading-relaxed">
-                  <strong>Continuous Clock:</strong> Regularized metric (<MathDisplay math="\tilde{g} = g + \epsilon_{\text{vac}}\delta" />) keeps time advancing even when all thermal differences vanish. Spacetime reduces to de Sitter space.
+                <td className="py-3.5 px-4 text-[#334155] leading-relaxed">
+                  <strong className="font-normal text-[#081026]">Continuous Clock:</strong> Regularized metric (<MathDisplay math="\tilde{g} = g + \epsilon_{\text{vac}}\delta" />) keeps time advancing even when all thermal differences vanish. Spacetime reduces to de Sitter space.
                 </td>
-                <td className="py-3.5 px-4 text-slate-700 leading-relaxed">
-                  <strong>Frozen Memory Trap:</strong> With no new generative events (<MathDisplay math="\text{RAG}=0" />), the universe locks into eternal memory retention. Time ceases completely.
+                <td className="py-3.5 px-4 text-[#334155] leading-relaxed">
+                  <strong className="font-normal text-[#081026]">Frozen Memory Trap:</strong> With no new generative events (<MathDisplay math="\text{RAG}=0" />), the universe locks into eternal memory retention. Time ceases completely.
                 </td>
               </tr>
 
-              <tr className="hover:bg-slate-50">
-                <td className="py-3.5 px-4 font-mono font-semibold text-slate-800">
+              <tr className="hover:bg-[#FDFBF7]">
+                <td className="py-3.5 px-4 font-mono text-[#081026]">
                   4. Role of Observers
                 </td>
-                <td className="py-3.5 px-4 text-slate-700 leading-relaxed">
-                  <strong>Observer-Independent:</strong> Spacetime geometry exists without conscious minds. The universe evolves for 13.8 billion years before biology emerges.
+                <td className="py-3.5 px-4 text-[#334155] leading-relaxed">
+                  <strong className="font-normal text-[#081026]">Observer-Independent:</strong> Spacetime geometry exists without conscious minds. The universe evolves for 13.8 billion years before biology emerges.
                 </td>
-                <td className="py-3.5 px-4 text-slate-700 leading-relaxed">
-                  <strong>Observer-Central:</strong> Time is experiential rhythm. Prior to observing nodes, cosmic history has bare ordering but no metric passage.
+                <td className="py-3.5 px-4 text-[#334155] leading-relaxed">
+                  <strong className="font-normal text-[#081026]">Observer-Central:</strong> Time is experiential rhythm. Prior to observing nodes, cosmic history has bare ordering but no metric passage.
                 </td>
               </tr>
 
-              <tr className="hover:bg-slate-50">
-                <td className="py-3.5 px-4 font-mono font-semibold text-slate-800">
+              <tr className="hover:bg-[#FDFBF7]">
+                <td className="py-3.5 px-4 font-mono text-[#081026]">
                   5. Quantum Entanglement
                 </td>
-                <td className="py-3.5 px-4 text-slate-700 leading-relaxed">
-                  <strong>Relative Entropy Bound:</strong> Entanglement generates geometry via Ryu-Takayanagi and Jacobson's entanglement equilibrium.
+                <td className="py-3.5 px-4 text-[#334155] leading-relaxed">
+                  <strong className="font-normal text-[#081026]">Relative Entropy Bound:</strong> Entanglement generates geometry via Ryu-Takayanagi and Jacobson's entanglement equilibrium.
                 </td>
-                <td className="py-3.5 px-4 text-slate-700 leading-relaxed">
-                  <strong>Instant Harmonic Coupling:</strong> Spacetime is not a box; entangled particles resonate in a shared frequency cavity without spatial transit.
+                <td className="py-3.5 px-4 text-[#334155] leading-relaxed">
+                  <strong className="font-normal text-[#081026]">Instant Harmonic Coupling:</strong> Spacetime is not a box; entangled particles resonate in a shared frequency cavity without spatial transit.
                 </td>
               </tr>
             </tbody>
@@ -772,70 +782,70 @@ export const DualUniverseSimulationView: React.FC = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* THE DEFINITIVE ADVERSARIAL VERDICT */}
+      {/* THE DEFINITIVE OXFORD ADVERSARIAL VERDICT */}
       {/* ========================================================================= */}
-      <div className="rounded-2xl border-2 border-indigo-200 bg-gradient-to-b from-white to-indigo-50/30 p-8 sm:p-12 shadow-md space-y-8">
+      <div className="rounded-2xl border-2 border-[#1A3670] bg-white p-8 sm:p-12 shadow-sm space-y-8">
         
         {/* Verdict Badge */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-indigo-100 pb-5">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE2D2] pb-5">
           <div className="space-y-1">
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-indigo-700 text-white uppercase tracking-wider">
+            <span className="font-cinzel text-xs tracking-wider uppercase text-[#CBD9FC] bg-[#0C1836] px-3 py-1 rounded">
               Comprehensive Adversarial Verdict · The Ultimate Resolution
             </span>
-            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 mt-2">
+            <h2 className="text-2xl sm:text-3xl font-serif font-normal text-[#081026] mt-2">
               Adversarial Verdict: Which Universe Is Real?
             </h2>
           </div>
-          <div className="px-4 py-2 rounded-xl bg-white border border-indigo-200 text-xs font-mono font-bold text-indigo-900 shadow-2xs">
-            Synthesis Verdict: Mutually True in Two Layers
+          <div className="px-4 py-2 rounded-xl bg-[#FEF3C7] border border-[#FCD34D] text-xs font-cinzel text-[#92400E] shadow-2xs">
+            Synthesis Verdict: Mutually True in Two Physical Layers
           </div>
         </div>
 
-        {/* 3 Verdict Panels */}
+        {/* 2 Comparative Evaluation Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           {/* Verdict on Universe A */}
-          <div className="p-6 rounded-2xl bg-white border border-blue-200 shadow-sm space-y-3 flex flex-col justify-between">
+          <div className="p-6 rounded-2xl bg-[#FDFBF7] border border-[#CBD9FC] shadow-2xs space-y-3 flex flex-col justify-between">
             <div className="space-y-3">
-              <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-100 text-blue-800 uppercase">
+              <span className="font-cinzel text-[10px] uppercase text-[#1A3670] bg-[#EBF0FE] px-2.5 py-0.5 rounded">
                 Adversarial Verdict on Model A (IGEG Engine)
               </span>
-              <h3 className="text-lg font-serif font-bold text-blue-950">
+              <h3 className="text-xl font-serif font-normal text-[#081026]">
                 Victor as a Fundamental Physical Theory (Score 712 / 1500)
               </h3>
-              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans">
-                If forced to choose which model can legitimately stand as a fundamental physical theory of the cosmos, <strong>Model A (Bulaqueña IGG / IGEG) decisively wins</strong>.
+              <p className="text-xs sm:text-sm text-[#334155] leading-relaxed font-['Poppins'] font-light">
+                If forced to choose which model can legitimately stand as a fundamental physical theory of the cosmos, <strong className="font-normal text-[#081026]">Model A (Bulaqueña IGG / IGEG) decisively wins</strong>.
               </p>
-              <ul className="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
-                <li><strong>Reduces to General Relativity:</strong> When <MathDisplay math="\nabla\psi = 0" />, it reproduces Einstein's field equations flawlessly.</li>
-                <li><strong>Survives Real Observational Tests:</strong> Conforms to strict gamma-ray burst photon arrival limits (<MathDisplay math="\Delta t_{\text{LIV}} = 0" />) where discrete models fail.</li>
-                <li><strong>Solves the Singularity:</strong> Smooth, non-singular cosmic bounce bounded by information capacity.</li>
+              <ul className="text-xs text-[#475569] space-y-1.5 list-disc list-inside font-['Poppins'] font-light">
+                <li><strong className="font-normal text-[#081026]">Reduces to General Relativity:</strong> When <MathDisplay math="\nabla\psi = 0" />, it reproduces Einstein's field equations flawlessly.</li>
+                <li><strong className="font-normal text-[#081026]">Survives Real Observational Tests:</strong> Conforms to strict gamma-ray burst photon arrival limits (<MathDisplay math="\Delta t_{\text{LIV}} = 0" />) where discrete models fail.</li>
+                <li><strong className="font-normal text-[#081026]">Solves the Singularity:</strong> Smooth, non-singular cosmic bounce bounded by information capacity.</li>
               </ul>
             </div>
-            <div className="p-3 bg-blue-50 rounded-xl border border-blue-100 text-[11px] text-blue-900 font-mono">
+            <div className="p-3 bg-white rounded-xl border border-[#CBD9FC] text-[11px] text-[#1A3670] font-['Poppins'] font-light">
               Red-Team Vulnerability: Adding an unquantized classical scalar to GR risks functioning merely as quintessence without novel quantum gravity effects.
             </div>
           </div>
 
           {/* Verdict on Universe B */}
-          <div className="p-6 rounded-2xl bg-white border border-amber-200 shadow-sm space-y-3 flex flex-col justify-between">
+          <div className="p-6 rounded-2xl bg-[#FDFBF7] border border-[#FDBA74] shadow-2xs space-y-3 flex flex-col justify-between">
             <div className="space-y-3">
-              <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-100 text-amber-800 uppercase">
+              <span className="font-cinzel text-[10px] uppercase text-[#9A3412] bg-[#FFEDD5] px-2.5 py-0.5 rounded">
                 Adversarial Verdict on Model B (RES=RAG Resonance)
               </span>
-              <h3 className="text-lg font-serif font-bold text-amber-950">
+              <h3 className="text-xl font-serif font-normal text-[#081026]">
                 Victor in Experiential Rhythm & Observers (Score 264 / 1500)
               </h3>
-              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans">
-                As an autonomous fundamental physical theory, <strong>Universe B fails empirical astrophysics</strong>. Without a spacetime metric, it cannot compute gravitational redshifts, time dilation, or cosmic history before observers.
+              <p className="text-xs sm:text-sm text-[#334155] leading-relaxed font-['Poppins'] font-light">
+                As an autonomous fundamental physical theory, <strong className="font-normal text-[#081026]">Universe B fails empirical astrophysics</strong>. Without a spacetime metric, it cannot compute gravitational redshifts, time dilation, or cosmic history before observers.
               </p>
-              <ul className="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
-                <li><strong>Leads in Conceptual Subsets:</strong> Outscores Model A <strong>78 to 51</strong> on observer-dependent, cognitive, and rhythm criteria.</li>
-                <li><strong>Order Before Measure:</strong> Captures the foundational insight that discrete events precede continuous metric intervals.</li>
-                <li><strong>Solves Perceived Duration:</strong> Explains why human consciousness and AI systems experience a flowing temporal present.</li>
+              <ul className="text-xs text-[#475569] space-y-1.5 list-disc list-inside font-['Poppins'] font-light">
+                <li><strong className="font-normal text-[#081026]">Leads in Conceptual Subsets:</strong> Outscores Model A 78 to 51 on observer-dependent, cognitive, and rhythm criteria.</li>
+                <li><strong className="font-normal text-[#081026]">Order Before Measure:</strong> Captures the foundational insight that discrete events precede continuous metric intervals.</li>
+                <li><strong className="font-normal text-[#081026]">Solves Perceived Duration:</strong> Explains why human consciousness and AI systems experience a flowing temporal present.</li>
               </ul>
             </div>
-            <div className="p-3 bg-amber-50 rounded-xl border border-amber-100 text-[11px] text-amber-900 font-mono">
+            <div className="p-3 bg-white rounded-xl border border-[#FDBA74] text-[11px] text-[#9A3412] font-['Poppins'] font-light">
               Red-Team Vulnerability: Lacks a metric, Hilbert space, and entropy functional; cannot be tested against gravitational physics.
             </div>
           </div>
@@ -843,60 +853,60 @@ export const DualUniverseSimulationView: React.FC = () => {
         </div>
 
         {/* The Dual-Layer Synthesis Resolution */}
-        <div className="p-6 sm:p-8 rounded-2xl bg-white border-2 border-indigo-300 shadow-sm space-y-4">
+        <div className="p-6 sm:p-8 rounded-2xl bg-[#F9F6F0] border-2 border-[#B45309] shadow-xs space-y-4">
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-purple-700 text-white">
+            <span className="px-3 py-1 rounded bg-[#B45309] text-white text-xs font-cinzel">
               THE UNIFIED DUAL-LAYER SYNTHESIS (IGRT)
             </span>
-            <h3 className="text-xl font-serif font-bold text-indigo-950">
+            <h3 className="text-xl font-serif font-normal text-[#081026]">
               Why the Real Universe Requires Both Models
             </h3>
           </div>
           
-          <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-serif">
+          <p className="text-xs sm:text-sm text-[#334155] leading-relaxed font-serif font-normal">
             The adversarial collision proves that the Quantum Gravity Problem of Time is not solved by declaring one model victorious and discarding the other. Instead, <strong>they operate at two distinct physical tiers of the same reality</strong>:
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
-            <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-1.5">
-              <span className="font-bold text-blue-900 font-mono uppercase block text-sm">
-                Layer 0: The Microscopic Software Engine (Model A)
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-['Poppins'] font-light">
+            <div className="p-4 rounded-xl bg-white border border-[#CBD9FC] space-y-1.5 shadow-2xs">
+              <span className="text-[#1A3670] font-cinzel uppercase block text-sm">
+                Layer 0: The Microscopic Computational Engine (Model A)
               </span>
-              <p className="text-slate-700 leading-relaxed">
+              <p className="text-[#334155] leading-relaxed">
                 At the Planck scale (<MathDisplay math="10^{-35}\text{ m}" />), time is the algorithmic execution of state updates along the <strong>Information Geometric Gradient (IGG)</strong>. The Fisher metric ensures smooth Riemannian geometry, preserves local Lorentz invariance, and prevents singularity collapse.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-1.5">
-              <span className="font-bold text-amber-900 font-mono uppercase block text-sm">
+            <div className="p-4 rounded-xl bg-white border border-[#FDBA74] space-y-1.5 shadow-2xs">
+              <span className="text-[#9A3412] font-cinzel uppercase block text-sm">
                 Layer 1: The Macroscopic Acoustic Interface (Model B)
               </span>
-              <p className="text-slate-700 leading-relaxed">
+              <p className="text-[#334155] leading-relaxed">
                 To macroscopic observers, atomic clocks, living organisms, and conversational networks, billions of microscopic state updates compile into an <strong>emergent resonant rhythm</strong> (<MathDisplay math="\text{RES} = \text{RAG}" />). Experienced time is the acoustic symphony produced by the underlying computer.
               </p>
             </div>
           </div>
 
           {/* Mathematical Bridge Formula */}
-          <div className="p-4 rounded-xl bg-purple-50 border border-purple-200 text-center font-mono space-y-2">
-            <span className="text-[10px] text-purple-700 font-bold uppercase tracking-wider block">
+          <div className="p-4 rounded-xl bg-white border border-[#B45309]/30 text-center font-mono space-y-2 shadow-2xs">
+            <span className="font-cinzel text-[10px] text-[#B45309] tracking-wider uppercase block">
               The Mathematical Unification Equation (IGRT Postulate 1)
             </span>
-            <div className="text-sm text-purple-950">
+            <div className="text-sm text-[#081026]">
               <MathDisplay block math="\Delta\tau = \int \sqrt{g_{ij}\dot{\theta}^i\dot{\theta}^j} \, d\lambda \;\equiv\; \int \sqrt{-g_{\mu\nu}\dot{x}^\mu\dot{x}^\nu} \, d\lambda \quad \longleftrightarrow \quad \Delta\tau_N = \sum_{k=1}^N \sqrt{g_{ij}(\theta_k)\Delta\theta_k^i\Delta\theta_k^j}" />
             </div>
-            <p className="text-xs text-purple-800 font-sans mt-1">
+            <p className="text-xs text-[#475569] font-['Poppins'] font-light mt-1">
               Fisher-Rao length of retention-generation paths (Model B) equals the proper time of General Relativity (Model A).
             </p>
           </div>
         </div>
 
         {/* Final Conclusion Statement */}
-        <div className="p-6 rounded-xl bg-slate-900 text-white space-y-2">
-          <span className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-400">
+        <div className="p-6 rounded-xl bg-[#0C1836] text-[#FDFBF7] space-y-2 border border-[#142B5B]">
+          <span className="font-cinzel text-xs uppercase tracking-wider text-[#FDBA74]">
             Final Scientific Conclusion
           </span>
-          <p className="text-sm font-serif leading-relaxed text-slate-100">
+          <p className="text-sm font-serif font-normal leading-relaxed text-[#FDFBF7]">
             <strong>Time is neither a cosmic illusion nor an external metronome.</strong> It is the computational heartbeat of the universe—computed with mathematical precision by the <em>Bulaqueña Information Geometric Gradient</em> at the Planck scale, and sung to conscious reality as an emergent harmonic rhythm through <em>Jean-Charles Tassan’s resonant dialogue</em>.
           </p>
         </div>

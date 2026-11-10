@@ -5,40 +5,40 @@ export const LaymansGuideView: React.FC = () => {
   const [activeScenario, setActiveScenario] = useState<'modelA' | 'modelB' | 'synthesis'>('synthesis');
 
   return (
-    <div className="space-y-12 max-w-5xl mx-auto pb-20">
+    <div className="space-y-12 max-w-5xl mx-auto pb-20 text-[#0C1836]">
       
-      {/* SECTION 1 HEADER - Clean Light Aesthetic */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-8 sm:p-10 shadow-sm space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5 text-xs font-mono text-slate-500">
-          <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 font-semibold uppercase tracking-wider">
-            Section 1 · Executive Treatise & Layman\'s Guide
+      {/* SECTION 1 HEADER - Oxford Monograph Edition */}
+      <div className="oxford-card rounded-2xl p-8 sm:p-10 shadow-xs space-y-5 bg-white border border-[#EAE2D2]">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE2D2] pb-5 text-xs font-mono text-[#64748B]">
+          <span className="px-3 py-1 rounded-full bg-[#EBF0FE] text-[#1A3670] font-semibold uppercase tracking-wider border border-[#CBD9FC]">
+            Section 1 · Executive Treatise & Layman's Guide
           </span>
           <span>Target Audience: General Public & Interdisciplinary Physicists</span>
         </div>
 
         <div className="space-y-3">
-          <h1 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#081026] tracking-tight leading-tight">
             What Is Time? The Cosmic Operating System vs. The Universal Orchestra
           </h1>
-          <p className="text-base text-slate-600 leading-relaxed max-w-4xl">
-            For a century, quantum gravity has faced a devastating paradox: when you combine Einstein\'s General Relativity with Quantum Mechanics, the master equation of the universe—the Wheeler-DeWitt equation—says that <strong>nothing can change</strong> (<MathDisplay math="\hat{\mathcal{H}}|\Psi\rangle = 0" />). Time completely vanishes. How does change exist if the fundamental laws of nature are frozen?
+          <p className="text-base text-[#475569] leading-relaxed max-w-4xl">
+            For a century, quantum gravity has faced a devastating paradox: when you combine Einstein's General Relativity with Quantum Mechanics, the master equation of the universe—the Wheeler-DeWitt equation—says that <strong>nothing can change</strong> (<MathDisplay math="\hat{\mathcal{H}}|\Psi\rangle = 0" />). Time completely vanishes. How does change exist if the fundamental laws of nature are frozen?
           </p>
         </div>
 
         {/* Paper Credentials Pill */}
-        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <div className="p-4 rounded-xl bg-[#F9F6F0] border border-[#EAE2D2] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
           <div>
-            <span className="font-semibold text-slate-900">Comparing Two Landmark Frameworks:</span>
-            <div className="text-slate-600 mt-0.5">
-              • <strong>Model A:</strong> Bulaqueña\'s Information Geometric Gradient (IGG) (Academia.edu #164986382)<br />
-              • <strong>Model B:</strong> Jean-Charles Tassan\'s Emergent Resonant-Active Time (RES-RAG)
+            <span className="font-serif font-bold text-[#081026]">Comparing Two Landmark Frameworks:</span>
+            <div className="text-[#475569] mt-0.5 font-sans">
+              • <strong>Model A:</strong> Bulaqueña's Information Geometric Gradient (IGG) (Academia.edu #164986382)<br />
+              • <strong>Model B:</strong> Jean-Charles Tassan's Emergent Resonant-Active Time (RES-RAG)
             </div>
           </div>
           <a
             href="https://www.academia.edu/164986382/Information_Geometric_Gradient_IGG_The_Secret_Engine_of_Physics_Reality_and_Everything_Else"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-1.5 rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800 transition-colors shrink-0"
+            className="px-3.5 py-1.5 rounded-lg bg-[#0C1836] text-[#FDFBF7] font-serif font-semibold hover:bg-[#1A3670] transition-colors shrink-0 shadow-xs"
           >
             Read Bulaqueña (2026) ↗
           </a>
@@ -49,19 +49,19 @@ export const LaymansGuideView: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         
         {/* MODEL A CARD */}
-        <div className="rounded-2xl border border-blue-100 bg-white p-8 shadow-sm space-y-6 flex flex-col justify-between">
+        <div className="oxford-card rounded-2xl p-8 shadow-xs space-y-6 flex flex-col justify-between bg-white border border-[#CBD9FC]">
           <div className="space-y-4">
-            <div className="inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-blue-50 text-blue-700 border border-blue-200">
+            <div className="inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#EBF0FE] text-[#1A3670] border border-[#CBD9FC]">
               MODEL A: BULAQUEÑA IGG FRAMEWORK
             </div>
-            <h2 className="text-2xl font-serif font-bold text-slate-900">
+            <h2 className="text-2xl font-serif font-bold text-[#081026]">
               The Universe as an Operating System
             </h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
+            <p className="text-sm text-[#475569] leading-relaxed font-sans">
               Imagine the universe is not an empty container of space where clocks tick on the wall. Instead, imagine reality is a <strong>cosmic quantum computer</strong> running a continuous operating system.
             </p>
 
-            <div className="space-y-3 text-xs text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div className="space-y-3 text-xs text-[#334155] leading-relaxed bg-[#FDFBF7] p-4 rounded-xl border border-[#EAE2D2]">
               <p>
                 <strong>The Software Engine:</strong> Time is not a dimension you can walk backward in. It is the <em>clock cycle of the computer processor</em>. Every time the universe calculates a difference between quantum states, that calculation step <strong>IS</strong> time.
               </p>
@@ -74,25 +74,25 @@ export const LaymansGuideView: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-3 bg-blue-50/60 rounded-lg border border-blue-100 text-xs text-blue-900 font-mono">
+          <div className="p-3 bg-[#F4F7FF] rounded-lg border border-[#CBD9FC] text-xs text-[#1A3670] font-mono">
             Key Rule: Time is fundamental code execution (<MathDisplay math="\Delta\tau = \int \|\text{IGG}\|_g d\lambda" />).
           </div>
         </div>
 
         {/* MODEL B CARD */}
-        <div className="rounded-2xl border border-amber-100 bg-white p-8 shadow-sm space-y-6 flex flex-col justify-between">
+        <div className="oxford-card rounded-2xl p-8 shadow-xs space-y-6 flex flex-col justify-between bg-white border border-[#FDBA74]">
           <div className="space-y-4">
-            <div className="inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200">
+            <div className="inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FFEDD5] text-[#9A3412] border border-[#FDBA74]">
               MODEL B: JEAN-CHARLES TASSAN FRAMEWORK
             </div>
-            <h2 className="text-2xl font-serif font-bold text-slate-900">
+            <h2 className="text-2xl font-serif font-bold text-[#081026]">
               The Universe as an Orchestra
             </h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
+            <p className="text-sm text-[#475569] leading-relaxed font-sans">
               Imagine reality is not made of inert matter or rigid coordinates, but of <strong>musical frequencies, echoes, and standing waves</strong> in an infinite acoustic hall.
             </p>
 
-            <div className="space-y-3 text-xs text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div className="space-y-3 text-xs text-[#334155] leading-relaxed bg-[#FDFBF7] p-4 rounded-xl border border-[#EAE2D2]">
               <p>
                 <strong>RES (Resonant Memory / Space):</strong> The concert hall itself, whose walls retain the acoustic reverberations, echoes, and structural history of every note ever played.
               </p>
@@ -100,12 +100,12 @@ export const LaymansGuideView: React.FC = () => {
                 <strong>RAG (Resonant Active Generation / Time):</strong> The musician actively striking the drum or plucking the violin string in the present moment, generating brand new waves.
               </p>
               <p>
-                <strong>Emergence of Time:</strong> Time is not a fundamental line; it is the <em>rhythmic tempo</em> born when the musician\'s live playing (RAG) converses harmoniously with the acoustic memory of the hall (RES).
+                <strong>Emergence of Time:</strong> Time is not a fundamental line; it is the <em>rhythmic tempo</em> born when the musician's live playing (RAG) converses harmoniously with the acoustic memory of the hall (RES).
               </p>
             </div>
           </div>
 
-          <div className="p-3 bg-amber-50/60 rounded-lg border border-amber-100 text-xs text-amber-900 font-mono">
+          <div className="p-3 bg-[#FFF7ED] rounded-lg border border-[#FDBA74] text-xs text-[#9A3412] font-mono">
             Key Rule: Time is an emergent acoustic rhythm (<MathDisplay math="H(z) = \text{RAG}(z)/\text{RES}(z)" />).
           </div>
         </div>
@@ -113,15 +113,15 @@ export const LaymansGuideView: React.FC = () => {
       </div>
 
       {/* WHAT HAPPENS TO OUR UNIVERSE UNDER EACH ASSUMPTION */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-8 sm:p-10 shadow-sm space-y-8">
-        <div className="space-y-2 border-b border-slate-100 pb-5">
-          <span className="text-xs font-mono font-semibold text-indigo-600 uppercase tracking-wider">
+      <div className="oxford-card rounded-2xl p-8 sm:p-10 shadow-xs space-y-8 bg-white border border-[#EAE2D2]">
+        <div className="space-y-2 border-b border-[#EAE2D2] pb-5">
+          <span className="text-xs font-mono font-bold text-[#EA580C] uppercase tracking-wider">
             Cosmic Scenarios & Fate Analysis
           </span>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900">
+          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#081026]">
             What Happens to Our Universe Under Each Assumption?
           </h2>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-[#475569]">
             Select a paradigm below to simulate the destiny, mechanics, and physical reality of our universe:
           </p>
         </div>
@@ -130,19 +130,19 @@ export const LaymansGuideView: React.FC = () => {
         <div className="flex flex-wrap gap-2 text-xs font-medium">
           <button
             onClick={() => setActiveScenario('modelA')}
-            className={`px-4 py-2 rounded-xl transition-all ${activeScenario === 'modelA' ? 'bg-blue-600 text-white shadow-md' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+            className={`px-4 py-2 rounded-xl transition-all ${activeScenario === 'modelA' ? 'bg-[#1A3670] text-white shadow-xs font-serif font-bold' : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'}`}
           >
             Universe Under Model A (Bulaqueña IGG)
           </button>
           <button
             onClick={() => setActiveScenario('modelB')}
-            className={`px-4 py-2 rounded-xl transition-all ${activeScenario === 'modelB' ? 'bg-amber-600 text-white shadow-md' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+            className={`px-4 py-2 rounded-xl transition-all ${activeScenario === 'modelB' ? 'bg-[#EA580C] text-white shadow-xs font-serif font-bold' : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'}`}
           >
             Universe Under Model B (Tassan RES-RAG)
           </button>
           <button
             onClick={() => setActiveScenario('synthesis')}
-            className={`px-4 py-2 rounded-xl transition-all ${activeScenario === 'synthesis' ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+            className={`px-4 py-2 rounded-xl transition-all ${activeScenario === 'synthesis' ? 'bg-[#0C1836] text-[#FDFBF7] shadow-xs font-serif font-bold' : 'bg-[#F9F6F0] text-[#0C1836] hover:bg-white border border-[#EAE2D2]'}`}
           >
             The Ultimate Dual-Layer Synthesis (Factors 99 & 100)
           </button>
@@ -150,8 +150,8 @@ export const LaymansGuideView: React.FC = () => {
 
         {/* Dynamic Scenario Card */}
         {activeScenario === 'modelA' && (
-          <div className="rounded-xl bg-blue-50/50 border border-blue-200 p-6 space-y-4 text-slate-800 text-sm leading-relaxed">
-            <h3 className="text-lg font-bold text-blue-950 font-serif">
+          <div className="rounded-xl bg-[#F4F7FF] border border-[#CBD9FC] p-6 space-y-4 text-[#0C1836] text-sm leading-relaxed">
+            <h3 className="text-lg font-serif font-bold text-[#1A3670]">
               The Cyclical, Non-Singular, Eternally Computed Cosmos
             </h3>
             <ul className="space-y-2.5 list-disc list-inside text-xs text-slate-700">

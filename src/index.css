@@ -1,11 +1,108 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
-  body {
-    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  :root {
+    /* 20 Distinct Shades/Tints of Dark Navy Blue */
+    --navy-950: #030712;
+    --navy-925: #060b1c;
+    --navy-900: #081026;
+    --navy-875: #0a142e;
+    --navy-850: #0c1836;
+    --navy-825: #0e1c3f;
+    --navy-800: #0f2148;
+    --navy-775: #112652;
+    --navy-750: #142b5b;
+    --navy-725: #173065;
+    --navy-700: #1a3670;
+    --navy-650: #204285;
+    --navy-600: #274f9d;
+    --navy-550: #315db2;
+    --navy-500: #3d6dc7;
+    --navy-450: #4d7ed9;
+    --navy-400: #618ee6;
+    --navy-300: #94b2f5;
+    --navy-200: #cbd9fc;
+    --navy-100: #ebf0fe;
+    --navy-50:  #f4f7ff;
+    --navy-25:  #fafbff;
+
+    /* Warm Ecru & Paper Backgrounds */
+    --ecru-50:  #fdfbf7;
+    --ecru-100: #f9f6f0;
+    --ecru-150: #f7f2e9;
+    --ecru-200: #f4efe6;
+    --ecru-250: #eee7dc;
+    --ecru-300: #eae2d2;
+    --ecru-350: #e0d6c4;
+    --ecru-400: #d6cabe;
+
+    /* Oxford Red-Orange Accents */
+    --redorange-950: #451a03;
+    --redorange-900: #7c2d12;
+    --redorange-800: #9a3412;
+    --redorange-700: #c2410c;
+    --redorange-600: #ea580c;
+    --redorange-500: #f97316;
+    --redorange-400: #fb923c;
+    --redorange-200: #fed7aa;
+    --redorange-100: #ffedd5;
+    --redorange-50:  #fff7ed;
+
+    /* Oxford Gold Foil & Burnished Brass */
+    --gold-800: #542407;
+    --gold-700: #78350f;
+    --gold-600: #92400e;
+    --gold-500: #b45309;
+    --gold-400: #d97706;
+    --gold-300: #f59e0b;
+    --gold-200: #fde68a;
+    --gold-100: #fef3c7;
+    --gold-50:  #fffbeb;
+
+    /* Oxford Scholarly Greys */
+    --grey-950: #020617;
+    --grey-900: #0f172a;
+    --grey-850: #172033;
+    --grey-800: #1e293b;
+    --grey-700: #334155;
+    --grey-600: #475569;
+    --grey-500: #64748b;
+    --grey-400: #94a3b8;
+    --grey-300: #cbd5e1;
+    --grey-200: #e2e8f0;
+    --grey-100: #f1f5f9;
+    --grey-50:  #f8fafc;
   }
-  
+
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 300;
+    background-color: var(--ecru-50);
+    color: var(--navy-850);
+    line-height: 1.6;
+  }
+
+  /* Playfair Display Regular: STRICTLY NEVER BOLD FOR TITLES */
+  h1, h2, h3, h4, h5, h6,
+  .font-playfair,
+  .font-serif,
+  .oxford-title {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.015em;
+  }
+
+  /* Cinzel: Distinctive Oxford Roman Caps for kickers, small caps, and mastheads */
+  .font-cinzel {
+    font-family: 'Cinzel', serif !important;
+    letter-spacing: 0.08em;
+  }
+
+  /* Poppins Light: Clean, airy, scholarly UI prose and metadata */
+  .font-poppins {
+    font-family: 'Poppins', sans-serif !important;
+  }
+
   code, pre, .font-mono {
     font-family: 'IBM Plex Mono', monospace;
   }
@@ -15,4 +112,46 @@
   overflow-x: auto;
   overflow-y: hidden;
   padding: 0.5rem 0;
+}
+
+/* Scholarly Oxford Magazine Paper & Subtle Gradient Surfaces */
+.oxford-card {
+  background-color: #ffffff;
+  border: 1px solid #eae2d2;
+  box-shadow: 0 1px 3px rgba(8, 16, 38, 0.03);
+}
+
+.oxford-card-ecru {
+  background: linear-gradient(180deg, #fdfbf7 0%, #f9f6f0 100%);
+  border: 1px solid #eae2d2;
+}
+
+.oxford-gradient-header {
+  background: linear-gradient(135deg, #081026 0%, #0c1836 50%, #142b5b 100%);
+}
+
+.oxford-gradient-gold {
+  background: linear-gradient(135deg, #b45309 0%, #d97706 60%, #f59e0b 100%);
+}
+
+.oxford-gradient-redorange {
+  background: linear-gradient(135deg, #c2410c 0%, #ea580c 50%, #f97316 100%);
+}
+
+.oxford-subtle-rule {
+  border-color: #eae2d2;
+}
+
+.oxford-double-rule {
+  border-top: 2px solid #0c1836;
+  border-bottom: 1px solid #0c1836;
+}
+
+/* Oxford Small Caps Kicker */
+.oxford-kicker {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c2410c;
 }

@@ -8,16 +8,6 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onExportLaTeX }) => {
   return (
-import React from 'react';
-
-interface HeaderProps {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-  onExportLaTeX: () => void;
-}
-
-export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onExportLaTeX }) => {
-  return (
     <header className="sticky top-0 z-50 flex items-center justify-between gap-6 border-b border-[#EAE2D2] bg-[#FDFBF7]/95 px-6 py-3.5 backdrop-blur-md">
       {/* Zone 1: Single text element wordmark */}
       <div className="flex items-center gap-3">

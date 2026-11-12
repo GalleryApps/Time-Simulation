@@ -15,11 +15,13 @@ import {
 interface HarmonizedModelViewProps {
   onNavigateToPaper?: () => void;
   onNavigateToStressTest?: () => void;
+  onNavigateToPanel580?: () => void;
 }
 
 export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
   onNavigateToPaper,
-  onNavigateToStressTest
+  onNavigateToStressTest,
+  onNavigateToPanel580
 }) => {
   const [selectedElementId, setSelectedElementId] = useState<number>(1);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -178,6 +180,14 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                 className="px-4 py-2 rounded-lg border border-[#15803D]/30 bg-[#DCFCE7]/60 text-[#166534] text-xs font-['Poppins'] hover:bg-[#DCFCE7] transition-colors"
               >
                 View 500-Criteria Audit Log (1,500 pts)
+              </button>
+            )}
+            {onNavigateToPanel580 && (
+              <button
+                onClick={onNavigateToPanel580}
+                className="px-4 py-2 rounded-lg bg-[#0C1836] text-[#FDFBF7] text-xs font-['Poppins'] hover:bg-[#EA580C] transition-colors shadow-xs"
+              >
+                580-Criterion Stress Test (1,740 pts) ↗
               </button>
             )}
           </div>

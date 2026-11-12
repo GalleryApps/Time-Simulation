@@ -24,6 +24,7 @@ export const Header: React.FC<HeaderProps> = ({
     {
       label: 'Core Synthesis & Papers',
       items: [
+        { id: 'refined-model-tech', name: 'Refined Model & Future Tech', badge: '1,740 pts Perfect' },
         { id: 'harmonized-model', name: 'The Harmonized Model (IGRT)', badge: '1,500 pts' },
         { id: 'harmonized-paper', name: 'Harmonized Research Paper', badge: 'PRD / CQG' },
         { id: 'journal', name: 'Full Journal Manuscript', badge: '500-Crit.' },
@@ -52,6 +53,7 @@ export const Header: React.FC<HeaderProps> = ({
     {
       label: 'Adversarial Stress-Tests',
       items: [
+        { id: 'adversarial-panel-580', name: '580-Criterion Adversarial Stress Test', badge: '1,740 pts' },
         { id: 'redteam', name: '20 Red-Team Hard Attacks', badge: '4 Waves' },
         { id: 'counterfactual', name: '14 Counterfactual Worlds', badge: 'Phase Space' },
       ]
@@ -73,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Zone 1: Single text element wordmark */}
         <div className="flex items-center gap-4 shrink-0">
           <button 
-            onClick={() => setActiveTab('harmonized-model')}
+            onClick={() => setActiveTab('refined-model-tech')}
             className="text-xl font-['Playfair_Display'] font-normal tracking-tight text-[#081026] dark:text-[#FDFBF7] whitespace-nowrap text-left hover:text-[#EA580C] transition-colors"
           >
             Chronos-QG
@@ -81,12 +83,25 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Zone 2: Clean single-line text navigation links */}
-        <nav className="hidden lg:flex items-center gap-6 text-xs font-['Poppins'] text-[#475569] dark:text-[#94A3B8]">
+        <nav className="hidden lg:flex items-center gap-5 text-xs font-['Poppins'] text-[#475569] dark:text-[#94A3B8]">
+          <button
+            onClick={() => setActiveTab('refined-model-tech')}
+            className={`hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 ${activeTab === 'refined-model-tech' ? 'text-[#EA580C] font-semibold border-b-2 border-[#EA580C] pb-0.5' : ''}`}
+          >
+            <span>Refined Model &amp; Future Tech</span>
+            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-bold">100% Perfect</span>
+          </button>
           <button
             onClick={() => setActiveTab('harmonized-model')}
             className={`hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 ${activeTab === 'harmonized-model' ? 'text-[#EA580C] font-semibold border-b-2 border-[#EA580C] pb-0.5' : ''}`}
           >
             The Harmonized Model
+          </button>
+          <button
+            onClick={() => setActiveTab('adversarial-panel-580')}
+            className={`hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 ${activeTab === 'adversarial-panel-580' ? 'text-[#EA580C] font-semibold border-b-2 border-[#EA580C] pb-0.5' : ''}`}
+          >
+            580-Criterion Stress Test
           </button>
           <button
             onClick={() => setActiveTab('harmonized-paper')}
@@ -99,12 +114,6 @@ export const Header: React.FC<HeaderProps> = ({
             className={`hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 ${activeTab === 'universesim' ? 'text-[#EA580C] font-semibold border-b-2 border-[#EA580C] pb-0.5' : ''}`}
           >
             Universe Sim (A vs B)
-          </button>
-          <button
-            onClick={() => setActiveTab('criteria500')}
-            className={`hover:text-[#081026] dark:hover:text-[#FDFBF7] transition-colors whitespace-nowrap shrink-0 ${activeTab === 'criteria500' ? 'text-[#081026] dark:text-white font-semibold border-b-2 border-[#081026] dark:border-white pb-0.5' : ''}`}
-          >
-            500-Criterion Matrix
           </button>
 
           {/* All Modules Dropdown */}

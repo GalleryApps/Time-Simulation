@@ -24,6 +24,8 @@ import { Harmonization1500LabView } from './components/Harmonization1500LabView'
 import { Harmonized500StressTestView } from './components/Harmonized500StressTestView';
 import { HarmonizedModelView } from './components/HarmonizedModelView';
 import { HarmonizedResearchPaperView } from './components/HarmonizedResearchPaperView';
+import { AdversarialPanel580View } from './components/AdversarialPanel580View';
+import { RefinedModelTechnologiesView } from './components/RefinedModelTechnologiesView';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -76,7 +78,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 }
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<string>('harmonized-model');
+  const [activeTab, setActiveTab] = useState<string>('refined-model-tech');
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
   const [showSearchModal, setShowSearchModal] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -122,7 +124,12 @@ export default function App() {
 
   // Comprehensive Search Items across all 18 modules, key formulas, attacks, and counterfactuals
   const searchIndex = useMemo(() => [
+    { id: 'rmt-1', tab: 'refined-model-tech', title: 'Refined IGRT Model & Avant-Garde Future Tech', category: 'Core Synthesis (100% Perfect)', desc: 'Complete mass-verification monograph, 7 formal postulates, 6 step-by-step proofs, and 7 mind-blowing technologies (Chrono-Dilation, Reactionless IG-Drive, Zero-Decoherence Qubits, Planck Remnant Power).' },
+    { id: 'tech-drive', tab: 'refined-model-tech', title: 'Reactionless Fisher Information-Geometric Space Drive', category: 'Avant-Garde Technology', desc: 'Propellantless propulsion utilizing asymmetric Fisher-Rao energy-momentum gradients to reach Mars in 72 hours.' },
+    { id: 'tech-chrono', tab: 'refined-model-tech', title: 'Chrono-Metric Modulation Well (Engineered Proper Time dτ/dt)', category: 'Avant-Garde Technology', desc: 'Local pacing of proper-time flow rate without extreme relativistic velocity or gravitational mass.' },
+    { id: 'tech-power', tab: 'refined-model-tech', title: 'Frolov-Hayward Planck-Remnant Micro-Singularity Power Core', category: 'Avant-Garde Technology', desc: '100% mass-to-energy conversion (E=mc²) catalyzed by non-singular curvature-saturated Planck remnants.' },
     { id: 'hm-1', tab: 'harmonized-model', title: 'The Harmonized Model (IGRT)', category: 'Core Synthesis', desc: 'Complete 1,500/1,500 framework: principal fiber bundle P(M, S_Fisher), 10 elements, 5 ramifications.' },
+    { id: 'adv-580', tab: 'adversarial-panel-580', title: '580-Criterion Comprehensive Adversarial Stress Test', category: 'Adversarial Evaluation', desc: 'Comprehensive multi-stage stress test: 500 baseline criteria, 80 new synthesis criteria (XI & XII), 20 direct attacks, 1,740/1,740 score in refined mode, and 1,000-word binding verdict.' },
     { id: 'hm-sim', tab: 'harmonized-model', title: 'Live Computational Laboratory & Audio Synthesizer', category: 'Interactive Simulator', desc: 'FLRW Quantum Bounce engine, 2:1 Lissajous resonance audio synthesizer, and w(z) dark energy explorer.' },
     { id: 'hp-1', tab: 'harmonized-paper', title: 'Harmonized Research Paper (PRD / CQG)', category: 'Formal Monograph', desc: 'Peer-reviewed style paper with derivations, proofs, and 6 empirical testing protocols.' },
     { id: 'c500', tab: 'criteria500', title: '500-Criterion Adversarial Matrix', category: 'Evaluation Matrix', desc: 'Granular point-by-point audit across 10 domains with filterable search and verified scores.' },
@@ -241,6 +248,17 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
           
           <div className="flex items-center gap-1.5 shrink-0 p-1 bg-[#F4EFE6] dark:bg-[#0C1836] rounded-xl border border-[#EAE2D2] dark:border-[#1E293B]">
             <button
+              onClick={() => setActiveTab('refined-model-tech')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
+                activeTab === 'refined-model-tech' 
+                  ? 'bg-[#EA580C] text-white shadow-xs font-medium' 
+                  : 'text-[#9A3412] dark:text-[#FDBA74] hover:bg-[#FFEDD5]/60 dark:hover:bg-[#173065]'
+              }`}
+            >
+              <span>Refined Model &amp; Tech</span>
+              <span className="font-mono text-[10px] bg-emerald-500 text-white px-1.5 py-0.2 rounded font-bold">1,740 pts</span>
+            </button>
+            <button
               onClick={() => setActiveTab('harmonized-model')}
               className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
                 activeTab === 'harmonized-model' 
@@ -333,13 +351,21 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
       {/* Main Content Area */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8">
         <ErrorBoundary fallbackTab={setActiveTab}>
+          {activeTab === 'refined-model-tech' && (
+            <RefinedModelTechnologiesView 
+              onNavigateToPanel580={() => setActiveTab('adversarial-panel-580')}
+              onNavigateToPaper={() => setActiveTab('harmonized-paper')}
+            />
+          )}
           {activeTab === 'harmonized-model' && (
             <HarmonizedModelView 
               onNavigateToPaper={() => setActiveTab('harmonized-paper')}
               onNavigateToStressTest={() => setActiveTab('harmonized-stresstest')}
+              onNavigateToPanel580={() => setActiveTab('adversarial-panel-580')}
             />
           )}
           {activeTab === 'harmonized-paper' && <HarmonizedResearchPaperView />}
+          {activeTab === 'adversarial-panel-580' && <AdversarialPanel580View />}
           {activeTab === 'criteria500' && <Criteria500MatrixView />}
           {activeTab === 'universesim' && <DualUniverseSimulationView />}
           {activeTab === 'harmonization' && <Harmonization1500LabView />}

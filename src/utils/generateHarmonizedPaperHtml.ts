@@ -32,8 +32,7 @@ import {
   DIMENSIONAL_ANALYSIS_TABLE,
   EQUATION_INDEX,
   FRAMEWORKS_COMPARISON_TABLE,
-  ETHICS_AND_GOVERNANCE,
-  VERSION_CHANGE_LOG
+  ETHICS_AND_GOVERNANCE
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
 import { formatMathToHtml, formatSvgMathMarkup } from './formatMathUnicode';
@@ -525,7 +524,7 @@ export function buildSelfContainedMonographHtml(): string {
     <div class="chapter-kicker">Navigation</div>
     <h2>Table of Contents</h2>
     <ul>
-      <li><strong>Summary, Symbols &amp; Indices:</strong> Plain-Language Summary · Scope &amp; Architectural Closures · Lists of Figures, Tables &amp; Symbols · Acronyms · Dimensional Analysis · Equation Index</li>
+      <li><strong>Summary, Symbols &amp; Indices:</strong> Summary · Scope &amp; Architectural Closures · Lists of Figures, Tables &amp; Symbols · Acronyms · Dimensional Analysis · Equation Index</li>
       ${PAPER_CHAPTERS.map(
         (ch) =>
           `<li><strong>Chapter ${ch.number}: ${fmt(ch.title)}</strong>
@@ -533,7 +532,7 @@ export function buildSelfContainedMonographHtml(): string {
           </li>`
       ).join('')}
       <li><strong>Appendices A–J:</strong> Formal Theorems, CODATA Constants, Numerical Derivations &amp; Technical FAQ</li>
-      <li><strong>Backmatter:</strong> Governance (CRediT, COI, Data, Funding, AI) · Version Change Log · References [1]–[${PAPER_REFERENCES.length}]</li>
+      <li><strong>Backmatter:</strong> Governance Disclosures (CRediT, COI, Data, Funding) · References [1]–[${PAPER_REFERENCES.length}]</li>
     </ul>
   </nav>
 
@@ -542,7 +541,7 @@ export function buildSelfContainedMonographHtml(): string {
     <div class="chapter-kicker">Summary &amp; Editorial Reference Apparatus</div>
     <h2>Summary, Symbols &amp; Indices</h2>
 
-    <h3>Plain-Language Summary</h3>
+    <h3>Summary</h3>
     <p>${fmt(PLAIN_LANGUAGE_SUMMARY)}</p>
 
     <h3>Scope &amp; Architectural Closures</h3>
@@ -603,10 +602,10 @@ export function buildSelfContainedMonographHtml(): string {
     ${appendicesHtml}
   </section>
 
-  <!-- GOVERNANCE & CHANGE LOG -->
+  <!-- GOVERNANCE DISCLOSURES -->
   <section class="chapter-start">
     <div class="chapter-kicker">Research Integrity &amp; Governance</div>
-    <h2>Governance Disclosures &amp; Version Change Log</h2>
+    <h2>Governance Disclosures</h2>
 
     <h3>CRediT Author Contributions</h3>
     <ul>${ETHICS_AND_GOVERNANCE.creditRoles.map((c) => `<li><strong>${esc(c.author)}:</strong> ${fmt(c.roles)}</li>`).join('')}</ul>
@@ -619,17 +618,6 @@ export function buildSelfContainedMonographHtml(): string {
 
     <h3>Data and Code Availability</h3>
     <p>${fmt(ETHICS_AND_GOVERNANCE.dataAndCodeAvailability)}</p>
-
-    <h3>AI-Assistance Disclosure</h3>
-    <p>${fmt(ETHICS_AND_GOVERNANCE.aiAssistanceDisclosure)}</p>
-
-    <h3>Version Change Log</h3>
-    <table class="data-table">
-      <thead><tr><th>Edition</th><th>Date</th><th>Summary of Revisions</th></tr></thead>
-      <tbody>${VERSION_CHANGE_LOG.map(
-        (v) => `<tr><td>${esc(v.version)}</td><td>${esc(v.date)}</td><td>${fmt(v.summary)}</td></tr>`
-      ).join('')}</tbody>
-    </table>
   </section>
 
   <!-- COMPREHENSIVE REFERENCES [1]–[91] & CITED VERSION (NO ORCIDs IN REFERENCES) -->

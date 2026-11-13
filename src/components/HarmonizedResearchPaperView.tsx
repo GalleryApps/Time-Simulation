@@ -38,8 +38,7 @@ import {
   DIMENSIONAL_ANALYSIS_TABLE,
   EQUATION_INDEX,
   FRAMEWORKS_COMPARISON_TABLE,
-  ETHICS_AND_GOVERNANCE,
-  VERSION_CHANGE_LOG
+  ETHICS_AND_GOVERNANCE
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES, HarmonizedPaperFigure } from './HarmonizedPaperFigures';
 import { MathText } from './MathText';
@@ -379,7 +378,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                 focusedAnchor === 'governance' ? 'text-[#8B4513] dark:text-[#FB923C]' : ''
               }`}
             >
-              Governance &amp; Change Log
+              Governance Disclosures
             </button>
             <button
               onClick={() => jumpToSection('references')}
@@ -499,7 +498,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                 </div>
 
                 <div className="space-y-4 py-2">
-                  <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>Plain-Language Summary</h3>
+                  <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>Summary</h3>
                   <p className="text-[#1E293B] dark:text-[#CBD5E1]"><MathText text={PLAIN_LANGUAGE_SUMMARY} /></p>
                 </div>
 
@@ -974,14 +973,14 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
             </>
           )}
 
-          {/* GOVERNANCE & VERSION CHANGE LOG */}
+          {/* GOVERNANCE DISCLOSURES */}
           {showGovernance && (
             <>
               {readingMode === 'continuous' && (
                 <div className="igrt-page-break-banner print:hidden" aria-hidden="true">
                   <span className="h-px flex-1 bg-[#D6CABE] dark:bg-[#334155]" />
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#8B4513] dark:text-[#FDBA74] px-2">
-                    New Page · Governance &amp; Change Log
+                    New Page · Governance Disclosures
                   </span>
                   <span className="h-px flex-1 bg-[#D6CABE] dark:bg-[#334155]" />
                 </div>
@@ -995,7 +994,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                     Research Integrity &amp; Governance
                   </div>
                   <h2 style={{ fontSize: 'var(--igrt-h2-size)', lineHeight: 1.2 }}>
-                    Governance Disclosures &amp; Version Change Log
+                    Governance Disclosures
                   </h2>
                 </div>
 
@@ -1017,33 +1016,6 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
 
                   <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>Data &amp; Code Availability</h3>
                   <p>{ETHICS_AND_GOVERNANCE.dataAndCodeAvailability}</p>
-
-                  <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>AI-Assistance Statement</h3>
-                  <p>{ETHICS_AND_GOVERNANCE.aiAssistanceDisclosure}</p>
-                </div>
-
-                <div className="space-y-4 pt-6 border-t border-[#EAE2D2] dark:border-[#1E293B]">
-                  <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>Version Change Log</h3>
-                  <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155]">
-                    <table className="w-full text-left igrt-tabular" style={{ fontSize: '14px', lineHeight: 1.52 }}>
-                      <thead className="bg-[#FAF6EE] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
-                        <tr>
-                          <th className="p-3 font-normal">Version</th>
-                          <th className="p-3 font-normal">Date</th>
-                          <th className="p-3 font-normal">Summary of Revisions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
-                        {VERSION_CHANGE_LOG.map((v) => (
-                          <tr key={v.version}>
-                            <td className="p-3 font-mono text-[#8B4513] dark:text-[#FB923C] whitespace-nowrap">{v.version}</td>
-                            <td className="p-3 whitespace-nowrap">{v.date}</td>
-                            <td className="p-3"><MathText text={v.summary} /></td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
                 </div>
               </section>
             </>

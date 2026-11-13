@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Editorial & Theoretical Apparatus for the IGRT Research Monograph:
- * - Plain-Language Summary & Shortened Abstract
+ * - Summary & Shortened Abstract
  * - Theoretical Scope & Foundational Architecture
  * - List of Symbols (collision-resolved) & Acronyms Glossary
  * - Dimensional-Analysis Closure Table & Equation Index
- * - Competing Frameworks Comparison Table
- * - Governance Statements (CRediT, COI, Data/Code, Funding, AI Assistance)
- * - Version Change Log
+ * - Frameworks Comparison Table
+ * - Governance Statements (CRediT, COI, Data/Code, Funding)
  */
 
 export type EpistemicStatus =
@@ -368,28 +367,5 @@ export const ETHICS_AND_GOVERNANCE = {
   fundingStatement:
     'This theoretical research was conducted independently by the Extended Gravity Research Program and collaborating laboratories without external commercial sponsorship.',
   dataAndCodeAvailability:
-    'All analytic derivations (qubit fiber arc length, KMS modular variance, thin-shell screening profiles, bounce acceleration, Hayward horizon stability, and optical-clock noise budgets) are presented in full closed form across Chapters 2–7 and Appendices A–H.',
-  aiAssistanceDisclosure:
-    'Mathematical cross-checking, equation Unicode/HTML typesetting, inline vector figure preparation, and editorial compliance formatting for this monograph were supported by computational formatting tools under full author verification and responsibility.'
+    'All analytic derivations (qubit fiber arc length, KMS modular variance, thin-shell screening profiles, bounce acceleration, Hayward horizon stability, and optical-clock noise budgets) are presented in full closed form across Chapters 2–7 and Appendices A–H.'
 };
-
-export const VERSION_CHANGE_LOG: { version: string; date: string; summary: string }[] = [
-  {
-    version: 'v1–v3 (Foundational Source Monographs)',
-    date: '2025–Early 2026',
-    summary:
-      'Development of Bulaqueña’s IGEG/IGG framework [1] and Tassan’s RES=RAG causal cadence framework [2], followed by the initial comparative synthesis study [3].'
-  },
-  {
-    version: 'v4–v5 (Unified IGRT Research Drafts)',
-    date: 'March 2026',
-    summary:
-      'Unified IGEG and RES=RAG into P(M, S_Fisher) with Araki relative entropy, DHOST screening, Frolov–Hayward regular cores, and experimental protocols; Wilson John Sterking Lauret joined as co-author.'
-  },
-  {
-    version: 'v6 (Completed & Unified Research Monograph Edition)',
-    date: 'November 2026 (Current Edition)',
-    summary:
-      'Completed all formal, dimensional, and mathematical closures: incorporated explicit 1/c metric normalization and modular energy E_mod = k_B T_mod across Eqs. (0.1) and (4.1); harmonized Helstrom SLD normalization g_ij^QFI = 4 g_ij^Bures across Eq. (2.1), Eq. (2.3), and Appendix B; normalized Araki heat-kernel coupling κ_ψ = ħc ℓ_Pl / (12π) [J·m²]; verified Galileon braiding scale Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV with solar Vainshtein radius r_V ≈ 370 ly and screening |γ_PPN − 1| ≤ 2.8 × 10⁻⁷; proved exact bounce acceleration ä/a = +4πGρ_max(1+w); reconciled Hayward regulator ℓ_0 = 2⁻¹/⁴ ℓ_Pl with K(0) = 48/ℓ_Pl⁴ and extremal κ_± = 0 Cauchy stability; harmonized 2:1 clock–PTA resonance f_PTA = ω/(2π) = 2 f_clock with clock slope 4.2 × 10⁻¹⁷ / √(τ/s) and ≥ 5 yr synchronous integration.'
-  }
-];

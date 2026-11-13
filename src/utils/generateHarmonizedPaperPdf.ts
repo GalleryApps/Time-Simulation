@@ -36,8 +36,7 @@ import {
   DIMENSIONAL_ANALYSIS_TABLE,
   EQUATION_INDEX,
   FRAMEWORKS_COMPARISON_TABLE,
-  ETHICS_AND_GOVERNANCE,
-  VERSION_CHANGE_LOG
+  ETHICS_AND_GOVERNANCE
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
 import {
@@ -1352,7 +1351,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   drawPlayfairHeadline('Table of Contents', 30, 0.16);
   drawRule([214, 202, 190], 0.008);
   writeRichParagraph(
-    'Summary, Symbols & Indices: Plain-Language Summary · Scope & Closures · Symbols · Acronyms · Dimensional Closure · Equation Index',
+    'Summary, Symbols & Indices: Summary · Scope & Closures · Symbols · Acronyms · Dimensional Closure · Equation Index',
     { size: 10.2, justify: true, afterSpace: 0.12 }
   );
   for (const ch of PAPER_CHAPTERS) {
@@ -1380,7 +1379,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     justify: false,
     afterSpace: 0.06
   });
-  writeRichParagraph(`Governance · Version Change Log · References [1]–[${PAPER_REFERENCES.length}]`, {
+  writeRichParagraph(`Governance Disclosures · References [1]–[${PAPER_REFERENCES.length}]`, {
     size: 10.2,
     style: 'bold',
     justify: false,
@@ -1670,10 +1669,10 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   }
 
   // =========================================================
-  // GOVERNANCE & VERSION CHANGE LOG
+  // GOVERNANCE DISCLOSURES
   // =========================================================
   startChapterOnNewPage();
-  drawPlayfairHeadline('Governance Disclosures & Version Change Log', 28, 0.18);
+  drawPlayfairHeadline('Governance Disclosures', 28, 0.18);
   for (const c of ETHICS_AND_GOVERNANCE.creditRoles) {
     writeRichParagraph(c.roles, { prefixBold: `${c.author}: `, size: 10.4, afterSpace: 0.06 });
   }
@@ -1687,24 +1686,9 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   });
   writeRichParagraph(ETHICS_AND_GOVERNANCE.dataAndCodeAvailability, {
     prefixBold: 'Data & Code Availability: ',
-    size: 10.4
-  });
-  writeRichParagraph(ETHICS_AND_GOVERNANCE.aiAssistanceDisclosure, {
-    prefixBold: 'AI-Assistance Disclosure: ',
     size: 10.4,
     afterSpace: 0.16
   });
-
-  drawPdfTable(
-    'VERSION CHANGE LOG',
-    [
-      { header: 'Version', width: 0.9, font: 'mono', color: [139, 69, 19] },
-      { header: 'Date', width: 1.05 },
-      { header: 'Summary of Revisions', width: CONTENT_W - 1.95, justify: true }
-    ],
-    VERSION_CHANGE_LOG.map((v) => [v.version, v.date, v.summary]),
-    { cellSize: 8.4 }
-  );
 
   // =========================================================
   // CITED VERSION & REFERENCES [1]–[91] (NO ORCIDs IN REFERENCES)

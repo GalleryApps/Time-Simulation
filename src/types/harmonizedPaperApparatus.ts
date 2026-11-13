@@ -24,7 +24,7 @@ export const PLAIN_LANGUAGE_SUMMARY =
 export const SHORTENED_ABSTRACT = {
   paragraphs: [
     'Canonical quantum gravity encounters the Wheeler–DeWitt Problem of Time (Ĥ_total Ψ = 0), in which diffeomorphism-invariant physical states exhibit no external parameter evolution. We formulate Information-Geometric Resonant Time (IGRT) as a principal statistical fiber bundle P(M, S_Fisher) over a four-dimensional pseudo-Riemannian Lorentzian base manifold (M, g_μν) of signature (−,+,+,+). All four spacetime causal dimensions remain intact, while infinitesimal proper duration dτ = (1/c)√(−g_μν ẋ^μ ẋ^ν) dλ along any timelike worldline equals the Symmetric Logarithmic Derivative (SLD) quantum Fisher–Rao state arc length normalized by local Tomita–Takesaki modular dispersion σ(K_ξ) and local KMS modular energy scale E_mod = k_B T_mod, integrating over N discrete causal steps to Δτ = τ_0 ∑_{k=1}^N ‖RAG_k − RES_k‖_F.',
-    'The dynamical scalar density ψ²(x) is derived from hyperfinite Type III₁ Araki relative entropy on local causal diamonds with κ_ψ = ħc ℓ_Pl / (12π) and embedded within a shift-symmetric degenerate higher-order scalar–tensor (DHOST) action (det M_ab = 0) guaranteeing second-order field equations, contracted Bianchi conservation, and luminal tensor propagation c_GW = c. Unified infrared Vainshtein–Chameleon screening at Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV yields r_V = (r_s M̄_Pl / Λ_3³)^{1/3} ≈ 370 ly and satisfies |γ_PPN − 1| ≤ 2.8 × 10⁻⁷, while curvature saturation resolves the FLRW bounce acceleration ä/a = +4πG ρ_max(1 + w) and stabilizes extremal Hayward black-hole remnants at ℓ_0 = 2⁻¹/⁴ ℓ_Pl. Quantitative observables span thawing dark energy w(z), ringdown echoes, and synchronous multi-year 2:1 optical-clock–pulsar-timing cross-correlations.'
+    'The dynamical scalar density ψ²(x) is derived from hyperfinite Type III₁ Araki relative entropy on local causal diamonds with κ_ψ = ħc ℓ_Pl / (12π) and embedded within a shift-symmetric degenerate higher-order scalar–tensor (DHOST) action (det M_ab = 0) guaranteeing second-order field equations, contracted Bianchi conservation, and luminal tensor propagation c_GW = c. Unified infrared Vainshtein–Chameleon screening at Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV yields r_V = (γ r_s M̄_Pl / Λ_3³)^{1/3} ≈ 370 ly (γ ≈ 0.83) and satisfies |γ_PPN − 1| ≤ 2.8 × 10⁻⁷, while curvature saturation resolves the FLRW bounce acceleration ä/a = +4πG ρ_max(1 + w) and stabilizes extremal Hayward black-hole remnants at ℓ_0 = 2⁻¹/⁴ ℓ_Pl. Quantitative observables span thawing dark energy w(z), ringdown echoes, and synchronous multi-year 2:1 optical-clock–pulsar-timing cross-correlations.'
   ]
 };
 
@@ -42,7 +42,7 @@ export const SCOPE_AND_NON_CLAIMS: { title: string; detail: string }[] = [
   {
     title: '3. Complete Dimensional & Parameter Closure',
     detail:
-      'All coupling scales (κ_ψ, γ, β, Λ_3, f_ψ, λ_ψ, ℓ_0, and E_mod) are explicitly normalized in Table 0.2 and Appendix H: E_mod = k_B T_mod restores exact seconds in Eq. (4.1), κ_ψ = ħc ℓ_Pl / (12π) restores exact scalar energy density units [GeV²], Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV unifies cosmic dark energy with Vainshtein–Chameleon Solar-System screening (|γ_PPN − 1| ≤ 2.8 × 10⁻⁷), and the regulator length ℓ_0 = 2⁻¹/⁴ ℓ_Pl reconciles K(0) = 24/ℓ_0⁴ = 48/ℓ_Pl⁴.'
+      'All coupling scales (κ_ψ, γ, β, Λ_3, f_ψ, V_0, ℓ_0, and E_mod) are explicitly normalized in Table 0.2 and Appendix H (Table H.1): E_mod = k_B T_mod restores exact seconds in Eq. (4.1), κ_ψ = ħc ℓ_Pl / (12π) restores exact scalar density units [J·m²] (natural GeV⁻¹), Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV unifies cosmic dark energy with Vainshtein–Chameleon Solar-System screening (|γ_PPN − 1| ≤ 2.8 × 10⁻⁷), V_0 ≈ 2.72 × 10⁻¹¹ eV⁴ with f_ψ ~ M̄_Pl yields m_ψ ~ 10⁻³³ eV, and regulator ℓ_0 = 2⁻¹/⁴ ℓ_Pl reconciles K(0) = 24/ℓ_0⁴ = 48/ℓ_Pl⁴.'
   },
   {
     title: '4. Coherent Two-Scale Effective Field Theory Spectrum',
@@ -96,13 +96,41 @@ export const LIST_OF_SYMBOLS: SymbolEntry[] = [
   {
     symbol: 'ψ(x) vs Ψ',
     name: 'ψ(x): scalar field (√Araki entropy density); Ψ: canonical state functional / vector',
-    units: 'ψ in eV (or √(J/m³) in SI); Ψ dimensionless functional',
+    units: 'ψ in eV (or √(J/m) in SI); Ψ dimensionless functional',
     collisionNote: 'Lowercase ψ strictly denotes scalar field; uppercase Ψ strictly denotes quantum state functional',
     firstDefined: '§1.1, §3.2'
   },
   {
+    symbol: 'q_ab, N, N^a',
+    name: 'ADM spatial 3-metric on Σ_t (a, b ∈ {1,2,3}), lapse function N, and shift vector N^a',
+    units: 'q_ab dimensionless; N dimensionless (or s); N^a dimensionless (or m/s)',
+    collisionNote: 'Latin indices a, b reserved for 3D ADM hypersurfaces, distinct from 4D Greek μ, ν and statistical i, j',
+    firstDefined: '§1.1, §5.2'
+  },
+  {
+    symbol: 'κ_ψ, γ, β',
+    name: 'Araki heat-kernel coefficient ħcℓ_Pl/(12π), O(1) Galileon braiding γ (≈ 0.83), matter trace coupling β',
+    units: 'κ_ψ in J·m² (GeV⁻¹); γ, β dimensionless',
+    collisionNote: 'Conformal coupling β is disambiguated from inverse temperature β_T = 1/(k_B T) and γ from γ_PPN and worldline γ',
+    firstDefined: '§3.1, §3.2, §3.4'
+  },
+  {
+    symbol: 'f_ψ, V_0',
+    name: 'PNGB cosine decay constant (~M̄_Pl) and infrared Hubble potential scale (~2.72 × 10⁻¹¹ eV⁴)',
+    units: 'f_ψ in eV; V_0 in eV⁴ (J/m³ in SI)',
+    collisionNote: 'Yields shift-protected dark-energy mass eigenvalue m_ψ = √(V_0)/f_ψ ≈ 2.1 × 10⁻³³ eV (~H_0)',
+    firstDefined: '§3.1, §7.1'
+  },
+  {
+    symbol: 'I_μν(ψ), T_μν',
+    name: 'Braided DHOST information-geometric stress tensor and symmetric matter Hilbert stress tensor',
+    units: 'J/m³ (GeV⁴ in natural units, or m⁻² in 8πG = 1 convention)',
+    collisionNote: 'Satisfy total on-shell contracted Bianchi conservation ∇^μ(T_μν + I_μν) ≡ 0 (Appendix A)',
+    firstDefined: '§3.3, Eq. (3.3)'
+  },
+  {
     symbol: 'Λ vs Λ_3 vs Λ_SO',
-    name: 'Λ: bare cosmological constant (m⁻²); Λ_3: Galileon scale (1.7 × 10⁻¹³ eV); Λ_SO: Lorentz boost',
+    name: 'Λ: bare cosmological constant (m⁻²); Λ_3: Galileon scale (1.75 × 10⁻¹³ eV); Λ_SO: Lorentz boost',
     units: 'Λ in m⁻²; Λ_3 in eV; Λ_SO ∈ SO(1,3) dimensionless',
     collisionNote: 'Subscripts strictly separate cosmological constant, EFT braiding scale, and Lorentz boosts',
     firstDefined: '§3.1, App. D'
@@ -125,7 +153,7 @@ export const LIST_OF_SYMBOLS: SymbolEntry[] = [
     symbol: 'S_Araki(ρ || σ)',
     name: 'Araki relative entropy on hyperfinite Type III₁ local von Neumann factor A(V)',
     units: 'Nats (dimensionless)',
-    collisionNote: 'Distinct from action functional S_IGRT and radiation entropy density S_rad',
+    collisionNote: 'Distinct from action functional S_IGRT, radiation entropy S_rad, and clustering amplitude S_8',
     firstDefined: '§3.2, Eq. (3.2)'
   },
   {
@@ -136,11 +164,46 @@ export const LIST_OF_SYMBOLS: SymbolEntry[] = [
     firstDefined: '§4.3, §4.4, §6.1'
   },
   {
-    symbol: 'r_V, ℓ_0, M_rem',
-    name: 'Solar Vainshtein screening radius (~370 ly), Hayward core length (2⁻¹/⁴ ℓ_Pl), extremal mass',
-    units: 'r_V, ℓ_0 in m (or ly); M_rem in kg (~2.38 × 10⁻⁸ kg)',
-    collisionNote: 'r_V governs macroscopic solar PPN screening; ℓ_0 regularizes interior BH curvature K(0) = 48/ℓ_Pl⁴',
+    symbol: 'Q_BRST, Δt_echo, 𝒦_echo',
+    name: 'Nilpotent BRST gauge charge (Q_BRST² = 0), logarithmic echo delay, and core reflectivity',
+    units: 'Q_BRST dimensionless; Δt_echo in ms; 𝒦_echo ≈ 0.18 dimensionless',
+    collisionNote: '𝒦_echo is distinct from Kretschmann invariant K(r) and modular generator K_ξ',
+    firstDefined: '§5.2, §7.3 (P4)'
+  },
+  {
+    symbol: 'ρ_max, w(z), S_8',
+    name: 'FLRW saturation density (~0.41 ρ_Pl), thawing dark-energy EoS w(z), weak-lensing clustering S_8',
+    units: 'ρ_max in kg m⁻³ (GeV⁴ natural); w(z), S_8 dimensionless',
+    collisionNote: 'Subscripted ρ_max (energy/mass saturation) is distinct from density operator ρ(θ)',
+    firstDefined: '§6.1, §7.1'
+  },
+  {
+    symbol: 'n_s, η_T, f_NL^eq, ξ_1',
+    name: 'Scalar spectral index, blue tensor tilt, equilateral non-Gaussianity, and odd-parity LIV parameter',
+    units: 'Dimensionless cosmological / dispersion parameters',
+    collisionNote: 'CP parity enforces ξ_1 = 0, confining Planck dispersion corrections to quadratic order',
+    firstDefined: '§6.2, §7.2, P3'
+  },
+  {
+    symbol: 'r_V, ℓ_0, κ_±, M_rem',
+    name: 'Solar Vainshtein radius (~370 ly), Hayward core length (2⁻¹/⁴ ℓ_Pl), horizon surface gravities, extremal mass',
+    units: 'r_V, ℓ_0 in m (or ly); κ_± = c|f\'(r_±)|/2 in s⁻¹ (m⁻¹ in c = 1); M_rem ≈ 2.38 × 10⁻⁸ kg',
+    collisionNote: 'r_V governs Solar-System PPN screening; κ_± → 0 extinguishes inner Cauchy mass inflation at r_* = √3 ℓ_0',
     firstDefined: '§3.1, §6.3, App. E'
+  },
+  {
+    symbol: 'S_gen, τ_Page',
+    name: 'Generalized QES island entropy Area(∂I)/(4Għ) + S_bulk and Page turnover time',
+    units: 'S_gen dimensionless (nats/k_B); τ_Page in s',
+    collisionNote: 'Island extremization recovers unitary Page turnover along Hayward black-hole evaporation',
+    firstDefined: '§6.4'
+  },
+  {
+    symbol: 'Γ_decohere, η_Araki',
+    name: 'Entanglement-gradient matter-wave decoherence rate & Araki/Diósi–Penrose ratio (1.34)',
+    units: 'Γ_decohere in s⁻¹; η_Araki dimensionless',
+    collisionNote: 'Probed in 10m VLBAI interferometry at Δx > 15 cm (Protocol P2)',
+    firstDefined: '§1.3, §7.3 (P2)'
   },
   {
     symbol: 'Φ_portal, m_portal',
@@ -155,37 +218,47 @@ export const ACRONYMS_GLOSSARY: { term: string; expansion: string; definition: s
   { term: 'ADM', expansion: 'Arnowitt–Deser–Misner', definition: '3+1 canonical Hamiltonian decomposition of spacetime into spatial 3-metrics q_ab, lapse N, and shift N^a.' },
   { term: 'AQFT', expansion: 'Algebraic Quantum Field Theory', definition: 'Haag–Kastler axiomatic framework assigning local von Neumann operator algebras A(V) to bounded spacetime regions V.' },
   { term: 'BAO', expansion: 'Baryon Acoustic Oscillations', definition: 'Frozen primordial acoustic scale imprinted in large-scale galaxy clustering used by DESI and BOSS.' },
+  { term: 'BBR', expansion: 'Blackbody Radiation', definition: 'Ambient thermal photon field contributing systematic Zeeman/Stark frequency shifts in optical lattice clocks.' },
   { term: 'BRST', expansion: 'Becchi–Rouet–Stora–Tyutin', definition: 'Nilpotent Grassmann-odd gauge symmetry Q_BRST² = 0 extracting physical cohomology Ker(Q)/Im(Q).' },
   { term: 'CMB', expansion: 'Cosmic Microwave Background', definition: 'Relic thermal photon radiation and polarization (E/B modes) decoupled at recombination z ≈ 1090.' },
+  { term: 'CODATA', expansion: 'Committee on Data of the International Science Council', definition: 'International standard reference values for fundamental physical constants (c, ħ, G, k_B).' },
   { term: 'CPTP', expansion: 'Completely Positive Trace-Preserving', definition: 'Class of physical quantum channels mapping density operators validly even when entangled with ancillae.' },
   { term: 'CTC', expansion: 'Closed Timelike Curve', definition: 'Worldline returning to its own causal past; excluded in globally hyperbolic causal posets.' },
   { term: 'DHOST', expansion: 'Degenerate Higher-Order Scalar–Tensor', definition: 'Scalar–tensor gravity actions with degenerate kinetic Hessian det(M_ab) = 0 evading Ostrogradsky ghosts.' },
+  { term: 'EFT', expansion: 'Effective Field Theory', definition: 'Scale-separated quantum field description valid below a physical ultraviolet cutoff scale.' },
   { term: 'FLRW', expansion: 'Friedmann–Lemaître–Robertson–Walker', definition: 'Homogeneous and isotropic cosmological spacetime metric parameterized by scale factor a(t).' },
+  { term: 'GR / QM', expansion: 'General Relativity / Quantum Mechanics', definition: 'Relativistic geometric gravity and unitary Hilbert-space dynamics unified in IGRT.' },
   { term: 'GW', expansion: 'Gravitational Wave', definition: 'Transverse-traceless metric tensor perturbation h_μν propagating at speed c_GW.' },
+  { term: 'HL-LHC', expansion: 'High-Luminosity Large Hadron Collider', definition: 'CERN √s = 14 TeV proton–proton upgrade targeting 3000 fb⁻¹ integrated luminosity for Higgs-portal tests.' },
   { term: 'IGEG / IGG', expansion: 'Information-Geometric Extended Gravity / Information Geometric Gradient', definition: 'Foundational gravity-entropy framework introduced in Ref. [1] by Bulaqueña.' },
   { term: 'IGRT', expansion: 'Information-Geometric Resonant Time', definition: 'Unified principal fiber bundle framework synthesizing Refs. [1] and [2] presented in this monograph.' },
+  { term: 'IPTA', expansion: 'International Pulsar Timing Array', definition: 'Combined NANOGrav, EPTA/InPTA, and PPTA nanohertz pulsar timing consortium.' },
   { term: 'KMS', expansion: 'Kubo–Martin–Schwinger', definition: 'Thermal equilibrium analyticity condition satisfied by modular automorphism groups on von Neumann algebras.' },
   { term: 'LIV', expansion: 'Lorentz Invariance Violation', definition: 'Modified dispersion deviations beyond standard relativistic kinematics; restricted in IGRT to quadratic order (ξ_1 = 0).' },
+  { term: 'LQC / LQG', expansion: 'Loop Quantum Cosmology / Loop Quantum Gravity', definition: 'Background-independent spin-network quantization exhibiting symmetry-reduced cosmological bounce density ρ_max.' },
   { term: 'PNGB', expansion: 'Pseudo-Nambu–Goldstone Boson', definition: 'Scalar field with approximate continuous shift symmetry ψ → ψ + c suppressing perturbative mass corrections.' },
+  { term: 'POVM', expansion: 'Positive Operator-Valued Measure', definition: 'Generalized quantum measurement framework permitting covariant Holevo time observables.' },
   { term: 'PPN', expansion: 'Parameterized Post-Newtonian', definition: 'Weak-field Solar System gravity test parameters, notably Shapiro/light-deflection γ_PPN.' },
-  { term: 'PTA', expansion: 'Pulsar Timing Array', definition: 'Galactic-scale nanohertz gravitational-wave detector monitoring millisecond pulsar arrival residuals (IPTA/NANOGrav/EPTA/PPTA).' },
+  { term: 'PTA', expansion: 'Pulsar Timing Array', definition: 'Galactic-scale nanohertz gravitational-wave detector monitoring millisecond pulsar arrival residuals.' },
   { term: 'QES', expansion: 'Quantum Extremal Surface', definition: 'Extremal surface minimizing generalized entropy S_gen to compute fine-grained Hawking radiation entropy along the Page curve.' },
   { term: 'QFI', expansion: 'Quantum Fisher Information', definition: 'Cramér–Rao state sensitivity metric g_ij^QFI defined via Symmetric Logarithmic Derivatives.' },
   { term: 'QNEC', expansion: 'Quantum Null Energy Condition', definition: 'Local semi-classical bound ⟨T_kk⟩ ≥ (ℏ/2π) S\'\'_out governing null focusing and entropy.' },
   { term: 'RES / RAG', expansion: 'Retentive Epistemic State / Resonant Active Generation', definition: 'Discrete causal step state-retention and novelty-generation operators from Tassan [2].' },
   { term: 'SLD', expansion: 'Symmetric Logarithmic Derivative', definition: 'Hermitian operator L_i solving ∂_i ρ = ½(ρ L_i + L_i ρ) yielding the Bures–Chentsov monotone metric.' },
+  { term: 'UV / IR', expansion: 'Ultraviolet / Infrared', definition: 'High-energy short-distance vs low-energy macroscopic regimes separated via Hadamard heat-kernel cancellation.' },
+  { term: 'VLBAI', expansion: 'Very Long Baseline Atom Interferometry', definition: '10-meter cryogenic matter-wave interferometry facility (Hannover) probing macroscopic decoherence.' },
   { term: 'WDW', expansion: 'Wheeler–DeWitt Equation', definition: 'Canonical quantum gravity Hamiltonian constraint Ĥ_total Ψ = 0 lacking explicit external coordinate time.' }
 ];
 
 export const LIST_OF_TABLES: { number: string; title: string; location: string }[] = [
-  { number: 'Table 0.1', title: 'List of Physical Symbols and Collision Disambiguations', location: 'Summary & Indices' },
-  { number: 'Table 0.2', title: 'Dimensional Closure Analysis of Core Quantities & Equations', location: 'Summary & Indices / App. G' },
+  { number: 'Table 0.1', title: 'List of Symbols and Collision Disambiguation Rules', location: 'Summary & Indices' },
+  { number: 'Table 0.2', title: 'Dimensional-Analysis Closure of Core Quantities & Equations', location: 'Summary & Indices / App. G' },
   { number: 'Table 0.3', title: 'Equation Index (0.1)–(8.1) and Appendices', location: 'Summary & Indices' },
-  { number: 'Table 1.1', title: 'Foundational Principles of IGRT (Principles I–VII)', location: '§1.4' },
-  { number: 'Table 7.1', title: 'Six Empirical & Observational Falsification Protocols (2026–2032+ Window)', location: '§7.3' },
+  { number: 'Table 1.1', title: 'Foundational Postulates of IGRT (Postulates I–VII)', location: '§1.4' },
+  { number: 'Table 7.1', title: 'Experimental & Observational Falsification Protocols (P1–P6, 2026–2032+)', location: '§7.3' },
   { number: 'Table 8.1', title: 'Comparison of IGRT With String Theory & Six Quantum-Gravity Approaches', location: '§8.1' },
-  { number: 'Table 8.2', title: 'Core Formal Theorems, Hypotheses & Derivation Summary', location: '§8.1' },
-  { number: 'Table H.1', title: 'Numerical & Parameter Closure Summary', location: 'Appendix H' }
+  { number: 'Table 8.2', title: 'Summary of Seven Core Formal Results', location: '§8.1' },
+  { number: 'Table H.1', title: 'Complete Numerical & Parameter Closure Summary', location: 'Appendix H' }
 ];
 
 export const DIMENSIONAL_ANALYSIS_TABLE: {
@@ -204,17 +277,17 @@ export const DIMENSIONAL_ANALYSIS_TABLE: {
   },
   {
     quantity: 'Scalar Field ψ(x) (EFT Density)',
-    expression: 'ψ²(x) = κ_ψ lim_{V→x} S_Araki / Vol(V)',
+    expression: 'ψ²(x) = κ_ψ lim_{V→x} S_Araki / Vol_3(V)',
     siUnits: 'ψ: √(J/m); κ_ψ = ħc ℓ_Pl / (12π) [J·m²]',
     naturalUnits: 'ψ: GeV; ψ²: GeV²; κ_ψ: GeV⁻¹',
-    auditNote: 'Heat-kernel normalization κ_ψ = ħc ℓ_Pl / (12π) [J·m²] multiplied by S_Araki/Vol_3(V) [m⁻³] recovers exact scalar gradient density [J/m] (natural [GeV²]).'
+    auditNote: 'κ_ψ [J·m²] × S_Araki/Vol_3(V) [m⁻³] gives exact field-squared ψ² [J/m] (natural [GeV²]), so kinetic term (∇ψ)² carries exact energy density [J/m³].'
   },
   {
     quantity: 'Galileon Braiding Scale Λ_3',
     expression: 'Λ_3 = (M̄_Pl H_0²)^{1/3}',
     siUnits: '2.80 × 10⁻³² J (equiv. 1.75 × 10⁻¹³ eV)',
     naturalUnits: '1.75 × 10⁻¹³ eV',
-    auditNote: 'Yields solar Vainshtein radius r_V = (r_s M̄_Pl / Λ_3³)^{1/3} = (r_s c² / H_0²)^{1/3} ≈ 370 ly and Solar-System screening |γ_PPN − 1| ≤ 2.8 × 10⁻⁷.'
+    auditNote: 'With coupling γ ≈ 0.83, yields solar Vainshtein radius r_V = (γ r_s M̄_Pl / Λ_3³)^{1/3} ≈ 370 ly (γ = 1 gives 393.5 ly) and Solar-System bound |γ_PPN − 1| ≤ 2.8 × 10⁻⁷.'
   },
   {
     quantity: 'Kretschmann Curvature R²',
@@ -222,6 +295,13 @@ export const DIMENSIONAL_ANALYSIS_TABLE: {
     siUnits: 'm⁻⁴',
     naturalUnits: 'GeV⁴',
     auditNote: 'Regulator identification ℓ_0 = 2⁻¹/⁴ ℓ_Pl ≈ 0.8409 ℓ_Pl unifies Hayward de Sitter core curvature with Planck upper bound.'
+  },
+  {
+    quantity: 'Ringdown Echo Delay (Δt_echo)',
+    expression: 'Δt_echo = (2 r_s / c) ln(r_s / ℓ_0)',
+    siUnits: '17.8 ms (10 M_⊙) / 109 ms (60 M_⊙)',
+    naturalUnits: 'GeV⁻¹',
+    auditNote: 'Evaluated directly from r_s = 2GM/c² and regulator ℓ_0 = 2⁻¹/⁴ ℓ_Pl ≈ 1.359 × 10⁻³⁵ m.'
   },
   {
     quantity: 'Planck Chronon τ_0',
@@ -367,5 +447,76 @@ export const ETHICS_AND_GOVERNANCE = {
   fundingStatement:
     'This theoretical research was conducted independently by the Extended Gravity Research Program and collaborating laboratories without external commercial sponsorship.',
   dataAndCodeAvailability:
-    'All analytic derivations (qubit fiber arc length, KMS modular variance, thin-shell screening profiles, bounce acceleration, Hayward horizon stability, and optical-clock noise budgets) are presented in full closed form across Chapters 2–7 and Appendices A–H.'
+    'All analytic derivations (qubit fiber arc length, KMS modular variance, thin-shell screening profiles, bounce acceleration, Hayward horizon stability, and optical-clock noise budgets) are presented in full closed form across Chapters 2–7 and Appendices A–J.'
 };
+
+export interface ParameterClosureRow {
+  parameter: string;
+  formula: string;
+  value: string;
+  regime: string;
+}
+
+export const TABLE_H1_CLOSURES: ParameterClosureRow[] = [
+  {
+    parameter: 'Araki Heat-Kernel Constant κ_ψ',
+    formula: 'κ_ψ = ħc ℓ_Pl / (12π)',
+    value: '1.355 × 10⁻⁶² J·m² (2.17 × 10⁻²⁰ GeV⁻¹)',
+    regime: 'Type III₁ UV-finite causal diamond limit (§3.2, App. C)'
+  },
+  {
+    parameter: 'Galileon Braiding Scale Λ_3',
+    formula: 'Λ_3 = (M̄_Pl H_0²)^{1/3}',
+    value: '1.758 × 10⁻¹³ eV (≈ 1.75 × 10⁻¹³ eV)',
+    regime: 'DHOST cubic braiding & IR cosmic expansion (§3.1)'
+  },
+  {
+    parameter: 'Solar Vainshtein Radius r_V',
+    formula: 'r_V = (γ r_s M̄_Pl / Λ_3³)^{1/3}',
+    value: '370 ly (γ ≈ 0.83); 393.5 ly (γ = 1)',
+    regime: 'Solar-System screening |γ_PPN − 1| ≤ 2.8 × 10⁻⁷ (§3.4)'
+  },
+  {
+    parameter: 'PNGB Dark-Energy Scales (V_0, f_ψ, m_ψ)',
+    formula: 'V_0 ≈ Ω_Λ·3 M̄_Pl² H_0², m_ψ = √(V_0)/f_ψ',
+    value: 'V_0 ≈ 2.72 × 10⁻¹¹ eV⁴; f_ψ ~ M̄_Pl; m_ψ ≈ 2.1 × 10⁻³³ eV',
+    regime: 'Shift-protected thawing w(z) = −0.982 + 0.018 z/(1+z) (§7.1)'
+  },
+  {
+    parameter: 'Spectral Higgs-Portal Mode Φ_portal',
+    formula: 'Connes spectral radial eigenvalue m_portal',
+    value: '1.84 ± 0.04 TeV (decoupled from ψ)',
+    regime: 'CERN HL-LHC √s = 14 TeV, 3000 fb⁻¹ (Protocol P6)'
+  },
+  {
+    parameter: 'FLRW Critical Bounce Density ρ_max',
+    formula: 'ρ_max = √3 / (32π² γ_BI³ G² ħ) (γ_BI ≈ 0.2375)',
+    value: '0.409 ρ_Pl (≈ 2.11 × 10⁹⁶ kg m⁻³)',
+    regime: 'Non-singular bounce ä/a = +4πGρ_max(1+w) (§6.1, App. E)'
+  },
+  {
+    parameter: 'Hayward Core Regulator & Remnant Mass',
+    formula: 'ℓ_0 = 2⁻¹/⁴ ℓ_Pl; M_rem = (3√3/4)(ℓ_0 c²/G)',
+    value: 'ℓ_0 ≈ 1.359 × 10⁻³⁵ m; M_rem ≈ 2.38 × 10⁻⁸ kg',
+    regime: 'K(0) = 48/ℓ_Pl⁴; r_* = √3 ℓ_0; κ_± → 0 stability (§6.3)'
+  },
+  {
+    parameter: 'Ringdown Echo Delays (Δt_echo, 𝒦_echo)',
+    formula: 'Δt_echo = (2 r_s / c) ln(r_s / ℓ_0)',
+    value: '17.8 ms (10 M_⊙) / 109 ms (60 M_⊙); 𝒦_echo ≈ 0.18',
+    regime: 'O5 & 3G (CE/ET) coherent post-merger stacking (Protocol P4)'
+  },
+  {
+    parameter: 'Primordial Bounce & Weak-Lensing Observables',
+    formula: 'ω² = k²(1 − k²/(a² M_Pl²)) + m_eff²',
+    value: 'n_s = 0.9649 ± 0.0042; r ≈ 0.0032; f_NL^eq = −3.2 ± 0.4; S_8 = 0.776',
+    regime: 'CMB low-ℓ polarimetry & DESI/KiDS/DES tests (§6.2, P3)'
+  },
+  {
+    parameter: '2:1 Clock–PTA Lock & Allan Floor',
+    formula: 'f_PTA = ω/(2π) = 2 f_clock; σ_y(τ) = 4.2×10⁻¹⁷/√(τ/s)',
+    value: 'f_clock = 6.4 nHz (T ≈ 4.95 yr); σ_y(10⁴ s) = 4.2 × 10⁻¹⁹; T_obs ≥ 5 yr',
+    regime: 'IPTA + JILA/PTB cryogenic ⁸⁷Sr cross-correlation (P1, App. F)'
+  }
+];
+

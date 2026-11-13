@@ -38,7 +38,8 @@ import {
   DIMENSIONAL_ANALYSIS_TABLE,
   EQUATION_INDEX,
   FRAMEWORKS_COMPARISON_TABLE,
-  ETHICS_AND_GOVERNANCE
+  ETHICS_AND_GOVERNANCE,
+  TABLE_H1_CLOSURES
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES, HarmonizedPaperFigure } from './HarmonizedPaperFigures';
 import { MathText } from './MathText';
@@ -312,6 +313,56 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
         </div>
       </div>
 
+      {/* MOBILE / TABLET QUICK-JUMP CHAPTER STRIP */}
+      <nav
+        aria-label="Section Quick Jump"
+        className="lg:hidden print:hidden sticky top-[76px] z-30 -mx-1 px-2 py-2 rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white/95 dark:bg-[#0B1530]/95 backdrop-blur-sm flex items-center gap-1.5 overflow-x-auto text-[11.5px] font-['Poppins'] shadow-xs"
+      >
+        <button
+          onClick={() => jumpToSection('frontmatter')}
+          className={`px-2.5 py-1 rounded-md whitespace-nowrap shrink-0 transition-colors ${
+            focusedAnchor === 'frontmatter'
+              ? 'bg-[#8B4513] dark:bg-[#EA580C] text-white font-medium'
+              : 'bg-[#FAF8F3] dark:bg-[#081026] text-[#475569] dark:text-[#CBD5E1]'
+          }`}
+        >
+          Summary
+        </button>
+        {PAPER_CHAPTERS.map((ch) => (
+          <button
+            key={ch.anchorId}
+            onClick={() => jumpToSection(ch.anchorId)}
+            className={`px-2.5 py-1 rounded-md whitespace-nowrap shrink-0 transition-colors ${
+              focusedAnchor === ch.anchorId
+                ? 'bg-[#8B4513] dark:bg-[#EA580C] text-white font-medium'
+                : 'bg-[#FAF8F3] dark:bg-[#081026] text-[#475569] dark:text-[#CBD5E1]'
+            }`}
+          >
+            Ch. {ch.number}
+          </button>
+        ))}
+        <button
+          onClick={() => jumpToSection('appendices')}
+          className={`px-2.5 py-1 rounded-md whitespace-nowrap shrink-0 transition-colors ${
+            focusedAnchor === 'appendices'
+              ? 'bg-[#8B4513] dark:bg-[#EA580C] text-white font-medium'
+              : 'bg-[#FAF8F3] dark:bg-[#081026] text-[#475569] dark:text-[#CBD5E1]'
+          }`}
+        >
+          App. A–J
+        </button>
+        <button
+          onClick={() => jumpToSection('references')}
+          className={`px-2.5 py-1 rounded-md whitespace-nowrap shrink-0 transition-colors ${
+            focusedAnchor === 'references'
+              ? 'bg-[#8B4513] dark:bg-[#EA580C] text-white font-medium'
+              : 'bg-[#FAF8F3] dark:bg-[#081026] text-[#475569] dark:text-[#CBD5E1]'
+          }`}
+        >
+          Refs [{PAPER_REFERENCES.length}]
+        </button>
+      </nav>
+
       {/* GRID: SIDEBAR TOC + SCOPED .igrt-monograph BODY */}
       <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 items-start">
         {/* STICKY SIDEBAR TABLE OF CONTENTS */}
@@ -553,7 +604,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
 
               {/* Table 0.1: List of Symbols */}
               <div className="space-y-3">
-                <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>Table 0.1: List of Symbols &amp; Collision Rules</h3>
+                <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>Table 0.1: List of Symbols &amp; Collision Disambiguation</h3>
                 <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155]">
                   <table className="w-full text-left igrt-tabular" style={{ fontSize: '14px', lineHeight: 1.52 }}>
                     <thead className="bg-[#FAF6EE] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
@@ -567,7 +618,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                     <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
                       {LIST_OF_SYMBOLS.map((sym) => (
                         <tr key={sym.symbol}>
-                          <td className="p-3 font-mono text-[#8B4513] dark:text-[#FB923C] whitespace-nowrap">
+                          <td className="p-3 font-mono text-[#8B4513] dark:text-[#FB923C] min-w-[130px]">
                             <MathText text={sym.symbol} />
                           </td>
                           <td className="p-3"><MathText text={sym.name} /></td>
@@ -642,6 +693,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                         <th className="p-3 font-normal">Eq.</th>
                         <th className="p-3 font-normal">Title</th>
                         <th className="p-3 font-normal">Section</th>
+                        <th className="p-3 font-normal">Status</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
@@ -649,7 +701,8 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                         <tr key={eq.label}>
                           <td className="p-3 font-mono text-[#8B4513] dark:text-[#FB923C] tabular-nums whitespace-nowrap">{eq.label}</td>
                           <td className="p-3"><MathText text={eq.title} /></td>
-                          <td className="p-3"><MathText text={eq.section} /></td>
+                          <td className="p-3 whitespace-nowrap"><MathText text={eq.section} /></td>
+                          <td className="p-3 font-mono text-[12.5px] text-[#475569] dark:text-[#94A3B8] whitespace-nowrap">{eq.status}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -783,11 +836,14 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                       {sub.anchorId === 'sec-1-4' && (
                         <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] my-7">
                           <table className="w-full text-left igrt-tabular" style={{ fontSize: '14px', lineHeight: 1.52 }}>
-                            <thead className="bg-[#FAF6EE] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                            <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
+                              Table 1.1: Foundational Postulates of IGRT (Postulates I–VII)
+                            </caption>
+                            <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
                               <tr>
-                                <th className="p-3 font-normal">Principle</th>
+                                <th className="p-3 font-normal">Postulate</th>
                                 <th className="p-3 font-normal">Name</th>
-                                <th className="p-3 font-normal">Statement</th>
+                                <th className="p-3 font-normal">Formal Statement</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
@@ -808,12 +864,15 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                         <div className="space-y-6 my-5">
                           <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155]">
                             <table className="w-full text-left igrt-tabular" style={{ fontSize: '14px', lineHeight: 1.52 }}>
-                              <thead className="bg-[#FAF6EE] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                              <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
+                                Table 7.1: Experimental &amp; Observational Falsification Protocols (P1–P6)
+                              </caption>
+                              <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
                                 <tr>
                                   <th className="p-3 font-normal">ID</th>
                                   <th className="p-3 font-normal">Protocol &amp; Facility</th>
-                                  <th className="p-3 font-normal">Observable &amp; Signal Budget</th>
-                                  <th className="p-3 font-normal">Falsification</th>
+                                  <th className="p-3 font-normal">Observable, Signal Budget &amp; Audit</th>
+                                  <th className="p-3 font-normal">Falsification Criterion</th>
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
@@ -847,7 +906,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                           <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155]">
                             <table className="w-full text-left igrt-tabular" style={{ fontSize: '13.5px', lineHeight: 1.5 }}>
                               <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
-                                Table 8.1: Comparison With Competing Approaches to the Problem of Time
+                                Table 8.1: Comparison of IGRT With String Theory &amp; Six Quantum-Gravity Approaches
                               </caption>
                               <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
                                 <tr>
@@ -855,6 +914,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                                   <th className="p-3 font-normal">Key Mechanism</th>
                                   <th className="p-3 font-normal">4D Lorentzian</th>
                                   <th className="p-3 font-normal">WDW Unfreezing</th>
+                                  <th className="p-3 font-normal">Singularity Status</th>
                                   <th className="p-3 font-normal">Open Limitations</th>
                                 </tr>
                               </thead>
@@ -865,6 +925,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                                     <td className="p-3"><MathText text={row.keyMechanism} /></td>
                                     <td className="p-3"><MathText text={row.preserves4DLorentzian} /></td>
                                     <td className="p-3"><MathText text={row.wdwUnfreezing} /></td>
+                                    <td className="p-3"><MathText text={row.singularityStatus} /></td>
                                     <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={row.openLimitations} /></td>
                                   </tr>
                                 ))}
@@ -875,12 +936,13 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                           <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155]">
                             <table className="w-full text-left igrt-tabular" style={{ fontSize: '14px', lineHeight: 1.52 }}>
                               <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
-                                Table 8.2: Summary of Core Formal Results
+                                Table 8.2: Summary of Seven Core Formal Results
                               </caption>
                               <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
                                 <tr>
                                   <th className="p-3 font-normal">Result</th>
                                   <th className="p-3 font-normal">Domain</th>
+                                  <th className="p-3 font-normal">Status</th>
                                   <th className="p-3 font-normal">Summary</th>
                                 </tr>
                               </thead>
@@ -889,6 +951,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                                   <tr key={t.id}>
                                     <td className="p-3"><MathText text={t.title} /></td>
                                     <td className="p-3">{t.domain}</td>
+                                    <td className="p-3 font-mono text-[12.5px] text-[#475569] dark:text-[#94A3B8] whitespace-nowrap">{t.status}</td>
                                     <td className="p-3"><MathText text={t.summary} /></td>
                                   </tr>
                                 ))}
@@ -957,7 +1020,8 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                       <div key={idx} className="igrt-eq-box dark:bg-[#0B1530] dark:border-[#334155]">
                         <div className="flex items-center justify-between gap-4 overflow-x-auto">
                           <div
-                            className="flex-1 text-center"
+                            className="flex-1 text-center leading-[1.45]"
+                            style={{ fontSize: '0.96em' }}
                             dangerouslySetInnerHTML={{ __html: eq.unicodeHtml }}
                           />
                           {eq.label && (
@@ -966,6 +1030,33 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                         </div>
                       </div>
                     ))}
+                    {app.letter === 'H' && (
+                      <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] mt-4 bg-white dark:bg-[#0B1530]">
+                        <table className="w-full text-left igrt-tabular" style={{ fontSize: '13.5px', lineHeight: 1.5 }}>
+                          <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
+                            Table H.1: Complete Numerical &amp; Parameter Closure Summary
+                          </caption>
+                          <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                            <tr>
+                              <th className="p-3 font-normal">Parameter / Scale</th>
+                              <th className="p-3 font-normal">Defining Relation</th>
+                              <th className="p-3 font-normal">Numerical Value</th>
+                              <th className="p-3 font-normal">Regime / Protocol</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
+                            {TABLE_H1_CLOSURES.map((row) => (
+                              <tr key={row.parameter}>
+                                <td className="p-3 font-medium"><MathText text={row.parameter} /></td>
+                                <td className="p-3 font-mono text-[12.5px]"><MathText text={row.formula} /></td>
+                                <td className="p-3"><MathText text={row.value} /></td>
+                                <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={row.regime} /></td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -1042,7 +1133,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                     Scholarly Literature ({PAPER_REFERENCES.length} Citations in Numeric Order of Appearance)
                   </div>
                   <h2 style={{ fontSize: 'var(--igrt-h2-size)', lineHeight: 1.2 }}>
-                    References &amp; Cited Version
+                    References
                   </h2>
                 </div>
 

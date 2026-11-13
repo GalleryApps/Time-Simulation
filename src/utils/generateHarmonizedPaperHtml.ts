@@ -32,7 +32,8 @@ import {
   DIMENSIONAL_ANALYSIS_TABLE,
   EQUATION_INDEX,
   FRAMEWORKS_COMPARISON_TABLE,
-  ETHICS_AND_GOVERNANCE
+  ETHICS_AND_GOVERNANCE,
+  TABLE_H1_CLOSURES
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
 import { formatMathToHtml, formatSvgMathMarkup } from './formatMathUnicode';
@@ -95,8 +96,8 @@ export function buildSelfContainedMonographHtml(): string {
         let specialTables = '';
         if (sub.anchorId === 'sec-1-4') {
           specialTables += `<table class="data-table">
-  <caption>Table 1.1: Foundational Principles of Information-Geometric Resonant Time</caption>
-  <thead><tr><th>Principle</th><th>Name</th><th>Statement</th></tr></thead>
+  <caption>Table 1.1: Foundational Postulates of IGRT (Postulates I–VII)</caption>
+  <thead><tr><th>Postulate</th><th>Name</th><th>Formal Statement</th></tr></thead>
   <tbody>${PAPER_POSTULATES.map(
     (p) =>
       `<tr><td>${fmt(p.code)}</td><td>${fmt(p.name)}</td><td>${fmt(p.statement)}</td></tr>`
@@ -106,7 +107,7 @@ export function buildSelfContainedMonographHtml(): string {
 
         if (sub.anchorId === 'sec-7-3') {
           specialTables += `<table class="data-table">
-  <caption>Table 7.1: Six Experimental &amp; Observational Protocols (2026–2032+ Window)</caption>
+  <caption>Table 7.1: Experimental &amp; Observational Falsification Protocols (P1–P6)</caption>
   <thead><tr><th>ID</th><th>Protocol &amp; Facility</th><th>Observable Formula</th><th>Signal Budget &amp; Falsification Criterion</th></tr></thead>
   <tbody>${AUDITED_TEST_PROTOCOLS.map(
     (pr) =>
@@ -118,18 +119,18 @@ export function buildSelfContainedMonographHtml(): string {
         if (sub.anchorId === 'sec-8-1') {
           specialTables += `<table class="data-table">
   <caption>Table 8.1: Comparison of IGRT With String Theory &amp; Six Quantum-Gravity Approaches</caption>
-  <thead><tr><th>Framework</th><th>Mechanism</th><th>4D Lorentzian</th><th>WDW Unfreezing</th><th>Open Limitations</th></tr></thead>
+  <thead><tr><th>Framework</th><th>Key Mechanism</th><th>4D Lorentzian</th><th>WDW Unfreezing</th><th>Singularity Status</th><th>Open Limitations</th></tr></thead>
   <tbody>${FRAMEWORKS_COMPARISON_TABLE.map(
     (r) =>
-      `<tr><td>${fmt(r.framework)}</td><td>${fmt(r.keyMechanism)}</td><td>${fmt(r.preserves4DLorentzian)}</td><td>${fmt(r.wdwUnfreezing)}</td><td>${fmt(r.openLimitations)}</td></tr>`
+      `<tr><td>${fmt(r.framework)}</td><td>${fmt(r.keyMechanism)}</td><td>${fmt(r.preserves4DLorentzian)}</td><td>${fmt(r.wdwUnfreezing)}</td><td>${fmt(r.singularityStatus)}</td><td>${fmt(r.openLimitations)}</td></tr>`
   ).join('')}</tbody>
 </table>
 <table class="data-table">
-  <caption>Table 8.2: Core Formal Results Summary</caption>
-  <thead><tr><th>Result</th><th>Domain</th><th>Summary</th></tr></thead>
+  <caption>Table 8.2: Summary of Seven Core Formal Results</caption>
+  <thead><tr><th>Result</th><th>Domain</th><th>Status</th><th>Summary</th></tr></thead>
   <tbody>${AUDITED_CLOSURE_THEOREMS.map(
     (t) =>
-      `<tr><td>${fmt(t.title)}</td><td>${fmt(t.domain)}</td><td>${fmt(t.summary)}</td></tr>`
+      `<tr><td>${fmt(t.title)}</td><td>${fmt(t.domain)}</td><td>${fmt(t.status)}</td><td>${fmt(t.summary)}</td></tr>`
   ).join('')}</tbody>
 </table>`;
         }
@@ -176,6 +177,18 @@ export function buildSelfContainedMonographHtml(): string {
       (e) => `<div class="eq-box"><div class="eq-row"><div class="eq-main">${e.unicodeHtml}</div><div class="eq-num">${fmt(e.label || '')}</div></div></div>`
     )
     .join('')}
+  ${
+    app.letter === 'H'
+      ? `<table class="data-table">
+  <caption>Table H.1: Complete Numerical &amp; Parameter Closure Summary</caption>
+  <thead><tr><th>Parameter / Scale</th><th>Defining Relation</th><th>Numerical Value</th><th>Regime / Protocol</th></tr></thead>
+  <tbody>${TABLE_H1_CLOSURES.map(
+    (row) =>
+      `<tr><td>${fmt(row.parameter)}</td><td>${fmt(row.formula)}</td><td>${fmt(row.value)}</td><td>${fmt(row.regime)}</td></tr>`
+  ).join('')}</tbody>
+</table>`
+      : ''
+  }
 </div>`
   ).join('\n');
 
@@ -398,6 +411,13 @@ export function buildSelfContainedMonographHtml(): string {
     padding: 16px;
     border-radius: 6px;
   }
+  figure svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #E2D9C8;
+    border-radius: 4px;
+  }
   figcaption {
     font-size: var(--paper-caption-size);
     font-style: italic;
@@ -558,7 +578,7 @@ export function buildSelfContainedMonographHtml(): string {
 
     <table class="data-table">
       <caption>Table 0.1: List of Symbols &amp; Collision Disambiguation</caption>
-      <thead><tr><th>Symbol</th><th>Meaning</th><th>Units</th><th>Collision / Disambiguation Rule</th></tr></thead>
+      <thead><tr><th>Symbol</th><th>Definition</th><th>Units</th><th>Collision Disambiguation</th></tr></thead>
       <tbody>${LIST_OF_SYMBOLS.map(
         (sym) =>
           `<tr><td><strong>${fmt(sym.symbol)}</strong></td><td>${fmt(sym.name)}</td><td>${fmt(sym.units)}</td><td>${fmt(sym.collisionNote)}</td></tr>`
@@ -567,14 +587,14 @@ export function buildSelfContainedMonographHtml(): string {
 
     <table class="data-table">
       <caption>Acronyms Glossary</caption>
-      <thead><tr><th>Acronym</th><th>Expansion</th><th>Definition</th></tr></thead>
+      <thead><tr><th>Acronym</th><th>Expansion</th><th>Operational Definition</th></tr></thead>
       <tbody>${ACRONYMS_GLOSSARY.map(
         (a) => `<tr><td><strong>${fmt(a.term)}</strong></td><td>${fmt(a.expansion)}</td><td>${fmt(a.definition)}</td></tr>`
       ).join('')}</tbody>
     </table>
 
     <table class="data-table">
-      <caption>Table 0.2: Dimensional-Analysis Closure Table</caption>
+      <caption>Table 0.2: Dimensional-Analysis Closure</caption>
       <thead><tr><th>Quantity</th><th>Expression</th><th>SI</th><th>Natural Units</th><th>Derivation Note</th></tr></thead>
       <tbody>${DIMENSIONAL_ANALYSIS_TABLE.map(
         (d) =>
@@ -584,10 +604,10 @@ export function buildSelfContainedMonographHtml(): string {
 
     <table class="data-table">
       <caption>Table 0.3: Equation Index</caption>
-      <thead><tr><th>Label</th><th>Description</th><th>Section</th></tr></thead>
+      <thead><tr><th>Eq.</th><th>Description</th><th>Section</th><th>Status</th></tr></thead>
       <tbody>${EQUATION_INDEX.map(
         (e) =>
-          `<tr><td>${fmt(e.label)}</td><td>${fmt(e.title)}</td><td>${fmt(e.section)}</td></tr>`
+          `<tr><td>${fmt(e.label)}</td><td>${fmt(e.title)}</td><td>${fmt(e.section)}</td><td>${fmt(e.status)}</td></tr>`
       ).join('')}</tbody>
     </table>
   </section>
@@ -622,8 +642,8 @@ export function buildSelfContainedMonographHtml(): string {
 
   <!-- COMPREHENSIVE REFERENCES [1]–[91] & CITED VERSION (NO ORCIDs IN REFERENCES) -->
   <section id="references" class="chapter-start">
-    <div class="chapter-kicker">Bibliography &amp; Cited Version</div>
-    <h2>References &amp; Citation Record</h2>
+    <div class="chapter-kicker">Bibliography</div>
+    <h2>References</h2>
     <div class="cited-version-box">
       <strong>Cited Version (APA):</strong> ${fmt(PAPER_APA)}
       <pre>${esc(PAPER_BIBTEX)}</pre>

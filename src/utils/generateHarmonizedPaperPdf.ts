@@ -36,7 +36,8 @@ import {
   DIMENSIONAL_ANALYSIS_TABLE,
   EQUATION_INDEX,
   FRAMEWORKS_COMPARISON_TABLE,
-  ETHICS_AND_GOVERNANCE
+  ETHICS_AND_GOVERNANCE,
+  TABLE_H1_CLOSURES
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
 import {
@@ -808,12 +809,6 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       let segs = paraChunks[pi];
       if (pi === 0 && opts.prefixBold) {
         const prefixSegs = parseMathSegments(pdfBmpSafeUnicode(opts.prefixBold));
-        // Wrap prefix segments in an italic-or-bold marker? Render prefixBold explicitly via bold runs
-        const flatPrefix = flattenSegmentsToTokens(prefixSegs, size, 0, family, false, true, false);
-        const flatBody = flattenSegmentsToTokens(segs, size, 0, family, style === 'italic', style === 'bold', false);
-        void flatPrefix;
-        void flatBody;
-        // Easier & exact: build tokens with prefixBold bolded inline
         const boldPrefixWord = buildWordLines(
           prefixSegs,
           CONTENT_W - indent,
@@ -1061,9 +1056,9 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     opts: { cellSize?: number } = {}
   ) => {
     const cellSize = opts.cellSize ?? 8.6;
-    const cellLineH = (cellSize * 1.42) / 72;
+    const cellLineH = (cellSize * 1.46) / 72;
     const padX = 0.08;
-    const padY = 0.065;
+    const padY = 0.075;
     const totalW = columns.reduce((acc, c) => acc + c.width, 0);
 
     const drawHeaderBar = () => {
@@ -1103,7 +1098,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       y += maxH;
     };
 
-    ensureSpace(0.9);
+    ensureSpace(1.25);
     writeRichParagraph(titleLabel, {
       font: 'sans',
       size: 9,
@@ -1280,6 +1275,168 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     y += totalH + 0.16;
   };
 
+  const drawFramedWorkedBox = (worked: {
+    title: string;
+    setup: string;
+    steps: string[];
+    resultEquation: { unicodeHtml: string; label?: string; caption?: string };
+    takeaway: string;
+  }) => {
+    const boxPad = 0.16;
+    const innerW = CONTENT_W - 2 * boxPad;
+    const bodySize = 10.1;
+    const bodyLineH = (bodySize * 1.48) / 72;
+    const kickerH = 0.22;
+
+    const titleRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(worked.title)), innerW, innerW, 'serif', 'bold', 11);
+    const titleH = titleRes.lines.length * ((11 * 1.38) / 72) + 0.08;
+
+    const setupRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(worked.setup)), innerW, innerW, 'serif', 'normal', bodySize);
+    const stepResList = worked.steps.map((st) =>
+      buildWordLines(parseMathSegments(pdfBmpSafeUnicode(st)), innerW - 0.12, innerW - 0.12, 'serif', 'normal', bodySize)
+    );
+
+    const eqLabelReserve = worked.resultEquation.label ? 0.65 : 0.16;
+    const eqImg = renderUnicodeEquationPng(worked.resultEquation.unicodeHtml, innerW - eqLabelReserve - 0.24);
+    const eqBoxH = eqImg ? eqImg.heightIn + 0.24 : 0.42;
+
+    const capSize = 9.4;
+    const capLineH = (capSize * 1.42) / 72;
+    const capRes = worked.resultEquation.caption
+      ? buildWordLines(parseMathSegments(pdfBmpSafeUnicode(worked.resultEquation.caption)), innerW - 0.24, innerW - 0.24, 'serif', 'italic', capSize)
+      : null;
+    const capH = capRes && capRes.lines.length > 0 ? capRes.lines.length * capLineH + 0.12 : 0;
+
+    const takeRes = buildWordLines(
+      parseMathSegments(pdfBmpSafeUnicode(`Result: ${worked.takeaway}`)),
+      innerW,
+      innerW,
+      'serif',
+      'normal',
+      bodySize
+    );
+
+    const stepsTotalH = stepResList.reduce((acc, r) => acc + r.lines.length * bodyLineH + 0.05, 0);
+    const totalH =
+      boxPad +
+      kickerH +
+      titleH +
+      setupRes.lines.length * bodyLineH +
+      0.07 +
+      stepsTotalH +
+      0.06 +
+      eqBoxH +
+      capH +
+      0.1 +
+      takeRes.lines.length * bodyLineH +
+      boxPad;
+
+    ensureSpace(Math.min(totalH + 0.16, MAX_Y - MARGIN));
+    y += 0.06;
+
+    doc.setFillColor(250, 248, 243);
+    doc.setDrawColor(214, 202, 190);
+    doc.setLineWidth(0.01);
+    doc.rect(MARGIN, y, CONTENT_W, totalH, 'FD');
+
+    let cy = y + boxPad + 0.04;
+    doc.setTextColor(21, 128, 61);
+    drawTextMixed('WORKED EXAMPLE  ·  EXPLICIT VERIFICATION', MARGIN + boxPad, cy, 'sans', 'normal', 8);
+    cy += 0.08;
+    doc.setDrawColor(226, 217, 200);
+    doc.line(MARGIN + boxPad, cy, PAGE_W - MARGIN - boxPad, cy);
+    cy += 0.15;
+
+    doc.setTextColor(15, 23, 42);
+    for (const lw of titleRes.lines) {
+      let lx = MARGIN + boxPad;
+      for (let wi = 0; wi < lw.length; wi++) {
+        if (wi > 0) lx += titleRes.spaceWidth;
+        for (const r of lw[wi].runs) {
+          drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size);
+          lx += r.width;
+        }
+      }
+      cy += (11 * 1.38) / 72;
+    }
+    cy += 0.06;
+
+    const drawJustifiedInner = (res: { lines: InlineWord[][]; spaceWidth: number }, leftOffset = 0, avail = innerW, lineH = bodyLineH) => {
+      for (let li = 0; li < res.lines.length; li++) {
+        const lineWords = res.lines[li];
+        const isLast = li === res.lines.length - 1;
+        const totalWordsW = lineWords.reduce((a, w) => a + w.width, 0);
+        let gap = res.spaceWidth;
+        if (!isLast && lineWords.length > 1) {
+          const candidate = (avail - totalWordsW) / (lineWords.length - 1);
+          if (candidate >= res.spaceWidth * 0.7 && candidate <= res.spaceWidth * 6) gap = candidate;
+        }
+        let lx = MARGIN + boxPad + leftOffset;
+        for (let wi = 0; wi < lineWords.length; wi++) {
+          for (const r of lineWords[wi].runs) {
+            drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size);
+            lx += r.width;
+          }
+          if (wi < lineWords.length - 1) lx += gap;
+        }
+        cy += lineH;
+      }
+    };
+
+    doc.setTextColor(24, 34, 56);
+    drawJustifiedInner(setupRes);
+    cy += 0.07;
+
+    for (const stRes of stepResList) {
+      drawJustifiedInner(stRes, 0.12, innerW - 0.12);
+      cy += 0.05;
+    }
+    cy += 0.04;
+
+    // Inner result equation plate
+    doc.setFillColor(255, 255, 255);
+    doc.setDrawColor(214, 202, 190);
+    doc.setLineWidth(0.008);
+    doc.rect(MARGIN + boxPad, cy, innerW, eqBoxH + capH, 'FD');
+
+    if (eqImg) {
+      const eqX = MARGIN + boxPad + Math.max(0.12, (innerW - eqLabelReserve - eqImg.widthIn) / 2);
+      doc.addImage(eqImg.dataUrl, 'PNG', eqX, cy + 0.11, eqImg.widthIn, eqImg.heightIn);
+      if (worked.resultEquation.label) {
+        doc.setTextColor(139, 69, 19);
+        const safeLabel = pdfBmpSafeUnicode(worked.resultEquation.label);
+        const lw = measureTextMixed(safeLabel, 'mono', 'normal', 9.0);
+        drawTextMixed(
+          safeLabel,
+          MARGIN + boxPad + innerW - 0.12 - lw,
+          cy + 0.11 + eqImg.heightIn / 2 + 0.03,
+          'mono',
+          'normal',
+          9.0
+        );
+      }
+    } else {
+      doc.setTextColor(15, 23, 42);
+      const fallbackText = pdfBmpSafeUnicode(worked.resultEquation.unicodeHtml.replace(/<[^>]+>/g, ''));
+      drawTextMixed(fallbackText, MARGIN + boxPad + 0.12, cy + 0.25, 'serif', 'italic', 10.0);
+    }
+    cy += eqBoxH;
+
+    if (capRes && capRes.lines.length > 0) {
+      doc.setDrawColor(229, 221, 208);
+      doc.line(MARGIN + boxPad + 0.1, cy - 0.02, MARGIN + boxPad + innerW - 0.1, cy - 0.02);
+      cy += 0.12;
+      doc.setTextColor(71, 85, 105);
+      drawJustifiedInner(capRes, 0.12, innerW - 0.24, capLineH);
+    }
+    cy += 0.12;
+
+    doc.setTextColor(24, 34, 56);
+    drawJustifiedInner(takeRes);
+
+    y += totalH + 0.16;
+  };
+
   // Pre-rasterize all 8 SVG diagrams
   const figureImages = new Map<number, { dataUrl: string; widthIn: number; heightIn: number }>();
   for (const fig of PAPER_FIGURES) {
@@ -1412,7 +1569,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       { header: 'Symbol', width: 1.05, font: 'mono', color: [139, 69, 19] },
       { header: 'Definition', width: 2.15, justify: true },
       { header: 'Units', width: 1.05, font: 'mono' },
-      { header: 'Disambiguation Rule', width: CONTENT_W - 4.25, justify: true }
+      { header: 'Collision Disambiguation', width: CONTENT_W - 4.25, justify: true }
     ],
     LIST_OF_SYMBOLS.map((sym) => [sym.symbol, sym.name, sym.units, sym.collisionNote]),
     { cellSize: 8.2 }
@@ -1464,14 +1621,15 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   );
 
   drawPdfTable(
-    'TABLE 0.3: COMPLETE EQUATION INDEX',
+    'TABLE 0.3: EQUATION INDEX',
     [
-      { header: 'Eq.', width: 0.75, font: 'mono', color: [139, 69, 19] },
-      { header: 'Description', width: 4.15, justify: true },
-      { header: 'Section', width: CONTENT_W - 4.9 }
+      { header: 'Eq.', width: 0.62, font: 'mono', color: [139, 69, 19] },
+      { header: 'Description', width: 3.38, justify: true },
+      { header: 'Section', width: 1.35 },
+      { header: 'Status', width: CONTENT_W - 5.35, font: 'mono' }
     ],
-    EQUATION_INDEX.map((e) => [e.label, e.title, e.section]),
-    { cellSize: 8.3 }
+    EQUATION_INDEX.map((e) => [e.label, e.title, e.section, e.status]),
+    { cellSize: 8.1 }
   );
 
   // =========================================================
@@ -1486,7 +1644,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       justify: false,
       afterSpace: 0.06
     });
-    drawPlayfairHeadline(chapter.title, 29, 0.14);
+    drawPlayfairHeadline(chapter.title, 29, 0.18);
     writeRichParagraph(chapter.leadSummary, {
       style: 'italic',
       size: BODY_PT,
@@ -1499,8 +1657,8 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       if (y > MARGIN + 0.25) {
         y += 0.22;
       }
-      ensureSpace(1.1);
-      drawPlayfairHeadline(`${sub.number}  ${sub.title}`, 21, 0.14);
+      ensureSpace(1.65);
+      drawPlayfairHeadline(`${sub.number}  ${sub.title}`, 21, 0.16);
 
       for (const p of sub.paragraphs) {
         writeRichParagraph(p, { size: BODY_PT, lineHeight: BODY_LINE_IN, afterSpace: 0.12 });
@@ -1515,31 +1673,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       }
 
       if (sub.workedExample) {
-        ensureSpace(0.9);
-        drawRule([214, 202, 190], 0.008);
-        writeRichParagraph(`WORKED EXAMPLE — ${sub.workedExample.title}`, {
-          font: 'sans',
-          size: 8.8,
-          color: [21, 128, 61],
-          justify: false,
-          afterSpace: 0.05
-        });
-        writeRichParagraph(sub.workedExample.setup, { size: 10.3, indent: 0.12, afterSpace: 0.05 });
-        for (const st of sub.workedExample.steps) {
-          writeRichParagraph(st, { size: 10.2, indent: 0.2, afterSpace: 0.05 });
-        }
-        drawEquationBox(
-          sub.workedExample.resultEquation.unicodeHtml,
-          sub.workedExample.resultEquation.label,
-          sub.workedExample.resultEquation.caption
-        );
-        writeRichParagraph(sub.workedExample.takeaway, {
-          prefixBold: 'Result: ',
-          size: 10.3,
-          indent: 0.12,
-          afterSpace: 0.08
-        });
-        drawRule([214, 202, 190], 0.008);
+        drawFramedWorkedBox(sub.workedExample);
       }
 
       if (sub.bulletPoints) {
@@ -1556,11 +1690,11 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
 
       if (sub.anchorId === 'sec-1-4') {
         drawPdfTable(
-          'TABLE 1.1: FOUNDATIONAL PRINCIPLES (AXIOMS I–VII)',
+          'TABLE 1.1: FOUNDATIONAL POSTULATES OF IGRT (POSTULATES I–VII)',
           [
-            { header: 'Axiom', width: 0.85, font: 'mono', color: [139, 69, 19] },
-            { header: 'Name', width: 1.8 },
-            { header: 'Formal Statement', width: CONTENT_W - 2.65, justify: true }
+            { header: 'Postulate', width: 0.92, font: 'mono', color: [139, 69, 19] },
+            { header: 'Name', width: 1.78 },
+            { header: 'Formal Statement', width: CONTENT_W - 2.70, justify: true }
           ],
           PAPER_POSTULATES.map((p) => [p.code, p.name, p.statement]),
           { cellSize: 8.5 }
@@ -1590,31 +1724,34 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         drawPdfTable(
           'TABLE 8.1: COMPARISON OF IGRT WITH STRING THEORY & SIX QUANTUM-GRAVITY APPROACHES',
           [
-            { header: 'Framework', width: 1.3 },
-            { header: 'Mechanism', width: 1.55, justify: true },
-            { header: '4D Lorentzian', width: 1.05 },
-            { header: 'WDW Unfreezing', width: 1.05 },
-            { header: 'Open Limitations', width: CONTENT_W - 4.95, justify: true }
+            { header: 'Framework', width: 1.05 },
+            { header: 'Key Mechanism', width: 1.2, justify: true },
+            { header: '4D Lorentzian', width: 0.95 },
+            { header: 'WDW Unfreezing', width: 0.95 },
+            { header: 'Singularity Status', width: 1.05, justify: true },
+            { header: 'Open Limitations', width: CONTENT_W - 5.2, justify: true }
           ],
           FRAMEWORKS_COMPARISON_TABLE.map((row) => [
             row.framework,
             row.keyMechanism,
             row.preserves4DLorentzian,
             row.wdwUnfreezing,
+            row.singularityStatus,
             row.openLimitations
           ]),
-          { cellSize: 7.9 }
+          { cellSize: 7.5 }
         );
 
         drawPdfTable(
-          'TABLE 8.2: SUMMARY OF CORE FORMAL RESULTS',
+          'TABLE 8.2: SUMMARY OF SEVEN CORE FORMAL RESULTS',
           [
-            { header: 'Result', width: 1.95 },
-            { header: 'Domain', width: 1.45 },
-            { header: 'Summary', width: CONTENT_W - 3.4, justify: true }
+            { header: 'Result', width: 1.70 },
+            { header: 'Domain', width: 1.15 },
+            { header: 'Status', width: 0.75, font: 'mono' },
+            { header: 'Summary', width: CONTENT_W - 3.60, justify: true }
           ],
-          AUDITED_CLOSURE_THEOREMS.map((t) => [t.title, t.domain, t.summary]),
-          { cellSize: 8.3 }
+          AUDITED_CLOSURE_THEOREMS.map((t) => [t.title, t.domain, t.status, t.summary]),
+          { cellSize: 8.1 }
         );
       }
 
@@ -1623,8 +1760,12 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       for (const fig of matchedFigs) {
         const img = figureImages.get(fig.id);
         if (img) {
-          ensureSpace(img.heightIn + 0.85);
-          doc.addImage(img.dataUrl, 'PNG', MARGIN, y, img.widthIn, img.heightIn);
+          ensureSpace(img.heightIn + 0.95);
+          const imgX = MARGIN + (CONTENT_W - img.widthIn) / 2;
+          doc.addImage(img.dataUrl, 'PNG', imgX, y, img.widthIn, img.heightIn);
+          doc.setDrawColor(214, 202, 190);
+          doc.setLineWidth(0.008);
+          doc.rect(imgX, y, img.widthIn, img.heightIn);
           y += img.heightIn + 0.1;
         }
         writeRichParagraph(fig.caption, {
@@ -1651,7 +1792,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     if (y > MARGIN + 0.25) {
       y += 0.18;
     }
-    ensureSpace(1.0);
+    ensureSpace(1.4);
     drawPlayfairHeadline(`Appendix ${app.letter}. ${app.title}`, 20, 0.12);
     writeRichParagraph(app.theoremStatement, {
       prefixBold: `Statement (${app.tag}): `,
@@ -1664,6 +1805,19 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     }
     for (const eq of app.equations) {
       drawEquationBox(eq.unicodeHtml, eq.label);
+    }
+    if (app.letter === 'H') {
+      drawPdfTable(
+        'TABLE H.1: COMPLETE NUMERICAL & PARAMETER CLOSURE SUMMARY',
+        [
+          { header: 'Parameter / Scale', width: 1.45 },
+          { header: 'Defining Relation', width: 1.75, font: 'mono' },
+          { header: 'Numerical Value', width: 1.45 },
+          { header: 'Regime / Protocol', width: CONTENT_W - 4.65, justify: true }
+        ],
+        TABLE_H1_CLOSURES.map((row) => [row.parameter, row.formula, row.value, row.regime]),
+        { cellSize: 7.7 }
+      );
     }
     y += 0.12;
   }
@@ -1694,7 +1848,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   // CITED VERSION & REFERENCES [1]–[91] (NO ORCIDs IN REFERENCES)
   // =========================================================
   startChapterOnNewPage();
-  drawPlayfairHeadline('Cited Version & References (Numeric Order)', 28, 0.16);
+  drawPlayfairHeadline('References', 28, 0.16);
 
   writeRichParagraph('HOW TO CITE (CITED VERSION — APA & BIBTEX)', {
     font: 'sans',

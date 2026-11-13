@@ -278,41 +278,43 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <path d="M 105 325 C 260 307, 540 347, 755 316" fill="none" stroke="#D6CABE" stroke-width="0.9"/>
   <text x="72" y="346" font-family="Georgia, serif" font-size="13.5" fill="#0F172A">Base Spacetime (M, g_μν), signature (−,+,+,+)</text>
 
-  <path d="M 175 318 C 325 298, 495 315, 675 294" fill="none" stroke="#8B4513" stroke-width="2.4"/>
-  <circle cx="240" cy="312" r="4.5" fill="#0F172A"/>
-  <text x="240" y="331" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#0F172A">x(λ₁)</text>
-  <circle cx="600" cy="301" r="4.5" fill="#0F172A"/>
-  <text x="600" y="320" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#0F172A">x(λ₂)</text>
-  <text x="420" y="294" text-anchor="middle" font-family="Georgia, serif" font-size="11.5" fill="#8B4513">Timelike worldline ds² = g_μν dx^μ dx^ν &lt; 0</text>
+  <path d="M 110 318 C 300 298, 520 315, 745 294" fill="none" stroke="#8B4513" stroke-width="2.4"/>
+  <circle cx="178" cy="312" r="4.5" fill="#0F172A"/>
+  <text x="178" y="331" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#0F172A">x(λ₁)</text>
+  <circle cx="682" cy="300" r="4.5" fill="#0F172A"/>
+  <text x="682" y="319" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#0F172A">x(λ₂)</text>
+  <text x="430" y="294" text-anchor="middle" font-family="Georgia, serif" font-size="11.5" fill="#8B4513">Timelike worldline ds² = g_μν dx^μ dx^ν &lt; 0</text>
 
-  <line x1="240" y1="312" x2="214" y2="275" stroke="#64748B" stroke-width="1.1" stroke-dasharray="3,2"/>
-  <line x1="240" y1="312" x2="266" y2="275" stroke="#64748B" stroke-width="1.1" stroke-dasharray="3,2"/>
-  <ellipse cx="240" cy="275" rx="26" ry="5" fill="none" stroke="#64748B" stroke-width="1.1"/>
-  <text x="196" y="269" text-anchor="end" font-family="Georgia, serif" font-size="11" fill="#475569">Light cone</text>
+  <line x1="178" y1="312" x2="152" y2="275" stroke="#64748B" stroke-width="1.1" stroke-dasharray="3,2"/>
+  <line x1="178" y1="312" x2="204" y2="275" stroke="#64748B" stroke-width="1.1" stroke-dasharray="3,2"/>
+  <ellipse cx="178" cy="275" rx="26" ry="5" fill="none" stroke="#64748B" stroke-width="1.1"/>
+  <text x="142" y="269" text-anchor="end" font-family="Georgia, serif" font-size="11" fill="#475569">Light cone</text>
 
-  <ellipse cx="240" cy="144" rx="70" ry="84" fill="#FFFFFF" fill-opacity="0.94" stroke="#1E293B" stroke-width="1.5"/>
-  <line x1="240" y1="228" x2="240" y2="305" stroke="#1E293B" stroke-width="1.3" stroke-dasharray="5,3"/>
-  <polygon points="236,301 240,308 244,301" fill="#1E293B"/>
-  <text x="240" y="80" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0F172A">Fiber S_x₁</text>
-  <text x="240" y="99" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#475569">Density states ρ(θ)</text>
-  <circle cx="248" cy="156" r="4" fill="#8B4513"/>
-  <path d="M 222 178 Q 246 158 266 132" fill="none" stroke="#15803D" stroke-width="2"/>
-  <text x="240" y="204" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#15803D">Metric g_ij^QFI</text>
+  <ellipse cx="178" cy="144" rx="66" ry="82" fill="#FFFFFF" fill-opacity="0.95" stroke="#1E293B" stroke-width="1.5"/>
+  <line x1="178" y1="226" x2="178" y2="305" stroke="#1E293B" stroke-width="1.3" stroke-dasharray="5,3"/>
+  <polygon points="174,301 178,308 182,301" fill="#1E293B"/>
+  <text x="178" y="82" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0F172A">Fiber S_x₁</text>
+  <text x="178" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#475569">Density states ρ(θ)</text>
+  <circle cx="186" cy="156" r="4" fill="#8B4513"/>
+  <path d="M 160 178 Q 184 158 204 132" fill="none" stroke="#15803D" stroke-width="2"/>
+  <text x="178" y="203" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#15803D">Metric g_ij^QFI</text>
 
-  <ellipse cx="600" cy="138" rx="70" ry="84" fill="#FFFFFF" fill-opacity="0.94" stroke="#1E293B" stroke-width="1.5"/>
-  <line x1="600" y1="222" x2="600" y2="294" stroke="#1E293B" stroke-width="1.3" stroke-dasharray="5,3"/>
-  <polygon points="596,290 600,297 604,290" fill="#1E293B"/>
-  <text x="600" y="74" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0F172A">Fiber S_x₂</text>
-  <text x="600" y="93" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#475569">Pure boundary → 4·g_FS</text>
-  <circle cx="608" cy="146" r="4" fill="#8B4513"/>
-  <path d="M 578 164 Q 604 148 626 124" fill="none" stroke="#15803D" stroke-width="2"/>
-  <text x="600" y="198" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#15803D">Covariant shift D_μ</text>
+  <ellipse cx="682" cy="138" rx="66" ry="82" fill="#FFFFFF" fill-opacity="0.95" stroke="#1E293B" stroke-width="1.5"/>
+  <line x1="682" y1="220" x2="682" y2="293" stroke="#1E293B" stroke-width="1.3" stroke-dasharray="5,3"/>
+  <polygon points="678,289 682,296 686,289" fill="#1E293B"/>
+  <text x="682" y="76" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0F172A">Fiber S_x₂</text>
+  <text x="682" y="94" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#475569">Pure boundary → 4·g_FS</text>
+  <circle cx="674" cy="146" r="4" fill="#8B4513"/>
+  <path d="M 652 166 Q 674 148 696 124" fill="none" stroke="#15803D" stroke-width="2"/>
+  <text x="682" y="198" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#15803D">Covariant shift D_μ</text>
 
-  <path d="M 248 156 C 370 116, 488 124, 608 146" fill="none" stroke="#8B4513" stroke-width="2.4"/>
-  <text x="424" y="96" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#8B4513">Horizontal Lift via Ehresmann Connection A_μ</text>
-  <text x="424" y="114" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#0F172A">dτ = (1/c)√(−g_μν dx^μ dx^ν) = [ħ / (E_mod · σ(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ</text>
+  <path d="M 186 156 C 330 112, 530 120, 674 146" fill="none" stroke="#8B4513" stroke-width="2.4"/>
+  <text x="430" y="96" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#8B4513">Horizontal Lift via Ehresmann Connection A_μ</text>
 
-  <text x="420" y="242" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#0F172A">Bundle Projection π : P(M, S_Fisher) → M</text>
+  <rect x="256" y="192" width="348" height="34" rx="3" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1"/>
+  <text x="430" y="213" text-anchor="middle" font-family="Georgia, serif" font-size="10.2" fill="#0F172A">dτ = (1/c)√(−g_μν dx^μ dx^ν) = [ħ/(E_mod·σ(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ</text>
+
+  <text x="430" y="252" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#0F172A">Bundle Projection π : P(M, S_Fisher) → M</text>
 </svg>`
   },
   {
@@ -351,14 +353,14 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
 
   <circle cx="440" cy="${BOUNCE_DATA.bounceY}" r="5" fill="#8B4513"/>
   <circle cx="440" cy="265" r="4" fill="#64748B"/>
-  <text x="440" y="132" text-anchor="middle" font-family="Georgia, serif" font-size="11.5" fill="#0F172A">ä/a = +4πGρ_max(1 + w) &gt; 0</text>
+  <text x="426" y="128" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#0F172A">ä/a = +4πGρ_max(1 + w) &gt; 0</text>
   <text x="440" y="253" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#64748B">Classical GR singularity (a → 0)</text>
 
-  <rect x="526" y="68" width="226" height="58" rx="3" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <line x1="538" y1="84" x2="564" y2="84" stroke="#8B4513" stroke-width="2.5"/>
-  <text x="572" y="88" font-family="Georgia, serif" font-size="11" fill="#0F172A">IGRT Bounce (k_phys ≤ M_Pl)</text>
-  <line x1="538" y1="108" x2="564" y2="108" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="5,3"/>
-  <text x="572" y="112" font-family="Georgia, serif" font-size="11" fill="#475569">Classical GR Singular Limit</text>
+  <rect x="546" y="68" width="208" height="58" rx="3" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
+  <line x1="556" y1="84" x2="580" y2="84" stroke="#8B4513" stroke-width="2.5"/>
+  <text x="588" y="88" font-family="Georgia, serif" font-size="10.8" fill="#0F172A">IGRT Bounce (k_phys ≤ M_Pl)</text>
+  <line x1="556" y1="108" x2="580" y2="108" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="5,3"/>
+  <text x="588" y="112" font-family="Georgia, serif" font-size="10.8" fill="#475569">Classical GR Singular Limit</text>
 </svg>`
   },
   {
@@ -404,8 +406,8 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     .map(
       (m) =>
         `<circle cx="${m.x}" cy="${m.y}" r="3.8" fill="#8B4513"/><text x="${
-          m.z === 0 ? m.x + 10 : m.x
-        }" y="${m.y + (m.z === 0 ? 18 : -10)}" text-anchor="${
+          m.z === 0 ? m.x + 10 : m.z === 3 ? m.x - 6 : m.x
+        }" y="${m.y + (m.z === 0 || m.z === 3 ? 17 : -10)}" text-anchor="${
           m.z === 0 ? 'start' : m.z === 3 ? 'end' : 'middle'
         }" font-family="Georgia, serif" font-size="10.5" fill="#475569">${m.wVal.toFixed(4)}</text>`
     )
@@ -451,7 +453,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <circle cx="${HAYWARD_DATA.rPlusX}" cy="${HAYWARD_DATA.toY(0).toFixed(1)}" r="4" fill="#1E293B"/>
   <text x="${HAYWARD_DATA.rPlusX + 8}" y="${(HAYWARD_DATA.toY(0) - 10).toFixed(1)}" text-anchor="start" font-family="Georgia, serif" font-size="11.5" fill="#0F172A">r_+</text>
   <circle cx="${HAYWARD_DATA.rStarX}" cy="${HAYWARD_DATA.toY(0).toFixed(1)}" r="4.8" fill="#8B4513"/>
-  <text x="${HAYWARD_DATA.rStarX + 6}" y="${(HAYWARD_DATA.toY(0) + 18).toFixed(1)}" text-anchor="start" font-family="Georgia, serif" font-size="11.5" fill="#8B4513">r_* = √3 ℓ₀ (κ_± = 0)</text>
+  <text x="${HAYWARD_DATA.rStarX + 8}" y="${(HAYWARD_DATA.toY(0) - 12).toFixed(1)}" text-anchor="start" font-family="Georgia, serif" font-size="11" fill="#8B4513">r_* = √3 ℓ₀ (κ_± = 0)</text>
 
   <text x="115" y="${(HAYWARD_DATA.toY(1) - 8).toFixed(1)}" font-family="Georgia, serif" font-size="11" fill="#15803D">Regular de Sitter Core f(0) = 1</text>
 
@@ -515,7 +517,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <line x1="480" y1="122" x2="818" y2="122" stroke="#E2D9C8" stroke-width="1"/>
   <text x="480" y="144" font-family="Georgia, serif" font-size="11.5" fill="#0F172A">1. Trapped core bounded by regular r_− and r_+</text>
   <text x="480" y="168" font-family="Georgia, serif" font-size="11.5" fill="#0F172A">2. QES Island saddle recovers unitary Page curve</text>
-  <text x="480" y="192" font-family="Georgia, serif" font-size="11.5" fill="#15803D">3. Horizons coalesce at M_rem = (3√3/4)M_Pl (κ_± = 0)</text>
+  <text x="480" y="192" font-family="Georgia, serif" font-size="11" fill="#15803D">3. Remnant M_rem = (3√3/4)(ℓ₀c²/G) ≈ 2.38×10⁻⁸ kg (κ_± = 0)</text>
   <text x="480" y="218" font-family="Georgia, serif" font-size="11" fill="#475569">4. Vanishing inner surface gravity κ_− → 0 stabilizes</text>
   <text x="480" y="236" font-family="Georgia, serif" font-size="11" fill="#475569">    Cauchy boundary against Poisson–Israel mass inflation.</text>
   <text x="480" y="264" font-family="Georgia, serif" font-size="11" fill="#1D4ED8">5. Outgoing 45° radiation carries entanglement to ℐ⁺.</text>
@@ -581,7 +583,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
 
   <rect x="300" y="50" width="260" height="128" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.2"/>
   <text x="314" y="73" font-family="Georgia, serif" font-size="12.5" fill="#8B4513">P2: 10m VLBAI Atom Interferometry</text>
-  <text x="314" y="94" font-family="Georgia, serif" font-size="11" fill="#0F172A">Test: Γ_decohere = (1.34/ħ)m²G∫|Δ|φ|²|²/|x−x′|</text>
+  <text x="314" y="94" font-family="Georgia, serif" font-size="10.3" fill="#0F172A">Test: Γ_decohere = (1.34/ħ) m²G ∫ Δρ/|x−x′|</text>
   <text x="314" y="114" font-family="Georgia, serif" font-size="10.8" fill="#475569">Target: Δx &gt; 15 cm visibility contrast;</text>
   <text x="314" y="131" font-family="Georgia, serif" font-size="10.8" fill="#475569">η_Araki = 1.34× Diósi–Penrose damping floor.</text>
   <text x="314" y="159" font-family="Georgia, serif" font-size="10.5" fill="#15803D">Window: 2027–2029 (10⁻⁶ Pa Floor)</text>
@@ -589,16 +591,16 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <rect x="576" y="50" width="260" height="128" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.2"/>
   <text x="590" y="73" font-family="Georgia, serif" font-size="12.5" fill="#8B4513">P3: Simons Obs. / LiteBIRD CMB</text>
   <text x="590" y="94" font-family="Georgia, serif" font-size="11" fill="#0F172A">Test: Bounce B-modes &amp; tilt n_s ≈ 0.9649</text>
-  <text x="590" y="114" font-family="Georgia, serif" font-size="10.8" fill="#475569">Target: r ≈ 0.0032 at high ℓ,</text>
+  <text x="590" y="114" font-family="Georgia, serif" font-size="10.8" fill="#475569">Target: low-ℓ (ℓ &lt; 20) blue tilt, r ≈ 0.0032;</text>
   <text x="590" y="131" font-family="Georgia, serif" font-size="10.8" fill="#475569">f_NL(equilateral) = −3.2 ± 0.4.</text>
   <text x="590" y="159" font-family="Georgia, serif" font-size="10.5" fill="#15803D">Window: 2026–2032 Polarimetry</text>
 
   <rect x="24" y="196" width="260" height="132" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.2"/>
   <text x="38" y="219" font-family="Georgia, serif" font-size="12.5" fill="#8B4513">P4: LVK O5 / CE / ET Ringdowns</text>
   <text x="38" y="240" font-family="Georgia, serif" font-size="11" fill="#0F172A">Test: Hayward-core echo delay Δt_echo</text>
-  <text x="38" y="260" font-family="Georgia, serif" font-size="10.8" fill="#475569">Δt_echo ≈ 18.4 ms for 60 M_⊙ remnant;</text>
+  <text x="38" y="260" font-family="Georgia, serif" font-size="10.8" fill="#475569">17.8 ms (10 M_⊙) / 109 ms (60 M_⊙);</text>
   <text x="38" y="277" font-family="Georgia, serif" font-size="10.8" fill="#475569">all-pass reflectivity K_echo ≈ 0.18 from H(z).</text>
-  <text x="38" y="308" font-family="Georgia, serif" font-size="10.5" fill="#15803D">Window: O5 Coherent Stacking</text>
+  <text x="38" y="308" font-family="Georgia, serif" font-size="10.5" fill="#15803D">Window: O5 / 3G Coherent Stacking</text>
 
   <rect x="300" y="196" width="260" height="132" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.2"/>
   <text x="314" y="219" font-family="Georgia, serif" font-size="12.5" fill="#8B4513">P5: Sub-mm Clock Redshift Test</text>
@@ -622,10 +624,10 @@ export const HarmonizedPaperFigure: React.FC<{ figure: PaperFigureSpec }> = ({ f
   return (
     <figure
       id={figure.anchorId}
-      className="igrt-keep-together my-8 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#0B1530] p-5 space-y-3 scroll-mt-32"
+      className="igrt-keep-together my-8 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#0B1530] p-5 space-y-3 scroll-mt-32 shadow-xs"
     >
       <div
-        className="w-full overflow-x-auto"
+        className="w-full overflow-x-auto rounded border border-[#E2D9C8] dark:border-[#334155]"
         dangerouslySetInnerHTML={{ __html: formattedSvg }}
       />
       <figcaption className="text-[14.5px] leading-[1.55] text-[#475569] dark:text-[#CBD5E1] italic border-t border-[#E2D9C8] dark:border-[#1E293B] pt-3 text-justify">

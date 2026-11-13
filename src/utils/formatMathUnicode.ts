@@ -19,8 +19,8 @@ const URL_OR_NON_MATH_RE = /(https?:\/\/[^\s)]+|arXiv:[^\s)]+|DOI:[^\s)]+|@artic
 
 // Subscript/superscript unbraced token pattern
 // Matches: "4,X", "x₁", "x₂", alphanumeric + Greek tokens, or single symbol (*, +, −, ±, ⊙, ∞)
-const UNBRACED_SUB_RE = /^(4,X|x[₁₂]|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχ]+|[*+−±⊙])/;
-const UNBRACED_SUP_RE = /^(\([+\-−]?\d+\)|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχ]+|[*+−±∞])/;
+const UNBRACED_SUB_RE = /^(4,X|x[₁₂]|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχ∞𝒞𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±⊙∞])/;
+const UNBRACED_SUP_RE = /^(\([+\-−]?\d+\)|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχ∞𝒞𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±∞])/;
 
 function findMatchingBrace(str: string, openIdx: number): number {
   let depth = 0;
@@ -236,6 +236,8 @@ export function pdfBmpSafeUnicode(input: string): string {
     .replace(/𝒜/g, 'A')
     .replace(/𝒞/g, 'C')
     .replace(/𝒟/g, 'D')
+    .replace(/𝒢/g, 'G')
     .replace(/𝒦/g, 'K')
-    .replace(/𝒱/g, 'V');
+    .replace(/𝒱/g, 'V')
+    .replace(/𝐱/g, 'x');
 }

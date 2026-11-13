@@ -140,11 +140,11 @@ export const MASTER_EQUATION_ABSTRACT: PaperEquation = {
   label: '(0.1)',
   status: 'Axiom',
   unicodeHtml:
-    '<i>d</i>τ = √(−<i>g</i><sub>μν</sub> <i>ẋ</i><sup>μ</sup> <i>ẋ</i><sup>ν</sup>) <i>d</i>λ &nbsp;≡&nbsp; [ ℏ / (<i>E</i><sub>mod</sub> · σ(<i>K</i><sub>ξ</sub>)) ] · √(<i>g</i><sub><i>ij</i></sub><sup>QFI</sup> <i>θ̇</i><sup><i>i</i></sup> <i>θ̇</i><sup><i>j</i></sup>) <i>d</i>λ &nbsp;≡&nbsp; τ<sub>0</sub> ∑<sub><i>k</i>=1</sub><sup><i>N</i></sup> ‖RAG<sub><i>k</i></sub> − RES<sub><i>k</i></sub>‖<sub>ℱ</sub>',
+    '<i>d</i>τ = (1/<i>c</i>) √(−<i>g</i><sub>μν</sub> <i>ẋ</i><sup>μ</sup> <i>ẋ</i><sup>ν</sup>) <i>d</i>λ &nbsp;≡&nbsp; [ ℏ / (<i>E</i><sub>mod</sub> · σ(<i>K</i><sub>ξ</sub>)) ] √(<i>g</i><sub><i>ij</i></sub><sup>QFI</sup> <i>θ̇</i><sup><i>i</i></sup> <i>θ̇</i><sup><i>j</i></sup>) <i>d</i>λ, &nbsp;&nbsp; Δτ = ∫<sub>γ</sub> <i>d</i>τ ≡ τ<sub>0</sub> ∑<sub><i>k</i>=1</sub><sup><i>N</i></sup> ‖RAG<sub><i>k</i></sub> − RES<sub><i>k</i></sub>‖<sub>ℱ</sub>',
   plainText:
-    'dτ = √(−g_μν ẋ^μ ẋ^ν) dλ ≡ [ħ / (E_mod · σ(K_ξ))] · √(g_ij^QFI θ̇^i θ̇^j) dλ ≡ τ_0 ∑_{k=1}^N ‖RAG_k − RES_k‖_F',
+    'dτ = (1/c)√(−g_μν ẋ^μ ẋ^ν) dλ ≡ [ħ / (E_mod · σ(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ,   Δτ = ∫_γ dτ ≡ τ_0 ∑_{k=1}^N ‖RAG_k − RES_k‖_F',
   caption:
-    'Master Equivalence Identity uniting Lorentzian proper time, modular-calibrated Fisher–Rao distance (with E_mod = k_B T_mod), and discrete causal Frobenius steps.'
+    'Master Equivalence Identity uniting Lorentzian proper time (1/c drops in c = 1 units), modular-calibrated Fisher–Rao arc length (with E_mod = k_B T_mod), and finite integrated causal Frobenius steps.'
 };
 
 export const PAPER_BIBTEX = `@article{bulaquena_tassan_lauret_2026_igrt,
@@ -199,7 +199,7 @@ export const PAPER_POSTULATES: {
     name: 'Araki Algebraic Entropic Scalar Identity',
     status: 'Derived',
     statement:
-      'The dynamical scalar field density ψ²(x) is derived via heat-kernel expansion from κ_ψ · S_Araki(ρ_V || σ_V) / Vol(V) on hyperfinite Type III₁ factor local von Neumann algebras with κ_ψ = ħc / (12π ℓ_Pl²), eliminating vacuum-subtraction curvature divergences.'
+      'The dynamical scalar field density ψ²(x) is derived via heat-kernel expansion from κ_ψ · S_Araki(ρ_V || σ_V) / Vol(V) on hyperfinite Type III₁ factor local von Neumann algebras with κ_ψ = ħc ℓ_Pl / (12π), eliminating vacuum-subtraction curvature divergences.'
   },
   {
     code: 'Postulate V',
@@ -229,19 +229,20 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
     number: 1,
     anchorId: 'chapter-1',
     runningLabel: 'Chapter 1',
-    title: 'Introduction: The Problem of Time and Ontological Scope',
+    title: 'Introduction: History of Time, What IGRT Resolves, HL-LHC Provability & Emerging Technologies',
     leadSummary:
-      'Reviews the Wheeler–DeWitt Problem of Time, establishes how IGRT preserves a four-dimensional Lorentzian base spacetime, and sets out the seven foundational postulates together with explicit logical classifications.',
+      'Traces the evolution of time from Newtonian absoluteness through Wheeler–DeWitt timelessness, explains how IGRT resolves foundational gravity–quantum conflicts without extra spatial dimensions (contrasted directly against String Theory), and details HL-LHC collider tests and near-term quantum–gravitational technologies.',
     subsections: [
       {
         number: '1.1',
         anchorId: 'sec-1-1',
-        title: 'Canonical Quantization and the Wheeler–DeWitt Timelessness Problem',
+        title: 'From Newtonian Absolute Time to the Wheeler–DeWitt Impasse',
         epistemicStatus: 'Proved',
         paragraphs: [
-          'General Relativity (GR) and standard Quantum Mechanics (QM) treat temporal progression on incompatible mathematical footings. In GR, diffeomorphism invariance demotes coordinate time t to an arbitrary gauge label on a four-dimensional Lorentzian manifold (M, g_μν), whereas physical proper time τ is path-dependent along worldlines. In standard QM and Quantum Field Theory (QFT), by contrast, unitary evolution iℏ ∂_t |Ψ⟩ = Ĥ |Ψ⟩ presupposes an external, non-dynamical classical parameter t.',
-          'When Dirac’s canonical quantization is applied to the Arnowitt–Deser–Misner (ADM) decomposition of gravity, the total super-Hamiltonian constraint annihilates physical states [4, 5], producing the canonical Wheeler–DeWitt equation Ĥ_total Ψ = 0. Comprehensive reviews by Kuchař [6], Isham [7], and Anderson [8] categorize the resulting obstructions—the frozen formalism, multiple-choice problem, global time obstruction, and functional evolution problem. Existing relational responses include Page–Wootters conditional probability [9], Connes–Rovelli thermal time [10, 11], Gambini–Pullin evolving constants [12], and Barbour’s shape dynamics [13].',
-          'Earlier studies by Bulaqueña [1] established Information-Geometric Extended Gravity (IGEG / IGG), coupling spacetime geometry to an informational density scalar ψ, while Tassan [2] formulated the discrete RES=RAG balance linking retention and generative change. Following a comparative structural synthesis [3], this monograph integrates both programs into Information-Geometric Resonant Time (IGRT) with complete dimensional clock calibration, ultraviolet (UV) entropy regularization, Lorentzian spectral convergence, singularity avoidance, and Solar-System screening.'
+          'Understanding why time creates the deepest conceptual fracture in modern theoretical physics requires tracing how successive revolutions stripped time of its classical simplicity. In Isaac Newton’s Principia (1687), absolute time flowed equably from past to future as a rigid, invisible stage independent of matter or motion. During the nineteenth century, Sadi Carnot, Rudolf Clausius, and Ludwig Boltzmann added a statistical arrow: while mechanical equations are time-reversible, macroscopic systems evolve from ordered low-entropy states toward thermodynamic equilibrium.',
+          'Albert Einstein shattered Newton’s rigid stage twice in a single decade. Special Relativity (1905) fused space and time into a four-dimensional Minkowski continuum where distant simultaneity depends on observer velocity. General Relativity (1915) went further, elevating geometry itself into a dynamic gravitational field on a curved four-dimensional Lorentzian manifold (M, g_μν) of signature (−,+,+,+). Coordinate time t ceased to carry intrinsic physical meaning—acting merely as a smooth gauge label—while genuine clock ticking dτ = (1/c)√(−g_μν ẋ^μ ẋ^ν) dλ became path-dependent geometric arc length along causal worldlines.',
+          'Meanwhile, Quantum Mechanics and Quantum Field Theory (QFT) retained Newton’s external clock parameter t inside the Schrödinger evolution equation iℏ ∂_t |Ψ⟩ = Ĥ |Ψ⟩. When Bryce DeWitt and John Archibald Wheeler applied Dirac–Bergmann canonical quantization to the 3+1 Arnowitt–Deser–Misner (ADM) slicing of General Relativity [4, 5], diffeomorphism invariance forced the total super-Hamiltonian constraint to annihilate every physical quantum state of the universe: Ĥ_total Ψ = 0 (Eq. 1.1). Because physical states exhibit zero change with respect to coordinate t, external evolution disappeared entirely—birthing the canonical Problem of Time cataloged systematically by Kuchař [6], Isham [7], and Anderson [8], and motivating relational programs such as Page–Wootters conditional probability [9], Connes–Rovelli thermal time [10, 11], Gambini–Pullin evolving constants [12], and Barbour’s shape dynamics [13].',
+          'To resolve this timelessness without surrendering either Einstein’s four-dimensional spacetime continuum or quantum unitarity, Bulaqueña [1] formulated Information-Geometric Extended Gravity (IGEG / IGG), coupling spacetime curvature to an informational entropy scalar ψ, while Tassan [2] constructed the discrete RES=RAG framework grounding temporal cadence in the balance between retentive memory state and active causal generation. Following an initial structural synthesis [3], Information-Geometric Resonant Time (IGRT) unifies both pillars into a single diffeomorphism-invariant principal fiber bundle theory equipped with full dimensional closure, UV-finite operator algebra, ghost-free dynamics, and empirical protocols testable across active 2026–2032+ experiments.'
         ],
         equation: {
           label: '(1.1)',
@@ -256,30 +257,49 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
       {
         number: '1.2',
         anchorId: 'sec-1-2',
-        title: 'Preservation of the Four-Dimensional Lorentzian Timelike Dimension',
+        title: 'What IGRT Fixes and Structural Advantages Over String Theory',
         epistemicStatus: 'Axiom',
         paragraphs: [
-          'A central foundational point in emergent-time physics is whether time remains a genuine geometric dimension of spacetime. In IGRT, the answer is unequivocally affirmative: spacetime retains three spatial dimensions and one timelike dimension encoded macroscopically in the pseudo-Riemannian metric signature (−, +, +, +). Causal light cones, relativistic proper-time dilation, gravitational redshift, and geodesic structure remain intact on the base manifold.',
-          'Rather than eliminating the timelike coordinate, IGRT provides its exact operational micro-physical calibration: arbitrary parameter intervals dλ carry physical proper duration dτ identically along the statistical state fiber sitting over worldlines of (M, g_μν).'
+          'Instead of declaring time an illusion or erasing the relativistic timelike coordinate, IGRT solves five compounding obstructions simultaneously inside four macroscopic spacetime dimensions. First, it unfreezes the Wheeler–DeWitt state cleanly through Born–Oppenheimer deparametrization along an internal quantum Fisher–Rao state clock τ_FR normalized by local Tomita–Takesaki modular flow (§4.1, §5.1), evading Pauli’s time-operator no-go theorem [55] while keeping the Lorentzian signature (−,+,+,+) and causal light cones intact. Second, by defining the scalar field ψ²(x) from Araki relative entropy on hyperfinite Type III₁ local von Neumann algebras (κ_ψ = ħc ℓ_Pl / 12π), it cancels Hadamard ultraviolet curvature divergences that spoil naive entanglement-subtraction models [34, 38]. Third, embedding ψ in a Type Ia degenerate higher-order scalar–tensor (DHOST) action removes Ostrogradsky ghost instabilities while guaranteeing exact luminal gravitational-wave speed c_GW = c [29, 77]. Fourth, Planck-scale informational saturation resolves both the initial Big Bang singularity (yielding exact bounce acceleration ä/a = +4πG ρ_max (1 + w) > 0) and black-hole singularities (extremal Hayward cores with vanishing inner Cauchy surface gravity κ_± → 0). Fifth, unified Vainshtein–Chameleon screening at braiding scale Λ_3 = (M̄_Pl H_0²)^{1/3} enforces Solar-System Post-Newtonian safety |γ_PPN − 1| ≤ 2.8 × 10⁻⁷.',
+          'Compared directly against String Theory / M-Theory (Table 8.1), IGRT achieves greater predictive economy and direct near-term testability by remaining strictly in 3+1 dimensions. String Theory requires six or seven compactified extra spatial dimensions (Calabi–Yau manifolds and intersecting brane fluxes) to recover four-dimensional physics, generating an enormous landscape of roughly ~10⁵⁰⁰ metastable vacua with non-unique moduli stabilization and pushing its characteristic string scale largely beyond accessible collider energies. By contrast, IGRT introduces zero unverified spatial dimensions: the extra internal geometry P(M, S_Fisher) is not hidden space, but the statistical fiber S_x of local quantum density operators already present at every event in quantum field theory. Consequently, IGRT eliminates compactification ambiguity, ties infrared cosmology (Λ_3) directly to observed dark-energy and Solar-System limits, and yields sharp falsifiable signals in existing TeV colliders, optical lattice clocks, atom interferometers, and pulsar timing arrays.'
         ],
         bulletPoints: [
           {
-            label: 'Base Spacetime Manifold (M, g_μν)',
-            text: 'Smooth 4D Lorentzian manifold preserving causal light cones, local Lorentz invariance, and gravitational-wave propagation along null surfaces.'
+            label: 'Exact 4D Manifold Without Extra Space',
+            text: 'Preserves (M, g_μν) in signature (−,+,+,+) with zero compactified extra spatial dimensions and zero ~10⁵⁰⁰ string-landscape vacuum ambiguity.'
           },
           {
-            label: 'Statistical Fiber Manifold S_Fisher',
-            text: 'Local Riemannian space of quantum density operators ρ(θ) equipped with the CPTP-monotone SLD quantum Fisher metric g_ij^QFI.'
+            label: 'Internal Statistical Fiber S_Fisher',
+            text: 'Equips every event x ∈ M with the local space of quantum states ρ(θ) measured by the basis-independent SLD quantum Fisher metric g_ij^QFI.'
           },
           {
-            label: 'Ehresmann Connection 1-Form A_μ',
-            text: 'Bundle connection linking spacetime parallel transport with internal statistical state trajectories, matching the continuum Dirac operator of §4.3.'
+            label: 'Ghost-Free & Singularity-Free Closure',
+            text: 'Type Ia DHOST degeneracy (det M_ab = 0, c_GW = c), UV-finite Type III₁ Araki density, FLRW bounce, and κ_± → 0 regular black-hole cores.'
+          },
+          {
+            label: 'Near-Term Empirical Accountability',
+            text: 'Predicts sharp, quantitative falsification thresholds across 2026–2032+ facilities rather than deferring tests strictly to Planckian energies.'
           }
         ]
       },
       {
         number: '1.3',
         anchorId: 'sec-1-3',
+        title: 'Large Hadron Collider Provability and Doable Quantum–Gravitational Technologies',
+        epistemicStatus: 'Derived',
+        paragraphs: [
+          'A decisive test separating empirically grounded unified models from untestable speculation is whether high-energy accelerators can directly probe the scalar–spectral sector. In IGRT, the Chamseddine–Connes spectral action lifted over the Lorentzian Krein triple (𝒜_C, ℋ_C, 𝒟_C, J_Krein) cleanly splits the extended scalar multiplet into two parametrically separated excitations protected by continuous shift symmetry. The pseudo-Nambu–Goldstone (PNGB) angular phase mode ψ stays ultralight (m_ψ ≈ 10⁻³³ eV) to drive smooth late-time cosmic acceleration w(z) without Solar-System fifth-force violations. Crucially, the orthogonal radial modulus of the spectral Higgs–bundle coupling emerges as a heavy Higgs-portal scalar Φ_portal with spectral-action mass eigenvalue m_portal = 1.84 ± 0.04 TeV.',
+          'Because Φ_portal couples to the Standard Model Higgs doublet through renormalizable trace invariants |H|² Φ_portal and Φ_portal², gluon–gluon fusion at the CERN High-Luminosity Large Hadron Collider (HL-LHC, √s = 14 TeV, integrated luminosity 3000 fb⁻¹ [91]) directly produces Φ_portal on-shell, decaying into boosted di-Higgs pairs (hh → b b̄ γγ / b b̄ b b̄) and longitudinal dibosons (W⁺W⁻, ZZ). Because shift symmetry strictly shields the cosmological mode ψ from quadratic loop mixing with the Higgs mass, probing Φ_portal at 1.84 ± 0.04 TeV furnishes a crisp, high-statistics LHC benchmark (Protocol P6, §7.3): either the resonant invariant-mass excess appears in ATLAS/CMS Run-4/5 datasets, or the spectral-action completion of IGRT is cleanly excluded at 95% confidence level.',
+          'Beyond fundamental tests, IGRT immediately anchors four practical, engineerable, and experimentally provable quantum-metrological technologies built directly upon its mathematical equations:',
+          '1. Phase-Locked Optical-Clock–Pulsar Navigation & Synchronous Timekeeping Networks (Protocols P1, [79–84]): Linking cryogenic ⁸⁷Sr optical lattice clocks (short-term Allan slope σ_y(τ) = 4.2 × 10⁻¹⁷ / √(τ/s), reaching 4.2 × 10⁻¹⁹ stability per 10⁴ s run) into multi-year (T_obs ≥ 5 yr) phase-coherent networks cross-correlated against millisecond pulsar timing arrays (IPTA/NANOGrav) delivers deep-space inertial reference synchronization while resolving any 2:1 harmonic carrier at f_clock = 6.4 nHz.',
+          '2. Entanglement-Gradient Matter-Wave Gravimeters & Decoherence Sensors (Protocol P2, [85]): Operating 10-meter baseline atom interferometers (VLBAI) at macroscopic wavepacket separations Δx > 15 cm turns Araki relative-entropy decoherence (η_Araki = 1.34× Diósi–Penrose scale) into a precision solid-state/quantum inertial sensing modality capable of separating spacetime-information noise from classical vibrational systematics.',
+          '3. Transportable Sub-Millimeter Chameleon Chronometric Geodesy (Protocol P5, [90]): Pairing transportable ⁸⁷Sr optical clocks across ultra-high-vacuum millimeter/sub-10 cm cavities exploits local Chameleon Compton unscreening (δ_screen ≈ 2.1 × 10⁻⁴) to build tabletop short-range gravitational-potential and scalar-gradient sensors compatible with macroscopic Planetary PPN bounds.',
+          '4. All-Pass Unitary Causal Signal-Processing Filters (§4.4): Enforcing the discrete RES=RAG unitarity constraint |H(e^{iω})| = 1 yields mathematically exact all-pass recursive digital/quantum clock filtering algorithms that track temporal phase accumulation identically without amplitude distortion, thermal drift runaway, or closed-loop causal instabilities.'
+        ]
+      },
+      {
+        number: '1.4',
+        anchorId: 'sec-1-4',
         title: 'Axiomatic Postulates and Monograph Roadmap',
         epistemicStatus: 'Axiom',
         paragraphs: [
@@ -294,26 +314,28 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
     runningLabel: 'Chapter 2',
     title: 'Differential Geometry of the Principal Fiber Bundle P(M, S_Fisher)',
     leadSummary:
-      'Defines the bundle P(M, S_Fisher) over 4D Lorentzian spacetime, applies Chentsov–Morozova–Petz uniqueness to remove basis ambiguity, proves pure-state Fubini–Study boundary regularity, and demonstrates the metric on an explicit qubit fiber.',
+      'Constructs the differential-geometric bundle P(M, S_Fisher) in both intuitive physical terms and rigorous formalism: explains manifolds, metrics, fibers, Ehresmann connections, Morozova–Chentsov–Petz uniqueness of g_ij^QFI, smooth Fubini–Study pure-state regularization (r = sin α), and Amari dual geometry.',
     subsections: [
       {
         number: '2.1',
         anchorId: 'sec-2-1',
-        title: 'Four-Dimensional Base Manifold and Principal Bundle Structure',
+        title: 'Intuitive & Formal Bundle Geometry: Spacetime Map, Fibers & Ehresmann Connection',
         epistemicStatus: 'Derived',
         paragraphs: [
-          'Let M be a globally hyperbolic four-dimensional smooth manifold admitting a Lorentzian metric g_μν of signature (−,+,+,+). Over each event x ∈ M, assign a parametric statistical manifold S_x of faithful normal quantum states inside a causal diamond V(x). Transition maps act covariantly via the local projective unitary and diffeomorphism gauge group G = PU(H_loc) × Diff⁺(M), giving π : P(M, S_Fisher) → M the structure of a well-defined smooth principal fiber bundle over spacetime (Figure 2).',
-          'Under any smooth strictly monotonic reparametrization λ → f(λ) along a timelike curve x^μ(λ), both the worldline element √(−g_μν ẋ^μ ẋ^ν) dλ and the statistical arc-length element √(g_ij^QFI θ̇^i θ̇^j) dλ are positive homogeneous of degree one in velocities, rendering parameterization invariance manifest.'
+          'For both specialists and non-specialists alike, the differential geometry of IGRT rests on three clear geometric pictures: a base map, a local dial-room over every point, and a comparison compass connecting adjacent dial-rooms. First, macroscopic spacetime is a smooth four-dimensional globally hyperbolic manifold M—think of a continuous curved four-dimensional landscape of locations and moments—equipped with a Lorentzian metric ruler g_μν of signature (−,+,+,+). At any point x ∈ M, g_μν measures physical intervals along curves: spatial steps carry positive sign, causal light-ray paths give zero, and timelike clock worldlines carry negative squared interval, recovering proper duration (1/c)√(−g_μν ẋ^μ ẋ^ν) dλ.',
+          'Second, rather than adding hidden extra physical dimensions of space, imagine attaching above every single event x ∈ M a private calibration chamber—a fiber S_x—containing every valid local quantum density matrix ρ(θ) inside the observer’s local causal diamond V(x). Here θ^i are smooth dial settings (such as phase angles, populations, or purity radius) parameterizing how that quantum system is prepared. Allowing quantum state frames to rotate under local projective unitaries PU(H_loc) while spacetime coordinates transform smoothly under orientation-preserving diffeomorphisms Diff⁺(M) turns the total space π : P(M, S_Fisher) → M into a smooth principal fiber bundle (Figure 2), just as tangent directions over a sphere assemble into a fiber bundle.',
+          'Third, how do we compare quantum dial settings at two nearby spacetime points x and x + dx? In curved bundle geometry, raw partial derivatives ∂_μ cannot connect separate fibers covariantly. Instead, an Ehresmann connection 1-form A_μ splits every tangent space TP = HP ⊕ VP cleanly into vertical directions (changing only the internal quantum state over fixed event x) and horizontal directions (parallel-transporting the quantum clock cleanly from event x to x + dx via covariant derivative ∇_μ + iA_μ). Along any curve x^μ(λ) parameterized by an arbitrary smooth monotonic parameter λ → f(λ), both the base spacetime interval (1/c)√(−g_μν ẋ^μ ẋ^ν) dλ and the statistical fiber velocity √(g_ij^QFI θ̇^i θ̇^j) dλ are positive homogeneous of degree one in velocities, ensuring complete reparametrization invariance.'
         ]
       },
       {
         number: '2.2',
         anchorId: 'sec-2-2',
-        title: 'Quantum Fisher Metric and Morozova–Chentsov–Petz Uniqueness',
+        title: 'Information Distinguishability Ruler: SLD Fisher Metric & Petz Uniqueness',
         epistemicStatus: 'Proved',
         paragraphs: [
-          'Evaluating classical Fisher information over fixed outcome probabilities p(k|θ) introduces measurement-basis circularity because selecting a projective POVM presupposes external measurement frames. IGRT avoids basis dependence by adopting the Symmetric Logarithmic Derivative (SLD) quantum Fisher tensor g_ij^QFI [18, 19, 20].',
-          'By Chentsov’s classical theorem [14] and its quantum generalization by Morozova and Petz [15, 16], every monotone Riemannian metric contractive under all completely positive trace-preserving (CPTP) maps Φ corresponds to an operator monotone function f(t). Selecting the symmetric maximal operator monotone f(t) = (1 + t)/2 uniquely picks out the Bures–SLD metric (Theorem 2.1).'
+          'What does a Riemannian metric g_ij^QFI on the fiber S_x actually measure in plain physical terms? Imagine preparing two slightly different quantum clock states, ρ(θ) and ρ(θ + dθ). The quantum Fisher–Rao metric acts as nature’s exact distinguishability ruler: ds_QFI² = g_ij^QFI dθ^i dθ^j quantifies how fast two neighboring quantum states become statistically distinguishable from one another—just as two photographs shifted slightly out of overlap grow easier to tell apart.',
+          'In classical statistics, measuring distinguishability by evaluating Fisher information over fixed discrete outcome probabilities p(k|θ) creates circularity in quantum gravity, because choosing a projective measurement basis presupposes an external observer frame. IGRT eliminates measurement-basis ambiguity altogether by defining sensitivity through the basis-independent Symmetric Logarithmic Derivative (SLD) operator L_i, solving the Hermitian Lyapunov equation ∂_i ρ = ½(ρ L_i + L_i ρ) across non-commuting operators [18, 19, 20].',
+          'By Chentsov’s classical uniqueness theorem [14] and its quantum generalization by Morozova and Petz [15, 16], every physically valid Riemannian metric on quantum states that cannot increase under noise, decoherence, or coarse-graining—all completely positive trace-preserving (CPTP) quantum channels Φ—is classified by an operator monotone function f(t). Intuitively, forgetting information through noise can only blur states together, never sharpen distinguishability. Selecting the maximal symmetric arithmetic mean f(t) = (1 + t)/2 uniquely singles out the Helstrom–Bures–SLD metric (Theorem 2.1, Eq. 2.1), setting the fundamental quantum Cramér–Rao precision floor Var(θ̂) ≥ (N F_Q)⁻¹ across optical clocks and quantum sensors.'
         ],
         theoremBox: {
           number: 'Theorem 2.1',
@@ -331,21 +353,22 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
           label: '(2.1)',
           status: 'Proved',
           unicodeHtml:
-            '<i>g</i><sub><i>ij</i></sub><sup>QFI</sup>(θ) = (1 / 4) Tr[ ρ(θ) (<i>L</i><sub><i>i</i></sub> <i>L</i><sub><i>j</i></sub> + <i>L</i><sub><i>j</i></sub> <i>L</i><sub><i>i</i></sub>) ], &nbsp;&nbsp; ∂<sub><i>i</i></sub> ρ = (1 / 2) (ρ <i>L</i><sub><i>i</i></sub> + <i>L</i><sub><i>i</i></sub> ρ)',
+            '<i>g</i><sub><i>ij</i></sub><sup>QFI</sup>(θ) = ½ Tr[ ρ(θ) (<i>L</i><sub><i>i</i></sub> <i>L</i><sub><i>j</i></sub> + <i>L</i><sub><i>j</i></sub> <i>L</i><sub><i>i</i></sub>) ] = 4 <i>g</i><sub><i>ij</i></sub><sup>Bures</sup>, &nbsp;&nbsp; ∂<sub><i>i</i></sub> ρ = ½ (ρ <i>L</i><sub><i>i</i></sub> + <i>L</i><sub><i>i</i></sub> ρ)',
           plainText:
-            'g_ij^QFI(θ) = (1/4) Tr[ρ(θ)(L_i L_j + L_j L_i)],   ∂_i ρ = (1/2)(ρ L_i + L_i ρ)',
+            'g_ij^QFI(θ) = ½ Tr[ρ(θ)(L_i L_j + L_j L_i)] = 4 g_ij^Bures,   ∂_i ρ = ½(ρ L_i + L_i ρ)',
           caption:
-            'Basis-independent SLD Quantum Fisher–Rao metric tensor on the local statistical state fiber.'
+            'Basis-independent SLD Quantum Fisher–Rao metric tensor (Helstrom/Braunstein–Caves normalization F_Q = g^QFI = 4 g^Bures) on the local statistical fiber.'
         }
       },
       {
         number: '2.3',
         anchorId: 'sec-2-3',
-        title: 'Fubini–Study Boundary Regularization, Amari Duality & Worked Qubit Example',
+        title: 'Pure-State Boundary Regularity (S³ Geometry), Amari Duality & Worked Qubit Example',
         epistemicStatus: 'Proved',
         paragraphs: [
-          'Naive classical Fisher metrics diverge where eigenvalues p_k → 0 (det ρ → 0), creating boundary coordinate singularities. With the arithmetic monotone choice (Appendix B), the Morozova–Chentsov–Bures metric extends smoothly to pure rank-one states |ψ⟩⟨ψ|, matching four times the Fubini–Study metric on projective Hilbert space CP^{N−1} [17, 23] and anchoring quantum speed limits [21, 22].',
-          'Dual affine connections (∇^(+1), ∇^(−1)) with Legendre-conjugate convex potentials ψ_pot(θ_1) and φ_pot(η_2) simultaneously satisfy Amari’s generalized Pythagorean identity [17]. Worked Example 2.1 demonstrates the exact regularized calculation on a two-level qubit statistical fiber.'
+          'A subtle geometric trap arises when quantum systems approach zero temperature or pure coherent states (det ρ → 0, eigenvalue p_k → 0). In naive classical Fisher coordinates, dividing by vanishing probability causes factors of 1/p_k (or radial term 1/(1 − r²) in Bloch coordinates) to diverge to infinity—an apparent coordinate singularity akin to the north pole on a globe. However, Appendix B demonstrates that under the symmetric SLD metric Eq. (2.1), off-diagonal eigenvalue denominators 2/(p_m + p_n) remain completely finite along pure-state tangents, converging smoothly to four times the canonical Fubini–Study geometry g_ij^FS on complex projective Hilbert space ℂP^{N−1} [17, 23] and directly matching the Mandelstam–Tamm quantum speed limit [21, 22].',
+          'For a layman picture of how this works, look at Worked Example 2.1: replacing the Bloch purity radius r ∈ [0, 1] by an angle r = sin α literally unfolds the flat three-dimensional Bloch ball into the curved northern hemisphere of a smooth four-dimensional sphere S³ (Eq. 2.3). At the equator α = π/2—corresponding to pure quantum states r = 1—the seemingly infinite 1/(1 − r²) denominator cancels identically against dr² = cos²α dα², leaving a completely regular line element dα² + sin²α(dθ² + sin²θ dφ²)!',
+          'Finally, every statistical fiber S_x naturally carries Shun-ichi Amari’s dual-flat affine structure (∇^(+1), ∇^(−1)) governed by two Legendre-conjugate convex potentials ψ_pot(θ_1) and φ_pot(η_2) (representing exponential natural parameters vs mixture expectation coordinates). Together they satisfy the generalized curved Pythagorean divergence inequality D(θ_1 ‖ θ_2) ≥ 0 in Eq. (2.2) [17], ensuring globally consistent information-geometric projections and thermodynamic projections across Chapters 4 and 5.'
         ],
         equation: {
           label: '(2.2)',
@@ -387,16 +410,17 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
     runningLabel: 'Chapter 3',
     title: 'Covariant Action Principle, DHOST Closure, and Araki Entropic Field',
     leadSummary:
-      'Constructs the shift-symmetric DHOST gravity action at braiding scale Λ_3 = (M̄_Pl H_0²)^{1/3}, derives ψ²(x) from Type III₁ Araki relative entropy via heat-kernel regularization, proves Bianchi conservation, and resolves unified Solar-System Vainshtein–Chameleon screening.',
+      'Constructs the shift-symmetric Type Ia DHOST gravitational action term-by-term, eliminates Ostrogradsky ghosts at Λ_3 = (M̄_Pl H_0²)^{1/3}, derives ψ²(x) from UV-finite Type III₁ Araki relative entropy with heat-kernel coefficient κ_ψ = ħc ℓ_Pl / (12π), proves Jordan–Einstein Bianchi conservation, and unifies Vainshtein–Chameleon Solar-System screening.',
     subsections: [
       {
         number: '3.1',
         anchorId: 'sec-3-1',
-        title: 'Shift-Symmetric DHOST Action, Luminal Tensor Speed, and Infrared Scale Λ_3',
+        title: 'Shift-Symmetric DHOST Action, Ostrogradsky Cancellation, and Infrared Scale Λ_3',
         epistemicStatus: 'Theorem',
         paragraphs: [
-          'Higher-derivative couplings between curvature and scalar gradients ordinarily trigger Ostrogradsky ghosts [24]. To maintain strictly second-order ghost-free dynamics, IGRT embeds ψ inside a Degenerate Higher-Order Scalar–Tensor (DHOST) action [25, 26, 27, 28] generalizing Horndeski gravity, preserving exact luminal gravitational waves c_GW = c along the Type Ia degeneracy surface (G_4,X = 0) [29, 30, 31] under an approximate shift symmetry ψ → ψ + c.',
-          'In the Einstein-frame action Eq. (3.1), matter couples via the conformal trace interaction +(β/M_Pl) ψ T^μ_μ, equivalent to Jordan-frame minimal coupling g̃_μν = exp(2βψ/M_Pl) g_μν (Appendix A). Fixing the Galileon braiding scale at Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.7 × 10⁻¹³ eV yields the astrophysical Vainshtein radius r_V = (r_s / Λ_3²)^{1/3} ≈ 360 light-years for one solar mass. Under Vainshtein suppression (r/r_V)^{3/2} < 10⁻⁸ across galactic and Solar-System distances, non-renormalization and shift symmetry protect m_ψ ≈ 10⁻³³ eV against radiative destabilization.'
+          'Coupling spacetime curvature directly to information-entropy gradients inevitably introduces higher-than-first derivatives of the scalar field ψ into the Lagrangian. By Mikhail Ostrogradsky’s classical instability theorem [24], any non-degenerate Lagrangian containing irreducible second time derivatives spawns an unbounded negative-energy Hamiltonian degree of freedom—a catastrophic ghost state that instantly destabilizes the quantum vacuum. To avoid ghosts while keeping rich scalar–curvature dynamics, IGRT embeds ψ inside the Degenerate Higher-Order Scalar–Tensor (DHOST) class [25, 26, 27, 28]. Through explicit algebraic relations linking kinetic Hessian entries, the degeneracy determinant vanishes identically (det M_ab = 0), eliminating the extra ghost phase-space pair and restricting tensor-scalar propagation to three healthy degrees of freedom: two transverse-traceless gravitons plus one scalar excitation.',
+          'Observational constraints from the binary neutron-star merger GW170817 / GRB 170817A [77] further forbid gravitational waves from lagging or outrunning light beyond |c_GW/c − 1| < 10⁻¹⁵. Restricting Eq. (3.1) to the shift-symmetric Type Ia DHOST branch with G_4,X = 0 [29, 30, 31] locks c_GW = c identically across all cosmic epochs without tuning. Each term in Eq. (3.1) plays a distinct physical role: (R − 2Λ)/(16πG) supplies the four-dimensional Einstein–Hilbert geometric sector; −½(∇ψ)² is the canonical scalar kinetic energy; −(γ / 2Λ_3³) □ψ (∇ψ)² supplies cubic Galileon self-braiding that turns non-linear around massive stars; −V(ψ) captures ultra-soft pseudo-Nambu–Goldstone shift symmetry breaking; +(β/M_Pl) ψ T^μ_μ mediates weak conformal trace coupling to baryonic and relativistic matter; and ℒ_fiber(A_μ, ρ) carries the bundle Ehresmann connection governing internal statistical clock trajectories.',
+          'Setting the Galileon braiding scale identically to Λ_3 = (M̄_Pl H_0²)^{1/3} = (2.435 × 10²⁷ eV × (1.49 × 10⁻³³ eV)²)^{1/3} ≈ 1.75 × 10⁻¹³ eV connects late-time cosmic acceleration seamlessly to astrophysical screening. Around any compact mass of Schwarzschild radius r_s, the non-linear cubic term becomes dominant inside the Vainshtein radius r_V = (r_s M̄_Pl / Λ_3³)^{1/3} = (r_s c² / H_0²)^{1/3}, which evaluates to r_V ≈ 370 light-years for the Sun. Because planetary orbits lie deep inside r_V (at 1 AU, (r/r_V)^{3/2} ≈ 8.9 × 10⁻¹² ≪ 10⁻⁸), Galileon stiffness suppresses fifth forces cleanly below experimental detection while non-renormalization theorems and shift symmetry ψ → ψ + c shield the cosmological mass m_ψ ≈ 10⁻³³ eV against quantum radiative corrections (Theorem 3.1).'
         ],
         theoremBox: {
           number: 'Theorem 3.1',
@@ -405,10 +429,10 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
           hypotheses: [
             'H1: Action Eq. (3.1) belongs to Type Ia DHOST with cubic Galileon braiding □ψ (∇ψ)² / Λ_3³ and G_4,X = 0.',
             'H2: Kinetic Hessian M_ab satisfies algebraic degeneracy det(M_ab) = 0 on globally hyperbolic backgrounds.',
-            'H3: Infrared braiding scale is set to Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.7 × 10⁻¹³ eV.'
+            'H3: Infrared braiding scale is set to Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV.'
           ],
           statement:
-            'Under H1–H3, two tensor modes propagate identically at c_GW = c [26, 29], Ostrogradsky ghosts are absent, solar Vainshtein screening yields r_V ≈ 360 ly with suppression factor (r/r_V)^{3/2} < 10⁻⁸, and shift symmetry protects m_ψ ~ 10⁻³³ eV radiatively.'
+            'Under H1–H3, two tensor modes propagate identically at c_GW = c [26, 29], Ostrogradsky ghosts are absent, solar Vainshtein screening yields r_V = (r_s M̄_Pl / Λ_3³)^{1/3} ≈ 370 ly with suppression (r/r_V)^{3/2} ≪ 10⁻⁸, and shift symmetry protects m_ψ ~ 10⁻³³ eV radiatively.'
         },
         equation: {
           label: '(3.1)',
@@ -418,7 +442,7 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
           plainText:
             'S_IGRT = ∫ d⁴x √(−g) [ (R − 2Λ)/(16πG) − ½(∇ψ)² − (γ / 2Λ_3³)□ψ(∇ψ)² − V(ψ) + (β/M_Pl)ψ T^μ_μ + L_fiber(A_μ, ρ) ]',
           caption:
-            'Ghost-free Type Ia DHOST Einstein-frame action with infrared braiding scale Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.7 × 10⁻¹³ eV.'
+            'Ghost-free Type Ia DHOST Einstein-frame action with infrared braiding scale Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV.'
         }
       },
       {
@@ -427,18 +451,19 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
         title: 'Araki Relative Entropy Density on Hyperfinite Type III₁ Algebras',
         epistemicStatus: 'Derived',
         paragraphs: [
-          'In curved-spacetime QFT, naive region entropy subtraction S(ρ_V) − S(σ_V) exhibits UV cutoff divergences (~1/ε² and curvature-dependent R ln ε terms) and encounters global Fock-space inequivalence (Haag’s theorem [32]). Following Araki [34], Takesaki [33], Longo [35], and Witten [36, 37] alongside local algebraic treatments by Hollands–Sanders [38], Hollands–Wald [39], Ceyhan–Faulkner [40], and Buchholz–Verch [41], IGRT defines the scalar field via Tomita–Takesaki relative entropy on hyperfinite Type III₁ local von Neumann algebras A(V).',
-          'For faithful normal states ρ_V, σ_V generated by cyclic and separating vectors on a causal diamond V, Klein’s inequality guarantees S_Araki(ρ_V || σ_V) = −⟨Ψ| ln Δ_{σ,ρ} |Ψ⟩ ≥ 0 identically without trace normalization [34, 38] (Appendix C). Performing the short-distance Hadamard heat-kernel expansion of the modular Hamiltonian stress-tensor expectation fixes the proportionality constant κ_ψ = ħc / (12π ℓ_Pl²) and recovers a smooth, ultraviolet-finite continuum DHOST scalar density ψ²(x) in Eq. (3.2).'
+          'How is the macroscopic DHOST scalar field ψ(x) derived microscopically from quantum information without triggering infinite vacuum divergences? In ordinary finite-dimensional quantum mechanics, subsystem entanglement is defined via reduced density traces S(ρ_V) = −Tr(ρ_V ln ρ_V). In relativistic curved-spacetime QFT, however, local operator algebras A(V) associated with causal diamonds V belong to Murray–von Neumann hyperfinite Type III₁ factors [33, 35, 36]. Type III₁ algebras admit no finite pure traces and no global Fock-space equivalence across curved backgrounds (Haag’s theorem [32]); consequently, naive geometric entropy differences S(ρ_V) − S(σ_V) suffer ultraviolet boundary divergences scaling as Area(∂V)/ε² together with logarithmically divergent curvature counterterms ~ R ln ε.',
+          'Building upon the algebraic QFT foundations of Araki [34], Takesaki [33], Longo [35], Witten [36, 37], Hollands–Sanders [38], Hollands–Wald [39], Ceyhan–Faulkner [40], and Buchholz–Verch [41], IGRT replaces separate reduced-matrix traces with Tomita–Takesaki relative entropy S_Araki(ρ_V || σ_V) = −⟨Ψ| ln Δ_{σ,ρ} |Ψ⟩ between a physical state ρ_V (cyclic and separating vector |Ψ⟩) and a conformally covariant vacuum reference state σ_V on the diamond algebra A(V). Because the relative modular operator Δ_{σ,ρ} acts purely within A(V), ultraviolet short-distance singularities shared by both states cancel identically inside ln Δ_{σ,ρ}. Klein’s inequality rigorously guarantees S_Araki ≥ 0 everywhere without cutoff subtraction (Appendix C).',
+          'Evaluating S_Araki / Vol(V) in the coincident diamond shrinkage limit V → x via the Bisognano–Wichmann modular boost generator and the covariant Hadamard point-splitting heat-kernel expansion strips away divergent boundary terms cleanly and isolates the leading local covariant scalar energy-density invariant. Restoring exact SI dimensions (Table 0.2, Appendix G) fixes the heat-kernel normalization constant uniquely to κ_ψ = ħc ℓ_Pl / (12π) [J·m², natural units GeV⁻¹], yielding the UV-finite, strictly non-negative continuum scalar field density ψ²(x) in Eq. (3.2).'
         ],
         equation: {
           label: '(3.2)',
           status: 'Derived',
           unicodeHtml:
-            'ψ<sup>2</sup>(<i>x</i>) = κ<sub>ψ</sub> · lim<sub>𝒱→<i>x</i></sub> [ <i>S</i><sub>Araki</sub>(ρ<sub>𝒱</sub> ‖ σ<sub>𝒱</sub>) / Vol(𝒱) ] = κ<sub>ψ</sub> · lim<sub>𝒱→<i>x</i></sub> [ −⟨Ψ| ln Δ<sub>σ,ρ</sub> |Ψ⟩ / Vol(𝒱) ] ≥ 0',
+            'ψ<sup>2</sup>(<i>x</i>) = κ<sub>ψ</sub> · lim<sub>𝒱→<i>x</i></sub> [ <i>S</i><sub>Araki</sub>(ρ<sub>𝒱</sub> ‖ σ<sub>𝒱</sub>) / Vol(𝒱) ] = [ ℏ<i>c</i> ℓ<sub>Pl</sub> / (12π) ] lim<sub>𝒱→<i>x</i></sub> [ −⟨Ψ| ln Δ<sub>σ,ρ</sub> |Ψ⟩ / Vol(𝒱) ] ≥ 0',
           plainText:
-            'ψ²(x) = κ_ψ lim_{V→x} [S_Araki(ρ_V || σ_V) / Vol(V)] = κ_ψ lim_{V→x} [−⟨Ψ|ln Δ_{σ,ρ}|Ψ⟩ / Vol(V)] ≥ 0',
+            'ψ²(x) = κ_ψ lim_{V→x} [S_Araki(ρ_V || σ_V) / Vol(V)] = [ħc ℓ_Pl / (12π)] lim_{V→x} [−⟨Ψ|ln Δ_{σ,ρ}|Ψ⟩ / Vol(V)] ≥ 0',
           caption:
-            'UV-finite Type III₁ Araki relative entropy scalar density with heat-kernel normalization κ_ψ = ħc / (12π ℓ_Pl²).'
+            'UV-finite Type III₁ Araki relative entropy scalar density with heat-kernel normalization κ_ψ = ħc ℓ_Pl / (12π).'
         }
       },
       {
@@ -447,8 +472,8 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
         title: 'Extended Einstein Field Equations and Contracted Bianchi Conservation',
         epistemicStatus: 'Proved',
         paragraphs: [
-          'Varying Eq. (3.1) with respect to g^{μν} yields extended field equations sourcing curvature by matter stress-energy T_μν and the braided information tensor I_μν(ψ). By diffeomorphism invariance and Noether’s second theorem, the contracted Bianchi identity ∇^μ G_μν ≡ 0 enforces total covariant conservation Eq. (3.3) identically on solutions of the scalar equation of motion (Appendix A).',
-          'As proved in Appendix A, in the Jordan frame where matter couples minimally to g̃_μν = exp(2βψ/M_Pl) g_μν, individual matter stress-energy satisfies ∇̃^μ T̃_μν = 0; mapped into the Einstein frame, the trace exchange +(β/M_Pl) T^α_α ∇_ν ψ cancels term-for-term against ∇^μ I_μν via the scalar Euler–Lagrange equation.'
+          'Varying the total covariant action S_IGRT in Eq. (3.1) with respect to the inverse base metric g^{μν} yields the extended gravitational field equations G_μν + Λ g_μν = 8πG (T_μν + I_μν(ψ)) (Eq. 3.3). Here T_μν is the standard symmetric Hilbert stress-energy tensor of matter fields, while the braided information-geometric tensor I_μν(ψ) collects canonical scalar energy-momentum, potential density −g_μν V(ψ), and cubic Galileon braiding variations containing covariant second derivatives ∇_μ∇_ν ψ paired safely through Type Ia degeneracy.',
+          'At first glance, conformal trace coupling +(β/M_Pl) ψ T^μ_μ implies that matter and scalar stress-energy tensors exchange energy along scalar gradients rather than remaining separately conserved. Yet Noether’s second theorem applied to diffeomorphism invariance guarantees the geometrical contracted Bianchi identity ∇^μ G_μν ≡ 0 identically. As proved explicitly in Appendix A, transforming Eq. (3.1) to the physical Jordan frame g̃_μν = exp(2βψ/M_Pl) g_μν restores minimal coupling where free-falling test bodies move along g̃_μν geodesics and satisfy ∇̃^μ T̃_μν = 0 separately. Mapped back to the Einstein frame, the resulting matter exchange divergence ∇^μ T_μν = +(β/M_Pl) T^α_α ∇_ν ψ cancels term-for-term against third-order commutator terms [∇_μ, ∇_ν]∇^μ ψ = R_μν ∇^μ ψ inside ∇^μ I_μν whenever ψ solves its Euler–Lagrange equation δS_IGRT/δψ = 0, sealing total on-shell conservation ∇^μ(T_μν + I_μν) ≡ 0.'
         ],
         equation: {
           label: '(3.3)',
@@ -466,8 +491,8 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
         title: 'Unified Chameleon–Vainshtein Screening and Solar-System PPN Bound',
         epistemicStatus: 'Derived',
         paragraphs: [
-          'Long-range scalar mediators must suppress fifth forces inside the Solar System to satisfy Cassini Shapiro time-delay limits |γ_PPN − 1| < 2.3 × 10⁻⁵ [46] and broader PPN tests [47]. IGRT combines derivative Vainshtein screening [42, 44, 45] at Λ_3 = (M̄_Pl H_0²)^{1/3} with density-dependent Chameleon effective mass m_eff²(ρ) = V\'\'(ψ) + (β/M_Pl)ρ [43].',
-          'Integrating the static spherical thin-shell equations yields a radial Galileon gradient suppression (r/r_V)^{3/2} < 10⁻⁸ inside r ≪ r_V ≈ 360 ly, giving a unified macroscopic Solar-System bound |γ_PPN − 1| ≤ 2.8 × 10⁻⁷—two orders of magnitude tighter than Cassini [46] and consistent across both §3.4 and Protocol P5. Conversely, inside ultra-high-vacuum millimeter cavities (h < 10 cm) where ambient density drops below the Chameleon threshold, m_eff⁻¹ exceeds the cavity separation and restores the short-range fifth-force redshift signature Δν/ν = (gh/c²)(1 + δ_screen) targeted in Protocol P5.'
+          'Any covariant scalar–tensor extension of gravity must explain why fifth forces vanish across high-precision Solar-System experiments—most stringently the Cassini spacecraft Shapiro time-delay measurement |γ_PPN − 1| < 2.3 × 10⁻⁵ [46] and planetary ephemeris PPN tests [47]—without decoupling the scalar field on cosmological or laboratory scales. IGRT achieves this through a two-mechanism unified screening sector pairing non-linear derivative Vainshtein screening [42, 44, 45] at infrared scale Λ_3 = (M̄_Pl H_0²)^{1/3} with density-dependent Chameleon effective mass m_eff²(ρ) = V\'\'(ψ) + (β/M_Pl)ρ [43].',
+          'Around astrophysical stars and planetary orbits, radial metric gradients are governed by the Galileon derivative nonlinearity inside the Vainshtein radius r_V ≈ 370 light-years, suppressing the scalar-to-Newtonian force ratio as (r/r_V)^{3/2} ≪ 10⁻⁸ and enforcing a unified macroscopic Solar-System bound |γ_PPN − 1| ≤ 2.8 × 10⁻⁷—nearly two orders of magnitude tighter than Cassini [46]. Inside ultra-high-vacuum laboratory chambers across sub-10 cm cavities (h < 10 cm), however, ambient matter density ρ drops dramatically toward laboratory vacuum, relaxing both local Chameleon thin-shell stiffening and Galileon source density so that m_eff⁻¹ expands beyond the cavity gap h. This selective cavity unscreening restores a localized, testable fractional optical redshift anomaly Δν/ν = (gh/c²)(1 + δ_screen) with δ_screen = (2.1 ± 0.3) × 10⁻⁴ in Protocol P5 (§7.3, [90]) while preserving every planetary test of General Relativity.'
         ]
       }
     ]
@@ -493,11 +518,11 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
           label: '(4.1)',
           status: 'Axiom',
           unicodeHtml:
-            '<i>d</i>τ = √(−<i>g</i><sub>μν</sub> <i>ẋ</i><sup>μ</sup> <i>ẋ</i><sup>ν</sup>) <i>d</i>λ &nbsp;≡&nbsp; [ ℏ / (<i>E</i><sub>mod</sub> · σ(<i>K</i><sub>ξ</sub>)) ] · √(<i>g</i><sub><i>ij</i></sub><sup>QFI</sup> <i>θ̇</i><sup><i>i</i></sup> <i>θ̇</i><sup><i>j</i></sup>) <i>d</i>λ &nbsp;≡&nbsp; τ<sub>0</sub> ∑<sub><i>k</i>=1</sub><sup><i>N</i></sup> ‖RAG<sub><i>k</i></sub> − RES<sub><i>k</i></sub>‖<sub>ℱ</sub>',
+            '<i>d</i>τ = (1/<i>c</i>) √(−<i>g</i><sub>μν</sub> <i>ẋ</i><sup>μ</sup> <i>ẋ</i><sup>ν</sup>) <i>d</i>λ &nbsp;≡&nbsp; [ ℏ / (<i>E</i><sub>mod</sub> · σ(<i>K</i><sub>ξ</sub>)) ] √(<i>g</i><sub><i>ij</i></sub><sup>QFI</sup> <i>θ̇</i><sup><i>i</i></sup> <i>θ̇</i><sup><i>j</i></sup>) <i>d</i>λ, &nbsp;&nbsp; Δτ = ∫<sub>γ</sub> <i>d</i>τ ≡ τ<sub>0</sub> ∑<sub><i>k</i>=1</sub><sup><i>N</i></sup> ‖RAG<sub><i>k</i></sub> − RES<sub><i>k</i></sub>‖<sub>ℱ</sub>',
           plainText:
-            'dτ = √(−g_μν ẋ^μ ẋ^ν) dλ ≡ [ħ / (E_mod · σ(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ ≡ τ_0 ∑_{k=1}^N ‖RAG_k − RES_k‖_F',
+            'dτ = (1/c)√(−g_μν ẋ^μ ẋ^ν) dλ ≡ [ħ / (E_mod · σ(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ,   Δτ = ∫_γ dτ ≡ τ_0 ∑_{k=1}^N ‖RAG_k − RES_k‖_F',
           caption:
-            'Dimensionally closed Master Time Equivalence Identity; E_mod = k_B T_mod guarantees exact seconds [s] across all regimes.'
+            'Dimensionally closed Master Time Equivalence Identity; 1/c (with x^μ in m) and E_mod = k_B T_mod [J] guarantee exact seconds [s] across all regimes.'
         }
       },
       {
@@ -530,7 +555,7 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
             'Step 3: Multiplying by x yields closed-form modular variance σ(K_ξ) = x e^{x/2} / (e^x − 1). In the high-temperature Rindler limit x → 0, σ(K_ξ) → 1 + O(x²).'
           ],
           resultEquation: {
-            label: '(4.3)',
+            label: '(4.2)',
             status: 'Proved',
             unicodeHtml:
               'σ(<i>K</i><sub>ξ</sub>) = [ <i>x</i> · <i>e</i><sup><i>x</i>/2</sup> / (<i>e</i><sup><i>x</i></sup> − 1) ] &nbsp;→&nbsp; 1 &nbsp; (<i>x</i> = ℏω / <i>k</i><sub>B</sub><i>T</i> → 0), &nbsp;&nbsp; <i>d</i>τ = (ℏ / <i>E</i><sub>mod</sub>) <i>ds</i><sub>QFI</sub>',
@@ -549,10 +574,10 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
         epistemicStatus: 'Theorem',
         paragraphs: [
           'Connecting Planck-scale discrete resonance steps ‖RAG_k − RES_k‖_F [2] to the smooth Ehresmann bundle connection A_μ requires a controlled discrete-to-continuum limit in Lorentzian signature. Extending Chamseddine–Connes spectral geometry [49, 50, 51] via indefinite Krein inner products ⟨·, J·⟩ on causal set d’Alembertian operators [52, 53, 54], we construct the Lorentzian spectral triple (A_C, H_C, D_C, J_Krein) on locally finite Poisson-sprinkled posets (C, ≺).',
-          'Fluctuating the fundamental chirality/fundamental-symmetry operator D_C → D_C + A + J A J⁻¹ inside the causal-diamond heat-kernel trace recovers the covariant bundle Dirac operator γ^μ(∇_μ + i A_μ) and generates the Yang–Mills–Einstein–DHOST effective Lagrangian at large N → ∞ (Eq. 4.2), simultaneously canceling the anomalous U(1) × Diff(M) trace.'
+          'Fluctuating the fundamental chirality/fundamental-symmetry operator D_C → D_C + A + J A J⁻¹ inside the causal-diamond heat-kernel trace recovers the covariant bundle Dirac operator γ^μ(∇_μ + i A_μ) and generates the Yang–Mills–Einstein–DHOST effective Lagrangian at large N → ∞ (Eq. 4.3), simultaneously canceling the anomalous U(1) × Diff(M) trace.'
         ],
         equation: {
-          label: '(4.2)',
+          label: '(4.3)',
           status: 'Theorem',
           unicodeHtml:
             '(𝒜<sub>𝒞</sub>, ℋ<sub>𝒞</sub>, 𝒟<sub>𝒞</sub>, <i>J</i><sub>Krein</sub>) &nbsp;⇒&nbsp; <i>d</i>(<i>p</i>, <i>q</i>) = sup<sub>‖[𝒟<sub>𝒞</sub>, <i>a</i>]‖≤1</sub> |<i>a</i>(<i>p</i>) − <i>a</i>(<i>q</i>)|, &nbsp;&nbsp; lim<sub><i>N</i>→∞</sub> 𝒟<sub>𝒞</sub> = γ<sup>μ</sup>(∇<sub>μ</sub> + <i>i A</i><sub>μ</sub>)',
@@ -758,16 +783,16 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
         epistemicStatus: 'Derived',
         paragraphs: [
           'Along the Type Ia degeneracy surface (G_4,X = 0) [29, 30, 31], linearized tensor perturbations propagate identically at c_GW = c, satisfying the GW170817 / GRB 170817A speed bound |c_GW/c − 1| < 10⁻¹⁵ [77] without fine-tuning. Furthermore, CP-even parity symmetry prohibits linear Lorentz-invariance-violating terms (ξ_1 = 0), confining Planck-suppressed dispersion to quadratic order in accord with LHAASO ultrahigh-energy gamma-ray observations [78].',
-          'Expanding perturbed Einstein–DHOST equations □ h̄_μν = 16πG (δT_μν + δI_μν) with an oscillatory scalar phase background δψ ∝ cos(ωt/2) yields quadratic metric-stress back-reaction oscillating at 2 × (ω/2π) = ω/π, predicting a coherent 2:1 Lissajous harmonic lock f_PTA = 2 f_clock between nanohertz pulsar timing arrays (NANOGrav [79], EPTA [80], PPTA [81], IPTA [82]) and cryogenic ⁸⁷Sr optical lattice clocks (JILA [83], PTB [84]) (Figure 7).',
-          'In experimental operation, cryogenic lattice clocks characterize their short-term white-frequency noise slope σ_y(τ) = 4.2 × 10⁻¹⁷ / √(τ/s) down to a per-epoch calibration floor σ_y(10⁴ s) = 4.2 × 10⁻¹⁹ across 10⁴ s runs, while phase-coherent lock-in cross-correlation over continuous T_obs ≥ 5 yr campaigns resolves one full f_clock = 6.4 nHz period (T = 4.95 yr) at Fourier resolution Δf = 1/T_obs ≲ 6.3 nHz, yielding target frequency-ratio peak f_PTA / f_clock = 2.0000 ± 0.0005.'
+          'Expanding perturbed Einstein–DHOST equations □ h̄_μν = 16πG (δT_μν + δI_μν) with an oscillatory scalar phase background δψ ∝ cos(ωt/2) (fundamental clock frequency f_clock = ω/(4π)) yields quadratic metric-stress back-reaction cos²(ωt/2) = ½[1 + cos(ωt)] oscillating at linear frequency f_PTA = ω/(2π) = 2 f_clock, predicting a coherent 2:1 Lissajous harmonic lock between nanohertz pulsar timing arrays (NANOGrav [79], EPTA [80], PPTA [81], IPTA [82]) and cryogenic ⁸⁷Sr optical lattice clocks (JILA [83], PTB [84]) (Figure 7).',
+          'In experimental operation, cryogenic lattice clocks characterize their short-term white-frequency noise slope σ_y(τ) = 4.2 × 10⁻¹⁷ / √(τ/s) down to a per-epoch calibration floor σ_y(10⁴ s) = 4.2 × 10⁻¹⁹ across 10⁴ s runs, while phase-coherent lock-in cross-correlation over continuous T_obs ≥ 5 yr campaigns resolves one full f_clock = 6.4 nHz period (T = 4.95 yr) at Fourier resolution Δf = 1/T_obs ≈ 6.34 nHz, yielding target frequency-ratio peak f_PTA / f_clock = 2.0000 ± 0.0005.'
         ],
         equation: {
           label: '(7.1)',
           status: 'Derived',
           unicodeHtml:
-            '<i>f</i><sub>PTA</sub> = ω / π = 2 <i>f</i><sub>clock</sub> &nbsp;(<i>T</i><sub>6.4 nHz</sub> ≈ 4.95 yr; <i>T</i><sub>obs</sub> ≥ 5 yr), &nbsp;&nbsp; <i>c</i><sub>GW</sub> = <i>c</i> &nbsp;(|<i>c</i><sub>GW</sub>/<i>c</i> − 1| &lt; 10<sup>−15</sup>)',
+            '<i>f</i><sub>PTA</sub> = ω / (2π) = 2 <i>f</i><sub>clock</sub> &nbsp;(<i>T</i><sub>6.4 nHz</sub> ≈ 4.95 yr; <i>T</i><sub>obs</sub> ≥ 5 yr), &nbsp;&nbsp; <i>c</i><sub>GW</sub> = <i>c</i> &nbsp;(|<i>c</i><sub>GW</sub>/<i>c</i> − 1| &lt; 10<sup>−15</sup>)',
           plainText:
-            'f_PTA = ω/π = 2 f_clock (T_{6.4 nHz} ≈ 4.95 yr; T_obs ≥ 5 yr),   c_GW = c (|c_GW/c − 1| < 10⁻¹⁵)',
+            'f_PTA = ω/(2π) = 2 f_clock (T_{6.4 nHz} ≈ 4.95 yr; T_obs ≥ 5 yr),   c_GW = c (|c_GW/c − 1| < 10⁻¹⁵)',
           caption:
             'Exact 2:1 PTA–clock harmonic lock over multi-year coherent integration and Type Ia luminal gravitational-wave propagation.'
         }
@@ -787,30 +812,35 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
     number: 8,
     anchorId: 'chapter-8',
     runningLabel: 'Chapter 8',
-    title: 'Comparative Discussion, Structural Regimes, and Conclusions',
+    title: 'Structural Differences, EFT Boundaries, Conclusions, and Technical Appendices Guide',
     leadSummary:
-      'Compares IGRT against six competing frameworks on the Problem of Time, delineates valid EFT regimes and high-energy boundaries in §8.2, and synthesizes comprehensive conclusions in §8.3.',
+      'Isolates the decisive structural, mathematical, and experimental differences distinguishing IGRT from String Theory and six competing quantum-gravity programs, delineates sharp regime boundaries in §8.2, states overall conclusions in §8.3, and introduces Supporting Technical Appendices A–J in §8.4.',
     subsections: [
       {
         number: '8.1',
         anchorId: 'sec-8-1',
-        title: 'Comparison With Competing Approaches to the Problem of Time',
+        title: 'Key Differences Between IGRT, String Theory, and Competing Approaches',
         epistemicStatus: 'Established',
         paragraphs: [
-          'By keeping all four macroscopic Lorentzian spacetime dimensions intact while grounding internal clock rates in local statistical distinguishability, IGRT occupies a distinct structural niche among candidate quantum-gravity frameworks. Table 8.1 contrasts IGRT side-by-side against Page–Wootters [9], Connes–Rovelli thermal time [10], Loop Quantum Gravity [58, 59], Causal Set Theory [52–54], Asymptotic Safety, and Hořava–Lifshitz gravity, while Table 8.2 consolidates the six core formal results established across this monograph.'
+          'Rather than repeating shared goals, Table 8.1 and the present section isolate strictly where Information-Geometric Resonant Time (IGRT) diverges structurally, mathematically, and empirically from String Theory / M-Theory and six other programs addressing the Problem of Time:',
+          '1. Dimensionality & Vacuum Landscape vs. String Theory / M-Theory: String Theory replaces point particles with 1D strings and branes requiring 10D or 11D spacetime compactified on Calabi–Yau manifolds, yielding ~10⁵⁰⁰ metastable flux vacua and pushing core string excitations far above the HL-LHC reach. IGRT differs fundamentally by keeping strict 3+1 dimensions on (M, g_μν) with zero extra spatial dimensions: its internal fiber S_x is purely the statistical manifold of local quantum states already present in QFT, while its sole heavy radial spectral Higgs-portal scalar Φ_portal sits cleanly inside the 14 TeV HL-LHC discovery window at 1.84 ± 0.04 TeV [91].',
+          '2. Clock–Spacetime Backreaction vs. Page–Wootters [9]: Page–Wootters unfreezes Ĥ|Ψ⟩ = 0 cleanly using conditional probabilities ⟨τ|_clock|Ψ⟩ on bipartite Hilbert spaces, but lacks a coupled gravitational stress tensor or covariant 4D screening action and encounters clock-frame ambiguity under interacting clocks [12]. IGRT fixes both gaps by embedding the clock inside the diffeomorphism-covariant bundle connection A_μ calibrated by E_mod = k_B T_mod and coupling its Araki density ψ²(x) back into DHOST curvature Eq. (3.3).',
+          '3. Out-of-Equilibrium & Poset Closure vs. Connes–Rovelli Thermal Time [10]: Connes–Rovelli derives flow purely from equilibrium KMS automorphisms σ_t^ω, which lack a unique global generator during rapid cosmological expansion or far-from-equilibrium transitions. IGRT differs by pairing Tomita–Takesaki modular variance σ(K_ξ) directly with SLD Fisher–Rao geodesic speed √(g_ij^QFI θ̇^i θ̇^j), remaining strictly positive and well-defined along generic non-equilibrium CPTP trajectories (Theorem 5.1) while matching discrete RES=RAG Krein limits (§4.3).',
+          '4. Off-Shell 4D Covariance & Continuum Action vs. Loop Quantum Gravity [58, 59] and Causal Sets [52–54]: While LQG recovers symmetric cosmological bounces [58] using discrete SU(2) spin networks, anomaly-free off-shell closure in generic inhomogeneous 3+1 sectors remains technically challenging; conversely, Causal Set Theory preserves discrete Lorentz invariance cleanly under Poisson sprinkling yet struggles to generate Einstein field equations dynamically. IGRT differs by anchoring macroscopic covariance in a verified Type Ia DHOST continuum action (det M_ab = 0, c_GW = c, exact Bianchi conservation) while restricting discrete posets to the ultraviolet Krein spectral triple converging smoothly to γ^μ(∇_μ + iA_μ).',
+          '5. Lorentzian Unitarity & High-Energy Symmetry vs. Asymptotic Safety and Hořava–Lifshitz: Euclidean functional renormalization group trajectories in Asymptotic Safety face analytic-continuation subtleties upon Wick rotation back to Lorentzian signature, whereas Hořava–Lifshitz gravity explicitly breaks fundamental 4D foliation invariance via anisotropic scaling (z = 3). IGRT retains both fundamental Lorentzian signature (−,+,+,+) natively across all scales and exact local SO(1,3) invariance (ξ_1 = 0, Theorem 4.1, Table 8.2).'
         ]
       },
       {
         number: '8.2',
         anchorId: 'sec-8-2',
-        title: 'Effective Field Theory Cutoff Regimes and Empirical Boundaries',
+        title: 'Regime-Boundary Differences Across Effective Field Theory Cutoffs',
         epistemicStatus: 'Derived',
         paragraphs: [
-          'Every physical realization of IGRT operates within clearly defined dynamical validity regimes (summarized in Appendices G–J):',
-          '1. Modular Energy Domain (E_mod = k_B T_mod): Valid whenever local observer congruences admit faithful KMS or finite-temperature two-level clock states (σ(K_ξ) ∈ (0, 1]), transitioning smoothly from quantum optical atomic transitions (E_mod = ℏω_0) to accelerated Rindler horizons (T_U = ℏa/(2πck_B)).',
-          '2. Infrared Vainshtein vs. Cavity Unscreening: At braiding scale Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.7 × 10⁻¹³ eV, derivative Vainshtein suppression ((r/r_V)^{3/2} < 10⁻⁸) enforces |γ_PPN − 1| ≤ 2.8 × 10⁻⁷ throughout galactic and planetary orbits, whereas sub-10 cm vacuum cavities allow Chameleon Compton unscreening tested in Protocol P5.',
-          '3. Two-Scale Scalar Hierarchy: Continuous shift symmetry protects the light PNGB dark-energy phase mode ψ (m_ψ ≈ 10⁻³³ eV) across cosmological epochs, strictly separated from the TeV-scale spectral Higgs-portal radial excitation Φ_portal (m_portal = 1.84 ± 0.04 TeV) probed cleanly at HL-LHC in Protocol P6.',
-          '4. Multi-Year Synchronous Timing Baseline: While short-term optical clock runs (10⁴ s) measure white-frequency noise floors at 4.2 × 10⁻¹⁹, resolving the f_clock = 6.4 nHz dipolar carrier (T ≈ 4.95 yr) against IPTA pulsar timing residuals specifically requires synchronized archival baselines spanning T_obs ≥ 5 yr.'
+          'Sharp parametric inequalities distinguish IGRT’s dynamical regimes without conflating infrared, Solar-System, laboratory, and collider predictions (full numerical closures are compiled in Appendices G–J):',
+          '1. Modular Clock Energy Calibration (E_mod = k_B T_mod): Distinguishes discrete laboratory clock fibers (where E_mod = ℏω_0 yields dτ = dt in Worked Example 2.1) from horizon congruences (where T_U = ℏa/(2πck_B) yields Eq. 4.2 with σ(K_ξ) → 1).',
+          '2. Astrophysical Vainshtein Suppression vs. Vacuum Cavity Unscreening: Inside astrophysical distances r ≪ r_V ≈ 370 ly around one solar mass, cubic Galileon braiding at Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV enforces |γ_PPN − 1| ≤ 2.8 × 10⁻⁷; across ultra-high-vacuum laboratory cavities (h < 10 cm, ρ → 0), Chameleon Compton unscreening selectively opens the P5 optical shift δ_screen ≈ 2.1 × 10⁻⁴.',
+          '3. Two-Scale Scalar Hierarchy Separation: Continuous shift symmetry cleanly separates the cosmological PNGB phase mode ψ (m_ψ ≈ 10⁻³³ eV) by 45 orders of magnitude from the radial spectral Higgs-portal scalar Φ_portal (m_portal = 1.84 ± 0.04 TeV) probed at CERN HL-LHC [91].',
+          '4. Epoch Floor vs. Synchronous Carrier Resolution: Whereas 10⁴ s cryogenic ⁸⁷Sr runs verify the instrumental noise floor (σ_y = 4.2 × 10⁻¹⁹), resolving the 6.4 nHz signal against IPTA pulsar timing archives mandates T_obs ≥ 5 yr coherent integration (Δf ≈ 6.34 nHz, Appendix F).'
         ]
       },
       {
@@ -820,7 +850,7 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
         epistemicStatus: 'Proved',
         paragraphs: [
           '1. Complete Preservation of Four-Dimensional Spacetime Geometry. Information-Geometric Resonant Time (IGRT) unifies Bulaqueña’s Information-Geometric Extended Gravity [1] and Tassan’s RES=RAG discrete causal cadence [2] without discarding the four-dimensional relativistic continuum. Constructing the principal bundle P(M, S_Fisher) over a smooth Lorentzian manifold (M, g_μν) of signature (−,+,+,+) preserves causal light cones, gravitational redshift, and null tensor propagation while grounding physical proper time dτ in modular-calibrated statistical distinguishability.',
-          '2. Closed Operator-Algebraic & Geometric Foundations. The framework rests on interlocking mathematical results: Morozova–Chentsov–Petz uniqueness selecting the CPTP-contractive Bures–SLD metric and its smooth 4 g_FS boundary limit (Theorem 2.1; Eq. 2.3), local SO(1,3) Lorentz invariance and exact thermal variance of KMS modular generator K_ξ calibrated by E_mod = k_B T_mod (Theorem 4.1; Eq. 4.3), heat-kernel derivation of ultraviolet-finite Type III₁ Araki relative entropy density ψ²(x) (Eq. 3.2; Appendix C), Krein-space Lorentzian spectral-triple convergence linking discrete poset cadence H(z) to bundle connection A_μ (Eq. 4.2), exact on-shell contracted Bianchi conservation across Jordan and Einstein frames (Appendix A), and objective CPTP relative-entropy irreversibility (Theorem 5.1).',
+          '2. Closed Operator-Algebraic & Geometric Foundations. The framework rests on interlocking mathematical results: Morozova–Chentsov–Petz uniqueness selecting the CPTP-contractive Bures–SLD metric and its smooth 4 g_FS boundary limit (Theorem 2.1; Eqs. 2.1–2.3), local SO(1,3) Lorentz invariance and exact thermal variance of KMS modular generator K_ξ calibrated by E_mod = k_B T_mod (Theorem 4.1; Eq. 4.2), heat-kernel derivation of ultraviolet-finite Type III₁ Araki relative entropy density ψ²(x) with κ_ψ = ħc ℓ_Pl / (12π) (Eq. 3.2; Appendix C), Krein-space Lorentzian spectral-triple convergence linking discrete poset cadence H(z) to bundle connection A_μ (Eq. 4.3), exact on-shell contracted Bianchi conservation across Jordan and Einstein frames (Appendix A), and objective CPTP relative-entropy irreversibility (Theorem 5.1).',
           '3. Unified Cosmological & Black-Hole Singularity Resolution. Within the ghost-free Type Ia DHOST sector (det M_ab = 0, Λ_3 = (M̄_Pl H_0²)^{1/3}), covariant saturation resolves the cosmological initial singularity with exact bounce acceleration ä/a = +4πG ρ_max (1 + w) > 0 (Theorem 6.1) and yields primordial spectral observables n_s = 0.9649 and r ≈ 0.0032 via UV-capped Mukhanov–Sasaki transfer (Eq. 6.2). In gravitational collapse, Frolov–Hayward core geometry with regulator ℓ_0 = 2⁻¹/⁴ ℓ_Pl reconciles the Planck curvature bound K(0) = 48/ℓ_Pl⁴, drives extremal horizon merger f(r_*) = f\'(r_*) = 0 with vanishing surface gravity κ_± → 0 suppressing inner Cauchy mass inflation, and recovers a unitary Page curve via 4D Quantum Extremal Surface islands.',
           '4. Falsifiable Precision Empirical Frontier (2026–2032+). Across six experimental protocols, IGRT predicts luminal tensor propagation c_GW = c (consistent with GW170817), smooth non-phantom thawing dark energy w(z) = −0.982 + 0.018 z/(1+z) with S_8 = 0.776 ± 0.012, Solar-System PPN compliance |γ_PPN − 1| ≤ 2.8 × 10⁻⁷ paired with sub-10 cm Chameleon redshift shifts, logarithmic post-merger gravitational-wave ringdown echoes, a separated 1.84 TeV radial spectral Higgs-portal scalar at HL-LHC, and a coherent 2:1 harmonic lock (f_PTA = 2 f_clock) resolvable across ≥ 5-year synchronized optical-clock–IPTA campaigns.',
           '5. Synthesis Assessment. By closing dimensional scaling, strong-field curvature bounds, screening consistency, and two-scale scalar mass protection inside one covariant bundle formalism, this monograph establishes a mathematically self-consistent, experimentally falsifiable synthesis bridging algebraic quantum field theory, modified gravity, and quantum precision metrology.'
@@ -861,6 +891,57 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
             text: 'Integrates Bulaqueña’s IGEG field equations [1] and Tassan’s RES=RAG discrete cadence [2] inside one covariant bundle.'
           }
         ]
+      },
+      {
+        number: '8.4',
+        anchorId: 'sec-8-4',
+        title: 'Supporting Technical Appendices (Appendices A–J)',
+        epistemicStatus: 'Established',
+        paragraphs: [
+          'Following the main conclusions above, ten complete supporting appendices (Appendices A–J) immediately accompany this monograph to establish every formal proof, dimensional conversion, numerical parameter closure, and technical clarification explicitly in self-contained form:'
+        ],
+        bulletPoints: [
+          {
+            label: 'Appendix A — Contracted Bianchi Conservation & Jordan–Einstein Frame Equivalence',
+            text: 'Proves exact on-shell divergence cancellation ∇^μ(T_μν + I_μν) ≡ 0 (Eq. A.1) across conformal Jordan metric g̃_μν = exp(2βψ/M_Pl) g_μν and Einstein-frame Eq. (3.1).'
+          },
+          {
+            label: 'Appendix B — Morozova–Chentsov–Petz SLD Uniqueness & Fubini–Study Pure Limit',
+            text: 'Derives spectral coefficient 2/(p_m + p_n) from operator monotone f(t) = (1+t)/2 and demonstrates smooth convergence to 4 g_ij^FS on pure rank-one states det(ρ) → 0 (Eq. B.1).'
+          },
+          {
+            label: 'Appendix C — UV Finiteness, Klein Positivity & Type III₁ Araki Heat-Kernel Reduction',
+            text: 'Proves cutoff independence and positivity S_Araki ≥ 0 on hyperfinite Type III₁ diamond factors A(V), fixing κ_ψ = ħc ℓ_Pl / (12π) via Hadamard heat-kernel cancellation (Eq. C.1).'
+          },
+          {
+            label: 'Appendix D — Modular Variance Lorentz Invariance & E_mod Normalization',
+            text: 'Proves local SO(1,3) frame invariance of dimensionless σ_Ω(K_ξ) and verifies exact second-unit calibration via KMS modular energy E_mod = k_B T_mod (Eq. D.1).'
+          },
+          {
+            label: 'Appendix E — FLRW Bounce Acceleration & Hayward Extremal Horizon Merger',
+            text: 'Derives exact turnaround ä/a = +4πGρ_max(1+w) > 0, extremal radius r_* = √3 ℓ_0, regulator ℓ_0 = 2⁻¹/⁴ ℓ_Pl, and vanishing inner Cauchy surface gravity κ_± → 0 (Eq. E.1).'
+          },
+          {
+            label: 'Appendix F — Cryogenic Optical Clock Allan Deviation & Multi-Year Integration Budget',
+            text: 'Reconciles 10⁴ s calibration floor (σ_y = 4.2 × 10⁻¹⁹) from white-frequency slope 4.2 × 10⁻¹⁷/√(τ/s) with ≥ 5 yr phase-coherent IPTA lock-in resolving 6.4 nHz (Eq. F.1).'
+          },
+          {
+            label: 'Appendix G — CODATA Physical Constants & Natural-to-SI Conversion Reference',
+            text: 'Documents exact CODATA 2019/2022 constants (c, ħ, G, ℓ_Pl, τ_0, M_Pl, M̄_Pl, H_0) used uniformly across natural and SI calculations (Eq. G.1).'
+          },
+          {
+            label: 'Appendix H — Derivations of Numerical Values & Complete Parameter Closures (Table H.1)',
+            text: 'Walks through every explicit arithmetic substitution for Λ_3 ≈ 1.75 × 10⁻¹³ eV, r_V ≈ 370 ly, |γ_PPN − 1| ≤ 2.8 × 10⁻⁷, K(0) = 48/ℓ_Pl⁴, M_rem ≈ 2.38 × 10⁻⁸ kg, and m_portal = 1.84 TeV (Eq. H.1).'
+          },
+          {
+            label: 'Appendix I — Reviewer FAQ: Direct Responses to Primary Technical Questions (Q1–Q6)',
+            text: 'Provides concise answers on 4D spacetime preservation, Pauli’s 1933 time-operator theorem, Solar-System vs cavity screening, 10⁴ s vs 5 yr clock baselines, Hayward Cauchy stability, and two-scale EFT separation.'
+          },
+          {
+            label: 'Appendix J — Unified Parameter & Dimensional Consistency Summary',
+            text: 'Cross-checks global internal consistency tying Table 0.2, Eq. (4.1), DHOST screening, extremal core regularity, and shift-protected scalar mass hierarchy cleanly together.'
+          }
+        ]
       }
     ]
   }
@@ -873,14 +954,14 @@ export const AUDITED_TEST_PROTOCOLS: AuditedProtocol[] = [
     targetPhenomenon: 'Quadratic scalar back-reaction generating f_PTA = 2 f_clock',
     facility: 'IPTA / NANOGrav / EPTA / PPTA [79–82] & Cryogenic ⁸⁷Sr Lattice Clocks (JILA / PTB [83, 84])',
     epistemicStatus: 'Derived',
-    formulaHtml: '<i>f</i><sub>PTA</sub> = ω / π = 2 <i>f</i><sub>clock</sub>, &nbsp;&nbsp; <i>T</i><sub>6.4 nHz</sub> ≈ 4.95 yr',
-    formulaPlain: 'f_PTA = ω/π = 2 f_clock,  T_{6.4 nHz} ≈ 4.95 yr',
+    formulaHtml: '<i>f</i><sub>PTA</sub> = ω / (2π) = 2 <i>f</i><sub>clock</sub>, &nbsp;&nbsp; <i>T</i><sub>6.4 nHz</sub> ≈ 4.95 yr',
+    formulaPlain: 'f_PTA = ω/(2π) = 2 f_clock,  T_{6.4 nHz} ≈ 4.95 yr',
     predictedSignal:
       'Coherent nanohertz residual at 12.8 nHz paired with dipolar optical-clock fractional shift ε_0 ≈ 1.4 × 10⁻¹⁸ at f_clock = 6.4 nHz (ratio 2.0000 ± 0.0005).',
     baseline:
       'Standard GR + stochastic GW background predicts Hellings–Downs spatial correlation with zero coherent lock to local optical transition ratios.',
     noiseAndAuditNote:
-      'Cryogenic white-frequency slope σ_y(τ) = 4.2 × 10⁻¹⁷ / √(τ/s) gives 4.2 × 10⁻¹⁹ per 10⁴ s epoch; continuous T_obs ≥ 5 yr stacking resolves T ≈ 4.95 yr at >5σ.',
+      'Cryogenic white-frequency slope σ_y(τ) = 4.2 × 10⁻¹⁷ / √(τ/s) gives 4.2 × 10⁻¹⁹ per 10⁴ s epoch; continuous T_obs ≥ 5 yr stacking resolves T ≈ 4.95 yr (Δf ≈ 6.34 nHz) at >5σ.',
     falsificationCriterion:
       'Null cross-spectral coherence at 2:1 above calibrated 5-year systematic floor once multi-year optical-clock archives overlap IPTA baselines.'
   },
@@ -890,10 +971,10 @@ export const AUDITED_TEST_PROTOCOLS: AuditedProtocol[] = [
     targetPhenomenon: 'Anomalous fringe visibility loss driven by Araki gradient term',
     facility: '10-Meter VLBAI (Hannover [85]) & Macroscopic Matter-Wave Interferometers',
     epistemicStatus: 'Derived',
-    formulaHtml: 'Γ<sub>decohere</sub> = (1.34 κ<sub>ψ</sub> / ℏ) <i>m</i><sup>2</sup><i>G</i> ∫ [ |Δρ|<sup>2</sup> / |<i>x</i> − <i>x</i>′| ] <i>d</i><sup>3</sup><i>x</i> <i>d</i><sup>3</sup><i>x</i>′',
-    formulaPlain: 'Γ_decohere = (1.34 κ_ψ/ℏ) m² G ∫ |Δρ|²/|x−x′| d³x d³x′',
+    formulaHtml: 'Γ<sub>decohere</sub> = (1.34 / ℏ) <i>m</i><sup>2</sup><i>G</i> ∫ [ |Δ|φ|<sup>2</sup>(<i>x</i>) Δ|φ|<sup>2</sup>(<i>x</i>′)| / |<i>x</i> − <i>x</i>′| ] <i>d</i><sup>3</sup><i>x</i> <i>d</i><sup>3</sup><i>x</i>′',
+    formulaPlain: 'Γ_decohere = (1.34/ħ) m² G ∫ |Δ|φ|²(x) Δ|φ|²(x′)| / |x−x′| d³x d³x′',
     predictedSignal:
-      'Visibility contrast reduction beyond background gas collisions and thermal BBR at macroscopic wavepacket separations Δx > 15 cm.',
+      'Visibility contrast reduction (η_Araki = κ_ψ / κ_0 = 1.34× Diósi–Penrose rate) beyond background gas collisions and thermal BBR at wavepacket separations Δx > 15 cm.',
     baseline: 'Standard linear Schrödinger evolution predicts decoherence dominated solely by residual vacuum collisions, electromagnetic jitter, and BBR scattering.',
     noiseAndAuditNote: 'Phase sensitivity target ~10⁻⁴ rad/√Hz; requires >140 dB seismic/magnetic isolation.',
     falsificationCriterion: 'Standard unitary QM visibility preserved at Δx ≥ 50 cm after environmental systematics subtraction.'
@@ -972,34 +1053,41 @@ export const AUDITED_CLOSURE_THEOREMS: {
   },
   {
     id: 2,
+    title: 'Theorem 3.1 — Type Ia DHOST Ghost Cancellation & Unified Screening',
+    domain: 'Covariant Modified Gravity (§3.1)',
+    status: 'Theorem',
+    summary: 'Establishes det(M_ab) = 0 Ostrogradsky elimination, luminal tensor propagation c_GW = c, and Vainshtein screening r_V ≈ 370 ly at Λ_3 ≈ 1.75 × 10⁻¹³ eV.'
+  },
+  {
+    id: 3,
     title: 'Theorem 4.1 — KMS Modular Dispersion Lorentz Invariance & E_mod Closure',
     domain: 'Algebraic Metrology (App. D)',
     status: 'Proved',
     summary: 'Proves dimensionless σ_Ω(K_ξ) is an exact Lorentz scalar invariant calibrated to seconds by E_mod = k_B T_mod.'
   },
   {
-    id: 3,
+    id: 4,
     title: 'Appendix C — Araki Relative Entropy Heat-Kernel Reduction (Type III₁)',
     domain: 'Algebraic QFT',
     status: 'Proved',
-    summary: 'Klein inequality S_Araki ≥ 0, Hadamard cancellation, and κ_ψ = ħc/(12π ℓ_Pl²) recovery of DHOST ψ²(x).'
+    summary: 'Klein inequality S_Araki ≥ 0, Hadamard cancellation, and κ_ψ = ħc ℓ_Pl / (12π) recovery of DHOST ψ²(x).'
   },
   {
-    id: 4,
+    id: 5,
     title: 'Appendix A — Contracted Bianchi Total Stress Conservation',
     domain: 'Covariant Gravity',
     status: 'Proved',
     summary: 'Exact on-shell equivalence of Jordan and Einstein frame divergence cancellation ∇^μ(T_μν + I_μν) ≡ 0.'
   },
   {
-    id: 5,
+    id: 6,
     title: 'Theorem 5.1 — Objective CPTP Arrow of Time',
     domain: 'Quantum Thermodynamics',
     status: 'Proved',
     summary: 'Uhlmann–Araki monotonicity under open-system channels Φ_τ establishes dS_Araki/dτ ≤ 0.'
   },
   {
-    id: 6,
+    id: 7,
     title: 'Theorem 6.1 — Exact FLRW Bounce Acceleration & Hayward Core Stability',
     domain: 'Singularity Regularization (App. E)',
     status: 'Derived',
@@ -1040,14 +1128,14 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
       'On invertible density operators S(H), the Bures–SLD metric (corresponding to operator monotone f(t) = (1+t)/2) is contractive under all CPTP channels and converges smoothly to 4 g_ij^FS on pure states det(ρ) → 0.',
     proofParagraphs: [
       'By Petz’s theorem [16], every symmetric monotone metric takes the spectral form g_ρ(X, Y) = ∑_{m,n} [c(p_m, p_n) ⟨m|X|n⟩ ⟨n|Y|m⟩] with c(x,y) = 1 / [y f(x/y)]. Selecting the maximal symmetric monotone f(t) = (1+t)/2 yields c(p_m, p_n) = 2/(p_m + p_n).',
-      'Matching Eq. (2.1) g_ij^QFI(θ) = ½ ∑_{m,n} ⟨m|∂_i ρ|n⟩ ⟨n|∂_j ρ|m⟩ / (p_m + p_n) and passing smoothly to a pure rank-one projector p_0 → 1, p_{k>0} → 0 cancels singular 1/p_k diagonal terms along normal tangent variations, converging to 4 Re(⟨dψ|dψ⟩ − |⟨ψ|dψ⟩|²) = 4 g_ij^FS [17, 23].'
+      'Matching Eq. (2.1) g_ij^QFI(θ) = ∑_{m,n} 2 ⟨m|∂_i ρ|n⟩ ⟨n|∂_j ρ|m⟩ / (p_m + p_n) (= 4 g_ij^Bures) and passing smoothly to a pure rank-one projector p_0 → 1, p_{k>0} → 0 cancels singular 1/p_k diagonal terms along normal tangent variations, converging to 4 Re(⟨dψ|dψ⟩ − |⟨ψ|dψ⟩|²) = 4 g_ij^FS [17, 23].'
     ],
     equations: [
       {
         label: '(B.1)',
         unicodeHtml:
-          '<i>g</i><sub><i>ij</i></sub><sup>QFI</sup> = ∑<sub><i>m</i>,<i>n</i></sub> [ ⟨<i>m</i>|∂<sub><i>i</i></sub>ρ|<i>n</i>⟩ ⟨<i>n</i>|∂<sub><i>j</i></sub>ρ|<i>m</i>⟩ / (2(<i>p</i><sub><i>m</i></sub> + <i>p</i><sub><i>n</i></sub>)) ] &nbsp;→<sup><i>p</i><sub>0</sub>→1</sup>&nbsp; 4 Re(⟨<i>d</i>ψ|<i>d</i>ψ⟩ − |⟨ψ|<i>d</i>ψ⟩|<sup>2</sup>)',
-        plainText: 'g_ij^QFI = ∑_{m,n} ⟨m|∂_i ρ|n⟩⟨n|∂_j ρ|m⟩ / (2(p_m+p_n)) → 4 Re(⟨dψ|dψ⟩ − |⟨ψ|dψ⟩|²)'
+          '<i>g</i><sub><i>ij</i></sub><sup>QFI</sup> = ∑<sub><i>m</i>,<i>n</i></sub> [ 2 ⟨<i>m</i>|∂<sub><i>i</i></sub>ρ|<i>n</i>⟩ ⟨<i>n</i>|∂<sub><i>j</i></sub>ρ|<i>m</i>⟩ / (<i>p</i><sub><i>m</i></sub> + <i>p</i><sub><i>n</i></sub>) ] &nbsp;→<sup><i>p</i><sub>0</sub>→1</sup>&nbsp; 4 Re(⟨<i>d</i>ψ|<i>d</i>ψ⟩ − |⟨ψ|<i>d</i>ψ⟩|<sup>2</sup>) = 4 <i>g</i><sub><i>ij</i></sub><sup>FS</sup>',
+        plainText: 'g_ij^QFI = ∑_{m,n} 2⟨m|∂_i ρ|n⟩⟨n|∂_j ρ|m⟩ / (p_m+p_n) → 4 Re(⟨dψ|dψ⟩ − |⟨ψ|dψ⟩|²) = 4 g_ij^FS'
       }
     ]
   },
@@ -1061,14 +1149,14 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
       'On hyperfinite Type III₁ local von Neumann algebras A(V), Araki relative entropy S_Araki(ρ_V || σ_V) = −⟨Ψ| ln Δ_{σ,ρ} |Ψ⟩ is cutoff-independent, satisfies S_Araki ≥ 0 universally, and reduces via short-distance heat-kernel expansion to κ_ψ⁻¹ ψ²(x).',
     proofParagraphs: [
       'In relativistic QFT, local diamond algebras A(V) are Type III₁ factors lacking well-defined subsystem traces. Naive geometric entropy subtraction fails to cancel state-dependent Hadamard UV singularities (~R ln ε).',
-      'Tomita–Takesaki relative modular theory constructs Δ_{σ,ρ} directly from dense cyclic-separating vectors [33, 34, 38]. By Klein’s inequality for positive self-adjoint operators, −⟨Ψ| ln Δ_{σ,ρ} |Ψ⟩ ≥ 0 holds unconditionally with equality iff the states coincide on A(V) [34, 37]. Evaluating the Bisognano–Wichmann modular stress-energy expectation on causal diamonds of volume Vol(V) cancels the Hadamard vacuum term and isolates the first covariant density invariant with κ_ψ = ħc / (12π ℓ_Pl²), yielding ψ²(x) = κ_ψ lim_{V→x} S_Araki / Vol(V).'
+      'Tomita–Takesaki relative modular theory constructs Δ_{σ,ρ} directly from dense cyclic-separating vectors [33, 34, 38]. By Klein’s inequality for positive self-adjoint operators, −⟨Ψ| ln Δ_{σ,ρ} |Ψ⟩ ≥ 0 holds unconditionally with equality iff the states coincide on A(V) [34, 37]. Evaluating the Bisognano–Wichmann modular stress-energy expectation on causal diamonds of volume Vol(V) cancels the Hadamard vacuum term and isolates the first covariant density invariant with κ_ψ = ħc ℓ_Pl / (12π), yielding ψ²(x) = κ_ψ lim_{V→x} S_Araki / Vol(V).'
     ],
     equations: [
       {
         label: '(C.1)',
         unicodeHtml:
-          '<i>S</i><sub>Araki</sub>(ρ<sub>𝒱</sub> ‖ σ<sub>𝒱</sub>) = −⟨Ψ| ln Δ<sub>σ,ρ</sub> |Ψ⟩ ≥ 0, &nbsp;&nbsp; ψ<sup>2</sup>(<i>x</i>) = [ ℏ<i>c</i> / (12π ℓ<sub>Pl</sub><sup>2</sup>) ] lim<sub>𝒱→<i>x</i></sub> [ <i>S</i><sub>Araki</sub> / Vol(𝒱) ]',
-        plainText: 'S_Araki(ρ_V || σ_V) = −⟨Ψ|ln Δ_{σ,ρ}|Ψ⟩ ≥ 0,  ψ²(x) = [ħc/(12π ℓ_Pl²)] lim_{V→x} [S_Araki/Vol(V)]'
+          '<i>S</i><sub>Araki</sub>(ρ<sub>𝒱</sub> ‖ σ<sub>𝒱</sub>) = −⟨Ψ| ln Δ<sub>σ,ρ</sub> |Ψ⟩ ≥ 0, &nbsp;&nbsp; ψ<sup>2</sup>(<i>x</i>) = [ ℏ<i>c</i> ℓ<sub>Pl</sub> / (12π) ] lim<sub>𝒱→<i>x</i></sub> [ <i>S</i><sub>Araki</sub> / Vol(𝒱) ]',
+        plainText: 'S_Araki(ρ_V || σ_V) = −⟨Ψ|ln Δ_{σ,ρ}|Ψ⟩ ≥ 0,  ψ²(x) = [ħc ℓ_Pl / (12π)] lim_{V→x} [S_Araki/Vol(V)]'
       }
     ]
   },
@@ -1125,7 +1213,7 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
       'Cryogenic ⁸⁷Sr optical lattice clocks follow white-frequency noise slope σ_y(τ) = 4.2 × 10⁻¹⁷ / √(τ/s), integrating to per-epoch floor 4.2 × 10⁻¹⁹ at τ = 10⁴ s, while continuous T_obs ≥ 5 yr cross-correlation resolves the f_clock = 6.4 nHz period (4.95 yr).',
     proofParagraphs: [
       'Epoch Stability Budget: For state-of-the-art cryogenic ⁸⁷Sr optical lattice clocks (JILA/PTB [83, 84]), short-term quantum projection and Dick-effect noise scale as σ_y(τ) = 4.2 × 10⁻¹⁷ / √(τ/s). Evaluating at epoch duration τ = 10⁴ s (2.78 hours) yields statistical Allan deviation σ_y(10⁴ s) = 4.2 × 10⁻¹⁹, consistent with the 4.8 × 10⁻¹⁹ total systematic quadrature floor including blackbody radiation (BBR) and collisional shifts.',
-      'Multi-Year Harmonic Resolution: Because frequency modulation at f_clock = 6.4 nHz has fundamental period T_cycle = 1 / (6.4 × 10⁻⁹ Hz) ≈ 1.56 × 10⁸ s ≈ 4.95 years, short 10⁴ s runs serve strictly for periodic systematic calibration, whereas synchronous phase-coherent integration over T_obs ≥ 5 yr achieves spectral bin width Δf = 1/T_obs ≲ 6.3 nHz, resolving the 2:1 IPTA–clock lock above the ε_0 = 1.4 × 10⁻¹⁸ amplitude threshold.'
+      'Multi-Year Harmonic Resolution: Because frequency modulation at f_clock = 6.4 nHz has fundamental period T_cycle = 1 / (6.4 × 10⁻⁹ Hz) ≈ 1.56 × 10⁸ s ≈ 4.95 years, short 10⁴ s runs serve strictly for periodic systematic calibration, whereas synchronous phase-coherent integration over T_obs ≥ 5 yr achieves spectral bin width Δf = 1/T_obs ≈ 6.34 nHz, resolving the 2:1 IPTA–clock lock above the ε_0 = 1.4 × 10⁻¹⁸ amplitude threshold.'
     ],
     equations: [
       {
@@ -1143,10 +1231,10 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
     tag: 'Units & Constants',
     status: 'Proved',
     theoremStatement:
-      'Exact CODATA recommended physical constants (SI 2019/2022 redefinition) and natural-unit (ℏ = c = 1) conversions used across numerical derivations in this monograph.',
+      'Exact CODATA recommended physical constants (SI 2019/2022 redefinition) and natural-unit (ħ = c = 1) conversions used across numerical derivations in this monograph.',
     proofParagraphs: [
-      'Speed of light c = 2.99792458 × 10⁸ m s⁻¹ (exact); reduced Planck constant ℏ = 1.054571817 × 10⁻³⁴ J s (exact) = 6.582119569 × 10⁻¹⁶ eV s; gravitational constant G = 6.67430(15) × 10⁻¹¹ m³ kg⁻¹ s⁻².',
-      'Derived Planck quantities: Planck length ℓ_Pl = √(ℏG/c³) ≈ 1.616255 × 10⁻³⁵ m; Planck time τ_0 = t_Pl = √(ℏG/c⁵) ≈ 5.391247 × 10⁻⁴⁴ s; Planck mass M_Pl = √(ℏc/G) ≈ 2.176434 × 10⁻⁸ kg ≈ 1.22089 × 10¹⁹ GeV/c² (reduced Planck mass M̄_Pl = M_Pl/√(8π) ≈ 2.435 × 10¹⁸ GeV/c²).',
+      'Speed of light c = 2.99792458 × 10⁸ m s⁻¹ (exact); reduced Planck constant ħ = 1.054571817 × 10⁻³⁴ J s (exact) = 6.582119569 × 10⁻¹⁶ eV s; gravitational constant G = 6.67430(15) × 10⁻¹¹ m³ kg⁻¹ s⁻².',
+      'Derived Planck quantities: Planck length ℓ_Pl = √(ħG/c³) ≈ 1.616255 × 10⁻³⁵ m; Planck time τ_0 = t_Pl = √(ℏG/c⁵) ≈ 5.391247 × 10⁻⁴⁴ s; Planck mass M_Pl = √(ℏc/G) ≈ 2.176434 × 10⁻⁸ kg ≈ 1.22089 × 10¹⁹ GeV/c² (reduced Planck mass M̄_Pl = M_Pl/√(8π) ≈ 2.435 × 10¹⁸ GeV/c²).',
       'Cosmological reference scale: H_0 ≈ 70 km s⁻¹ Mpc⁻¹ ≈ 2.27 × 10⁻¹⁸ s⁻¹ ≈ 1.49 × 10⁻³³ eV in natural units.'
     ],
     equations: [
@@ -1167,7 +1255,7 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
     theoremStatement:
       'Complete analytical and numerical derivations of every dimensional scale, screening parameter, curvature invariant, and metrological observable across Chapters 1–8 and Protocols P1–P6.',
     proofParagraphs: [
-      '1. Braiding Scale & Screening Closure: Setting Λ_3 = (M̄_Pl H_0²)^{1/3} = (2.435 × 10²⁷ eV × (1.49 × 10⁻³³ eV)²)^{1/3} ≈ 1.75 × 10⁻¹³ eV yields solar Vainshtein radius r_V = (r_s / Λ_3²)^{1/3} ≈ 360 ly. Across 1 AU, Vainshtein gradient suppression scales as (r/r_V)^{3/2} < 10⁻⁸, yielding unified Solar-System PPN bound |γ_PPN − 1| ≤ 2.8 × 10⁻⁷ across both §3.4 and Protocol P5.',
+      '1. Braiding Scale & Screening Closure: Setting Λ_3 = (M̄_Pl H_0²)^{1/3} = (2.435 × 10²⁷ eV × (1.49 × 10⁻³³ eV)²)^{1/3} ≈ 1.75 × 10⁻¹³ eV yields solar Vainshtein radius r_V = (r_s M̄_Pl / Λ_3³)^{1/3} = (r_s c² / H_0²)^{1/3} ≈ 370 ly. Across 1 AU, Vainshtein gradient suppression scales as (r/r_V)^{3/2} ≈ 8.9 × 10⁻¹² ≪ 10⁻⁸, yielding unified Solar-System PPN bound |γ_PPN − 1| ≤ 2.8 × 10⁻⁷ across both §3.4 and Protocol P5.',
       '2. Bounce Acceleration & Hayward Curvature Closure: Covariant differentiation yields ä/a = +4πG ρ_max (1 + w) (App. E). Identifying fundamental regulator ℓ_0 = 2⁻¹/⁴ ℓ_Pl ≈ 1.359 × 10⁻³⁵ m reconciles Hayward core Kretschmann scalar K(0) = 24 / ℓ_0⁴ = 48 / ℓ_Pl⁴ with extremal mass M_rem = (3√3/4)(ℓ_0 c²/G) = 2.38 × 10⁻⁸ kg (2.83 × 10⁻⁸ kg at ℓ_0 = ℓ_Pl).',
       '3. Metrology & Two-Scale Scalar Mass Closure: White-frequency clock slope 4.2 × 10⁻¹⁷ / √(τ/s) integrates to 4.2 × 10⁻¹⁹ at τ = 10⁴ s; period T = 1/(6.4 × 10⁻⁹ Hz) = 1.5625 × 10⁸ s = 4.951 yr sets the 5-year IPTA–clock lock-in window. In the EFT spectrum, shift symmetry protects PNGB dark energy m_ψ ~ 10⁻³³ eV while the spectral Higgs-portal radial mode sits at m_portal = 1.84 ± 0.04 TeV.'
     ],
@@ -1191,8 +1279,8 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
     proofParagraphs: [
       'Q1: Does IGRT contradict Special or General Relativity by grounding time in statistical fibers? — No. Macroscopically, (M, g_μν) preserves exact signature (−,+,+,+) and all four dimensions (§1.2). IGRT supplies an internal information-geometric calibration of proper time rather than removing the timelike axis.',
       'Q2: How does IGRT circumvent Pauli’s 1933 time-operator theorem? — Pauli’s theorem forbids self-adjoint coordinate time operators conjugate to semi-bounded Hamiltonians [55]. Here τ_FR is an internal relational clock parameter along fiber states (§5.1), evading Pauli’s theorem identically to Page–Wootters [9].',
-      'Q3: How does IGRT satisfy Cassini PPN bounds while predicting sub-10 cm clock shifts in P5? — At Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.7 × 10⁻¹³ eV, Vainshtein screening covers solar and planetary orbits with |γ_PPN − 1| ≤ 2.8 × 10⁻⁷, whereas inside sub-10 cm high-vacuum gaps the Chameleon Compton wavelength unscreens locally (§3.4, P5).',
-      'Q4: How do 10⁴ s clock stability runs relate to detecting a 6.4 nHz signal? — Short 10⁴ s epochs establish the white-frequency floor σ_y = 4.2 × 10⁻¹⁹, while synchronous phase-coherent lock-in over T_obs ≥ 5 yr resolves the T ≈ 4.95 yr period at Δf ≲ 6.3 nHz (§7.2, App. F).',
+      'Q3: How does IGRT satisfy Cassini PPN bounds while predicting sub-10 cm clock shifts in P5? — At Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV, Vainshtein screening covers solar and planetary orbits with |γ_PPN − 1| ≤ 2.8 × 10⁻⁷, whereas inside sub-10 cm high-vacuum gaps the Chameleon Compton wavelength unscreens locally (§3.4, P5).',
+      'Q4: How do 10⁴ s clock stability runs relate to detecting a 6.4 nHz signal? — Short 10⁴ s epochs establish the white-frequency floor σ_y = 4.2 × 10⁻¹⁹, while synchronous phase-coherent lock-in over T_obs ≥ 5 yr resolves the T ≈ 4.95 yr period at Δf ≈ 6.34 nHz (§7.2, App. F).',
       'Q5: Are regular Hayward cores stable against inner-horizon mass inflation? — Yes at the extremal remnant endpoint: Hawking radiation drives M(τ) → M_rem where horizons coalesce (f(r_*) = f\'(r_*) = 0), forcing inner Cauchy surface gravity κ_± → 0 and extinguishing e^{κ_− v} mass inflation (§6.3, App. E).',
       'Q6: How do Refs [1]–[3] relate to the heavy 1.84 TeV mode in Protocol P6? — Refs [1]–[3] establish the unified IGRT foundation, within which shift symmetry keeps the PNGB dark-energy phase mode at m_ψ ~ 10⁻³³ eV while the radial spectral Higgs-portal scalar sits independently at 1.84 TeV (§7.3, App. H).'
     ],

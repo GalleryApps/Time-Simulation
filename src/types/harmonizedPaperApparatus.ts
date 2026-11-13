@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Editorial & Theoretical Apparatus for the IGRT Research Monograph:
- * - Plain-Language Summary & Shortened Abstract (< 250 words)
+ * - Plain-Language Summary & Shortened Abstract
  * - Theoretical Scope & Foundational Architecture
  * - List of Symbols (collision-resolved) & Acronyms Glossary
  * - Dimensional-Analysis Closure Table & Equation Index
@@ -23,10 +23,9 @@ export const PLAIN_LANGUAGE_SUMMARY =
   'In Einstein’s General Relativity, time is woven into a dynamic four-dimensional spacetime fabric, whereas in Quantum Mechanics time enters as a fixed external parameter. Combining both frameworks via canonical quantization eliminates explicit coordinate time from the universal constraint equation, creating the classic Problem of Time. Information-Geometric Resonant Time (IGRT) resolves this tension while keeping all four causal spacetime dimensions intact: physical proper time ticking is determined by how rapidly local quantum statistical states become distinguishable from one another along a worldline. By equipping quantum state fibers with the canonical Symmetric Logarithmic Derivative Fisher–Rao metric, grounding local entropy density in ultraviolet-finite Type III₁ Araki relative entropy, enforcing ghost-free degenerate higher-order scalar–tensor (DHOST) gravity, and closing cosmological and black-hole curvature bounds via high-energy saturation, the monograph unifies geometric relativity and quantum metrology into a single testable covariant formalism across atomic clocks, pulsar timing arrays, and gravitational-wave detectors.';
 
 export const SHORTENED_ABSTRACT = {
-  wordCountNote: 'Abstract (~214 words)',
   paragraphs: [
-    'Canonical quantum gravity encounters the Wheeler–DeWitt Problem of Time (Ĥ_total Ψ = 0), in which diffeomorphism-invariant physical states exhibit no external parameter evolution. We formulate Information-Geometric Resonant Time (IGRT) as a principal statistical fiber bundle P(M, S_Fisher) over a four-dimensional pseudo-Riemannian Lorentzian base manifold (M, g_μν) of signature (−,+,+,+). All four spacetime causal dimensions remain intact, while infinitesimal proper duration dτ along any timelike worldline equals the Symmetric Logarithmic Derivative (SLD) quantum Fisher–Rao state arc length normalized by local Tomita–Takesaki modular dispersion σ(K_ξ) and local KMS modular energy scale E_mod, matched in the Planck regime to discrete unitary retention–generation steps ‖RAG_k − RES_k‖_F.',
-    'The dynamical scalar density ψ²(x) is derived from hyperfinite Type III₁ Araki relative entropy on local causal diamonds and embedded within a shift-symmetric degenerate higher-order scalar–tensor (DHOST) action (det M_ab = 0) guaranteeing second-order field equations, contracted Bianchi conservation, and luminal tensor propagation c_GW = c. Unified infrared Vainshtein–Chameleon screening at Λ_3 = (M̄_Pl H_0²)^{1/3} satisfies |γ_PPN − 1| ≤ 2.8 × 10⁻⁷, while curvature saturation resolves the FLRW bounce acceleration ä/a = +4πG ρ_max(1 + w) and stabilizes extremal Hayward black-hole remnants at ℓ_0 = 2⁻¹/⁴ ℓ_Pl. Quantitative observables span thawing dark energy w(z), ringdown echoes, and synchronous multi-year 2:1 optical-clock–pulsar-timing cross-correlations.'
+    'Canonical quantum gravity encounters the Wheeler–DeWitt Problem of Time (Ĥ_total Ψ = 0), in which diffeomorphism-invariant physical states exhibit no external parameter evolution. We formulate Information-Geometric Resonant Time (IGRT) as a principal statistical fiber bundle P(M, S_Fisher) over a four-dimensional pseudo-Riemannian Lorentzian base manifold (M, g_μν) of signature (−,+,+,+). All four spacetime causal dimensions remain intact, while infinitesimal proper duration dτ = (1/c)√(−g_μν ẋ^μ ẋ^ν) dλ along any timelike worldline equals the Symmetric Logarithmic Derivative (SLD) quantum Fisher–Rao state arc length normalized by local Tomita–Takesaki modular dispersion σ(K_ξ) and local KMS modular energy scale E_mod = k_B T_mod, integrating over N discrete causal steps to Δτ = τ_0 ∑_{k=1}^N ‖RAG_k − RES_k‖_F.',
+    'The dynamical scalar density ψ²(x) is derived from hyperfinite Type III₁ Araki relative entropy on local causal diamonds with κ_ψ = ħc ℓ_Pl / (12π) and embedded within a shift-symmetric degenerate higher-order scalar–tensor (DHOST) action (det M_ab = 0) guaranteeing second-order field equations, contracted Bianchi conservation, and luminal tensor propagation c_GW = c. Unified infrared Vainshtein–Chameleon screening at Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV yields r_V = (r_s M̄_Pl / Λ_3³)^{1/3} ≈ 370 ly and satisfies |γ_PPN − 1| ≤ 2.8 × 10⁻⁷, while curvature saturation resolves the FLRW bounce acceleration ä/a = +4πG ρ_max(1 + w) and stabilizes extremal Hayward black-hole remnants at ℓ_0 = 2⁻¹/⁴ ℓ_Pl. Quantitative observables span thawing dark energy w(z), ringdown echoes, and synchronous multi-year 2:1 optical-clock–pulsar-timing cross-correlations.'
   ]
 };
 
@@ -44,7 +43,7 @@ export const SCOPE_AND_NON_CLAIMS: { title: string; detail: string }[] = [
   {
     title: '3. Complete Dimensional & Parameter Closure',
     detail:
-      'All coupling scales (κ_ψ, γ, β, Λ_3, f_ψ, λ_ψ, ℓ_0, and E_mod) are explicitly normalized in Table 0.2 and Appendix H: E_mod = k_B T_mod restores exact seconds in Eq. (4.1), Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.7 × 10⁻¹³ eV unifies cosmic dark energy with Vainshtein–Chameleon Solar-System screening (|γ_PPN − 1| ≤ 2.8 × 10⁻⁷), and the regulator length ℓ_0 = 2⁻¹/⁴ ℓ_Pl reconciles K(0) = 24/ℓ_0⁴ = 48/ℓ_Pl⁴.'
+      'All coupling scales (κ_ψ, γ, β, Λ_3, f_ψ, λ_ψ, ℓ_0, and E_mod) are explicitly normalized in Table 0.2 and Appendix H: E_mod = k_B T_mod restores exact seconds in Eq. (4.1), κ_ψ = ħc ℓ_Pl / (12π) restores exact scalar energy density units [GeV²], Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV unifies cosmic dark energy with Vainshtein–Chameleon Solar-System screening (|γ_PPN − 1| ≤ 2.8 × 10⁻⁷), and the regulator length ℓ_0 = 2⁻¹/⁴ ℓ_Pl reconciles K(0) = 24/ℓ_0⁴ = 48/ℓ_Pl⁴.'
   },
   {
     title: '4. Coherent Two-Scale Effective Field Theory Spectrum',
@@ -136,6 +135,20 @@ export const LIST_OF_SYMBOLS: SymbolEntry[] = [
     units: 'A_μ in m⁻¹; H(z) dimensionless (|H(e^{iω})| = 1)',
     collisionNote: 'Discrete transfer filter H(z) is distinct from Hubble rate H = ȧ/a in Ch. 6',
     firstDefined: '§4.3, §4.4, §6.1'
+  },
+  {
+    symbol: 'r_V, ℓ_0, M_rem',
+    name: 'Solar Vainshtein screening radius (~370 ly), Hayward core length (2⁻¹/⁴ ℓ_Pl), extremal mass',
+    units: 'r_V, ℓ_0 in m (or ly); M_rem in kg (~2.38 × 10⁻⁸ kg)',
+    collisionNote: 'r_V governs macroscopic solar PPN screening; ℓ_0 regularizes interior BH curvature K(0) = 48/ℓ_Pl⁴',
+    firstDefined: '§3.1, §6.3, App. E'
+  },
+  {
+    symbol: 'Φ_portal, m_portal',
+    name: 'Radial spectral Higgs-portal scalar excitation (1.84 ± 0.04 TeV at HL-LHC)',
+    units: 'TeV (natural units)',
+    collisionNote: 'Strictly decoupled by shift symmetry from ultralight dark-energy PNGB phase ψ (m_ψ ≈ 10⁻³³ eV)',
+    firstDefined: '§1.3, §7.3, P6'
   }
 ];
 
@@ -166,12 +179,12 @@ export const ACRONYMS_GLOSSARY: { term: string; expansion: string; definition: s
 ];
 
 export const LIST_OF_TABLES: { number: string; title: string; location: string }[] = [
-  { number: 'Table 0.1', title: 'List of Physical Symbols and Collision Disambiguations', location: 'Frontmatter' },
-  { number: 'Table 0.2', title: 'Dimensional Closure Analysis of Core Quantities & Equations', location: 'Frontmatter / App. G' },
-  { number: 'Table 0.3', title: 'Equation Index (0.1)–(8.1) and Appendices', location: 'Frontmatter' },
-  { number: 'Table 1.1', title: 'Foundational Principles of IGRT (Principles I–VII)', location: '§1.3' },
+  { number: 'Table 0.1', title: 'List of Physical Symbols and Collision Disambiguations', location: 'Summary & Indices' },
+  { number: 'Table 0.2', title: 'Dimensional Closure Analysis of Core Quantities & Equations', location: 'Summary & Indices / App. G' },
+  { number: 'Table 0.3', title: 'Equation Index (0.1)–(8.1) and Appendices', location: 'Summary & Indices' },
+  { number: 'Table 1.1', title: 'Foundational Principles of IGRT (Principles I–VII)', location: '§1.4' },
   { number: 'Table 7.1', title: 'Six Empirical & Observational Falsification Protocols (2026–2032+ Window)', location: '§7.3' },
-  { number: 'Table 8.1', title: 'Comparison of IGRT With Six Competing Frameworks on the Problem of Time', location: '§8.1' },
+  { number: 'Table 8.1', title: 'Comparison of IGRT With String Theory & Six Quantum-Gravity Approaches', location: '§8.1' },
   { number: 'Table 8.2', title: 'Core Formal Theorems, Hypotheses & Derivation Summary', location: '§8.1' },
   { number: 'Table H.1', title: 'Numerical & Parameter Closure Summary', location: 'Appendix H' }
 ];
@@ -185,31 +198,31 @@ export const DIMENSIONAL_ANALYSIS_TABLE: {
 }[] = [
   {
     quantity: 'Proper Time Interval (dτ)',
-    expression: '√(−g_μν ẋ^μ ẋ^ν) dλ = [ħ / (E_mod · σ(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ',
+    expression: '(1/c)√(−g_μν ẋ^μ ẋ^ν) dλ = [ħ / (E_mod · σ(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ',
     siUnits: 's',
     naturalUnits: 'GeV⁻¹',
-    auditNote: 'Dimensionally exact: E_mod = k_B T_mod [J] pairs with ħ [J·s] to cancel action units and yield pure seconds.'
+    auditNote: 'Dimensionally exact: 1/c converts spacetime path length [m] to [s], while E_mod = k_B T_mod [J] cancels action units in ħ [J·s] (c = 1 drops 1/c).'
   },
   {
     quantity: 'Scalar Field ψ(x) (EFT Density)',
     expression: 'ψ²(x) = κ_ψ lim_{V→x} S_Araki / Vol(V)',
-    siUnits: 'ψ: √(J/m); κ_ψ = ħc / (12π ℓ_Pl²) [J·m²]',
+    siUnits: 'ψ: √(J/m); κ_ψ = ħc ℓ_Pl / (12π) [J·m²]',
     naturalUnits: 'ψ: GeV; ψ²: GeV²; κ_ψ: GeV⁻¹',
-    auditNote: 'Heat-kernel renormalization of S_Araki/Vol(V) [m⁻³] times κ_ψ [GeV⁻¹] recovers canonical scalar mass dimension [GeV²].'
+    auditNote: 'Heat-kernel normalization κ_ψ = ħc ℓ_Pl / (12π) [J·m²] multiplied by S_Araki/Vol_3(V) [m⁻³] recovers exact scalar gradient density [J/m] (natural [GeV²]).'
   },
   {
     quantity: 'Galileon Braiding Scale Λ_3',
     expression: 'Λ_3 = (M̄_Pl H_0²)^{1/3}',
-    siUnits: '2.7 × 10⁻³² J (equiv. 1.7 × 10⁻¹³ eV)',
-    naturalUnits: '1.7 × 10⁻¹³ eV',
-    auditNote: 'Infrared braiding scale yields solar Vainshtein radius r_V ≈ 360 ly and unified screening |γ_PPN − 1| ≤ 2.8 × 10⁻⁷.'
+    siUnits: '2.80 × 10⁻³² J (equiv. 1.75 × 10⁻¹³ eV)',
+    naturalUnits: '1.75 × 10⁻¹³ eV',
+    auditNote: 'Yields solar Vainshtein radius r_V = (r_s M̄_Pl / Λ_3³)^{1/3} = (r_s c² / H_0²)^{1/3} ≈ 370 ly and Solar-System screening |γ_PPN − 1| ≤ 2.8 × 10⁻⁷.'
   },
   {
     quantity: 'Kretschmann Curvature R²',
     expression: 'R_{μνρσ} R^{μνρσ}(0) = 24 / ℓ_0⁴ = 48 / ℓ_Pl⁴',
     siUnits: 'm⁻⁴',
     naturalUnits: 'GeV⁴',
-    auditNote: 'Regulator identification ℓ_0 = 2⁻¹/⁴ ℓ_Pl ≈ 0.8409 ℓ_Pl unifies Hayward core curvature with Planck upper bound.'
+    auditNote: 'Regulator identification ℓ_0 = 2⁻¹/⁴ ℓ_Pl ≈ 0.8409 ℓ_Pl unifies Hayward de Sitter core curvature with Planck upper bound.'
   },
   {
     quantity: 'Planck Chronon τ_0',
@@ -223,29 +236,37 @@ export const DIMENSIONAL_ANALYSIS_TABLE: {
     expression: 'σ_y(τ) = 4.2 × 10⁻¹⁷ / √(τ/s),  σ_y(10⁴ s) = 4.2 × 10⁻¹⁹',
     siUnits: 'Dimensionless fractional frequency',
     naturalUnits: 'Dimensionless',
-    auditNote: '1-second white-frequency slope integrates at τ = 10⁴ s to 4.2 × 10⁻¹⁹ (within 4.8 × 10⁻¹⁹ total systematic floor); T_obs ≥ 5 yr resolves 6.4 nHz.'
+    auditNote: '1-second white-frequency slope integrates at τ = 10⁴ s to 4.2 × 10⁻¹⁹ (within 4.8 × 10⁻¹⁹ systematic floor); T_obs ≥ 5 yr resolves f_clock = 6.4 nHz (Δf ≈ 6.34 nHz).'
   }
 ];
 
 export const EQUATION_INDEX: { label: string; title: string; section: string; status: EpistemicStatus }[] = [
-  { label: '(0.1)', title: 'Core Equivalence Identity (With E_mod = k_B T_mod)', section: 'Abstract / §4.1', status: 'Axiom' },
+  { label: '(0.1)', title: 'Core Equivalence Identity (SI 1/c & E_mod = k_B T_mod)', section: 'Abstract / §4.1', status: 'Axiom' },
   { label: '(1.1)', title: 'Canonical Wheeler–DeWitt Bundle Constraint', section: '§1.1', status: 'Established' },
-  { label: '(2.1)', title: 'SLD Quantum Fisher–Rao Metric Tensor g_ij^QFI', section: '§2.2', status: 'Proved' },
+  { label: '(2.1)', title: 'SLD Quantum Fisher–Rao Metric Tensor g_ij^QFI (Helstrom Normalization)', section: '§2.2', status: 'Proved' },
   { label: '(2.2)', title: 'Fubini–Study Pure-State Boundary & Amari Pythagorean Identity', section: '§2.3', status: 'Proved' },
   { label: '(2.3)', title: 'Worked Example: Explicit Qubit Fiber Line Element ds_QFI²', section: '§2.3', status: 'Proved' },
   { label: '(3.1)', title: 'Shift-Symmetric DHOST Action S_IGRT (Λ_3 = (M̄_Pl H_0²)^{1/3})', section: '§3.1', status: 'Theorem' },
   { label: '(3.2)', title: 'Type III₁ Araki Relative Entropy Density ψ²(x)', section: '§3.2', status: 'Derived' },
   { label: '(3.3)', title: 'Extended Einstein Equations & Contracted Bianchi Identity', section: '§3.3', status: 'Proved' },
   { label: '(4.1)', title: 'Master Time Equivalence Identity (Dimensionally Closed)', section: '§4.1', status: 'Axiom' },
-  { label: '(4.2)', title: 'Krein-Space Lorentzian Spectral Distance & Poset Dirac Limit', section: '§4.3', status: 'Theorem' },
-  { label: '(4.3)', title: 'Worked Example: Rindler / KMS Thermal Modular Variance σ(K_ξ)', section: '§4.2', status: 'Proved' },
+  { label: '(4.2)', title: 'Worked Example: Rindler / KMS Thermal Modular Variance σ(K_ξ)', section: '§4.2', status: 'Proved' },
+  { label: '(4.3)', title: 'Krein-Space Lorentzian Spectral Distance & Poset Dirac Limit', section: '§4.3', status: 'Theorem' },
   { label: '(5.1)', title: 'Born–Oppenheimer Unfrozen Schrödinger Equation', section: '§5.1', status: 'Derived' },
   { label: '(5.2)', title: 'CPTP Monotonic Araki Entropy Contraction', section: '§5.3', status: 'Proved' },
   { label: '(6.1)', title: 'Modified FLRW Bounce Equation & Exact Acceleration ä/a', section: '§6.1', status: 'Derived' },
   { label: '(6.2)', title: 'Holographic Martin–Brandenberger Dispersion & Bounce Tilt', section: '§6.2', status: 'Derived' },
   { label: '(6.3)', title: 'Frolov–Hayward Lapse, Kretschmann Bound & Remnant Mass', section: '§6.3', status: 'Derived' },
-  { label: '(7.1)', title: '2:1 Clock–PTA Harmonic Locking & Tensor Speed Condition', section: '§7.2', status: 'Derived' },
-  { label: '(8.1)', title: 'Semiclassical EFT Saddle Reduction & Physical Closure', section: '§8.3', status: 'Derived' }
+  { label: '(7.1)', title: '2:1 Clock–PTA Harmonic Lock (ω/(2π)) & Tensor Speed Condition', section: '§7.2', status: 'Derived' },
+  { label: '(8.1)', title: 'Semiclassical EFT Saddle Reduction & Physical Closure', section: '§8.3', status: 'Derived' },
+  { label: '(A.1)', title: 'On-Shell Contracted Bianchi Divergence Cancellation', section: 'Appendix A', status: 'Proved' },
+  { label: '(B.1)', title: 'Morozova–Chentsov–Petz Spectral SLD Identity & Pure Limit', section: 'Appendix B', status: 'Proved' },
+  { label: '(C.1)', title: 'Klein Positivity & Heat-Kernel Type III₁ Araki Reduction', section: 'Appendix C', status: 'Proved' },
+  { label: '(D.1)', title: 'Lorentz Scalar Variance σ_Ω(K_ξ) & E_mod Normalization', section: 'Appendix D', status: 'Proved' },
+  { label: '(E.1)', title: 'Bounce Turnaround & Extremal Hayward Root Coalescence', section: 'Appendix E', status: 'Derived' },
+  { label: '(F.1)', title: 'Cryogenic ⁸⁷Sr Clock Allan Deviation & 5-Year Frequency Bin', section: 'Appendix F', status: 'Derived' },
+  { label: '(G.1)', title: 'CODATA 2022 Planck Length, Chronon & Mass Scale Constants', section: 'Appendix G', status: 'Proved' },
+  { label: '(H.1)', title: 'Unified Braiding Scale Λ_3, PPN Bound & Hayward Curvature', section: 'Appendix H', status: 'Derived' }
 ];
 
 export interface FrameworkComparisonRow {
@@ -260,11 +281,19 @@ export interface FrameworkComparisonRow {
 export const FRAMEWORKS_COMPARISON_TABLE: FrameworkComparisonRow[] = [
   {
     framework: 'IGRT (This Monograph)',
-    keyMechanism: 'Principal bundle P(M, S_Fisher) + Araki III₁ scalar ψ² + DHOST (Λ_3)',
-    preserves4DLorentzian: 'Yes — (−,+,+,+) base manifold preserved at all macroscopic scales',
+    keyMechanism: '4D bundle P(M, S_Fisher) + Araki III₁ scalar ψ² + Type Ia DHOST (Λ_3)',
+    preserves4DLorentzian: 'Yes — exact 4D (−,+,+,+) base manifold; zero extra compactified spatial dimensions',
     wdwUnfreezing: 'Born–Oppenheimer factorization along modular Fisher time τ_FR (BRST-closed)',
     singularityStatus: 'Derived FLRW bounce ä/a = +4πGρ_max(1+w) + extremal κ_± → 0 Hayward core',
-    openLimitations: 'Awaits 2026–2032+ empirical adjudication across IPTA/Sr-clock, VLBAI, and 3G GW datasets.'
+    openLimitations: 'Directly falsifiable 2026–2032+ via HL-LHC (1.84 TeV), IPTA+Sr clocks, VLBAI, and 3G GW echoes.'
+  },
+  {
+    framework: 'String Theory / M-Theory',
+    keyMechanism: '1D strings / higher branes on 10D or 11D spacetime with Calabi–Yau / flux compactifications',
+    preserves4DLorentzian: 'Requires 6–7 compactified extra dimensions to recover macroscopic 4D physics',
+    wdwUnfreezing: 'Uses background worldsheet parameter or AdS boundary time; bulk WDW deparametrization non-unique',
+    singularityStatus: 'Fuzzballs / string α′ corrections smooth specific supersymmetric/AdS black holes',
+    openLimitations: 'Landscape of ~10⁵⁰⁰ metastable vacua; non-unique moduli stabilization; string scale typically beyond HL-LHC reach.'
   },
   {
     framework: 'Page–Wootters (1983) [9]',
@@ -361,6 +390,6 @@ export const VERSION_CHANGE_LOG: { version: string; date: string; summary: strin
     version: 'v6 (Completed & Unified Research Monograph Edition)',
     date: 'November 2026 (Current Edition)',
     summary:
-      'Completed all formal closures: incorporated explicit modular energy scale E_mod = k_B T_mod in Eq. (4.1); fixed unified braiding scale Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.7 × 10⁻¹³ eV with unified thin-shell Vainshtein–Chameleon screening |γ_PPN − 1| ≤ 2.8 × 10⁻⁷; proved exact bounce acceleration ä/a = +4πGρ_max(1+w); reconciled Hayward regulator ℓ_0 = 2⁻¹/⁴ ℓ_Pl with K(0) = 48/ℓ_Pl⁴ and extremal κ_± = 0 Cauchy stability; corrected Appendix F clock slope to 4.2 × 10⁻¹⁷ / √(τ/s) with synchronous ≥ 5 yr 6.4 nHz IPTA integration; separated PNGB ψ (10⁻³³ eV) from 1.84 TeV portal Φ_portal; removed all LaTeX and ORCIDs from References [1]–[91].'
+      'Completed all formal, dimensional, and mathematical closures: incorporated explicit 1/c metric normalization and modular energy E_mod = k_B T_mod across Eqs. (0.1) and (4.1); harmonized Helstrom SLD normalization g_ij^QFI = 4 g_ij^Bures across Eq. (2.1), Eq. (2.3), and Appendix B; normalized Araki heat-kernel coupling κ_ψ = ħc ℓ_Pl / (12π) [J·m²]; verified Galileon braiding scale Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.75 × 10⁻¹³ eV with solar Vainshtein radius r_V ≈ 370 ly and screening |γ_PPN − 1| ≤ 2.8 × 10⁻⁷; proved exact bounce acceleration ä/a = +4πGρ_max(1+w); reconciled Hayward regulator ℓ_0 = 2⁻¹/⁴ ℓ_Pl with K(0) = 48/ℓ_Pl⁴ and extremal κ_± = 0 Cauchy stability; harmonized 2:1 clock–PTA resonance f_PTA = ω/(2π) = 2 f_clock with clock slope 4.2 × 10⁻¹⁷ / √(τ/s) and ≥ 5 yr synchronous integration.'
   }
 ];

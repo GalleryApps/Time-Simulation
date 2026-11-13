@@ -36,6 +36,7 @@ import {
   VERSION_CHANGE_LOG
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
+import { formatMathToHtml, formatSvgMathMarkup } from './formatMathUnicode';
 
 function esc(s: string): string {
   return s
@@ -44,13 +45,17 @@ function esc(s: string): string {
     .replace(/>/g, '&gt;');
 }
 
+function fmt(s: string): string {
+  return formatMathToHtml(s);
+}
+
 function equationBoxHtml(eq: PaperEquation): string {
   return `<div class="eq-box">
   <div class="eq-row">
     <div class="eq-main">${eq.unicodeHtml}</div>
-    <div class="eq-num">${esc(eq.label)}</div>
+    <div class="eq-num">${fmt(eq.label)}</div>
   </div>
-  <div class="eq-caption">${esc(eq.caption)}</div>
+  <div class="eq-caption">${fmt(eq.caption)}</div>
 </div>`;
 }
 
@@ -58,15 +63,16 @@ export function buildSelfContainedMonographHtml(): string {
   const chaptersHtml = PAPER_CHAPTERS.map((ch) => {
     const subsectionsHtml = ch.subsections
       .map((sub) => {
-        const paras = sub.paragraphs.map((p) => `<p>${esc(p)}</p>`).join('\n');
+        const paras = sub.paragraphs.map((p) => `<p>${fmt(p)}</p>`).join('\n');
 
         const thm = sub.theoremBox
           ? `<div class="theorem-box">
-  <div class="box-header">${esc(sub.theoremBox.number)}: ${esc(sub.theoremBox.title)}</div>
+  <div class="box-kicker">Formal Statement · ${fmt(sub.theoremBox.number)}</div>
+  <div class="box-header">${fmt(sub.theoremBox.title)}</div>
   <div class="box-sub"><strong>Hypotheses:</strong>
-    <ul>${sub.theoremBox.hypotheses.map((h) => `<li>${esc(h)}</li>`).join('')}</ul>
+    <ul>${sub.theoremBox.hypotheses.map((h) => `<li>${fmt(h)}</li>`).join('')}</ul>
   </div>
-  <p style="margin-bottom:0;"><strong>Statement:</strong> ${esc(sub.theoremBox.statement)}</p>
+  <p style="margin-bottom:0;"><strong>Statement:</strong> ${fmt(sub.theoremBox.statement)}</p>
 </div>`
           : '';
 
@@ -74,26 +80,27 @@ export function buildSelfContainedMonographHtml(): string {
 
         const worked = sub.workedExample
           ? `<div class="worked-box">
-  <div class="box-header">${esc(sub.workedExample.title)}</div>
-  <p>${esc(sub.workedExample.setup)}</p>
-  <ol>${sub.workedExample.steps.map((st) => `<li>${esc(st)}</li>`).join('')}</ol>
+  <div class="box-kicker worked-kicker">Worked Example · Explicit Verification</div>
+  <div class="box-header">${fmt(sub.workedExample.title)}</div>
+  <p>${fmt(sub.workedExample.setup)}</p>
+  <ol>${sub.workedExample.steps.map((st) => `<li>${fmt(st)}</li>`).join('')}</ol>
   ${equationBoxHtml(sub.workedExample.resultEquation)}
-  <p style="margin-bottom:0;"><strong>Interpretation:</strong> ${esc(sub.workedExample.takeaway)}</p>
+  <p style="margin-bottom:0;"><strong>Result:</strong> ${fmt(sub.workedExample.takeaway)}</p>
 </div>`
           : '';
 
         const bullets = sub.bulletPoints
-          ? `<ul>${sub.bulletPoints.map((b) => `<li><strong>${esc(b.label)}:</strong> ${esc(b.text)}</li>`).join('')}</ul>`
+          ? `<ul>${sub.bulletPoints.map((b) => `<li><strong>${fmt(b.label)}:</strong> ${fmt(b.text)}</li>`).join('')}</ul>`
           : '';
 
         let specialTables = '';
-        if (sub.anchorId === 'sec-1-3') {
+        if (sub.anchorId === 'sec-1-4') {
           specialTables += `<table class="data-table">
   <caption>Table 1.1: Foundational Principles of Information-Geometric Resonant Time</caption>
   <thead><tr><th>Principle</th><th>Name</th><th>Statement</th></tr></thead>
   <tbody>${PAPER_POSTULATES.map(
     (p) =>
-      `<tr><td>${esc(p.code)}</td><td>${esc(p.name)}</td><td>${esc(p.statement)}</td></tr>`
+      `<tr><td>${fmt(p.code)}</td><td>${fmt(p.name)}</td><td>${fmt(p.statement)}</td></tr>`
   ).join('')}</tbody>
 </table>`;
         }
@@ -104,18 +111,18 @@ export function buildSelfContainedMonographHtml(): string {
   <thead><tr><th>ID</th><th>Protocol &amp; Facility</th><th>Observable Formula</th><th>Signal Budget &amp; Falsification Criterion</th></tr></thead>
   <tbody>${AUDITED_TEST_PROTOCOLS.map(
     (pr) =>
-      `<tr><td>P${pr.id}</td><td><strong>${esc(pr.name)}</strong><br/>${esc(pr.facility)}</td><td>${pr.formulaHtml}</td><td>${esc(pr.predictedSignal)}<br/><em>Note:</em> ${esc(pr.noiseAndAuditNote)}<br/><em>Falsification:</em> ${esc(pr.falsificationCriterion)}</td></tr>`
+      `<tr><td>P${pr.id}</td><td><strong>${fmt(pr.name)}</strong><br/>${fmt(pr.facility)}</td><td>${pr.formulaHtml}</td><td>${fmt(pr.predictedSignal)}<br/><em>Note:</em> ${fmt(pr.noiseAndAuditNote)}<br/><em>Falsification:</em> ${fmt(pr.falsificationCriterion)}</td></tr>`
   ).join('')}</tbody>
 </table>`;
         }
 
         if (sub.anchorId === 'sec-8-1') {
           specialTables += `<table class="data-table">
-  <caption>Table 8.1: Comparison With Competing Approaches to the Problem of Time</caption>
+  <caption>Table 8.1: Comparison of IGRT With String Theory &amp; Six Quantum-Gravity Approaches</caption>
   <thead><tr><th>Framework</th><th>Mechanism</th><th>4D Lorentzian</th><th>WDW Unfreezing</th><th>Open Limitations</th></tr></thead>
   <tbody>${FRAMEWORKS_COMPARISON_TABLE.map(
     (r) =>
-      `<tr><td>${esc(r.framework)}</td><td>${esc(r.keyMechanism)}</td><td>${esc(r.preserves4DLorentzian)}</td><td>${esc(r.wdwUnfreezing)}</td><td>${esc(r.openLimitations)}</td></tr>`
+      `<tr><td>${fmt(r.framework)}</td><td>${fmt(r.keyMechanism)}</td><td>${fmt(r.preserves4DLorentzian)}</td><td>${fmt(r.wdwUnfreezing)}</td><td>${fmt(r.openLimitations)}</td></tr>`
   ).join('')}</tbody>
 </table>
 <table class="data-table">
@@ -123,7 +130,7 @@ export function buildSelfContainedMonographHtml(): string {
   <thead><tr><th>Result</th><th>Domain</th><th>Summary</th></tr></thead>
   <tbody>${AUDITED_CLOSURE_THEOREMS.map(
     (t) =>
-      `<tr><td>${esc(t.title)}</td><td>${esc(t.domain)}</td><td>${esc(t.summary)}</td></tr>`
+      `<tr><td>${fmt(t.title)}</td><td>${fmt(t.domain)}</td><td>${fmt(t.summary)}</td></tr>`
   ).join('')}</tbody>
 </table>`;
         }
@@ -133,14 +140,14 @@ export function buildSelfContainedMonographHtml(): string {
         )
           .map(
             (fig) => `<figure id="${fig.anchorId}">
-  ${fig.svgMarkup}
-  <figcaption>${esc(fig.caption)}</figcaption>
+  ${formatSvgMathMarkup(fig.svgMarkup)}
+  <figcaption>${fmt(fig.caption)}</figcaption>
 </figure>`
           )
           .join('\n');
 
         return `<section id="${sub.anchorId}" class="subsection">
-  <h3>${esc(sub.number)} &nbsp; ${esc(sub.title)}</h3>
+  <h3>${esc(sub.number)} &nbsp; ${fmt(sub.title)}</h3>
   ${paras}
   ${thm}
   ${eq}
@@ -154,20 +161,20 @@ export function buildSelfContainedMonographHtml(): string {
 
     return `<section id="${ch.anchorId}" class="chapter-start">
   <div class="chapter-kicker">Chapter ${ch.number}</div>
-  <h2>${esc(ch.title)}</h2>
-  <p class="lead-summary">${esc(ch.leadSummary)}</p>
+  <h2>${fmt(ch.title)}</h2>
+  <p class="lead-summary">${fmt(ch.leadSummary)}</p>
   ${subsectionsHtml}
 </section>`;
   }).join('\n');
 
   const appendicesHtml = PAPER_APPENDICES.map(
     (app) => `<div id="${app.anchorId}" class="appendix-block keep-together">
-  <h3>Appendix ${esc(app.letter)}: ${esc(app.title)}</h3>
-  <p><strong>Statement (${esc(app.tag)}):</strong> ${esc(app.theoremStatement)}</p>
-  ${app.proofParagraphs.map((p) => `<p>${esc(p)}</p>`).join('')}
+  <h3>Appendix ${esc(app.letter)}: ${fmt(app.title)}</h3>
+  <p><strong>Statement (${fmt(app.tag)}):</strong> ${fmt(app.theoremStatement)}</p>
+  ${app.proofParagraphs.map((p) => `<p>${fmt(p)}</p>`).join('')}
   ${app.equations
     .map(
-      (e) => `<div class="eq-box"><div class="eq-row"><div class="eq-main">${e.unicodeHtml}</div><div class="eq-num">${esc(e.label || '')}</div></div></div>`
+      (e) => `<div class="eq-box"><div class="eq-row"><div class="eq-main">${e.unicodeHtml}</div><div class="eq-num">${fmt(e.label || '')}</div></div></div>`
     )
     .join('')}
 </div>`
@@ -175,7 +182,7 @@ export function buildSelfContainedMonographHtml(): string {
 
   const referencesHtml = PAPER_REFERENCES.map((r) => {
     const idHtml = r.identifier ? ` <span class="ref-ident">${esc(r.identifier)}.</span>` : '';
-    return `<li><span class="ref-id">[${r.id}]</span> <strong>${esc(r.authors)}</strong> (${esc(r.year)}). <em>${esc(r.title)}</em>. ${esc(r.venue)}.${idHtml}</li>`;
+    return `<li><span class="ref-id">[${r.id}]</span> <strong>${esc(r.authors)}</strong> (${esc(r.year)}). <em>${fmt(r.title)}</em>. ${fmt(r.venue)}.${idHtml}</li>`;
   }).join('\n');
 
   return `<!DOCTYPE html>
@@ -189,13 +196,13 @@ export function buildSelfContainedMonographHtml(): string {
     --paper-font-body: "Source Serif 4", "Libre Baskerville", Georgia, "Times New Roman", serif;
     --paper-font-head: "Playfair Display", Georgia, serif;
     --paper-font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
-    --paper-body-size: 30px;      /* +16px over 14px original */
-    --paper-h1-size: 54px;        /* +16px over 38px original */
-    --paper-h2-size: 54px;        /* +16px over 38px original */
-    --paper-h3-size: 38px;        /* +16px over 22px original */
-    --paper-h4-size: 34px;        /* +16px over 18px original */
-    --paper-caption-size: 28px;   /* +16px over 12px original */
-    --paper-meta-size: 26px;      /* +16px over 10-11px original */
+    --paper-body-size: 18px;
+    --paper-h1-size: 32px;
+    --paper-h2-size: 26px;
+    --paper-h3-size: 20.5px;
+    --paper-h4-size: 18px;
+    --paper-caption-size: 14.5px;
+    --paper-meta-size: 12.5px;
     --paper-accent: #8B4513;
     --paper-ink: #111827;
     --paper-muted: #475569;
@@ -227,20 +234,23 @@ export function buildSelfContainedMonographHtml(): string {
 
   body {
     margin: 0 auto;
-    padding: 36px 28px;
-    max-width: 1120px;
+    padding: 32px 24px;
+    max-width: 920px;
     background: #FFFFFF;
     color: var(--paper-ink);
     font-family: var(--paper-font-body);
     font-size: var(--paper-body-size);
-    line-height: 1.5;
+    line-height: 1.62;
+    font-variant-numeric: tabular-nums;
     orphans: 3;
     widows: 3;
   }
 
   p {
-    margin: 0 0 1.5em 0;
+    margin: 0 0 1.35em 0;
     text-indent: 0;
+    text-align: justify;
+    hyphens: auto;
   }
 
   h1, h2, h3, h4 {
@@ -252,8 +262,8 @@ export function buildSelfContainedMonographHtml(): string {
     margin: 0 0 0.55em 0;
   }
   h1 { font-size: var(--paper-h1-size); line-height: 1.18; }
-  h2 { font-size: var(--paper-h2-size); line-height: 1.2; border-bottom: 1px solid var(--paper-rule); padding-bottom: 0.35em; margin-bottom: 0.7em; }
-  h3 { font-size: var(--paper-h3-size); line-height: 1.28; margin-top: 1.2em; }
+  h2 { font-size: var(--paper-h2-size); line-height: 1.2; border-bottom: 1px solid var(--paper-rule); padding-bottom: 0.45em; margin-bottom: 0.85em; }
+  h3 { font-size: var(--paper-h3-size); line-height: 1.28; margin-top: 1.6em; margin-bottom: 0.85em; }
 
   .masthead-meta {
     font-size: var(--paper-meta-size);
@@ -261,25 +271,26 @@ export function buildSelfContainedMonographHtml(): string {
     letter-spacing: 0.06em;
     text-transform: uppercase;
     border-bottom: 2px solid #0F172A;
-    padding-bottom: 12px;
-    margin-bottom: 24px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   .sub-meta {
     font-size: var(--paper-meta-size);
     color: var(--paper-muted);
+    text-align: left;
   }
 
   .authors-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-    margin: 24px 0 32px 0;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin: 20px 0 26px 0;
   }
   .author-card {
     border: 1px solid var(--paper-rule);
     background: #FAF8F3;
-    padding: 16px 20px;
+    padding: 14px 16px;
     border-radius: 6px;
     font-size: var(--paper-meta-size);
   }
@@ -287,6 +298,16 @@ export function buildSelfContainedMonographHtml(): string {
   .chapter-start {
     break-before: page;
     page-break-before: always;
+    margin-top: 2.5em;
+    padding-top: 1em;
+  }
+  .subsection {
+    margin-top: 2.4em;
+    margin-bottom: 2.4em;
+  }
+  .subsection + .subsection {
+    padding-top: 1.6em;
+    border-top: 1px solid #EAE2D2;
   }
   .page-break-after {
     break-after: page;
@@ -297,18 +318,19 @@ export function buildSelfContainedMonographHtml(): string {
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--paper-accent);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .lead-summary {
     font-style: italic;
     color: var(--paper-muted);
+    margin-bottom: 1.8em;
   }
 
   .eq-box {
     break-inside: avoid;
     page-break-inside: avoid;
-    margin: 40px 0;
-    padding: 22px 28px;
+    margin: 26px 0;
+    padding: 18px 22px;
     border: 1px solid var(--paper-rule);
     background: var(--paper-eq-bg);
     border-radius: 6px;
@@ -317,12 +339,12 @@ export function buildSelfContainedMonographHtml(): string {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 16px;
   }
   .eq-main {
     flex: 1;
     text-align: center;
-    font-size: 0.95em;
+    font-size: 0.98em;
   }
   .eq-num {
     font-family: var(--paper-font-mono);
@@ -331,8 +353,8 @@ export function buildSelfContainedMonographHtml(): string {
     white-space: nowrap;
   }
   .eq-caption {
-    margin-top: 14px;
-    padding-top: 12px;
+    margin-top: 12px;
+    padding-top: 10px;
     border-top: 1px solid #E5DDD0;
     font-style: italic;
     text-align: center;
@@ -343,53 +365,66 @@ export function buildSelfContainedMonographHtml(): string {
   .theorem-box, .worked-box, figure, .keep-together {
     break-inside: avoid;
     page-break-inside: avoid;
-    margin: 30px 0;
+    margin: 24px 0;
   }
   .theorem-box, .worked-box {
     border: 1px solid var(--paper-rule);
-    border-left: 4px solid var(--paper-accent);
     background: #FDFBF7;
-    padding: 20px 24px;
-    border-radius: 6px;
+    padding: 18px 22px;
+    border-radius: 4px;
+  }
+  .box-kicker {
+    font-family: var(--paper-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper-accent);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #E5DDD0;
+  }
+  .worked-kicker {
+    color: #15803D;
   }
   .box-header {
     font-family: var(--paper-font-head);
     font-size: var(--paper-h4-size);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     color: #0F172A;
   }
 
   figure {
     border: 1px solid var(--paper-rule);
     background: #FAF8F3;
-    padding: 18px;
+    padding: 16px;
     border-radius: 6px;
   }
   figcaption {
     font-size: var(--paper-caption-size);
     font-style: italic;
     color: var(--paper-muted);
-    margin-top: 14px;
-    line-height: 1.45;
+    margin-top: 12px;
+    line-height: 1.48;
+    text-align: justify;
   }
 
   table.data-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 32px 0;
-    font-size: 0.82em;
+    margin: 26px 0;
+    font-size: 0.84em;
     break-inside: auto;
   }
   table.data-table caption {
     font-family: var(--paper-font-head);
     font-size: var(--paper-caption-size);
     text-align: left;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     color: #0F172A;
   }
   table.data-table th, table.data-table td {
     border: 1px solid var(--paper-rule);
-    padding: 12px 14px;
+    padding: 10px 12px;
     text-align: left;
     vertical-align: top;
   }
@@ -404,21 +439,22 @@ export function buildSelfContainedMonographHtml(): string {
   }
 
   ul, ol {
-    margin: 0 0 1.5em 1.2em;
+    margin: 0 0 1.35em 1.2em;
     padding: 0;
   }
-  li { margin-bottom: 0.6em; }
+  li { margin-bottom: 0.55em; }
 
   ol.refs-list {
     list-style: none;
     margin-left: 0;
   }
   ol.refs-list li {
-    margin-bottom: 0.75em;
+    margin-bottom: 0.65em;
     padding-left: 1.8em;
     text-indent: -1.8em;
-    font-size: 19px;
+    font-size: 15px;
     line-height: 1.45;
+    text-align: justify;
   }
   .ref-id {
     font-family: var(--paper-font-mono);
@@ -426,25 +462,25 @@ export function buildSelfContainedMonographHtml(): string {
   }
   .ref-ident {
     font-family: var(--paper-font-mono);
-    font-size: 16px;
+    font-size: 13px;
     color: var(--paper-muted);
   }
   .cited-version-box {
-    margin: 24px 0 28px 0;
-    padding: 16px 20px;
+    margin: 20px 0 24px 0;
+    padding: 14px 18px;
     border: 1px solid var(--paper-rule);
     background: #FAF8F3;
     border-radius: 6px;
-    font-size: 18px;
+    font-size: 15px;
     line-height: 1.45;
   }
   .cited-version-box pre {
     font-family: var(--paper-font-mono);
-    font-size: 14px;
+    font-size: 12.5px;
     line-height: 1.4;
     background: #0F172A;
     color: #F8FAFC;
-    padding: 12px 14px;
+    padding: 10px 12px;
     border-radius: 5px;
     overflow-x: auto;
     margin: 10px 0 0 0;
@@ -458,7 +494,7 @@ export function buildSelfContainedMonographHtml(): string {
     <div class="masthead-meta">
       ${esc(PAPER_META.publicationStatus)} &nbsp;·&nbsp; ${esc(PAPER_META.edition)}
     </div>
-    <h1>${esc(PAPER_META.title)}</h1>
+    <h1>${fmt(PAPER_META.title)}</h1>
     <div class="sub-meta">
       <strong>Identifiers:</strong> ${esc(PAPER_META.eprint)} &nbsp;|&nbsp; ${esc(PAPER_META.doi)}<br/>
       <strong>PhySH:</strong> ${esc(PAPER_META.physh)} &nbsp;|&nbsp; <strong>MSC 2020:</strong> ${esc(PAPER_META.msc2020)}
@@ -477,10 +513,10 @@ export function buildSelfContainedMonographHtml(): string {
     </div>
 
     <section aria-labelledby="abs-heading">
-      <h3 id="abs-heading">Abstract <span class="sub-meta">(${esc(SHORTENED_ABSTRACT.wordCountNote)})</span></h3>
-      ${SHORTENED_ABSTRACT.paragraphs.map((p) => `<p>${esc(p)}</p>`).join('\n')}
+      <h3 id="abs-heading">Abstract</h3>
+      ${SHORTENED_ABSTRACT.paragraphs.map((p) => `<p>${fmt(p)}</p>`).join('\n')}
       ${equationBoxHtml(MASTER_EQUATION_ABSTRACT)}
-      <p class="sub-meta"><strong>Keywords:</strong> ${esc(PAPER_META.keywords.join(' · '))}</p>
+      <p class="sub-meta"><strong>Keywords:</strong> ${fmt(PAPER_META.keywords.join(' · '))}</p>
     </section>
   </header>
 
@@ -489,36 +525,36 @@ export function buildSelfContainedMonographHtml(): string {
     <div class="chapter-kicker">Navigation</div>
     <h2>Table of Contents</h2>
     <ul>
-      <li><strong>Frontmatter Apparatus:</strong> Plain-Language Summary · Scope &amp; Architectural Closures · Lists of Figures, Tables &amp; Symbols · Acronyms · Dimensional Analysis · Equation Index</li>
+      <li><strong>Summary, Symbols &amp; Indices:</strong> Plain-Language Summary · Scope &amp; Architectural Closures · Lists of Figures, Tables &amp; Symbols · Acronyms · Dimensional Analysis · Equation Index</li>
       ${PAPER_CHAPTERS.map(
         (ch) =>
-          `<li><strong>Chapter ${ch.number}: ${esc(ch.title)}</strong>
-            <ul>${ch.subsections.map((s) => `<li>${esc(s.number)} ${esc(s.title)}</li>`).join('')}</ul>
+          `<li><strong>Chapter ${ch.number}: ${fmt(ch.title)}</strong>
+            <ul>${ch.subsections.map((s) => `<li>${esc(s.number)} ${fmt(s.title)}</li>`).join('')}</ul>
           </li>`
       ).join('')}
       <li><strong>Appendices A–J:</strong> Formal Theorems, CODATA Constants, Numerical Derivations &amp; Technical FAQ</li>
-      <li><strong>Backmatter:</strong> Governance (CRediT, COI, Data, Funding, AI) · Version Change Log · References [1]–[91]</li>
+      <li><strong>Backmatter:</strong> Governance (CRediT, COI, Data, Funding, AI) · Version Change Log · References [1]–[${PAPER_REFERENCES.length}]</li>
     </ul>
   </nav>
 
-  <!-- FRONTMATTER APPARATUS -->
+  <!-- SUMMARY, SYMBOLS & INDICES -->
   <section class="chapter-start">
-    <div class="chapter-kicker">Editorial Frontmatter</div>
-    <h2>Plain-Language Summary, Scope, Symbols &amp; Indices</h2>
+    <div class="chapter-kicker">Summary &amp; Editorial Reference Apparatus</div>
+    <h2>Summary, Symbols &amp; Indices</h2>
 
     <h3>Plain-Language Summary</h3>
-    <p>${esc(PLAIN_LANGUAGE_SUMMARY)}</p>
+    <p>${fmt(PLAIN_LANGUAGE_SUMMARY)}</p>
 
     <h3>Scope &amp; Architectural Closures</h3>
-    <ul>${SCOPE_AND_NON_CLAIMS.map((s) => `<li><strong>${esc(s.title)}:</strong> ${esc(s.detail)}</li>`).join('')}</ul>
+    <ul>${SCOPE_AND_NON_CLAIMS.map((s) => `<li><strong>${fmt(s.title)}:</strong> ${fmt(s.detail)}</li>`).join('')}</ul>
 
     <h3>List of Figures</h3>
-    <ul>${PAPER_FIGURES.map((f) => `<li><strong>Figure ${f.id}:</strong> ${esc(f.title)}</li>`).join('')}</ul>
+    <ul>${PAPER_FIGURES.map((f) => `<li><strong>Figure ${f.id}:</strong> ${fmt(f.title)}</li>`).join('')}</ul>
 
     <table class="data-table">
       <caption>List of Tables</caption>
       <thead><tr><th>Table</th><th>Title</th><th>Location</th></tr></thead>
-      <tbody>${LIST_OF_TABLES.map((t) => `<tr><td>${esc(t.number)}</td><td>${esc(t.title)}</td><td>${esc(t.location)}</td></tr>`).join('')}</tbody>
+      <tbody>${LIST_OF_TABLES.map((t) => `<tr><td>${fmt(t.number)}</td><td>${fmt(t.title)}</td><td>${fmt(t.location)}</td></tr>`).join('')}</tbody>
     </table>
 
     <table class="data-table">
@@ -526,7 +562,7 @@ export function buildSelfContainedMonographHtml(): string {
       <thead><tr><th>Symbol</th><th>Meaning</th><th>Units</th><th>Collision / Disambiguation Rule</th></tr></thead>
       <tbody>${LIST_OF_SYMBOLS.map(
         (sym) =>
-          `<tr><td><strong>${esc(sym.symbol)}</strong></td><td>${esc(sym.name)}</td><td>${esc(sym.units)}</td><td>${esc(sym.collisionNote)}</td></tr>`
+          `<tr><td><strong>${fmt(sym.symbol)}</strong></td><td>${fmt(sym.name)}</td><td>${fmt(sym.units)}</td><td>${fmt(sym.collisionNote)}</td></tr>`
       ).join('')}</tbody>
     </table>
 
@@ -534,7 +570,7 @@ export function buildSelfContainedMonographHtml(): string {
       <caption>Acronyms Glossary</caption>
       <thead><tr><th>Acronym</th><th>Expansion</th><th>Definition</th></tr></thead>
       <tbody>${ACRONYMS_GLOSSARY.map(
-        (a) => `<tr><td><strong>${esc(a.term)}</strong></td><td>${esc(a.expansion)}</td><td>${esc(a.definition)}</td></tr>`
+        (a) => `<tr><td><strong>${fmt(a.term)}</strong></td><td>${fmt(a.expansion)}</td><td>${fmt(a.definition)}</td></tr>`
       ).join('')}</tbody>
     </table>
 
@@ -543,7 +579,7 @@ export function buildSelfContainedMonographHtml(): string {
       <thead><tr><th>Quantity</th><th>Expression</th><th>SI</th><th>Natural Units</th><th>Derivation Note</th></tr></thead>
       <tbody>${DIMENSIONAL_ANALYSIS_TABLE.map(
         (d) =>
-          `<tr><td>${esc(d.quantity)}</td><td>${esc(d.expression)}</td><td>${esc(d.siUnits)}</td><td>${esc(d.naturalUnits)}</td><td>${esc(d.auditNote)}</td></tr>`
+          `<tr><td>${fmt(d.quantity)}</td><td>${fmt(d.expression)}</td><td>${fmt(d.siUnits)}</td><td>${fmt(d.naturalUnits)}</td><td>${fmt(d.auditNote)}</td></tr>`
       ).join('')}</tbody>
     </table>
 
@@ -552,7 +588,7 @@ export function buildSelfContainedMonographHtml(): string {
       <thead><tr><th>Label</th><th>Description</th><th>Section</th></tr></thead>
       <tbody>${EQUATION_INDEX.map(
         (e) =>
-          `<tr><td>${esc(e.label)}</td><td>${esc(e.title)}</td><td>${esc(e.section)}</td></tr>`
+          `<tr><td>${fmt(e.label)}</td><td>${fmt(e.title)}</td><td>${fmt(e.section)}</td></tr>`
       ).join('')}</tbody>
     </table>
   </section>
@@ -573,35 +609,35 @@ export function buildSelfContainedMonographHtml(): string {
     <h2>Governance Disclosures &amp; Version Change Log</h2>
 
     <h3>CRediT Author Contributions</h3>
-    <ul>${ETHICS_AND_GOVERNANCE.creditRoles.map((c) => `<li><strong>${esc(c.author)}:</strong> ${esc(c.roles)}</li>`).join('')}</ul>
+    <ul>${ETHICS_AND_GOVERNANCE.creditRoles.map((c) => `<li><strong>${esc(c.author)}:</strong> ${fmt(c.roles)}</li>`).join('')}</ul>
 
     <h3>Conflicts of Interest Disclosure</h3>
-    <p>${esc(ETHICS_AND_GOVERNANCE.conflictsOfInterest)}</p>
+    <p>${fmt(ETHICS_AND_GOVERNANCE.conflictsOfInterest)}</p>
 
     <h3>Funding Statement</h3>
-    <p>${esc(ETHICS_AND_GOVERNANCE.fundingStatement)}</p>
+    <p>${fmt(ETHICS_AND_GOVERNANCE.fundingStatement)}</p>
 
     <h3>Data and Code Availability</h3>
-    <p>${esc(ETHICS_AND_GOVERNANCE.dataAndCodeAvailability)}</p>
+    <p>${fmt(ETHICS_AND_GOVERNANCE.dataAndCodeAvailability)}</p>
 
     <h3>AI-Assistance Disclosure</h3>
-    <p>${esc(ETHICS_AND_GOVERNANCE.aiAssistanceDisclosure)}</p>
+    <p>${fmt(ETHICS_AND_GOVERNANCE.aiAssistanceDisclosure)}</p>
 
     <h3>Version Change Log</h3>
     <table class="data-table">
       <thead><tr><th>Edition</th><th>Date</th><th>Summary of Revisions</th></tr></thead>
       <tbody>${VERSION_CHANGE_LOG.map(
-        (v) => `<tr><td>${esc(v.version)}</td><td>${esc(v.date)}</td><td>${esc(v.summary)}</td></tr>`
+        (v) => `<tr><td>${esc(v.version)}</td><td>${esc(v.date)}</td><td>${fmt(v.summary)}</td></tr>`
       ).join('')}</tbody>
     </table>
   </section>
 
-  <!-- COMPREHENSIVE REFERENCES [1]–[91] & CITED VERSION (SLIGHTLY SMALLER FONT, NO ORCIDs IN REFERENCES) -->
+  <!-- COMPREHENSIVE REFERENCES [1]–[91] & CITED VERSION (NO ORCIDs IN REFERENCES) -->
   <section id="references" class="chapter-start">
     <div class="chapter-kicker">Bibliography &amp; Cited Version</div>
     <h2>References &amp; Citation Record</h2>
     <div class="cited-version-box">
-      <strong>Cited Version (APA):</strong> ${esc(PAPER_APA)}
+      <strong>Cited Version (APA):</strong> ${fmt(PAPER_APA)}
       <pre>${esc(PAPER_BIBTEX)}</pre>
     </div>
     <ol class="refs-list">

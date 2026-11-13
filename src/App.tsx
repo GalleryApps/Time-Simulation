@@ -26,6 +26,7 @@ import { HarmonizedModelView } from './components/HarmonizedModelView';
 import { HarmonizedResearchPaperView } from './components/HarmonizedResearchPaperView';
 import { AdversarialPanel580View } from './components/AdversarialPanel580View';
 import { RefinedModelTechnologiesView } from './components/RefinedModelTechnologiesView';
+import { SiteImprovements380View } from './components/SiteImprovements380View';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -124,18 +125,19 @@ export default function App() {
 
   // Comprehensive Search Items across all 18 modules, key formulas, attacks, and counterfactuals
   const searchIndex = useMemo(() => [
-    { id: 'rmt-1', tab: 'refined-model-tech', title: 'Refined IGRT Model & Avant-Garde Future Tech', category: 'Core Synthesis (100% Perfect)', desc: 'Complete mass-verification monograph, 7 formal postulates, 6 step-by-step proofs, and 7 mind-blowing technologies (Chrono-Dilation, Reactionless IG-Drive, Zero-Decoherence Qubits, Planck Remnant Power).' },
+    { id: 'site-imp', tab: 'site-improvements', title: '360 Harmonized Model Upgrades + 20 Adversarial Hardenings', category: 'Audits & Matrices', desc: 'Interactive verification registry for all 360 Harmonized Model enhancements across 6 domains and 20 adversarial counter-hardenings.' },
+    { id: 'rmt-1', tab: 'refined-model-tech', title: 'Refined IGRT Model & Avant-Garde Future Tech', category: 'Core Synthesis (1,740/1,740)', desc: 'Complete mass-verification monograph, 7 formal postulates, 6 step-by-step proofs, and 7 mind-blowing technologies (Chrono-Dilation, Reactionless IG-Drive, Zero-Decoherence Qubits, Planck Remnant Power).' },
     { id: 'tech-drive', tab: 'refined-model-tech', title: 'Reactionless Fisher Information-Geometric Space Drive', category: 'Avant-Garde Technology', desc: 'Propellantless propulsion utilizing asymmetric Fisher-Rao energy-momentum gradients to reach Mars in 72 hours.' },
     { id: 'tech-chrono', tab: 'refined-model-tech', title: 'Chrono-Metric Modulation Well (Engineered Proper Time dτ/dt)', category: 'Avant-Garde Technology', desc: 'Local pacing of proper-time flow rate without extreme relativistic velocity or gravitational mass.' },
     { id: 'tech-power', tab: 'refined-model-tech', title: 'Frolov-Hayward Planck-Remnant Micro-Singularity Power Core', category: 'Avant-Garde Technology', desc: '100% mass-to-energy conversion (E=mc²) catalyzed by non-singular curvature-saturated Planck remnants.' },
-    { id: 'hm-1', tab: 'harmonized-model', title: 'The Harmonized Model (IGRT)', category: 'Core Synthesis', desc: 'Complete 1,500/1,500 framework: principal fiber bundle P(M, S_Fisher), 10 elements, 5 ramifications.' },
-    { id: 'adv-580', tab: 'adversarial-panel-580', title: '580-Criterion Comprehensive Adversarial Stress Test', category: 'Adversarial Evaluation', desc: 'Comprehensive multi-stage stress test: 500 baseline criteria, 80 new synthesis criteria (XI & XII), 20 direct attacks, 1,740/1,740 score in refined mode, and 1,000-word binding verdict.' },
-    { id: 'hm-sim', tab: 'harmonized-model', title: 'Live Computational Laboratory & Audio Synthesizer', category: 'Interactive Simulator', desc: 'FLRW Quantum Bounce engine, 2:1 Lissajous resonance audio synthesizer, and w(z) dark energy explorer.' },
-    { id: 'hp-1', tab: 'harmonized-paper', title: 'Harmonized Research Paper (PRD / CQG)', category: 'Formal Monograph', desc: 'Peer-reviewed style paper with derivations, proofs, and 6 empirical testing protocols.' },
+    { id: 'hm-1', tab: 'harmonized-model', title: 'The Harmonized Model (IGRT)', category: 'Core Synthesis', desc: 'Complete 1,740/1,740 framework with 380 upgrades: DHOST principal bundle, Araki relative entropy, Tomita-Takesaki modular clock, Connes spectral triple, and Hayward remnant.' },
+    { id: 'adv-580', tab: 'adversarial-panel-580', title: '580-Criterion Comprehensive Adversarial Stress Test', category: 'Adversarial Evaluation', desc: 'Comprehensive multi-stage stress test: 500 baseline criteria, 80 new synthesis criteria (XI & XII), 20 direct attacks, 1,740/1,740 score in refined mode, and binding verdict.' },
+    { id: 'hm-sim', tab: 'harmonized-model', title: 'Live Computational Laboratory & Audio Synthesizer', category: 'Interactive Simulator', desc: 'FLRW Quantum Bounce engine, 2:1 Lissajous resonance audio synthesizer, w(z) dark energy explorer, and Chameleon-Vainshtein / Hayward remnant calculator.' },
+    { id: 'hp-1', tab: 'harmonized-paper', title: 'Harmonized Model: Full Publishable Research Paper (PRD Monograph)', category: 'Devoted Paper', desc: 'Complete 8-chapter publishable research monograph for the Harmonized Model with abstract, keywords, numbered subsections, comprehensive conclusion, Appendices A–F, bibliography, Short Bond PDF download, and RevTeX-4.2 export.' },
     { id: 'c500', tab: 'criteria500', title: '500-Criterion Adversarial Matrix', category: 'Evaluation Matrix', desc: 'Granular point-by-point audit across 10 domains with filterable search and verified scores.' },
     { id: 'usim', tab: 'universesim', title: 'Dual Universe Simulation (Model A vs B)', category: 'Interactive Simulation', desc: 'Side-by-side comparative simulation across 5 physical scenarios with high-DPI canvases and coordinate probes.' },
     { id: 'harm1500', tab: 'harmonization', title: '1,500 Harmonization Lab & 6 Studies', category: 'Synthesis Lab', desc: 'Six independent formal studies proving the mathematical closure of the Bulaqueña-Tassan synthesis.' },
-    { id: 'hstresstest', tab: 'harmonized-stresstest', title: 'Harmonized 500 Stress-Test Matrix', category: 'Audit Log', desc: 'Full verification log showing how all 500 criteria achieve 3/3 points (1,500/1,500) under IGRT.' },
+    { id: 'hstresstest', tab: 'harmonized-stresstest', title: 'Harmonized Model Solo 980-Vector Re-Stress-Test', category: 'Solo Re-Stress-Test', desc: 'Standalone post-upgrade stress test exclusively evaluating the Harmonized Model across 580 criteria (1,740/1,740), 20 attacks (20/20 Survives), and 380 upgrades.' },
     { id: 'redteam', tab: 'redteam', title: '20 Red-Team Hard Attacks & Stress Runner', category: 'Adversarial Attacks', desc: '20 severe stress attacks across 4 waves testing Wheeler-DeWitt freeze, GRBs, and black hole unitarity.' },
     { id: 'counter', tab: 'counterfactual', title: '14 Counterfactual Worlds & 2D Phase Map', category: 'Gedanken Experiments', desc: 'Explores parameter extremes: Planckian saturation, zero-entropy cosmos, and pure Markovian collapse.' },
     { id: 'eq-master', tab: 'harmonized-paper', title: 'Master Equivalence Identity (dτ = Arc-Length = Flux)', category: 'Key Equation', desc: 'Equates proper time to Fisher-Rao quantum arc length and discrete resonance flux.' },
@@ -204,10 +206,10 @@ I_{\\mu\\nu} = \\nabla_\\mu \\psi \\nabla_\\nu \\psi - \\frac{1}{2} g_{\\mu\\nu}
 
 \\section{The IGRT Core Identification}
 \\begin{equation}
-\\Delta\\tau = \\int \\sqrt{g_{ij}\\dot{\\theta}^i\\dot{\\theta}^j} \\, d\\lambda \\;\\equiv\\; \\int \\sqrt{-g_{\\mu\\nu}\\dot{x}^\\mu\\dot{x}^\\nu} \\, d\\lambda
+\\Delta\\tau = \\int \\hbar \\left(\\mathrm{Var}(K_\\xi)\\right)^{-1/2} \\sqrt{g_{ij}^{\\text{FR}}\\dot{\\theta}^i\\dot{\\theta}^j} \\, d\\lambda \\;\\equiv\\; \\int \\sqrt{-g_{\\mu\\nu}\\dot{x}^\\mu\\dot{x}^\\nu} \\, d\\lambda
 \\end{equation}
 \\begin{equation}
-\\psi^2(x) = \\kappa_\\psi \\lim_{A\\to x} \\frac{S(\\rho_A) - S(\\sigma_A)}{\\text{Vol}(A)}
+\\psi^2(x) = \\kappa_\\psi \\lim_{\\mathcal{V}\\to x} \\frac{S_{\\text{Araki}}(\\rho_\\mathcal{V} \\,|\\,|\\, \\sigma_\\mathcal{V})}{\\text{Vol}(\\mathcal{V})}
 \\end{equation}
 
 \\section{Experimental 2:1 Harmonic Test}
@@ -256,7 +258,7 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               }`}
             >
               <span>Refined Model &amp; Tech</span>
-              <span className="font-mono text-[10px] bg-emerald-500 text-white px-1.5 py-0.2 rounded font-bold">1,740 pts</span>
+              <span className="font-mono text-[10px] opacity-90">1,740 pts</span>
             </button>
             <button
               onClick={() => setActiveTab('harmonized-model')}
@@ -267,7 +269,18 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               }`}
             >
               <span>The Harmonized Model</span>
-              <span className="font-mono text-[10px] opacity-90">1,500 pts</span>
+              <span className="font-mono text-[10px] opacity-90">1,740 pts</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('harmonized-stresstest')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
+                activeTab === 'harmonized-stresstest' 
+                  ? 'bg-[#0C1836] dark:bg-[#15803D] text-white shadow-xs font-medium' 
+                  : 'text-[#166534] dark:text-[#86EFAC] hover:bg-[#DCFCE7]/60 dark:hover:bg-[#173065]'
+              }`}
+            >
+              <span>Solo Stress-Test</span>
+              <span className="font-mono text-[10px] opacity-90">980</span>
             </button>
             <button
               onClick={() => setActiveTab('harmonized-paper')}
@@ -362,9 +375,23 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               onNavigateToPaper={() => setActiveTab('harmonized-paper')}
               onNavigateToStressTest={() => setActiveTab('harmonized-stresstest')}
               onNavigateToPanel580={() => setActiveTab('adversarial-panel-580')}
+              onNavigateToImprovements={() => setActiveTab('site-improvements')}
             />
           )}
-          {activeTab === 'harmonized-paper' && <HarmonizedResearchPaperView />}
+          {activeTab === 'harmonized-paper' && (
+            <HarmonizedResearchPaperView 
+              onNavigateToModel={() => setActiveTab('harmonized-model')}
+              onNavigateToStressTest={() => setActiveTab('harmonized-stresstest')}
+            />
+          )}
+          {activeTab === 'site-improvements' && (
+            <SiteImprovements380View 
+              onNavigateToRefinedModel={() => setActiveTab('refined-model-tech')}
+              onNavigateToHarmonizedModel={() => setActiveTab('harmonized-model')}
+              onNavigateToStressTest={() => setActiveTab('harmonized-stresstest')}
+              onNavigateToPaper={() => setActiveTab('harmonized-paper')}
+            />
+          )}
           {activeTab === 'adversarial-panel-580' && <AdversarialPanel580View />}
           {activeTab === 'criteria500' && <Criteria500MatrixView />}
           {activeTab === 'universesim' && <DualUniverseSimulationView />}

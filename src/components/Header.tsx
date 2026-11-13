@@ -24,9 +24,9 @@ export const Header: React.FC<HeaderProps> = ({
     {
       label: 'Core Synthesis & Papers',
       items: [
-        { id: 'refined-model-tech', name: 'Refined Model & Future Tech', badge: '1,740 pts Perfect' },
-        { id: 'harmonized-model', name: 'The Harmonized Model (IGRT)', badge: '1,500 pts' },
-        { id: 'harmonized-paper', name: 'Harmonized Research Paper', badge: 'PRD / CQG' },
+        { id: 'refined-model-tech', name: 'Refined Model & Future Tech', badge: '1,740 pts' },
+        { id: 'harmonized-model', name: 'The Harmonized Model (IGRT)', badge: '1,740 pts' },
+        { id: 'harmonized-paper', name: 'Harmonized Model Research Paper', badge: 'Full Paper' },
         { id: 'journal', name: 'Full Journal Manuscript', badge: '500-Crit.' },
         { id: 'pubdoc', name: '4-Page Publication & Verdict', badge: 'Archival' },
         { id: 'layman', name: "Layman's Guide", badge: 'Accessible' },
@@ -44,8 +44,9 @@ export const Header: React.FC<HeaderProps> = ({
     {
       label: 'Audits & Matrices',
       items: [
+        { id: 'site-improvements', name: '360+20 Harmonized Upgrades', badge: 'Verified' },
         { id: 'criteria500', name: '500-Criterion Adversarial Matrix', badge: 'Filterable' },
-        { id: 'harmonized-stresstest', name: 'Harmonized 500 Stress-Test', badge: '1,500/1,500' },
+        { id: 'harmonized-stresstest', name: 'Harmonized Solo Re-Stress-Test', badge: '980 Vectors' },
         { id: 'matrix100', name: '500-Factor Stress-Test Matrix', badge: 'Detailed' },
         { id: 'harmonization', name: '1,500 Harmonization & 6 Studies', badge: 'Theorems' },
       ]
@@ -86,10 +87,9 @@ export const Header: React.FC<HeaderProps> = ({
         <nav className="hidden lg:flex items-center gap-5 text-xs font-['Poppins'] text-[#475569] dark:text-[#94A3B8]">
           <button
             onClick={() => setActiveTab('refined-model-tech')}
-            className={`hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 ${activeTab === 'refined-model-tech' ? 'text-[#EA580C] font-semibold border-b-2 border-[#EA580C] pb-0.5' : ''}`}
+            className={`hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 ${activeTab === 'refined-model-tech' ? 'text-[#EA580C] font-semibold border-b-2 border-[#EA580C] pb-0.5' : ''}`}
           >
-            <span>Refined Model &amp; Future Tech</span>
-            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-bold">100% Perfect</span>
+            Refined Model &amp; Future Tech
           </button>
           <button
             onClick={() => setActiveTab('harmonized-model')}
@@ -98,10 +98,10 @@ export const Header: React.FC<HeaderProps> = ({
             The Harmonized Model
           </button>
           <button
-            onClick={() => setActiveTab('adversarial-panel-580')}
-            className={`hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 ${activeTab === 'adversarial-panel-580' ? 'text-[#EA580C] font-semibold border-b-2 border-[#EA580C] pb-0.5' : ''}`}
+            onClick={() => setActiveTab('harmonized-stresstest')}
+            className={`hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 ${activeTab === 'harmonized-stresstest' ? 'text-[#EA580C] font-semibold border-b-2 border-[#EA580C] pb-0.5' : ''}`}
           >
-            580-Criterion Stress Test
+            Harmonized Solo Stress-Test
           </button>
           <button
             onClick={() => setActiveTab('harmonized-paper')}

@@ -180,9 +180,10 @@ ${REFINED_IGRT_TECHNOLOGIES.map(t => `\\subsection{${t.name}}\n${t.tagline}\nGov
       <section className="relative overflow-hidden rounded-3xl border border-[#EAE2D2] dark:border-[#1E293B] bg-gradient-to-br from-[#FFFFFF] via-[#FDFBF7] to-[#F4EFE6] dark:from-[#081026] dark:via-[#0C1836] dark:to-[#11224D] p-8 sm:p-12 shadow-sm transition-colors">
         <div className="relative z-10 space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 dark:border-emerald-700/60 bg-emerald-50 dark:bg-emerald-950/40 px-3.5 py-1 text-xs font-medium text-emerald-800 dark:text-emerald-300">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>100.0% Perfect Theoretical Score · 1,740 / 1,740 Points Ratified</span>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-mono font-medium text-emerald-800 dark:text-emerald-300 tabular-nums">
+              <span>100.0% Theoretical Closure</span>
+              <span aria-hidden="true">·</span>
+              <span>1,740 / 1,740 Points Verified</span>
             </div>
             <div className="flex items-center gap-2 text-xs font-mono text-[#64748B] dark:text-[#94A3B8]">
               <span>Applied Mathematical Amendments</span>

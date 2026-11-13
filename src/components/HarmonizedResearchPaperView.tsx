@@ -35,16 +35,23 @@ import {
   LIST_OF_SYMBOLS,
   ACRONYMS_GLOSSARY,
   LIST_OF_TABLES,
-  DIMENSIONAL_ANALYSIS_TABLE,
+  DIMENSIONAL_ANALYSIS_CLOSURE_A,
+  DIMENSIONAL_ANALYSIS_CLOSURE_B,
   EQUATION_INDEX,
   FRAMEWORKS_COMPARISON_TABLE,
+  CLAIM_EVIDENCE_LEDGER,
   ETHICS_AND_GOVERNANCE,
-  TABLE_H1_CLOSURES
+  TABLE_H1_CLOSURES,
+  WHAT_CHANGED_SUMMARY,
+  REVISION_HISTORY_TABLE,
+  RESPONSE_TO_REVIEWERS,
+  KNOWN_OPEN_PROBLEMS
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES, HarmonizedPaperFigure } from './HarmonizedPaperFigures';
 import { MathText } from './MathText';
 import { buildSelfContainedMonographHtml } from '../utils/generateHarmonizedPaperHtml';
 import { generateHarmonizedPaperPdf } from '../utils/generateHarmonizedPaperPdf';
+import verifyScriptSource from '../../scripts/verify-igrt-monograph.mjs?raw';
 
 interface HarmonizedResearchPaperViewProps {
   onNavigateToModel?: () => void;
@@ -264,6 +271,18 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
             Download Markdown (.md)
           </button>
           <button
+            onClick={() =>
+              downloadTextAsset(
+                verifyScriptSource,
+                'verify-igrt-monograph.mjs',
+                'text/javascript;charset=utf-8'
+              )
+            }
+            className="px-3.5 py-2 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#081026] text-[#0C1836] dark:text-[#CBD5E1] hover:border-[#8B4513] transition-colors whitespace-nowrap shrink-0"
+          >
+            Verification Script (.mjs)
+          </button>
+          <button
             onClick={() => setShowCiteModal(true)}
             className="px-3.5 py-2 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#081026] text-[#0C1836] dark:text-[#CBD5E1] hover:border-[#8B4513] transition-colors whitespace-nowrap shrink-0"
           >
@@ -372,7 +391,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
               Table of Contents
             </div>
             <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">
-              Chapters 1–8 · App. A–J · Refs [1–91]
+              Chapters 1–8 · App. A–J · Refs [1–{PAPER_REFERENCES.length}]
             </div>
           </div>
 
@@ -549,6 +568,25 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                 </div>
 
                 <div className="space-y-4 py-2">
+                  <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>What Changed in Harmonized Edition H8</h3>
+                  <div className="grid grid-cols-1 gap-3">
+                    {WHAT_CHANGED_SUMMARY.map((wc) => (
+                      <div
+                        key={wc.category}
+                        className="p-4 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026]"
+                      >
+                        <div className="text-[#8B4513] dark:text-[#FB923C] font-medium mb-1" style={{ fontSize: '16px' }}>
+                          <MathText text={wc.category} />
+                        </div>
+                        <p className="mb-0 text-[#334155] dark:text-[#CBD5E1]" style={{ marginBottom: 0, fontSize: '15.5px' }}>
+                          <MathText text={wc.detail} />
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4 py-2">
                   <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>Summary</h3>
                   <p className="text-[#1E293B] dark:text-[#CBD5E1]"><MathText text={PLAIN_LANGUAGE_SUMMARY} /></p>
                 </div>
@@ -656,25 +694,55 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                 </div>
               </div>
 
-              {/* Table 0.2: Dimensional-Analysis Table */}
+              {/* Table 0.2a & Table 0.2b: Dimensional-Analysis Closure Split */}
               <div className="space-y-3">
-                <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>Table 0.2: Dimensional-Analysis Closure</h3>
+                <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>Table 0.2a: Dimensional-Analysis Closure — Part I: Bundle, Clock &amp; Quantum Information (Items 1–11)</h3>
                 <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155]">
                   <table className="w-full text-left igrt-tabular" style={{ fontSize: '14px', lineHeight: 1.52 }}>
                     <thead className="bg-[#FAF6EE] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
                       <tr>
                         <th className="p-3 font-normal">Quantity</th>
                         <th className="p-3 font-normal">Expression</th>
-                        <th className="p-3 font-normal">SI / Natural</th>
+                        <th className="p-3 font-normal">SI</th>
+                        <th className="p-3 font-normal">Natural Units</th>
                         <th className="p-3 font-normal">Derivation Note</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
-                      {DIMENSIONAL_ANALYSIS_TABLE.map((dim) => (
+                      {DIMENSIONAL_ANALYSIS_CLOSURE_A.map((dim) => (
                         <tr key={dim.quantity}>
                           <td className="p-3"><MathText text={dim.quantity} /></td>
                           <td className="p-3 font-mono text-[12.5px]"><MathText text={dim.expression} /></td>
-                          <td className="p-3"><MathText text={dim.siUnits} /> / <MathText text={dim.naturalUnits} /></td>
+                          <td className="p-3"><MathText text={dim.siUnits} /></td>
+                          <td className="p-3"><MathText text={dim.naturalUnits} /></td>
+                          <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={dim.auditNote} /></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>Table 0.2b: Dimensional-Analysis Closure — Part II: Gravity, Bounce, Black Holes &amp; Metrology (Items 12–20)</h3>
+                <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155]">
+                  <table className="w-full text-left igrt-tabular" style={{ fontSize: '14px', lineHeight: 1.52 }}>
+                    <thead className="bg-[#FAF6EE] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                      <tr>
+                        <th className="p-3 font-normal">Quantity</th>
+                        <th className="p-3 font-normal">Expression</th>
+                        <th className="p-3 font-normal">SI</th>
+                        <th className="p-3 font-normal">Natural Units</th>
+                        <th className="p-3 font-normal">Derivation Note</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
+                      {DIMENSIONAL_ANALYSIS_CLOSURE_B.map((dim) => (
+                        <tr key={dim.quantity}>
+                          <td className="p-3"><MathText text={dim.quantity} /></td>
+                          <td className="p-3 font-mono text-[12.5px]"><MathText text={dim.expression} /></td>
+                          <td className="p-3"><MathText text={dim.siUnits} /></td>
+                          <td className="p-3"><MathText text={dim.naturalUnits} /></td>
                           <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={dim.auditNote} /></td>
                         </tr>
                       ))}
@@ -752,12 +820,17 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                           subIdx > 0 ? 'pt-8 border-t border-[#EAE2D2] dark:border-[#1E293B]' : 'pt-2'
                         }`}
                       >
-                        <h3 className="pb-1" style={{ fontSize: 'var(--igrt-h3-size)', lineHeight: 1.3 }}>
-                          <span className="font-mono text-[#8B4513] dark:text-[#FB923C] mr-2.5" style={{ fontSize: '18.5px' }}>
-                            {sub.number}
+                        <div className="flex flex-wrap items-baseline justify-between gap-2 pb-1">
+                          <h3 className="mb-0" style={{ fontSize: 'var(--igrt-h3-size)', lineHeight: 1.3 }}>
+                            <span className="font-mono text-[#8B4513] dark:text-[#FB923C] mr-2.5" style={{ fontSize: '18.5px' }}>
+                              {sub.number}
+                            </span>
+                            <MathText text={sub.title} />
+                          </h3>
+                          <span className="font-mono text-[11.5px] uppercase tracking-wider px-2.5 py-0.5 rounded border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] text-[#8B4513] dark:text-[#FB923C] whitespace-nowrap shrink-0">
+                            [Status: {sub.epistemicStatus}]
                           </span>
-                          <MathText text={sub.title} />
-                        </h3>
+                        </div>
 
                         {sub.paragraphs.map((p, idx) => (
                           <p key={idx} className="text-[#1E293B] dark:text-[#CBD5E1]">
@@ -958,6 +1031,32 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                               </tbody>
                             </table>
                           </div>
+
+                          <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155]">
+                            <table className="w-full text-left igrt-tabular" style={{ fontSize: '13.5px', lineHeight: 1.5 }}>
+                              <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
+                                Table 8.3: Epistemic Claim, Status, Quantitative Evidence &amp; Evasion Parameters Ledger
+                              </caption>
+                              <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                                <tr>
+                                  <th className="p-3 font-normal">Claim</th>
+                                  <th className="p-3 font-normal">Status</th>
+                                  <th className="p-3 font-normal">Quantitative Derivation / Evidence</th>
+                                  <th className="p-3 font-normal">Free / Evasion Parameters</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
+                                {CLAIM_EVIDENCE_LEDGER.map((row) => (
+                                  <tr key={row.claim}>
+                                    <td className="p-3 font-medium"><MathText text={row.claim} /></td>
+                                    <td className="p-3 font-mono text-[12.5px] text-[#8B4513] dark:text-[#FB923C] whitespace-nowrap">{row.status}</td>
+                                    <td className="p-3"><MathText text={row.evidenceAndDerivation} /></td>
+                                    <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={row.evasionOrFreeParameter} /></td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       )}
 
@@ -1005,9 +1104,14 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                     id={app.anchorId}
                     className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-6 space-y-4 scroll-mt-32"
                   >
-                    <h3 style={{ fontSize: 'var(--igrt-h3-size)', lineHeight: 1.28 }}>
-                      Appendix {app.letter}. <MathText text={app.title} />
-                    </h3>
+                    <div className="flex flex-wrap items-baseline justify-between gap-2">
+                      <h3 className="mb-0" style={{ fontSize: 'var(--igrt-h3-size)', lineHeight: 1.28 }}>
+                        Appendix {app.letter}. <MathText text={app.title} />
+                      </h3>
+                      <span className="font-mono text-[11.5px] uppercase tracking-wider px-2.5 py-0.5 rounded border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] text-[#8B4513] dark:text-[#FB923C] whitespace-nowrap shrink-0">
+                        [Status: {app.status}]
+                      </span>
+                    </div>
                     <p>
                       <em>Statement ({app.tag}):</em> <MathText text={app.theoremStatement} />
                     </p>
@@ -1055,6 +1159,99 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                             ))}
                           </tbody>
                         </table>
+                      </div>
+                    )}
+                    {app.letter === 'I' && (
+                      <div className="space-y-6 mt-4">
+                        <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530]">
+                          <table className="w-full text-left igrt-tabular" style={{ fontSize: '13.5px', lineHeight: 1.5 }}>
+                            <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
+                              Table I.1: Revision History (H6 → H7 → H8)
+                            </caption>
+                            <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                              <tr>
+                                <th className="p-3 font-normal">Edition</th>
+                                <th className="p-3 font-normal">Scope</th>
+                                <th className="p-3 font-normal">Physics &amp; Numerical Closures</th>
+                                <th className="p-3 font-normal">Editorial &amp; Script Verification</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
+                              {REVISION_HISTORY_TABLE.map((rev) => (
+                                <tr key={rev.edition}>
+                                  <td className="p-3 font-medium whitespace-nowrap">{rev.edition}</td>
+                                  <td className="p-3"><MathText text={rev.scope} /></td>
+                                  <td className="p-3"><MathText text={rev.physicsAndNumericalClosures} /></td>
+                                  <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={rev.editorialAndVerificationClosures} /></td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530]">
+                          <table className="w-full text-left igrt-tabular" style={{ fontSize: '13.5px', lineHeight: 1.5 }}>
+                            <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
+                              Table I.2: Formal Response to Reviewers Matrix
+                            </caption>
+                            <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                              <tr>
+                                <th className="p-3 font-normal">Topic / ID</th>
+                                <th className="p-3 font-normal">Referee Concern Summary</th>
+                                <th className="p-3 font-normal">Resolution &amp; Exact Monograph Location</th>
+                                <th className="p-3 font-normal">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
+                              {RESPONSE_TO_REVIEWERS.map((resp) => (
+                                <tr key={resp.issueId}>
+                                  <td className="p-3 font-medium whitespace-nowrap">{resp.issueId}</td>
+                                  <td className="p-3"><MathText text={resp.concernSummary} /></td>
+                                  <td className="p-3"><MathText text={resp.resolutionAndLocation} /></td>
+                                  <td className="p-3 font-mono text-[12px] text-[#15803D] dark:text-[#4ADE80] whitespace-nowrap">{resp.status}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <div className="rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4 space-y-2.5">
+                          <div className="font-['Playfair_Display'] text-[17px] text-[#0F172A] dark:text-[#F8FAFC]">
+                            Known Open Problems (OP-1 to OP-5)
+                          </div>
+                          <ul className="space-y-2 list-disc pl-5 text-[14.5px] leading-relaxed">
+                            {KNOWN_OPEN_PROBLEMS.map((op) => (
+                              <li key={op.code}>
+                                <strong>{op.code} — <MathText text={op.topic} />:</strong>{' '}
+                                <MathText text={op.description} />
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+                    {app.letter === 'J' && (
+                      <div className="print:hidden rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4 mt-3 flex flex-wrap items-center justify-between gap-3 text-[13.5px] font-['Poppins']">
+                        <div>
+                          <div className="font-medium text-[#0F172A] dark:text-[#F8FAFC]">
+                            Public Verification Harness: <code className="font-mono text-[#8B4513] dark:text-[#FB923C]">scripts/verify-igrt-monograph.mjs</code>
+                          </div>
+                          <div className="text-[#475569] dark:text-[#94A3B8] text-[12.5px]">
+                            Run <code className="font-mono">node scripts/verify-igrt-monograph.mjs</code> to audit all ODEs, integrals, constants, tables, equations, and SVGs.
+                          </div>
+                        </div>
+                        <button
+                          onClick={() =>
+                            downloadTextAsset(
+                              verifyScriptSource,
+                              'verify-igrt-monograph.mjs',
+                              'text/javascript;charset=utf-8'
+                            )
+                          }
+                          className="px-3.5 py-2 rounded-lg bg-[#8B4513] dark:bg-[#EA580C] text-white text-[12.5px] font-medium hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
+                        >
+                          Download verify-igrt-monograph.mjs
+                        </button>
                       </div>
                     )}
                   </div>
@@ -1112,7 +1309,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
             </>
           )}
 
-          {/* CITED VERSION & REFERENCES [1]–[91] (SLIGHTLY SMALLER FONT; NO ORCIDs IN REFERENCES) */}
+          {/* CITED VERSION & REFERENCES [1]–[106] (SLIGHTLY SMALLER FONT; NO ORCIDs IN REFERENCES) */}
           {showReferences && (
             <>
               {readingMode === 'continuous' && (

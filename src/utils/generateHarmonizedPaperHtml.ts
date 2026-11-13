@@ -29,11 +29,17 @@ import {
   LIST_OF_SYMBOLS,
   ACRONYMS_GLOSSARY,
   LIST_OF_TABLES,
-  DIMENSIONAL_ANALYSIS_TABLE,
+  DIMENSIONAL_ANALYSIS_CLOSURE_A,
+  DIMENSIONAL_ANALYSIS_CLOSURE_B,
   EQUATION_INDEX,
   FRAMEWORKS_COMPARISON_TABLE,
+  CLAIM_EVIDENCE_LEDGER,
   ETHICS_AND_GOVERNANCE,
-  TABLE_H1_CLOSURES
+  TABLE_H1_CLOSURES,
+  WHAT_CHANGED_SUMMARY,
+  REVISION_HISTORY_TABLE,
+  RESPONSE_TO_REVIEWERS,
+  KNOWN_OPEN_PROBLEMS
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
 import { formatMathToHtml, formatSvgMathMarkup } from './formatMathUnicode';
@@ -132,6 +138,14 @@ export function buildSelfContainedMonographHtml(): string {
     (t) =>
       `<tr><td>${fmt(t.title)}</td><td>${fmt(t.domain)}</td><td>${fmt(t.status)}</td><td>${fmt(t.summary)}</td></tr>`
   ).join('')}</tbody>
+</table>
+<table class="data-table">
+  <caption>Table 8.3: Epistemic Claim, Status, Quantitative Evidence &amp; Evasion Parameters Ledger</caption>
+  <thead><tr><th>Claim</th><th>Status</th><th>Quantitative Derivation / Evidence</th><th>Free / Evasion Parameters</th></tr></thead>
+  <tbody>${CLAIM_EVIDENCE_LEDGER.map(
+    (row) =>
+      `<tr><td>${fmt(row.claim)}</td><td><strong>${fmt(row.status)}</strong></td><td>${fmt(row.evidenceAndDerivation)}</td><td>${fmt(row.evasionOrFreeParameter)}</td></tr>`
+  ).join('')}</tbody>
 </table>`;
         }
 
@@ -147,7 +161,7 @@ export function buildSelfContainedMonographHtml(): string {
           .join('\n');
 
         return `<section id="${sub.anchorId}" class="subsection">
-  <h3>${esc(sub.number)} &nbsp; ${fmt(sub.title)}</h3>
+  <h3 class="sub-head"><span>${esc(sub.number)} &nbsp; ${fmt(sub.title)}</span><span class="status-tag">[Status: ${esc(sub.epistemicStatus)}]</span></h3>
   ${paras}
   ${thm}
   ${eq}
@@ -169,7 +183,7 @@ export function buildSelfContainedMonographHtml(): string {
 
   const appendicesHtml = PAPER_APPENDICES.map(
     (app) => `<div id="${app.anchorId}" class="appendix-block keep-together">
-  <h3>Appendix ${esc(app.letter)}: ${fmt(app.title)}</h3>
+  <h3 class="sub-head"><span>Appendix ${esc(app.letter)}: ${fmt(app.title)}</span><span class="status-tag">[Status: ${esc(app.status)}]</span></h3>
   <p><strong>Statement (${fmt(app.tag)}):</strong> ${fmt(app.theoremStatement)}</p>
   ${app.proofParagraphs.map((p) => `<p>${fmt(p)}</p>`).join('')}
   ${app.equations
@@ -187,6 +201,28 @@ export function buildSelfContainedMonographHtml(): string {
       `<tr><td>${fmt(row.parameter)}</td><td>${fmt(row.formula)}</td><td>${fmt(row.value)}</td><td>${fmt(row.regime)}</td></tr>`
   ).join('')}</tbody>
 </table>`
+      : ''
+  }
+  ${
+    app.letter === 'I'
+      ? `<table class="data-table">
+  <caption>Table I.1: Revision History (Editions H6 → H7 → H8)</caption>
+  <thead><tr><th>Edition</th><th>Scope</th><th>Physics &amp; Numerical Closures</th><th>Editorial &amp; Verification Closures</th></tr></thead>
+  <tbody>${REVISION_HISTORY_TABLE.map(
+    (rev) =>
+      `<tr><td><strong>${esc(rev.edition)}</strong></td><td>${fmt(rev.scope)}</td><td>${fmt(rev.physicsAndNumericalClosures)}</td><td>${fmt(rev.editorialAndVerificationClosures)}</td></tr>`
+  ).join('')}</tbody>
+</table>
+<table class="data-table">
+  <caption>Table I.2: Formal Response to Reviewers Matrix</caption>
+  <thead><tr><th>Topic / ID</th><th>Referee Concern Summary</th><th>Resolution &amp; Exact Monograph Location</th><th>Status</th></tr></thead>
+  <tbody>${RESPONSE_TO_REVIEWERS.map(
+    (resp) =>
+      `<tr><td><strong>${esc(resp.issueId)}</strong></td><td>${fmt(resp.concernSummary)}</td><td>${fmt(resp.resolutionAndLocation)}</td><td><strong>${esc(resp.status)}</strong></td></tr>`
+  ).join('')}</tbody>
+</table>
+<h4>Known Open Problems (OP-1 to OP-5)</h4>
+<ul>${KNOWN_OPEN_PROBLEMS.map((op) => `<li><strong>${esc(op.code)} — ${fmt(op.topic)}:</strong> ${fmt(op.description)}</li>`).join('')}</ul>`
       : ''
   }
 </div>`
@@ -276,6 +312,19 @@ export function buildSelfContainedMonographHtml(): string {
   h1 { font-size: var(--paper-h1-size); line-height: 1.18; }
   h2 { font-size: var(--paper-h2-size); line-height: 1.2; border-bottom: 1px solid var(--paper-rule); padding-bottom: 0.45em; margin-bottom: 0.85em; }
   h3 { font-size: var(--paper-h3-size); line-height: 1.28; margin-top: 1.6em; margin-bottom: 0.85em; }
+  h3.sub-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .status-tag {
+    font-family: var(--paper-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--paper-accent);
+    background: #FAF8F3;
+    border: 1px solid var(--paper-rule);
+    border-radius: 4px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
 
   .masthead-meta {
     font-size: var(--paper-meta-size);
@@ -551,7 +600,7 @@ export function buildSelfContainedMonographHtml(): string {
             <ul>${ch.subsections.map((s) => `<li>${esc(s.number)} ${fmt(s.title)}</li>`).join('')}</ul>
           </li>`
       ).join('')}
-      <li><strong>Appendices A–J:</strong> Formal Theorems, CODATA Constants, Numerical Derivations &amp; Technical FAQ</li>
+      <li><strong>Appendices A–J:</strong> Formal Theorems, CODATA Constants, Numerical Derivations &amp; Revision Registry</li>
       <li><strong>Backmatter:</strong> Governance Disclosures (CRediT, COI, Data, Funding) · References [1]–[${PAPER_REFERENCES.length}]</li>
     </ul>
   </nav>
@@ -560,6 +609,9 @@ export function buildSelfContainedMonographHtml(): string {
   <section class="chapter-start">
     <div class="chapter-kicker">Summary &amp; Editorial Reference Apparatus</div>
     <h2>Summary, Symbols &amp; Indices</h2>
+
+    <h3>What Changed in Harmonized Edition H8</h3>
+    <ul>${WHAT_CHANGED_SUMMARY.map((wc) => `<li><strong>${fmt(wc.category)}:</strong> ${fmt(wc.detail)}</li>`).join('')}</ul>
 
     <h3>Summary</h3>
     <p>${fmt(PLAIN_LANGUAGE_SUMMARY)}</p>
@@ -594,9 +646,18 @@ export function buildSelfContainedMonographHtml(): string {
     </table>
 
     <table class="data-table">
-      <caption>Table 0.2: Dimensional-Analysis Closure</caption>
+      <caption>Table 0.2a: Dimensional-Analysis Closure — Part I: Bundle, Clock &amp; Quantum Information (Items 1–11)</caption>
       <thead><tr><th>Quantity</th><th>Expression</th><th>SI</th><th>Natural Units</th><th>Derivation Note</th></tr></thead>
-      <tbody>${DIMENSIONAL_ANALYSIS_TABLE.map(
+      <tbody>${DIMENSIONAL_ANALYSIS_CLOSURE_A.map(
+        (d) =>
+          `<tr><td>${fmt(d.quantity)}</td><td>${fmt(d.expression)}</td><td>${fmt(d.siUnits)}</td><td>${fmt(d.naturalUnits)}</td><td>${fmt(d.auditNote)}</td></tr>`
+      ).join('')}</tbody>
+    </table>
+
+    <table class="data-table">
+      <caption>Table 0.2b: Dimensional-Analysis Closure — Part II: Gravity, Bounce, Black Holes &amp; Metrology (Items 12–20)</caption>
+      <thead><tr><th>Quantity</th><th>Expression</th><th>SI</th><th>Natural Units</th><th>Derivation Note</th></tr></thead>
+      <tbody>${DIMENSIONAL_ANALYSIS_CLOSURE_B.map(
         (d) =>
           `<tr><td>${fmt(d.quantity)}</td><td>${fmt(d.expression)}</td><td>${fmt(d.siUnits)}</td><td>${fmt(d.naturalUnits)}</td><td>${fmt(d.auditNote)}</td></tr>`
       ).join('')}</tbody>
@@ -640,7 +701,7 @@ export function buildSelfContainedMonographHtml(): string {
     <p>${fmt(ETHICS_AND_GOVERNANCE.dataAndCodeAvailability)}</p>
   </section>
 
-  <!-- COMPREHENSIVE REFERENCES [1]–[91] & CITED VERSION (NO ORCIDs IN REFERENCES) -->
+  <!-- COMPREHENSIVE REFERENCES [1]–[106] & CITED VERSION (NO ORCIDs IN REFERENCES) -->
   <section id="references" class="chapter-start">
     <div class="chapter-kicker">Bibliography</div>
     <h2>References</h2>

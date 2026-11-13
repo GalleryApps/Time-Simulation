@@ -33,11 +33,17 @@ import {
   LIST_OF_SYMBOLS,
   ACRONYMS_GLOSSARY,
   LIST_OF_TABLES,
-  DIMENSIONAL_ANALYSIS_TABLE,
+  DIMENSIONAL_ANALYSIS_CLOSURE_A,
+  DIMENSIONAL_ANALYSIS_CLOSURE_B,
   EQUATION_INDEX,
   FRAMEWORKS_COMPARISON_TABLE,
+  CLAIM_EVIDENCE_LEDGER,
   ETHICS_AND_GOVERNANCE,
-  TABLE_H1_CLOSURES
+  TABLE_H1_CLOSURES,
+  WHAT_CHANGED_SUMMARY,
+  REVISION_HISTORY_TABLE,
+  RESPONSE_TO_REVIEWERS,
+  KNOWN_OPEN_PROBLEMS
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
 import {
@@ -106,21 +112,26 @@ const SERIF_MISSING = new Set([
   '\u2112', // ℒ
   '\u2113', // ℓ
   '\u2131', // ℱ
+  '\u2205', // ∅
   '\u226A', // ≪
   '\u226B', // ≫
   '\u2272', // ≲
+  '\u2273', // ≳
   '\u227A'  // ≺
 ]);
 
 const SERIF_BOLD_EXTRA_MISSING = new Set([
-  '\u2102' // ℂ
+  '\u2102', // ℂ
+  '\u211D', // ℝ
+  '\u2124'  // ℤ
 ]);
 
 const NOTO_ITALIC_MISSING = new Set([
-  '\u20D7', '\u221A', '\u2212', '\u2261', '\u2211', '\u2208', '\u2192',
+  '\u20D7', '\u221A', '\u2212', '\u2261', '\u2211', '\u2208', '\u2209', '\u2192',
   '\u2207', '\u2264', '\u2202', '\u27E9', '\u2265', '\u27E8', '\u2248',
   '\u25A1', '\u222B', '\u226A', '\u221E', '\u227A', '\u21D2', '\u2297',
-  '\u21A6', '\u222A', '\u221D', '\u2272', '\u2299', '\u226B', '\u2500'
+  '\u21A6', '\u222A', '\u221D', '\u2272', '\u2273', '\u2299', '\u226B', '\u2500',
+  '\u2295', '\u2282', '\u2260', '\u2243'
 ]);
 
 const COMBINING_RE = /[\u0300-\u036F\u20D0-\u20FF]/;
@@ -265,13 +276,13 @@ function flattenSegmentsToTokens(
         }
       }
     } else if (seg.type === 'sub') {
-      const subSize = Math.max(5.5, baseSize * 0.72);
+      const subSize = Math.max(6.4, baseSize * 0.76);
       const subDy = baseDy + 0.21 * (baseSize / 72);
       tokens.push(
         ...flattenSegmentsToTokens(seg.children, subSize, subDy, baseFamily, baseItalic, baseBold, true)
       );
     } else if (seg.type === 'sup') {
-      const supSize = Math.max(5.5, baseSize * 0.72);
+      const supSize = Math.max(6.4, baseSize * 0.76);
       const supDy = baseDy - 0.30 * (baseSize / 72);
       tokens.push(
         ...flattenSegmentsToTokens(seg.children, supSize, supDy, baseFamily, baseItalic, baseBold, true)
@@ -304,9 +315,14 @@ function flattenSegmentsForCanvas(
   baseDyPx: number,
   baseItalic: boolean,
   insideScript: boolean
-): Array<{ kind: 'space' } | { kind: 'run'; text: string; fontPx: number; dyPx: number; italic: boolean }> {
+): Array<
+  | { kind: 'space' }
+  | { kind: 'newline' }
+  | { kind: 'run'; text: string; fontPx: number; dyPx: number; italic: boolean }
+> {
   const out: Array<
     | { kind: 'space' }
+    | { kind: 'newline' }
     | { kind: 'run'; text: string; fontPx: number; dyPx: number; italic: boolean }
   > = [];
 
@@ -317,10 +333,12 @@ function flattenSegmentsForCanvas(
           out.push({ kind: 'run', text: seg.text, fontPx: basePx, dyPx: baseDyPx, italic: baseItalic });
         }
       } else {
-        const parts = seg.text.split(/([ \t\n]+)/);
+        const parts = seg.text.split(/([ \t]+|\n)/);
         for (const p of parts) {
           if (!p) continue;
-          if (/^[ \t\n]+$/.test(p)) {
+          if (p === '\n') {
+            out.push({ kind: 'newline' });
+          } else if (/^[ \t]+$/.test(p)) {
             out.push({ kind: 'space' });
           } else {
             out.push({ kind: 'run', text: p, fontPx: basePx, dyPx: baseDyPx, italic: baseItalic });
@@ -331,7 +349,7 @@ function flattenSegmentsForCanvas(
       out.push(
         ...flattenSegmentsForCanvas(
           seg.children,
-          Math.max(9, basePx * 0.72),
+          Math.max(11, basePx * 0.74),
           baseDyPx + basePx * 0.24,
           baseItalic,
           true
@@ -341,7 +359,7 @@ function flattenSegmentsForCanvas(
       out.push(
         ...flattenSegmentsForCanvas(
           seg.children,
-          Math.max(9, basePx * 0.72),
+          Math.max(11, basePx * 0.74),
           baseDyPx - basePx * 0.34,
           baseItalic,
           true
@@ -378,54 +396,59 @@ function renderRichSegmentsCanvasPng(
   };
 
   const flat = flattenSegmentsForCanvas(segments, fontPx, 0, false, false);
-  const words: CanvasWord[] = [];
+  const logicalLines: CanvasWord[][] = [[]];
   let curRuns: CanvasStyledRun[] = [];
 
-  for (const item of flat) {
-    if (item.kind === 'space') {
-      if (curRuns.length > 0) {
-        let w = 0;
-        for (const r of curRuns) {
-          setCanvasFont(ctx, r.fontPx, r.italic);
-          w += ctx.measureText(r.text).width;
-        }
-        words.push({ runs: curRuns, width: w });
-        curRuns = [];
+  const flushWord = () => {
+    if (curRuns.length > 0) {
+      let w = 0;
+      for (const r of curRuns) {
+        setCanvasFont(ctx, r.fontPx, r.italic);
+        w += ctx.measureText(r.text).width;
       }
+      logicalLines[logicalLines.length - 1].push({ runs: curRuns, width: w });
+      curRuns = [];
+    }
+  };
+
+  for (const item of flat) {
+    if (item.kind === 'newline') {
+      flushWord();
+      logicalLines.push([]);
+    } else if (item.kind === 'space') {
+      flushWord();
     } else {
       curRuns.push({ text: item.text, fontPx: item.fontPx, dyPx: item.dyPx, italic: item.italic });
     }
   }
-  if (curRuns.length > 0) {
-    let w = 0;
-    for (const r of curRuns) {
-      setCanvasFont(ctx, r.fontPx, r.italic);
-      w += ctx.measureText(r.text).width;
-    }
-    words.push({ runs: curRuns, width: w });
-  }
+  flushWord();
 
   setCanvasFont(ctx, fontPx, false);
   const spaceW = ctx.measureText(' ').width;
   const usableW = align === 'center' ? maxWidthPx - 28 : maxWidthPx;
 
   const lines: Array<{ words: CanvasWord[]; width: number }> = [];
-  let curLine: CanvasWord[] = [];
-  let curLineW = 0;
-
-  for (const w of words) {
-    const nextW = curLine.length === 0 ? w.width : curLineW + spaceW + w.width;
-    if (nextW > usableW && curLine.length > 0) {
-      lines.push({ words: curLine, width: curLineW });
-      curLine = [w];
-      curLineW = w.width;
-    } else {
-      curLine.push(w);
-      curLineW = nextW;
+  for (const lWords of logicalLines) {
+    if (lWords.length === 0) {
+      lines.push({ words: [], width: 0 });
+      continue;
     }
-  }
-  if (curLine.length > 0) {
-    lines.push({ words: curLine, width: curLineW });
+    let curLine: CanvasWord[] = [];
+    let curLineW = 0;
+    for (const w of lWords) {
+      const nextW = curLine.length === 0 ? w.width : curLineW + spaceW + w.width;
+      if (nextW > usableW && curLine.length > 0) {
+        lines.push({ words: curLine, width: curLineW });
+        curLine = [w];
+        curLineW = w.width;
+      } else {
+        curLine.push(w);
+        curLineW = nextW;
+      }
+    }
+    if (curLine.length > 0) {
+      lines.push({ words: curLine, width: curLineW });
+    }
   }
   if (lines.length === 0) {
     lines.push({ words: [], width: 0 });
@@ -475,13 +498,13 @@ function renderUnicodeEquationPng(
   const segs = parseHtmlMathSegments(safeHtml);
   return renderRichSegmentsCanvasPng(
     segs,
-    'Georgia, "DejaVu Serif", "Times New Roman", serif',
-    28,
+    '"DejaVu Serif", "DejaVu Sans", Georgia, serif',
+    44,
     maxWidthInches,
-    260,
+    360,
     'center',
     '#0F172A',
-    1.52
+    1.54
   );
 }
 
@@ -521,7 +544,7 @@ async function rasterizeSvgToPng(
       const url = URL.createObjectURL(svgBlob);
       const img = new Image();
       img.onload = () => {
-        const pxW = 1400;
+        const pxW = 2600;
         const pxH = Math.round(pxW * aspect);
         const canvas = document.createElement('canvas');
         canvas.width = pxW;
@@ -575,6 +598,8 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       ? Promise.all([
           document.fonts.load('400 54px "Playfair Display"'),
           document.fonts.load('400 38px "Playfair Display"'),
+          document.fonts.load('400 44px "DejaVu Serif"'),
+          document.fonts.load('400 44px "DejaVu Sans"'),
           document.fonts.ready
         ]).catch(() => undefined)
       : Promise.resolve(undefined)
@@ -726,28 +751,49 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
 
     const spaceWidth = measureTextMixed(' ', family, style, size);
 
-    // Split any exceptionally long single token (e.g. URL/identifier) that exceeds availWidthRest
+    // Split exceptionally long single tokens at URL/hyphen boundaries first, falling back to char split only if unavoidable
     const safeWords: InlineWord[] = [];
     for (const word of words) {
       if (word.width <= availWidthRest || word.runs.length > 1) {
         safeWords.push(word);
       } else {
         const single = word.runs[0];
+        const parts = single.text.split(/(?<=[\/\-_])/).filter(Boolean);
         let buf = '';
-        for (const ch of single.text) {
-          const test = buf + ch;
-          if (measureTextMixed(test, single.family, single.style, single.size) > availWidthRest && buf) {
-            const w = measureTextMixed(buf, single.family, single.style, single.size);
-            safeWords.push({ runs: [{ ...single, text: buf, width: w }], width: w });
-            buf = ch;
+        const pushBuf = (txt: string) => {
+          if (!txt) return;
+          const w = measureTextMixed(txt, single.family, single.style, single.size);
+          safeWords.push({ runs: [{ ...single, text: txt, width: w }], width: w });
+        };
+        for (const part of parts) {
+          const partW = measureTextMixed(part, single.family, single.style, single.size);
+          if (partW > availWidthRest) {
+            if (buf) {
+              pushBuf(buf);
+              buf = '';
+            }
+            let cbuf = '';
+            for (const ch of part) {
+              const test = cbuf + ch;
+              if (measureTextMixed(test, single.family, single.style, single.size) > availWidthRest && cbuf) {
+                pushBuf(cbuf);
+                cbuf = ch;
+              } else {
+                cbuf = test;
+              }
+            }
+            if (cbuf) buf = cbuf;
           } else {
-            buf = test;
+            const candidate = buf + part;
+            if (buf && measureTextMixed(candidate, single.family, single.style, single.size) > availWidthRest) {
+              pushBuf(buf);
+              buf = part;
+            } else {
+              buf = candidate;
+            }
           }
         }
-        if (buf) {
-          const w = measureTextMixed(buf, single.family, single.style, single.size);
-          safeWords.push({ runs: [{ ...single, text: buf, width: w }], width: w });
-        }
+        pushBuf(buf);
       }
     }
 
@@ -1043,6 +1089,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     header: string;
     width: number;
     font?: FontFamilyKey;
+    style?: FontStyleKey;
     color?: [number, number, number];
     justify?: boolean;
   }
@@ -1053,11 +1100,11 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     titleLabel: string,
     columns: PdfTableColumn[],
     rows: PdfTableCell[][],
-    opts: { cellSize?: number } = {}
+    opts: { cellSize?: number; padX?: number } = {}
   ) => {
     const cellSize = opts.cellSize ?? 8.6;
     const cellLineH = (cellSize * 1.46) / 72;
-    const padX = 0.08;
+    const padX = opts.padX ?? 0.08;
     const padY = 0.075;
     const totalW = columns.reduce((acc, c) => acc + c.width, 0);
 
@@ -1115,7 +1162,14 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           typeof raw === 'string'
             ? parseMathSegments(pdfBmpSafeUnicode(raw))
             : parseHtmlMathSegments(pdfBmpSafeUnicode(raw.html));
-        return buildWordLines(segs, col.width - 2 * padX, col.width - 2 * padX, col.font ?? 'serif', 'normal', cellSize);
+        return buildWordLines(
+          segs,
+          col.width - 2 * padX,
+          col.width - 2 * padX,
+          col.font ?? 'serif',
+          col.style ?? 'normal',
+          cellSize
+        );
       });
 
       const maxLines = Math.max(1, ...prepared.map((p) => p.lines.length));
@@ -1530,7 +1584,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     }
   }
   drawRule([226, 217, 200], 0.006);
-  writeRichParagraph('Appendices A–J: Formal Theorems, CODATA Units, Derivations & Technical FAQ', {
+  writeRichParagraph('Appendices A–J: Formal Theorems, CODATA Units, Derivations & Revision Registry', {
     size: 10.2,
     style: 'bold',
     justify: false,
@@ -1548,6 +1602,17 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   // =========================================================
   startChapterOnNewPage();
   drawPlayfairHeadline('Summary, Symbols & Indices', 28, 0.18);
+  writeRichParagraph('WHAT CHANGED IN HARMONIZED EDITION H8', {
+    font: 'sans',
+    size: 9.2,
+    color: [139, 69, 19],
+    justify: false,
+    afterSpace: 0.08
+  });
+  for (const wc of WHAT_CHANGED_SUMMARY) {
+    writeRichParagraph(wc.detail, { prefixBold: `${wc.category}: `, size: 9.9, afterSpace: 0.08 });
+  }
+  y += 0.08;
   writeRichParagraph(PLAIN_LANGUAGE_SUMMARY, { size: BODY_PT, lineHeight: BODY_LINE_IN, afterSpace: 0.16 });
 
   if (y > MARGIN + 0.2) y += 0.14;
@@ -1566,36 +1631,48 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   drawPdfTable(
     'TABLE 0.1: LIST OF SYMBOLS & COLLISION DISAMBIGUATION',
     [
-      { header: 'Symbol', width: 1.05, font: 'mono', color: [139, 69, 19] },
-      { header: 'Definition', width: 2.15, justify: true },
-      { header: 'Units', width: 1.05, font: 'mono' },
-      { header: 'Collision Disambiguation', width: CONTENT_W - 4.25, justify: true }
+      { header: 'Symbol', width: 1.15, font: 'sans', style: 'normal', color: [139, 69, 19] },
+      { header: 'Definition', width: 2.04, justify: true },
+      { header: 'Units', width: 1.18, font: 'sans' },
+      { header: 'Collision Disambiguation', width: CONTENT_W - 4.37, justify: true }
     ],
     LIST_OF_SYMBOLS.map((sym) => [sym.symbol, sym.name, sym.units, sym.collisionNote]),
-    { cellSize: 8.2 }
+    { cellSize: 8.3, padX: 0.06 }
   );
 
   drawPdfTable(
     'ACRONYMS GLOSSARY',
     [
-      { header: 'Acronym', width: 0.85, font: 'mono', color: [139, 69, 19] },
+      { header: 'Acronym', width: 0.85, font: 'serif', style: 'bold', color: [139, 69, 19] },
       { header: 'Expansion', width: 2.1, justify: true },
       { header: 'Operational Definition', width: CONTENT_W - 2.95, justify: true }
     ],
     ACRONYMS_GLOSSARY.map((a) => [a.term, a.expansion, a.definition]),
-    { cellSize: 8.3 }
+    { cellSize: 8.3, padX: 0.065 }
   );
 
   drawPdfTable(
-    'TABLE 0.2: DIMENSIONAL-ANALYSIS CLOSURE',
+    'TABLE 0.2a: DIMENSIONAL-ANALYSIS CLOSURE — PART I (ITEMS 1–11)',
     [
-      { header: 'Quantity', width: 1.35, justify: false },
-      { header: 'Expression', width: 1.7, font: 'mono' },
-      { header: 'SI / Natural Units', width: 1.25 },
-      { header: 'Derivation & Tally Note', width: CONTENT_W - 4.3, justify: true }
+      { header: 'Quantity', width: 1.38, justify: false },
+      { header: 'Expression', width: 1.80, font: 'sans' },
+      { header: 'SI / Natural Units', width: 1.34, font: 'sans' },
+      { header: 'Derivation & Tally Note', width: CONTENT_W - 4.52, justify: true }
     ],
-    DIMENSIONAL_ANALYSIS_TABLE.map((d) => [d.quantity, d.expression, `${d.siUnits} / ${d.naturalUnits}`, d.auditNote]),
-    { cellSize: 8.0 }
+    DIMENSIONAL_ANALYSIS_CLOSURE_A.map((d) => [d.quantity, d.expression, `${d.siUnits} / ${d.naturalUnits}`, d.auditNote]),
+    { cellSize: 8.3, padX: 0.06 }
+  );
+
+  drawPdfTable(
+    'TABLE 0.2b: DIMENSIONAL-ANALYSIS CLOSURE — PART II (ITEMS 12–20)',
+    [
+      { header: 'Quantity', width: 1.38, justify: false },
+      { header: 'Expression', width: 1.80, font: 'sans' },
+      { header: 'SI / Natural Units', width: 1.34, font: 'sans' },
+      { header: 'Derivation & Tally Note', width: CONTENT_W - 4.52, justify: true }
+    ],
+    DIMENSIONAL_ANALYSIS_CLOSURE_B.map((d) => [d.quantity, d.expression, `${d.siUnits} / ${d.naturalUnits}`, d.auditNote]),
+    { cellSize: 8.3, padX: 0.06 }
   );
 
   writeRichParagraph('LIST OF FIGURES', {
@@ -1612,24 +1689,24 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   drawPdfTable(
     'LIST OF TABLES',
     [
-      { header: 'Table', width: 0.9, font: 'mono', color: [139, 69, 19] },
+      { header: 'Table', width: 0.9, font: 'serif', style: 'bold', color: [139, 69, 19] },
       { header: 'Title', width: 3.9, justify: true },
       { header: 'Location', width: CONTENT_W - 4.8 }
     ],
     LIST_OF_TABLES.map((t) => [t.number, t.title, t.location]),
-    { cellSize: 8.5 }
+    { cellSize: 8.5, padX: 0.065 }
   );
 
   drawPdfTable(
     'TABLE 0.3: EQUATION INDEX',
     [
-      { header: 'Eq.', width: 0.62, font: 'mono', color: [139, 69, 19] },
-      { header: 'Description', width: 3.38, justify: true },
-      { header: 'Section', width: 1.35 },
-      { header: 'Status', width: CONTENT_W - 5.35, font: 'mono' }
+      { header: 'Eq.', width: 0.58, font: 'serif', style: 'bold', color: [139, 69, 19] },
+      { header: 'Description', width: 3.34, justify: true },
+      { header: 'Section', width: 1.36 },
+      { header: 'Status', width: CONTENT_W - 5.28, font: 'serif', style: 'bold', color: [139, 69, 19] }
     ],
     EQUATION_INDEX.map((e) => [e.label, e.title, e.section, e.status]),
-    { cellSize: 8.1 }
+    { cellSize: 8.1, padX: 0.06 }
   );
 
   // =========================================================
@@ -1657,7 +1734,14 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       if (y > MARGIN + 0.25) {
         y += 0.22;
       }
-      ensureSpace(1.65);
+      ensureSpace(1.75);
+      writeRichParagraph(`[Status: ${sub.epistemicStatus}]`, {
+        font: 'sans',
+        size: 8.0,
+        color: [139, 69, 19],
+        justify: false,
+        afterSpace: 0.03
+      });
       drawPlayfairHeadline(`${sub.number}  ${sub.title}`, 21, 0.16);
 
       for (const p of sub.paragraphs) {
@@ -1692,12 +1776,12 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         drawPdfTable(
           'TABLE 1.1: FOUNDATIONAL POSTULATES OF IGRT (POSTULATES I–VII)',
           [
-            { header: 'Postulate', width: 0.92, font: 'mono', color: [139, 69, 19] },
-            { header: 'Name', width: 1.78 },
+            { header: 'Postulate', width: 0.95, font: 'serif', style: 'bold', color: [139, 69, 19] },
+            { header: 'Name', width: 1.75 },
             { header: 'Formal Statement', width: CONTENT_W - 2.70, justify: true }
           ],
           PAPER_POSTULATES.map((p) => [p.code, p.name, p.statement]),
-          { cellSize: 8.5 }
+          { cellSize: 8.5, padX: 0.065 }
         );
       }
 
@@ -1705,10 +1789,10 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         drawPdfTable(
           'TABLE 7.1: EXPERIMENTAL & OBSERVATIONAL FALSIFICATION PROTOCOLS (P1–P6)',
           [
-            { header: 'ID', width: 0.42, font: 'mono', color: [139, 69, 19] },
+            { header: 'ID', width: 0.42, font: 'sans', style: 'normal', color: [139, 69, 19] },
             { header: 'Protocol & Facility', width: 1.55 },
-            { header: 'Observable Formula', width: 1.9, font: 'mono' },
-            { header: 'Signal Budget & Falsification', width: CONTENT_W - 3.87, justify: true }
+            { header: 'Observable Formula', width: 1.92, font: 'sans' },
+            { header: 'Signal Budget & Falsification', width: CONTENT_W - 3.89, justify: true }
           ],
           AUDITED_TEST_PROTOCOLS.map((pr) => [
             `P${pr.id}`,
@@ -1716,7 +1800,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
             { html: pr.formulaHtml },
             `${pr.predictedSignal} (${pr.noiseAndAuditNote}) Falsification: ${pr.falsificationCriterion}`
           ]),
-          { cellSize: 8.1 }
+          { cellSize: 8.2, padX: 0.06 }
         );
       }
 
@@ -1724,12 +1808,12 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         drawPdfTable(
           'TABLE 8.1: COMPARISON OF IGRT WITH STRING THEORY & SIX QUANTUM-GRAVITY APPROACHES',
           [
-            { header: 'Framework', width: 1.05 },
-            { header: 'Key Mechanism', width: 1.2, justify: true },
-            { header: '4D Lorentzian', width: 0.95 },
-            { header: 'WDW Unfreezing', width: 0.95 },
-            { header: 'Singularity Status', width: 1.05, justify: true },
-            { header: 'Open Limitations', width: CONTENT_W - 5.2, justify: true }
+            { header: 'Framework', width: 0.98 },
+            { header: 'Key Mechanism', width: 1.14, justify: true },
+            { header: '4D Lorentzian', width: 1.06 },
+            { header: 'WDW Unfreezing', width: 1.02 },
+            { header: 'Singularity Status', width: 1.04, justify: true },
+            { header: 'Open Limitations', width: CONTENT_W - 5.24, justify: true }
           ],
           FRAMEWORKS_COMPARISON_TABLE.map((row) => [
             row.framework,
@@ -1739,19 +1823,36 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
             row.singularityStatus,
             row.openLimitations
           ]),
-          { cellSize: 7.5 }
+          { cellSize: 7.2, padX: 0.055 }
         );
 
         drawPdfTable(
           'TABLE 8.2: SUMMARY OF SEVEN CORE FORMAL RESULTS',
           [
-            { header: 'Result', width: 1.70 },
+            { header: 'Result', width: 1.65 },
             { header: 'Domain', width: 1.15 },
-            { header: 'Status', width: 0.75, font: 'mono' },
-            { header: 'Summary', width: CONTENT_W - 3.60, justify: true }
+            { header: 'Status', width: 0.95, font: 'sans', style: 'normal', color: [139, 69, 19] },
+            { header: 'Summary', width: CONTENT_W - 3.75, justify: true }
           ],
           AUDITED_CLOSURE_THEOREMS.map((t) => [t.title, t.domain, t.status, t.summary]),
-          { cellSize: 8.1 }
+          { cellSize: 8.3, padX: 0.06 }
+        );
+
+        drawPdfTable(
+          'TABLE 8.3: EPISTEMIC CLAIM, STATUS, QUANTITATIVE EVIDENCE & EVASION LEDGER',
+          [
+            { header: 'Claim', width: 1.45 },
+            { header: 'Status', width: 0.95, font: 'sans', style: 'normal', color: [139, 69, 19] },
+            { header: 'Quantitative Derivation / Evidence', width: 2.05, justify: true },
+            { header: 'Free / Evasion Parameters', width: CONTENT_W - 4.45, justify: true }
+          ],
+          CLAIM_EVIDENCE_LEDGER.map((row) => [
+            row.claim,
+            row.status,
+            row.evidenceAndDerivation,
+            row.evasionOrFreeParameter
+          ]),
+          { cellSize: 8.0, padX: 0.06 }
         );
       }
 
@@ -1769,8 +1870,8 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           y += img.heightIn + 0.1;
         }
         writeRichParagraph(fig.caption, {
-          style: 'italic',
-          size: 9.6,
+          style: 'normal',
+          size: 9.8,
           color: [71, 85, 105],
           justify: true,
           afterSpace: 0.18
@@ -1792,7 +1893,14 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     if (y > MARGIN + 0.25) {
       y += 0.18;
     }
-    ensureSpace(1.4);
+    ensureSpace(1.5);
+    writeRichParagraph(`[Status: ${app.status}]`, {
+      font: 'sans',
+      size: 8.0,
+      color: [139, 69, 19],
+      justify: false,
+      afterSpace: 0.03
+    });
     drawPlayfairHeadline(`Appendix ${app.letter}. ${app.title}`, 20, 0.12);
     writeRichParagraph(app.theoremStatement, {
       prefixBold: `Statement (${app.tag}): `,
@@ -1810,14 +1918,64 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       drawPdfTable(
         'TABLE H.1: COMPLETE NUMERICAL & PARAMETER CLOSURE SUMMARY',
         [
-          { header: 'Parameter / Scale', width: 1.45 },
-          { header: 'Defining Relation', width: 1.75, font: 'mono' },
-          { header: 'Numerical Value', width: 1.45 },
-          { header: 'Regime / Protocol', width: CONTENT_W - 4.65, justify: true }
+          { header: 'Parameter / Scale', width: 1.38 },
+          { header: 'Defining Relation', width: 1.84, font: 'sans' },
+          { header: 'Numerical Value', width: 1.54, font: 'sans' },
+          { header: 'Regime / Protocol', width: CONTENT_W - 4.76, justify: true }
         ],
         TABLE_H1_CLOSURES.map((row) => [row.parameter, row.formula, row.value, row.regime]),
-        { cellSize: 7.7 }
+        { cellSize: 8.2, padX: 0.06 }
       );
+    }
+    if (app.letter === 'I') {
+      drawPdfTable(
+        'TABLE I.1: REVISION HISTORY (EDITIONS H6 → H7 → H8)',
+        [
+          { header: 'Edition', width: 1.05, font: 'serif', style: 'bold', color: [139, 69, 19] },
+          { header: 'Scope', width: 1.15, justify: true },
+          { header: 'Physics & Numerical Closures', width: 2.25, justify: true },
+          { header: 'Editorial & Verification Closures', width: CONTENT_W - 4.45, justify: true }
+        ],
+        REVISION_HISTORY_TABLE.map((rev) => [
+          rev.edition,
+          rev.scope,
+          rev.physicsAndNumericalClosures,
+          rev.editorialAndVerificationClosures
+        ]),
+        { cellSize: 7.9, padX: 0.055 }
+      );
+      drawPdfTable(
+        'TABLE I.2: FORMAL RESPONSE TO REVIEWERS MATRIX',
+        [
+          { header: 'Topic / ID', width: 1.12, font: 'serif', style: 'bold', color: [139, 69, 19] },
+          { header: 'Referee Concern Summary', width: 1.55, justify: true },
+          { header: 'Resolution & Exact Monograph Location', width: CONTENT_W - 3.35, justify: true },
+          { header: 'Status', width: 0.68, font: 'sans', style: 'normal', color: [21, 128, 61] }
+        ],
+        RESPONSE_TO_REVIEWERS.map((resp) => [
+          resp.issueId,
+          resp.concernSummary,
+          resp.resolutionAndLocation,
+          resp.status
+        ]),
+        { cellSize: 7.9, padX: 0.055 }
+      );
+      writeRichParagraph('KNOWN OPEN PROBLEMS (OP-1 TO OP-5)', {
+        font: 'sans',
+        size: 9.0,
+        color: [139, 69, 19],
+        justify: false,
+        afterSpace: 0.08
+      });
+      for (const op of KNOWN_OPEN_PROBLEMS) {
+        writeRichParagraph(op.description, {
+          prefixBold: `• ${op.code} — ${op.topic}: `,
+          size: 10.1,
+          indent: 0.14,
+          hangingIndent: 0.12,
+          afterSpace: 0.06
+        });
+      }
     }
     y += 0.12;
   }
@@ -1845,7 +2003,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   });
 
   // =========================================================
-  // CITED VERSION & REFERENCES [1]–[91] (NO ORCIDs IN REFERENCES)
+  // CITED VERSION & REFERENCES [1]–[106] (NO ORCIDs IN REFERENCES)
   // =========================================================
   startChapterOnNewPage();
   drawPlayfairHeadline('References', 28, 0.16);

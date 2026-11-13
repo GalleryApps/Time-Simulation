@@ -19,7 +19,7 @@ const URL_OR_NON_MATH_RE = /(https?:\/\/[^\s)]+|arXiv:[^\s)]+|DOI:[^\s)]+|@artic
 
 // Subscript/superscript unbraced token pattern
 // Matches: "4,X", "x₁", "x₂", alphanumeric + Greek tokens, or single symbol (*, +, −, ±, ⊙, ∞)
-const UNBRACED_SUB_RE = /^(4,X|x[₁₂]|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχ∞𝒞𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±⊙∞])/;
+const UNBRACED_SUB_RE = /^(4,X|x[₁₂]|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχ∞𝒞𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±⊙⊕∞])/;
 const UNBRACED_SUP_RE = /^(\([+\-−]?\d+\)|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχ∞𝒞𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±∞])/;
 
 function findMatchingBrace(str: string, openIdx: number): number {
@@ -129,17 +129,20 @@ function decodeHtmlEntities(s: string): string {
  * so Canvas/PDF equation boxes render exact subscripts, superscripts, and italics.
  */
 export function parseHtmlMathSegments(html: string): MathSegment[] {
-  const tokens = html.split(/(<\/?(?:i|sub|sup)>)/g).filter(Boolean);
+  const tokens = html.split(/(<\/?(?:i|sub|sup)>|<br\s*\/?>)/gi).filter(Boolean);
   const root: MathSegment[] = [];
   const stack: { tag: 'i' | 'sub' | 'sup'; children: MathSegment[] }[] = [];
 
   const target = () => (stack.length > 0 ? stack[stack.length - 1].children : root);
 
   for (const tok of tokens) {
-    if (tok === '<i>' || tok === '<sub>' || tok === '<sup>') {
-      const tag = tok.slice(1, -1) as 'i' | 'sub' | 'sup';
+    const lower = tok.toLowerCase();
+    if (/^<br\s*\/?>$/i.test(tok)) {
+      target().push({ type: 'text', text: '\n' });
+    } else if (lower === '<i>' || lower === '<sub>' || lower === '<sup>') {
+      const tag = lower.slice(1, -1) as 'i' | 'sub' | 'sup';
       stack.push({ tag, children: [] });
-    } else if (tok === '</i>' || tok === '</sub>' || tok === '</sup>') {
+    } else if (lower === '</i>' || lower === '</sub>' || lower === '</sup>') {
       const top = stack.pop();
       if (top) {
         const node: MathSegment =
@@ -238,6 +241,7 @@ export function pdfBmpSafeUnicode(input: string): string {
     .replace(/𝒟/g, 'D')
     .replace(/𝒢/g, 'G')
     .replace(/𝒦/g, 'K')
+    .replace(/𝒩/g, 'N')
     .replace(/𝒱/g, 'V')
     .replace(/𝐱/g, 'x');
 }

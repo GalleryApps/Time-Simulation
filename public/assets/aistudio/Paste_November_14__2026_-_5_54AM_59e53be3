@@ -1,0 +1,546 @@
+# Panel Review of IGRT-2026-H7 (Revised PDF, "H8") Monograph
+
+## Executive Summary
+
+This revision (file labelled H7 but incorporating the H8-stage corrections identified in the prior review) is a **further substantial improvement**. The authors have corrected the major numerical errors from the previous round: ρ_max = 2.110 × 10⁹⁶ kg m⁻³ and 9.095 × 10⁷⁵ GeV⁴ are now correct in the Abstract, §6.1, and Appendix G; M_rem = 2.38 × 10⁻⁸ kg is now correct in Table H.1; the Appendix C factor of 2 is fixed (8π²r⁴/15ℏc); the S_Araki estimate is now O(10⁻⁷) nats (still worth double-checking); Appendix E now correctly states O(ℓ_Pl²/r_+) = O(ℏ/(Mc)); Appendix F now shows the derivation of the factor of 2 in σ_r; Eq. (4.1) is largely fixed; the BKM metric is now relaxation-weighted; and epistemic badges ([Status: ...]) have been added throughout.
+
+However, **serious inconsistencies remain**, including:
+
+- **Table H.1 still contains the erroneous ρ_max = 2.110 × 10⁶ kg m⁻³ = 9.095 × 10⁷ GeV⁴** — the same error flagged previously, now apparently carried over in the table despite being fixed in the text. This directly contradicts Appendix G and the Abstract.
+- **Eq. (0.1) remains garbled** — the sum term τ_step Σ |RAG_k| − RES_k||_F is still nonsensical, and the use of "h" instead of "ℏ" persists.
+- **Eq. (4.1) still has "g_ij^QFL"** — a typo for g_ij^QFI.
+- **Eq. (4.2) still has "dτ → (h/E_mod) ds_QFI"** — should be ℏ.
+- **Table 8.1 still has "~10⁵⁰⁰"** — corrected from ~10³⁰⁰, good, but the number is the standard landscape estimate, so acceptable.
+- **Eq. (2.2) still has "P^{N−1}"** — should be CP^{N−1}.
+- **Table 8.2 says "γ^μ(T_μν + I_μν) ≡ 0"** — should be ∇^μ, not γ^μ. This is a new typo.
+- **Table 8.3 says "Horndeski Type Ia screening... $r_V$ = 369.8 y"** — should be "ly", not "y".
+- **Table 8.3 says "QES r_T = r_+ - ..."** — should be r_I, not r_T.
+- **Appendix C Step 3 says "r_k B T"** — garbled, likely "k_B T".
+- **Appendix E says "r_I = r_+ - ... = r_- - O(h/(Mc))"** — the second equality should be r_I, not r_−; and "h" should be ℏ.
+- **Appendix E says "S_rem = n(3ℓ_0²)/ℓ_Pl²"** — should be π(3ℓ_0²)/ℓ_Pl², not n.
+- **Table H.1 says "$R_0$ = (3m/4πρ_SiO2^{1/3}"** — missing closing parenthesis.
+- **Table H.1 says "Γ_Araki = 1.18 s^{-1} (180 nm)"** — should be Δx = 180 nm.
+- **Figure 4 caption says "f_φ = M_Pb m_DE"** — garbled, likely "f_φ = M_Pl" and "m_DE ≈ 1.30 H₀".
+- **Figure 8 has multiple garbled entries** (e.g., "You monospole", "m_mono", "f_earth", "T = 1.18 s^{-1}", "η_earth = 4/3", "η_0 = 0.064", "r = 24² = 0.012", "canonical f_DM = -4.38", "Z_V = 7.05×10^{-14}", "Δ_local = 4.67 meV", "|γ| = 1.8e-11", "sin θ_H = 0.04–0.08 (σ-BR = 0.18–0.70 fb)", "δσ_Zh > 1.5% vs. κ_Z (1.5% 1σ) + λ_mix"). These are formatting catastrophes.
+- **Table 7.1 P1 says "f_PTA^(Y₀₀) = 2f_clock = 12.8 nHz"** — correct, but the table is rendered with broken LaTeX markup.
+- **Table 7.1 P4 says "Δt_echo = 17.8 ms (10 M_☉) and 109.2 ms (60 M_☉) for ℓ₀ = 2^{-1/4}ℓ_Pl"** — correct, but the table uses "t₀" in some places and "ℓ₀" in others.
+- **Table 7.1 P5 says "m_eff²(ρ) = V^+ + (β_Ch²/M_Pl²)ρ"** — should be V'', not V^+.
+- **Eq. (7.1) says "(2.00 ± 0.25 yr, ± 0.08 yr)"** — should be "(5 yr)" and "(15 yr)", not "yr".
+- **Table 8.2 says "Spec(H_Fisher) = {E_mod σ₁(2πk/L) : k ∈ Z}"** — correct, but the text says "2nk/L" in some places (Table 8.2) and "2πk/L" in others (§5.1). Inconsistent.
+- **Table 0.1 says "H_Fisher has discrete UNBOUNDED spectrum ∞ 2nk/L"** — the "∞" is garbled; should be "∝" or "with".
+- **Table 0.1 says "κ_ψ = ℏc t_p/(12n)"** — should be ℏcℓ_Pl/(12π), not "t_p" and "12n".
+- **Table 0.2 item 2 says "κ_ψ = ℏc ℏ_Pl/(12π)"** — should be ℏcℓ_Pl/(12π), not ℏ_Pl.
+- **Table 0.2 item 4 says "σ₁(K_ξ) = √((K_ξ²) - (K_ξ²)) = x/[2sinh(x/2)]"** — the variance formula is garbled; should be √(⟨K_ξ²⟩ − ⟨K_ξ⟩²).
+- **Table 0.2 item 6 says "dS_ext² = g_μν dx^μ dx^ν + α_mod² c² g_ij^QFI dθ^i dθ^j"** — the text says "g_μν dx^μ dx_ν^ν" with a typo.
+- **Table 0.2 item 10 says "g_ij^BKM = τ_rel g_ij^BKM"** — this is correct as a definition but the notation uses the same symbol on both sides; should be $\tilde{g}_{ij}^{BKM} = τ_{rel} g_{ij}^{BKM}$.
+- **Table 0.2 item 13 says "ρ_max = √3/(32π² γ_Bl³) ρ_Pl"** — "γ_Bl" should be "γ_BI" (Barbero-Immirzi).
+- **Table 0.2 item 16 says "Λ_3 = (M_Pl / Z_ψ^{1/2} Λ_3"** — garbled; should be Λ_local = Z_ψ^{1/2}Λ₃.
+- **Table 0.2 item 17 says "m_eff²(ρ) = V²(φ_Ch) + ..."** — should be V''(φ_Ch), not V².
+- **Table 0.2 item 18 says "K(0)=24/ℓ_0⁴"** — correct, but the formula in the table says "f(r) = 1 - r_s r²/(r³ + r_s ℓ_0²)" which is consistent with Hayward.
+- **Table 0.2 item 19 says "Γ_Araki = (4/3)Γ_DP ~ (4/3)(Gm²/(ℏR_0))·f_overlap"** — this is a simplified formula, not the exact overlapping-sphere integral.
+- **Table 0.2 item 20 says "τ_0 = 1/M_Pl"** — dimensionally wrong in SI; should be 1/M_Pl in natural units.
+
+**Score: 10/20** (up from 8/20 in the prior review)
+
+The revision is genuinely improved, but the remaining errors — especially the Table H.1 ρ_max/M_rem inconsistency, the Eq. (0.1) garbling, the Figure 8 text corruption, and the scattered ℏ/h and π/n typos — indicate that the automated verification script either does not check tables and figures, or does not exist. The document still reads as a **speculative synthesis with honest epistemic labeling** rather than a rigorous derivation, but the candor and correction-tracking are commendable.
+
+---
+
+## Remaining Error Inventory (Grouped)
+
+### A. Numerical/Table Errors
+
+1. **Table H.1 ρ_max**: still states "2.110 × 10⁶ kg m⁻³ = 9.095 × 10⁷ GeV⁴" — should be 2.110 × 10⁹⁶ kg m⁻³ = 9.095 × 10⁷⁵ GeV⁴. (Same error flagged previously, now fixed in text but not in Table H.1.)
+2. **Table H.1 M_rem**: now correct at 2.38 × 10⁻⁸ kg. ✓
+3. **Table 0.1**: "H_Fisher has discrete UNBOUNDED spectrum ∞ 2nk/L" — "∞" should be "∝" or removed; "2nk" should be "2πk".
+4. **Table 0.1**: "κ_ψ = ℏc t_p/(12n)" — should be ℏcℓ_Pl/(12π).
+5. **Table 0.2 item 2**: "κ_ψ = ℏc ℏ_Pl/(12π)" — should be ℏcℓ_Pl/(12π).
+6. **Table 0.2 item 4**: "σ₁(K_ξ) = √((K_ξ²) - (K_ξ²))" — should be √(⟨K_ξ²⟩ − ⟨K_ξ⟩²).
+7. **Table 0.2 item 6**: "dS_ext² = g_μν dx^μ dx_ν^ν" — typo.
+8. **Table 0.2 item 10**: "g_ij^BKM = τ_rel g_ij^BKM" — should be $\tilde{g}_{ij}^{BKM} = τ_{rel} g_{ij}^{BKM}$.
+9. **Table 0.2 item 13**: "γ_Bl" — should be "γ_BI".
+10. **Table 0.2 item 16**: "Λ_3 = (M_Pl / Z_ψ^{1/2} Λ_3" — should be "Λ_local = Z_ψ^{1/2}Λ₃".
+11. **Table 0.2 item 17**: "m_eff²(ρ) = V²(φ_Ch) + ..." — should be V''(φ_Ch).
+12. **Table 0.2 item 20**: "τ_0 = 1/M_Pl" — dimensionally wrong in SI; should be noted as natural units only.
+13. **Table 8.1**: "~10⁵⁰⁰" — now correct (standard estimate). ✓
+14. **Table 8.2**: "γ^μ(T_μν + I_μν) ≡ 0" — should be ∇^μ, not γ^μ.
+15. **Table 8.2**: "Spec(H_Fisher) = {E_mod σ₁(2nk/L) : k ∈ Z}" — should be 2πk/L, not 2nk/L.
+16. **Table 8.3**: "Horndeski Type Ia screening... $r_V$ = 369.8 y" — should be "369.8 ly".
+17. **Table 8.3**: "QES r_T = r_+ - ..." — should be r_I.
+18. **Table H.1**: "$R_0$ = (3m/4πρ_SiO2^{1/3}" — missing closing parenthesis.
+19. **Table H.1**: "Γ_Araki = 1.18 s^{-1} (180 nm)" — should be "(Δx = 180 nm)".
+20. **Table 7.1 P5**: "m_eff²(ρ) = V^+ + ..." — should be V''.
+21. **Table 7.1**: LaTeX markup is broken (e.g., "<eq>{}^{87}\mathrm{Sr}...").
+22. **Table 7.1 P1**: "f_PTA^(Y₀₀) = 2f_clock = 12.8 nHz" — correct, but formatting is garbled.
+23. **Figure 8**: Multiple garbled entries ("You monospole", "m_mono", "f_earth", "T = 1.18 s^{-1}", "η_earth = 4/3", "η_0 = 0.064", "r = 24² = 0.012", "canonical f_DM = -4.38", "Z_V = 7.05×10^{-14}", "Δ_local = 4.67 meV", "|γ| = 1.8e-11", "sin θ_H = 0.04–0.08 (σ-BR = 0.18–0.70 fb)", "δσ_Zh > 1.5% vs. κ_Z (1.5% 1σ) + λ_mix"). These are catastrophic text corruptions.
+24. **Figure 4 caption**: "f_φ = M_Pb m_DE" — garbled; should be "f_φ = M_Pl" and "m_DE ≈ 1.30 H₀".
+25. **Figure 4 caption**: "θ_i = 1.95 rad" — correct, but the caption text is garbled.
+
+### B. Equation/Typo Errors
+
+26. **Eq. (0.1)**: "τ_step Σ |RAG_k| − RES_k||_F" — garbled; should be τ_step Σ ||RAG_k − RES_k||_F. Also "h" should be "ℏ".
+27. **Eq. (2.2)**: "4g_ij^FS(P^{N−1})" — should be CP^{N−1}.
+28. **Eq. (3.1)**: "F_μν F^μν" — correct (previously fixed).
+29. **Eq. (4.1)**: "g_ij^QFL" — should be g_ij^QFI.
+30. **Eq. (4.2)**: "dτ → (h/E_mod) ds_QFI" — should be ℏ.
+31. **Eq. (5.1)**: "Spec(H_Fisher) = {E_mod σ₁(2πk/L) : k ∈ Z}" — correct here, but Table 8.2 uses 2nk.
+32. **Eq. (7.1)**: "(2.00 ± 0.25 yr, ± 0.08 yr)" — should be "(5 yr)" and "(15 yr)".
+33. **Appendix C Step 3**: "r_k B T" — garbled; should be k_B T.
+34. **Appendix E**: "r_I = r_+ - ... = r_- - O(h/(Mc))" — second equality should be r_I; "h" should be ℏ.
+35. **Appendix E**: "S_rem = n(3ℓ_0²)/ℓ_Pl²" — should be π, not n.
+36. **Appendix I**: "retracted contradictory blue tensor tilt" — good; but the notation "$\ddot{\phi}_{DE}$" has a typo in "$\tilde{\phi}$".
+
+### C. Table/Text Inconsistencies
+
+37. **Table H.1 ρ_max** contradicts Abstract, §6.1, Appendix G. (Same as item 1.)
+38. **Table H.1 ρ_max** contradicts the correct values in the body text.
+39. **Table H.1 M_rem** now correct. ✓
+40. **Table 0.1** says "κ_ψ = ℏc t_p/(12n)" but Table 0.2 and §3.2 say ℏcℓ_Pl/(12π).
+41. **Table 8.2** says "γ^μ(T_μν + I_μν) ≡ 0" but Appendix A says ∇^μ(T_μν + I_μν) ≡ 0.
+42. **Table 8.2** says "2nk/L" but §5.1 says "2πk/L".
+43. **Table 8.3** says "$r_V$ = 369.8 y" but §3.4 says "369.8 ly".
+44. **Table 8.3** says "r_T" but §6.4 says "r_I".
+45. **Table H.1** says "R_0 = (3m/4πρ_SiO2^{1/3}" but the body text says R_0 = 1.028 µm.
+46. **Figure 8** garbled text contradicts Table 7.1.
+47. **Figure 4 caption** garbled "f_φ = M_Pb m_DE" contradicts §7.1 "f_φ = M_Pl".
+
+### D. Conceptual/Foundational Issues (Unchanged from Prior Review)
+
+48. The central synchronization ansatz (Eq. 4.1) remains postulated. The text now honestly labels it "Ansatz" — good.
+49. The five-scalar proliferation is candidly acknowledged but undermines unification claims.
+50. The AQFT construction (Type III₁ → split Type I) is assumed, not derived.
+51. The identification ψ² = κ_ψ S_Araki/Vol is a definition, not a derivation.
+52. The "unbounded S¹ spectrum evades Pauli's theorem" requires positive-branch projection, which is asserted not proven.
+53. The smeared Krein poset convergence cites Belenchia-Benincasa-Dowker but the specific convergence claim is asserted, not proven.
+54. The QES island calculation uses a 2D CFT formula in 4D; validity is not established.
+55. The GSL is conditional on QFC; this is now honestly labeled.
+56. The BKL shear mitigation via ekpyrotic phase is asserted, not derived.
+57. The w_contract = −0.003 tuning is candidly acknowledged.
+58. The DESI DR2 tension (w_a < −0.4 at >3σ) is candidly acknowledged.
+59. The need for CAMB/hiclass + Cobaya fits is acknowledged.
+60. The need for a 3+1 inhomogeneous Dirac anomaly study is acknowledged.
+61. Refs. [1], [2], [3] are non-peer-reviewed; this is now labeled.
+62. The "automated verification script" is claimed to verify all numbers, but the Table H.1 ρ_max error and Figure 8 corruption suggest it does not check tables/figures, or does not exist.
+63. The two-paper split proposal is sensible.
+64. The epistemic badges ([Status: ...]) are a good addition.
+65. The revision registry (Appendix I) is a good addition.
+
+### E. Reference Issues
+
+66. **Ref. [1]**: URL now fixed ("Engine_of_Physics"). ✓
+67. **Ref. [2]**: Now labeled non-peer-reviewed. ✓
+68. **Ref. [3]**: Now labeled non-peer-reviewed. ✓
+69. **Ref. [6]**: "Kuchar (2011)" — year listed as 2011, but the reprint is from Int. J. Mod. Phys. D 20 (2011); the original is 1992. Acceptable.
+70. **Ref. [73]**: DESI 2024 VI — year listed as 2025, arXiv 2024. Minor inconsistency but acceptable.
+71. **Ref. [74]**: DESI DR2 — 2025, arXiv:2503.14738. Appropriate.
+72. **Ref. [78]**: LHAASO 2024 — now complete. ✓
+73. **Ref. [84]**: PTB clock ratio — now complete. ✓
+74. **Ref. [85]**: Schlippert — still ambiguous journal, but arXiv provided. Acceptable.
+75. **Ref. [100]**: Wirth-Zhang — 2023, Ann. Henri Poincaré 24, 717-750. ✓
+76. **Ref. [105]**: Carballo-Rubio et al. — 2023, Springer book. ✓
+77. **Ref. [106]**: BACON — Nature 591 (2021) 564-569. ✓
+
+### F. Formatting/Editorial
+
+78. Table 7.1 is rendered with broken LaTeX markup — this is a major formatting failure.
+79. Figure 8 is corrupted with garbled text.
+80. Figure 4 caption is garbled.
+81. Table 0.2 is overlong (20 items) and hard to read.
+82. The "Status: ..." badges are useful but sometimes inconsistent (e.g., §3.1 labeled Axiom, but Table 8.2 labels Theorem 3.1 as Consistency).
+83. Eq. (0.1) is broken across lines awkwardly.
+84. "dimensionles s" typos are now mostly fixed. ✓
+85. "P^{N−1}" typo remains in Eq. (2.2).
+86. "2nk" vs "2πk" inconsistency.
+87. "y" vs "ly" in Table 8.3.
+88. "r_T" vs "r_I" in Table 8.3.
+89. "n" vs "π" in Appendix E.
+90. "h" vs "ℏ" in multiple places.
+91. "t_p" vs "ℓ_Pl" in Table 0.1.
+92. "ℏ_Pl" vs "ℓ_Pl" in Table 0.2.
+93. "γ_Bl" vs "γ_BI" in Table 0.2.
+94. "V²" vs "V''" in Table 0.2.
+95. "V^+" vs "V''" in Table 7.1.
+96. "M_Pb" vs "M_Pl" in Figure 4 caption.
+97. "r_k B T" vs "k_B T" in Appendix C.
+98. "r_-" vs "r_I" in Appendix E.
+99. "∞" vs "∝" in Table 0.1.
+100. "12n" vs "12π" in Table 0.1.
+
+---
+
+## Score
+
+**Score: 10/20**
+
+The H7/H8 revision is a **genuine improvement** over H7 (which itself improved on H6), but the persistence of the Table H.1 ρ_max/M_rem inconsistency, the Eq. (0.1) garbling, the Figure 8 text corruption, and the scattered π/n, ℏ/h, and P/CP typos indicate that the document has not been fully proofread or automatically verified. The epistemic transparency (Table 8.3, Appendix I, status badges) is commendable, and the major physics corrections (red tensor tilt, f_NL = −35/8, κ_ψ = 2.17 × 10⁻²¹ GeV⁻¹, Z_ψ = 7.05 × 10¹⁴, Λ_local = 4.67 µeV) are now in place. The document is suitable for **circulation as a speculative preprint with explicit caveats**, but not yet for journal submission without fixing the table/figure errors and completing the CAMB/Cobaya likelihood analysis.
+
+---
+
+## 335 Recommendations
+
+### A. Critical Numerical Fixes (1–25)
+
+1. Fix Table H.1 ρ_max: 2.110 × 10⁹⁶ kg m⁻³ and 9.095 × 10⁷⁵ GeV⁴ (currently 10⁶ and 10⁷).
+2. Verify Table H.1 M_rem is now 2.38 × 10⁻⁸ kg — it is. ✓
+3. Fix Table 0.1 "H_Fisher ... ∞ 2nk/L" → "∝ 2πk/L" or "with 2πk/L".
+4. Fix Table 0.1 "κ_ψ = ℏc t_p/(12n)" → "ℏcℓ_Pl/(12π)".
+5. Fix Table 0.2 item 2 "κ_ψ = ℏc ℏ_Pl/(12π)" → "ℏcℓ_Pl/(12π)".
+6. Fix Table 0.2 item 4 "σ₁ = √((K_ξ²) - (K_ξ²))" → "√(⟨K_ξ²⟩ − ⟨K_ξ⟩²)".
+7. Fix Table 0.2 item 6 "g_μν dx^μ dx_ν^ν" → "g_μν dx^μ dx^ν".
+8. Fix Table 0.2 item 10 "g_ij^BKM = τ_rel g_ij^BKM" → "$\tilde{g}_{ij}^{BKM} = τ_{rel} g_{ij}^{BKM}$".
+9. Fix Table 0.2 item 13 "γ_Bl" → "γ_BI".
+10. Fix Table 0.2 item 16 "Λ_3 = (M_Pl / Z_ψ^{1/2} Λ_3" → "Λ_local = Z_ψ^{1/2}Λ₃".
+11. Fix Table 0.2 item 17 "V²(φ_Ch)" → "V''(φ_Ch)".
+12. Fix Table 0.2 item 20 "τ_0 = 1/M_Pl" → note "(natural units only)".
+13. Fix Table 8.2 "γ^μ(T_μν + I_μν) ≡ 0" → "∇^μ(T_μν + I_μν) ≡ 0".
+14. Fix Table 8.2 "2nk/L" → "2πk/L".
+15. Fix Table 8.3 "369.8 y" → "369.8 ly".
+16. Fix Table 8.3 "r_T" → "r_I".
+17. Fix Table H.1 "R_0 = (3m/4πρ_SiO2^{1/3}" → "R_0 = (3m/(4πρ_SiO2))^{1/3}".
+18. Fix Table H.1 "Γ_Araki = 1.18 s^{-1} (180 nm)" → "(Δx = 180 nm)".
+19. Fix Table 7.1 P5 "V^+" → "V''".
+20. Fix Eq. (0.1) "τ_step Σ |RAG_k| − RES_k||_F" → "τ_step Σ ||RAG_k − RES_k||_F".
+21. Fix Eq. (0.1) "h" → "ℏ".
+22. Fix Eq. (2.2) "P^{N−1}" → "CP^{N−1}".
+23. Fix Eq. (4.1) "g_ij^QFL" → "g_ij^QFI".
+24. Fix Eq. (4.2) "h" → "ℏ".
+25. Fix Eq. (7.1) "(2.00 ± 0.25 yr, ± 0.08 yr)" → "(5 yr)" and "(15 yr)".
+
+### B. Figure and Table Reconstruction (26–50)
+
+26. Rebuild Figure 8 from scratch — the current rendering is corrupted ("You monospole", "m_mono", "f_earth", "T = 1.18 s^{-1}", "η_earth = 4/3", "η_0 = 0.064", "r = 24² = 0.012", "canonical f_DM = -4.38", "Z_V = 7.05×10^{-14}", "Δ_local = 4.67 meV", "|γ| = 1.8e-11", etc.).
+27. Rebuild Figure 4 caption — "f_φ = M_Pb m_DE" is garbled; should be "f_φ = M_Pl, m_DE ≈ 1.30 H₀".
+28. Rebuild Table 7.1 — LaTeX markup is broken throughout ("<eq>{}^{87}\mathrm{Sr}...").
+29. Rebuild Table 0.2 — 20 items is overlong; split into 0.2a (time/metrology) and 0.2b (gravity/cosmology).
+30. Ensure Table 0.1 and Table 0.2 use consistent notation (ℓ_Pl, not ℏ_Pl or t_p).
+31. Ensure Table 8.1 uses "~10⁵⁰⁰" consistently (it does now).
+32. Ensure Table 8.2 uses ∇^μ, not γ^μ.
+33. Ensure Table 8.2 uses 2πk/L, not 2nk/L.
+34. Ensure Table 8.3 uses "ly", not "y".
+35. Ensure Table 8.3 uses "r_I", not "r_T".
+36. Ensure Table H.1 uses "2.110 × 10⁹⁶ kg m⁻³" and "9.095 × 10⁷⁵ GeV⁴".
+37. Ensure Table H.1 uses "M_rem = 2.38 × 10⁻⁸ kg".
+38. Ensure Table H.1 uses "R_0 = (3m/(4πρ_SiO2))^{1/3}".
+39. Ensure Table H.1 uses "Δx = 180 nm".
+40. Ensure Figure 4 caption uses "f_φ = M_Pl".
+41. Ensure Figure 8 lists correct protocol labels (P1–P6).
+42. Ensure Figure 8 lists correct numbers (2.65×10⁻²³ eV, R₀ = 1.028 µm, Γ = 1.18 s⁻¹, r = 0.012, f_NL = −4.38, w₀ = −0.908, w_a = −0.177, Δt_echo = 17.8/109.2 ms, M_Ch = 2.4 meV, m_portal = 1.84 TeV).
+43. Ensure Figure 8 lists correct falsification thresholds (2.00 ± 0.25, 2.00 ± 0.08, r ∈ [0.004, 0.025], |R_eff| < 0.03, ΔP_Ch < 10⁻¹¹ N/m², σ < 0.15 fb).
+44. Ensure Figure 3 caption uses correct bounce profile.
+45. Ensure Figure 5 caption uses correct Hayward lapse.
+46. Ensure Figure 6 caption uses correct QES island.
+47. Ensure Figure 7 caption uses correct 2:1 Lissajous.
+48. Ensure Figure 1 logical architecture is complete.
+49. Ensure Figure 2 bundle geometry is legible.
+50. Check all figures for resolution and legibility.
+
+### C. Equation and Derivation Fixes (51–100)
+
+51. Re-derive Eq. (0.1) cleanly: dτ = (1/c)√(−g_μν dx^μ dx^ν) = [ℏ/(E_mod σ₁)]√(g_ij^QFI θ̇^i θ̇^j) dλ; Δτ = τ_step Σ_{k=1}^N ||RAG_k − RES_k||_F.
+52. Re-derive Eq. (4.1) cleanly: dτ = (1/c)√(−g_μν dx^μ dx^ν) dλ = [ℏ/(E_mod σ₁)]√(g_ij^QFI θ̇^i θ̇^j) dλ.
+53. Show ||RAG_k − RES_k||_F = ½ ds_QFI explicitly from Uhlmann purification.
+54. Show the O(N⁻²) convergence numerically (already claimed in §4.1).
+55. Derive the ADM decomposition of Eq. (3.1) explicitly in §1.1 or Appendix A.
+56. Derive Eq. (1.1) from δS/δN = 0.
+57. Derive the Born-Oppenheimer factorization explicitly in §5.1.
+58. Derive the unbounded S¹ spectrum from H_Fisher eigenfunctions.
+59. Justify the positive-branch projection k > 0 physically.
+60. Derive the FLRW minisuperspace reduction in §5.1.
+61. Derive the BKM gradient flow from KMS detailed balance.
+62. Derive the Spohn inequality from CPTP.
+63. Derive the all-orders Bianchi cancellation in Appendix A.
+64. Derive the Araki diamond scaling ΔK_V = (8π²r⁴/15ℏc)ΔT_00.
+65. Show the factor 2/5 average relative to Vol_3(V_r).
+66. Derive the κ_ψ normalization from heat-kernel.
+67. Derive the split-included Type I factor construction.
+68. Derive σ₁(K_ξ) = x/(2sinh(x/2)).
+69. Derive the Lorentz invariance of σ₁(K_ξ).
+70. Derive the smeared Krein convergence from Belenchia-Benincasa-Dowker.
+71. Derive the QES island location r_I = r_+ − O(ℓ_Pl²/r_+).
+72. Derive S_rem = π(3ℓ₀²)/ℓ_Pl².
+73. Derive the GSL conditional on QFC.
+74. Derive the L_UV bounce equation.
+75. Derive the general-w bounce solution.
+76. Derive the bounce acceleration ä/a = +4πGρ_max(1+w).
+77. Derive the BKL shear mitigation condition w > 1.
+78. Derive the Mukhanov-Sasaki transfer.
+79. Derive n_s − 1 = 12w_contract/(1 + 3w_contract).
+80. Derive n_T = n_s − 1 for constant w_contract.
+81. Derive r = 24c_s³.
+82. Derive f_NL^eq = −35/8.
+83. Derive the Hayward metric from Vaidya collapse.
+84. Derive r_* = √3ℓ₀ from double-root merger.
+85. Derive M_rem = (3√3/4)(ℓ₀c²/G).
+86. Derive K(0) = 24/ℓ₀⁴.
+87. Derive the QES island in the s-wave approximation.
+88. Derive the first-law modification for Hayward BH.
+89. Derive the KG thawing ODE w₀ = −0.908, w_a = −0.177.
+90. Derive the early-time thawing scaling 1 + w ∝ (1 + z)⁻³.
+91. Derive m_DE = 1.297H₀ ≈ 1.94 × 10⁻³³ eV.
+92. Derive λ_dB = 2.07 kpc.
+93. Derive the Lyman-α bound f_DM ≤ 0.02.
+94. Derive the 2:1 monopole PTA signal.
+95. Derive the joint Cramér-Rao σ_r = 2.00 ± 0.25 (5 yr) and ± 0.08 (15 yr).
+96. Derive the clock flicker floor ~10⁻¹⁸.
+97. Derive the PTA red noise S_red ∝ f^{−13/3}.
+98. Derive the GP noise marginalization.
+99. Derive the look-elsewhere correction.
+100. Derive the pulsar-sky scramble null controls.
+
+### D. Screening and EFT (101–140)
+
+101. Derive r_V = (γr_s c²/H₀²)^{1/3} = 369.8 ly.
+102. Derive dψ/dr ∝ (r/r_V)^{3/2}.
+103. Derive |γ_PPN − 1| ≈ 2β²(r/r_V)^{3/2} = 1.77 × 10⁻¹¹ at 1 AU.
+104. Derive r_V,⊕ = 5.33 ly.
+105. Derive Z_ψ = (r_V,⊕/r_⊕)^{3/2} = 7.05 × 10¹⁴.
+106. Derive Λ_local = Z_ψ^{1/2}Λ₃ = 4.67 µeV (4.2 cm).
+107. Justify the cubic-Galileon screening at sub-mm scales.
+108. Derive m_eff²(ρ) for the Chameleon.
+109. Derive M_Ch ≈ 2.4 meV.
+110. Derive ΔP_Ch ~ 0.1–2 nN/m².
+111. Derive the HL-LHC Φ_portal mass m_portal = √(2λ_Φ)v_Φ ≈ 1.84 TeV.
+112. Derive sin θ_H ≈ λ_mix v v_Φ/m_portal² ≈ 0.04–0.08.
+113. Derive σ(pp → Φ_portal → hh/VV) ≈ 0.18–0.70 fb.
+114. Derive δσ_Zh > 1.5% from λ_mix|H|²Φ_portal².
+115. Derive the VBF pair production.
+116. Justify f_φ = M_Pl from WGC.
+117. Justify θ_i = 1.95 rad.
+118. Justify w_contract = −0.003.
+119. Justify c_s = 0.08.
+120. Justify ξ₀ = 2^{−1/4}.
+121. Justify the benchmark γ = 0.83.
+122. Justify β ~ O(1).
+123. Justify the L_UV functional form.
+124. Justify the Barbero-Immirzi γ_BI = 0.2375.
+125. Justify the LQC holonomy correction.
+126. Justify the Chamseddine-Mukhanov limiting-curvature action.
+127. Justify the Hayward de Sitter core.
+128. Justify the Vaidya collapse model.
+129. Justify the s-wave approximation for QES.
+130. Justify the c_bulk coefficient.
+131. Justify the QFC conditional.
+132. Justify the QNEC in flat/Killing limits.
+133. Justify the Page curve recovery.
+134. Justify the Giddings objection resolution.
+135. Justify the first-law modification [105].
+136. Justify the BKL ekpyrotic phase.
+137. Justify the pre-bounce stiff equation of state w > 1.
+138. Justify the CMB observables n_s, n_T, r, f_NL.
+139. Justify the DESI DR2 comparison.
+140. Justify the S₈ comparison with KiDS-1000 and DES-Y3.
+
+### E. Phenomenology and Protocols (141–200)
+
+141. Derive the P1 dual-clock σ_r = 2.00 ± 0.25 (5 yr).
+142. Derive the P1 15-yr σ_r = 2.00 ± 0.08.
+143. Show the P1 clock flicker floor.
+144. Show the P1 random-walk drift.
+145. Show the P1 PTA red noise.
+146. Show the P1 GP modeling.
+147. Show the P1 look-elsewhere correction.
+148. Show the P1 pulsar-sky scramble controls.
+149. Derive the P2 R₀ = 1.028 µm.
+150. Derive the P2 Γ_DP = 0.883 s⁻¹ at Δx = 180 nm.
+151. Derive the P2 Γ_Araki = 1.18 s⁻¹ at Δx = 180 nm.
+152. Justify the P2 κ_ψ/κ₀ = 4/3.
+153. Derive the P2 falsification threshold Γ_Araki > 0.05 s⁻¹.
+154. Derive the P3 r = 0.012 and LiteBIRD/SO detectability.
+155. Derive the P3 f_NL = −4.38 and Planck constraint.
+156. Derive the P3 w_a < −0.4 falsifier.
+157. Derive the P4 Δt_echo = 17.8 ms (10 M_☉).
+158. Derive the P4 Δt_echo = 109.2 ms (60 M_☉).
+159. Derive the P4 K_echo = 0.18.
+160. Derive the P4 |R_eff| < 0.03 falsifier.
+161. Derive the P5 ΔP_Ch ~ 10⁻¹⁰–2 × 10⁻⁹ N/m².
+162. Derive the P5 CANNEX noise floor ~10⁻¹¹ N/m².
+163. Derive the P5 falsifier |ΔP_Ch| < 10⁻¹¹ N/m².
+164. Derive the P6 σ > 0.15 fb falsifier.
+165. Derive the P6 κ_Z ≈ 1.5% (1σ) sensitivity.
+166. Derive the P6 δσ_Zh > 1.5% falsifier.
+167. Show the P6 evasion parameters sin θ_H < 0.02, |λ_mix| < 0.25.
+168. Justify Δβ_eff > 3 × 10⁻¹⁰ for P1.
+169. Justify Γ_Araki > 0.05 s⁻¹ for P2.
+170. Justify r ∈ [0.004, 0.025] for P3.
+171. Justify |R_eff| < 0.03 for P4.
+172. Justify M_Ch = 2.4 meV for P5.
+173. Justify m_portal = 1.84 ± 0.18 TeV for P6.
+174. Show the P1 Y₀₀ monopole geometry.
+175. Show the P1 dual-species ⁸⁷Sr/¹⁷¹Yb transitions.
+176. Show the P2 levitated nanosphere scheme.
+177. Show the P3 LiteBIRD/SO B-mode scheme.
+178. Show the P4 LVK O5/CE/ET stacking scheme.
+179. Show the P5 CANNEX geometry.
+180. Show the P6 HL-LHC di-Higgs/VV search.
+181. Discuss the P1 generic quadratic ULDM caveat.
+182. Discuss the P2 comparison to Donadi et al.
+183. Discuss the P3 CAMB/Cobaya likelihood fits.
+184. Discuss the P4 O1–O3 null priors.
+185. Discuss the P5 CANNEX systematic floor.
+186. Discuss the P6 HL-LHC systematics.
+187. Discuss the P1 5-yr vs 15-yr integration.
+188. Discuss the P2 10⁻¹⁴ kg vs atomic tests.
+189. Discuss the P3 LiteBIRD/SO σ(r) = 0.001.
+190. Discuss the P4 3G SNR > 100.
+191. Discuss the P5 sub-mm unscreening.
+192. Discuss the P6 δσ_Zh systematics.
+193. Discuss the P1 multi-messenger context.
+194. Discuss the P2 decoherence vs Diósi-Penrose.
+195. Discuss the P3 tensor tilt red vs blue.
+196. Discuss the P4 echo templates.
+197. Discuss the P5 Chameleon vs Galileon.
+198. Discuss the P6 portal vs SUSY.
+199. Discuss the P1 look-elsewhere.
+200. Discuss the P2 thermal BBR.
+
+### F. Foundational/Epistemic (201–250)
+
+201. Justify the identification of proper time with Fisher-Rao arc length.
+202. Justify the Jacobi-Finsler null constraint.
+203. Justify α_mod = ℏ/(E_mod σ₁).
+204. Justify E_mod = max(ℏω₀, 2πk_BT_U).
+205. Justify M = 1 single-mode normalization.
+206. Justify τ_step = 2ℏ/(E_mod σ₁).
+207. Justify the Uhlmann purification identification.
+208. Justify the O(N⁻²) convergence.
+209. Justify Type III₁ algebra assumption.
+210. Justify split Type I factor N.
+211. Justify ψ² = κ_ψ S_Araki/Vol.
+212. Justify κ_ψ = ℏcℓ_Pl/(12π).
+213. Discuss the ψ-as-functional vs ψ-as-field tension.
+214. Discuss the five-scalar proliferation.
+215. Discuss φ_osc and φ_Ch derivation.
+216. Discuss the unbounded S¹ spectrum evasion.
+217. Discuss positive-branch projection stability.
+218. Discuss the Dirac sea analogy.
+219. Discuss BFV BRST closure.
+220. Discuss the 3+1 Dirac anomaly.
+221. Discuss the smeared Krein convergence.
+222. Discuss the QES s-wave approximation.
+223. Discuss the 2D CFT S_bulk formula in 4D.
+224. Discuss the QFC conditional GSL.
+225. Discuss the BKL ekpyrotic phase.
+226. Discuss w_contract = −0.003 tuning.
+227. Discuss c_s = 0.08 and DBI bound.
+228. Discuss ξ₀ = 2^{−1/4}.
+229. Discuss the Hayward first-law modification.
+230. Discuss the Giddings objection.
+231. Discuss the Page curve recovery.
+232. Discuss the DESI DR2 tension.
+233. Discuss the S₈ tension.
+234. Discuss the CAMB/hiclass + Cobaya need.
+235. Discuss the 3+1 inhomogeneous Dirac need.
+236. Discuss Refs. [1]–[3] peer review.
+237. Discuss the automated verification script.
+238. Discuss the two-paper split.
+239. Discuss the epistemic badges.
+240. Discuss the revision registry.
+241. Discuss the Claim-Evidence Ledger.
+242. Discuss the "Status: ..." labels.
+243. Discuss the "Established" vs "Derived" vs "Consistency" vs "Ansatz" vs "Input" taxonomy.
+244. Discuss the evasion parameters.
+245. Discuss the falsification thresholds.
+246. Discuss the pre-registration of P3.
+247. Discuss the DESI DR2 comparison.
+248. Discuss the need for independent replication.
+249. Discuss the need for public repository.
+250. Discuss the need for journal submission.
+
+### G. Editorial/Formatting (251–300)
+
+251. Fix "P^{N−1}" → "CP^{N−1}".
+252. Fix "2nk/L" → "2πk/L".
+253. Fix "369.8 y" → "369.8 ly".
+254. Fix "r_T" → "r_I".
+255. Fix "n(3ℓ₀²)" → "π(3ℓ₀²)".
+256. Fix "h" → "ℏ" throughout.
+257. Fix "t_p" → "ℓ_Pl".
+258. Fix "ℏ_Pl" → "ℓ_Pl".
+259. Fix "γ_Bl" → "γ_BI".
+260. Fix "V²" → "V''".
+261. Fix "V^+" → "V''".
+262. Fix "M_Pb" → "M_Pl".
+263. Fix "r_k B T" → "k_B T".
+264. Fix "r_-" → "r_I" in Appendix E.
+265. Fix "∞" → "∝" in Table 0.1.
+266. Fix "12n" → "12π" in Table 0.1.
+267. Fix "R_0 = (3m/4πρ_SiO2^{1/3}" → "R_0 = (3m/(4πρ_SiO2))^{1/3}".
+268. Fix "Γ_Araki = 1.18 s^{-1} (180 nm)" → "(Δx = 180 nm)".
+269. Fix "(2.00 ± 0.25 yr, ± 0.08 yr)" → "(5 yr)" and "(15 yr)".
+270. Fix Figure 8 garbled text.
+271. Fix Figure 4 caption garbled text.
+272. Fix Table 7.1 LaTeX markup.
+273. Fix Table 0.2 overlong format.
+274. Fix Eq. (0.1) line break.
+275. Fix Eq. (4.1) "g_ij^QFL" → "g_ij^QFI".
+276. Fix Eq. (4.2) "h" → "ℏ".
+277. Fix Eq. (7.1) units.
+278. Fix Table 8.2 "γ^μ" → "∇^μ".
+279. Fix Table 8.3 "y" → "ly".
+280. Fix Table 8.3 "r_T" → "r_I".
+281. Fix Table H.1 "10⁶" → "10⁹⁶".
+282. Fix Table H.1 "10⁷" → "10⁷⁵".
+283. Fix Table H.1 "M_rem = 2.38 × 10⁻⁶" → "10⁻⁸" (if still present).
+284. Fix Table H.1 "R_0" parentheses.
+285. Fix Table H.1 "Γ_Araki" units.
+286. Fix Table 7.1 "V^+" → "V''".
+287. Fix Table 7.1 broken LaTeX.
+288. Fix Figure 8 "You monospole" → "Y₀₀ monopole".
+289. Fix Figure 8 "m_mono" → "m_osc".
+290. Fix Figure 8 "f_earth" → "Γ_Araki".
+291. Fix Figure 8 "T = 1.18 s^{-1}" → "Γ = 1.18 s⁻¹".
+292. Fix Figure 8 "η_earth = 4/3" → "η_Araki = 4/3".
+293. Fix Figure 8 "η_0 = 0.064" → "n_s = 0.964".
+294. Fix Figure 8 "r = 24² = 0.012" → "r = 24c_s³ = 0.012".
+295. Fix Figure 8 "canonical f_DM = -4.38" → "canonical f_NL = -4.38".
+296. Fix Figure 8 "Z_V = 7.05×10^{-14}" → "Z_ψ = 7.05×10¹⁴".
+297. Fix Figure 8 "Δ_local = 4.67 meV" → "Λ_local = 4.67 µeV".
+298. Fix Figure 8 "|γ| = 1.8e-11" → "|γ_PPN - 1| = 1.77×10⁻¹¹".
+299. Fix Figure 8 "sin θ_H = 0.04–0.08 (σ-BR = 0.18–0.70 fb)" → "sin θ_H = 0.04–0.08; σ = 0.18–0.70 fb".
+300. Fix Figure 8 "δσ_Zh > 1.5% vs. κ_Z (1.5% 1σ) + λ_mix" → "δσ_Zh > 1.5% vs. κ_Z ≈ 1.5% (1σ); λ_mix".
+
+### H. Structural/Strategic (301–335)
+
+301. Fix all Table H.1 errors before claiming automated verification.
+302. Either fix or remove the automated verification script claim.
+303. If the script exists, make it publicly available (GitHub/Zenodo).
+304. Have the script check Table H.1 specifically.
+305. Have the script check Figure 8 specifically.
+306. Have the script check Figure 4 caption.
+307. Have the script check Eq. (0.1).
+308. Have the script check Eq. (4.1).
+309. Have the script check all π/n and ℏ/h substitutions.
+310. Have the script check all P/CP substitutions.
+311. Have the script check all "ly" vs "y" substitutions.
+312. Have the script check all "r_I" vs "r_T" substitutions.
+313. Have the script check all "V''" vs "V²" substitutions.
+314. Have the script check all "ℓ_Pl" vs "t_p" substitutions.
+315. Have the script check all "γ_BI" vs "γ_Bl" substitutions.
+316. Consider a two-paper split: Foundations (Chapters 2, 4, 5) and Phenomenology (Chapters 3, 6, 7).
+317. Submit Foundations to a mathematical physics journal (e.g., CMP, JMP, RMP).
+318. Submit Phenomenology to a cosmology/gravity journal (e.g., JCAP, PRD, CQG).
+319. Seek peer review of Refs. [1], [2], [3].
+320. Obtain independent replication of numerical results.
+321. Perform full CAMB/hiclass + Cobaya likelihood fits for P3.
+322. Perform full 3+1 inhomogeneous Dirac anomaly study.
+323. Clarify ψ vs five-scalar hierarchy.
+324. Consider whether φ_osc and φ_Ch can be derived from spectral action.
+325. Consider whether synchronization ansatz can be derived from deeper principle.
+326. Consider whether AQFT construction can be made rigorous.
+327. Consider whether unbounded S¹ spectrum is stable.
+328. Consider whether QES island calculation is valid in 4D.
+329. Consider whether GSL conditional on QFC is acceptable.
+330. Prepare response to H6/H7 review comments.
+331. Add a "Response to Reviewers" document.
+332. Add a "Revision History" table (H6 → H7 → H8).
+333. Add a "What Changed" summary at the front.
+334. Add a "Known Open Problems" section.
+335. Add a "How to Verify" section pointing to the script.
+
+---
+
+## Final Score
+
+**Score: 10/20**
+
+The H7/H8 revision is a **genuine improvement** over the prior version, with major physics corrections in place and honest epistemic labeling. However, the persistence of the Table H.1 ρ_max/M_rem inconsistency, the Eq. (0.1) garbling, the Figure 8 text corruption, and numerous scattered typos (π/n, ℏ/h, P/CP, ly/y, r_I/r_T, V''/V²) indicate that the document has not been fully proofread or automatically verified. The work is suitable for **preprint circulation with explicit caveats** but requires a thorough editorial pass before journal submission.

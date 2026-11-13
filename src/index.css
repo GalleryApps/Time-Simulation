@@ -174,10 +174,64 @@
   background: #94a3b8;
 }
 
-/* Academic Archival Print Media Formatting (Short Bond 8.5in x 11in / US Letter) */
+/* Academic Monograph Print Media Formatting (A4, 25mm margins) */
 @page {
-  size: letter portrait;
-  margin: 0.75in 0.8in;
+  size: A4 portrait;
+  margin: 25mm;
+}
+
+.igrt-monograph {
+  --igrt-font-body: 'Source Serif 4', 'Libre Baskerville', Georgia, serif;
+  --igrt-font-heading: 'Playfair Display', Georgia, serif;
+  --igrt-body-size: 30px;      /* 14px + 16px */
+  --igrt-h1-size: 54px;        /* 38px + 16px */
+  --igrt-h2-size: 54px;        /* 38px + 16px */
+  --igrt-h3-size: 38px;        /* 22px + 16px */
+  --igrt-h4-size: 34px;        /* 18px + 16px */
+  --igrt-caption-size: 28px;   /* 12px + 16px */
+  --igrt-meta-size: 26px;      /* 10-11px + 16px */
+  --igrt-accent: #8B4513;
+  --igrt-eq-bg: #FAF6EE;
+  --igrt-eq-border: #D6CABE;
+  font-family: var(--igrt-font-body);
+  font-size: var(--igrt-body-size);
+  line-height: 1.5;
+  orphans: 3;
+  widows: 3;
+}
+
+.igrt-monograph p {
+  margin-top: 0;
+  margin-bottom: 1.5em;
+  text-indent: 0;
+  font-size: var(--igrt-body-size);
+  line-height: 1.5;
+}
+
+.igrt-monograph h1,
+.igrt-monograph h2,
+.igrt-monograph h3,
+.igrt-monograph h4 {
+  font-family: var(--igrt-font-heading) !important;
+  font-weight: 400 !important;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.igrt-eq-box {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding: 22px 28px;
+  border: 1px solid var(--igrt-eq-border, #D6CABE);
+  background-color: var(--igrt-eq-bg, #FAF6EE);
+  border-radius: 6px;
+}
+
+.igrt-keep-together {
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 @media print {
@@ -186,16 +240,24 @@
   }
   body {
     background-color: #ffffff !important;
-    color: #000000 !important;
-    font-size: 10.5pt !important;
-    line-height: 1.48 !important;
+    color: #111827 !important;
+    line-height: 1.5 !important;
+    orphans: 3;
+    widows: 3;
   }
   .oxford-card, article, section {
     border: none !important;
     box-shadow: none !important;
-    padding: 0 !important;
   }
-  .katex-display, tr, li {
+  h1, h2, h3, h4 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  .igrt-chapter-break {
+    break-before: page;
+    page-break-before: always;
+  }
+  .igrt-eq-box, .igrt-keep-together, figure, table, tr {
     break-inside: avoid;
     page-break-inside: avoid;
   }

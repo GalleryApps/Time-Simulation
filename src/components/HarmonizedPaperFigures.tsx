@@ -256,7 +256,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     afterSubsectionAnchor: 'sec-1-4',
     title: 'Logical Architecture and Chapter Roadmap of the IGRT Monograph',
     caption:
-      'Figure 1. Logical architecture connecting the historical foundation, HL-LHC spectral test, emerging technologies, and seven postulates (Chapter 1) to principal PU(H) and split-included associated E_stat = P ×_{PU(H)} S(N) bundles (Chapter 2), luminal Type Ia five-scalar Horndeski gravity and Type III₁ Araki matter-diamond dynamics (Chapter 3), Tomita–Takesaki single-mode and smeared Krein correspondences (Chapter 4), canonical BFV BRST unfreezing and detailed-balance BKM dissipation (Chapter 5), explicit L_UV bounce and Hayward/QES/QFC-conditional regularity (Chapter 6), observational protocols P1–P6 (Chapter 7), and closure synthesis with epistemic ledger Table 8.3 and Appendices A–J (Chapter 8).',
+      'Figure 1. Logical architecture connecting the historical foundation, HL-LHC spectral test, emerging technologies, and seven postulates (Chapter 1) to principal PU(H) and split-included associated E_stat = P ×_{PU(H)} S(N) bundles (Chapter 2), luminal Type Ia five-scalar Horndeski gravity and Type III₁ Araki matter-diamond dynamics (Chapter 3), Tomita–Takesaki single-mode and smeared Krein correspondences (Chapter 4), canonical BFV BRST unfreezing and detailed-balance BKM dissipation (Chapter 5), explicit L_UV bounce and Hayward/QES/QFC-conditional regularity (Chapter 6), observational protocols P1–P6 (Chapter 7), and closure synthesis with epistemic ledger Table 8.3 and Appendices A–L (Chapter 8).',
     isSchematic: true,
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 374" width="100%" height="auto" role="img" aria-label="Chapter roadmap of the IGRT monograph">
   <rect x="0" y="0" width="860" height="374" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
@@ -270,12 +270,12 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
 
   <rect x="230" y="52" width="190" height="76" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
   <text x="325" y="76" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.8" font-weight="600" fill="#0F172A">Ch. 2: PU(H) &amp; E_stat</text>
-  <text x="325" y="97" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" fill="#475569">SLD QFI, Split N &amp; S³</text>
+  <text x="325" y="97" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" fill="#475569">SLD QFI, Split N &amp; S^3</text>
   <text x="325" y="116" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11" fill="#8B4513">Est. Result 2.1 · Eqs. (2.1)–(2.3)</text>
 
   <rect x="438" y="52" width="192" height="76" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
   <text x="534" y="76" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.8" font-weight="600" fill="#0F172A">Ch. 3: Horndeski + Araki</text>
-  <text x="534" y="97" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11" fill="#475569">5-Scalar · κ_ψ=2.17×10⁻²¹ GeV⁻¹</text>
+  <text x="534" y="97" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11" fill="#475569">5-Scalar · κ_ψ=2.173×10^{−21} GeV^{−1}</text>
   <text x="534" y="116" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11" fill="#8B4513">Theorem 3.1 · Eqs. (3.1)–(3.3)</text>
 
   <rect x="648" y="52" width="190" height="76" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
@@ -295,7 +295,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
 
   <rect x="22" y="182" width="190" height="78" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
   <text x="117" y="206" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.8" font-weight="600" fill="#0F172A">Ch. 5: WDW Unfreezing</text>
-  <text x="117" y="227" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" fill="#475569">Unbounded S¹ &amp; DB-BKM</text>
+  <text x="117" y="227" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" fill="#475569">Unbounded S^1 &amp; DB-BKM</text>
   <text x="117" y="246" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11" fill="#8B4513">Est. Result 5.1 · Eqs. (5.1)–(5.2)</text>
 
   <rect x="230" y="182" width="190" height="78" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
@@ -321,7 +321,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <polygon points="642,217 648,221 642,225" fill="#8B4513"/>
 
   <rect x="22" y="284" width="816" height="66" rx="4" fill="#F4EFE6" stroke="#D6CABE" stroke-width="1.2"/>
-  <text x="430" y="311" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#0F172A">Appendices A–F: Formal Proofs &amp; Metrology Budgets   |   Appendices G–J: CODATA Units, Reproducible ODE &amp; Audit Registry</text>
+  <text x="430" y="311" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#0F172A">Appendices A–F: Formal Proofs &amp; Metrology Budgets   |   Appendices G–L: CODATA Units, Audit Registry &amp; H10 Closures</text>
   <text x="430" y="334" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#64748B">Program Closure: P(M, PU(H)) &amp; E_stat(N) → Covariant Field Equations → Epistemic Ledger &amp; Empirical Falsification</text>
 </svg>`
   },
@@ -346,10 +346,10 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
 
   <path d="M 110 322 C 300 302, 520 319, 745 298" fill="none" stroke="#8B4513" stroke-width="2.4"/>
   <circle cx="178" cy="316" r="4.5" fill="#0F172A"/>
-  <text x="178" y="335" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#0F172A">x(λ₁)</text>
+  <text x="178" y="335" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#0F172A">x(λ_1)</text>
   <circle cx="682" cy="304" r="4.5" fill="#0F172A"/>
-  <text x="682" y="323" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#0F172A">x(λ₂)</text>
-  <text x="430" y="298" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#8B4513">Timelike worldline ds² = g_μν dx^μ dx^ν &lt; 0</text>
+  <text x="682" y="323" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#0F172A">x(λ_2)</text>
+  <text x="430" y="298" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#8B4513">Timelike worldline ds^2 = g_μν dx^μ dx^ν &lt; 0</text>
 
   <line x1="178" y1="316" x2="152" y2="279" stroke="#64748B" stroke-width="1.1" stroke-dasharray="3,2"/>
   <line x1="178" y1="316" x2="204" y2="279" stroke="#64748B" stroke-width="1.1" stroke-dasharray="3,2"/>
@@ -359,7 +359,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <ellipse cx="178" cy="144" rx="74" ry="82" fill="#FFFFFF" fill-opacity="0.96" stroke="#1E293B" stroke-width="1.5"/>
   <line x1="178" y1="226" x2="178" y2="309" stroke="#1E293B" stroke-width="1.3" stroke-dasharray="5,3"/>
   <polygon points="174,305 178,312 182,305" fill="#1E293B"/>
-  <text x="178" y="84" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="600" fill="#0F172A">Fiber S_x₁(N)</text>
+  <text x="178" y="84" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="600" fill="#0F172A">Fiber S_{x_1}(N)</text>
   <text x="178" y="103" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">PU(H) states ρ(θ) ∈ S(N)</text>
   <circle cx="186" cy="156" r="4" fill="#8B4513"/>
   <path d="M 160 178 Q 184 158 204 132" fill="none" stroke="#15803D" stroke-width="2"/>
@@ -368,8 +368,8 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <ellipse cx="682" cy="138" rx="74" ry="82" fill="#FFFFFF" fill-opacity="0.96" stroke="#1E293B" stroke-width="1.5"/>
   <line x1="682" y1="220" x2="682" y2="297" stroke="#1E293B" stroke-width="1.3" stroke-dasharray="5,3"/>
   <polygon points="678,293 682,300 686,293" fill="#1E293B"/>
-  <text x="682" y="78" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="600" fill="#0F172A">Fiber S_x₂(N)</text>
-  <text x="682" y="97" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">Rank-const. → 4·g_FS (S³)</text>
+  <text x="682" y="78" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="600" fill="#0F172A">Fiber S_{x_2}(N)</text>
+  <text x="682" y="97" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">Rank-const. → 4·g_FS (S^3)</text>
   <circle cx="674" cy="146" r="4" fill="#8B4513"/>
   <path d="M 652 166 Q 674 148 696 124" fill="none" stroke="#15803D" stroke-width="2"/>
   <text x="682" y="198" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#15803D">Covariant shift D_μ</text>
@@ -394,7 +394,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     isSchematic: false,
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" width="100%" height="auto" role="img" aria-label="Analytical FLRW bounce scale factor evolution">
   <rect x="0" y="0" width="860" height="340" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">ANALYTICAL SOLUTION (L_UV, w = 0) — FLRW BOUNCE a(t)/a_min = [1 + (t/t₀)²]¹/³</text>
+  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">ANALYTICAL SOLUTION (L_UV, w = 0) — FLRW BOUNCE a(t)/a_min = [1 + (t/t_0)^2]^{1/3}</text>
   <line x1="24" y1="36" x2="836" y2="36" stroke="#E2D9C8" stroke-width="1"/>
 
   <rect x="115" y="58" width="650" height="207" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
@@ -411,7 +411,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <text x="440" y="285" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#8B4513">t = t_bounce (0)</text>
   <text x="602" y="285" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">+1.15</text>
   <text x="765" y="285" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">+2.3</text>
-  <text x="440" y="311" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" fill="#0F172A">Dimensionless Cosmic Time (t − t_bounce) / t₀</text>
+  <text x="440" y="311" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" fill="#0F172A">Dimensionless Cosmic Time (t − t_bounce) / t_0</text>
 
   <path d="${BOUNCE_DATA.grLeftPath}" fill="none" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="6,4"/>
   <path d="${BOUNCE_DATA.grRightPath}" fill="none" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="6,4"/>
@@ -440,14 +440,14 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     isSchematic: false,
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" height="auto" role="img" aria-label="Numerical Klein-Gordon thawing dark energy equation of state w(z)">
   <rect x="0" y="0" width="860" height="330" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">NUMERICAL KLEIN–GORDON ODE — PNGB THAWING w(z) (θ_i = 1.95, w₀ = ${THAW_DATA.w0.toFixed(3)}, w_a = ${THAW_DATA.wA.toFixed(3)})</text>
+  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">NUMERICAL KLEIN–GORDON ODE — PNGB THAWING w(z) (θ_i = 1.95, w_0 = ${THAW_DATA.w0.toFixed(3)}, w_a = ${THAW_DATA.wA.toFixed(3)})</text>
   <line x1="24" y1="36" x2="836" y2="36" stroke="#E2D9C8" stroke-width="1"/>
 
   <rect x="115" y="58" width="650" height="198" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
 
   <line x1="115" y1="${THAW_DATA.yAtW(-0.91).toFixed(1)}" x2="765" y2="${THAW_DATA.yAtW(-0.91).toFixed(1)}" stroke="#E2E8F0" stroke-width="1"/>
   <text x="105" y="${(THAW_DATA.yAtW(-0.91) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#475569">−0.91</text>
-  <text x="758" y="${(THAW_DATA.yAtW(-0.91) - 7).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#8B4513">Present Thaw w₀ = −0.908 (w_a = −0.177 &lt; 0)</text>
+  <text x="758" y="${(THAW_DATA.yAtW(-0.91) - 7).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#8B4513">Present Thaw w_0 = −0.908 (w_a = −0.177 &lt; 0)</text>
 
   <line x1="115" y1="${THAW_DATA.yAtW(-0.96).toFixed(1)}" x2="765" y2="${THAW_DATA.yAtW(-0.96).toFixed(1)}" stroke="#E2E8F0" stroke-width="1"/>
   <text x="105" y="${(THAW_DATA.yAtW(-0.96) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#475569">−0.96</text>
@@ -476,7 +476,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
         }" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">${m.wVal.toFixed(4)}</text>`
     )
     .join('\n  ')}
-  <text x="520" y="148" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#15803D">Ghost-free non-phantom thawing: 1 + w ∝ (1 + z)⁻³, w(z) ≥ −1</text>
+  <text x="520" y="148" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#15803D">Ghost-free non-phantom thawing: 1 + w ∝ (1 + z)^{−3}, w(z) ≥ −1</text>
 </svg>`
   },
   {
@@ -486,11 +486,11 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     afterSubsectionAnchor: 'sec-6-3',
     title: 'Regular Frolov–Hayward Black-Hole Radial Lapse Function f(r) and Horizon Merger',
     caption:
-      'Figure 5. Exact radial lapse profiles f(r) = 1 − 2GMr²/(r³ + 2GMℓ₀²) plotted across r/ℓ₀ ∈ [0, 5.5] with free phenomenological UV core parameter ℓ₀ = ξ₀ ℓ_Pl (ansatz ξ₀ = 2⁻¹/⁴ sets K(0) = 24/ℓ₀⁴ = 48/ℓ_Pl⁴). Sub-extremal masses (M > M_rem) possess inner (r_−) and outer (r_+) horizons coalescing at r_* = √3 ℓ₀ with vanishing surface gravity κ_± = 0; dynamical back-reaction truncates collapse prior to Cauchy extension.',
+      'Figure 5. Exact radial lapse profiles f(r) = 1 − 2GMr²/(r³ + 2GMℓ₀²) plotted across r/ℓ₀ ∈ [0, 5.5], illustrating the derived UV core scale ℓ₀ = ξ₀ ℓ_Pl obtained by equating K_Hayward(0) = 24/ℓ₀⁴ to K_max = 48/ℓ_Pl⁴ of sector L_UV, which fixes ξ₀ = 2⁻¹/⁴ ≈ 0.8409. Sub-extremal masses (M > M_rem) possess inner (r_−) and outer (r_+) horizons coalescing at r_* = √3 ℓ₀ with vanishing surface gravity κ_± = 0; dynamical back-reaction truncates collapse prior to Cauchy extension.',
     isSchematic: false,
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" width="100%" height="auto" role="img" aria-label="Regular Frolov-Hayward lapse function f(r)">
   <rect x="0" y="0" width="860" height="340" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">ANALYTICAL METRIC PROFILE — FROLOV–HAYWARD HORIZON MERGER (ℓ₀ = ξ₀ ℓ_Pl)</text>
+  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">ANALYTICAL METRIC PROFILE — FROLOV–HAYWARD HORIZON MERGER (ℓ_0 = ξ_0 ℓ_Pl)</text>
   <line x1="24" y1="36" x2="836" y2="36" stroke="#E2D9C8" stroke-width="1"/>
 
   <rect x="105" y="56" width="670" height="212" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
@@ -506,7 +506,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <text x="${HAYWARD_DATA.toX(3).toFixed(1)}" y="286" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">3</text>
   <text x="${HAYWARD_DATA.toX(4).toFixed(1)}" y="286" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">4</text>
   <text x="${HAYWARD_DATA.toX(5).toFixed(1)}" y="286" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">5</text>
-  <text x="440" y="311" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" fill="#0F172A">Radial Coordinate r / ℓ₀</text>
+  <text x="440" y="311" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" fill="#0F172A">Radial Coordinate r / ℓ_0</text>
 
   <path d="${HAYWARD_DATA.schwarzschildPath}" fill="none" stroke="#94A3B8" stroke-width="1.7" stroke-dasharray="5,4"/>
   <path d="${HAYWARD_DATA.subExtremalPath}" fill="none" stroke="#1E293B" stroke-width="2.4"/>
@@ -517,7 +517,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <circle cx="${HAYWARD_DATA.rPlusX}" cy="${HAYWARD_DATA.toY(0).toFixed(1)}" r="4" fill="#1E293B"/>
   <text x="${HAYWARD_DATA.rPlusX + 8}" y="${(HAYWARD_DATA.toY(0) - 10).toFixed(1)}" text-anchor="start" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#0F172A">r_+</text>
   <circle cx="${HAYWARD_DATA.rStarX}" cy="${HAYWARD_DATA.toY(0).toFixed(1)}" r="4.8" fill="#8B4513"/>
-  <text x="${HAYWARD_DATA.rStarX + 8}" y="${(HAYWARD_DATA.toY(0) - 12).toFixed(1)}" text-anchor="start" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#8B4513">r_* = √3 ℓ₀ (κ_± = 0)</text>
+  <text x="${HAYWARD_DATA.rStarX + 8}" y="${(HAYWARD_DATA.toY(0) - 12).toFixed(1)}" text-anchor="start" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#8B4513">r_* = √3 ℓ_0 (κ_± = 0)</text>
 
   <text x="115" y="${(HAYWARD_DATA.toY(1) - 8).toFixed(1)}" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#15803D">Regular de Sitter Core f(0) = 1</text>
 
@@ -537,7 +537,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     afterSubsectionAnchor: 'sec-6-4',
     title: 'Penrose Conformal Diagram of a Regular Evaporating Black Hole With Extremal Remnant',
     caption:
-      'Figure 6. True 45° Penrose conformal causal diagram illustrating non-singular collapse and unitary evaporation: a regular timelike core at r = 0 supports outer apparent and dynamical horizons enclosing an interior Quantum Extremal Island that bounds remnant entropy S_rem ≤ 3π/√2 ≈ 6.66 nats (under benchmark ansatz ξ_0 = 2⁻¹/⁴) while preserving the Generalized Second Law conditional on the Quantum Focusing Conjecture / QNEC before coalescing into a zero-temperature extremal remnant approaching i⁺.',
+      'Figure 6. True 45° Penrose conformal causal diagram illustrating non-singular collapse and unitary evaporation: a regular timelike core at r = 0 supports outer apparent and dynamical horizons enclosing an interior Quantum Extremal Island that bounds remnant entropy S_rem ≤ 3π/√2 ≈ 6.66 nats (under derived ξ_0 = 2⁻¹/⁴) while preserving the Generalized Second Law conditional on the Quantum Focusing Conjecture / QNEC before coalescing into a zero-temperature extremal remnant approaching i⁺.',
     isSchematic: true,
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 370" width="100%" height="auto" role="img" aria-label="Penrose conformal diagram of a regular evaporating black hole">
   <rect x="0" y="0" width="860" height="370" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
@@ -580,8 +580,8 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <text x="448" y="109" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513">CAUSAL &amp; UNITARITY INVARIANTS</text>
   <line x1="448" y1="118" x2="822" y2="118" stroke="#E2D9C8" stroke-width="1"/>
   <text x="448" y="141" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#0F172A">1. Postulate I holds on outer r &gt; r_+ &amp; physical domains</text>
-  <text x="448" y="165" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#0F172A">2. QES Island bounds S_rem ≤ 6.66 nats (ξ₀=2⁻¹/⁴); QFC-GSL</text>
-  <text x="448" y="189" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#15803D">3. Remnant M_rem = (3√3/4)(ℓ₀c²/G) ≈ 2.38×10⁻⁸ kg (κ_± = 0)</text>
+  <text x="448" y="165" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#0F172A">2. QES Island bounds S_rem ≤ 6.66 nats (ξ_0 = 2^{−1/4}); QFC-GSL</text>
+  <text x="448" y="189" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#15803D">3. Remnant M_rem = (3√3/4)(ℓ_0 c^2/G) ≈ 2.38×10^{−8} kg (κ_± = 0)</text>
   <text x="448" y="215" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">4. Dynamical evaporation r_± → r_* truncates spacetime</text>
   <text x="448" y="234" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">    prior to Cauchy extension (κ_− → 0 kills mass inflation).</text>
   <text x="448" y="262" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#1D4ED8">5. Outgoing 45° radiation carries entanglement to ℐ⁺.</text>
@@ -605,7 +605,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <line x1="115" y1="168" x2="435" y2="168" stroke="#64748B" stroke-width="1.2"/>
   <line x1="275" y1="50" x2="275" y2="288" stroke="#64748B" stroke-width="1.2"/>
   <text x="275" y="306" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#0F172A">Dual-clock diff. x(t) = sin(ωt/2), f_clock = 6.4 nHz</text>
-  <text x="64" y="168" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#0F172A" transform="rotate(-90 64 168)">PTA Y₀₀ monopole y(t) = sin(ωt), f_PTA = 12.8 nHz</text>
+  <text x="64" y="168" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#0F172A" transform="rotate(-90 64 168)">PTA Y_{00} monopole y(t) = sin(ωt), f_PTA = 12.8 nHz</text>
 
   <path d="${LISSAJOUS_PATH}" fill="none" stroke="#8B4513" stroke-width="2.6"/>
   <circle cx="275" cy="168" r="4.5" fill="#0F172A"/>
@@ -615,13 +615,13 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <rect x="454" y="68" width="384" height="208" rx="4" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1.2"/>
   <text x="470" y="96" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#0F172A">Input ULDM φ_osc &amp; Joint Red-Noise Budget</text>
   <line x1="470" y1="106" x2="822" y2="106" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="470" y="129" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">□ h̄_μν = 16πG (δT_μν + δI_μν[δφ_osc²])  (generic 2:1 ULDM)</text>
-  <text x="470" y="151" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">m_osc ≈ 2.65×10⁻²³ eV; f_DM ≤ 0.02 (λ_dB ≈ 2.07 kpc)</text>
+  <text x="470" y="129" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">□ h̄_μν = 16πG (δT_μν + δI_μν[δφ_osc^2])  (generic 2:1 ULDM)</text>
+  <text x="470" y="151" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">m_osc ≈ 2.65×10^{−23} eV; f_DM ≤ 0.02 (λ_dB ≈ 2.07 kpc)</text>
   <text x="470" y="178" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" font-weight="600" fill="#15803D">Joint Clock Flicker + PTA Red-Noise Cramér–Rao:</text>
-  <text x="470" y="200" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">• Isotropic Y₀₀ monopole (f_PTA = 12.8 nHz = 2·f_clock)</text>
+  <text x="470" y="200" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">• Isotropic Y_{00} monopole (f_PTA = 12.8 nHz = 2·f_clock)</text>
   <text x="470" y="220" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">• 5 yr (1.01 cyc, Δf = 6.34 nHz): 2.00 ± 0.25</text>
   <text x="470" y="240" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">• 15 yr (3.03 cyc, Δf = 2.11 nHz): 2.00 ± 0.08</text>
-  <text x="470" y="260" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">• Dual ⁸⁷Sr/¹⁷¹Yb clock drift-mitigated budget [106]</text>
+  <text x="470" y="260" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">• Dual ^{87}Sr/^{171}Yb clock drift-mitigated budget [106]</text>
 </svg>`
   },
   {
@@ -633,60 +633,60 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     caption:
       'Figure 8. Experimental roadmap summarizing non-null Protocols P1–P6 across IPTA and dual ⁸⁷Sr/¹⁷¹Yb optical lattice clocks (P1), 10⁻¹⁴ kg levitated silica nanosphere (R_0 = 1.028 μm) & 10m VLBAI interferometry (P2), Simons Observatory, LiteBIRD & DESI DR2 (P3), LVK O5 / CE / ET gravitational-wave ringdowns (P4), CANNEX / Eöt-Wash Chameleon force-gradient metrology (P5), and HL-LHC scalar portal & outer-heliosphere tracking (P6).',
     isSchematic: true,
-    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 442" width="100%" height="auto" role="img" aria-label="Six experimental and observational falsification protocols schematic">
-  <rect x="0" y="0" width="860" height="442" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="22" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="600" fill="#8B4513" letter-spacing="0.6">EXPERIMENTAL ROADMAP — NON-NULL FALSIFICATION PROTOCOLS (P1–P6)</text>
-  <line x1="22" y1="38" x2="838" y2="38" stroke="#E2D9C8" stroke-width="1"/>
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 490" width="100%" height="auto" role="img" aria-label="Six experimental and observational falsification protocols schematic">
+  <rect x="0" y="0" width="940" height="490" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
+  <text x="22" y="30" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" font-weight="600" fill="#8B4513" letter-spacing="0.6">EXPERIMENTAL ROADMAP — NON-NULL FALSIFICATION PROTOCOLS (P1–P6)</text>
+  <line x1="22" y1="41" x2="918" y2="41" stroke="#E2D9C8" stroke-width="1"/>
 
-  <!-- Row 1: P1, P2, P3 (3 cards x 264w x 172h, 12px gaps) -->
-  <rect x="22" y="52" width="264" height="172" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="34" y="77" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.2" font-weight="600" fill="#8B4513">P1: IPTA + ⁸⁷Sr/¹⁷¹Yb Clocks</text>
-  <line x1="34" y1="86" x2="274" y2="86" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="34" y="108" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">Test: 2:1 lock (f_PTA = 2f_clock = 12.8 nHz)</text>
-  <text x="34" y="132" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">Signal: Y₀₀ monopole; m_osc = 2.65×10⁻²³ eV</text>
-  <text x="34" y="156" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.0" fill="#475569">Bound: f_DM ≤ 0.02; 2.00 ± 0.25 (5y) / ±0.08 (15y)</text>
-  <text x="34" y="198" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#15803D">Window: 2026–2035 (Flicker + Red Noise)</text>
+  <!-- Row 1: P1, P2, P3 (3 cards x 288w x 194h, 16px gaps) -->
+  <rect x="22" y="56" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="36" y="83" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P1: IPTA + ^{87}Sr/^{171}Yb Clocks</text>
+  <line x1="36" y1="93" x2="296" y2="93" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="36" y="119" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Test: 2:1 lock (f_PTA = 2f_clock = 12.8 nHz)</text>
+  <text x="36" y="147" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Signal: Y_{00} monopole; m_osc = 2.65×10^{−23} eV</text>
+  <text x="36" y="175" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.0" fill="#475569">Bound: f_DM ≤ 0.02; 2.00 ± 0.25 (5y) / ±0.08 (15y)</text>
+  <text x="36" y="226" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Window: 2026–2035 (Flicker + Red Noise)</text>
 
-  <rect x="298" y="52" width="264" height="172" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="310" y="77" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.2" font-weight="600" fill="#8B4513">P2: 10⁻¹⁴ kg Nanospheres &amp; VLBAI</text>
-  <line x1="310" y1="86" x2="550" y2="86" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="310" y="108" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">Test: Γ_Araki = (4/3) Γ_DP (overlap sphere)</text>
-  <text x="310" y="132" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">Target: R₀ = 1.028 μm SiO₂; Δx = 180 nm</text>
-  <text x="310" y="156" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">Rate: Γ = 1.18 s⁻¹ (η_Araki = 4/3)</text>
-  <text x="310" y="198" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#15803D">Falsifier: Γ &gt; 0.05 s⁻¹ (&lt;10⁻¹² Pa UHV)</text>
+  <rect x="326" y="56" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="340" y="83" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P2: 10^{−14} kg Nanospheres &amp; VLBAI</text>
+  <line x1="340" y1="93" x2="600" y2="93" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="340" y="119" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Test: Γ_Araki = (4/3) Γ_DP (DP overlap)</text>
+  <text x="340" y="147" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Target: R_0 = 1.028 μm SiO_2; Δx = 180 nm</text>
+  <text x="340" y="175" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Rate: Γ_Araki = 1.18 s^{−1} (η_Araki = 4/3)</text>
+  <text x="340" y="226" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: Γ_Araki &gt; 0.05 s^{−1} (&lt;10^{−12} Pa UHV)</text>
 
-  <rect x="574" y="52" width="264" height="172" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="586" y="77" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.2" font-weight="600" fill="#8B4513">P3: SO / LiteBIRD / DESI DR2</text>
-  <line x1="586" y1="86" x2="826" y2="86" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="586" y="108" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">Bounce: n_s = 0.964; red n_T = −0.036</text>
-  <text x="586" y="132" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">Tensor/NG: r = 24c_s³ = 0.012; f_NL^{eq} = −4.38</text>
-  <text x="586" y="156" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">KG Thaw: w₀ = −0.908; w_a = −0.177</text>
-  <text x="586" y="198" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#15803D">Falsifier: r ∉ [0.004, 0.025] or w_a &lt; −0.4</text>
+  <rect x="630" y="56" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="644" y="83" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P3: SO / LiteBIRD / DESI DR2</text>
+  <line x1="644" y1="93" x2="904" y2="93" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="644" y="119" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Bounce: n_s = 0.964; red n_T = −0.036</text>
+  <text x="644" y="147" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.1" fill="#475569">Tensor/NG: r = 24c_s^3 = 0.0123; f_NL^{eq} = −4.38</text>
+  <text x="644" y="175" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">KG Thaw: w_0 = −0.908; w_a = −0.177</text>
+  <text x="644" y="226" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: r ∉ [0.004, 0.025] or w_a &lt; −0.4</text>
 
   <!-- Row 2: P4, P5, P6 -->
-  <rect x="22" y="242" width="264" height="172" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="34" y="267" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.2" font-weight="600" fill="#8B4513">P4: LVK O5 / CE / ET Ringdowns</text>
-  <line x1="34" y1="276" x2="274" y2="276" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="34" y="298" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">Test: Hayward-core echo delay Δt_echo</text>
-  <text x="34" y="322" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">Delays: 17.8 ms (10 M_⊙); 109.2 ms (60 M_⊙)</text>
-  <text x="34" y="346" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">Input: K_echo = |R_eff| = 0.18 (|H| = 1)</text>
-  <text x="34" y="388" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#15803D">Falsifier: |R_eff| &lt; 0.03 (3G Coherent Stack)</text>
+  <rect x="22" y="268" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="36" y="295" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P4: LVK O5 / CE / ET Ringdowns</text>
+  <line x1="36" y1="305" x2="296" y2="305" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="36" y="331" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Test: Hayward-core echo delay Δt_echo</text>
+  <text x="36" y="359" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Delays: 17.8 ms (10 M_⊙); 109.2 ms (60 M_⊙)</text>
+  <text x="36" y="387" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Input: K_echo = |R_eff| = 0.18 (|H| = 1)</text>
+  <text x="36" y="438" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: |R_eff| &lt; 0.03 (3G Coherent Stack)</text>
 
-  <rect x="298" y="242" width="264" height="172" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="310" y="267" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.2" font-weight="600" fill="#8B4513">P5: CANNEX &amp; Eöt-Wash Metrology</text>
-  <line x1="310" y1="276" x2="550" y2="276" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="310" y="298" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">Test: Plate pressure ΔP_Ch (10 μm–1 cm)</text>
-  <text x="310" y="322" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">Sector: M_Ch = 2.4 meV; ΔP_Ch ~ 0.1–2 nN/m²</text>
-  <text x="310" y="346" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" fill="#475569">Screening: Z_ψ = 7.05×10¹⁴; Λ_local = 4.67 μeV</text>
-  <text x="310" y="388" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#15803D">PPN: |γ_PPN − 1| = 1.77×10⁻¹¹ (1 AU)</text>
+  <rect x="326" y="268" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="340" y="295" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P5: CANNEX &amp; Eöt-Wash Metrology</text>
+  <line x1="340" y1="305" x2="600" y2="305" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="340" y="331" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Test: Plate pressure ΔP_Ch (10 μm–1 cm)</text>
+  <text x="340" y="359" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Sector: M_Ch = 2.4 meV; ΔP_Ch ~ 0.1–2 nN/m^2</text>
+  <text x="340" y="387" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.1" fill="#475569">Screen: Z_ψ = 7.05×10^{14}; Λ_local = 4.67 μeV</text>
+  <text x="340" y="438" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">PPN: |γ_PPN − 1| = 1.77×10^{−11} (1 AU)</text>
 
-  <rect x="574" y="242" width="264" height="172" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="586" y="267" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.2" font-weight="600" fill="#8B4513">P6: HL-LHC Portal &amp; Deep-Space</text>
-  <line x1="586" y1="276" x2="826" y2="276" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="586" y="298" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">Portal: Φ_portal (m_portal = 1.84 ± 0.18 TeV)</text>
-  <text x="586" y="322" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">Rates: sin θ_H = 0.04–0.08; σ = 0.18–0.70 fb</text>
-  <text x="586" y="346" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">Coupling: δσ_Zh &gt; 1.5% vs. κ_Z ≈ 1.5% (1σ)</text>
-  <text x="586" y="388" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#15803D">Window: HL-LHC 3000 fb⁻¹ / Deep Space</text>
+  <rect x="630" y="268" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="644" y="295" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P6: HL-LHC Portal &amp; Deep-Space</text>
+  <line x1="644" y1="305" x2="904" y2="305" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="644" y="331" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Portal: Φ_portal (m_portal = 1.84 ± 0.18 TeV)</text>
+  <text x="644" y="359" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Rates: sin θ_H = 0.04–0.08; σ = 0.18–0.70 fb</text>
+  <text x="644" y="387" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Coupling: δσ_Zh &gt; 1.5% vs. κ_Z ≈ 1.5% (1σ)</text>
+  <text x="644" y="438" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Window: HL-LHC 3000 fb^{−1} / Deep Space</text>
 </svg>`
   }
 ];

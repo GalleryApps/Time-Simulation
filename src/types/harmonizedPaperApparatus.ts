@@ -130,7 +130,7 @@ export const LIST_OF_SYMBOLS: SymbolEntry[] = [
     symbol: 'A_μ, F_μν, H_Fisher',
     name: 'pu(H)-valued connection, curvature ∂_μA_ν − ∂_νA_μ + i[A_μ, A_ν], & unbounded S¹ clock Hamiltonian',
     units: 'A_μ in m⁻¹; F_μν in m^{−2}; H_Fisher in J (or eV)',
-    collisionNote: 'H_Fisher = −i E_mod σ_1 (∂_s − i A_Berry) on dimensionless Bures circle S¹ (dimensionless s, circumference L ⇒ 2πk/L − Φ_Berry/L ∈ [1]) has discrete UNBOUNDED eigenvalues = E_mod σ_1 (2πk/L − Φ_Berry/L), k ∈ ℤ',
+    collisionNote: 'H_Fisher = −i E_mod σ_1 (∂_s − i A_Berry) on compact Bures circle S¹ (dimensionless coordinate s ∈ [0, L), circumference L); wavenumber (2πk/L − Φ_Berry/L) is dimensionless, yielding discrete UNBOUNDED eigenvalues E_mod σ_1 (2πk/L − Φ_Berry/L) in Joules [J] (or eV), k ∈ ℤ',
     firstDefined: '§2.1, §3.1, §5.1'
   },
   {
@@ -163,7 +163,7 @@ export const LIST_OF_SYMBOLS: SymbolEntry[] = [
   },
   {
     symbol: 'n_s, n_T, r, f_NL^{eq}',
-    name: 'Matter-bounce primordial indices: tuned n_s ≈ 0.964, shared red n_T ≈ −0.036, r = 24c_s³ ≈ 0.012, f_NL^{eq} = −4.38',
+    name: 'Matter-bounce primordial indices: tuned n_s ≈ 0.964, shared red n_T ≈ −0.036, r = 24c_s³ = 0.0123, f_NL^{eq} = −4.38',
     units: 'Dimensionless CMB perturbation parameters',
     collisionNote: 'Fixes n_T contradiction (red, NOT blue); separates canonical matter-bounce −35/8 from DBI 1/c_s² formula',
     firstDefined: '§6.2, §7.3 (P3)'
@@ -213,13 +213,15 @@ export const LIST_OF_TABLES: { number: string; title: string; location: string }
   { number: 'Table 0.1', title: 'List of Symbols and Collision Disambiguation Rules', location: 'Summary & Indices' },
   { number: 'Table 0.2a', title: 'Dimensional-Analysis Closure — Part I: Bundle, Clock & Quantum Information (Items 1–11)', location: 'Summary & Indices / App. G' },
   { number: 'Table 0.2b', title: 'Dimensional-Analysis Closure — Part II: Gravity, Bounce, Black Holes & Metrology (Items 12–20)', location: 'Summary & Indices / App. G' },
-  { number: 'Table 0.3', title: 'Equation Index (0.1)–(8.1) and Appendices with Calibrated Status', location: 'Summary & Indices' },
+  { number: 'Table 0.3', title: 'Equation Index (0.1)–(8.1) and Appendices A–L with Calibrated Status', location: 'Summary & Indices' },
   { number: 'Table 1.1', title: 'Foundational Postulates of IGRT (Postulates I–VII)', location: '§1.4' },
   { number: 'Table 7.1', title: 'Observable Falsification Protocols (P1–P6) & Parameter Closures', location: '§7.3' },
   { number: 'Table 8.1', title: 'Comparison of IGRT With String Theory & Six Quantum-Gravity Approaches', location: '§8.1' },
-  { number: 'Table 8.2', title: 'Summary of Core Formal Results & Theorem Citations', location: '§8.1' },
+  { number: 'Table 8.2', title: 'Summary of Seven Core Formal Results & Theorem Citations', location: '§8.1' },
   { number: 'Table 8.3', title: 'Epistemic Claim, Status, Quantitative Evidence & Evasion Parameters Ledger', location: '§8.1' },
-  { number: 'Table H.1', title: 'Reproducible Numerical & Parameter Register (H_0 = 67.4–73.0)', location: 'Appendix H' }
+  { number: 'Table H.1', title: 'Reproducible Numerical & Parameter Register (H_0 = 67.4–73.0)', location: 'Appendix H' },
+  { number: 'Table I.1', title: 'Revision History (Editions H6 → H7 → H8 → H9 → H10)', location: 'Appendix I' },
+  { number: 'Table I.2', title: 'Formal Response to Reviewers Matrix (R1–R8)', location: 'Appendix I' }
 ];
 
 export interface DimensionalClosureRow {
@@ -341,10 +343,10 @@ export const DIMENSIONAL_ANALYSIS_CLOSURE_B: DimensionalClosureRow[] = [
   },
   {
     quantity: '16. Screening Z_ψ & Local Cutoff Λ_local',
-    expression: 'Z_ψ = (r_{V,⊕}/r_⊕)^{3/2};  Λ_3 = (M̄_Pl H_0²)^{1/3};  Λ_local = Z_ψ^{1/2} Λ_3',
+    expression: 'Z_ψ = (r_{V,⊕}/r_⊕)^{3/2};  Λ_3 = (M̄_Pl H_0^2)^{1/3};  Λ_local = Z_ψ^{1/2} Λ_3',
     siUnits: 'Z_ψ [1] (7.05×10^{14}); Λ_3 = 1.758×10^{−13} eV; Λ_local = 4.67 μeV',
     naturalUnits: 'Z_ψ [1]; Λ_3, Λ_local [eV]',
-    auditNote: 'Natural-unit [M̄_Pl H_0²]^{1/3} = [GeV · GeV²]^{1/3} = GeV; dressed terrestrial Galileon cutoff Λ_local = Z_ψ^{1/2} Λ_3 (4.2 cm).'
+    auditNote: 'Natural-unit [M̄_Pl · H_0²]^{1/3} = [GeV · GeV²]^{1/3} = GeV; dressed terrestrial Galileon cutoff Λ_local = Z_ψ^{1/2} Λ_3 (4.2 cm).'
   },
   {
     quantity: '17. Chameleon Mass² & CANNEX Pressure',
@@ -355,7 +357,7 @@ export const DIMENSIONAL_ANALYSIS_CLOSURE_B: DimensionalClosureRow[] = [
   },
   {
     quantity: '18. Hayward Lapse, K(0), Echoes & QES',
-    expression: 'f(r) = 1 − r_s r²/(r³ + r_s ℓ_0²);  K(0)=24/ℓ_0⁴;  r_I = r_+ − O(ℏ/(Mc))',
+    expression: 'f(r) = 1 − (r_s r^2) / (r^3 + r_s ℓ_0^2);  K(0) = 24/ℓ_0^4;  r_I = r_+ − O(ℏ/(Mc))',
     siUnits: 'f [1]; K(0) [m⁻⁴]; Δt_echo [s]; M_rem = 2.38×10^{−8} kg; S_rem [nats]',
     naturalUnits: 'f [1]; K(0) [GeV⁴]; Δt_echo [GeV⁻¹]; S_rem ≈ 6.66 [nats]',
     auditNote: 'With r_s = 2GM/c², ℓ_Pl²/r_+ = (Gℏ/c³)/(2GM/c²) = ℏ/(2Mc) has units of length [m], fixing the App. E QES error term.'
@@ -397,7 +399,7 @@ export const EQUATION_INDEX: { label: string; title: string; section: string; st
   { label: '(5.2)', title: 'Detailed-Balance Araki–BKM Gradient-Flow Dissipation Identity', section: '§5.3', status: 'Established' },
   { label: '(6.1)', title: 'L_UV Limiting-Curvature Bounce Equation & General-w Solution', section: '§6.1', status: 'Derived' },
   { label: '(6.2)', title: 'Mukhanov–Sasaki Transfer (n_s, Red n_T, r = 24c_s³, Canonical f_NL)', section: '§6.2', status: 'Input' },
-  { label: '(6.3)', title: 'Frolov–Hayward Lapse, Free ℓ_0 = ξ_0 ℓ_Pl & QES Island Remnant', section: '§6.3–6.4', status: 'Ansatz' },
+  { label: '(6.3)', title: 'Derived ξ_0 = 2^{−1/4}, Frolov–Hayward Lapse & QES Island Remnant', section: '§6.3–6.4', status: 'Derived' },
   { label: '(7.1)', title: 'Klein–Gordon Thawing w(z) & Input Holonomy Mode φ_osc Monopole Lock', section: '§7.1–7.2', status: 'Input' },
   { label: '(8.1)', title: 'Semiclassical EFT Saddle & Covariant Stress Conservation Check', section: '§8.3', status: 'Consistency' },
   { label: '(A.1)', title: 'Explicit Cubic-Galileon & Conformal Jordan–Einstein Bianchi Check', section: 'Appendix A', status: 'Consistency' },
@@ -407,7 +409,9 @@ export const EQUATION_INDEX: { label: string; title: string; section: string; st
   { label: '(E.1)', title: 'Explicit L_UV Bounce, Hayward QES O(ℏ/(Mc)) Extremization & Conditional GSL', section: 'Appendix E', status: 'Derived' },
   { label: '(F.1)', title: 'Dual-Clock Flicker/Drift & Monopole PTA σ_r = 2√[…] Budget', section: 'Appendix F', status: 'Derived' },
   { label: '(G.1)', title: 'CODATA 2022 Constants, H_0 Propagation & ρ_max in GeV⁴', section: 'Appendix G', status: 'Established' },
-  { label: '(H.1)', title: 'Reproducible Numerical Closures Verified by Monograph Script', section: 'Appendix H', status: 'Derived' }
+  { label: '(H.1)', title: 'Reproducible Numerical Closures Verified by Monograph Script', section: 'Appendix H', status: 'Derived' },
+  { label: '(K.1)', title: 'Reionization τ_re, Lensing A_L/E_G, Leptogenesis η_B & Joint Δχ² / Δln Z', section: 'Appendix K', status: 'Derived' },
+  { label: '(L.1)', title: 'Wetterich FRG Fixed Point, CDT Flow d_s, 5-Mode A_F^{H10} & Kerr–Hayward Stability', section: 'Appendix L', status: 'Derived' }
 ];
 
 export interface FrameworkComparisonRow {
@@ -426,7 +430,7 @@ export const FRAMEWORKS_COMPARISON_TABLE: FrameworkComparisonRow[] = [
     preserves4DLorentzian: 'Yes on outer & pre-Cauchy 1+1D Hayward–Vaidya domains (κ_− ℓ_0 < 1)',
     wdwUnfreezing: 'Unbounded S¹ H_Fisher (Landau–Zener k>0) via Born–Oppenheimer τ_FR',
     singularityStatus: '2-stage ekpyrotic–L_UV bounce + derived ξ_0 = 2^{−1/4} Hayward–Vaidya core',
-    openLimitations: 'φ_Ch decoupled; α_mod, κ_ψ ansatz; full 3D CAMB MCMC, non-perturbative 3+1 QG & peer review open.'
+    openLimitations: 'A_F^{H10} closes 5-scalar embedding (β_Ch tested by CANNEX); α_mod/κ_ψ ansatz; 3D CAMB MCMC, non-perturbative 3+1 QG & peer review open.'
   },
   {
     framework: 'String Theory / M-Theory',
@@ -601,16 +605,19 @@ export interface ParameterClosureRow {
   regime: string;
 }
 
+export const H10_PREREG_SHA256 =
+  '7463d7273d121f56974978982eb476855773759bb5c886c8a4d650562cd3968a';
+
 export const TABLE_H1_CLOSURES: ParameterClosureRow[] = [
   {
     parameter: 'Araki Scale Constant κ_ψ',
-    formula: 'κ_ψ = ℏ c ℓ_Pl / (12π)  (CHM central-charge / Planck ansatz)',
+    formula: 'κ_ψ = ℏc ℓ_Pl / (12π)  (CHM central-charge / Planck ansatz)',
     value: '1.355 × 10^{−62} J·m² (2.173 × 10^{−21} GeV⁻¹)',
     regime: 'Matter diamond ΔK_V = 8π²r⁴/(15ℏc) Δ⟨T_00⟩; ψ_vac = 0 (§3.2, App. C)'
   },
   {
     parameter: 'Horndeski Braiding Scale Λ_3, FRG Fixed Point & CDT d_s',
-    formula: 'Λ_3 = (M̄_Pl H_0²)^{1/3};  c_2 ~ Λ_local^{−4};  β_g(g_*,λ_*)=β_λ=0',
+    formula: 'Λ_3 = (M̄_Pl H_0^2)^{1/3};  c_2 ~ Λ_local^{−4};  β_g(g_*,λ_*)=β_λ=0',
     value: '1.758×10^{−13} eV; c_2 = 2.1×10^{57} GeV⁻⁴ > 0; (g_*,λ_*)=(1.3105, 0.1440); d_s: 3.989→2.002',
     regime: 'FRG θ_real = 4.835 > 0; Borel = 0.9126; BBN |ΔG/G| ~ 10^{−38} (§3.1, App. G/L)'
   },
@@ -652,7 +659,7 @@ export const TABLE_H1_CLOSURES: ParameterClosureRow[] = [
   },
   {
     parameter: 'Derived ξ_0 = 2^{−1/4}, Kerr–Hayward, RN–Hayward & Superradiance',
-    formula: 'K(0) = 24/ℓ_0⁴ = 48/ℓ_Pl⁴ ⇒ ξ_0 = 2^{−1/4};  |R_ergo|_max K_echo < 1',
+    formula: 'K(0) = 24/ℓ_0^4 = 48/ℓ_Pl^4 ⇒ ξ_0 = 2^{−1/4};  |R_ergo|_max K_echo < 1',
     value: 'M_rem = 1.09236 M_Pl; 1+1D max κ_− ℓ_0 = 0.9294; Kerr ≤ 0.6639; RN 0.2614; Cavity Gain 0.2048',
     regime: 'Finite de Sitter torus core K ≤ 48/ℓ_Pl⁴; S_rem = 6.66 nats; GSL conditional on QFC (App. L)'
   },
@@ -660,7 +667,7 @@ export const TABLE_H1_CLOSURES: ParameterClosureRow[] = [
     parameter: 'P2 Nanosphere, P5 CANNEX & H10 SHA-256 Digest',
     formula: 'R_0 = [3m / (4π ρ_SiO2)]^{1/3};  P_{LZ} = e^{−3.14×10²⁰};  DL split = 9.72×10^{−102}',
     value: 'R_0 = 1.028 μm; Γ_Araki = 1.18 s⁻¹ (SNR 23.5); ΔP_Ch ~ 10^{−10}–2×10^{−9} N/m² (SNR ≥10)',
-    regime: 'H10 SHA-256 digest: 7463d7273d121f56974978982eb476855773759bb5c886c8a4d650562cd3968a'
+    regime: 'See unbroken H10 SHA-256 preregistration digest bar below Table H.1'
   }
 ];
 

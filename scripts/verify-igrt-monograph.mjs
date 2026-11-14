@@ -1017,7 +1017,7 @@ requireIncludes(dataSrc, 'harmonizedPaperData.ts', [
   "anchorId: 'sec-3-4'",
   "title: 'Theorem 3.1 — Pure Horndeski Type Ia & Solar/Pulsar Vainshtein PPN Closure'",
   "status: 'Derived'",
-  '<i>V</i>″ + (β<sub>Ch</sub><sup>2</sup>/<i>M</i><sub>Pl</sub><sup>2</sup>)ρ',
+  '<i>V</i>″(φ<sub>Ch</sub>) + (β<sub>Ch</sub><sup>2</sup>/<i>M</i><sub>Pl</sub><sup>2</sup>)ρ',
   '<i>k</i><sub>B</sub><i>T</i>',
   '8π² ℓ_CG⁴ / (15 ℏc)',
   '2.1727 × 10⁻²¹ GeV⁻¹',
@@ -1047,17 +1047,52 @@ const parityTokens = [
   'WHAT_CHANGED_SUMMARY',
   'REVISION_HISTORY_TABLE',
   'RESPONSE_TO_REVIEWERS',
-  'KNOWN_OPEN_PROBLEMS'
+  'KNOWN_OPEN_PROBLEMS',
+  'H10_PREREG_SHA256'
 ];
-requireIncludes(viewSrc, 'HarmonizedResearchPaperView.tsx', ['Edition H10', 'Table 0.2a', 'Table 0.2b', 'Table I.1', 'Table I.2', ...parityTokens]);
-requireIncludes(htmlSrc, 'generateHarmonizedPaperHtml.ts', ['Edition H10', 'Table 0.2a', 'Table 0.2b', 'Table I.1', 'Table I.2', ...parityTokens]);
-requireIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts', ['EDITION H10', 'TABLE 0.2a', 'TABLE 0.2b', 'TABLE I.1', 'TABLE I.2', ...parityTokens]);
+requireIncludes(viewSrc, 'HarmonizedResearchPaperView.tsx', ['Edition H10', 'Appendices A–L', 'Table 0.2a', 'Table 0.2b', 'Table I.1', 'Table I.2', ...parityTokens]);
+requireIncludes(htmlSrc, 'generateHarmonizedPaperHtml.ts', ['Edition H10', 'Appendices A–L', 'Table 0.2a', 'Table 0.2b', 'Table I.1', 'Table I.2', ...parityTokens]);
+requireIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts', ['EDITION H10', 'Appendices A–L', 'TABLE 0.2a', 'TABLE 0.2b', 'TABLE I.1', 'TABLE I.2', ...parityTokens]);
+
+// Regression guards preventing legacy H9 SHA-256 digests, Appendices A-J labels, markdown ** leaks, or typo regressions
+const h10ForbiddenAcrossPaper = [
+  '9af9ffe2',
+  'Appendices A–J',
+  'App. A–J',
+  'free phenomenological',
+  'r k_B T',
+  '48/ℓ_PI',
+  '1π k_B',
+  'M_Pl / H_0',
+  'γ_B)',
+  'V^-',
+  '6c²/G',
+  'Z_V =',
+  'y_PPN',
+  '12n'
+];
+forbidIncludes(appSrc, 'harmonizedPaperApparatus.ts (H10 regression)', [...h10ForbiddenAcrossPaper, '∈ [1]']);
+forbidIncludes(dataSrc, 'harmonizedPaperData.ts (H10 regression)', h10ForbiddenAcrossPaper);
+assert(
+  !dataSrc.replace(/\/\*[\s\S]*?\*\//g, '').split('export function buildFullMarkdownPaper')[0].includes('**'),
+  'harmonizedPaperData.ts prose must not contain literal ** markdown bold markers'
+);
+programmaticChecks++;
+forbidIncludes(figSrc, 'HarmonizedPaperFigures.tsx (H10 regression)', [...h10ForbiddenAcrossPaper, 'r = 24c_s³ = 0.012;', 'ansatz ξ_0']);
+forbidIncludes(viewSrc, 'HarmonizedResearchPaperView.tsx (H10 regression)', h10ForbiddenAcrossPaper);
+forbidIncludes(htmlSrc, 'generateHarmonizedPaperHtml.ts (H10 regression)', h10ForbiddenAcrossPaper);
+forbidIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts (H10 regression)', h10ForbiddenAcrossPaper);
 
 // Figure 4 caption & Figure 8 SVG integrity
 requireIncludes(figSrc, 'HarmonizedPaperFigures.tsx', [
   'M̄_Pl = 2.435 × 10¹⁸ GeV',
-  'Y₀₀',
-  '2.65×10⁻²³',
+  'Appendices A–L',
+  'κ_ψ=2.173×10^{−21}',
+  'r = 24c_s^3 = 0.0123',
+  'Γ_Araki = 1.18 s^{−1}',
+  'η_Araki = 4/3',
+  'Y_{00}',
+  '2.65×10^{−23}',
   '1.028',
   '1.18',
   '0.964',
@@ -1069,11 +1104,46 @@ requireIncludes(figSrc, 'HarmonizedPaperFigures.tsx', [
   '109.2',
   '0.18',
   '2.4 meV',
-  '7.05×10¹⁴',
+  '7.05×10^{14}',
   '4.67 μeV',
   '1.84 ± 0.18 TeV',
   '1.5%'
 ]);
+
+requireIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts (SVG @font-face & glyph guards)', [
+  'data:font/ttf;base64,',
+  "return ['NotoSerif', 'italic']",
+  "cluster.includes('\\u2033')",
+  'const amp = sizeIn * 0.095;',
+  'const pxW = 3400;'
+]);
+
+// Parity checks for apparatus indices, C_ell parser support, and [1]..[106] full citation coverage
+requireIncludes(appSrc, 'harmonizedPaperApparatus.ts (H10 indices)', ['Table I.1', 'Table I.2', '(K.1)', '(L.1)']);
+const fmtSrc = fs.readFileSync(path.join(repoRoot, 'src/utils/formatMathUnicode.ts'), 'utf8');
+requireIncludes(fmtSrc, 'formatMathUnicode.ts (ell/hbar parser)', ['∞ℓℏ𝒞']);
+const proseBeforeRefs = dataSrc.split('export const HARMONIZED_PAPER_REFERENCES')[0] + '\n' + appSrc;
+const citedIds = new Set();
+for (const m of proseBeforeRefs.matchAll(/\[([0-9,\s–\-]+)\]/g)) {
+  const parts = m[1].split(',');
+  for (const part of parts) {
+    const trimmed = part.trim();
+    const rangeMatch = trimmed.match(/^(\d+)\s*[–\-]\s*(\d+)$/);
+    if (rangeMatch) {
+      const start = Number(rangeMatch[1]);
+      const end = Number(rangeMatch[2]);
+      if (start <= end && end - start <= 30) {
+        for (let k = start; k <= end; k++) citedIds.add(k);
+      }
+    } else if (/^\d+$/.test(trimmed)) {
+      citedIds.add(Number(trimmed));
+    }
+  }
+}
+for (let refId = 1; refId <= 106; refId++) {
+  assert(citedIds.has(refId), `Reference [${refId}] must be cited in monograph prose or apparatus`);
+  programmaticChecks++;
+}
 
 console.log(JSON.stringify({
   constants: { l_Pl, tau_0, M_Pl_kg, M_Pl_GeV, Mbar_Pl_GeV },

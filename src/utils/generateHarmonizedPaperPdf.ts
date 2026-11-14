@@ -43,7 +43,8 @@ import {
   WHAT_CHANGED_SUMMARY,
   REVISION_HISTORY_TABLE,
   RESPONSE_TO_REVIEWERS,
-  KNOWN_OPEN_PROBLEMS
+  KNOWN_OPEN_PROBLEMS,
+  H10_PREREG_SHA256
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
 import {
@@ -122,6 +123,7 @@ const SERIF_MISSING = new Set([
 
 const SERIF_BOLD_EXTRA_MISSING = new Set([
   '\u2102', // ℂ
+  '\u210D', // ℍ
   '\u211D', // ℝ
   '\u2124'  // ℤ
 ]);
@@ -185,6 +187,14 @@ function resolveFontForCluster(
   }
 
   // Serif family
+  // Route calligraphic script-ℓ (U+2113) directly to NotoSerif italic so it never renders like sans 't'
+  if (cluster.includes('\u2113')) {
+    return ['NotoSerif', 'italic'];
+  }
+  // Route single/double primes (′, ″) in serif to DejaVuSans for crisp double-stroke separation
+  if (cluster.includes('\u2032') || cluster.includes('\u2033')) {
+    return ['DejaVuSans', 'normal'];
+  }
   if (clusterUsesAny(cluster, SERIF_MISSING)) {
     return ['DejaVuSans', 'normal'];
   }
@@ -276,13 +286,13 @@ function flattenSegmentsToTokens(
         }
       }
     } else if (seg.type === 'sub') {
-      const subSize = Math.max(6.4, baseSize * 0.76);
+      const subSize = Math.max(6.8, baseSize * 0.78);
       const subDy = baseDy + 0.21 * (baseSize / 72);
       tokens.push(
         ...flattenSegmentsToTokens(seg.children, subSize, subDy, baseFamily, baseItalic, baseBold, true)
       );
     } else if (seg.type === 'sup') {
-      const supSize = Math.max(6.4, baseSize * 0.76);
+      const supSize = Math.max(6.8, baseSize * 0.78);
       const supDy = baseDy - 0.30 * (baseSize / 72);
       tokens.push(
         ...flattenSegmentsToTokens(seg.children, supSize, supDy, baseFamily, baseItalic, baseBold, true)
@@ -349,8 +359,8 @@ function flattenSegmentsForCanvas(
       out.push(
         ...flattenSegmentsForCanvas(
           seg.children,
-          Math.max(11, basePx * 0.74),
-          baseDyPx + basePx * 0.24,
+          Math.max(12, basePx * 0.77),
+          baseDyPx + basePx * (insideScript ? 0.14 : 0.23),
           baseItalic,
           true
         )
@@ -359,8 +369,8 @@ function flattenSegmentsForCanvas(
       out.push(
         ...flattenSegmentsForCanvas(
           seg.children,
-          Math.max(11, basePx * 0.74),
-          baseDyPx - basePx * 0.34,
+          Math.max(12, basePx * 0.77),
+          baseDyPx - basePx * (insideScript ? 0.22 : 0.34),
           baseItalic,
           true
         )
@@ -402,9 +412,17 @@ function renderRichSegmentsCanvasPng(
   const flushWord = () => {
     if (curRuns.length > 0) {
       let w = 0;
-      for (const r of curRuns) {
+      for (let ri = 0; ri < curRuns.length; ri++) {
+        const r = curRuns[ri];
+        if (ri > 0 && curRuns[ri - 1].italic && !r.italic) {
+          w += Math.max(2.4, curRuns[ri - 1].fontPx * 0.085);
+        }
         setCanvasFont(ctx, r.fontPx, r.italic);
         w += ctx.measureText(r.text).width;
+      }
+      const last = curRuns[curRuns.length - 1];
+      if (last.italic) {
+        w += Math.max(2.0, last.fontPx * 0.06);
       }
       logicalLines[logicalLines.length - 1].push({ runs: curRuns, width: w });
       curRuns = [];
@@ -425,7 +443,7 @@ function renderRichSegmentsCanvasPng(
 
   setCanvasFont(ctx, fontPx, false);
   const spaceW = ctx.measureText(' ').width;
-  const usableW = align === 'center' ? maxWidthPx - 28 : maxWidthPx;
+  const usableW = align === 'center' ? maxWidthPx - 40 : maxWidthPx;
 
   const lines: Array<{ words: CanvasWord[]; width: number }> = [];
   for (const lWords of logicalLines) {
@@ -456,9 +474,9 @@ function renderRichSegmentsCanvasPng(
 
   const canvasW =
     align === 'center'
-      ? Math.ceil(Math.min(maxWidthPx, Math.max(160, Math.max(...lines.map((l) => l.width)) + 32)))
+      ? Math.ceil(Math.min(maxWidthPx, Math.max(160, Math.max(...lines.map((l) => l.width)) + 56)))
       : Math.ceil(maxWidthPx);
-  const padTop = Math.round(fontPx * 0.25);
+  const padTop = Math.round(fontPx * 0.44);
   const canvasH = Math.max(lineH + padTop * 2, lines.length * lineH + padTop * 2);
 
   canvas.width = canvasW;
@@ -475,7 +493,11 @@ function renderRichSegmentsCanvasPng(
     let x = align === 'center' ? (canvasW - line.width) / 2 : 0;
     line.words.forEach((word, wi) => {
       if (wi > 0) x += spaceW;
-      for (const r of word.runs) {
+      for (let ri = 0; ri < word.runs.length; ri++) {
+        const r = word.runs[ri];
+        if (ri > 0 && word.runs[ri - 1].italic && !r.italic) {
+          x += Math.max(2.4, word.runs[ri - 1].fontPx * 0.085);
+        }
         setCanvasFont(drawCtx, r.fontPx, r.italic);
         drawCtx.fillText(r.text, x, baseY + r.dyPx);
         x += drawCtx.measureText(r.text).width;
@@ -504,7 +526,7 @@ function renderUnicodeEquationPng(
     360,
     'center',
     '#0F172A',
-    1.54
+    1.64
   );
 }
 
@@ -529,12 +551,17 @@ function renderPlayfairRegularHeadlinePng(
 
 async function rasterizeSvgToPng(
   svgMarkup: string,
-  targetWidthInches: number
+  targetWidthInches: number,
+  embeddedSansBase64?: string
 ): Promise<{ dataUrl: string; widthIn: number; heightIn: number } | null> {
   if (typeof document === 'undefined') return null;
   return new Promise((resolve) => {
     try {
-      const formattedSvg = formatSvgMathMarkup(pdfBmpSafeUnicode(svgMarkup));
+      let formattedSvg = formatSvgMathMarkup(pdfBmpSafeUnicode(svgMarkup));
+      if (embeddedSansBase64) {
+        const styleBlock = `<defs><style type="text/css">@font-face { font-family: 'DejaVu Sans'; font-weight: 100 900; font-style: normal; src: url("data:font/ttf;base64,${embeddedSansBase64}") format("truetype"); }</style></defs>`;
+        formattedSvg = formattedSvg.replace(/(<svg[^>]*>)/i, `$1${styleBlock}`);
+      }
       const vbMatch = formattedSvg.match(/viewBox="0 0 (\d+) (\d+)"/);
       const vbW = vbMatch ? Number(vbMatch[1]) : 860;
       const vbH = vbMatch ? Number(vbMatch[2]) : 340;
@@ -544,7 +571,7 @@ async function rasterizeSvgToPng(
       const url = URL.createObjectURL(svgBlob);
       const img = new Image();
       img.onload = () => {
-        const pxW = 2600;
+        const pxW = 3400;
         const pxH = Math.round(pxW * aspect);
         const canvas = document.createElement('canvas');
         canvas.width = pxW;
@@ -666,6 +693,12 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     }
   };
 
+  let activeInkRgb: [number, number, number] = [24, 34, 56];
+  const setInkColor = (rgb: [number, number, number]) => {
+    activeInkRgb = rgb;
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+  };
+
   const measureTextMixed = (
     text: string,
     reqFamily: FontFamilyKey,
@@ -677,9 +710,62 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     for (const c of chunks) {
       doc.setFont(c.fontName, c.fontStyle);
       doc.setFontSize(size);
-      total += doc.getTextWidth(c.text);
+      const baseText = COMBINING_RE.test(c.text)
+        ? c.text.replace(/[\u0300-\u036F\u20D0-\u20FF]/g, '')
+        : c.text;
+      total += doc.getTextWidth(baseText);
     }
     return total;
+  };
+
+  const drawVectorCombiningAccent = (
+    base: string,
+    marks: string[],
+    cx: number,
+    baselineY: number,
+    w: number,
+    size: number
+  ) => {
+    const sizeIn = size / 72;
+    const isTall = /[A-ZΑ-ΩΔΘΛΞΠΣΦΨΩbdfhklt]/.test(base);
+    const ay = baselineY - sizeIn * (isTall ? 0.85 : 0.65);
+    const xMid = cx + w * 0.50;
+    const span = Math.max(w * 0.76, sizeIn * 0.38);
+    const strokeW = Math.max(0.006, sizeIn * 0.072);
+
+    doc.setDrawColor(activeInkRgb[0], activeInkRgb[1], activeInkRgb[2]);
+    doc.setFillColor(activeInkRgb[0], activeInkRgb[1], activeInkRgb[2]);
+    doc.setLineWidth(strokeW);
+
+    for (const m of marks) {
+      if (m === '\u0304') {
+        doc.line(xMid - span * 0.52, ay, xMid + span * 0.52, ay);
+      } else if (m === '\u0303') {
+        const x0 = xMid - span * 0.56;
+        const dx = (span * 1.12) / 3;
+        const amp = sizeIn * 0.095;
+        doc.line(x0, ay + amp * 0.5, x0 + dx, ay - amp);
+        doc.line(x0 + dx, ay - amp, x0 + 2 * dx, ay + amp);
+        doc.line(x0 + 2 * dx, ay + amp, x0 + 3 * dx, ay - amp * 0.5);
+      } else if (m === '\u0302') {
+        const amp = sizeIn * 0.085;
+        doc.line(xMid - span * 0.48, ay + amp * 0.5, xMid, ay - amp * 0.75);
+        doc.line(xMid, ay - amp * 0.75, xMid + span * 0.48, ay + amp * 0.5);
+      } else if (m === '\u0307') {
+        doc.circle(xMid, ay, strokeW * 1.15, 'F');
+      } else if (m === '\u0308') {
+        const sep = Math.max(w * 0.20, strokeW * 2.2);
+        doc.circle(xMid - sep, ay, strokeW * 1.05, 'F');
+        doc.circle(xMid + sep, ay, strokeW * 1.05, 'F');
+      } else if (m === '\u20D7') {
+        const xL = xMid - span * 0.56;
+        const xR = xMid + span * 0.56;
+        const tip = sizeIn * 0.075;
+        doc.line(xL, ay, xR, ay);
+        doc.line(xR - tip * 1.2, ay - tip * 0.75, xR, ay);
+        doc.line(xR - tip * 1.2, ay + tip * 0.75, xR, ay);
+      }
+    }
   };
 
   const drawTextMixed = (
@@ -695,8 +781,25 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     for (const c of chunks) {
       doc.setFont(c.fontName, c.fontStyle);
       doc.setFontSize(size);
-      doc.text(c.text, cx, baselineY);
-      cx += doc.getTextWidth(c.text);
+      if (!COMBINING_RE.test(c.text)) {
+        doc.text(c.text, cx, baselineY);
+        cx += doc.getTextWidth(c.text);
+      } else {
+        const clusters = splitGraphemeClusters(c.text);
+        for (const cl of clusters) {
+          if (!COMBINING_RE.test(cl)) {
+            doc.text(cl, cx, baselineY);
+            cx += doc.getTextWidth(cl);
+          } else {
+            const base = cl.replace(/[\u0300-\u036F\u20D0-\u20FF]/g, '');
+            const marks = [...cl].filter((ch) => COMBINING_RE.test(ch));
+            doc.text(base, cx, baselineY);
+            const w = doc.getTextWidth(base);
+            drawVectorCombiningAccent(base, marks, cx, baselineY, w, size);
+            cx += w;
+          }
+        }
+      }
     }
     return cx - x;
   };
@@ -758,7 +861,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         safeWords.push(word);
       } else {
         const single = word.runs[0];
-        const parts = single.text.split(/(?<=[\/\-_])/).filter(Boolean);
+        const parts = single.text.split(/(?<=[\/\-\u2013_])/).filter(Boolean);
         let buf = '';
         const pushBuf = (txt: string) => {
           if (!txt) return;
@@ -833,6 +936,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     const justify = opts.justify ?? true;
 
     doc.setTextColor(color[0], color[1], color[2]);
+    activeInkRgb = color;
 
     if (opts.preformatted) {
       const rawLines = pdfBmpSafeUnicode(text).split('\n');
@@ -1033,6 +1137,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
 
       if (label) {
         doc.setTextColor(139, 69, 19);
+        activeInkRgb = [139, 69, 19];
         const safeLabel = pdfBmpSafeUnicode(label);
         const lw = measureTextMixed(safeLabel, 'mono', 'normal', 9.5);
         drawTextMixed(
@@ -1051,6 +1156,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         doc.line(MARGIN + 0.14, divY, PAGE_W - MARGIN - 0.14, divY);
         let cy = divY + 0.17;
         doc.setTextColor(71, 85, 105);
+        activeInkRgb = [71, 85, 105];
         const availCapW = CONTENT_W - 0.4;
         for (let li = 0; li < capLines.length; li++) {
           const lineWords = capLines[li];
@@ -1128,6 +1234,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           doc.line(cx, y, cx, y + maxH);
         }
         doc.setTextColor(15, 23, 42);
+        activeInkRgb = [15, 23, 42];
         let ly = y + padY + headerSize / 72;
         for (const lineWords of headerLinesPerCol[ci].lines) {
           let lx = cx + padX;
@@ -1193,7 +1300,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           doc.line(cx, y, cx, y + rowH);
         }
         const colColor = col.color ?? [24, 34, 56];
-        doc.setTextColor(colColor[0], colColor[1], colColor[2]);
+        setInkColor(colColor);
 
         const cellRes = prepared[ci];
         const availW = col.width - 2 * padX;
@@ -1278,14 +1385,14 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     doc.rect(MARGIN, y, CONTENT_W, totalH, 'FD');
 
     let cy = y + boxPad + 0.04;
-    doc.setTextColor(139, 69, 19);
+    setInkColor([139, 69, 19]);
     drawTextMixed(`FORMAL STATEMENT  ·  ${theoremBox.number.toUpperCase()}`, MARGIN + boxPad, cy, 'sans', 'normal', 8);
     cy += 0.08;
     doc.setDrawColor(226, 217, 200);
     doc.line(MARGIN + boxPad, cy, PAGE_W - MARGIN - boxPad, cy);
     cy += 0.15;
 
-    doc.setTextColor(15, 23, 42);
+    setInkColor([15, 23, 42]);
     for (const lw of titleRes.lines) {
       let lx = MARGIN + boxPad;
       for (let wi = 0; wi < lw.length; wi++) {
@@ -1322,6 +1429,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     };
 
     doc.setTextColor(24, 34, 56);
+    activeInkRgb = [24, 34, 56];
     drawJustifiedBlock(hypRes);
     cy += 0.08;
     drawJustifiedBlock(stmtRes);
@@ -1394,14 +1502,14 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     doc.rect(MARGIN, y, CONTENT_W, totalH, 'FD');
 
     let cy = y + boxPad + 0.04;
-    doc.setTextColor(21, 128, 61);
+    setInkColor([21, 128, 61]);
     drawTextMixed('WORKED EXAMPLE  ·  EXPLICIT VERIFICATION', MARGIN + boxPad, cy, 'sans', 'normal', 8);
     cy += 0.08;
     doc.setDrawColor(226, 217, 200);
     doc.line(MARGIN + boxPad, cy, PAGE_W - MARGIN - boxPad, cy);
     cy += 0.15;
 
-    doc.setTextColor(15, 23, 42);
+    setInkColor([15, 23, 42]);
     for (const lw of titleRes.lines) {
       let lx = MARGIN + boxPad;
       for (let wi = 0; wi < lw.length; wi++) {
@@ -1438,6 +1546,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     };
 
     doc.setTextColor(24, 34, 56);
+    activeInkRgb = [24, 34, 56];
     drawJustifiedInner(setupRes);
     cy += 0.07;
 
@@ -1458,6 +1567,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       doc.addImage(eqImg.dataUrl, 'PNG', eqX, cy + 0.11, eqImg.widthIn, eqImg.heightIn);
       if (worked.resultEquation.label) {
         doc.setTextColor(139, 69, 19);
+        activeInkRgb = [139, 69, 19];
         const safeLabel = pdfBmpSafeUnicode(worked.resultEquation.label);
         const lw = measureTextMixed(safeLabel, 'mono', 'normal', 9.0);
         drawTextMixed(
@@ -1471,6 +1581,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       }
     } else {
       doc.setTextColor(15, 23, 42);
+      activeInkRgb = [15, 23, 42];
       const fallbackText = pdfBmpSafeUnicode(worked.resultEquation.unicodeHtml.replace(/<[^>]+>/g, ''));
       drawTextMixed(fallbackText, MARGIN + boxPad + 0.12, cy + 0.25, 'serif', 'italic', 10.0);
     }
@@ -1481,11 +1592,13 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       doc.line(MARGIN + boxPad + 0.1, cy - 0.02, MARGIN + boxPad + innerW - 0.1, cy - 0.02);
       cy += 0.12;
       doc.setTextColor(71, 85, 105);
+      activeInkRgb = [71, 85, 105];
       drawJustifiedInner(capRes, 0.12, innerW - 0.24, capLineH);
     }
     cy += 0.12;
 
     doc.setTextColor(24, 34, 56);
+    activeInkRgb = [24, 34, 56];
     drawJustifiedInner(takeRes);
 
     y += totalH + 0.16;
@@ -1494,7 +1607,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   // Pre-rasterize all 8 SVG diagrams
   const figureImages = new Map<number, { dataUrl: string; widthIn: number; heightIn: number }>();
   for (const fig of PAPER_FIGURES) {
-    const png = await rasterizeSvgToPng(fig.svgMarkup, CONTENT_W - 0.1);
+    const png = await rasterizeSvgToPng(fig.svgMarkup, CONTENT_W - 0.1, fontsLoaded?.sansRegular);
     if (png) figureImages.set(fig.id, png);
   }
 
@@ -1584,7 +1697,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     }
   }
   drawRule([226, 217, 200], 0.006);
-  writeRichParagraph('Appendices A–J: Formal Theorems, CODATA Units, Derivations & Revision Registry', {
+  writeRichParagraph('Appendices A–L: Formal Theorems, CODATA Units, Derivations, Revision Registry & H10 Closures', {
     size: 10.2,
     style: 'bold',
     justify: false,
@@ -1631,13 +1744,13 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   drawPdfTable(
     'TABLE 0.1: LIST OF SYMBOLS & COLLISION DISAMBIGUATION',
     [
-      { header: 'Symbol', width: 1.15, font: 'sans', style: 'normal', color: [139, 69, 19] },
-      { header: 'Definition', width: 2.04, justify: true },
-      { header: 'Units', width: 1.18, font: 'sans' },
-      { header: 'Collision Disambiguation', width: CONTENT_W - 4.37, justify: true }
+      { header: 'Symbol', width: 1.20, font: 'serif', style: 'normal', color: [139, 69, 19] },
+      { header: 'Definition', width: 1.98, justify: true },
+      { header: 'Units', width: 1.24, font: 'serif' },
+      { header: 'Collision Disambiguation', width: CONTENT_W - 4.42, justify: true }
     ],
     LIST_OF_SYMBOLS.map((sym) => [sym.symbol, sym.name, sym.units, sym.collisionNote]),
-    { cellSize: 8.3, padX: 0.06 }
+    { cellSize: 8.4, padX: 0.06 }
   );
 
   drawPdfTable(
@@ -1654,25 +1767,25 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   drawPdfTable(
     'TABLE 0.2a: DIMENSIONAL-ANALYSIS CLOSURE — PART I (ITEMS 1–11)',
     [
-      { header: 'Quantity', width: 1.38, justify: false },
-      { header: 'Expression', width: 1.80, font: 'sans' },
-      { header: 'SI / Natural Units', width: 1.34, font: 'sans' },
-      { header: 'Derivation & Tally Note', width: CONTENT_W - 4.52, justify: true }
+      { header: 'Quantity', width: 1.28, justify: false },
+      { header: 'Expression', width: 2.02, font: 'serif' },
+      { header: 'SI / Natural Units', width: 1.24, font: 'serif' },
+      { header: 'Derivation & Tally Note', width: CONTENT_W - 4.54, justify: true }
     ],
     DIMENSIONAL_ANALYSIS_CLOSURE_A.map((d) => [d.quantity, d.expression, `${d.siUnits} / ${d.naturalUnits}`, d.auditNote]),
-    { cellSize: 8.3, padX: 0.06 }
+    { cellSize: 8.6, padX: 0.06 }
   );
 
   drawPdfTable(
     'TABLE 0.2b: DIMENSIONAL-ANALYSIS CLOSURE — PART II (ITEMS 12–20)',
     [
-      { header: 'Quantity', width: 1.38, justify: false },
-      { header: 'Expression', width: 1.80, font: 'sans' },
-      { header: 'SI / Natural Units', width: 1.34, font: 'sans' },
-      { header: 'Derivation & Tally Note', width: CONTENT_W - 4.52, justify: true }
+      { header: 'Quantity', width: 1.28, justify: false },
+      { header: 'Expression', width: 2.02, font: 'serif' },
+      { header: 'SI / Natural Units', width: 1.24, font: 'serif' },
+      { header: 'Derivation & Tally Note', width: CONTENT_W - 4.54, justify: true }
     ],
     DIMENSIONAL_ANALYSIS_CLOSURE_B.map((d) => [d.quantity, d.expression, `${d.siUnits} / ${d.naturalUnits}`, d.auditNote]),
-    { cellSize: 8.3, padX: 0.06 }
+    { cellSize: 8.6, padX: 0.06 }
   );
 
   writeRichParagraph('LIST OF FIGURES', {
@@ -1789,10 +1902,10 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         drawPdfTable(
           'TABLE 7.1: EXPERIMENTAL & OBSERVATIONAL FALSIFICATION PROTOCOLS (P1–P6)',
           [
-            { header: 'ID', width: 0.42, font: 'sans', style: 'normal', color: [139, 69, 19] },
-            { header: 'Protocol & Facility', width: 1.55 },
-            { header: 'Observable Formula', width: 1.92, font: 'sans' },
-            { header: 'Signal Budget & Falsification', width: CONTENT_W - 3.89, justify: true }
+            { header: 'ID', width: 0.42, font: 'serif', style: 'bold', color: [139, 69, 19] },
+            { header: 'Protocol & Facility', width: 1.50 },
+            { header: 'Observable Formula', width: 1.96, font: 'serif' },
+            { header: 'Signal Budget & Falsification', width: CONTENT_W - 3.88, justify: true }
           ],
           AUDITED_TEST_PROTOCOLS.map((pr) => [
             `P${pr.id}`,
@@ -1800,7 +1913,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
             { html: pr.formulaHtml },
             `${pr.predictedSignal} (${pr.noiseAndAuditNote}) Falsification: ${pr.falsificationCriterion}`
           ]),
-          { cellSize: 8.2, padX: 0.06 }
+          { cellSize: 8.3, padX: 0.06 }
         );
       }
 
@@ -1852,7 +1965,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
             row.evidenceAndDerivation,
             row.evasionOrFreeParameter
           ]),
-          { cellSize: 8.0, padX: 0.06 }
+          { cellSize: 8.35, padX: 0.06 }
         );
       }
 
@@ -1885,10 +1998,10 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   }
 
   // =========================================================
-  // APPENDICES A–J
+  // APPENDICES A–L
   // =========================================================
   startChapterOnNewPage();
-  drawPlayfairHeadline('Appendices A–J: Derivations, Units & Technical FAQ', 28, 0.18);
+  drawPlayfairHeadline('Appendices A–L: Derivations, Units & Technical FAQ', 28, 0.18);
   for (const app of PAPER_APPENDICES) {
     if (y > MARGIN + 0.25) {
       y += 0.18;
@@ -1918,23 +2031,35 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       drawPdfTable(
         'TABLE H.1: COMPLETE NUMERICAL & PARAMETER CLOSURE SUMMARY',
         [
-          { header: 'Parameter / Scale', width: 1.38 },
-          { header: 'Defining Relation', width: 1.84, font: 'sans' },
-          { header: 'Numerical Value', width: 1.54, font: 'sans' },
-          { header: 'Regime / Protocol', width: CONTENT_W - 4.76, justify: true }
+          { header: 'Parameter / Scale', width: 1.30 },
+          { header: 'Defining Relation', width: 2.02, font: 'serif' },
+          { header: 'Numerical Value', width: 1.50, font: 'serif' },
+          { header: 'Regime / Protocol', width: CONTENT_W - 4.82, justify: true }
         ],
         TABLE_H1_CLOSURES.map((row) => [row.parameter, row.formula, row.value, row.regime]),
-        { cellSize: 8.2, padX: 0.06 }
+        { cellSize: 8.6, padX: 0.06 }
       );
+      ensureSpace(0.45);
+      doc.setFillColor(250, 246, 238);
+      doc.setDrawColor(214, 202, 190);
+      doc.setLineWidth(0.009);
+      doc.rect(MARGIN, y, CONTENT_W, 0.36, 'FD');
+      doc.setTextColor(139, 69, 19);
+      activeInkRgb = [139, 69, 19];
+      drawTextMixed('H10 PREREGISTRATION DIGEST (SHA-256):', MARGIN + 0.08, y + 0.145, 'sans', 'normal', 7.4);
+      doc.setTextColor(15, 23, 42);
+      activeInkRgb = [15, 23, 42];
+      drawTextMixed(H10_PREREG_SHA256, MARGIN + 0.08, y + 0.285, 'mono', 'normal', 8.1);
+      y += 0.50;
     }
     if (app.letter === 'I') {
       drawPdfTable(
         'TABLE I.1: REVISION HISTORY (EDITIONS H6 → H7 → H8 → H9 → H10)',
         [
-          { header: 'Edition', width: 1.05, font: 'serif', style: 'bold', color: [139, 69, 19] },
-          { header: 'Scope', width: 1.15, justify: true },
+          { header: 'Edition', width: 1.12, font: 'serif', style: 'bold', color: [139, 69, 19] },
+          { header: 'Scope', width: 1.13, justify: true },
           { header: 'Physics & Numerical Closures', width: 2.25, justify: true },
-          { header: 'Editorial & Verification Closures', width: CONTENT_W - 4.45, justify: true }
+          { header: 'Editorial & Verification Closures', width: CONTENT_W - 4.50, justify: true }
         ],
         REVISION_HISTORY_TABLE.map((rev) => [
           rev.edition,
@@ -1947,10 +2072,10 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       drawPdfTable(
         'TABLE I.2: FORMAL RESPONSE TO REVIEWERS MATRIX',
         [
-          { header: 'Topic / ID', width: 1.12, font: 'serif', style: 'bold', color: [139, 69, 19] },
-          { header: 'Referee Concern Summary', width: 1.55, justify: true },
-          { header: 'Resolution & Exact Monograph Location', width: CONTENT_W - 3.35, justify: true },
-          { header: 'Status', width: 0.68, font: 'sans', style: 'normal', color: [21, 128, 61] }
+          { header: 'Topic / ID', width: 1.05, font: 'serif', style: 'bold', color: [139, 69, 19] },
+          { header: 'Referee Concern Summary', width: 1.50, justify: true },
+          { header: 'Resolution & Exact Monograph Location', width: CONTENT_W - 3.50, justify: true },
+          { header: 'Status', width: 0.95, font: 'serif', style: 'normal', color: [21, 128, 61] }
         ],
         RESPONSE_TO_REVIEWERS.map((resp) => [
           resp.issueId,
@@ -2053,6 +2178,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     doc.setDrawColor(214, 202, 190);
     doc.setLineWidth(0.006);
     doc.setTextColor(110, 120, 138);
+    activeInkRgb = [110, 120, 138];
     if (p > 1) {
       const headerTxt = 'Information-Geometric Resonant Time (IGRT) — Harmonized Research Monograph';
       const hw = measureTextMixed(headerTxt, 'serif', 'italic', 8.4);

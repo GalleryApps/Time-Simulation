@@ -75,7 +75,7 @@ export function runFullStressTest(params: SimulationParams): {
 
   // Primordial Gravitational Wave power spectra
   // Model A: Information-geometric action softens tensor-to-scalar ratio r and modifies tilt n_t
-  const tensorToScalarRatio_r_igig = 0.0123; // H9 k-essence bounce prediction r = 24 c_s^3 (c_s = 0.08)
+  const tensorToScalarRatio_r_igig = 0.0123; // H10 k-essence bounce prediction r = 24 c_s^3 (c_s = 0.08)
   const tensorTilt_nt_igig = -0.0363; // Shared red tensor tilt n_T = n_s - 1
   
   // Model B: Discrete sprinkling induces stochastic tensor fluctuations

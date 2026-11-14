@@ -19,8 +19,8 @@ const URL_OR_NON_MATH_RE = /(https?:\/\/[^\s)]+|arXiv:[^\s)]+|DOI:[^\s)]+|@artic
 
 // Subscript/superscript unbraced token pattern
 // Matches: "4,X", "x₁", "x₂", alphanumeric + Greek tokens, or single symbol (*, +, −, ±, ⊙, ∞)
-const UNBRACED_SUB_RE = /^(4,X|x[₁₂]|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχ∞𝒞𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±⊙⊕∞])/;
-const UNBRACED_SUP_RE = /^(\([+\-−]?\d+\)|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχ∞𝒞𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±∞])/;
+const UNBRACED_SUB_RE = /^(4,X|x[₁₂]|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχ∞ℓℏ𝒞𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±⊙⊕∞])/;
+const UNBRACED_SUP_RE = /^(\([+\-−]?\d+\)|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχ∞ℓℏ𝒞𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±∞])/;
 
 function findMatchingBrace(str: string, openIdx: number): number {
   let depth = 0;
@@ -201,12 +201,12 @@ function segmentsToSvgTspans(segs: MathSegment[], baseFontSize: number): string 
   return segs
     .map((seg) => {
       if (seg.type === 'text') return escapeHtml(seg.text);
-      const smallSize = (baseFontSize * 0.74).toFixed(1);
+      const smallSize = (baseFontSize * 0.78).toFixed(1);
       if (seg.type === 'sub') {
-        return `<tspan baseline-shift="sub" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.74)}</tspan>`;
+        return `<tspan baseline-shift="sub" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.78)}</tspan>`;
       }
       if (seg.type === 'sup') {
-        return `<tspan baseline-shift="super" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.74)}</tspan>`;
+        return `<tspan baseline-shift="super" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.78)}</tspan>`;
       }
       return `<tspan font-style="italic">${segmentsToSvgTspans(seg.children, baseFontSize)}</tspan>`;
     })

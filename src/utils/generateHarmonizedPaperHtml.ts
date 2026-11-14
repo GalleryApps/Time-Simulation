@@ -39,7 +39,8 @@ import {
   WHAT_CHANGED_SUMMARY,
   REVISION_HISTORY_TABLE,
   RESPONSE_TO_REVIEWERS,
-  KNOWN_OPEN_PROBLEMS
+  KNOWN_OPEN_PROBLEMS,
+  H10_PREREG_SHA256
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
 import { formatMathToHtml, formatSvgMathMarkup } from './formatMathUnicode';
@@ -200,6 +201,7 @@ export function buildSelfContainedMonographHtml(): string {
     (row) =>
       `<tr><td>${fmt(row.parameter)}</td><td>${fmt(row.formula)}</td><td>${fmt(row.value)}</td><td>${fmt(row.regime)}</td></tr>`
   ).join('')}</tbody>
+  <tfoot><tr><td colspan="4" style="font-family:var(--paper-font-mono);font-size:12px;white-space:nowrap;background:#FAF6EE;"><strong>H10 Preregistration Digest (SHA-256):</strong> ${H10_PREREG_SHA256}</td></tr></tfoot>
 </table>`
       : ''
   }
@@ -210,7 +212,7 @@ export function buildSelfContainedMonographHtml(): string {
   <thead><tr><th>Edition</th><th>Scope</th><th>Physics &amp; Numerical Closures</th><th>Editorial &amp; Verification Closures</th></tr></thead>
   <tbody>${REVISION_HISTORY_TABLE.map(
     (rev) =>
-      `<tr><td><strong>${esc(rev.edition)}</strong></td><td>${fmt(rev.scope)}</td><td>${fmt(rev.physicsAndNumericalClosures)}</td><td>${fmt(rev.editorialAndVerificationClosures)}</td></tr>`
+      `<tr><td><strong>${fmt(rev.edition)}</strong></td><td>${fmt(rev.scope)}</td><td>${fmt(rev.physicsAndNumericalClosures)}</td><td>${fmt(rev.editorialAndVerificationClosures)}</td></tr>`
   ).join('')}</tbody>
 </table>
 <table class="data-table">
@@ -218,7 +220,7 @@ export function buildSelfContainedMonographHtml(): string {
   <thead><tr><th>Topic / ID</th><th>Referee Concern Summary</th><th>Resolution &amp; Exact Monograph Location</th><th>Status</th></tr></thead>
   <tbody>${RESPONSE_TO_REVIEWERS.map(
     (resp) =>
-      `<tr><td><strong>${esc(resp.issueId)}</strong></td><td>${fmt(resp.concernSummary)}</td><td>${fmt(resp.resolutionAndLocation)}</td><td><strong>${esc(resp.status)}</strong></td></tr>`
+      `<tr><td><strong>${fmt(resp.issueId)}</strong></td><td>${fmt(resp.concernSummary)}</td><td>${fmt(resp.resolutionAndLocation)}</td><td><strong>${fmt(resp.status)}</strong></td></tr>`
   ).join('')}</tbody>
 </table>
 <h4>Known Open Problems (OP-1 to OP-5)</h4>
@@ -600,7 +602,7 @@ export function buildSelfContainedMonographHtml(): string {
             <ul>${ch.subsections.map((s) => `<li>${esc(s.number)} ${fmt(s.title)}</li>`).join('')}</ul>
           </li>`
       ).join('')}
-      <li><strong>Appendices A–J:</strong> Formal Theorems, CODATA Constants, Numerical Derivations &amp; Revision Registry</li>
+      <li><strong>Appendices A–L:</strong> Formal Theorems, CODATA Constants, Numerical Derivations, Revision Registry &amp; H10 Closures</li>
       <li><strong>Backmatter:</strong> Governance Disclosures (CRediT, COI, Data, Funding) · References [1]–[${PAPER_REFERENCES.length}]</li>
     </ul>
   </nav>
@@ -676,10 +678,10 @@ export function buildSelfContainedMonographHtml(): string {
   <!-- CHAPTERS 1 TO 8 -->
   ${chaptersHtml}
 
-  <!-- APPENDICES A TO J -->
+  <!-- APPENDICES A TO L -->
   <section id="appendices" class="chapter-start">
     <div class="chapter-kicker">Technical &amp; Derivation Appendices</div>
-    <h2>Formal Derivations, Constant Register &amp; Technical FAQ (Appendices A–J)</h2>
+    <h2>Formal Derivations, Constant Register &amp; Technical FAQ (Appendices A–L)</h2>
     ${appendicesHtml}
   </section>
 

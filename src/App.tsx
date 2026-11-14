@@ -130,14 +130,14 @@ export default function App() {
     { id: 'tech-drive', tab: 'refined-model-tech', title: 'Reactionless Fisher Information-Geometric Space Drive', category: 'Avant-Garde Technology', desc: 'Propellantless propulsion utilizing asymmetric Fisher-Rao energy-momentum gradients to reach Mars in 72 hours.' },
     { id: 'tech-chrono', tab: 'refined-model-tech', title: 'Chrono-Metric Modulation Well (Engineered Proper Time dτ/dt)', category: 'Avant-Garde Technology', desc: 'Local pacing of proper-time flow rate without extreme relativistic velocity or gravitational mass.' },
     { id: 'tech-power', tab: 'refined-model-tech', title: 'Frolov-Hayward Planck-Remnant Micro-Singularity Power Core', category: 'Avant-Garde Technology', desc: '100% mass-to-energy conversion (E=mc²) catalyzed by non-singular curvature-saturated Planck remnants.' },
-    { id: 'hm-1', tab: 'harmonized-model', title: 'The Harmonized Model (IGRT-2026-H9)', category: 'Core Synthesis', desc: 'IGRT-2026-H9 audited framework (1,340/1,740 Raw · 1,337/1,665 Applicable): luminal Type Ia Horndeski (G_{4,X}=0), A_F 4-mode packaging, Araki Type III_1, derived Hayward ξ_0=2⁻¹/⁴, and OP-1..OP-5 scoped.' },
+    { id: 'hm-1', tab: 'harmonized-model', title: 'The Harmonized Model (IGRT-2026-H10)', category: 'Core Synthesis', desc: 'IGRT-2026-H10 audited framework (1,354/1,740 Raw · 1,351/1,665 Applicable): Type Ia Horndeski, 5-mode A_F^{H10}, Wetterich FRG/CDT, Kerr/RN–Hayward, App. K cosmology, and OP-1..OP-5 scoped.' },
     { id: 'adv-580', tab: 'adversarial-panel-580', title: '580-Criterion Comprehensive Adversarial Stress Test', category: 'Adversarial Evaluation', desc: 'Comprehensive multi-stage stress test: 500 baseline criteria, 80 new synthesis criteria (XI & XII), 20 direct attacks, and 380 upgrade gates.' },
     { id: 'hm-sim', tab: 'harmonized-model', title: 'Live Computational Laboratory & Audio Synthesizer', category: 'Interactive Simulator', desc: 'FLRW Quantum Bounce engine, 2:1 Lissajous resonance audio synthesizer, PNGB w(z) dark energy explorer, and Chameleon–Vainshtein / derived Hayward remnant calculator.' },
-    { id: 'hp-1', tab: 'harmonized-paper', title: 'Harmonized Model: Full Publishable Research Paper (IGRT-2026-H9)', category: 'Devoted Paper', desc: 'Complete 8-chapter publishable research monograph for IGRT-2026-H9 with Appendices A–J, claim ledger, SHA-256 preregistration digest, HTML/MD download, and DejaVuSans PDF export.' },
+    { id: 'hp-1', tab: 'harmonized-paper', title: 'Harmonized Model: Full Publishable Research Paper (IGRT-2026-H10)', category: 'Devoted Paper', desc: 'Complete 8-chapter publishable research monograph for IGRT-2026-H10 with Appendices A–L, claim ledger, SHA-256 preregistration digest, HTML/MD download, and Unicode PDF export.' },
     { id: 'c500', tab: 'criteria500', title: '500-Criterion Adversarial Matrix', category: 'Evaluation Matrix', desc: 'Granular point-by-point audit across 10 domains with filterable search and verified scores.' },
     { id: 'usim', tab: 'universesim', title: 'Dual Universe Simulation (Model A vs B)', category: 'Interactive Simulation', desc: 'Side-by-side comparative simulation across 5 physical scenarios with high-DPI canvases and coordinate probes.' },
     { id: 'harm1500', tab: 'harmonization', title: '1,500 Harmonization Lab & 6 Studies', category: 'Synthesis Lab', desc: 'Six independent formal studies proving the mathematical closure of the Bulaqueña–Tassan synthesis.' },
-    { id: 'hstresstest', tab: 'harmonized-stresstest', title: 'Harmonized Model Solo 980-Vector Re-Stress-Test (H9)', category: 'Solo Re-Stress-Test', desc: 'Standalone IGRT-2026-H9 stress test across 580 criteria (1,340/1,740 Raw · 1,337/1,665 Applicable), 20 attacks (0 Open), and 380 upgrades.' },
+    { id: 'hstresstest', tab: 'harmonized-stresstest', title: 'Harmonized Model Solo 980-Vector Re-Stress-Test (H10)', category: 'Solo Re-Stress-Test', desc: 'Standalone IGRT-2026-H10 stress test across 580 criteria (1,354/1,740 Raw · 1,351/1,665 Applicable), 20 attacks (0 Open), and 380 upgrades.' },
     { id: 'redteam', tab: 'redteam', title: '20 Red-Team Hard Attacks & Stress Runner', category: 'Adversarial Attacks', desc: '20 severe stress attacks across 4 waves testing Wheeler–DeWitt freeze, GRBs, and black hole unitarity.' },
     { id: 'counter', tab: 'counterfactual', title: '14 Counterfactual Worlds & 2D Phase Map', category: 'Gedanken Experiments', desc: 'Explores parameter extremes: Planckian saturation, zero-entropy cosmos, and pure Markovian collapse.' },
     { id: 'eq-master', tab: 'harmonized-paper', title: 'Master Equivalence Identity (dτ = Arc-Length = Flux)', category: 'Key Equation', desc: 'Equates proper time to Fisher–Rao quantum arc length and O(N⁻²) Uhlmann–Frobenius resonance flux.' },
@@ -269,7 +269,7 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               }`}
             >
               <span>The Harmonized Model</span>
-              <span className="font-mono text-[10px] opacity-90">H9</span>
+              <span className="font-mono text-[10px] opacity-90">H10</span>
             </button>
             <button
               onClick={() => setActiveTab('harmonized-stresstest')}

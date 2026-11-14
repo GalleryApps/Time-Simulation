@@ -45,7 +45,8 @@ import {
   WHAT_CHANGED_SUMMARY,
   REVISION_HISTORY_TABLE,
   RESPONSE_TO_REVIEWERS,
-  KNOWN_OPEN_PROBLEMS
+  KNOWN_OPEN_PROBLEMS,
+  H10_PREREG_SHA256
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES, HarmonizedPaperFigure } from './HarmonizedPaperFigures';
 import { MathText } from './MathText';
@@ -368,7 +369,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
               : 'bg-[#FAF8F3] dark:bg-[#081026] text-[#475569] dark:text-[#CBD5E1]'
           }`}
         >
-          App. A–J
+          App. A–L
         </button>
         <button
           onClick={() => jumpToSection('references')}
@@ -391,7 +392,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
               Table of Contents
             </div>
             <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">
-              Chapters 1–8 · App. A–J · Refs [1–{PAPER_REFERENCES.length}]
+              Chapters 1–8 · App. A–L · Refs [1–{PAPER_REFERENCES.length}]
             </div>
           </div>
 
@@ -440,7 +441,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                 focusedAnchor === 'appendices' ? 'text-[#8B4513] dark:text-[#FB923C]' : ''
               }`}
             >
-              Appendices A–J &amp; FAQ
+              Appendices A–L &amp; FAQ
             </button>
             <button
               onClick={() => jumpToSection('governance')}
@@ -633,7 +634,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                   <ul className="space-y-2 list-disc pl-6" style={{ fontSize: '16px', lineHeight: 1.5 }}>
                     {LIST_OF_TABLES.map((t) => (
                       <li key={t.number}>
-                        <strong>{t.number}:</strong> <MathText text={t.title} /> ({t.location})
+                        <strong>{t.number}:</strong> <MathText text={t.title} /> (<MathText text={t.location} />)
                       </li>
                     ))}
                   </ul>
@@ -685,7 +686,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                       {ACRONYMS_GLOSSARY.map((acr) => (
                         <tr key={acr.term}>
                           <td className="p-3 font-mono text-[#8B4513] dark:text-[#FB923C] whitespace-nowrap">{acr.term}</td>
-                          <td className="p-3">{acr.expansion}</td>
+                          <td className="p-3"><MathText text={acr.expansion} /></td>
                           <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={acr.definition} /></td>
                         </tr>
                       ))}
@@ -1023,7 +1024,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                                 {AUDITED_CLOSURE_THEOREMS.map((t) => (
                                   <tr key={t.id}>
                                     <td className="p-3"><MathText text={t.title} /></td>
-                                    <td className="p-3">{t.domain}</td>
+                                    <td className="p-3"><MathText text={t.domain} /></td>
                                     <td className="p-3 font-mono text-[12.5px] text-[#475569] dark:text-[#94A3B8] whitespace-nowrap">{t.status}</td>
                                     <td className="p-3"><MathText text={t.summary} /></td>
                                   </tr>
@@ -1072,14 +1073,14 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
             </React.Fragment>
           ))}
 
-          {/* APPENDICES A–J */}
+          {/* APPENDICES A–L */}
           {showAppendices && (
             <>
               {readingMode === 'continuous' && (
                 <div className="igrt-page-break-banner print:hidden" aria-hidden="true">
                   <span className="h-px flex-1 bg-[#D6CABE] dark:bg-[#334155]" />
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#8B4513] dark:text-[#FDBA74] px-2">
-                    New Page · Appendices A–J
+                    New Page · Appendices A–L
                   </span>
                   <span className="h-px flex-1 bg-[#D6CABE] dark:bg-[#334155]" />
                 </div>
@@ -1093,7 +1094,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                     Mathematical &amp; Derivation Appendices
                   </div>
                   <h2 style={{ fontSize: 'var(--igrt-h2-size)', lineHeight: 1.2 }}>
-                    Appendices A–J: Derivations, CODATA Units &amp; Technical FAQ
+                    Appendices A–L: Derivations, CODATA Units &amp; Technical FAQ
                   </h2>
                 </div>
 
@@ -1158,6 +1159,14 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                               </tr>
                             ))}
                           </tbody>
+                          <tfoot className="bg-[#FAF6EE] dark:bg-[#081026] border-t border-[#D6CABE] dark:border-[#334155]">
+                            <tr>
+                              <td colSpan={4} className="p-3 font-mono text-[12px] text-[#0F172A] dark:text-[#F8FAFC] whitespace-nowrap">
+                                <strong className="font-sans text-[#8B4513] dark:text-[#FB923C] mr-2">H10 Preregistration Digest (SHA-256):</strong>
+                                {H10_PREREG_SHA256}
+                              </td>
+                            </tr>
+                          </tfoot>
                         </table>
                       </div>
                     )}
@@ -1179,7 +1188,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                             <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
                               {REVISION_HISTORY_TABLE.map((rev) => (
                                 <tr key={rev.edition}>
-                                  <td className="p-3 font-medium whitespace-nowrap">{rev.edition}</td>
+                                  <td className="p-3 font-medium whitespace-nowrap"><MathText text={rev.edition} /></td>
                                   <td className="p-3"><MathText text={rev.scope} /></td>
                                   <td className="p-3"><MathText text={rev.physicsAndNumericalClosures} /></td>
                                   <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={rev.editorialAndVerificationClosures} /></td>
@@ -1205,10 +1214,10 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                             <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
                               {RESPONSE_TO_REVIEWERS.map((resp) => (
                                 <tr key={resp.issueId}>
-                                  <td className="p-3 font-medium whitespace-nowrap">{resp.issueId}</td>
+                                  <td className="p-3 font-medium whitespace-nowrap"><MathText text={resp.issueId} /></td>
                                   <td className="p-3"><MathText text={resp.concernSummary} /></td>
                                   <td className="p-3"><MathText text={resp.resolutionAndLocation} /></td>
-                                  <td className="p-3 font-mono text-[12px] text-[#15803D] dark:text-[#4ADE80] whitespace-nowrap">{resp.status}</td>
+                                  <td className="p-3 font-mono text-[12px] text-[#15803D] dark:text-[#4ADE80] whitespace-nowrap"><MathText text={resp.status} /></td>
                                 </tr>
                               ))}
                             </tbody>

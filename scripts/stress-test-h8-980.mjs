@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Automated 980-Vector / 1,740-Point Adversarial Stress-Test Runner
- * for the Harmonized Research Paper (Edition: IGRT-2026-H9).
+ * for the Harmonized Research Paper (Edition: IGRT-2026-H10).
  *
  * Verifies:
- *  1. Live source invariants of harmonizedPaperData.ts & harmonizedPaperApparatus.ts (H9 closures)
+ *  1. Live source invariants of harmonizedPaperData.ts & harmonizedPaperApparatus.ts (H10 closures)
  *  2. Companion workbench sync across HarmonizedModelView, harmonizedModelData, App.tsx, adversarial.ts
  *  3. Complete 580-criterion family parity against criteria500.json + FAMILY_XI + FAMILY_XII
- *  4. Exact 1,740 max-point accounting, Applicable Physics (/1,665) exclusion math, and H8 -> H9 delta
+ *  4. Exact 1,740 max-point accounting, Applicable Physics (/1,665) exclusion math, and H9 -> H10 delta
  *  5. Re-adjudication of all 20 direct Red-Team Attacks (ATK-01..ATK-20) & 380 upgrade gates
  */
 
@@ -21,7 +21,7 @@ import { buildSync } from 'esbuild';
 
 const repoRoot = path.resolve(import.meta.dirname, '..');
 
-// 1. Live checks on H9 Harmonized Paper sources
+// 1. Live checks on H10 Harmonized Paper sources
 const paperDataSrc = fs.readFileSync(path.join(repoRoot, 'src/types/harmonizedPaperData.ts'), 'utf8');
 const paperAppSrc = fs.readFileSync(path.join(repoRoot, 'src/types/harmonizedPaperApparatus.ts'), 'utf8');
 const modelDataSrc = fs.readFileSync(path.join(repoRoot, 'src/types/harmonizedModelData.ts'), 'utf8');
@@ -30,26 +30,30 @@ const appSrc = fs.readFileSync(path.join(repoRoot, 'src/App.tsx'), 'utf8');
 const advSrc = fs.readFileSync(path.join(repoRoot, 'src/physics/adversarial.ts'), 'utf8');
 const criteria500 = JSON.parse(fs.readFileSync(path.join(repoRoot, 'src/types/criteria500.json'), 'utf8'));
 
-assert(paperDataSrc.includes('IGRT-2026-H9'), 'Paper edition must be IGRT-2026-H9');
-assert(paperDataSrc.includes('G_{4,X} = 0'), 'H9 must restrict Eq.(3.1) to Type Ia Horndeski (G_{4,X}=0)');
-assert(paperAppSrc.includes('w_0 = −0.908'), 'H9 must contain RK2 PNGB w_0 = -0.908');
-assert(paperAppSrc.includes('w_a = −0.177'), 'H9 must contain RK2 PNGB w_a = -0.177');
-assert(paperAppSrc.includes('n_T = −0.036'), 'H9 must enforce shared red tensor tilt n_T = -0.036');
-assert(paperAppSrc.includes('2.35 M_⊙'), 'H9 must include causal Horndeski TOV NS M_max = 2.35 M_⊙');
-assert(paperAppSrc.includes('0.9294'), 'H9 must include 1+1D Hayward-Vaidya max(κ_− ℓ_0) = 0.9294');
-assert(paperAppSrc.includes('S_8 = 0.8216'), 'H9 must include RK4 linear growth ODE S_8 = 0.8216');
-assert(paperAppSrc.includes('4.0 × 10^{−15}'), 'H9 must include 2-stage ekpyrotic BKL shear 4.0 × 10^-15');
-assert(paperAppSrc.includes('A_F = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol'), 'H9 must include extended Krein-Connes A_F');
-assert(paperAppSrc.includes('OP-1') && paperAppSrc.includes('OP-5'), 'H9 must declare OP-1..OP-5');
+assert(paperDataSrc.includes('IGRT-2026-H10'), 'Paper edition must be IGRT-2026-H10');
+assert(paperDataSrc.includes('G_{4,X} = 0'), 'H10 must restrict Eq.(3.1) to Type Ia Horndeski (G_{4,X}=0)');
+assert(paperAppSrc.includes('w_0 = −0.908'), 'H10 must contain RK2 PNGB w_0 = -0.908');
+assert(paperAppSrc.includes('w_a = −0.177'), 'H10 must contain RK2 PNGB w_a = -0.177');
+assert(paperAppSrc.includes('n_T = −0.036'), 'H10 must enforce shared red tensor tilt n_T = -0.036');
+assert(paperAppSrc.includes('2.35 M_⊙'), 'H10 must include causal Horndeski TOV NS M_max = 2.35 M_⊙');
+assert(paperAppSrc.includes('0.9294'), 'H10 must include 1+1D Hayward-Vaidya max(κ_− ℓ_0) = 0.9294');
+assert(paperAppSrc.includes('S_8 = 0.8216'), 'H10 must include RK4 linear growth ODE S_8 = 0.8216');
+assert(paperAppSrc.includes('4.0 × 10^{−15}'), 'H10 must include 2-stage ekpyrotic BKL shear 4.0 × 10^-15');
+assert(paperAppSrc.includes('A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch'), 'H10 must include 5-mode extended Krein-Connes A_F^{H10}');
+assert(paperAppSrc.includes('g_* = 1.3105') && paperAppSrc.includes('λ_* = 0.1440'), 'H10 must include Wetterich FRG UV fixed point');
+assert(paperAppSrc.includes('d_s: 3.989 → 2.002'), 'H10 must include CDT spectral dimension flow');
+assert(paperAppSrc.includes('τ_re = 0.0537') && paperAppSrc.includes('η_B = 6.13 × 10^{−10}'), 'H10 must include reionization and leptogenesis closures');
+assert(paperAppSrc.includes('κ_− ℓ_0 ≤ 0.6639') && paperAppSrc.includes('0.2048 < 1'), 'H10 must include axisymmetric Kerr-Hayward & superradiance quenching');
+assert(paperAppSrc.includes('OP-1') && paperAppSrc.includes('OP-5'), 'H10 must declare OP-1..OP-5');
 
-// Verify companion workbenches contain zero legacy stale H6 figures
+// Verify companion workbenches contain zero legacy stale H6/H9 tokens
 for (const [label, src] of [
   ['harmonizedModelData.ts', modelDataSrc],
   ['HarmonizedModelView.tsx', modelViewSrc],
   ['App.tsx', appSrc],
   ['adversarial.ts', advSrc]
 ]) {
-  for (const stale of ['80.2 AU', '1.299 M_Pl', '-0.982', 'det(M_ab)']) {
+  for (const stale of ['80.2 AU', '1.299 M_Pl', '-0.982', 'det(M_ab)', '9af9ffe2']) {
     assert(!src.includes(stale), `${label} still contains legacy stale token "${stale}"`);
   }
 }
@@ -79,7 +83,7 @@ const {
 } = audit;
 
 // 3. Structural & completeness assertions across all 980 vectors
-assert.equal(H8_EDITION_META.edition, 'IGRT-2026-H9');
+assert.equal(H8_EDITION_META.edition, 'IGRT-2026-H10');
 assert.equal(criteria500.length, 500, 'criteria500.json must contain 500 base criteria');
 assert.equal(H8_CRITERIA_580_AUDIT.length, 580, 'Must evaluate all 580 formal criteria');
 assert.equal(H8_ATTACKS_20_AUDIT.length, 20, 'Must evaluate all 20 direct red-team attacks');
@@ -140,13 +144,13 @@ const upgSum =
   H8_COMPOSITE_METRICS.upgradesPending;
 assert.equal(upgSum, 380);
 
-const h8ToH9Delta = H8_COMPOSITE_METRICS.totalCriteriaScore - H8_EDITION_META.priorCriteriaScore;
+const h9ToH10Delta = H8_COMPOSITE_METRICS.totalCriteriaScore - H8_EDITION_META.priorCriteriaScore;
 
 // Output clean reproducible audit report JSON
 const report = {
   edition: H8_EDITION_META.edition,
   priorEdition: H8_EDITION_META.priorEdition,
-  h8ToH9Delta: `+${h8ToH9Delta} pts (${H8_EDITION_META.priorCriteriaScore} -> ${H8_COMPOSITE_METRICS.totalCriteriaScore})`,
+  h9ToH10Delta: `+${h9ToH10Delta} pts (${H8_EDITION_META.priorCriteriaScore} -> ${H8_COMPOSITE_METRICS.totalCriteriaScore})`,
   totalVectors: H8_COMPOSITE_METRICS.totalVectors,
   criteria: {
     count: H8_COMPOSITE_METRICS.criteriaCount,
@@ -172,7 +176,7 @@ const report = {
     id: f.id,
     name: f.name,
     count: f.count,
-    h9Score: f.h8Score,
+    h10Score: f.h8Score,
     maxScore: f.maxScore,
     percentage: f.percentage,
     distribution: `3s:${f.score3Count} 2s:${f.score2Count} 1s:${f.score1Count} 0s:${f.score0Count}`
@@ -191,8 +195,8 @@ const report = {
     }))
   },
   upgrades380: {
-    verifiedActiveInH9: H8_COMPOSITE_METRICS.upgradesVerified,
-    supersededCorrectedInH9: H8_COMPOSITE_METRICS.upgradesSuperseded,
+    verifiedActiveInH10: H8_COMPOSITE_METRICS.upgradesVerified,
+    supersededCorrectedInH10: H8_COMPOSITE_METRICS.upgradesSuperseded,
     pendingOpenProblem: H8_COMPOSITE_METRICS.upgradesPending
   },
   compositeVectors: {

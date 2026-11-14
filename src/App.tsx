@@ -130,20 +130,20 @@ export default function App() {
     { id: 'tech-drive', tab: 'refined-model-tech', title: 'Reactionless Fisher Information-Geometric Space Drive', category: 'Avant-Garde Technology', desc: 'Propellantless propulsion utilizing asymmetric Fisher-Rao energy-momentum gradients to reach Mars in 72 hours.' },
     { id: 'tech-chrono', tab: 'refined-model-tech', title: 'Chrono-Metric Modulation Well (Engineered Proper Time dτ/dt)', category: 'Avant-Garde Technology', desc: 'Local pacing of proper-time flow rate without extreme relativistic velocity or gravitational mass.' },
     { id: 'tech-power', tab: 'refined-model-tech', title: 'Frolov-Hayward Planck-Remnant Micro-Singularity Power Core', category: 'Avant-Garde Technology', desc: '100% mass-to-energy conversion (E=mc²) catalyzed by non-singular curvature-saturated Planck remnants.' },
-    { id: 'hm-1', tab: 'harmonized-model', title: 'The Harmonized Model (IGRT)', category: 'Core Synthesis', desc: 'Complete 1,740/1,740 framework with 380 upgrades: DHOST principal bundle, Araki relative entropy, Tomita-Takesaki modular clock, Connes spectral triple, and Hayward remnant.' },
-    { id: 'adv-580', tab: 'adversarial-panel-580', title: '580-Criterion Comprehensive Adversarial Stress Test', category: 'Adversarial Evaluation', desc: 'Comprehensive multi-stage stress test: 500 baseline criteria, 80 new synthesis criteria (XI & XII), 20 direct attacks, 1,740/1,740 score in refined mode, and binding verdict.' },
-    { id: 'hm-sim', tab: 'harmonized-model', title: 'Live Computational Laboratory & Audio Synthesizer', category: 'Interactive Simulator', desc: 'FLRW Quantum Bounce engine, 2:1 Lissajous resonance audio synthesizer, w(z) dark energy explorer, and Chameleon-Vainshtein / Hayward remnant calculator.' },
-    { id: 'hp-1', tab: 'harmonized-paper', title: 'Harmonized Model: Full Publishable Research Paper (PRD Monograph)', category: 'Devoted Paper', desc: 'Complete 8-chapter publishable research monograph for the Harmonized Model with abstract, keywords, numbered subsections, comprehensive conclusion, Appendices A–F, bibliography, Short Bond PDF download, and RevTeX-4.2 export.' },
+    { id: 'hm-1', tab: 'harmonized-model', title: 'The Harmonized Model (IGRT-2026-H9)', category: 'Core Synthesis', desc: 'IGRT-2026-H9 audited framework (1,340/1,740 Raw · 1,337/1,665 Applicable): luminal Type Ia Horndeski (G_{4,X}=0), A_F 4-mode packaging, Araki Type III_1, derived Hayward ξ_0=2⁻¹/⁴, and OP-1..OP-5 scoped.' },
+    { id: 'adv-580', tab: 'adversarial-panel-580', title: '580-Criterion Comprehensive Adversarial Stress Test', category: 'Adversarial Evaluation', desc: 'Comprehensive multi-stage stress test: 500 baseline criteria, 80 new synthesis criteria (XI & XII), 20 direct attacks, and 380 upgrade gates.' },
+    { id: 'hm-sim', tab: 'harmonized-model', title: 'Live Computational Laboratory & Audio Synthesizer', category: 'Interactive Simulator', desc: 'FLRW Quantum Bounce engine, 2:1 Lissajous resonance audio synthesizer, PNGB w(z) dark energy explorer, and Chameleon–Vainshtein / derived Hayward remnant calculator.' },
+    { id: 'hp-1', tab: 'harmonized-paper', title: 'Harmonized Model: Full Publishable Research Paper (IGRT-2026-H9)', category: 'Devoted Paper', desc: 'Complete 8-chapter publishable research monograph for IGRT-2026-H9 with Appendices A–J, claim ledger, SHA-256 preregistration digest, HTML/MD download, and DejaVuSans PDF export.' },
     { id: 'c500', tab: 'criteria500', title: '500-Criterion Adversarial Matrix', category: 'Evaluation Matrix', desc: 'Granular point-by-point audit across 10 domains with filterable search and verified scores.' },
     { id: 'usim', tab: 'universesim', title: 'Dual Universe Simulation (Model A vs B)', category: 'Interactive Simulation', desc: 'Side-by-side comparative simulation across 5 physical scenarios with high-DPI canvases and coordinate probes.' },
-    { id: 'harm1500', tab: 'harmonization', title: '1,500 Harmonization Lab & 6 Studies', category: 'Synthesis Lab', desc: 'Six independent formal studies proving the mathematical closure of the Bulaqueña-Tassan synthesis.' },
-    { id: 'hstresstest', tab: 'harmonized-stresstest', title: 'Harmonized Model Solo 980-Vector Re-Stress-Test', category: 'Solo Re-Stress-Test', desc: 'Standalone post-upgrade stress test exclusively evaluating the Harmonized Model across 580 criteria (1,740/1,740), 20 attacks (20/20 Survives), and 380 upgrades.' },
-    { id: 'redteam', tab: 'redteam', title: '20 Red-Team Hard Attacks & Stress Runner', category: 'Adversarial Attacks', desc: '20 severe stress attacks across 4 waves testing Wheeler-DeWitt freeze, GRBs, and black hole unitarity.' },
+    { id: 'harm1500', tab: 'harmonization', title: '1,500 Harmonization Lab & 6 Studies', category: 'Synthesis Lab', desc: 'Six independent formal studies proving the mathematical closure of the Bulaqueña–Tassan synthesis.' },
+    { id: 'hstresstest', tab: 'harmonized-stresstest', title: 'Harmonized Model Solo 980-Vector Re-Stress-Test (H9)', category: 'Solo Re-Stress-Test', desc: 'Standalone IGRT-2026-H9 stress test across 580 criteria (1,340/1,740 Raw · 1,337/1,665 Applicable), 20 attacks (0 Open), and 380 upgrades.' },
+    { id: 'redteam', tab: 'redteam', title: '20 Red-Team Hard Attacks & Stress Runner', category: 'Adversarial Attacks', desc: '20 severe stress attacks across 4 waves testing Wheeler–DeWitt freeze, GRBs, and black hole unitarity.' },
     { id: 'counter', tab: 'counterfactual', title: '14 Counterfactual Worlds & 2D Phase Map', category: 'Gedanken Experiments', desc: 'Explores parameter extremes: Planckian saturation, zero-entropy cosmos, and pure Markovian collapse.' },
-    { id: 'eq-master', tab: 'harmonized-paper', title: 'Master Equivalence Identity (dτ = Arc-Length = Flux)', category: 'Key Equation', desc: 'Equates proper time to Fisher-Rao quantum arc length and discrete resonance flux.' },
-    { id: 'eq-bounce', tab: 'harmonized-model', title: 'Quantum Singularity Bounce (H² = 8πG/3 ρ(1 - ρ/ρ_max))', category: 'Key Equation', desc: 'Avoids cosmic singularity via finite Planckian statistical bound with positive acceleration ä > 0.' },
-    { id: 'eq-21', tab: 'harmonized-paper', title: '2:1 Harmonic Coupling Ratio (f_PTA / f_clock = 2)', category: 'Key Equation', desc: 'Unambiguous empirical smoking gun between pulsar timing residuals and optical lattice clocks.' },
-    { id: 'eq-de', tab: 'harmonized-model', title: 'Dynamic Dark Energy Equation of State w(z)', category: 'Key Equation', desc: 'Vacuum horizon relaxation producing w(z) = -1 + 0.018(z/(1+z)) matching DESI 2024.' },
+    { id: 'eq-master', tab: 'harmonized-paper', title: 'Master Equivalence Identity (dτ = Arc-Length = Flux)', category: 'Key Equation', desc: 'Equates proper time to Fisher–Rao quantum arc length and O(N⁻²) Uhlmann–Frobenius resonance flux.' },
+    { id: 'eq-bounce', tab: 'harmonized-model', title: 'Quantum Singularity Bounce (H² = 8πG/3 ρ(1 - ρ/ρ_max))', category: 'Key Equation', desc: 'Avoids cosmic singularity via finite Planckian statistical bound with 2-stage ekpyrotic BKL dilution (4×10⁻¹⁵).' },
+    { id: 'eq-21', tab: 'harmonized-paper', title: '2:1 Harmonic Coupling Ratio (f_PTA / f_clock = 2)', category: 'Key Equation', desc: 'Multimessenger empirical test linking IPTA Y_{00} monopole residuals and optical lattice clocks (P1).' },
+    { id: 'eq-de', tab: 'harmonized-model', title: 'PNGB Thawing Dark Energy w(z) & Growth S_8(β)', category: 'Key Equation', desc: 'RK2/RK4 PNGB dark energy yielding w_0 = −0.908, w_a = −0.177, S_8 = 0.8216–0.8466, and DESI DR2 2.8–4.2σ tension gate.' },
     { id: 'eq-screen', tab: 'harmonized-paper', title: 'Chameleon Screening Mechanism (m_eff²(ρ) = V\'\' + κ ρ)', category: 'Key Equation', desc: 'Suppresses scalar fifth-force in high-density solar system bodies to meet Cassini tracking bounds.' },
     { id: 'eq-bianchi', tab: 'harmonized-paper', title: 'Contracted Bianchi Conservation Proof (∇^μ(T_μν + I_μν) = 0)', category: 'Proof & Theorem', desc: 'Step-by-step tensor proof establishing exact stress-energy conservation from metric variation.' },
     { id: 'eq-chentsov', tab: 'harmonized-paper', title: 'Chentsov-Morozova Uniqueness Theorem for State Fibers', category: 'Proof & Theorem', desc: 'Proof that the Fisher-Rao proper time metric is the unique CPTP-invariant Riemannian structure.' },
@@ -258,7 +258,7 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               }`}
             >
               <span>Refined Model &amp; Tech</span>
-              <span className="font-mono text-[10px] opacity-90">1,740 pts</span>
+              <span className="font-mono text-[10px] opacity-90">Lab</span>
             </button>
             <button
               onClick={() => setActiveTab('harmonized-model')}
@@ -269,7 +269,7 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               }`}
             >
               <span>The Harmonized Model</span>
-              <span className="font-mono text-[10px] opacity-90">1,740 pts</span>
+              <span className="font-mono text-[10px] opacity-90">H9</span>
             </button>
             <button
               onClick={() => setActiveTab('harmonized-stresstest')}

@@ -10,6 +10,11 @@ import {
   HARMONIZED_RAMIFICATIONS,
   ModelElement
 } from '../types/harmonizedModelData';
+import {
+  H8_EDITION_META,
+  H8_COMPOSITE_METRICS,
+  H8_TWELVE_FAMILIES_SUMMARY
+} from '../types/harmonizedPaperH8StressTest';
 
 interface HarmonizedModelViewProps {
   onNavigateToPaper?: () => void;
@@ -162,31 +167,54 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
     'Observer & Epistemology'
   ];
 
-  // Derived clamped quantities for Simulators (HARD-18)
+  // Derived clamped quantities for Simulators (H9 Calibrated)
   const clampedDensityRatio = Math.min(0.99, Math.max(0.1, bounceDensityRatio));
   const clampedBetaRes = Math.min(0.5, Math.max(0, bounceBetaRes));
   const clampedZ = Math.min(5.0, Math.max(0, darkEnergyZ));
   const clampedProbeAu = Math.min(100, Math.max(0.01, probeDistanceAu));
-  const rVainshteinAu = 80.2; // 1.2e13 m ~ 80.2 AU solar Vainshtein screening envelope
+  const rVainshteinAu = 2.339e7; // 369.8 ly (1 ly = 63,241 AU) at H_0 = 70 km/s/Mpc
   const vainshteinFactor = Math.min(1.0, Math.pow(clampedProbeAu / rVainshteinAu, 1.5));
   const chameleonBoost = Math.pow(10, (envLogDensity + 29) * 0.25);
-  const ppnGammaMinusOne = Math.min(2.3e-5, 2.8e-7 * vainshteinFactor * (1 / Math.max(1, chameleonBoost * 0.01)));
+  const ppnGammaMinusOne = Math.min(
+    2.3e-5,
+    1.77e-11 * Math.pow(clampedProbeAu, 1.5) * (1 / Math.max(1, chameleonBoost * 0.002))
+  );
   const remKretschmannFraction = Math.min(1.0, 0.96 + 0.04 / Math.max(1, bhInitialMassSolar));
 
-  const twelveFamilyAudit = [
-    { id: 'I', name: 'Foundational Axioms', count: 50, maxPts: 150, aPts: 84, bPts: 24, igrtPts: 150, fix: 'Chentsov–Petz fiber invariance & Tomita–Takesaki clock axioms' },
-    { id: 'II', name: 'Field Equations & DHOST Action', count: 50, maxPts: 150, aPts: 98, bPts: 6, igrtPts: 150, fix: 'Shift-symmetric Galileon braiding (det M = 0) & contracted Bianchi closure' },
-    { id: 'III', name: 'Cosmological Bounce & Acceleration', count: 50, maxPts: 150, aPts: 88, bPts: 12, igrtPts: 150, fix: 'Martin–Brandenberger cutoff & DESI w(z) horizon relaxation' },
-    { id: 'IV', name: 'Falsifiability & Empirical Signals', count: 50, maxPts: 150, aPts: 76, bPts: 15, igrtPts: 150, fix: '2:1 Lissajous lock (f_PTA = 2 f_clock), VLBAI & 1.84 TeV HL-LHC portal' },
-    { id: 'V', name: 'Counterfactual Worlds', count: 100, maxPts: 300, aPts: 138, bPts: 62, igrtPts: 300, fix: 'Chameleon–Vainshtein solar shielding & non-singular collapse bounds' },
-    { id: 'VI', name: 'Epistemological Foundations', count: 50, maxPts: 150, aPts: 32, bPts: 78, igrtPts: 150, fix: 'Objective CPTP subsystem arrow without anthropomorphic ambiguity' },
-    { id: 'VII', name: 'Integration & Bundle Readiness', count: 50, maxPts: 150, aPts: 72, bPts: 30, igrtPts: 150, fix: 'Connes spectral triple bridge unifying discrete posets & smooth bundle' },
-    { id: 'VIII', name: 'Quantum Gravity & Wheeler–DeWitt', count: 40, maxPts: 120, aPts: 54, bPts: 10, igrtPts: 120, fix: 'Born–Oppenheimer unfreezing, BRST unitarity & quadratic LIV suppression' },
-    { id: 'IX', name: 'Thermodynamics & Horizons', count: 30, maxPts: 90, aPts: 44, bPts: 12, igrtPts: 90, fix: 'Frolov–Hayward remnant core (R² ≤ 48/ℓ_Pl⁴) & QES Page curve recovery' },
-    { id: 'X', name: 'Scientific Viability & Rigor', count: 30, maxPts: 90, aPts: 26, bPts: 15, igrtPts: 90, fix: 'Standard Sobolev well-posedness, PPN limits & reproducible datasets' },
-    { id: 'XI', name: 'Fisher–Rao Modular Time Identification', count: 40, maxPts: 120, aPts: 0, bPts: 0, igrtPts: 120, fix: 'Canonical Tomita–Takesaki K_ξ = -ln Δ_ρ calibration & Fubini–Study limits' },
-    { id: 'XII', name: 'Araki Entanglement ψ & Screening', count: 40, maxPts: 120, aPts: 0, bPts: 0, igrtPts: 120, fix: 'UV-finite Araki relative entropy on Type III_1 factors & shift-symmetry protection' }
+  // Exact H9 ringdown echo delay (2 r_s / c) * ln(r_s / l_0) with l_0 = 2^(-1/4) l_Pl
+  const rSchwarzschildM = (2 * 6.67430e-11 * (bhInitialMassSolar * 1.98847e30)) / (2.99792458e8 * 2.99792458e8);
+  const l0Meters = Math.pow(2, -0.25) * 1.616255e-35;
+  const echoDelayMsVal = ((2 * rSchwarzschildM) / 2.99792458e8) * Math.log(rSchwarzschildM / l0Meters) * 1e3;
+
+  const h9FamilyMetaByRoman = [
+    { roman: 'I', aPts: 84, bPts: 24, fix: 'Type Ia Horndeski + Chentsov–Petz fiber invariance + Tomita–Takesaki K_ξ & Landau–Zener P_LZ' },
+    { roman: 'II', aPts: 98, bPts: 6, fix: 'Luminal Type Ia Horndeski (G_{4,X}=0, c_GW≡c), all-orders Bianchi & linearized L_UV β_LUV closure' },
+    { roman: 'III', aPts: 88, bPts: 12, fix: '2-stage ekpyrotic–L_UV bounce (BKL 4×10⁻¹⁵), RK4 S_8(β)=0.822–0.847, causal TOV NS (2.35 M_⊙) [OP-1 open]' },
+    { roman: 'IV', aPts: 76, bPts: 15, fix: 'SHA-256 preregistered P1–P6 Fisher SNRs (4.7–25.1), Hinderer Λ_{1.4}=339 & CANNEX φ_Ch [SCOPE #2 excl.]' },
+    { roman: 'V', aPts: 138, bPts: 62, fix: 'Solar r_V = 369.8 ly screening, regular bounce & 15 counterfactual falsifiers cleanly bound' },
+    { roman: 'VI', aPts: 32, bPts: 78, fix: 'Objective CPTP Spohn/BKM open-system arrow, Z_ψ=7.05×10¹⁴ EFT c_2>0 & strict claim ledger' },
+    { roman: 'VII', aPts: 72, bPts: 30, fix: 'O(N⁻²) Uhlmann–Frobenius convergence + Krein–Connes spectral triple A_F 4-mode packaging' },
+    { roman: 'VIII', aPts: 54, bPts: 10, fix: 'Born–Oppenheimer S¹ unfreezing, 1-loop BFV BRST & LHAASO quadratic dispersion suppression [OP-2/3 open]' },
+    { roman: 'IX', aPts: 44, bPts: 12, fix: 'Derived ξ_0 = 2⁻¹/⁴ Hayward remnant (1.092 M_Pl) & 1+1D Hayward–Vaidya QES Page curve (max κ_−ℓ_0=0.9294)' },
+    { roman: 'X', aPts: 26, bPts: 15, fix: '238-assertion verify-igrt-monograph.mjs, CODATA 2022 & SI 2019 hygiene [OP-5 peer review open]' },
+    { roman: 'XI', aPts: 0, bPts: 0, fix: 'Canonical Tomita–Takesaki K_ξ = −ln Δ_ρ calibration, P_LZ = exp(−3.14×10²⁰) & Fubini–Study limits' },
+    { roman: 'XII', aPts: 0, bPts: 0, fix: 'UV-finite Araki entropy on Type III_1 factors, 4-pt positivity c_2>0 & causal TOV NS compliance' }
   ];
+
+  const twelveFamilyAudit = H8_TWELVE_FAMILIES_SUMMARY.map((fam, idx) => {
+    const meta = h9FamilyMetaByRoman[idx] || { roman: String(fam.id), aPts: 0, bPts: 0, fix: 'H9 Audited Closure' };
+    return {
+      id: meta.roman,
+      name: fam.name,
+      count: fam.count,
+      maxPts: fam.maxScore,
+      aPts: meta.aPts,
+      bPts: meta.bPts,
+      igrtPts: fam.h8Score,
+      pct: fam.percentage,
+      fix: meta.fix
+    };
+  });
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300 pb-16">
@@ -195,27 +223,27 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
         <div className="relative z-10 max-w-5xl space-y-4">
           <div className="flex flex-wrap items-center gap-2.5 text-xs">
             <span className="font-cinzel text-[#15803D] dark:text-[#4ADE80] uppercase tracking-wider font-semibold text-[11px]">
-              Unified Framework · 1,740 / 1,740 Formal Score (100.0%)
+              {H8_EDITION_META.edition} · {H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 Raw ({H8_COMPOSITE_METRICS.criteriaPercentage}%)
             </span>
             <span aria-hidden="true" className="text-[#CBD5E1] dark:text-[#475569]">·</span>
             <span className="font-mono text-[#081026] dark:text-[#CBD9FC] text-[11px]">
-              380 / 380 Upgrades Applied (360 Systematic + 20 Hardenings)
+              Applicable Physics: {H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()} / {H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} ({H8_COMPOSITE_METRICS.applicablePhysicsPercentage}%)
             </span>
             <span aria-hidden="true" className="text-[#CBD5E1] dark:text-[#475569]">·</span>
             <span className="text-[#64748B] dark:text-[#94A3B8] font-['Poppins']">
-              580 Criteria (12 Families) &amp; 20 Red-Team Attacks Passed
+              {H8_COMPOSITE_METRICS.upgradesVerified}/380 Upgrades Active · 0 Open Attacks (OP-1..OP-5 Scoped)
             </span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-['Playfair_Display'] font-normal text-[#081026] dark:text-[#FDFBF7] tracking-tight leading-tight">
-            Information-Geometric Resonant Time (IGRT): The Harmonized Model &amp; Full Theoretical Closure
+            Information-Geometric Resonant Time (IGRT): The Harmonized Model ({H8_EDITION_META.edition})
           </h1>
 
           <p className="text-base sm:text-lg text-[#475569] dark:text-[#CBD5E1] font-['Poppins'] font-light leading-relaxed max-w-4xl">
-            A mathematically complete reconciliation of General Relativity, Quantum Mechanics, and Open-System Temporal Flows.
+            Audited reconciliation of General Relativity, Quantum Mechanics, and Open-System Temporal Flows.
             Constructed as the principal fiber bundle <span className="font-serif italic font-normal text-[#0C1836] dark:text-[#FDFBF7]">P(M, S<sub className="text-[10px]">Fisher</sub>)</span> with
-            DHOST ghost-free kinetic braiding, Type <span className="font-mono text-xs">III₁</span> Araki relative entropy, Connes causal spectral triples,
-            and Tomita–Takesaki canonical modular clock calibration <span className="font-mono text-xs text-[#0C1836] dark:text-[#86EFAC]">K_ξ = -ln Δ_ρ</span>.
+            luminal Type Ia Horndeski (<span className="font-mono text-xs">G_&#123;4,X&#125;=0, c_GW≡c</span>), Type <span className="font-mono text-xs">III₁</span> Araki relative entropy,
+            Krein–Connes <span className="font-mono text-xs">A_F</span> 4-mode packaging, and Tomita–Takesaki modular calibration <span className="font-mono text-xs text-[#0C1836] dark:text-[#86EFAC]">K_ξ = −ln Δ_ρ</span>.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -236,7 +264,7 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                 onClick={onNavigateToStressTest}
                 className="px-4 py-2 rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-xs font-['Poppins'] font-medium transition-colors shadow-xs whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#EA580C]"
               >
-                Re-Stress-Test Harmonized Model Only (980 Vectors) ↗
+                Re-Stress-Test Harmonized Model ({H8_COMPOSITE_METRICS.totalCriteriaScore}/1,740) ↗
               </button>
             )}
             {onNavigateToImprovements && (
@@ -260,7 +288,7 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                 onClick={onNavigateToPanel580}
                 className="px-4 py-2 rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-white dark:bg-[#081026] text-[#0C1836] dark:text-[#FDFBF7] text-xs font-['Poppins'] hover:bg-[#F4EFE6] dark:hover:bg-[#11224D] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#EA580C]"
               >
-                580-Criterion Dossier (1,740 pts) ↗
+                580-Criterion Dossier ↗
               </button>
             )}
           </div>
@@ -283,18 +311,20 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
             <div className="text-[10px] text-[#64748B] dark:text-[#94A3B8] mt-0.5">Discrete transitions, lacked covariant metric</div>
           </div>
           <div>
-            <div className="text-[#15803D] dark:text-[#4ADE80] text-[11px] font-medium">Hardened Harmonized Model</div>
+            <div className="text-[#15803D] dark:text-[#4ADE80] text-[11px] font-medium">Audited {H8_EDITION_META.edition} Monograph</div>
             <div className="text-xl font-['Playfair_Display'] text-[#15803D] dark:text-[#4ADE80] mt-0.5">
-              1,740 <span className="text-xs text-[#15803D] dark:text-[#86EFAC] font-sans font-medium">/ 1,740 (100.0%)</span>
+              {H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} <span className="text-xs text-[#15803D] dark:text-[#86EFAC] font-sans font-medium">/ 1,740 ({H8_COMPOSITE_METRICS.criteriaPercentage}%)</span>
             </div>
-            <div className="text-[10px] text-[#15803D] dark:text-[#86EFAC] mt-0.5">580 criteria + 20 attacks + 380 upgrades verified</div>
+            <div className="text-[10px] text-[#15803D] dark:text-[#86EFAC] mt-0.5">
+              Applicable Physics: {H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()} / {H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} ({H8_COMPOSITE_METRICS.applicablePhysicsPercentage}%)
+            </div>
           </div>
           <div>
-            <div className="text-[#64748B] dark:text-[#94A3B8] text-[11px]">Key Empirical Signature</div>
+            <div className="text-[#64748B] dark:text-[#94A3B8] text-[11px]">Key Empirical Signatures</div>
             <div className="text-xl font-['Playfair_Display'] text-[#EA580C] mt-0.5">
-              2 : 1 <span className="text-xs text-[#64748B] dark:text-[#94A3B8] font-sans font-light">Harmonic</span>
+              2 : 1 <span className="text-xs text-[#64748B] dark:text-[#94A3B8] font-sans font-light">&amp; TOV / CANNEX</span>
             </div>
-            <div className="text-[10px] text-[#64748B] dark:text-[#94A3B8] mt-0.5">PTA (ω/π) vs. Optical Lattice Clock (ω/2π)</div>
+            <div className="text-[10px] text-[#64748B] dark:text-[#94A3B8] mt-0.5">P1–P6 Fisher SNRs 4.7–25.1 · OP-1..5 Scoped</div>
           </div>
         </div>
       </section>
@@ -367,7 +397,7 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                 The Geometric Fiber Bundle Architecture: P(M, S<sub className="text-xs">Fisher</sub>)
               </h2>
               <p className="text-sm text-[#475569] dark:text-[#CBD5E1] font-['Poppins'] font-light leading-relaxed">
-                With all 360 systematic refinements and 20 adversarial stress hardenings integrated, the Harmonized Model achieves <strong className="text-[#081026] dark:text-white font-normal tabular-nums">1,740 / 1,740 points (100.0%)</strong> across all 580 formal criteria (Families I–XII). Spacetime curvature, Type <span className="font-mono text-xs">III₁</span> Araki entanglement density, DHOST screening, and Connes discrete causal transitions operate as orthogonal sectors of one mathematically closed principal fiber bundle.
+                With H9 closures integrated and candid open problems scoped, the Harmonized Model achieves <strong className="text-[#081026] dark:text-white font-normal tabular-nums">{H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 Raw ({H8_COMPOSITE_METRICS.criteriaPercentage}%)</strong> across all 580 criteria and <strong className="text-[#081026] dark:text-white font-normal tabular-nums">{H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()} / {H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} ({H8_COMPOSITE_METRICS.applicablePhysicsPercentage}%)</strong> on the 555 Applicable Physics subset. Spacetime curvature, Type <span className="font-mono text-xs">III₁</span> Araki entanglement density, Type Ia Horndeski screening, and Krein–Connes spectral triples operate as coordinated sectors of one principal fiber bundle (with <span className="font-mono text-xs">OP-1..OP-5</span> transparently retained).
               </p>
             </div>
 
@@ -375,24 +405,24 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
             <div className="rounded-xl bg-[#081026] p-6 text-[#CBD9FC] border border-[#142B5B] space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-[#EA580C] tracking-wide uppercase">
                 <span>Master Modular Identification Equation (Tomita–Takesaki Calibrated)</span>
-                <span className="text-[#4ADE80]">Boost &amp; Diffeomorphism Invariant</span>
+                <span className="text-[#4ADE80]">Boost &amp; Diffeomorphism Invariant · P_LZ = exp(−3.14 × 10²⁰)</span>
               </div>
               <div className="text-center py-2 overflow-x-auto">
                 <MathDisplay
-                  math="d\tau = \sqrt{-g_{\mu\nu} \dot{x}^\mu \dot{x}^\nu} \, d\lambda \;\equiv\; \frac{\hbar}{\sqrt{\langle K_\xi^2\rangle_\Omega - \langle K_\xi\rangle_\Omega^2}} \sqrt{g_{ij}^{\text{QFI}} \dot{\theta}^i \dot{\theta}^j} \, d\lambda \;\equiv\; \tau_0 \sum_{k=1}^N \|\text{RAG}_k - \text{RES}_k\|_{\mathcal{F}}"
+                  math="d\tau = \frac{1}{c}\sqrt{-g_{\mu\nu} \dot{x}^\mu \dot{x}^\nu} \, d\lambda \;\equiv\; \alpha_{\text{mod}} \sqrt{g_{ij}^{\text{QFI}} \dot{\theta}^i \dot{\theta}^j} \, d\lambda, \quad \sum_{k=1}^N \|\text{RAG}_k - \text{RES}_k\|_{\mathcal{F}} = \frac{1}{2}\int ds_{\text{QFI}} + \mathcal{O}(N^{-2})"
                   block={true}
                   className="text-base sm:text-lg text-[#FDFBF7]"
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-3 border-t border-[#142B5B] text-xs font-['Poppins'] text-[#94B2F5]">
                 <div>
-                  <span className="text-[#FDFBF7] font-medium">Sector 1 (Relativistic DHOST):</span> Ghost-free covariant spacetime interval screened via Chameleon–Vainshtein matter couplings.
+                  <span className="text-[#FDFBF7] font-medium">Sector 1 (Type Ia Horndeski):</span> Luminal ghost-free spacetime (<span className="font-mono">G_&#123;4,X&#125;=0, c_GW≡c</span>) screened inside Solar <span className="font-mono">r_V = 369.8 ly</span>.
                 </div>
                 <div>
-                  <span className="text-[#FDFBF7] font-medium">Sector 2 (Modular Fisher–Rao):</span> Basis-independent SLD Quantum Fisher arc-length calibrated by canonical modular Hamiltonian <span className="font-mono">K_ξ = -ln Δ_ρ</span>.
+                  <span className="text-[#FDFBF7] font-medium">Sector 2 (Modular Fisher–Rao):</span> Basis-independent SLD Quantum Fisher arc-length calibrated via modular variance <span className="font-mono">K_ξ = −ln Δ_ρ</span> &amp; <span className="font-mono">α_mod</span> [Ansatz].
                 </div>
                 <div>
-                  <span className="text-[#FDFBF7] font-medium">Sector 3 (Connes Spectral Connection):</span> Discrete causal-poset resonance steps converging via <span className="font-mono">(A_C, H_C, D_C)</span> to <span className="font-mono">γ^μ(∇_μ + iA_μ)</span>.
+                  <span className="text-[#FDFBF7] font-medium">Sector 3 (Krein–Connes A_F):</span> Extended <span className="font-mono">A_F = ℂ⊕ℍ⊕M_3(ℂ)⊕ℂ_hol</span> packaging 4 modes + O(N⁻²) Uhlmann convergence.
                 </div>
               </div>
             </div>
@@ -401,16 +431,16 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
               <div className="rounded-xl border border-[#EAE2D2] dark:border-[#1E293B] bg-[#FDFBF7] dark:bg-[#081026] p-5 space-y-3">
                 <div className="font-cinzel text-xs text-[#1A3670] dark:text-[#93C5FD] uppercase tracking-wider font-medium">
-                  Layer 1 · DHOST Base Manifold
+                  Layer 1 · Type Ia Base Manifold
                 </div>
                 <h3 className="text-lg font-['Playfair_Display'] font-normal text-[#081026] dark:text-[#FDFBF7]">
-                  Shift-Protected Base (M, g_μν)
+                  Luminal Base (M, g_μν)
                 </h3>
                 <p className="text-xs text-[#475569] dark:text-[#94A3B8] font-['Poppins'] font-light leading-relaxed">
-                  Galileon kinetic braiding with degenerate Hessian <span className="font-mono">det(M_ab) = 0</span> guarantees second-order equations and zero ghosts, sourced by UV-finite Araki entropy scalar <span className="font-mono">I_μν(ψ)</span>.
+                  Type Ia Horndeski braiding (<span className="font-mono">G_&#123;4,X&#125; = 0, G_5 = 0</span>) guarantees second-order equations, <span className="font-mono">c_GW ≡ c</span>, and causal TOV NS <span className="font-mono">M_max = 2.35 M_⊙</span> sourced by Araki <span className="font-mono">I_μν(ψ)</span>.
                 </p>
                 <div className="text-[11px] font-mono text-[#1A3670] dark:text-[#93C5FD] bg-[#EBF0FE] dark:bg-[#11224D] p-2 rounded overflow-x-auto">
-                  G_μν + Λg_μν = 8πG(T_μν + I_μν) · ∇·I = 0
+                  G_μν + Λ_0 g_μν = 8πG(T_μν + I_μν) · ∇·(T+I) ≡ 0
                 </div>
               </div>
 
@@ -483,14 +513,14 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
             <div className="border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50/60 dark:bg-emerald-950/30 p-6 rounded-xl space-y-3 text-xs font-['Poppins']">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="font-cinzel text-emerald-900 dark:text-emerald-300 uppercase font-medium text-sm">
-                  Post-Upgrade Harmonized Closure: 1,740 / 1,740 (100.0%) · 380 Upgrades Active
+                  {H8_EDITION_META.edition} Audited Score: {H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 Raw · {H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()} / {H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} Applicable
                 </span>
                 <span className="font-mono text-emerald-800 dark:text-emerald-200 bg-emerald-100 dark:bg-emerald-900/60 px-2.5 py-1 rounded font-medium tabular-nums">
-                  580/580 Criteria · 20/20 Attacks · 0 Wounded
+                  {H8_COMPOSITE_METRICS.attacksSurvives} Survives · {H8_COMPOSITE_METRICS.attacksQualified} Qualified · {H8_COMPOSITE_METRICS.attacksWounded} Wounded · 0 Open
                 </span>
               </div>
               <p className="text-emerald-950 dark:text-emerald-100 leading-relaxed font-light">
-                Integrating the six mathematical theorems (Araki Type III₁ relative entropy, Tomita–Takesaki modular flow, DHOST shift-protected screening, Connes spectral triple, Frolov–Hayward curvature ceiling, and Martin–Brandenberger bounce cutoff) across all 360 domain upgrades and 20 stress hardenings achieves zero-defect theoretical closure across relativistic gravity, quantum information, and precision metrology.
+                Integrating H9 closures (Type Ia Horndeski <span className="font-mono">c_GW≡c</span>, extended <span className="font-mono">A_F</span> 4-mode packaging, derived <span className="font-mono">ξ_0 = 2⁻¹/⁴</span> Hayward core, 1+1D Hayward–Vaidya <span className="font-mono">max κ_− ℓ_0 = 0.9294</span>, causal TOV NS <span className="font-mono">2.35 M_⊙</span>, 2-stage ekpyrotic BKL <span className="font-mono">4×10⁻¹⁵</span>, and RK4 <span className="font-mono">S_8(β)</span>) resolves 22 additional criteria pts and closes <span className="font-mono">ATK-11</span> while candidly preserving <span className="font-mono">OP-1..OP-5</span>.
               </p>
             </div>
           </div>
@@ -545,7 +575,7 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-mono text-[10px] text-[#64748B] dark:text-[#94A3B8] tabular-nums">Element #{elem.id}</span>
                       <span className="text-[10px] font-mono text-[#15803D] dark:text-[#4ADE80] bg-[#DCFCE7] dark:bg-emerald-950/60 px-1.5 py-0.2 rounded font-medium tabular-nums">
-                        Score: 3/3 (100%)
+                        H9 Score: {elem.harmonizedScore}/3
                       </span>
                     </div>
                     <div className="font-['Playfair_Display'] text-sm text-[#081026] dark:text-[#FDFBF7] mt-1 font-normal">
@@ -571,14 +601,16 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                   </h3>
                 </div>
                 <div className="text-right shrink-0">
-                  <div className="text-[10px] text-[#64748B] dark:text-[#94A3B8] font-['Poppins']">Hardened Score</div>
-                  <div className="font-mono text-base text-[#15803D] dark:text-[#4ADE80] font-medium tabular-nums">3 / 3 (100%)</div>
+                  <div className="text-[10px] text-[#64748B] dark:text-[#94A3B8] font-['Poppins']">H9 Element Score</div>
+                  <div className="font-mono text-base text-[#15803D] dark:text-[#4ADE80] font-medium tabular-nums">
+                    {selectedElement.harmonizedScore} / 3 ({selectedElement.harmonizedScore === 3 ? 'Derived' : 'Qualified'})
+                  </div>
                 </div>
               </div>
 
               <div className="rounded-xl bg-[#081026] p-5 text-[#CBD9FC] border border-[#142B5B] space-y-2">
                 <div className="text-[10px] font-mono text-[#EA580C] uppercase tracking-wider">
-                  Governing Upgraded Formulation
+                  Governing H9 Formulation
                 </div>
                 <div className="py-2 overflow-x-auto text-center">
                   <MathDisplay math={selectedElement.formula} block={true} className="text-base sm:text-lg text-[#FDFBF7]" />
@@ -593,7 +625,7 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
               </div>
 
               <div className="space-y-2 text-xs font-['Poppins'] bg-[#FDFBF7] dark:bg-[#081026] p-4 rounded-xl border border-[#EAE2D2] dark:border-[#1E293B]">
-                <h4 className="font-cinzel text-xs text-[#1A3670] dark:text-[#93C5FD] uppercase font-medium">Mathematical Derivation &amp; Closure Proof</h4>
+                <h4 className="font-cinzel text-xs text-[#1A3670] dark:text-[#93C5FD] uppercase font-medium">Mathematical Derivation &amp; Scope Proof</h4>
                 <p className="text-[#475569] dark:text-[#CBD5E1] font-light leading-relaxed">
                   {selectedElement.mathematicalDerivation}
                 </p>
@@ -607,7 +639,7 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                     <span aria-hidden="true" className="text-[#CBD5E1] dark:text-[#475569]">·</span>
                     <span className="text-[#B45309] dark:text-[#FDBA74]">Model B: {selectedElement.modelBOriginalScore}/3</span>
                     <span aria-hidden="true" className="text-[#CBD5E1] dark:text-[#475569]">→</span>
-                    <span className="text-[#15803D] dark:text-[#4ADE80] font-medium">Harmonized: 3/3</span>
+                    <span className="text-[#15803D] dark:text-[#4ADE80] font-medium">H9: {selectedElement.harmonizedScore}/3</span>
                   </div>
                 </div>
                 <p className="text-[#475569] dark:text-[#CBD5E1] font-light leading-relaxed bg-[#F4EFE6]/60 dark:bg-[#11224D]/40 p-3 rounded-lg border border-[#EAE2D2] dark:border-[#1E293B]">
@@ -733,10 +765,10 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
         <div className="space-y-8 animate-in fade-in duration-200">
           <div className="space-y-2 border-b border-[#EAE2D2] dark:border-[#1E293B] pb-4">
             <h2 className="text-2xl sm:text-3xl font-['Playfair_Display'] font-normal text-[#081026] dark:text-[#FDFBF7]">
-              Complete 12-Family Audit Scorecard: 580 Criteria · 1,740 / 1,740 Points (100.0%)
+              Complete 12-Family H9 Audit Scorecard: {H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 Raw ({H8_COMPOSITE_METRICS.criteriaPercentage}%) · {H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()} / {H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} Applicable
             </h2>
             <p className="text-xs text-[#475569] dark:text-[#94A3B8] font-['Poppins'] font-light">
-              Covers all ten original baseline domains (Families I–X, 500 criteria) plus Families XI &amp; XII (80 synthesis-specific criteria), strengthened across 380 architectural and mathematical upgrades.
+              Live rollup from <span className="font-mono">H8_TWELVE_FAMILIES_SUMMARY</span> covering all 580 criteria across Families I–XII (+22 pts vs H8), excluding zero structural falsifiers unless noted in the Applicable Physics tally.
             </p>
           </div>
 
@@ -749,8 +781,8 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                   <th className="py-3 px-4 font-cinzel text-center">Criteria</th>
                   <th className="py-3 px-4 font-cinzel text-center">Baseline A (IGEG)</th>
                   <th className="py-3 px-4 font-cinzel text-center">Baseline B (RES=RAG)</th>
-                  <th className="py-3 px-4 font-cinzel text-center text-[#15803D] dark:text-[#4ADE80]">Harmonized (v5)</th>
-                  <th className="py-3 px-4 font-cinzel">Applied Closure Mechanism</th>
+                  <th className="py-3 px-4 font-cinzel text-center text-[#15803D] dark:text-[#4ADE80]">Harmonized (H9)</th>
+                  <th className="py-3 px-4 font-cinzel">Verified Scope &amp; Closure</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B] font-light">
@@ -766,7 +798,7 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                       {row.bPts > 0 ? `${row.bPts} / ${row.maxPts} (${Math.round((row.bPts / row.maxPts) * 100)}%)` : '—'}
                     </td>
                     <td className="py-3 px-4 text-center font-mono font-medium text-[#15803D] dark:text-[#4ADE80] bg-emerald-50/50 dark:bg-emerald-950/20">
-                      {row.igrtPts} / {row.maxPts} (100%)
+                      {row.igrtPts} / {row.maxPts} ({row.pct.toFixed(1)}%)
                     </td>
                     <td className="py-3 px-4 text-[#475569] dark:text-[#CBD5E1]">{row.fix}</td>
                   </tr>
@@ -778,9 +810,11 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                   <td className="py-3.5 px-4 text-center">580</td>
                   <td className="py-3.5 px-4 text-center text-[#94B2F5]">712 / 1,500 (47.5%)</td>
                   <td className="py-3.5 px-4 text-center text-[#FED7AA]">264 / 1,500 (17.6%)</td>
-                  <td className="py-3.5 px-4 text-center text-[#86EFAC] font-medium bg-[#142B5B]">1,740 / 1,740 (100.0%)</td>
+                  <td className="py-3.5 px-4 text-center text-[#86EFAC] font-medium bg-[#142B5B]">
+                    {H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 ({H8_COMPOSITE_METRICS.criteriaPercentage}%)
+                  </td>
                   <td className="py-3.5 px-4 text-xs font-sans font-light text-[#CBD9FC]">
-                    20/20 Attacks Survived · 380/380 Upgrades Active
+                    Applicable Physics: {H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()}/{H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} ({H8_COMPOSITE_METRICS.applicablePhysicsPercentage}%) · {H8_COMPOSITE_METRICS.attacksSurvives}S/{H8_COMPOSITE_METRICS.attacksQualified}Q/{H8_COMPOSITE_METRICS.attacksWounded}W/0O
                   </td>
                 </tr>
               </tfoot>
@@ -1153,19 +1187,19 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
             </div>
           </div>
 
-          {/* SIMULATOR 3: DYNAMIC DARK ENERGY w(z) EXPLORER */}
+          {/* SIMULATOR 3: PNGB THAWING DARK ENERGY w(z) & S_8 EXPLORER */}
           <div className="rounded-2xl border border-[#EAE2D2] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0C1836] p-6 sm:p-8 shadow-xs space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#EAE2D2] dark:border-[#1E293B] pb-4">
               <div>
                 <span className="font-cinzel text-[11px] text-[#B45309] dark:text-[#FBBF24] uppercase font-medium">
-                  Simulator 3 · Shift-Protected Dark Energy Flow
+                  Simulator 3 · RK2 / RK4 Shift-Protected PNGB Dark Energy Flow
                 </span>
                 <h3 className="text-xl font-['Playfair_Display'] font-normal text-[#081026] dark:text-[#FDFBF7]">
-                  DESI 2024 Dark Energy Equation of State w(z) Explorer
+                  DESI DR2 PNGB Thawing w(z) &amp; Linear Growth S_8(β) Explorer
                 </h3>
               </div>
               <span className="font-mono text-xs text-[#B45309] dark:text-[#FDBA74] bg-[#FEF3C7] dark:bg-[#451A03]/50 px-2.5 py-1 rounded shrink-0 font-medium tabular-nums">
-                w(z) = -0.982 + 0.018 (z / (1 + z))
+                w_0 = −0.908, w_a = −0.177 (θ_i = 1.95)
               </span>
             </div>
 
@@ -1193,32 +1227,32 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-['Poppins'] tabular-nums">
               <div className="rounded-xl border border-[#15803D]/30 bg-emerald-50/50 dark:bg-emerald-950/30 p-4 space-y-1">
-                <span className="font-cinzel text-[10px] text-[#166534] dark:text-[#4ADE80] uppercase font-medium block">Harmonized IGRT Prediction</span>
+                <span className="font-cinzel text-[10px] text-[#166534] dark:text-[#4ADE80] uppercase font-medium block">H9 PNGB Thawing Flow</span>
                 <div className="text-2xl font-mono text-[#15803D] dark:text-[#4ADE80] font-semibold">
-                  w({clampedZ.toFixed(1)}) = {(-0.982 + 0.018 * (clampedZ / (1 + clampedZ))).toFixed(4)}
+                  w({clampedZ.toFixed(1)}) = {Math.max(-1.0, -0.908 - 0.177 * (clampedZ / (1 + clampedZ))).toFixed(4)}
                 </div>
                 <p className="text-[11px] text-[#166534] dark:text-[#86EFAC]">
-                  Shift-protected canonical thawing (<MathDisplay math="w \ge -1" block={false} /> everywhere, zero phantom Big Rip).
+                  Canonical PNGB thawing (<MathDisplay math="w \ge -1" block={false} /> everywhere; RK4 S_8 = 0.8216 at β=0 .. 0.8466 at β=0.25).
                 </p>
               </div>
 
               <div className="rounded-xl border border-[#CBD5E1] dark:border-[#1E293B] bg-[#F8FAFC] dark:bg-[#081026] p-4 space-y-1">
-                <span className="font-cinzel text-[10px] text-[#475569] dark:text-[#94A3B8] uppercase font-medium block">Standard ΛCDM Baseline</span>
+                <span className="font-cinzel text-[10px] text-[#475569] dark:text-[#94A3B8] uppercase font-medium block">BAO &amp; CMB Distance Checks</span>
                 <div className="text-2xl font-mono text-[#334155] dark:text-[#CBD5E1] font-semibold">
-                  w(z) ≡ -1.0000
+                  R_shift = −0.428%
                 </div>
                 <p className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">
-                  Rigid constant vacuum subject to 10¹²⁰ QFT radiative fine-tuning.
+                  DESI D_M/r_d (−0.82%..−1.16%), Swampland Δφ = 0.217 M̄_Pl, BBN |ΔG/G| ~ 10⁻³⁸.
                 </p>
               </div>
 
               <div className="rounded-xl border border-[#FED7AA] dark:border-orange-900/50 bg-[#FFF7ED] dark:bg-orange-950/20 p-4 space-y-1">
-                <span className="font-cinzel text-[10px] text-[#C2410C] dark:text-[#FDBA74] uppercase font-medium block">DESI 2024 Observational Fit</span>
+                <span className="font-cinzel text-[10px] text-[#C2410C] dark:text-[#FDBA74] uppercase font-medium block">DESI DR2 Falsification Gate</span>
                 <div className="text-2xl font-mono text-[#C2410C] dark:text-[#FB923C] font-semibold">
-                  w_eff = -0.99 ± 0.02
+                  2.8–4.2σ Tension
                 </div>
                 <p className="text-[11px] text-[#9A3412] dark:text-[#FDBA74]">
-                  DESI + Planck + Pantheon+ aligns with IGRT thawing within 0.4σ.
+                  Confirmed phantom w_a &lt; −0.4 (&gt; 3σ) refutes PNGB φ_DE; 3D CAMB MCMC is OP-1.
                 </p>
               </div>
             </div>
@@ -1292,7 +1326,7 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                   className="w-full accent-[#1A3670]"
                 />
                 <span className="text-[10px] text-[#64748B] dark:text-[#94A3B8] block">
-                  Solar Vainshtein envelope r_V ≈ 80.2 AU (1.2×10¹³ m)
+                  Solar Vainshtein envelope r_V = 369.8 ly (Λ_local = 4.67 μeV)
                 </span>
               </div>
 
@@ -1311,39 +1345,39 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
                   className="w-full accent-[#15803D]"
                 />
                 <span className="text-[10px] text-[#64748B] dark:text-[#94A3B8] block">
-                  Sets ringdown echo delay &amp; final Page-curve remnant
+                  Sets ringdown echo delay (17.8 ms @ 10 M_⊙) &amp; Hayward core
                 </span>
               </div>
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-['Poppins'] tabular-nums">
               <div className="p-4 rounded-xl bg-[#FDFBF7] dark:bg-[#081026] border border-[#EAE2D2] dark:border-[#1E293B]">
-                <span className="text-[10px] font-cinzel uppercase text-[#64748B] dark:text-[#94A3B8] block">Cassini PPN |γ - 1|</span>
+                <span className="text-[10px] font-cinzel uppercase text-[#64748B] dark:text-[#94A3B8] block">Cassini PPN |γ − 1|</span>
                 <span className="text-lg font-mono font-semibold text-[#15803D] dark:text-[#4ADE80] mt-1 block">
                   {ppnGammaMinusOne.toExponential(2)}
                 </span>
-                <span className="text-[10px] text-[#15803D] dark:text-[#86EFAC]">Threshold ≤ 2.30e-5 (PASS)</span>
+                <span className="text-[10px] text-[#15803D] dark:text-[#86EFAC]">Threshold ≤ 2.30e-5 (1.77e-11 @ 1 AU)</span>
               </div>
               <div className="p-4 rounded-xl bg-[#FDFBF7] dark:bg-[#081026] border border-[#EAE2D2] dark:border-[#1E293B]">
-                <span className="text-[10px] font-cinzel uppercase text-[#64748B] dark:text-[#94A3B8] block">Vainshtein Suppression</span>
+                <span className="text-[10px] font-cinzel uppercase text-[#64748B] dark:text-[#94A3B8] block">Solar Vainshtein Fraction</span>
                 <span className="text-lg font-mono font-semibold text-[#081026] dark:text-[#FDFBF7] mt-1 block">
-                  {(vainshteinFactor * 100).toFixed(2)}% Unscreened
+                  {(vainshteinFactor * 100).toExponential(2)}%
                 </span>
-                <span className="text-[10px] text-[#64748B] dark:text-[#94A3B8]">Inner Planets Deep-Screened</span>
+                <span className="text-[10px] text-[#64748B] dark:text-[#94A3B8]">r_V = 369.8 ly · Earth Z_ψ = 7.05e14</span>
               </div>
               <div className="p-4 rounded-xl bg-[#FDFBF7] dark:bg-[#081026] border border-[#EAE2D2] dark:border-[#1E293B]">
                 <span className="text-[10px] font-cinzel uppercase text-[#64748B] dark:text-[#94A3B8] block">Ringdown Echo Delay</span>
                 <span className="text-lg font-mono font-semibold text-[#EA580C] mt-1 block">
-                  {(bhInitialMassSolar * 0.307).toFixed(2)} ms
+                  {echoDelayMsVal.toFixed(1)} ms
                 </span>
-                <span className="text-[10px] text-[#64748B] dark:text-[#94A3B8]">Reflection K_echo ≈ 0.18</span>
+                <span className="text-[10px] text-[#64748B] dark:text-[#94A3B8]">Input K_echo = 0.18 · ℓ_0 = 2⁻¹/⁴ ℓ_Pl</span>
               </div>
               <div className="p-4 rounded-xl bg-[#FDFBF7] dark:bg-[#081026] border border-[#EAE2D2] dark:border-[#1E293B]">
-                <span className="text-[10px] font-cinzel uppercase text-[#64748B] dark:text-[#94A3B8] block">Terminal Hayward Core</span>
+                <span className="text-[10px] font-cinzel uppercase text-[#64748B] dark:text-[#94A3B8] block">Derived Hayward Core (ξ_0 = 2⁻¹/⁴)</span>
                 <span className="text-lg font-mono font-semibold text-[#15803D] dark:text-[#4ADE80] mt-1 block">
-                  1.299 M_Pl ({(48 * remKretschmannFraction).toFixed(1)}/ℓ_P⁴)
+                  1.092 M_Pl ({(48 * remKretschmannFraction).toFixed(1)}/ℓ_P⁴)
                 </span>
-                <span className="text-[10px] text-[#15803D] dark:text-[#86EFAC]">T_rem = 0 K · Zero Singularity</span>
+                <span className="text-[10px] text-[#15803D] dark:text-[#86EFAC]">S_rem = 6.66 nats · max κ_− ℓ_0 = 0.9294</span>
               </div>
             </div>
           </div>

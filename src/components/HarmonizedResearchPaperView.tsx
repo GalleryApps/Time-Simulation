@@ -568,7 +568,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                 </div>
 
                 <div className="space-y-4 py-2">
-                  <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>What Changed in Harmonized Edition H8</h3>
+                  <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>What Changed in Harmonized Edition H10</h3>
                   <div className="grid grid-cols-1 gap-3">
                     {WHAT_CHANGED_SUMMARY.map((wc) => (
                       <div
@@ -1166,7 +1166,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                         <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530]">
                           <table className="w-full text-left igrt-tabular" style={{ fontSize: '13.5px', lineHeight: 1.5 }}>
                             <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
-                              Table I.1: Revision History (H6 → H7 → H8)
+                              Table I.1: Revision History (H6 → H7 → H8 → H9 → H10)
                             </caption>
                             <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
                               <tr>

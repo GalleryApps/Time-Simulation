@@ -75,8 +75,8 @@ export function runFullStressTest(params: SimulationParams): {
 
   // Primordial Gravitational Wave power spectra
   // Model A: Information-geometric action softens tensor-to-scalar ratio r and modifies tilt n_t
-  const tensorToScalarRatio_r_igig = 0.0032; // Strongly suppressed by Fisher damping
-  const tensorTilt_nt_igig = -0.012; // Slight red tilt
+  const tensorToScalarRatio_r_igig = 0.0123; // H9 k-essence bounce prediction r = 24 c_s^3 (c_s = 0.08)
+  const tensorTilt_nt_igig = -0.0363; // Shared red tensor tilt n_T = n_s - 1
   
   // Model B: Discrete sprinkling induces stochastic tensor fluctuations
   const tensorToScalarRatio_r_causal = 0.048; // Poisson sprinkling noise elevates tensor modes
@@ -128,7 +128,7 @@ export function runFullStressTest(params: SimulationParams): {
       modelBScore: 93,
       keyMetric: 'CTA GRB Photon Dispersion vs Tabletop Cavity Fisher Phase Decoherence',
       verdict: 'Model B Superior',
-      notes: 'Model B produces immediate, testable LIV energy dispersion on TeV photons (Fermi-LAT / CTA), while Model A requires ultra-sensitive 10^-21 rad atom-interferometry.'
+      notes: 'Model B produces testable LIV energy dispersion on TeV photons (Fermi-LAT / CTA), while Model A shifts to P2 cryogenic 10^-14 kg nanosphere interferometry and P5 CANNEX Chameleon metrology.'
     }
   ];
 

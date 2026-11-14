@@ -206,7 +206,7 @@ export function buildSelfContainedMonographHtml(): string {
   ${
     app.letter === 'I'
       ? `<table class="data-table">
-  <caption>Table I.1: Revision History (Editions H6 → H7 → H8)</caption>
+  <caption>Table I.1: Revision History (Editions H6 → H7 → H8 → H9 → H10)</caption>
   <thead><tr><th>Edition</th><th>Scope</th><th>Physics &amp; Numerical Closures</th><th>Editorial &amp; Verification Closures</th></tr></thead>
   <tbody>${REVISION_HISTORY_TABLE.map(
     (rev) =>
@@ -610,7 +610,7 @@ export function buildSelfContainedMonographHtml(): string {
     <div class="chapter-kicker">Summary &amp; Editorial Reference Apparatus</div>
     <h2>Summary, Symbols &amp; Indices</h2>
 
-    <h3>What Changed in Harmonized Edition H8</h3>
+    <h3>What Changed in Harmonized Edition H10</h3>
     <ul>${WHAT_CHANGED_SUMMARY.map((wc) => `<li><strong>${fmt(wc.category)}:</strong> ${fmt(wc.detail)}</li>`).join('')}</ul>
 
     <h3>Summary</h3>

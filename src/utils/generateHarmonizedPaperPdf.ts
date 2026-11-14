@@ -1602,7 +1602,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   // =========================================================
   startChapterOnNewPage();
   drawPlayfairHeadline('Summary, Symbols & Indices', 28, 0.18);
-  writeRichParagraph('WHAT CHANGED IN HARMONIZED EDITION H8', {
+  writeRichParagraph('WHAT CHANGED IN HARMONIZED EDITION H10', {
     font: 'sans',
     size: 9.2,
     color: [139, 69, 19],
@@ -1929,7 +1929,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     }
     if (app.letter === 'I') {
       drawPdfTable(
-        'TABLE I.1: REVISION HISTORY (EDITIONS H6 → H7 → H8)',
+        'TABLE I.1: REVISION HISTORY (EDITIONS H6 → H7 → H8 → H9 → H10)',
         [
           { header: 'Edition', width: 1.05, font: 'serif', style: 'bold', color: [139, 69, 19] },
           { header: 'Scope', width: 1.15, justify: true },

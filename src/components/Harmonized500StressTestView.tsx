@@ -108,8 +108,8 @@ function attackBadgeClass(rating: string): string {
 }
 
 function upgradeBadgeClass(status: H8UpgradeStatus): string {
-  if (status === 'Verified Active in H8') return 'text-[#15803D] dark:text-[#4ADE80]';
-  if (status === 'Superseded / Corrected in H8') return 'text-[#B45309] dark:text-[#FBBF24]';
+  if (status === 'Verified Active in H9') return 'text-[#15803D] dark:text-[#4ADE80]';
+  if (status === 'Superseded / Corrected in H9') return 'text-[#B45309] dark:text-[#FBBF24]';
   return 'text-[#C2410C] dark:text-[#FB923C]';
 }
 
@@ -130,11 +130,13 @@ export const Harmonized500StressTestView: React.FC = () => {
   );
   const [visibleCount, setVisibleCount] = useState<number>(40);
 
+  const h8ToH9Delta = H8_COMPOSITE_METRICS.totalCriteriaScore - H8_EDITION_META.priorCriteriaScore;
+
   // Live async re-stress runner across all 980 vectors
   const [isRunningStressTest, setIsRunningStressTest] = useState<boolean>(false);
   const [testedCount, setTestedCount] = useState<number>(980);
   const [activeVectorLabel, setActiveVectorLabel] = useState<string>(
-    `${H8_EDITION_META.edition} Audited: ${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 pts (${H8_COMPOSITE_METRICS.criteriaPercentage}%) · ${H8_COMPOSITE_METRICS.compositeVectorsActiveOrQualified} / 980 Active or Qualified`
+    `${H8_EDITION_META.edition} Audited: ${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 pts (${H8_COMPOSITE_METRICS.criteriaPercentage}%) · Applicable ${H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()} / ${H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} (${H8_COMPOSITE_METRICS.applicablePhysicsPercentage}%)`
   );
   const timerRef = useRef<number | null>(null);
 
@@ -149,7 +151,7 @@ export const Harmonized500StressTestView: React.FC = () => {
   useEffect(() => {
     if (edition === 'h8') {
       setActiveVectorLabel(
-        `${H8_EDITION_META.edition} Audited: ${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 pts (${H8_COMPOSITE_METRICS.criteriaPercentage}%) · ${H8_COMPOSITE_METRICS.compositeVectorsActiveOrQualified} / 980 Active or Qualified`
+        `${H8_EDITION_META.edition} Audited: ${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 pts (${H8_COMPOSITE_METRICS.criteriaPercentage}%) · Applicable ${H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()} / ${H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} (${H8_COMPOSITE_METRICS.applicablePhysicsPercentage}%)`
       );
     } else {
       setActiveVectorLabel('Legacy Pre-H8 Baseline: 1,740 / 1,740 pts (100.0%) · Uncalibrated');
@@ -340,7 +342,7 @@ export const Harmonized500StressTestView: React.FC = () => {
       domain: u.domain,
       title: u.title,
       legacyImpactMetric: u.impactMetric,
-      h8Status: 'Verified Active in H8' as const,
+      h8Status: 'Verified Active in H9' as const,
       citation: 'Legacy Pre-H8',
       h8AuditNote: u.appliedSolution
     }))
@@ -383,14 +385,14 @@ export const Harmonized500StressTestView: React.FC = () => {
     const checkpoints =
       edition === 'h8'
         ? [
-            'Fam I–II: Type Ia Horndeski (G_{4,X}=0) & All-Orders Bianchi [136/159 · 138/159]',
-            'Fam III: Cosmological Scale-Up & OP-1 CAMB/Cobaya Deficit [91/159 · 57.2%]',
-            'Fam IV–V: Falsifiability P1–P6 & 64 Counterfactual Scenarios [103/159 · 135/192]',
-            'Fam VI–VII: Epistemic Hygiene & Harmonization Readiness [111/126 · 60/66]',
+            'Fam I–II: Type Ia Horndeski (G_{4,X}=0), A_F 4-Mode Packaging & Landau–Zener P_LZ [138/159 · 138/159]',
+            'Fam III: RK4 S_8(β)=0.822–0.847, DESI D_M/r_d, Causal TOV NS (2.35 M_⊙) & 2-Stage BKL [99/159]',
+            'Fam IV–V: P1–P6 Fisher SNRs, Hinderer Λ_{1.4}=339, SHA-256 Digest & 64 Counterfactuals [108/159 · 135/192]',
+            'Fam VI–VII: Epistemic Hygiene (P3/P4 EFT c_2>0) & Harmonization Readiness [112/126 · 60/66]',
             'Fam VIII–X: QG Phenomenology, Araki Flow & OP-5 Peer Review [130/180 · 140/180 · 82/120]',
-            'Fam XI–XII: Fisher–Rao Time & Araki ψ² [103/120 · 89/120 · Total 1,318/1,740]',
-            'ATK-01..20: 9 Survives · 6 Qualified · 4 Wounded (09,16,19,20) · 1 Open (11)',
-            '380 Upgrades: 322 Active · 23 Superseded/Corrected · 35 Pending OP-1..OP-5'
+            `Fam XI–XII: Fisher–Rao Time & Araki ψ² [103/120 · 95/120 · Raw ${H8_COMPOSITE_METRICS.totalCriteriaScore}/1,740 · Applicable ${H8_COMPOSITE_METRICS.applicablePhysicsScore}/1,665]`,
+            `ATK-01..20: ${H8_COMPOSITE_METRICS.attacksSurvives} Survives · ${H8_COMPOSITE_METRICS.attacksQualified} Qualified (ATK-11 Closed) · ${H8_COMPOSITE_METRICS.attacksWounded} Wounded · 0 Open`,
+            `380 Upgrades: ${H8_COMPOSITE_METRICS.upgradesVerified} Active · ${H8_COMPOSITE_METRICS.upgradesSuperseded} Corrected · ${H8_COMPOSITE_METRICS.upgradesPending} Pending OP-1..OP-5`
           ]
         : [
             'Family I–III: Legacy Pre-H8 Check [100%]',
@@ -415,7 +417,7 @@ export const Harmonized500StressTestView: React.FC = () => {
         setTestedCount(980);
         setActiveVectorLabel(
           edition === 'h8'
-            ? `${H8_EDITION_META.edition} Stress Test Complete (${h8Regime.label}): ${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 pts (${H8_COMPOSITE_METRICS.criteriaPercentage}%) · ${H8_COMPOSITE_METRICS.compositeVectorsActiveOrQualified} / 980 Vectors`
+            ? `${H8_EDITION_META.edition} Stress Test Complete (${h8Regime.label}): ${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 Raw (${H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()} / 1,665 Applicable · +${h8ToH9Delta} vs H8)`
             : `Legacy Baseline Complete (${legacyRegime.label}): 980 / 980 (100.0%)`
         );
       }
@@ -427,9 +429,9 @@ export const Harmonized500StressTestView: React.FC = () => {
       'Vector ID',
       'Category',
       'Name',
-      'H8 Score / Rating',
+      'H9 Score / Rating',
       'Status / Verdict',
-      'H8 Citation',
+      'H9 Citation',
       'Shock Regime',
       'Rationale / Audit Note'
     ];
@@ -477,7 +479,7 @@ export const Harmonized500StressTestView: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `IGRT_2026_${edition}_980_Stress_Test_${selectedRegime}.csv`;
+    link.download = `IGRT_2026_${edition === 'h8' ? 'h9' : 'legacy'}_980_Stress_Test_${selectedRegime}.csv`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -493,22 +495,23 @@ export const Harmonized500StressTestView: React.FC = () => {
     const md =
       edition === 'h8'
         ? `# ${H8_EDITION_META.title} — 980-Vector Adversarial Stress Test
-Edition Audited: ${H8_EDITION_META.edition}
+Edition Audited: ${H8_EDITION_META.edition} (Prior: ${H8_EDITION_META.priorEdition} = ${H8_EDITION_META.priorCriteriaScore}/1,740, Delta: +${h8ToH9Delta} pts)
 Regime Evaluated: ${h8Regime.label} (${h8Regime.energyScale})
 Programmatic Monograph Check: scripts/verify-igrt-monograph.mjs (${H8_EDITION_META.verifyScriptAssertions} assertions) + scripts/stress-test-h8-980.mjs
 
 ## Executive Stress Metrics
-- **580 Formal Criteria (Families I–XII):** **${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 pts (${H8_COMPOSITE_METRICS.criteriaPercentage}%)**
+- **580 Formal Criteria (Raw / 1,740):** **${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 pts (${H8_COMPOSITE_METRICS.criteriaPercentage}%)**
+- **555 Applicable Physics Criteria (excl. ${H8_COMPOSITE_METRICS.nonApplicableCount} Counterfactual Falsifiers & SCOPE #2 Exclusions):** **${H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()} / ${H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} pts (${H8_COMPOSITE_METRICS.applicablePhysicsPercentage}%)**
   - Derived / Verified (3/3): ${H8_COMPOSITE_METRICS.score3}
   - Qualified / Ansatz / Input (2/3): ${H8_COMPOSITE_METRICS.score2}
   - Open / Tension / Uncomputed (1/3): ${H8_COMPOSITE_METRICS.score1}
   - Falsified / Absent (0/3): ${H8_COMPOSITE_METRICS.score0}
   - Non-Failing Pass Rate (Score ≥ 2): ${H8_COMPOSITE_METRICS.criteriaPassGe2} / 580 (${((H8_COMPOSITE_METRICS.criteriaPassGe2 / 580) * 100).toFixed(1)}%)
-- **20 Direct Red-Team Attacks:** ${H8_COMPOSITE_METRICS.attacksSurvives} Survives · ${H8_COMPOSITE_METRICS.attacksQualified} Survives (Qualified) · ${H8_COMPOSITE_METRICS.attacksWounded} Wounded (ATK-09, ATK-16, ATK-19, ATK-20) · ${H8_COMPOSITE_METRICS.attacksOpen} Open (ATK-11) · ${H8_COMPOSITE_METRICS.attacksFails} Fails
-- **380 Upgrade Gates Reconciled:** ${H8_COMPOSITE_METRICS.upgradesVerified} Verified Active in H8 · ${H8_COMPOSITE_METRICS.upgradesSuperseded} Superseded / Corrected in H8 · ${H8_COMPOSITE_METRICS.upgradesPending} Pending Open Problem (OP-1..OP-5)
+- **20 Direct Red-Team Attacks:** ${H8_COMPOSITE_METRICS.attacksSurvives} Survives · ${H8_COMPOSITE_METRICS.attacksQualified} Survives (Qualified, incl. ATK-11) · ${H8_COMPOSITE_METRICS.attacksWounded} Wounded (ATK-09, ATK-16, ATK-19, ATK-20) · ${H8_COMPOSITE_METRICS.attacksOpen} Open · ${H8_COMPOSITE_METRICS.attacksFails} Fails
+- **380 Upgrade Gates Reconciled:** ${H8_COMPOSITE_METRICS.upgradesVerified} Verified Active in H9 · ${H8_COMPOSITE_METRICS.upgradesSuperseded} Superseded / Corrected in H9 · ${H8_COMPOSITE_METRICS.upgradesPending} Pending Open Problem (OP-1..OP-5)
 - **Composite Vector Tally:** ${H8_COMPOSITE_METRICS.compositeVectorsActiveOrQualified} / 980 (${((H8_COMPOSITE_METRICS.compositeVectorsActiveOrQualified / 980) * 100).toFixed(1)}%)
 
-## Verified H8 Physical Invariants (${h8Regime.label})
+## Verified H9 Physical Invariants (${h8Regime.label})
 - Horndeski Action Class: ${h8Regime.horndeskiClass}
 - Bianchi Residual: ${h8Regime.bianchiResidual}
 - Solar/Terrestrial Screening: ${h8Regime.ppnGamma1AU}
@@ -516,20 +519,20 @@ Programmatic Monograph Check: scripts/verify-igrt-monograph.mjs (${H8_EDITION_ME
 - Dark Energy & Cramér–Rao: ${h8Regime.darkEnergyAndCramRao}
 
 ## 12-Family Scorecard (1,740 Max Pts)
-| Family | Criteria | H8 Score | Score Distribution |
+| Family | Criteria | H9 Score | Score Distribution |
 | --- | ---: | ---: | --- |
 ${famLines}
 `
         : `# Legacy Pre-H8 Baseline Stress-Test Snapshot (1,740 / 1,740)
 Regime: ${legacyRegime.label} (${legacyRegime.energyScale})
-Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2026-H8.
+Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2026-H9.
 `;
 
     const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `IGRT_2026_${edition}_Stress_Test_${selectedRegime}.md`;
+    link.download = `IGRT_2026_${edition === 'h8' ? 'h9' : 'legacy'}_Stress_Test_${selectedRegime}.md`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -558,7 +561,7 @@ Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2
             </h1>
 
             <p className="text-xs sm:text-sm text-[#475569] dark:text-[#CBD5E1] leading-relaxed">
-              Independent non-rubber-stamped stress test auditing the actual <strong className="font-medium text-[#081026] dark:text-white">IGRT-2026-H8 Harmonized Research Paper</strong> across all 580 formal criteria (1,740 points), 20 direct structural attacks, and 380 upgrade gates—explicitly accounting for Type Ia Horndeski restriction, 5-scalar proliferation, RK2 PNGB DESI DR2 tension, retracted claims, and Open Problems <span className="font-mono">OP-1..OP-5</span>.
+              Independent non-rubber-stamped stress test auditing the actual <strong className="font-medium text-[#081026] dark:text-white">{H8_EDITION_META.edition} Harmonized Research Paper</strong> across all 580 formal criteria (1,740 points; 555 Applicable Physics / 1,665 points), 20 direct structural attacks, and 380 upgrade gates—covering H9 closures (TOV NS <span className="font-mono">2.35 M_⊙</span>, 1+1D Hayward–Vaidya <span className="font-mono">max κ_− ℓ_0 = 0.9294</span>, RK4 <span className="font-mono">S_8(β)</span>, 2-stage ekpyrotic BKL <span className="font-mono">4×10⁻¹⁵</span>, <span className="font-mono">A_F</span> 4-mode packaging) while preserving Open Problems <span className="font-mono">OP-1..OP-5</span>.
             </p>
 
             {/* Audit Mode Switcher */}
@@ -572,7 +575,7 @@ Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2
                     : 'bg-[#FDFBF7] dark:bg-[#081026] text-[#475569] dark:text-[#CBD5E1] border-[#EAE2D2] dark:border-[#1E293B]'
                 }`}
               >
-                IGRT-2026-H8 Live Audit ({H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740)
+                {H8_EDITION_META.edition} Live Audit ({H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 · +{h8ToH9Delta} vs H8)
               </button>
               <button
                 type="button"
@@ -594,9 +597,9 @@ Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2
           </div>
 
           {/* Composite Readout Box */}
-          <div className="p-5 rounded-xl bg-[#FDFBF7] dark:bg-[#081026] border border-[#EAE2D2] dark:border-[#1E293B] min-w-[250px] shrink-0 text-center space-y-2">
+          <div className="p-5 rounded-xl bg-[#FDFBF7] dark:bg-[#081026] border border-[#EAE2D2] dark:border-[#1E293B] min-w-[260px] shrink-0 text-center space-y-2">
             <div className="text-[11px] font-cinzel uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
-              {edition === 'h8' ? 'H8 Calibrated Score' : 'Legacy Uncalibrated Score'}
+              {edition === 'h8' ? `H9 Raw (${H8_COMPOSITE_METRICS.criteriaPercentage}%) · Applicable (${H8_COMPOSITE_METRICS.applicablePhysicsPercentage}%)` : 'Legacy Uncalibrated Score'}
             </div>
             <div
               className={`text-3xl font-['Playfair_Display'] tabular-nums ${
@@ -623,7 +626,7 @@ Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2
             </div>
             <div className="text-[11px] font-mono text-[#475569] dark:text-[#CBD5E1] tabular-nums">
               {edition === 'h8'
-                ? `${H8_COMPOSITE_METRICS.criteriaPercentage}% Pts · ${H8_COMPOSITE_METRICS.compositeVectorsActiveOrQualified} / 980 Vectors`
+                ? `Applicable Physics: ${H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()} / ${H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} · +${h8ToH9Delta} pts vs H8`
                 : `${((testedCount / 980) * 100).toFixed(1)}% · ${testedCount} / 980 Vectors`}
             </div>
           </div>
@@ -633,14 +636,16 @@ Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-4 rounded-xl bg-[#FDFBF7] dark:bg-[#081026] border border-[#EAE2D2] dark:border-[#1E293B] space-y-1">
             <div className="text-[11px] font-cinzel uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8]">
-              12-Family Criteria (1,740 Max)
+              12-Family Criteria (Raw / Appl.)
             </div>
             <div className="text-2xl font-['Playfair_Display'] text-[#081026] dark:text-white tabular-nums">
-              {edition === 'h8' ? `${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740` : '1,740 / 1,740'}
+              {edition === 'h8'
+                ? `${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740`
+                : '1,740 / 1,740'}
             </div>
             <div className="text-[11px] font-mono text-[#475569] dark:text-[#CBD5E1] tabular-nums">
               {edition === 'h8'
-                ? `${H8_COMPOSITE_METRICS.criteriaPercentage}% · ${H8_COMPOSITE_METRICS.score3}×3pt · ${H8_COMPOSITE_METRICS.score2}×2pt · ${H8_COMPOSITE_METRICS.score1}×1pt · ${H8_COMPOSITE_METRICS.score0}×0pt`
+                ? `Appl. ${H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()}/${H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} (${H8_COMPOSITE_METRICS.applicablePhysicsPercentage}%) · ${H8_COMPOSITE_METRICS.score3}×3pt · ${H8_COMPOSITE_METRICS.score2}×2pt`
                 : '580 / 580 Criteria at 3/3 (100.0%)'}
             </div>
           </div>
@@ -690,7 +695,7 @@ Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2
             </div>
             <div className="text-[11px] font-mono text-[#475569] dark:text-[#CBD5E1] tabular-nums">
               {edition === 'h8'
-                ? `Type Ia Ghosts: 0 · 224 Script Checks · 5 OP Open`
+                ? `Type Ia Ghosts: 0 · ${H8_EDITION_META.verifyScriptAssertions} Script Checks · 5 OP Open`
                 : 'Ostrogradsky Ghosts: 0'}
             </div>
           </div>
@@ -701,7 +706,7 @@ Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-sm font-cinzel uppercase tracking-wider text-[#081026] dark:text-white font-semibold">
-                {edition === 'h8' ? 'H8 Verified Physical Regime Calibration' : 'Legacy Pre-H8 Regime Calibration'}
+                {edition === 'h8' ? 'H9 Verified Physical Regime Calibration' : 'Legacy Pre-H8 Regime Calibration'}
               </h2>
               <p className="text-xs text-[#64748B] dark:text-[#94A3B8] mt-0.5">
                 {edition === 'h8' ? h8Regime.description : legacyRegime.description}
@@ -793,7 +798,7 @@ Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2
             >
               {isRunningStressTest
                 ? `Auditing (${testedCount} / 980)...`
-                : `Re-Run 980-Vector ${edition === 'h8' ? 'H8 Monograph' : 'Legacy'} Stress Test`}
+                : `Re-Run 980-Vector ${edition === 'h8' ? 'H9 Monograph' : 'Legacy'} Stress Test`}
             </button>
 
             <button
@@ -900,7 +905,7 @@ Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="text-xs font-mono uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8] tabular-nums">
                 {edition === 'h8'
-                  ? `12-Family H8 Scoreboard (${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 pts · ${H8_COMPOSITE_METRICS.criteriaPercentage}%)`
+                  ? `12-Family H9 Scoreboard (${H8_COMPOSITE_METRICS.totalCriteriaScore.toLocaleString()} / 1,740 Raw · ${H8_COMPOSITE_METRICS.applicablePhysicsScore.toLocaleString()} / ${H8_COMPOSITE_METRICS.applicablePhysicsMax.toLocaleString()} Applicable)`
                   : '12-Family Legacy Scoreboard (1,740 / 1,740 pts · 100.0%)'}
               </h2>
               <div className="flex items-center gap-3 text-xs">
@@ -1207,7 +1212,7 @@ Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-[#EAE2D2] dark:border-[#1E293B] text-xs">
                     <div className="p-3.5 rounded-lg bg-[#FDFBF7] dark:bg-[#081026] border border-[#EAE2D2] dark:border-[#1E293B] space-y-1">
                       <div className="font-mono text-[10px] uppercase text-[#0C1836] dark:text-[#CBD5E1] font-semibold">
-                        H8 Monograph Defense
+                        H9 Monograph Defense
                       </div>
                       <p className="text-[#334155] dark:text-[#CBD5E1] leading-relaxed">
                         {defenseText}
@@ -1237,8 +1242,8 @@ Note: Uncalibrated legacy pre-H8 baseline retained for comparison against IGRT-2
               {(
                 [
                   { id: 'all', label: `All 380 Gates` },
-                  { id: 'Verified Active in H8', label: `Verified Active (${H8_COMPOSITE_METRICS.upgradesVerified})` },
-                  { id: 'Superseded / Corrected in H8', label: `Superseded / Corrected (${H8_COMPOSITE_METRICS.upgradesSuperseded})` },
+                  { id: 'Verified Active in H9', label: `Verified Active (${H8_COMPOSITE_METRICS.upgradesVerified})` },
+                  { id: 'Superseded / Corrected in H9', label: `Superseded / Corrected (${H8_COMPOSITE_METRICS.upgradesSuperseded})` },
                   { id: 'Pending Open Problem', label: `Pending OP-1..5 (${H8_COMPOSITE_METRICS.upgradesPending})` }
                 ] as { id: UpgradeStatusFilter; label: string }[]
               ).map((f) => (

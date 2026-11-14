@@ -1161,9 +1161,13 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                           </tbody>
                           <tfoot className="bg-[#FAF6EE] dark:bg-[#081026] border-t border-[#D6CABE] dark:border-[#334155]">
                             <tr>
-                              <td colSpan={4} className="p-3 font-mono text-[12px] text-[#0F172A] dark:text-[#F8FAFC] whitespace-nowrap">
-                                <strong className="font-sans text-[#8B4513] dark:text-[#FB923C] mr-2">H10 Preregistration Digest (SHA-256):</strong>
-                                {H10_PREREG_SHA256}
+                              <td colSpan={4} className="p-3 font-mono text-[12px] text-[#0F172A] dark:text-[#F8FAFC]">
+                                <div className="font-sans text-[#8B4513] dark:text-[#FB923C] font-semibold">
+                                  H10 Preregistration Digest (SHA-256):
+                                </div>
+                                <div className="mt-0.5 text-[11.5px] whitespace-nowrap tracking-tight">
+                                  {H10_PREREG_SHA256}
+                                </div>
                               </td>
                             </tr>
                           </tfoot>

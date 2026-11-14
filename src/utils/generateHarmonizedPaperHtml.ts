@@ -201,7 +201,7 @@ export function buildSelfContainedMonographHtml(): string {
     (row) =>
       `<tr><td>${fmt(row.parameter)}</td><td>${fmt(row.formula)}</td><td>${fmt(row.value)}</td><td>${fmt(row.regime)}</td></tr>`
   ).join('')}</tbody>
-  <tfoot><tr><td colspan="4" style="font-family:var(--paper-font-mono);font-size:12px;white-space:nowrap;background:#FAF6EE;"><strong>H10 Preregistration Digest (SHA-256):</strong> ${H10_PREREG_SHA256}</td></tr></tfoot>
+  <tfoot><tr><td colspan="4" style="font-family:var(--paper-font-mono);font-size:11.5px;background:#FAF6EE;"><div><strong style="color:#8B4513;">H10 Preregistration Digest (SHA-256):</strong></div><div style="white-space:nowrap;margin-top:2px;">${H10_PREREG_SHA256}</div></td></tr></tfoot>
 </table>`
       : ''
   }
@@ -243,7 +243,7 @@ export function buildSelfContainedMonographHtml(): string {
 <title>${esc(PAPER_META.title)}</title>
 <style>
   :root {
-    --paper-font-body: "Source Serif 4", "Libre Baskerville", Georgia, "Times New Roman", serif;
+    --paper-font-body: "Source Serif 4", "DejaVu Serif", "Libre Baskerville", Georgia, "Times New Roman", serif;
     --paper-font-head: "Playfair Display", Georgia, serif;
     --paper-font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
     --paper-body-size: 18px;
@@ -409,6 +409,21 @@ export function buildSelfContainedMonographHtml(): string {
     text-align: center;
     font-size: 0.98em;
   }
+  .eq-main sub,
+  .eq-main sup,
+  p sub,
+  p sup,
+  td sub,
+  td sup,
+  li sub,
+  li sup {
+    font-size: 0.76em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  .eq-main sub, p sub, td sub, li sub { top: 0.22em; }
+  .eq-main sup, p sup, td sup, li sup { top: -0.34em; }
   .eq-num {
     font-family: var(--paper-font-mono);
     font-size: 0.85em;

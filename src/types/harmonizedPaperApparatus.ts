@@ -29,7 +29,7 @@ export const PLAIN_LANGUAGE_SUMMARY =
 export const SHORTENED_ABSTRACT = {
   paragraphs: [
     'Canonical quantum gravity encounters the Wheeler–DeWitt Problem of Time (Ĥ_total Ψ = 0), derived here by 3+1 ADM lapse variation (δS_IGRT/δN = 0) of our covariant action [Derived]. We formulate Information-Geometric Resonant Time (IGRT) on a trivial principal projective-unitary bundle P(M, PU(H)) (δ(P) = 0 ∈ H³(M, ℤ)) and associated statistical bundle E_stat = P ×_{PU(H)} S(N) over a four-dimensional Lorentzian base manifold (M, g_μν) of signature (−,+,+,+), upon which Diff⁺(M) acts via base-covering automorphisms [Derived]. On rank-preserving worldlines, an extended Jacobi–Finsler synchronization ansatz calibrated by α_mod = ℏ / (E_mod · σ_1(K_ξ)) equates proper time dτ = (1/c)√(−g_μν ẋ^μ ẋ^ν) dλ to SLD Fisher–Rao state arc length normalized per resolved clock mode (M = 1), reducing to discrete Uhlmann-purified steps τ_step ∑ ‖RAG_k − RES_k‖_F with O(N^{−2}) convergence [Ansatz]. Within Born–Oppenheimer factorization, the compact circle fiber shift H_Fisher = E_mod σ_1(K_ξ) D̂_Fisher possesses a discrete, doubly unbounded spectrum {E_mod σ_1 (2πk/L − Φ_Berry/L) : k ∈ ℤ}, circumventing Pauli’s bounded-Hamiltonian obstruction under positive-branch projection [Derived]; KMS detailed-balance quantum Markov semigroups obey instantaneous Bogoliubov–Kubo–Mori (BKM) entropy dissipation (d/dτ) S_Araki = −g̃_ij^BKM θ̇^i θ̇^j ≤ 0 [Established].',
-    'Infrared gravity is governed by the luminal Type Ia Horndeski Cubic Galileon action (G_{4,X} = 0, G_5 = 0, c_GW = c identically) [Axiom] with braiding scale Λ_3 = (M̄_Pl H_0²)^{1/3} ≈ 1.76 × 10^{−13} eV (solar Vainshtein radius r_V ≈ 370 ly, derived |γ_PPN − 1| ≈ 1.77 × 10^{−11} at 1 AU; terrestrial r_{V,⊕} ≈ 5.33 ly, Z_ψ ≈ 7.05 × 10^{14}, dressed cutoff Λ_local ≈ 4.67 μeV), verified via all-orders Jordan–Einstein Bianchi consistency [Consistency] and Horndeski Type Ia TOV + Hinderer neutron-star integration (M_max = 2.35 M_⊙, Λ_{1.4} = 339, Vainshtein suppression 1.61 × 10^{−22}, PSR J0737-3039 dipole suppression 3.44 × 10^{−15}) [Derived]. All five scalars (ψ, φ_DE, Φ_portal, φ_osc, φ_Ch) embed into the 5-mode extended Krein–Connes algebra A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch (loop mixing |ε_{ψ,Ch}| = 4.42 × 10^{−16}), anchored by a 1-loop Wetterich FRG fixed point (g_* = 1.3105, λ_* = 0.1440, θ_real = 4.835 > 0), Borel–Padé resummation (0.9126), and CDT/L_UV spectral dimension flow d_s = 3.989 → 2.002 [Derived]. Polar decomposition yields Araki diamond modulus ψ ≥ 0 (κ_ψ = ℏc ℓ_Pl/(12π) ≈ 2.173 × 10^{−21} GeV⁻¹) [Ansatz], thawing dark energy φ_DE (w_0 ≈ −0.908, w_a ≈ −0.177, S_8 = 0.8216–0.8466, τ_re = 0.0537, A_L = 0.977–1.030, E_G = 0.415, joint compressed Δχ² = +4.41 / Laplace Δln Z = −3.52 vs. ΛCDM) [Derived], 2% ULDM φ_osc (m_osc ≈ 2.65 × 10^{−23} eV, Ly-α |ΔP/P| = 3.96%) [Input], portal Φ_portal (1.84 TeV), and IR Chameleon φ_Ch (2.4 meV) [Ansatz]. An explicit UV limiting-curvature sector L_UV yields a two-stage ekpyrotic-to-matter bounce (ρ_max ≈ 0.4094 ρ_Pl, BKL shear 4.0 × 10^{−15}, post-bounce T_reh = 3.40 × 10^{10} GeV, Davidson–Ibarra leptogenesis η_B = 6.13 × 10^{−10}, n_s ≈ 0.964, red n_T ≈ −0.036, r = 0.0123, f_NL = −4.38) plus derived Hayward cores (ξ_0 = 2^{−1/4}, M_rem = 1.092 M_Pl) extended to axisymmetric Kerr–Hayward (κ_− ℓ_0 ≤ 0.6639 < 1, superradiance cavity gain 0.2048 < 1) and charged RN–Hayward (κ_−^{RN} ℓ_0 = 0.2614 < 1) stability.'
+    'Infrared gravity is governed by the luminal Type Ia Horndeski Cubic Galileon action (G_{4,X} = 0, G_5 = 0, c_GW = c identically) [Axiom] with braiding scale Λ_3 = (M̄_Pl · H_0²)^{1/3} ≈ 1.76 × 10^{−13} eV (solar Vainshtein radius r_V ≈ 370 ly, derived |γ_PPN − 1| ≈ 1.77 × 10^{−11} at 1 AU; terrestrial r_{V,⊕} ≈ 5.33 ly, Z_ψ ≈ 7.05 × 10^{14}, dressed cutoff Λ_local ≈ 4.67 μeV), verified via all-orders Jordan–Einstein Bianchi consistency [Consistency] and Horndeski Type Ia TOV + Hinderer neutron-star integration (M_max = 2.35 M_⊙, Λ_{1.4} = 339, Vainshtein suppression 1.61 × 10^{−22}, PSR J0737-3039 dipole suppression 3.44 × 10^{−15}) [Derived]. All five scalars (ψ, φ_DE, Φ_portal, φ_osc, φ_Ch) embed into the 5-mode extended Krein–Connes algebra A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch (loop mixing |ε_{ψ,Ch}| = 4.42 × 10^{−16}), anchored by a 1-loop Wetterich FRG fixed point (g_* = 1.3105, λ_* = 0.1440, θ_real = 4.835 > 0), Borel–Padé resummation (0.9126), and CDT/L_UV spectral dimension flow d_s = 3.989 → 2.002 [Derived]. Polar decomposition yields Araki diamond modulus ψ ≥ 0 (κ_ψ = ℏc ℓ_Pl/(12π) ≈ 2.173 × 10^{−21} GeV⁻¹) [Ansatz], thawing dark energy φ_DE (w_0 ≈ −0.908, w_a ≈ −0.177, S_8 = 0.8216–0.8466, τ_re = 0.0537, A_L = 0.977–1.030, E_G = 0.415, joint compressed Δχ² = +4.41 / Laplace Δln Z = −3.52 vs. ΛCDM) [Derived], 2% ULDM φ_osc (m_osc ≈ 2.65 × 10^{−23} eV, Ly-α |ΔP/P| = 3.96%) [Input], portal Φ_portal (1.84 TeV), and IR Chameleon φ_Ch (2.4 meV) [Ansatz]. An explicit UV limiting-curvature sector L_UV yields a two-stage ekpyrotic-to-matter bounce (ρ_max ≈ 0.4094 ρ_Pl, BKL shear 4.0 × 10^{−15}, post-bounce T_reh = 3.40 × 10^{10} GeV, Davidson–Ibarra leptogenesis η_B = 6.13 × 10^{−10}, n_s ≈ 0.964, red n_T ≈ −0.036, r = 0.0123, f_NL = −4.38) plus derived Hayward cores (ξ_0 = 2^{−1/4}, M_rem = 1.092 M_Pl) extended to axisymmetric Kerr–Hayward (κ_− ℓ_0 ≤ 0.6639 < 1, superradiance cavity gain 0.2048 < 1) and charged RN–Hayward (κ_−^{RN} ℓ_0 = 0.2614 < 1) stability.'
   ]
 };
 
@@ -127,8 +127,15 @@ export const LIST_OF_SYMBOLS: SymbolEntry[] = [
     firstDefined: '§3.1, §3.2, App. C'
   },
   {
+    symbol: 'M_Pl vs. M̄_Pl',
+    name: 'Unreduced Planck mass M_Pl = √(ℏc/G) vs. reduced Planck mass M̄_Pl = M_Pl / √(8π)',
+    units: 'kg or GeV/c² (1.22089×10^{19} vs. 2.43532×10^{18} GeV/c²)',
+    collisionNote: 'M_Pl sets ρ_Pl, τ_0, κ_ψ = 1/(12π M_Pl), M_rem, & β/M_Pl trace coupling; M̄_Pl sets M̄_Pl² R/2, Λ_3 = (M̄_Pl·H_0²)^{1/3}, Vainshtein dψ/dr, f_φ, & φ_0/M̄_Pl',
+    firstDefined: '§1.2, §3.1, App. G'
+  },
+  {
     symbol: 'A_μ, F_μν, H_Fisher',
-    name: 'pu(H)-valued connection, curvature ∂_μA_ν − ∂_νA_μ + i[A_μ, A_ν], & unbounded S¹ clock Hamiltonian',
+    name: 'pu(H)-valued connection, curvature ∂_μ A_ν − ∂_ν A_μ + i[A_μ, A_ν], & unbounded S¹ clock Hamiltonian',
     units: 'A_μ in m⁻¹; F_μν in m^{−2}; H_Fisher in J (or eV)',
     collisionNote: 'H_Fisher = −i E_mod σ_1 (∂_s − i A_Berry) on compact Bures circle S¹ (dimensionless coordinate s ∈ [0, L), circumference L); wavenumber (2πk/L − Φ_Berry/L) is dimensionless, yielding discrete UNBOUNDED eigenvalues E_mod σ_1 (2πk/L − Φ_Berry/L) in Joules [J] (or eV), k ∈ ℤ',
     firstDefined: '§2.1, §3.1, §5.1'
@@ -329,7 +336,7 @@ export const DIMENSIONAL_ANALYSIS_CLOSURE_B: DimensionalClosureRow[] = [
   },
   {
     quantity: '14. General-w Bounce & Turnaround',
-    expression: 'a(t)/a_min = [1+(t/t_w)²]^{1/(3(1+w))};  (ä/a)|_{ρ_max} = 4πG ρ_max(1+w)',
+    expression: 'a(t)/a_min = [ 1 + (t/t_w)² ]^{1/(3(1+w))};  (ä/a)|_{ρ=ρ_max} = 4πG ρ_max(1+w)',
     siUnits: 'a/a_min [1] (t_w in s); ä/a [s⁻²]',
     naturalUnits: '[1]; GeV²',
     auditNote: 't_w = [√(6πG ρ_max)(1+w)]⁻¹ has units s, making t/t_w dimensionless; turnaround acceleration ä/a has units s⁻².'
@@ -343,7 +350,7 @@ export const DIMENSIONAL_ANALYSIS_CLOSURE_B: DimensionalClosureRow[] = [
   },
   {
     quantity: '16. Screening Z_ψ & Local Cutoff Λ_local',
-    expression: 'Z_ψ = (r_{V,⊕}/r_⊕)^{3/2};  Λ_3 = (M̄_Pl H_0^2)^{1/3};  Λ_local = Z_ψ^{1/2} Λ_3',
+    expression: 'Z_ψ = (r_{V,⊕}/r_⊕)^{3/2};  Λ_3 = (M̄_Pl · H_0^2)^{1/3};  Λ_local = Z_ψ^{1/2} Λ_3',
     siUnits: 'Z_ψ [1] (7.05×10^{14}); Λ_3 = 1.758×10^{−13} eV; Λ_local = 4.67 μeV',
     naturalUnits: 'Z_ψ [1]; Λ_3, Λ_local [eV]',
     auditNote: 'Natural-unit [M̄_Pl · H_0²]^{1/3} = [GeV · GeV²]^{1/3} = GeV; dressed terrestrial Galileon cutoff Λ_local = Z_ψ^{1/2} Λ_3 (4.2 cm).'
@@ -372,8 +379,8 @@ export const DIMENSIONAL_ANALYSIS_CLOSURE_B: DimensionalClosureRow[] = [
   {
     quantity: '20. ULDM Mass/de Broglie & Planck τ_0',
     expression: 'm_osc = h f_clock / c²;  λ_dB = h/(m_osc v);  τ_0 = √(ℏG / c⁵)',
-    siUnits: 'm_osc [kg] (2.65×10^{−23} eV); λ_dB [m] (2.07 kpc); τ_0 = 5.39125×10^{−44} s',
-    naturalUnits: 'm_osc [eV]; λ_dB [GeV⁻¹]; τ_0 = 1/M_Pl (natural units only)',
+    siUnits: 'm_osc = 4.72×10^{−59} kg; λ_dB = 6.39×10^{19} m (2.07 kpc); τ_0 = ℏ/(M_Pl c²) = 5.39125×10^{−44} s',
+    naturalUnits: 'm_osc = 2.65×10^{−23} eV; λ_dB [GeV⁻¹]; τ_0 = 1/M_Pl (natural units only)',
     auditNote: 'CODATA 2022 exact c, ℏ, k_B; measured G (22 ppm) propagates cleanly to 11 ppm uncertainty in ℓ_Pl, τ_0, M_Pl.'
   }
 ];
@@ -595,7 +602,7 @@ export const ETHICS_AND_GOVERNANCE = {
   fundingStatement:
     'This theoretical research was conducted independently without external commercial sponsorship.',
   dataAndCodeAvailability:
-    'All analytic derivations and numerical simulations (all 20 dimensional checks, RK2 Klein–Gordon & RK4 linear growth ODEs, joint cosmological likelihood Δχ² / Laplace Δln Z, reionization τ_re, A_L, E_G, Ly-α bound, portal leptogenesis η_B, double-pulsar PSR J0737-3039, 2-stage ekpyrotic bounce + BKL shear, 1+1D Hayward–Vaidya, axisymmetric Kerr–Hayward & charged RN–Hayward, superradiance cavity quenching, causal TOV + Hinderer neutron-star solver, 1-loop Wetterich FRG fixed point, Borel–Padé resummation, CDT spectral dimension d_s, 5-mode A_F^{H10} trace, P1–P6 Fisher SNRs, and H10 SHA-256 preregistration digest 7463d7273d121f56974978982eb476855773759bb5c886c8a4d650562cd3968a) are reproduced deterministically by scripts/verify-igrt-monograph.mjs.'
+    'All analytic derivations and numerical simulations (all 20 dimensional checks, RK2 Klein–Gordon & RK4 linear growth ODEs, joint cosmological likelihood Δχ² / Laplace Δln Z, reionization τ_re, A_L, E_G, Ly-α bound, portal leptogenesis η_B, double-pulsar PSR J0737-3039, 2-stage ekpyrotic bounce + BKL shear, 1+1D Hayward–Vaidya, axisymmetric Kerr–Hayward & charged RN–Hayward, superradiance cavity quenching, causal TOV + Hinderer neutron-star solver, 1-loop Wetterich FRG fixed point, Borel–Padé resummation, CDT spectral dimension d_s, 5-mode A_F^{H10} trace, and P1–P6 Fisher SNRs) are reproduced deterministically by scripts/verify-igrt-monograph.mjs.\nH10 SHA-256 preregistration digest: 7463d7273d121f56974978982eb476855773759bb5c886c8a4d650562cd3968a'
 };
 
 export interface ParameterClosureRow {
@@ -617,7 +624,7 @@ export const TABLE_H1_CLOSURES: ParameterClosureRow[] = [
   },
   {
     parameter: 'Horndeski Braiding Scale Λ_3, FRG Fixed Point & CDT d_s',
-    formula: 'Λ_3 = (M̄_Pl H_0^2)^{1/3};  c_2 ~ Λ_local^{−4};  β_g(g_*,λ_*)=β_λ=0',
+    formula: 'Λ_3 = (M̄_Pl · H_0^2)^{1/3};  c_2 ~ Λ_local^{−4};  β_g(g_*,λ_*)=β_λ=0',
     value: '1.758×10^{−13} eV; c_2 = 2.1×10^{57} GeV⁻⁴ > 0; (g_*,λ_*)=(1.3105, 0.1440); d_s: 3.989→2.002',
     regime: 'FRG θ_real = 4.835 > 0; Borel = 0.9126; BBN |ΔG/G| ~ 10^{−38} (§3.1, App. G/L)'
   },
@@ -629,7 +636,7 @@ export const TABLE_H1_CLOSURES: ParameterClosureRow[] = [
   },
   {
     parameter: 'PNGB Dark Energy, τ_re, Lensing A_L/E_G & Joint Likelihood',
-    formula: 'φ̈ + 3Hφ̇ + (V_0/f_φ)sin(φ/f_φ) = 0;  Δln Z = −½Δχ² − ½Δk ln N',
+    formula: 'φ̈_DE + 3H φ̇_DE + (V_0/f_φ) sin(φ_DE/f_φ) = 0;  Δln Z = −½Δχ² − ½Δk ln N',
     value: 'w_0 = −0.908, w_a = −0.177; S_8 = 0.8216–0.8466; τ_re = 0.0537; ℓ_A = 300.31; Δχ² = +4.41 (Δln Z = −3.52)',
     regime: 'A_L = 0.977–1.030; E_G = 0.4146; Ly-α ΔP/P = −3.96%; ΔN_eff = 0.0032 (§7.1, App. K)'
   },
@@ -665,7 +672,7 @@ export const TABLE_H1_CLOSURES: ParameterClosureRow[] = [
   },
   {
     parameter: 'P2 Nanosphere, P5 CANNEX & H10 SHA-256 Digest',
-    formula: 'R_0 = [3m / (4π ρ_SiO2)]^{1/3};  P_{LZ} = e^{−3.14×10²⁰};  DL split = 9.72×10^{−102}',
+    formula: 'R_0 = [3m / (4π ρ_SiO2)]^{1/3};  P_{LZ} = exp(−3.14 × 10²⁰);  DL split = 9.72×10^{−102}',
     value: 'R_0 = 1.028 μm; Γ_Araki = 1.18 s⁻¹ (SNR 23.5); ΔP_Ch ~ 10^{−10}–2×10^{−9} N/m² (SNR ≥10)',
     regime: 'See unbroken H10 SHA-256 preregistration digest bar below Table H.1'
   }

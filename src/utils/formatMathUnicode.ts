@@ -34,11 +34,33 @@ function findMatchingBrace(str: string, openIdx: number): number {
   return -1;
 }
 
+const SUP_DIGIT_MAP: Record<string, string> = {
+  '⁰': '0',
+  '¹': '1',
+  '²': '2',
+  '³': '3',
+  '⁴': '4',
+  '⁵': '5',
+  '⁶': '6',
+  '⁷': '7',
+  '⁸': '8',
+  '⁹': '9',
+  '⁺': '+',
+  '⁻': '−'
+};
+
+function mapSupDigits(raw: string): string {
+  return [...raw].map((ch) => SUP_DIGIT_MAP[ch] ?? ch).join('');
+}
+
 function normalizeMathOperators(s: string): string {
   return s
     .replace(/ \|\| /g, ' ‖ ')
     .replace(/''/g, '″')
-    .replace(/([fPVS])'/g, '$1′');
+    .replace(/([fPVS])'/g, '$1′')
+    .replace(/([⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)\/([⁰¹²³⁴⁵⁶⁷⁸⁹]+)/g, (_m, num: string, den: string) => {
+      return `^{${mapSupDigits(num)}/${mapSupDigits(den)}}`;
+    });
 }
 
 function parseMathChunk(input: string): MathSegment[] {
@@ -95,7 +117,11 @@ function parseMathChunk(input: string): MathSegment[] {
 
 export function parseMathSegments(input: string): MathSegment[] {
   if (!input) return [];
-  if (!/[_^{}\\|']/.test(input) && !input.includes(' || ')) {
+  if (
+    !/[_^{}\\|']/.test(input) &&
+    !/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+\/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/.test(input) &&
+    !input.includes(' || ')
+  ) {
     return [{ type: 'text', text: input }];
   }
 
@@ -185,7 +211,7 @@ function escapeHtml(s: string): string {
 function segmentsToHtml(segs: MathSegment[]): string {
   return segs
     .map((seg) => {
-      if (seg.type === 'text') return escapeHtml(seg.text);
+      if (seg.type === 'text') return escapeHtml(seg.text).replace(/\n/g, '<br/>');
       if (seg.type === 'sub') return `<sub>${segmentsToHtml(seg.children)}</sub>`;
       if (seg.type === 'sup') return `<sup>${segmentsToHtml(seg.children)}</sup>`;
       return `<i>${segmentsToHtml(seg.children)}</i>`;
@@ -201,12 +227,15 @@ function segmentsToSvgTspans(segs: MathSegment[], baseFontSize: number): string 
   return segs
     .map((seg) => {
       if (seg.type === 'text') return escapeHtml(seg.text);
-      const smallSize = (baseFontSize * 0.78).toFixed(1);
+      const smallSize = (baseFontSize * 0.81).toFixed(1);
+      const resetSize = baseFontSize.toFixed(1);
       if (seg.type === 'sub') {
-        return `<tspan baseline-shift="sub" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.78)}</tspan>`;
+        const shift = (baseFontSize * 0.23).toFixed(2);
+        return `<tspan dy="${shift}" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.81)}</tspan><tspan font-size="${resetSize}" dy="-${shift}">&#8203;</tspan>`;
       }
       if (seg.type === 'sup') {
-        return `<tspan baseline-shift="super" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.78)}</tspan>`;
+        const shift = (baseFontSize * 0.33).toFixed(2);
+        return `<tspan dy="-${shift}" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.81)}</tspan><tspan font-size="${resetSize}" dy="${shift}">&#8203;</tspan>`;
       }
       return `<tspan font-style="italic">${segmentsToSvgTspans(seg.children, baseFontSize)}</tspan>`;
     })

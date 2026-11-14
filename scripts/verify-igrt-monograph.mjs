@@ -931,7 +931,9 @@ requireIncludes(appSrc, 'DIMENSIONAL_ANALYSIS_CLOSURE_A/B', [
   '[(u²/2) − (3u³/16) + (u⁵/160)]',
   '(natural units only)',
   'max(ℏω_0, 2π k_B T_U)',
-  'ℏc ℓ_Pl / (12π)'
+  'ℏc ℓ_Pl / (12π)',
+  'Λ_3 = (M̄_Pl · H_0^2)^{1/3}',
+  'P_{LZ} = exp(−3.14 × 10²⁰)'
 ]);
 
 // List of tables, symbols, Theorem 3.1 / Table 8.2 / Table 8.3 ledger & H10 apparatus
@@ -1023,6 +1025,8 @@ requireIncludes(dataSrc, 'harmonizedPaperData.ts', [
   '2.1727 × 10⁻²¹ GeV⁻¹',
   'π(3ℓ_0²)/ℓ_Pl²',
   'r_I = r_+ − (c_bulk ℓ_Pl²) / (12π r_+) = r_+ − O(ℓ_Pl² / r_+) = r_+ − O(ℏ / (Mc))',
+  '(δS_{grav+ψ}/δψ)',
+  '−∇_μ ψ ∇_ν ψ □ψ − ∇_{(μ} ψ ∇_{ν)}(∇ψ)²',
   "letter: 'I'",
   "letter: 'J'",
   "letter: 'K'",
@@ -1069,7 +1073,13 @@ const h10ForbiddenAcrossPaper = [
   '6c²/G',
   'Z_V =',
   'y_PPN',
-  '12n'
+  '12n',
+  'δS_grav+ψ',
+  '∇_μψ',
+  '∇_νψ',
+  '∇^αψ',
+  '∂_μA_ν',
+  '∂_νA_μ'
 ];
 forbidIncludes(appSrc, 'harmonizedPaperApparatus.ts (H10 regression)', [...h10ForbiddenAcrossPaper, '∈ [1]']);
 forbidIncludes(dataSrc, 'harmonizedPaperData.ts (H10 regression)', h10ForbiddenAcrossPaper);

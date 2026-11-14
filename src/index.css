@@ -15,6 +15,12 @@
   font-style: normal;
 }
 @font-face {
+  font-family: 'Noto Serif';
+  src: url('/fonts/NotoSerif-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
   font-family: 'DejaVu Sans';
   src: url('/fonts/DejaVuSans.ttf') format('truetype');
   font-weight: 400;
@@ -206,7 +212,7 @@
 }
 
 .igrt-monograph {
-  --igrt-font-body: 'Source Serif 4', 'Libre Baskerville', Georgia, serif;
+  --igrt-font-body: 'Source Serif 4', 'DejaVu Serif', 'Libre Baskerville', Georgia, serif;
   --igrt-font-heading: 'Playfair Display', Georgia, serif;
   --igrt-body-size: 18px;
   --igrt-h1-size: 32px;
@@ -269,6 +275,20 @@
   border: 1px solid var(--igrt-eq-border, #D6CABE);
   background-color: var(--igrt-eq-bg, #FAF6EE);
   border-radius: 4px;
+}
+
+.igrt-eq-box sub,
+.igrt-eq-box sup {
+  font-size: 0.76em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.igrt-eq-box sub {
+  top: 0.22em;
+}
+.igrt-eq-box sup {
+  top: -0.34em;
 }
 
 .igrt-keep-together {

@@ -417,7 +417,7 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
         paragraphs: [
           'To evade Mikhail Ostrogradsky’s higher-derivative ghost theorem [24], the infrared gravitational sector must yield strictly second-order Euler–Lagrange equations or satisfy beyond-Horndeski degeneracy constraints [26, 27, 28]. We state plainly that Eq. (3.1) is purely luminal Type Ia Horndeski gravity [25] (specifically the Cubic Galileon class with G_2 = −½(∇ψ)² − V_ψ(ψ), G_3 = −(γ/2Λ_3³)(∇ψ)², G_4 = M̄_Pl²/2 so G_{4,X} = 0 identically, and G_5 = 0), and is NOT a beyond-Horndeski DHOST extension requiring A_i counterterms. Consequently, gravitational waves propagate strictly at c_GW = c [29, 30, 31, 77] alongside one healthy scalar degree of freedom from ψ.',
           'Extended A_F^{H10} Packaging in Eq. (3.1): Eq. (3.1) writes out all active sectors explicitly: (1) Horndeski-braided Araki modulus ψ ≥ 0 with conformal trace coupling (β/M_Pl) ψ T^μ_μ; (2) shift-protected PNGB dark energy φ_DE with V_DE = V_0[1 − cos(φ_DE/f_φ)]; (3) holonomy mode φ_osc (m_osc = 2.65 × 10⁻²³ eV); (4) heavy electroweak Higgs-portal Φ_portal with quartic portal λ_mix |H|² Φ_portal²; and (5) short-range Chameleon φ_Ch with conformal coupling (β_Ch/M_Pl) φ_Ch T^μ_μ, plus Yang–Mills-type bundle fiber Lagrangian L_fiber = −¼ Tr(F_μν F^{μν}) and explicit UV bounce sector L_UV. Algebraically, inner fluctuations of the 5-mode extended Krein–Connes finite algebra A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch [49–51] embed all five scalars: (ψ, φ_DE) via polar pair Z = ψ e^{iφ_DE/f_φ}, Φ_portal inside the Higgs-portal block, φ_osc as the U(1)_hol phase, and φ_Ch inside ℂ_Ch with ℤ_2 protection yielding |ε_{ψ,Ch}| = 4.42 × 10⁻¹⁶ (while phenomenological β_Ch remains testable by CANNEX P5).',
-          'At H_0 = 70.0 km s⁻¹ Mpc⁻¹ (propagated across H_0 ∈ [67.4, 73.0]; Appendix G), the infrared braiding scale is Λ_3 = (M̄_Pl H_0²)^{1/3} = 1.758 × 10⁻¹³ eV ([1.714, 1.808] × 10⁻¹³ eV). Around any spherical mass of Schwarzschild radius r_s with benchmark Galileon coupling γ = 0.83, Vainshtein screening dominates inside r_V = (γ r_s c² / H_0²)^{1/3} = 369.8 ly for the Sun ([359.6, 379.2] ly; note γ = 1 gives 393 ly) [42, 44, 45].'
+          'At H_0 = 70.0 km s⁻¹ Mpc⁻¹ (propagated across H_0 ∈ [67.4, 73.0]; Appendix G), the infrared braiding scale is Λ_3 = (M̄_Pl · H_0²)^{1/3} = 1.758 × 10⁻¹³ eV ([1.714, 1.808] × 10⁻¹³ eV). Around any spherical mass of Schwarzschild radius r_s with benchmark Galileon coupling γ = 0.83, Vainshtein screening dominates inside r_V = (γ r_s c² / H_0²)^{1/3} = 369.8 ly for the Sun ([359.6, 379.2] ly; note γ = 1 gives 393 ly) [42, 44, 45].'
         ],
         theoremBox: {
           number: 'Theorem 3.1',
@@ -434,7 +434,7 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
           label: '(3.1)',
           status: 'Axiom',
           unicodeHtml:
-            '<i>S</i><sub>IGRT</sub> = ∫ <i>d</i><sup>4</sup><i>x</i> √(−<i>g</i>) [ <i>M̄</i><sub>Pl</sub><sup>2</sup><i>R</i>/2 − ½(∇ψ)<sup>2</sup> − (γ/2Λ<sub>3</sub><sup>3</sup>)□ψ(∇ψ)<sup>2</sup> − <i>V</i><sub>ψ</sub>(ψ) − ∑<sub><i>a</i>=DE,osc,Ch</sub>(½(∇φ<sub><i>a</i></sub>)<sup>2</sup> + <i>V</i><sub><i>a</i></sub>) − |<i>D</i>Φ|<sup>2</sup> − <i>V</i>(Φ,<i>H</i>) + (βψ + β<sub>Ch</sub>φ<sub>Ch</sub>)<i>T</i><sup>μ</sup><sub>μ</sub>/<i>M</i><sub>Pl</sub> − ¼Tr(<i>F</i><sub>μν</sub><i>F</i><sup>μν</sup>) + ℒ<sub>UV</sub> ]',
+            '<i>S</i><sub>IGRT</sub> = ∫ <i>d</i><sup>4</sup><i>x</i> √(−<i>g</i>) [ <i>M̄</i><sub>Pl</sub><sup>2</sup><i>R</i>/2 − ½(∇ψ)<sup>2</sup> − (γ/2Λ<sub>3</sub><sup>3</sup>)□ψ(∇ψ)<sup>2</sup> − <i>V</i><sub>ψ</sub>(ψ)<br/>− ∑<sub><i>a</i>=DE,osc,Ch</sub>(½(∇φ<sub><i>a</i></sub>)<sup>2</sup> + <i>V</i><sub><i>a</i></sub>) − |<i>D</i>Φ|<sup>2</sup> − <i>V</i>(Φ,<i>H</i>) + (βψ + β<sub>Ch</sub>φ<sub>Ch</sub>)<i>T</i><sup>μ</sup><sub>μ</sub>/<i>M</i><sub>Pl</sub> − ¼Tr(<i>F</i><sub>μν</sub><i>F</i><sup>μν</sup>) + ℒ<sub>UV</sub> ]',
           plainText:
             'S_IGRT = ∫ d⁴x √(−g) [ M̄_Pl² R/2 − ½(∇ψ)² − (γ/2Λ_3³)□ψ(∇ψ)² − V_ψ(ψ) − ∑_{a=DE,osc,Ch}(½(∇φ_a)² + V_a) − |DΦ|² − V(Φ,H) + (βψ + β_Ch φ_Ch)T^μ_μ/M_Pl − ¼Tr(F_μν F^{μν}) + L_UV ]',
           caption:
@@ -699,9 +699,9 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
           label: '(6.1)',
           status: 'Derived',
           unicodeHtml:
-            '<i>H</i><sup>2</sup> = (8π<i>G</i>/3) ρ (1 − ρ/ρ<sub>max</sub>), &nbsp;&nbsp; <i>a</i>(<i>t</i>)/<i>a</i><sub>min</sub> = [ 1 + (<i>t</i>/<i>t</i><sub><i>w</i></sub>)<sup>2</sup> ]<sup>1/(3(1+<i>w</i>))</sup>, &nbsp;&nbsp; (<i>ä</i>/<i>a</i>)|<sub>ρ<sub>max</sub></sub> = +4π<i>G</i> ρ<sub>max</sub> (1 + <i>w</i>) &gt; 0',
+            '<i>H</i><sup>2</sup> = (8π<i>G</i>/3) ρ (1 − ρ/ρ<sub>max</sub>)<br/><i>a</i>(<i>t</i>)/<i>a</i><sub>min</sub> = [ 1 + (<i>t</i>/<i>t</i><sub><i>w</i></sub>)<sup>2</sup> ]<sup>1/(3(1+<i>w</i>))</sup>, &nbsp;&nbsp; (<i>ä</i>/<i>a</i>)|<sub>ρ=ρ<sub>max</sub></sub> = +4π<i>G</i> ρ<sub>max</sub> (1 + <i>w</i>) &gt; 0',
           plainText:
-            'H² = (8πG/3)ρ(1 − ρ/ρ_max),   a(t)/a_min = [1 + (t/t_w)²]^{1/(3(1+w))},   (ä/a)|_{ρ_max} = +4πG ρ_max(1+w) > 0',
+            'H² = (8πG/3)ρ(1 − ρ/ρ_max),   a(t)/a_min = [1 + (t/t_w)²]^{1/(3(1+w))},   (ä/a)|_{ρ=ρ_max} = +4πG ρ_max(1+w) > 0',
           caption:
             'Explicit L_UV bounce equation (ρ_max = 9.095 × 10⁷⁵ GeV⁴), general-w profile, and Raychaudhuri turnaround.'
         }
@@ -784,7 +784,7 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
         paragraphs: [
           'Along pure Type Ia Horndeski gravity (G_{4,X} = 0 [29, 77]), c_GW = c identically and parity enforces ξ_1 = 0 [78]. To explain the coherent nanohertz signal without falsely oscillating overdamped dark energy (m_DE ~ 10⁻³³ eV), we introduce an underdamped holonomy phase input φ_osc at input frequency f_clock = 6.4 nHz, corresponding to input mass m_osc = h f_clock / c² = 2.647 × 10⁻²³ eV (period 4.95 yr).',
           'Correcting ULDM Halo Fraction, Monopole Geometry & Clock-Noise Budget: At m_osc = 2.65 × 10⁻²³ eV and local halo velocity v ~ 220 km/s, the de Broglie wavelength is λ_dB = 2.07 kpc—already ruled out as 100% of dark matter by Lyman-α forest and dwarf-galaxy core bounds! We therefore restrict φ_osc strictly to a sub-dominant dark-matter fraction f_DM ≤ 0.02 (2% halo density, consistent with NANOGrav ULDM searches [102]), giving reduced local amplitude φ_0 = √(2 f_DM ρ_local)/m_osc and signal ε_0 = Δβ_eff(φ_0/M̄_Pl) governed by free transition sensitivity Δβ_eff. Second, any coherent scalar oscillation φ_osc²(t) ∝ ½[1 + cos(2ω_osc t)] sources an isotropic MONOPOLE (Y_{00}) scalar pulsar-timing residual at f_PTA = 2 f_clock = 12.8 nHz (NOT a quadrupolar Y_{2m} Hellings–Downs GW strain; Figure 7). Note honestly that a 2:1 clock–PTA harmonic is generic to any quadratically coupled scalar ULDM, not unique to IGRT.',
-          'Joint Dual-Clock Flicker/Drift & PTA Red-Noise Cramér–Rao: Because common-mode Earth/solar gravitational shifts cancel in a single clock species, Protocol P1 requires dual-species optical clocks (e.g., ⁸⁷Sr / ¹⁷¹Yb differential transitions; BACON network [106]). Propagating partial derivatives of r = f_PTA/f_clock (∂r/∂f_PTA = 1/f_clock, ∂r/∂f_clock = −r/f_clock) with realistic multi-year clock flicker floor (~10⁻¹⁸) + random-walk drift alongside steep IPTA red noise (S_red ∝ f⁻¹³/³ [79–82]), the joint dual-instrument Cramér–Rao ratio variance satisfies σ_r = 2 √[(σ_{f,PTA}/f_PTA)² + (σ_{f,clock}/f_clock)²]. Benchmark inputs (σ_{f,PTA}/f_PTA = 0.110, σ_{f,clock}/f_clock = 0.060) yield 2.00 ± 0.25 (5 yr, 1.01 cycles, Δf = 6.34 nHz), tightening to (0.035, 0.019) → 2.00 ± 0.08 (15 yr, 3.03 cycles) under Gaussian-process red-noise modeling, look-elsewhere correction, and sky-shuffled negative controls (Appendix F).'
+          'Joint Dual-Clock Flicker/Drift & PTA Red-Noise Cramér–Rao: Because common-mode Earth/solar gravitational shifts cancel in a single clock species, Protocol P1 requires dual-species optical clocks (e.g., ⁸⁷Sr / ¹⁷¹Yb differential transitions; BACON network [106]). Propagating partial derivatives of r = f_PTA/f_clock (∂r/∂f_PTA = 1/f_clock, ∂r/∂f_clock = −r/f_clock) with realistic multi-year clock flicker floor (~10⁻¹⁸) + random-walk drift alongside steep IPTA red noise (S_red ∝ f⁻¹³/³ [79–82]), the joint dual-instrument Cramér–Rao ratio variance satisfies σ_r = 2 √[ (σ_{f,PTA}/f_PTA)² + (σ_{f,clock}/f_clock)² ]. Benchmark inputs (σ_{f,PTA}/f_PTA = 0.110, σ_{f,clock}/f_clock = 0.060) yield 2.00 ± 0.25 (5 yr, 1.01 cycles, Δf = 6.34 nHz), tightening to (0.035, 0.019) → 2.00 ± 0.08 (15 yr, 3.03 cycles) under Gaussian-process red-noise modeling, look-elsewhere correction, and sky-shuffled negative controls (Appendix F).'
         ],
         equation: {
           label: '(7.1)',
@@ -792,7 +792,7 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
           unicodeHtml:
             '<i>m</i><sub>osc</sub> = <i>h f</i><sub>clock</sub> / <i>c</i><sup>2</sup> = 2.65 × 10<sup>−23</sup> eV &nbsp;(<i>f</i><sub>DM</sub> ≤ 0.02), &nbsp;&nbsp; <i>f</i><sub>PTA</sub><sup>(monopole)</sup> = 2 <i>f</i><sub>clock</sub> = 12.8 nHz &nbsp;(2.00 ± 0.25 (5 yr), ± 0.08 (15 yr))',
           plainText:
-            'm_osc = h f_clock / c² = 2.65×10⁻²³ eV (f_DM ≤ 0.02),   f_PTA^(monopole) = 2 f_clock = 12.8 nHz (2.00 ± 0.25 (5 yr), ± 0.08 (15 yr))',
+            'm_osc = h f_clock / c² = 2.65×10⁻²³ eV (f_DM ≤ 0.02),   f_PTA^{(monopole)} = 2 f_clock = 12.8 nHz (2.00 ± 0.25 (5 yr), ± 0.08 (15 yr))',
           caption:
             'Input ultralight sub-dominant (f_DM ≤ 0.02) holonomy mode driving dual-species optical clocks and isotropic monopole (Y_{00}) PTA residuals with joint Cramér–Rao uncertainty.'
         }
@@ -858,7 +858,7 @@ export const PAPER_CHAPTERS: PaperChapter[] = [
           label: '(8.1)',
           status: 'Consistency',
           unicodeHtml:
-            '<i>Z</i><sub>IGRT</sub> = ∫ 𝒟<i>g</i> 𝒟ψ 𝒟φ 𝒟<i>A</i> exp[ (<i>i</i>/ℏ) <i>S</i><sub>IGRT</sub> ] &nbsp;→<sup>EFT</sup>&nbsp; (<i>M</i><sub>3+1</sub>, <i>g</i><sub>μν</sub>, ∇<sup>μ</sup>(<i>T</i><sub>μν</sub> + <i>I</i><sub>μν</sub>) ≡ 0)',
+            '<i>Z</i><sub>IGRT</sub> = ∫ 𝒟<i>g</i> 𝒟ψ 𝒟φ 𝒟<i>A</i> exp[ (<i>i</i> / ℏ) <i>S</i><sub>IGRT</sub> ] &nbsp;→<sup>EFT</sup>&nbsp; (<i>M</i><sub>3+1</sub>, <i>g</i><sub>μν</sub>, ∇<sup>μ</sup>(<i>T</i><sub>μν</sub> + <i>I</i><sub>μν</sub>) ≡ 0)',
           plainText:
             'Z_IGRT = ∫ Dg Dψ Dφ DA exp[(i/ℏ) S_IGRT] → (M_{3+1}, g_μν, ∇^μ(T_μν+I_μν) ≡ 0)',
           caption:
@@ -1110,8 +1110,8 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
       'To all non-perturbative orders in Ω(ψ) = exp(βψ/M_Pl), minimal matter coupling to g̃_μν = Ω²(ψ) g_μν satisfies exact Einstein-frame stress-energy conservation ∇^μ(T_μν + I_μν) ≡ 0 on-shell.',
     proofParagraphs: [
       'Step 1 (All-Orders Jordan–Einstein Matter Divergence): Define g̃_μν = Ω²(ψ) g_μν with Ω(ψ) = exp(βψ/M_Pl) and minimally coupled matter action S_matter[g̃_μν, Ψ_m]. Matter diffeomorphism invariance in the Jordan metric guarantees ∇̃^μ T̃_μν = 0.',
-      'Step 2 (Exact Conformal Connection Shift): Using √(−g̃) = Ω⁴ √(−g), T_μν = Ω² T̃_μν, and exact Christoffel difference ΔΓ^λ_{μν} = (δ^λ_μ ∂_ν + δ^λ_ν ∂_μ − g_μν g^{λσ} ∂_σ) ln Ω transforms ∇̃_μ T̃^μ_ν = 0 identically to all orders into ∇^μ T_μν = +(β/M_Pl) T^α_α ∇_ν ψ.',
-      'Step 3 (Explicit Cubic-Galileon Covariant Commutator Cancellation): For G_3 = −(γ/2Λ_3³)(∇ψ)², the Horndeski energy-momentum contribution is I_μν^{(3)} = (γ/Λ_3³)[−∇_μψ ∇_νψ □ψ − ∇_{(μ}ψ ∇_{ν)}(∇ψ)² + ½ g_μν ∇^αψ ∇_α(∇ψ)²]. Applying ∇^μ and commuting third covariant derivatives via [∇_μ, ∇_ν]∇^μ ψ = R_μν ∇^μ ψ plus [∇_μ, ∇_α]∇^μ ψ = R_αβ ∇^β ψ cancels all third-order curvature terms and factors directly into (δS_grav+ψ/δψ) ∇_ν ψ. Applying the scalar Euler–Lagrange equation (δS_grav+ψ/δψ) + √(−g)(β/M_Pl) T^α_α = 0 seals ∇^μ I_μν = −(β/M_Pl) T^α_α ∇_ν ψ and hence ∇^μ(T_μν + I_μν) ≡ 0 identically.'
+      'Step 2 (Exact Conformal Connection Shift): Using √(−g̃) = Ω⁴ √(−g), T_μν = Ω² T̃_μν, and exact Christoffel difference ΔΓ^λ_{μν} = (δ^λ_μ ∂_ν + δ^λ_ν ∂_μ − g_μν g^{λσ} ∂_σ) ln Ω transforms ∇̃^μ T̃_{μν} = 0 identically to all orders into ∇^μ T_μν = +(β/M_Pl) T^α_α ∇_ν ψ.',
+      'Step 3 (Explicit Cubic-Galileon Covariant Commutator Cancellation): For G_3 = −(γ/2Λ_3³)(∇ψ)², the Horndeski energy-momentum contribution is I_μν^{(3)} = (γ/Λ_3³)[−∇_μ ψ ∇_ν ψ □ψ − ∇_{(μ} ψ ∇_{ν)}(∇ψ)² + ½ g_{μν} ∇^α ψ ∇_α(∇ψ)²]. Applying ∇^μ and commuting third covariant derivatives via [∇_μ, ∇_ν]∇^μ ψ = R_μν ∇^μ ψ plus [∇_μ, ∇_α]∇^μ ψ = R_αβ ∇^β ψ cancels all third-order curvature terms and factors directly into (δS_{grav+ψ}/δψ) ∇_ν ψ. Applying the scalar Euler–Lagrange equation (δS_{grav+ψ}/δψ) + √(−g)(β/M_Pl) T^α_α = 0 seals ∇^μ I_μν = −(β/M_Pl) T^α_α ∇_ν ψ and hence ∇^μ(T_μν + I_μν) ≡ 0 identically.'
     ],
     equations: [
       {
@@ -1156,7 +1156,7 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
     proofParagraphs: [
       'Step 1 (Algebra, Vacuum Zero & Exact 8π²/(15ℏc) Radial Integral): Let A(V_r(x)) be the local Weyl algebra of a minimally coupled free scalar field in causal diamond V_r(x) comparing Hadamard state ρ_V against conformal vacuum σ_V. Trivially ψ_vac = 0 because S_Araki(σ_V ‖ σ_V) = 0. On any smooth state with uniform stress perturbation Δ⟨T_00⟩, the Casini–Huerta–Myers / Bisognano–Wichmann diamond modular expectation integrates explicitly over the 3-ball as ΔK_V = (2π/ℏc) ∫_0^r [(r² − y²)/(2r)] · 4π y² dy Δ⟨T_00⟩ = (4π² / (r ℏc))(r⁵/3 − r⁵/5) Δ⟨T_00⟩ = (8π² r⁴ / (15 ℏc)) Δ⟨T_00⟩, fixing the missing factor of 2 cleanly (geometric 3-ball average 2/5 relative to Vol_3(V_r) = (4/3)π r³).',
       'Step 2 (Honest Correction of 2π Inversion, R/6 Heat-Kernel & Planck vs. ℓ_CG Choice): Notice three technical clarifications: (a) 2π appears in the numerator of ΔK_V, putting 1/(2π) in stress recovery alongside diamond radial factor 2/5 (NOT 1/6, which is the curved-space Seeley–DeWitt a_1 = R/6 conformal curvature coefficient rather than a Δ⟨T_00⟩ factor!); (b) because Vol_3(V_r) ~ r³, extracting modulus ψ² [J/m] from S_Araki/Vol_3 [m⁻³] requires a proportionality constant of dimension [J·m²]; and (c) choosing ℓ_Pl in κ_ψ = ℏc ℓ_Pl/(12π) = 1.3554 × 10⁻⁶² J·m² = 2.1727 × 10⁻²¹ GeV⁻¹ over the available detector scale ℓ_CG⁻¹ keeps κ_ψ a universal field constant rather than an experiment-specific radius, yet remains strictly a Planck-scale phenomenological ansatz (contrasting with the earlier 10⁻²⁰ GeV⁻¹ arithmetic typo). Moreover, converting SI → GeV⁻¹ via 1 J·m² = (6.2415 × 10⁹ GeV) · (5.0677 × 10¹⁵ GeV⁻¹)² = 1.6030 × 10⁴¹ GeV⁻¹ yields 1/(12π M_Pl) = 2.1727 × 10⁻²¹ GeV⁻¹ identically.',
-      'Step 3 (Free-Scalar Diamond Numerical Check): For a minimally coupled single real massless scalar thermal excitation in a diamond of radius ℓ_CG = 1 μm at T = 300 K (thermal wavelength λ_T = ℏc/(k_B T) = 7.63 μm, so dimensionless ratio ℓ_CG / λ_T = ℓ_CG k_B T / (ℏc) ≈ 0.131 ≪ 1), the exact Planck energy density is Δ⟨T_00⟩ = (π²/30)(k_B T)⁴/(ℏc)³ = 3.064 × 10⁻⁶ J/m³, giving modular expectation perturbation ΔK_V = (8π² ℓ_CG⁴ / (15 ℏc)) Δ⟨T_00⟩ = 5.102 × 10⁻⁴ nats. By the entanglement first law (vanishing linear term for normalized modular perturbation relative to thermal-vacuum reference at leading second-order variation), S_Araki ~ O((ΔK_V)²) ≈ 2.60 × 10⁻⁷ nats—justified perturbatively because ΔK_V ≪ 1—yielding ψ² = κ_ψ S_Araki / Vol_3(V_r) ≈ 8.42 × 10⁻⁵² J/m ≈ 1.04 × 10⁻⁵⁷ GeV² ≪ M̄_Pl² cleanly inside EFT limits.'
+      'Step 3 (Free-Scalar Diamond Numerical Check): For a minimally coupled single real massless scalar thermal excitation in a diamond of radius ℓ_CG = 1 μm at T = 300 K (thermal wavelength λ_T = ℏc/(k_B T) = 7.63 μm, so dimensionless ratio ℓ_CG / λ_T = ℓ_CG · [k_B T / (ℏc)] = (1 μm)/(7.63 μm) ≈ 0.131 ≪ 1), the exact Planck energy density is Δ⟨T_00⟩ = (π²/30)(k_B T)⁴/(ℏc)³ = 3.064 × 10⁻⁶ J/m³, giving modular expectation perturbation ΔK_V = (8π² ℓ_CG⁴ / (15 ℏc)) Δ⟨T_00⟩ = 5.102 × 10⁻⁴ nats. By the entanglement first law (vanishing linear term for normalized modular perturbation relative to thermal-vacuum reference at leading second-order variation), S_Araki ~ O((ΔK_V)²) ≈ 2.60 × 10⁻⁷ nats—justified perturbatively because ΔK_V ≪ 1—yielding ψ² = κ_ψ S_Araki / Vol_3(V_r) ≈ 8.42 × 10⁻⁵² J/m ≈ 1.04 × 10⁻⁵⁷ GeV² ≪ M̄_Pl² cleanly inside EFT limits.'
     ],
     equations: [
       {
@@ -1222,15 +1222,15 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
       'Dual-species ⁸⁷Sr/¹⁷¹Yb optical clocks subject to flicker (~10⁻¹⁸) + drift combined with red-noise IPTA monopole residuals bound 2:1 harmonic ratio at 2.00 ± 0.25 (5 yr) and 2.00 ± 0.08 (15 yr, Fisher SNR 25.1), anchored across P1–P6 Fisher SNRs (4.7–25.1).',
     proofParagraphs: [
       'Dual-Species P1 Clock & Monopole PTA Budget: Common gravitational redshifts cancel in single-species clocks; comparing optical frequency ratios ⁸⁷Sr / ¹⁷¹Yb (BACON network [106]) isolates Δβ_eff > 3 × 10⁻¹⁰ (generic to any quadratically coupled scalar ULDM, not uniquely IGRT). Meanwhile, φ_osc²(t) sources an isotropic monopole (Y_{00}) PTA residual at f_PTA = 2 f_clock = 12.8 nHz across pulsars. Clock instability combines flicker floor σ_y ~ 10⁻¹⁸ with random-walk frequency drift y_drift(t) ∝ √t, yielding σ_{f,clock}/f_clock ≈ 0.060 (5 yr) and 0.019 (15 yr), while IPTA red-noise modeling yields σ_{f,PTA}/f_PTA ≈ 0.110 (5 yr) and 0.035 (15 yr).',
-      'Joint Cramér–Rao & P1–P6 Fisher SNR Forecasts: Using σ_r = 2 √[(σ_{f,PTA}/f_PTA)² + (σ_{f,clock}/f_clock)²] gives 2.00 ± 0.25 (5 yr) and 2.00 ± 0.08 (15 yr, Fisher SNR = 25.1). Across Protocols P2–P6 verified in scripts/verify-igrt-monograph.mjs: P2 overlapping 10⁻¹⁴ kg SiO₂ (R_0 = 1.028 μm, Δx = 180 nm) gives Γ_DP = 0.883 s⁻¹ and Γ_Araki = 1.18 s⁻¹ (SNR 23.5 vs. 0.05 s⁻¹ UHV floor); P3 LiteBIRD r = 0.0123/0.001 gives SNR 12.3; P4 CE stacking 0.18/0.02 gives SNR 9.0; P5 CANNEX ≥ 10.0; P6 HL-LHC Φ_portal reach gives 4.7σ.'
+      'Joint Cramér–Rao & P1–P6 Fisher SNR Forecasts: Using σ_r = 2 √[ (σ_{f,PTA}/f_PTA)² + (σ_{f,clock}/f_clock)² ] gives 2.00 ± 0.25 (5 yr) and 2.00 ± 0.08 (15 yr, Fisher SNR = 25.1). Across Protocols P2–P6 verified in scripts/verify-igrt-monograph.mjs: P2 overlapping 10⁻¹⁴ kg SiO₂ (R_0 = 1.028 μm, Δx = 180 nm) gives Γ_DP = 0.883 s⁻¹ and Γ_Araki = 1.18 s⁻¹ (SNR 23.5 vs. 0.05 s⁻¹ UHV floor); P3 LiteBIRD r = 0.0123/0.001 gives SNR 12.3; P4 CE stacking 0.18/0.02 gives SNR 9.0; P5 CANNEX ≥ 10.0; P6 HL-LHC Φ_portal reach gives 4.7σ.'
     ],
     equations: [
       {
         label: '(F.1)',
         unicodeHtml:
-          'σ<sub><i>r</i></sub> = 2 √[(σ<sub><i>f</i>,PTA</sub>/<i>f</i><sub>PTA</sub>)<sup>2</sup> + (σ<sub><i>f</i>,clock</sub>/<i>f</i><sub>clock</sub>)<sup>2</sup>] &nbsp;⇒&nbsp; <i>f</i><sub>PTA</sub>/<i>f</i><sub>clock</sub> = 2.00 ± 0.25 (5 yr), &nbsp; ± 0.08 (15 yr, SNR 25.1)',
+          'σ<sub><i>r</i></sub> = 2 √[ (σ<sub><i>f</i>,PTA</sub> / <i>f</i><sub>PTA</sub>)<sup>2</sup> + (σ<sub><i>f</i>,clock</sub> / <i>f</i><sub>clock</sub>)<sup>2</sup> ]<br/>⇒ &nbsp; <i>f</i><sub>PTA</sub> / <i>f</i><sub>clock</sub> = 2.00 ± 0.25 (5 yr), &nbsp; ± 0.08 (15 yr, SNR 25.1)',
         plainText:
-          'σ_r = 2 √[(σ_{f,PTA}/f_PTA)² + (σ_{f,clock}/f_clock)²] ⇒ f_PTA/f_clock = 2.00 ± 0.25 (5 yr), ± 0.08 (15 yr, SNR 25.1)'
+          'σ_r = 2 √[ (σ_{f,PTA}/f_PTA)² + (σ_{f,clock}/f_clock)² ] ⇒ f_PTA/f_clock = 2.00 ± 0.25 (5 yr), ± 0.08 (15 yr, SNR 25.1)'
       }
     ]
   },
@@ -1266,7 +1266,7 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
       'Every numerical value across Table H.1, RK2/RK4 background & linear growth ODEs, 2-stage bounce, 1+1D Hayward–Vaidya collapse, causal TOV neutron stars, Fisher SNRs, and SHA-256 digest is verified deterministically by scripts/verify-igrt-monograph.mjs.',
     proofParagraphs: [
       '1. Vainshtein, TOV & Screening Closures: At H_0 = 70.0 and γ = 0.83, Λ_3 = 1.758 × 10⁻¹³ eV, r_V = 369.8 ly, Z_ψ = 7.05 × 10¹⁴, Λ_local = 4.67 μeV (c_2 = 2.1×10⁵⁷ GeV⁻⁴ > 0), |γ_PPN − 1| = 1.77 × 10⁻¹¹ (1 AU); causal Type Ia TOV gives M_max = 2.35 M_⊙, R_{1.4} = 11.57 km, Λ_{1.4} = 339, Vainshtein suppression 1.61 × 10⁻²².',
-      '2. Scalar, Bounce, Strong-Field & Metrology Closures: KG + RK4 growth ODEs give w_0 = −0.908, w_a = −0.177, S_8 = 0.8216–0.8466 (|β_lin| ≤ 0.25), D_M/r_d −0.82%..−1.16%, R_shift −0.428%, Δφ/M̄_Pl = 0.217; 2-stage ekpyrotic→matter bounce dilutes BKL shear to 4.0×10⁻¹⁵ with α_s = −3.6×10⁻⁵, r = 0.0123; derived ξ_0 = 2⁻¹/⁴ gives M_rem = 1.09236 M_Pl = 2.38 × 10⁻⁸ kg, 1+1D Hayward–Vaidya max(κ_− ℓ_0) = 0.9294 < 1, S_rem = 6.66 nats; H10 SHA-256 digest 7463d7273d121f56974978982eb476855773759bb5c886c8a4d650562cd3968a.'
+      '2. Scalar, Bounce, Strong-Field & Metrology Closures: KG + RK4 growth ODEs give w_0 = −0.908, w_a = −0.177, S_8 = 0.8216–0.8466 (|β_lin| ≤ 0.25), D_M/r_d −0.82%..−1.16%, R_shift −0.428%, Δφ/M̄_Pl = 0.217; 2-stage ekpyrotic→matter bounce dilutes BKL shear to 4.0×10⁻¹⁵ with α_s = −3.6×10⁻⁵, r = 0.0123; derived ξ_0 = 2⁻¹/⁴ gives M_rem = 1.09236 M_Pl = 2.38 × 10⁻⁸ kg, 1+1D Hayward–Vaidya max(κ_− ℓ_0) = 0.9294 < 1, S_rem = 6.66 nats.\nH10 SHA-256 preregistration digest: 7463d7273d121f56974978982eb476855773759bb5c886c8a4d650562cd3968a'
     ],
     equations: [
       {
@@ -1274,7 +1274,7 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
         unicodeHtml:
           '<i>w</i><sub>0</sub> = −0.908, &nbsp; <i>S</i><sub>8</sub> = 0.8216–0.8466, &nbsp; <i>M</i><sub>max</sub><sup>TOV</sup> = 2.35 <i>M</i><sub>⊙</sub>, &nbsp; Λ<sub>1.4</sub> = 339, &nbsp; ξ<sub>0</sub> = 2<sup>−1/4</sup>, &nbsp; max(κ<sub>−</sub>ℓ<sub>0</sub>) = 0.9294',
         plainText:
-          'w_0 = −0.908, S_8 = 0.8216–0.8466, M_max^TOV = 2.35 M_sun, Lambda_1.4 = 339, xi_0 = 2^-1/4, max(kappa_- l_0) = 0.9294'
+          'w_0 = −0.908, S_8 = 0.8216–0.8466, M_max^TOV = 2.35 M_sun, Lambda_{1.4} = 339, xi_0 = 2^{-1/4}, max(kappa_- l_0) = 0.9294'
       }
     ]
   },
@@ -1301,7 +1301,7 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
     theoremStatement:
       'Executing node scripts/verify-igrt-monograph.mjs deterministically reproduces every constant, ODE, Kerr/RN/TOV solver, Wetterich FRG fixed point, joint cosmological likelihood, Fisher SNR, SHA-256 digest, table entry, equation string, and SVG label in Harmonized Edition H10.',
     proofParagraphs: [
-      'How to Verify: Run `node scripts/verify-igrt-monograph.mjs` from the repository root. The harness checks (1) CODATA 2022 constants, H_0 propagation, RK2 Klein–Gordon & RK4 linear growth ODEs, joint cosmological likelihood Δχ² / Laplace Δln Z, τ_re = 0.0537, ℓ_A = 300.31, A_L, E_G, Ly-α −3.96%, leptogenesis η_B = 6.13×10⁻¹⁰, double-pulsar PSR J0737-3039, 2-stage ekpyrotic bounce (4.0×10⁻¹⁵ BKL), 1+1D Hayward–Vaidya (0.9294), axisymmetric Kerr–Hayward (≤0.6639), RN–Hayward (0.2614), superradiance gain (0.2048), causal TOV NS (2.35 M_⊙, Λ_{1.4} = 339), 1-loop Wetterich FRG fixed point (g_*=1.3105, λ_*=0.1440), Borel sum (0.9126), CDT d_s: 3.989→2.002, 5-mode A_F^{H10} (4.42×10⁻¹⁶), P1–P6 Fisher SNRs, and H10 SHA-256 digest 7463d7273d121f56974978982eb476855773759bb5c886c8a4d650562cd3968a; AND (2) strict textual/structural parity over View/HTML/PDF.'
+      'How to Verify: Run `node scripts/verify-igrt-monograph.mjs` from the repository root. The harness checks (1) CODATA 2022 constants, H_0 propagation, RK2 Klein–Gordon & RK4 linear growth ODEs, joint cosmological likelihood Δχ² / Laplace Δln Z, τ_re = 0.0537, ℓ_A = 300.31, A_L, E_G, Ly-α −3.96%, leptogenesis η_B = 6.13×10⁻¹⁰, double-pulsar PSR J0737-3039, 2-stage ekpyrotic bounce (4.0×10⁻¹⁵ BKL), 1+1D Hayward–Vaidya (0.9294), axisymmetric Kerr–Hayward (≤0.6639), RN–Hayward (0.2614), superradiance gain (0.2048), causal TOV NS (2.35 M_⊙, Λ_{1.4} = 339), 1-loop Wetterich FRG fixed point (g_*=1.3105, λ_*=0.1440), Borel sum (0.9126), CDT d_s: 3.989→2.002, 5-mode A_F^{H10} (4.42×10⁻¹⁶), and P1–P6 Fisher SNRs; AND (2) strict textual/structural parity over View/HTML/PDF.\nH10 SHA-256 preregistration digest: 7463d7273d121f56974978982eb476855773759bb5c886c8a4d650562cd3968a'
     ],
     equations: []
   },

@@ -10,7 +10,20 @@ function renderSegments(segs: MathSegment[], keyPrefix: string): React.ReactNode
   return segs.map((seg, idx) => {
     const k = `${keyPrefix}-${idx}`;
     if (seg.type === 'text') {
-      return <React.Fragment key={k}>{seg.text}</React.Fragment>;
+      if (!seg.text.includes('\n')) {
+        return <React.Fragment key={k}>{seg.text}</React.Fragment>;
+      }
+      const lines = seg.text.split('\n');
+      return (
+        <React.Fragment key={k}>
+          {lines.map((line, li) => (
+            <React.Fragment key={`${k}-l${li}`}>
+              {li > 0 && <br />}
+              {line}
+            </React.Fragment>
+          ))}
+        </React.Fragment>
+      );
     }
     if (seg.type === 'sub') {
       return (

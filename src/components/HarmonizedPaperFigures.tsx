@@ -576,15 +576,15 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <line x1="256" y1="126" x2="306" y2="76" stroke="#2563EB" stroke-width="1.2" stroke-dasharray="3,2"/>
   <text x="304" y="84" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#1D4ED8">Hawking quanta</text>
 
-  <rect x="432" y="82" width="406" height="214" rx="4" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1.1"/>
-  <text x="448" y="109" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513">CAUSAL &amp; UNITARITY INVARIANTS</text>
-  <line x1="448" y1="118" x2="822" y2="118" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="448" y="141" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#0F172A">1. Postulate I holds on outer r &gt; r_+ &amp; physical domains</text>
-  <text x="448" y="165" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#0F172A">2. QES Island bounds S_rem ≤ 6.66 nats (ξ_0 = 2^{−1/4}); QFC-GSL</text>
-  <text x="448" y="189" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#15803D">3. Remnant M_rem = (3√3/4)(ℓ_0 c^2/G) ≈ 2.38×10^{−8} kg (κ_± = 0)</text>
-  <text x="448" y="215" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">4. Dynamical evaporation r_± → r_* truncates spacetime</text>
-  <text x="448" y="234" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">    prior to Cauchy extension (κ_− → 0 kills mass inflation).</text>
-  <text x="448" y="262" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#1D4ED8">5. Outgoing 45° radiation carries entanglement to ℐ⁺.</text>
+  <rect x="414" y="78" width="428" height="224" rx="4" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1.2"/>
+  <text x="430" y="106" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.2" font-weight="600" fill="#8B4513">CAUSAL &amp; UNITARITY INVARIANTS</text>
+  <line x1="430" y1="116" x2="826" y2="116" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="430" y="140" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">1. Postulate I holds on outer r &gt; r_+ &amp; physical domains</text>
+  <text x="430" y="165" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">2. QES Island bounds S_rem ≤ 6.66 nats (ξ_0 = 2^{−1/4}); QFC-GSL</text>
+  <text x="430" y="191" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.6" font-weight="600" fill="#15803D">3. Remnant M_rem = (3√3/4)( ℓ_0 c^2 / G ) ≈ 2.38×10^{−8} kg</text>
+  <text x="430" y="218" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" fill="#1E293B">4. Dynamical evaporation r_± → r_* truncates spacetime</text>
+  <text x="430" y="238" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" fill="#1E293B">    prior to Cauchy extension (κ_− → 0 kills mass inflation).</text>
+  <text x="430" y="268" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1D4ED8">5. Outgoing 45° radiation carries entanglement to ℐ⁺.</text>
 </svg>`
   },
   {
@@ -633,60 +633,61 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     caption:
       'Figure 8. Experimental roadmap summarizing non-null Protocols P1–P6 across IPTA and dual ⁸⁷Sr/¹⁷¹Yb optical lattice clocks (P1), 10⁻¹⁴ kg levitated silica nanosphere (R_0 = 1.028 μm) & 10m VLBAI interferometry (P2), Simons Observatory, LiteBIRD & DESI DR2 (P3), LVK O5 / CE / ET gravitational-wave ringdowns (P4), CANNEX / Eöt-Wash Chameleon force-gradient metrology (P5), and HL-LHC scalar portal & outer-heliosphere tracking (P6).',
     isSchematic: true,
-    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 490" width="100%" height="auto" role="img" aria-label="Six experimental and observational falsification protocols schematic">
-  <rect x="0" y="0" width="940" height="490" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="22" y="30" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" font-weight="600" fill="#8B4513" letter-spacing="0.6">EXPERIMENTAL ROADMAP — NON-NULL FALSIFICATION PROTOCOLS (P1–P6)</text>
-  <line x1="22" y1="41" x2="918" y2="41" stroke="#E2D9C8" stroke-width="1"/>
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 580" width="100%" height="auto" role="img" aria-label="Six experimental and observational falsification protocols schematic">
+  <rect x="0" y="0" width="860" height="580" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
+  <text x="22" y="30" font-family="'DejaVu Sans', Arial, sans-serif" font-size="14.2" font-weight="600" fill="#8B4513" letter-spacing="0.6">EXPERIMENTAL ROADMAP — NON-NULL FALSIFICATION PROTOCOLS (P1–P6)</text>
+  <line x1="22" y1="41" x2="838" y2="41" stroke="#E2D9C8" stroke-width="1"/>
 
-  <!-- Row 1: P1, P2, P3 (3 cards x 288w x 194h, 16px gaps) -->
-  <rect x="22" y="56" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="36" y="83" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P1: IPTA + ^{87}Sr/^{171}Yb Clocks</text>
-  <line x1="36" y1="93" x2="296" y2="93" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="36" y="119" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Test: 2:1 lock (f_PTA = 2f_clock = 12.8 nHz)</text>
-  <text x="36" y="147" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Signal: Y_{00} monopole; m_osc = 2.65×10^{−23} eV</text>
-  <text x="36" y="175" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.0" fill="#475569">Bound: f_DM ≤ 0.02; 2.00 ± 0.25 (5y) / ±0.08 (15y)</text>
-  <text x="36" y="226" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Window: 2026–2035 (Flicker + Red Noise)</text>
+  <!-- Row 1: P1, P2 (2 columns x 398w x 158h, 20px center gap) -->
+  <rect x="22" y="56" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="38" y="83" font-family="'DejaVu Sans', Arial, sans-serif" font-size="15.0" font-weight="600" fill="#8B4513">P1: IPTA + ^{87}Sr/^{171}Yb Clocks</text>
+  <line x1="38" y1="93" x2="404" y2="93" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="38" y="117" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#0F172A">Test: 2:1 lock (f_PTA = 2 f_clock = 12.8 nHz)</text>
+  <text x="38" y="142" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">Signal: Y_{00} monopole; m_osc = 2.65×10^{−23} eV</text>
+  <text x="38" y="167" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">Bound: f_DM ≤ 0.02; 2.00 ± 0.25 (5y) / ±0.08 (15y)</text>
+  <text x="38" y="196" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#15803D">Window: 2026–2035 (Flicker + PTA Red Noise)</text>
 
-  <rect x="326" y="56" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="340" y="83" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P2: 10^{−14} kg Nanospheres &amp; VLBAI</text>
-  <line x1="340" y1="93" x2="600" y2="93" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="340" y="119" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Test: Γ_Araki = (4/3) Γ_DP (DP overlap)</text>
-  <text x="340" y="147" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Target: R_0 = 1.028 μm SiO_2; Δx = 180 nm</text>
-  <text x="340" y="175" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Rate: Γ_Araki = 1.18 s^{−1} (η_Araki = 4/3)</text>
-  <text x="340" y="226" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: Γ_Araki &gt; 0.05 s^{−1} (&lt;10^{−12} Pa UHV)</text>
+  <rect x="440" y="56" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="456" y="83" font-family="'DejaVu Sans', Arial, sans-serif" font-size="15.0" font-weight="600" fill="#8B4513">P2: 10^{−14} kg Nanospheres &amp; VLBAI</text>
+  <line x1="456" y1="93" x2="822" y2="93" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="456" y="117" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#0F172A">Test: Γ_Araki = (4/3) Γ_DP (DP overlap)</text>
+  <text x="456" y="142" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">Target: R_0 = 1.028 μm SiO_2; Δx = 180 nm</text>
+  <text x="456" y="167" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">Rate: Γ_Araki = 1.18 s^{−1} (η_Araki = 4/3)</text>
+  <text x="456" y="196" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#15803D">Falsifier: Γ_Araki &gt; 0.05 s^{−1} (&lt;10^{−12} Pa UHV)</text>
 
-  <rect x="630" y="56" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="644" y="83" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P3: SO / LiteBIRD / DESI DR2</text>
-  <line x1="644" y1="93" x2="904" y2="93" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="644" y="119" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Bounce: n_s = 0.964; red n_T = −0.036</text>
-  <text x="644" y="147" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.1" fill="#475569">Tensor/NG: r = 24c_s^3 = 0.0123; f_NL^{eq} = −4.38</text>
-  <text x="644" y="175" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">KG Thaw: w_0 = −0.908; w_a = −0.177</text>
-  <text x="644" y="226" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: r ∉ [0.004, 0.025] or w_a &lt; −0.4</text>
+  <!-- Row 2: P3, P4 -->
+  <rect x="22" y="230" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="38" y="257" font-family="'DejaVu Sans', Arial, sans-serif" font-size="15.0" font-weight="600" fill="#8B4513">P3: SO / LiteBIRD / DESI DR2</text>
+  <line x1="38" y1="267" x2="404" y2="267" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="38" y="291" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#0F172A">Bounce: n_s = 0.964; red n_T = −0.036</text>
+  <text x="38" y="316" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">Tensor/NG: r = 24c_s^3 = 0.0123; f_NL^{eq} = −4.38</text>
+  <text x="38" y="341" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">KG Thaw: w_0 = −0.908; w_a = −0.177</text>
+  <text x="38" y="370" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#15803D">Falsifier: r ∉ [0.004, 0.025] or w_a &lt; −0.4</text>
 
-  <!-- Row 2: P4, P5, P6 -->
-  <rect x="22" y="268" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="36" y="295" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P4: LVK O5 / CE / ET Ringdowns</text>
-  <line x1="36" y1="305" x2="296" y2="305" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="36" y="331" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Test: Hayward-core echo delay Δt_echo</text>
-  <text x="36" y="359" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Delays: 17.8 ms (10 M_⊙); 109.2 ms (60 M_⊙)</text>
-  <text x="36" y="387" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Input: K_echo = |R_eff| = 0.18 (|H| = 1)</text>
-  <text x="36" y="438" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: |R_eff| &lt; 0.03 (3G Coherent Stack)</text>
+  <rect x="440" y="230" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="456" y="257" font-family="'DejaVu Sans', Arial, sans-serif" font-size="15.0" font-weight="600" fill="#8B4513">P4: LVK O5 / CE / ET Ringdowns</text>
+  <line x1="456" y1="267" x2="822" y2="267" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="456" y="291" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#0F172A">Test: Hayward-core echo delay Δt_echo</text>
+  <text x="456" y="316" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">Delays: 17.8 ms (10 M_⊙); 109.2 ms (60 M_⊙)</text>
+  <text x="456" y="341" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">Input: K_echo = |R_eff| = 0.18 (|H| = 1)</text>
+  <text x="456" y="370" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#15803D">Falsifier: |R_eff| &lt; 0.03 (3G Coherent Stack)</text>
 
-  <rect x="326" y="268" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="340" y="295" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P5: CANNEX &amp; Eöt-Wash Metrology</text>
-  <line x1="340" y1="305" x2="600" y2="305" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="340" y="331" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Test: Plate pressure ΔP_Ch (10 μm–1 cm)</text>
-  <text x="340" y="359" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Sector: M_Ch = 2.4 meV; ΔP_Ch ~ 0.1–2 nN/m^2</text>
-  <text x="340" y="387" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.1" fill="#475569">Screen: Z_ψ = 7.05×10^{14}; Λ_local = 4.67 μeV</text>
-  <text x="340" y="438" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">PPN: |γ_PPN − 1| = 1.77×10^{−11} (1 AU)</text>
+  <!-- Row 3: P5, P6 -->
+  <rect x="22" y="404" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="38" y="431" font-family="'DejaVu Sans', Arial, sans-serif" font-size="15.0" font-weight="600" fill="#8B4513">P5: CANNEX &amp; Eöt-Wash Metrology</text>
+  <line x1="38" y1="441" x2="404" y2="441" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="38" y="465" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#0F172A">Test: Plate pressure ΔP_Ch (10 μm–1 cm)</text>
+  <text x="38" y="490" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">Sector: M_Ch = 2.4 meV; ΔP_Ch ~ 0.1–2 nN/m^2</text>
+  <text x="38" y="515" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">Screen: Z_ψ = 7.05×10^{14}; Λ_local = 4.67 μeV</text>
+  <text x="38" y="544" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#15803D">PPN: |γ_PPN − 1| = 1.77×10^{−11} (1 AU)</text>
 
-  <rect x="630" y="268" width="288" height="194" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="644" y="295" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.6" font-weight="600" fill="#8B4513">P6: HL-LHC Portal &amp; Deep-Space</text>
-  <line x1="644" y1="305" x2="904" y2="305" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="644" y="331" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#0F172A">Portal: Φ_portal (m_portal = 1.84 ± 0.18 TeV)</text>
-  <text x="644" y="359" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Rates: sin θ_H = 0.04–0.08; σ = 0.18–0.70 fb</text>
-  <text x="644" y="387" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.3" fill="#475569">Coupling: δσ_Zh &gt; 1.5% vs. κ_Z ≈ 1.5% (1σ)</text>
-  <text x="644" y="438" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Window: HL-LHC 3000 fb^{−1} / Deep Space</text>
+  <rect x="440" y="404" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
+  <text x="456" y="431" font-family="'DejaVu Sans', Arial, sans-serif" font-size="15.0" font-weight="600" fill="#8B4513">P6: HL-LHC Portal &amp; Deep-Space</text>
+  <line x1="456" y1="441" x2="822" y2="441" stroke="#E2D9C8" stroke-width="1"/>
+  <text x="456" y="465" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#0F172A">Portal: Φ_portal (m_portal = 1.84 ± 0.18 TeV)</text>
+  <text x="456" y="490" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">Rates: sin θ_H = 0.04–0.08; σ = 0.18–0.70 fb</text>
+  <text x="456" y="515" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.8" fill="#1E293B">Coupling: δσ_Zh &gt; 1.5% vs. κ_Z ≈ 1.5% (1σ)</text>
+  <text x="456" y="544" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#15803D">Window: HL-LHC 3000 fb^{−1} / Deep Space</text>
 </svg>`
   }
 ];

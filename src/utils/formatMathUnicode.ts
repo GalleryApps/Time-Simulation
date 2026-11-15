@@ -332,15 +332,12 @@ function segmentsToSvgTspans(segs: MathSegment[], baseFontSize: number): string 
   return segs
     .map((seg) => {
       if (seg.type === 'text') return escapeHtml(seg.text);
-      const smallSize = (baseFontSize * 0.81).toFixed(1);
-      const resetSize = baseFontSize.toFixed(1);
+      const smallSize = (baseFontSize * 0.78).toFixed(1);
       if (seg.type === 'sub') {
-        const shift = (baseFontSize * 0.23).toFixed(2);
-        return `<tspan dy="${shift}" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.81)}</tspan><tspan font-size="${resetSize}" dy="-${shift}">&#8203;</tspan>`;
+        return `<tspan baseline-shift="sub" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.78)}</tspan>`;
       }
       if (seg.type === 'sup') {
-        const shift = (baseFontSize * 0.33).toFixed(2);
-        return `<tspan dy="-${shift}" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.81)}</tspan><tspan font-size="${resetSize}" dy="${shift}">&#8203;</tspan>`;
+        return `<tspan baseline-shift="super" font-size="${smallSize}">${segmentsToSvgTspans(seg.children, baseFontSize * 0.78)}</tspan>`;
       }
       return `<tspan font-style="italic">${segmentsToSvgTspans(seg.children, baseFontSize)}</tspan>`;
     })

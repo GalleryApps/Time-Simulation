@@ -419,8 +419,8 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
 
   <circle cx="440" cy="${BOUNCE_DATA.bounceY}" r="5" fill="#8B4513"/>
   <circle cx="440" cy="265" r="4" fill="#64748B"/>
-  <line x1="395" y1="108" x2="436" y2="${(BOUNCE_DATA.bounceY - 5).toFixed(1)}" stroke="#8B4513" stroke-width="1.1"/>
-  <text x="355" y="102" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">ä/a = +4πGρ_max(1 + w) &gt; 0</text>
+  <line x1="396" y1="108" x2="436" y2="${(BOUNCE_DATA.bounceY - 5).toFixed(1)}" stroke="#8B4513" stroke-width="1.1"/>
+  <text x="428" y="102" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">ä/a = +4πGρ_max(1 + w) &gt; 0</text>
   <line x1="490" y1="252" x2="446" y2="262" stroke="#64748B" stroke-width="1.1"/>
   <text x="494" y="253" text-anchor="start" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#64748B">Classical GR singularity (a → 0)</text>
 

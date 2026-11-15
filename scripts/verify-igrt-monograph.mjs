@@ -1082,8 +1082,7 @@ const h10ForbiddenAcrossPaper = [
   'Closed OP-4',
   'closed OP-4',
   'resolving OP-4',
-  '1 − 2GMr²/(',
-  '(r_s r^2)'
+  '1 − 2GMr²/('
 ];
 forbidIncludes(appSrc, 'harmonizedPaperApparatus.ts (H10 regression)', [...h10ForbiddenAcrossPaper, '∈ [1]']);
 forbidIncludes(dataSrc, 'harmonizedPaperData.ts (H10 regression)', h10ForbiddenAcrossPaper);
@@ -1098,10 +1097,10 @@ forbidIncludes(htmlSrc, 'generateHarmonizedPaperHtml.ts (H10 regression)', [...h
 forbidIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts (H10 regression)', [...h10ForbiddenAcrossPaper, 'WHAT CHANGED IN HARMONIZED EDITION', 'What Changed in Harmonized Edition']);
 
 // Abstract, B4, C1 & PDF parser parity checks
-requireIncludes(appSrc, 'harmonizedPaperApparatus.ts (Abstract & B4)', [
+requireIncludes(appSrc, 'harmonizedPaperApparatus.ts (Abstract & Table 0.2b Item 18)', [
   'The unification of general relativity and quantum mechanics is obstructed by the "Problem of Time"',
   'providing a falsifiable bridge between quantum information, modified gravity, and precision metrology.',
-  '(2GMr^2) / (r^3 + 2GM ℓ_0^2)'
+  '(r_s r^2) / (r^3 + r_s ℓ_0^2)'
 ]);
 requireIncludes(dataSrc, 'harmonizedPaperData.ts (Abstract Markdown, B4 & C1)', [
   'constitutive postulate of IGRT: it defines proper time as the modular-calibrated Fisher–Rao arc length',

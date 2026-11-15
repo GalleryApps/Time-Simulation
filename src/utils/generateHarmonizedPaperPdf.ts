@@ -143,6 +143,9 @@ const SERIF_MISSING = new Set([
   '\u2112', // ℒ
   '\u2113', // ℓ
   '\u2131', // ℱ
+  '\u2192', // →
+  '\u21D2', // ⇒
+  '\u21D4', // ⇔
   '\u2205', // ∅
   '\u226A', // ≪
   '\u226B', // ≫
@@ -151,7 +154,9 @@ const SERIF_MISSING = new Set([
   '\u227A', // ≺
   '\u2299', // ⊙ (sharp circle-dot in DejaVuSans, avoids Φ confusion)
   '\u27E8', // ⟨ (sharp angle bracket in DejaVuSans)
-  '\u27E9'  // ⟩
+  '\u27E9', // ⟩
+  '\u27F9', // ⟹
+  '\u27FA'  // ⟺
 ]);
 
 const SERIF_BOLD_EXTRA_MISSING = new Set([
@@ -198,7 +203,8 @@ function resolveFontForCluster(
   cluster: string,
   reqFamily: FontFamilyKey,
   reqStyle: FontStyleKey,
-  hasUnicodeFonts: boolean
+  hasUnicodeFonts: boolean,
+  isScript = false
 ): [string, string] {
   if (!hasUnicodeFonts) {
     const f = reqFamily === 'sans' ? 'helvetica' : reqFamily === 'mono' ? 'courier' : 'times';
@@ -224,6 +230,10 @@ function resolveFontForCluster(
   // Route calligraphic script-ℓ (U+2113) directly to NotoSerif italic so it never renders like sans 't'
   if (cluster.includes('\u2113')) {
     return ['NotoSerif', 'italic'];
+  }
+  // Route script minus (−) inside sub/superscripts to DejaVuSans so negative exponents stay solid at 150dpi
+  if (isScript && cluster === '\u2212') {
+    return ['DejaVuSans', 'normal'];
   }
   // Route single/double primes (′, ″) and any residual Unicode super/subscript block (U+2070..U+209F) to DejaVuSans
   const firstCp = cluster.codePointAt(0) ?? 0;
@@ -258,12 +268,13 @@ function segmentByFont(
   text: string,
   reqFamily: FontFamilyKey,
   reqStyle: FontStyleKey,
-  hasUnicodeFonts: boolean
+  hasUnicodeFonts: boolean,
+  isScript = false
 ): FontChunk[] {
   const clusters = splitGraphemeClusters(text);
   const chunks: FontChunk[] = [];
   for (const cl of clusters) {
-    const [fontName, fontStyle] = resolveFontForCluster(cl, reqFamily, reqStyle, hasUnicodeFonts);
+    const [fontName, fontStyle] = resolveFontForCluster(cl, reqFamily, reqStyle, hasUnicodeFonts, isScript);
     const prev = chunks[chunks.length - 1];
     if (prev && prev.fontName === fontName && prev.fontStyle === fontStyle) {
       prev.text += cl;
@@ -328,13 +339,13 @@ function flattenSegmentsToTokens(
         }
       }
     } else if (seg.type === 'sub') {
-      const subSize = Math.max(5.6, baseSize * (insideScript ? 0.78 : 0.72));
+      const subSize = Math.max(6.4, baseSize * (insideScript ? 0.80 : 0.76));
       const subDy = baseDy + (insideScript ? 0.16 : 0.24) * (baseSize / 72);
       tokens.push(
         ...flattenSegmentsToTokens(seg.children, subSize, subDy, baseFamily, baseItalic, baseBold, true)
       );
     } else if (seg.type === 'sup') {
-      const supSize = Math.max(5.6, baseSize * (insideScript ? 0.78 : 0.72));
+      const supSize = Math.max(6.4, baseSize * (insideScript ? 0.80 : 0.76));
       const supDy = baseDy - (insideScript ? 0.25 : 0.36) * (baseSize / 72);
       tokens.push(
         ...flattenSegmentsToTokens(seg.children, supSize, supDy, baseFamily, baseItalic, baseBold, true)
@@ -408,8 +419,8 @@ function flattenSegmentsForCanvas(
       out.push(
         ...flattenSegmentsForCanvas(
           seg.children,
-          Math.max(15, basePx * 0.80),
-          baseDyPx + basePx * (insideScript ? 0.16 : 0.24),
+          Math.max(14, basePx * (insideScript ? 0.78 : 0.73)),
+          baseDyPx + basePx * (insideScript ? 0.16 : 0.25),
           baseItalic,
           true
         )
@@ -418,8 +429,8 @@ function flattenSegmentsForCanvas(
       out.push(
         ...flattenSegmentsForCanvas(
           seg.children,
-          Math.max(15, basePx * 0.80),
-          baseDyPx - basePx * (insideScript ? 0.24 : 0.36),
+          Math.max(14, basePx * (insideScript ? 0.78 : 0.73)),
+          baseDyPx - basePx * (insideScript ? 0.23 : 0.37),
           baseItalic,
           true
         )
@@ -461,10 +472,11 @@ function renderRichSegmentsCanvasPng(
     if (cluster.includes('\u2113')) {
       return { familyCss: '"Noto Serif", "DejaVu Serif", serif', italic: true };
     }
-    // Route primes & serif-missing math glyphs to DejaVu Sans
+    // Route primes, script minus, and serif-missing math glyphs to DejaVu Sans
     if (
       cluster.includes('\u2032') ||
       cluster.includes('\u2033') ||
+      (dyPx !== 0 && cluster === '\u2212') ||
       clusterUsesAny(cluster, SERIF_MISSING)
     ) {
       return { familyCss: '"DejaVu Sans", "DejaVu Serif", sans-serif', italic: false };
@@ -581,6 +593,9 @@ function renderRichSegmentsCanvasPng(
     if (!prev.italic && next.italic) {
       return Math.max(1.4, next.fontPx * 0.035);
     }
+    if ((prev.text.endsWith('\u2032') || prev.text.endsWith('\u2033')) && next.text.startsWith('(')) {
+      return Math.max(1.8, next.fontPx * 0.045);
+    }
     if (next.text.startsWith('\u2032') || next.text.startsWith('\u2033')) {
       return Math.max(1.5, next.fontPx * 0.035);
     }
@@ -649,7 +664,7 @@ function renderRichSegmentsCanvasPng(
           subX += Math.max(1.6, fontPx * 0.045);
         }
 
-        cursorX = Math.max(supX, subX);
+        cursorX = Math.max(supX, subX) + Math.max(1.6, fontPx * 0.04);
         lastBaseOrRun = subGroup.runs[subGroup.runs.length - 1];
         gi++; // consume both stacked groups
       } else {
@@ -666,9 +681,7 @@ function renderRichSegmentsCanvasPng(
     }
 
     const last = curRuns[curRuns.length - 1];
-    if (last.italic) {
-      cursorX += Math.max(2.0, last.fontPx * 0.06);
-    }
+    cursorX += last.italic ? Math.max(2.5, last.fontPx * 0.07) : Math.max(1.6, last.fontPx * 0.045);
     logicalLines[logicalLines.length - 1].push({ runs: curRuns, placements, width: cursorX });
     curRuns = [];
   };
@@ -973,14 +986,18 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     text: string,
     reqFamily: FontFamilyKey,
     reqStyle: FontStyleKey,
-    size: number
+    size: number,
+    isScript = false
   ): number => {
-    const chunks = segmentByFont(text, reqFamily, reqStyle, hasUnicodeFonts);
+    const chunks = segmentByFont(text, reqFamily, reqStyle, hasUnicodeFonts, isScript);
     let total = 0;
     for (let ci = 0; ci < chunks.length; ci++) {
       const c = chunks[ci];
       if (ci > 0 && (c.text.startsWith('\u2032') || c.text.startsWith('\u2033'))) {
         total += Math.max(chunks[ci - 1].fontStyle === 'italic' ? 0.011 : 0.007, size * 0.0012);
+      }
+      if (ci > 0 && (chunks[ci - 1].text.endsWith('\u2032') || chunks[ci - 1].text.endsWith('\u2033')) && c.text.startsWith('(')) {
+        total += Math.max(0.008, size * 0.0010);
       }
       if (ci > 0 && c.text.includes('\u2113')) {
         total += Math.max(0.010, size * 0.0012);
@@ -1007,9 +1024,9 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     size: number
   ) => {
     const sizeIn = size / 72;
-    const isCapOrTall = /[A-ZΑ-ΩΔΘΛΞΠΣΦΨΩφbdfhklt∇∂]/.test(base);
+    const isCapOrTall = /[A-ZΑ-ΩΔΘΛΞΠΣΦΨΩφθbdfhklt∇∂]/.test(base);
     const isMidTall = /[ψijg]/.test(base);
-    const heightRatio = isCapOrTall ? 0.87 : isMidTall ? 0.79 : 0.72;
+    const heightRatio = isCapOrTall ? 0.96 : isMidTall ? 0.83 : 0.74;
     const ay = baselineY - sizeIn * heightRatio;
     const xMid = cx + w * 0.50;
     const span = Math.max(w * 0.92, sizeIn * 0.52);
@@ -1058,14 +1075,18 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     baselineY: number,
     reqFamily: FontFamilyKey,
     reqStyle: FontStyleKey,
-    size: number
+    size: number,
+    isScript = false
   ): number => {
-    const chunks = segmentByFont(text, reqFamily, reqStyle, hasUnicodeFonts);
+    const chunks = segmentByFont(text, reqFamily, reqStyle, hasUnicodeFonts, isScript);
     let cx = x;
     for (let ci = 0; ci < chunks.length; ci++) {
       const c = chunks[ci];
       if (ci > 0 && (c.text.startsWith('\u2032') || c.text.startsWith('\u2033'))) {
         cx += Math.max(chunks[ci - 1].fontStyle === 'italic' ? 0.011 : 0.007, size * 0.0012);
+      }
+      if (ci > 0 && (chunks[ci - 1].text.endsWith('\u2032') || chunks[ci - 1].text.endsWith('\u2033')) && c.text.startsWith('(')) {
+        cx += Math.max(0.008, size * 0.0010);
       }
       if (ci > 0 && c.text.includes('\u2113')) {
         cx += Math.max(0.010, size * 0.0012);
@@ -1124,7 +1145,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       let w = 0;
       for (let i = 0; i < curRuns.length; i++) {
         const r = curRuns[i];
-        r.width = measureTextMixed(r.text, r.family, r.style, r.size);
+        r.width = measureTextMixed(r.text, r.family, r.style, r.size, r.dy !== 0);
         if (i > 0 && (r.text.startsWith('\u2032') || r.text.startsWith('\u2033'))) {
           const primeKern = Math.max(curRuns[i - 1].style === 'italic' ? 0.012 : 0.007, curRuns[i - 1].size * 0.0014);
           curRuns[i - 1].width += primeKern;
@@ -1392,7 +1413,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           for (let wi = 0; wi < lineWords.length; wi++) {
             const word = lineWords[wi];
             for (const run of word.runs) {
-              drawTextMixed(run.text, x, y + run.dy, run.family, run.style, run.size);
+              drawTextMixed(run.text, x, y + run.dy, run.family, run.style, run.size, run.dy !== 0);
               x += run.width;
             }
             if (wi < lineWords.length - 1) {
@@ -1433,7 +1454,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         for (let wi = 0; wi < lineWords.length; wi++) {
           const word = lineWords[wi];
           for (const run of word.runs) {
-            drawTextMixed(run.text, x, y + run.dy, run.family, run.style, run.size);
+            drawTextMixed(run.text, x, y + run.dy, run.family, run.style, run.size, run.dy !== 0);
             x += run.width;
           }
           if (wi < lineWords.length - 1) {
@@ -1549,7 +1570,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           for (let wi = 0; wi < lineWords.length; wi++) {
             const word = lineWords[wi];
             for (const run of word.runs) {
-              drawTextMixed(run.text, x, cy + run.dy, run.family, run.style, run.size);
+              drawTextMixed(run.text, x, cy + run.dy, run.family, run.style, run.size, run.dy !== 0);
               x += run.width;
             }
             if (wi < lineWords.length - 1) x += gap;
@@ -1625,7 +1646,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           for (let wi = 0; wi < lineWords.length; wi++) {
             if (wi > 0) lx += headerLinesPerCol[ci].spaceWidth;
             for (const run of lineWords[wi].runs) {
-              drawTextMixed(run.text, lx, ly + run.dy, run.family, run.style, run.size);
+              drawTextMixed(run.text, lx, ly + run.dy, run.family, run.style, run.size, run.dy !== 0);
               lx += run.width;
             }
           }
@@ -1707,7 +1728,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           let lx = cx + padX;
           for (let wi = 0; wi < lineWords.length; wi++) {
             for (const run of lineWords[wi].runs) {
-              drawTextMixed(run.text, lx, ly + run.dy, run.family, run.style, run.size);
+              drawTextMixed(run.text, lx, ly + run.dy, run.family, run.style, run.size, run.dy !== 0);
               lx += run.width;
             }
             if (wi < lineWords.length - 1) lx += gap;
@@ -1788,7 +1809,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       for (let wi = 0; wi < lw.length; wi++) {
         if (wi > 0) lx += titleRes.spaceWidth;
         for (const r of lw[wi].runs) {
-          drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size);
+          drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
           lx += r.width;
         }
       }
@@ -1809,7 +1830,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         let lx = MARGIN + boxPad;
         for (let wi = 0; wi < lineWords.length; wi++) {
           for (const r of lineWords[wi].runs) {
-            drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size);
+            drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
             lx += r.width;
           }
           if (wi < lineWords.length - 1) lx += gap;
@@ -1905,7 +1926,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       for (let wi = 0; wi < lw.length; wi++) {
         if (wi > 0) lx += titleRes.spaceWidth;
         for (const r of lw[wi].runs) {
-          drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size);
+          drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
           lx += r.width;
         }
       }
@@ -1926,7 +1947,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         let lx = MARGIN + boxPad + leftOffset;
         for (let wi = 0; wi < lineWords.length; wi++) {
           for (const r of lineWords[wi].runs) {
-            drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size);
+            drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
             lx += r.width;
           }
           if (wi < lineWords.length - 1) lx += gap;

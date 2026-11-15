@@ -145,7 +145,7 @@ export const MASTER_EQUATION_ABSTRACT: PaperEquation = {
   plainText:
     'dτ = (1/c)√(−g_μν ẋ^μ ẋ^ν) dλ = [ℏ / (E_mod · σ_1(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ;   Δτ = ∫_γ dτ = lim_{N→∞} τ_step ∑_{k=1}^N ‖RAG_k − RES_k‖_F',
   caption:
-    'Extended Jacobi–Finsler synchronization ansatz calibrated by α_mod = ℏ/(E_mod·σ_1(K_ξ)) per single resolved mode and O(N⁻²) Uhlmann–Frobenius continuum limit (§4.1), with τ_step = 2ℏ/(E_mod σ_1(K_ξ)).'
+    'Extended Jacobi–Finsler synchronization ansatz calibrated by α_mod = ℏ / (E_mod · σ_1(K_ξ)) per single resolved mode and O(N⁻²) Uhlmann–Frobenius continuum limit (§4.1), with τ_step = 2ℏ / (E_mod · σ_1(K_ξ)).'
 };
 
 export const PAPER_BIBTEX = `@article{bulaquena_tassan_lauret_2026_igrt,
@@ -1314,7 +1314,7 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
     theoremStatement:
       'Type Ia Horndeski PNGB cosmology + 2% ULDM + portal reheating reproduces Planck reionization τ_re = 0.0537, Ly-α small-scale safety (−3.96%), CMB lensing A_L = 0.977–1.030, weak-lensing slip E_G = 0.415, Davidson–Ibarra η_B = 6.13×10⁻¹⁰, and joint compressed Δχ² = +4.41 (Δln Z = −3.52 vs. ΛCDM).',
     proofParagraphs: [
-      '1. Reionization, Acoustic Scale, Lensing & Ly-α Bounds: Integrating Thomson optical depth τ_re = ∫_0^30 [c n_{H,0}(1+z)² σ_T x_e(z) / H(z)] dz with tanh H + He II ionization (z_re = 7.67, Δz = 0.5) yields τ_re^{IGRT} = 0.0537 inside Planck 0.0544 ± 0.0073. Acoustic angular spacing reads ℓ_A = 300.31 (vs. ΛCDM 301.60); Type Ia G_{4,X} = G_5 = 0 forces η_slip = 0 (Φ = Ψ), yielding A_L(β=0) = 0.9773, A_L(β=0.15) = 1.0304, and E_G(z=0.57) = 0.4146 (vs. SDSS 0.39 ± 0.04). The f_DM ≤ 0.02 ULDM fraction at m_osc = 2.65×10⁻²³ eV adds ΔN_eff = 0.0032 < 0.01 and limits Lyman-α small-scale power suppression at k = 10 h/Mpc to ΔP/P = −3.96%.',
+      '1. Reionization, Acoustic Scale, Lensing & Ly-α Bounds: Integrating the PNGB background Klein–Gordon equation φ̈_DE + 3H φ̇_DE + (V_0/f_φ) sin(φ_DE/f_φ) = 0 (θ_i = 1.95 rad, f_φ = M̄_Pl) alongside Thomson optical depth τ_re = ∫_0^30 [c n_{H,0}(1+z)² σ_T x_e(z) / H(z)] dz with tanh H + He II ionization (z_re = 7.67, Δz = 0.5) yields τ_re^{IGRT} = 0.0537 inside Planck 0.0544 ± 0.0073. Acoustic angular spacing reads ℓ_A = 300.31 (vs. ΛCDM 301.60); Type Ia G_{4,X} = G_5 = 0 forces η_slip = 0 (Φ = Ψ), yielding A_L(β=0) = 0.9773, A_L(β=0.15) = 1.0304, and E_G(z=0.57) = 0.4146 (vs. SDSS 0.39 ± 0.04). The f_DM ≤ 0.02 ULDM fraction at m_osc = 2.65×10⁻²³ eV adds ΔN_eff = 0.0032 < 0.01 and limits Lyman-α small-scale power suppression at k = 10 h/Mpc to ΔP/P = −3.96%.',
       '2. Post-Bounce Portal Reheating, Leptogenesis & Joint Likelihood: Portal coupling λ_mix ≈ 0.70 (m_portal = 1.84 TeV) thermalizes post-bounce SM radiation to T_reh = 3.40×10¹⁰ GeV while preserving B − L across the smooth ρ_max = 0.4094 ρ_Pl bounce; strong-washout thermal leptogenesis (ε_1 = 2.0×10⁻⁶, κ_wash = 0.0315) gives η_B = 6.13×10⁻¹⁰. Jointly fitting Planck compressed shift R, 6 DESI BAO bins, 6 RSD fσ_8(z) measurements, and DES-Y3/KiDS S_8 yields χ²_LCDM = 11.24 vs. χ²_PNGB(β=0) = 15.65 (Δχ² = +4.41, Laplace Occam Δln Z = −3.52 for β=0 and −5.61 for β=0.15).'
     ],
     equations: [
@@ -1343,7 +1343,7 @@ export const PAPER_APPENDICES: PaperAppendix[] = [
       {
         label: '(L.1)',
         unicodeHtml:
-          '(<i>g</i><sub>*</sub>, λ<sub>*</sub>) = (1.3105, 0.1440), &nbsp; <i>d</i><sub><i>s</i></sub>: 3.989 → 2.002<br/>|ε<sub>ψ,Ch</sub>| = 4.42 × 10<sup>−16</sup>, &nbsp; κ<sub>−</sub><sup>Kerr</sup>ℓ<sub>0</sub> ≤ 0.6639, &nbsp; Gain = 0.2048 &lt; 1',
+          '(<i>g</i><sub>*</sub>, λ<sub>*</sub>) = (1.3105, 0.1440), &nbsp; <i>d</i><sub><i>s</i></sub>: 3.989 → 2.002<br/>|ε<sub>ψ,Ch</sub>| = 4.42 × 10<sup>−16</sup>, &nbsp; κ<sub>−</sub><sup>Kerr</sup> ℓ<sub>0</sub> ≤ 0.6639, &nbsp; Gain = 0.2048 &lt; 1',
         plainText:
           '(g_*, lam_*) = (1.3105, 0.1440), d_s: 3.989 -> 2.002, |eps_{psi,Ch}| = 4.42e-16, kappa_-^Kerr ℓ_0 <= 0.6639, Gain = 0.2048 < 1'
       }

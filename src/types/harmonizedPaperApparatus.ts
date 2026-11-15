@@ -366,7 +366,7 @@ export const DIMENSIONAL_ANALYSIS_CLOSURE_B: DimensionalClosureRow[] = [
   },
   {
     quantity: '18. Hayward Lapse, K(0), Echoes & QES',
-    expression: 'f(r) = 1 − (2GMr^2) / (r^3 + 2GM ℓ_0^2)\nK(0) = 24 / ℓ_0^4\nr_I = r_+ − O(ℏ/(Mc))',
+    expression: 'f(r) = 1 − (r_s r^2) / (r^3 + r_s ℓ_0^2)\nK(0) = 24 / ℓ_0^4\nr_I = r_+ − O(ℏ/(Mc))',
     siUnits: 'f [1]; K(0) [m⁻⁴]; r_I [m]; Δt_echo [s]; M_rem = 2.38×10^{−8} kg; S_rem [nats]',
     naturalUnits: 'f [1]; K(0) [GeV⁴]; r_I, Δt_echo [GeV⁻¹]; S_rem ≈ 6.66 [nats]',
     auditNote: 'With r_s = 2GM/c², ℓ_Pl²/r_+ = (Gℏ/c³)/(2GM/c²) = ℏ/(2Mc) has units of length [m], fixing the App. E QES island radius r_I.'

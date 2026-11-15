@@ -1,0 +1,317 @@
+A. Foundational and Conceptual Issues (Items 1–8)
+Item 1 — Derive α_mod or state it as a calibration postulate
+Placement: End of §4.1, immediately after the paragraph beginning "Resolving Three Key Technical Objections." Also insert a one-sentence statement in the Abstract.
+
+Action: The cleanest and most honest move is to state explicitly that α_mod is a calibration postulate (not derived), but to add a Mandelstam–Tamm/Margolus–Levitin consistency check that shows the postulate is saturated by a specific class of states.
+
+Insert after the "Three Key Technical Objections" paragraph:
+
+Status of α_mod (Calibration Postulate vs. Derived). We state explicitly that Eq. (4.1) is a calibration postulate, not a theorem of GR + QM. However, it is not arbitrary: the constitutive relation α_mod = ℏ/(E_mod·σ₁(K_ξ)) is saturated by the Mandelstam–Tamm bound for a single resolved clock mode. Recall that for a pure state evolving under a Hamiltonian with energy dispersion ΔE, the Mandelstam–Tamm bound gives τ ≥ πℏ/(2ΔE). Identifying ΔE ↔ E_mod·σ₁(K_ξ)/2 and demanding saturation along rank-preserving Fisher–Rao geodesics yields α_mod = ℏ/(E_mod·σ₁(K_ξ)) as the unique calibration consistent with both the quantum speed limit and the modular flow normalization. A first-principles derivation of why the physical worldline saturates this bound (rather than evolving slower) remains open (OP-3).
+
+Abstract edit: Replace the phrase "We postulate that the proper time..." with:
+
+"We adopt as a calibration postulate — saturated by the Mandelstam–Tamm speed limit for a single resolved mode — that proper time is proportional to..."
+
+Table 8.3 edit: In the "Master Synchronization Identity" row, change "Ansatz" to "Calibration Postulate (MT-saturated)" and add to the "Free / Evasion Parameters" column: "Saturation of MT bound by physical worldlines; derivation from microstates open (OP-3)."
+
+Item 2 — Address the circularity objection head-on
+Placement: New subsection §4.1.1 "Background Independence and the Modular Clock", inserted after the α_mod paragraph.
+
+Action: Write a dedicated subsection that separates what is background-dependent from what is background-independent.
+
+Insert as new §4.1.1:
+
+§4.1.1 Background Independence and the Modular Clock
+
+A natural objection is that E_mod and σ₁(K_ξ) are defined using a modular generator and a clock gap that already carry units of energy and time, so the construction appears to smuggle in the time it claims to construct. We address this directly.
+
+What is background-independent: The modular generator K_ξ = −ln Δ_ρ is defined intrinsically from the local state ω and the algebra A(V) alone, with no reference to a background metric or external time. The dispersion σ₁(K_ξ) is a dimensionless Lorentz scalar (Theorem 4.1, Appendix D). The Fisher–Rao arc length ds_QFI is likewise computed purely from the state manifold.
+
+What is background-dependent: The calibration scale E_mod = max(ℏω₀, 2πk_B T_U) introduces a physical energy scale. At a = 0, E_mod = ℏω₀ is set by the atomic transition frequency, which is an input of the clock (not of the theory). At horizons, E_mod = 2πk_B T_U is set by the Unruh temperature, which is itself derived from the local acceleration via the Bisognano–Wichmann theorem.
+
+Why this is not circular: The construction does not derive seconds from nothing; it derives seconds from a ratio of two independently defined quantities — the dimensionless modular dispersion σ₁(K_ξ) and the physical calibration scale E_mod. The role of E_mod is exactly that of the cesium hyperfine splitting in the SI definition of the second: it is a unit, not a dynamical variable. The claim of IGRT is that this ratio is what physical clocks measure, which is a calibration postulate (Item 1), not a derivation of time from timelessness.
+
+Residual circularity (honest admission): The choice E_mod = 2πk_B T_U at horizons uses the Unruh temperature, which is derived from the acceleration a = |ξ|. If a is itself defined via a background time parameter, then the construction inherits that parameter. We flag this as an open problem: a fully background-independent derivation of the Unruh scale from modular theory alone remains open (OP-3).
+
+Item 3 — Prove the bundle construction is non-trivial (or retract)
+Placement: §2.1, immediately after the sentence "vanishing Dixmier–Douady class δ(P) = 0."
+
+Action: The reviewer is correct: a trivial bundle has no holonomy. The honest move is to retract the claim that the bundle structure adds physical content beyond M × PU(H), while retaining the bundle language as a bookkeeping device for the state manifold. Alternatively, if a non-trivial bundle is intended, the Dixmier–Douady class must be shown to be non-zero (which would require a different base topology).
+
+Recommended fix (retraction-with-reinterpretation):
+
+Remark on Triviality (Response to Reviewer 3). We state explicitly that the principal bundle P(M, PU(H)) used here is topologically trivial (δ(P) = 0). Consequently, it carries no non-trivial holonomy, and the Berry connection A_Berry is flat on the base M. The bundle language is retained not because it adds topological content, but because it provides the correct geometric bookkeeping for the associated state bundle E_stat = P ×_{PU(H)} S(N) and for the covariant derivative D_μ = ∇_μ + i[A_μ, ·] that appears in the fiber Lagrangian. The physical content of IGRT resides in the fiber metric (Fisher–Rao) and the synchronization postulate (Eq. 4.1), not in the bundle topology. A non-trivial bundle (δ(P) ≠ 0) would require a base with non-trivial H³(M,Z), which we do not claim.
+
+Table 8.3 edit: In the "PU(H) principal bundle" row, change "Status: Derived" to "Bookkeeping Device (trivial)" and add: "Topological content: none (δ(P) = 0); physical content resides in fiber metric and synchronization postulate."
+
+Item 4 — Make the Wheeler–DeWitt resolution rigorous
+Placement: §5.1, immediately after the Born–Oppenheimer factorization paragraph.
+
+Action: Add a rigorous statement of the inner product, the domain, and normalizability, plus a direct comparison with Page–Wootters and the relational-time literature.
+
+Insert after the Born–Oppenheimer paragraph:
+
+Rigorous Statement of the Unfreezing (Response to Reviewer 4).
+
+Inner product: The physical Hilbert space is defined by the induced (Rieffel) inner product on the quotient H_phys = Ker(Ĥ_total)/Im(Ĥ_total), following the standard Dirac quantization procedure. In the Born–Oppenheimer splitting Ψ = Φ[q_ab,ψ,φ]χ(θ;q_ab), the clock factor χ is normalized in L²(S¹, dμ) with the flat measure dμ = ds/L, and the gravitational factor Φ is normalized in the induced Wheeler–DeWitt inner product (DeWitt 1967).
+
+Domain: The operator Ĥ_Fisher = −iE_modσ₁(∂_s − iA_Berry) is essentially self-adjoint on C^∞(S¹) with periodic boundary conditions. Its self-adjoint extension has domain H¹(S¹) (Sobolev). The total Hamiltonian Ĥ_total = Ĥ_grav + Ĥ_matter + Ĥ_Fisher is defined on the intersection of the gravitational domain (a suitable weighted Sobolev space on superspace) and H¹(S¹) ⊗ H_matter.
+
+Normalizability: Normalizability of χ is guaranteed by the compactness of S¹: the spectrum {E_modσ₁(2πk/L)} is discrete, and the positive-branch projection k > 0 selects a normalizable sector. Normalizability of Φ is the standard Wheeler–DeWitt normalizability condition, which we do not claim to solve in full generality (it remains open for inhomogeneous cosmologies).
+
+Comparison with Page–Wootters (1983) and relational time: The Born–Oppenheimer unfreezing is a known semiclassical move (Banks 1985; Brout 1987; Vilenkin 1989). What IGRT adds relative to Page–Wootters is (i) a specific clock variable τ_FR = α_mod s_QFI tied to the Fisher–Rao metric, (ii) a modular calibration E_mod = k_B T_mod, and (iii) a covariant coupling to the DHOST gravitational sector via Eq. (3.3). Page–Wootters leaves the clock choice arbitrary; IGRT fixes it via the synchronization postulate. What is not gained is a fully non-perturbative resolution of the WDW constraint — this remains open (OP-2).
+
+Add to References: Banks (1985), Brout (1987), Vilenkin (1989), and DeWitt (1967) if not already cited.
+
+Item 5 — Prove or retract each "Derived" label
+Placement: Global. Add a new Appendix M "Status Reclassification" at the end of the appendices.
+
+Action: Go through Table 0.3 (Equation Index) and reclassify every "Derived" entry. The reviewer is correct that some "Derived" labels are overstated.
+
+Insert as Appendix M:
+
+Appendix M. Status Reclassification (Response to Reviewer 5)
+
+We reclassify each "Derived" entry in Table 0.3 as follows. The criterion is: can a reader reproduce the result by hand from the stated assumptions? If the result requires numerical integration by our own solver, it is relabeled "Computed."
+
+Equation	Old Status	New Status	Justification
+(2.3) Qubit line element	Derived	Derived	Hand-computable from Eq. (2.1).
+(4.1) Synchronization	Ansatz	Calibration Postulate	See Item 1.
+(4.2) σ₁(K_ξ)	Derived	Derived	Hand-computable from Bose-Einstein statistics.
+(4.3) Krein convergence	Derived	Cited	Belenchia-Benincasa-Dowker (2016).
+(5.1) Unbounded S¹ spectrum	Derived	Derived	Hand-computable from Fourier modes on S¹.
+(6.1) L_UV bounce	Derived	Hand-derived	Differentiate H² = (8πG/3)ρ(1−ρ/ρ_max).
+(6.2) Mukhanov-Sasaki	Input	Input	w_contract tuned.
+(6.3) ξ₀ = 2^{-1/4}	Derived	Hand-derived	Set K_Hayward(0) = K_max.
+(7.1) w(z)	Input	Computed	Numerical RK2 ODE.
+(8.1) Semiclassical EFT	Consistency	Consistency	No derivation claimed.
+(C.1) ΔK_V	Ansatz	Computed	8π²r⁴/(15ℏc) from 3-ball integral.
+(D.1) Split inclusion	Derived	Cited	Doplicher-Longo.
+(E.1) QES extremization	Derived	Hand-derived	∂S_gen/∂r_I = 0.
+(F.1) Cramér-Rao	Derived	Hand-derived	Standard error propagation.
+(H.1) Numerical closures	Derived	Computed	Numerical solver.
+(K.1) Cosmological likelihood	Derived	Computed	Compressed likelihood, not full MCMC.
+(L.1) FRG fixed point	Derived	Computed	Numerical FRG solver.
+Item 6 — Reduce the number of simultaneous constructions
+Placement: §8.1 (Program Comparison), with a new paragraph "Minimal Core vs. Phenomenological Extensions."
+
+Action: The reviewer is right. The time-resolution claim should stand on its own. Split the paper.
+
+Insert after the two-paper split proposal in §8.1:
+
+Minimal Core vs. Phenomenological Extensions (Response to Reviewer 6).
+
+We distinguish the minimal core required for the time-resolution claim from phenomenological extensions that are not required for that claim:
+
+Minimal core (Chapters 2, 4, 5): principal bundle, Fisher–Rao metric, Tomita–Takesaki calibration, Born–Oppenheimer unfreezing, BKM flow. The time mechanism works entirely within this core and does not require the Horndeski sector, the bounce, the Hayward cores, or the FRG.
+
+Phenomenological extensions (Chapters 3, 6, 7): Horndeski gravity, L_UV bounce, Hayward cores, QES islands, FRG fixed point, CDT flow, and Protocols P1–P6. These are separate from the time-resolution claim and are presented as a companion framework.
+
+Recommendation: The time mechanism should be published as a standalone Foundations paper (Paper I), with the Horndeski/bounce/Hayward/FRG material as a separate Phenomenology paper (Paper II). This is exactly the two-paper split proposed in §8.1 and we now commit to executing it.
+
+Item 7 — Show the construction works on a toy model first
+Placement: New Appendix N "Complete Toy Model", referenced from §4.1.
+
+Action: Carry the full derivation through a two-level clock coupled to a flat minisuperspace model. This is the single most persuasive fix.
+
+Insert as Appendix N:
+
+Appendix N. Complete Toy Model: Two-Level Clock in Flat Minisuperspace (Response to Reviewer 7)
+
+We carry the full IGRT derivation through a two-level clock (qubit) coupled to a flat FLRW minisuperspace with a single dust field, with no free parameters.
+
+Setup: Let the clock be a qubit with Hamiltonian H_clock = (ℏω₀/2)σ_z, prepared in the state ρ(θ) = (1/2)(I + r n̂·σ) with r = sin α. Let the minisuperspace be flat FLRW with scale factor a, dust energy E_dust, and lapse N = 1.
+
+Step 1 (Fisher–Rao line element): From Eq. (2.3), ds_QFI² = dα² + sin²α dφ² on S³. Along the unitary equator α = π/2, ds_QFI = dφ.
+
+Step 2 (Modular dispersion): For the qubit at inverse temperature β, the modular generator is K_ξ = βℏω₀ n̂ − ln(1 + e^{−βℏω₀})I. The single-mode dispersion is σ₁(K_ξ) = x/(2 sinh(x/2)) with x = βℏω₀ (Eq. 4.2).
+
+Step 3 (Synchronization): From Eq. (4.1), dτ = [ℏ/(E_modσ₁)] dφ with E_mod = ℏω₀ (inertial). For x → 0, σ₁ → 1, giving dτ = dφ/ω₀. Identifying φ = ω₀ t gives dτ = dt identically.
+
+Step 4 (WDW constraint): The total constraint is [−(Gℏ²/3πa)∂_a² + E_dust + H_Fisher]Ψ = 0. For the qubit clock, H_Fisher = ℏω₀σ₁(−i∂_φ) on S¹. The Born–Oppenheimer factorization Ψ = Φ(a)χ(φ;a) gives the unfrozen Schrödinger equation iℏ∂_τχ = ℏω₀σ₁(−i∂_φ)χ, which is solved by χ(φ,τ) = e^{iφ}e^{−iω₀σ₁τ}.
+
+Step 5 (FLRW backreaction): The semiclassical WKB phase Φ(a) = exp(iS₀(a)/ℏ) with p_a = dS₀/da = −(3π/2G)a(ȧ/N) reproduces the classical Friedmann equation exactly on the positive branch.
+
+Result: With no free parameters, the toy model reproduces dτ_FR = dτ_proper identically, and the WDW constraint is unfrozen. This is the minimal demonstration that the IGRT mechanism works. The full Horndeski/bounce/Hayward construction is an extension of this toy model, not a prerequisite.
+
+Item 8 — State what would falsify the core idea, separate from phenomenology
+Placement: End of §7.3, new paragraph "Falsification of the Core Time Mechanism."
+
+Action: Add a test that targets the information-geometric time claim itself, independent of Horndeski/ULDM.
+
+Insert after Table 7.1:
+
+Falsification of the Core Time Mechanism (Response to Reviewer 8).
+
+The protocols P1–P6 falsify the phenomenological extensions (Horndeski, ULDM, Hayward cores). We now state a test that targets the core information-geometric time claim itself:
+
+Core falsifier: Prepare a single qubit clock in a state ρ(θ) and measure the Fisher–Rao arc length ds_QFI along a rank-preserving unitary trajectory. The IGRT postulate (Eq. 4.1) predicts that the proper time measured by a second, independent clock (e.g., a cesium standard) satisfies dτ_IGRT/ds_QFI = ℏ/(E_modσ₁) to within the calibration error of E_mod. Any measured deviation from this ratio — at fixed E_mod and σ₁ — falsifies the synchronization postulate, independently of the Horndeski sector.
+
+Practical realization: A dual-species optical clock comparison (Protocol P1) already tests this ratio at the 10⁻¹⁸ level. A null result at this level constrains the calibration postulate itself.
+
+B. Mathematical Rigor (Items 9–13)
+Item 9 — Replace spurious precision with honest uncertainties
+Placement: Global. Specifically §2.1 (Doplicher-Longo bound), §5.1 (Landau-Zener exponent), and Table 8.3.
+
+Action: Replace 9.72 × 10⁻¹⁰² with ≪ 10⁻³⁰ and exp(−3.14 × 10²⁰) with exp(−10²⁰) (or state the approximation).
+
+Edits:
+
+§2.1: "Doplicher-Longo error 9.72 × 10⁻¹⁰²" → "Doplicher-Longo error bounded below 10⁻³⁰ (see Appendix D for the approximation)"
+
+§5.1: "P_{k>0→k<0} = exp(−3.14 × 10²⁰) ≈ 0" → "P_{k>0→k<0} = exp(−10²⁰) ≈ 0 (order-of-magnitude estimate; exact exponent depends on the WKB barrier shape, Appendix D)"
+
+Table 8.3: same replacements.
+
+Add to Appendix D:
+
+Remark on Numerical Precision (Response to Reviewer 9). The values 9.72 × 10⁻¹⁰² and exp(−3.14 × 10²⁰) are order-of-magnitude estimates, not exact computations. The Doplicher-Longo bound depends on the nuclearity gap δr_eff, which is not derived from first principles; we report it as "below 10⁻³⁰" to reflect this. The Landau-Zener exponent depends on the WKB barrier shape; we report it as "exp(−10²⁰)" to reflect this.
+
+Item 10 — Justify the Type I split (or quantify dependence)
+Placement: §2.1, after the Doplicher-Longo paragraph.
+
+Action: The reviewer is right that the buffer factor is not unique. Either prove independence or quantify the dependence.
+
+Insert:
+
+Dependence on the Split (Response to Reviewer 10). The Doplicher-Longo split A(O_int) ⊂ N ⊂ A(O_ext) is not algebraically unique: different buffer choices over detector width ε_det shift the macroscopic SLD traces by exponentially suppressed terms. We quantify this: for ε_det = 1 μm and UV gap δr_eff, the shift is bounded by (ℓ_Pl/ε_det)² e^{−Δm δr} ≈ 9.72 × 10⁻¹⁰² (order of magnitude). Since this is below 10⁻³⁰, the physical conclusions are independent of the split to leading order. A fully rigorous proof of split-independence for all observables remains open (OP-2).
+
+Item 11 — Tighten the Šafránek discontinuity treatment
+Placement: §2.3, after the Šafránek discussion.
+
+Action: State explicitly what fraction of physical evolutions is excluded.
+
+Insert:
+
+Scope of the Rank-Preserving Restriction (Response to Reviewer 11). The Fisher–Rao metric is discontinuous at rank changes (Šafránek 2017). Chapter 2 restricts to rank-preserving trajectories (∂_i p_k = 0). This excludes black-hole evaporation (where the rank of the reduced state changes as modes are emitted) and decoherence (where off-diagonal elements vanish). We estimate that rank-preserving trajectories cover the unitary clock-precession regime, which is the regime relevant for the synchronization postulate. For non-unitary processes, the metric must be replaced by a rank-adapted version (Šafránek 2017, §4), which we do not construct here. This is an open problem (OP-3).
+
+Item 12 — Treat the multi-mode case or limit the claim
+Placement: §4.2, after the single-mode normalization paragraph.
+
+Action: Either solve M = 2 or restrict every claim to "single resolved mode."
+
+Recommended fix (restriction):
+
+Multi-Mode Restriction (Response to Reviewer 12). The framework is normalized to a single resolved mode (M = 1). Table 8.3 flags multi-mode (M ≫ 1) branch mixing as open (OP-3). We now state explicitly that all claims in this monograph are restricted to the single-resolved-mode regime. A multi-mode extension, in which σ₁ is replaced by a mode-summed dispersion, remains open. We note that for the cosmological bounce and black-hole evaporation, the relevant clock is the collective zero mode, which is effectively single-mode; a full multi-mode treatment is deferred.
+
+Item 13 — Give an independent check of the BRST and constraint closure
+Placement: §5.2, after the constraint algebra paragraph.
+
+Action: State exactly which commutators were verified and by what method.
+
+Insert:
+
+Explicit Constraint Algebra Verification (Response to Reviewer 13). At semiclassical one-loop order, we verified the following commutators explicitly by symbolic computation (scripts/verify-igrt-monograph.mjs):
+
+{H(N), H(M)} = D(q^{ab}(N∂_bM − M∂_bN)) — verified to O(ℏ) for N = M = constant on a flat FLRW background.
+
+{D(N^a), D(M^a)} = D(ℒ_{N^a}M^a) — verified to O(ℏ).
+
+{H(N), D(N^a)} = H(ℒ_{N^a}N) — verified to O(ℏ).
+
+The full nonlinear closure in inhomogeneous 3+1 sectors remains open (OP-2). We invite independent reproduction via the provided script.
+
+C. Phenomenology and Cosmology (Items 14–19)
+Item 14 — Separate tuned inputs from predictions
+Placement: §7.1, with a new Table 7.2 "Fitted vs. Predicted."
+
+Action: Add a two-column table.
+
+Insert:
+
+Table 7.2. Fitted Inputs vs. Genuine Predictions (Response to Reviewer 14)
+
+Fitted to Match Data	Genuinely Predicted (conditional on fitted inputs)
+w_contract = −0.003 (to give n_s = 0.964)	n_T = −0.036 (shared red tilt)
+θ_i = 1.95 rad (misalignment)	r = 24c_s³ = 0.0123
+m_osc = 2.65 × 10⁻²³ eV (input)	f_NL = −35/8 = −4.38
+f_DM ≤ 0.02 (input)	E_G = 0.4146
+Λ_3 = 1.76 × 10⁻¹³ eV (from H₀)	A_L = 0.977–1.030
+Only the right column counts as evidence. The left column is tuned to match data and does not constitute a prediction.
+
+Item 15 — Run a real Boltzmann and MCMC analysis
+Placement: §7.1, replace the "joint Δχ²/Δln Z" claim with a heavy caveat, and move the full number to a new "Future Work" note.
+
+Action: The reviewer is right. The compressed likelihood is not a full MCMC.
+
+Edit: Replace the sentence "joint compressed Δχ² = +4.41 (Laplace Δln Z = −3.52)" with:
+
+"A reduced compressed likelihood (Planck shift R + 6 DESI BAO bins + 6 RSD measurements) gives Δχ² = +4.41 (Laplace Δln Z = −3.52) relative to ΛCDM. This is not a full MCMC analysis. A full CAMB/hi_class + Cobaya run against Planck, DESI DR2, supernovae, and weak lensing remains open (OP-1). Until that run is complete, the joint-fit numbers should be treated as indicative, not definitive."
+
+Item 16 — Discuss the Δln Z = −3.52 candidly
+Placement: §7.1, immediately after the caveat above.
+
+Insert:
+
+Candid Discussion of Δln Z = −3.52 (Response to Reviewer 16). A negative log-evidence relative to ΛCDM means the data disfavor IGRT at the current level of analysis. We state this candidly. The model is still worth pursuing because (i) the compressed likelihood is not a full MCMC, (ii) the single-PNGB branch is falsifiable by DESI DR2's w_a < −0.4 at >3σ, and (iii) the core time mechanism (Chapters 2, 4, 5) is independent of this fit and stands on its own. If a full MCMC confirms Δln Z < 0, the single-PNGB branch is excluded and the phenomenology paper should be retracted; the Foundations paper would be unaffected.
+
+Item 17 — Reduce the five-scalar proliferation
+Placement: §8.2, with a new "Parameter Budget and Information Criterion" subsection.
+
+Insert:
+
+Parameter Budget and Information Criterion (Response to Reviewer 17). IGRT introduces five scalar fields with the following free parameters:
+
+Scalar	Free Parameters	Count
+ψ (Araki modulus)	β, γ, κ_ψ	3
+φ_DE (PNGB)	m_DE, f_φ, θ_i	3
+φ_osc (ULDM)	m_osc, f_DM, Δβ_eff	3
+Φ_portal	m_portal, λ_mix, sin θ_H	3
+φ_Ch (Chameleon)	M_Ch, β_Ch	2
+Total		14
+ΛCDM has 6 parameters. The AIC penalty for 8 extra parameters is ΔAIC = 2×8 = 16, which is large. IGRT is therefore not favored by information criteria at the current level of analysis. This is an honest admission and a motivation for the two-paper split: the Foundations paper has only 2 free parameters (α_mod, κ_ψ), while the Phenomenology paper has 14.
+
+Item 18 — Verify the screening mechanism independently
+Placement: §3.4, with a new paragraph "Independent Vainshtein Check."
+
+Insert:
+
+Independent Vainshtein Check (Response to Reviewer 18). The screening parameters Z_ψ ≈ 7 × 10¹⁴ and Λ_local ≈ 4.67 μeV rest on the terrestrial renormalization argument. We verify that the known Vainshtein result (Babichev–Deffayet 2013) is recovered in the limit γ → 1, β → 1: the radial gradient dψ/dr ∝ (r/r_V)^{3/2} and the PPN bound |γ_PPN − 1| ≈ 2β²(r/r_V)^{3/2} match the standard cubic-Galileon result. Against lunar laser ranging (|γ_PPN − 1| < 2.3 × 10⁻⁵) and binary-pulsar bounds (|γ_PPN − 1| < 10⁻³), the IGRT prediction 1.77 × 10⁻¹¹ is four orders below both. This is consistent, but a full numerical fit to LLR and pulsar data remains open (OP-5).
+
+Item 19 — Tie the bounce to realistic perturbation theory
+Placement: §6.2, after the Mukhanov-Sasaki transfer paragraph.
+
+Insert:
+
+Perturbation Stability Through the Bounce (Response to Reviewer 19). We verify that the Mukhanov-Sasaki equation v_k'' + (ω_k² − z''/z)v_k = 0 is well-defined across the bounce. At the bounce surface ρ = ρ_max, H = 0 and ȧ = 0, so z''/z is finite (no pole). The transfer matrix across the bounce is computed in scripts/verify-igrt-monograph.mjs and yields n_s = 0.964, n_T = −0.036, r = 0.0123. The result depends on the tuned w_contract = −0.003; a first-principles derivation of w_contract remains open (OP-1).
+
+D. Experimental Protocols (Items 20–23)
+Item 20 — Make P1 a genuine prediction
+Placement: §7.2, after the P1 description.
+
+Insert:
+
+P1 as a Genuine Prediction (Response to Reviewer 20). The 2:1 ratio is the most distinctive prediction, but clock frequency and ULDM fraction are inputs. We now state what the theory predicts for the amplitude as a function of fundamental parameters:
+
+ε₀ = Δβ_eff (φ₀/M_Pl), with φ₀ = √(2f_DM ρ_local)/m_osc.
+
+For f_DM = 0.02, m_osc = 2.65 × 10⁻²³ eV, and Δβ_eff = 10⁻¹⁰, this gives ε₀ ≈ 1.4 × 10⁻¹⁸. A null result at the 10⁻¹⁸ level constrains Δβ_eff < 10⁻¹⁰ (at f_DM = 0.02), which is a constraint on the theory, not just the inputs.
+
+Item 21 — Account for PTA systematics in P1
+Placement: §7.2, after the P1 amplitude paragraph.
+
+Insert:
+
+PTA Systematics and Monopole vs. Clock Standard (Response to Reviewer 21). A 12.8 nHz isotropic monopole signal competes with timing-model fitting, clock errors, and the stochastic background at nearby frequencies. A monopole is distinguished from clock-standard errors because (i) clock errors are common-mode and cancel in dual-species comparison, while a monopole is a physical scalar signal; (ii) the monopole is isotropic (Y₀₀), while the stochastic GW background is quadrupolar (Y₂ₘ) with Hellings–Downs correlations; (iii) the 2:1 ratio between clock and PTA frequencies is a specific signature. Quantifying the separation requires a full Fisher matrix analysis with IPTA systematics, which remains open (OP-1).
+
+Item 22 — Anchor P2 to a derived coupling
+Placement: §7.3, after the P2 description.
+
+Insert:
+
+P2 Coupling Dependence (Response to Reviewer 22). The Araki decoherence rate Γ_Araki = 1.18 s⁻¹ depends on κ_ψ/κ₀ = 4/3, which is an ansatz choice. We now present P2 as a bound that depends on a free coupling: Γ_Araki = (κ_ψ/κ₀) Γ_DP, with Γ_DP = 0.883 s⁻¹. For κ_ψ/κ₀ ∈ [1, 2], Γ_Araki ∈ [0.88, 1.77] s⁻¹. A null result at Γ_Araki < 0.05 s⁻¹ constrains κ_ψ/κ₀ < 0.06, which is a constraint on the theory.
+
+Item 23 — Place the protocols on a realistic timeline
+Placement: §7.3, new Table 7.3 "Protocol Timeline."
+
+Insert:
+
+Table 7.3. Protocol Timeline and Required Sensitivity (Response to Reviewer 23)
+
+Protocol	Required Sensitivity	Current State of the Art	Expected Year
+P1 (2:1 clock-PTA)	ε₀ ≈ 1.4 × 10⁻¹⁸, T_obs ≥ 5 yr	σ_y(10⁴ s) ≈ 4.2 × 10⁻¹⁹	2026–2035
+P2 (nanosphere)	Γ_Araki > 0.05 s⁻¹, Δx ≥ 180 nm	~4 orders beyond current	2030–2035
+P3 (B-modes)	σ(r) ≈ 0.001	LiteBIRD/SO launch ~2030	2030–2035
+P4 (echoes)	|R_eff| < 0.03, SNR > 100	O5/CE/ET	2027–2035
+P5 (CANNEX)	ΔP_Ch < 10⁻¹¹ N/m²	CANNEX ~10⁻¹¹ N/m²	2026–2030
+P6 (HL-LHC)	σ > 0.15 fb, δσ_Zh > 1.5%	HL-LHC Run 4/5	2029–2035

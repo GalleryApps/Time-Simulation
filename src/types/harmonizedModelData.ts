@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Formal Dataset for the Harmonized Emergent Time Model (IGRT-2026-H10):
- * Information-Geometric Resonant Time Framework (1,354/1,740 Raw · 1,351/1,665 Applicable Physics · OP-1..OP-5 Open)
+ * Information-Geometric Resonant Time Framework (1,442/1,740 Raw · 1,440/1,665 Applicable Physics · OP-1..OP-5 Open)
  *
  * Includes:
  * 1. 10 Core Structural Elements & H10 Formulations (Type Ia Horndeski, A_F^{H10} 5-Mode Unification, Wetterich FRG & CDT d_s, Araki Type III_1, Tomita-Takesaki, Derived Hayward xi_0 = 2^{-1/4}, Kerr/RN-Hayward, 2-Stage Bounce + Leptogenesis)

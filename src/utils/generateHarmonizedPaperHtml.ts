@@ -20,6 +20,7 @@ import {
   AUDITED_CLOSURE_THEOREMS,
   PAPER_APPENDICES,
   PAPER_REFERENCES,
+  CORE_TIME_MECHANISM_FALSIFIER,
   type PaperEquation
 } from '../types/harmonizedPaperData';
 import {
@@ -39,6 +40,10 @@ import {
   REVISION_HISTORY_TABLE,
   RESPONSE_TO_REVIEWERS,
   KNOWN_OPEN_PROBLEMS,
+  TABLE_7_2_FITTED_VS_PREDICTED,
+  TABLE_7_3_PROTOCOL_TIMELINE,
+  TABLE_8_4_SCALAR_BUDGET,
+  APPENDIX_M_STATUS_TABLE,
   H10_PREREG_SHA256
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
@@ -111,6 +116,18 @@ export function buildSelfContainedMonographHtml(): string {
 </table>`;
         }
 
+        if (sub.anchorId === 'sec-7-1') {
+          specialTables += `<table class="data-table">
+  <caption>Table 7.2: Fitted Inputs vs. Genuine Predictions</caption>
+  <thead><tr><th>Fitted / Tuned Input</th><th>Genuine Prediction (No Free Parameter)</th></tr></thead>
+  <tbody>${TABLE_7_2_FITTED_VS_PREDICTED.map(
+    (r) =>
+      `<tr><td>${fmt(r.fittedInput)}</td><td style="color:#15803D;">${fmt(r.genuinePrediction)}</td></tr>`
+  ).join('')}</tbody>
+  <tfoot><tr><td colspan="2" style="font-style:italic;font-size:0.9em;color:#475569;background:#FAF6EE;">Note: Only the right column counts as evidence. The left column is tuned to match data and does not constitute a prediction.</td></tr></tfoot>
+</table>`;
+        }
+
         if (sub.anchorId === 'sec-7-3') {
           specialTables += `<table class="data-table">
   <caption>Table 7.1: Experimental &amp; Observational Falsification Protocols (P1–P6)</caption>
@@ -118,6 +135,21 @@ export function buildSelfContainedMonographHtml(): string {
   <tbody>${AUDITED_TEST_PROTOCOLS.map(
     (pr) =>
       `<tr><td>P${pr.id}</td><td><strong>${fmt(pr.name)}</strong><br/>${fmt(pr.facility)}</td><td>${pr.formulaHtml}</td><td>${fmt(pr.predictedSignal)}<br/><em>Note:</em> ${fmt(pr.noiseAndAuditNote)}<br/><em>Falsification:</em> ${fmt(pr.falsificationCriterion)}</td></tr>`
+  ).join('')}</tbody>
+</table>
+<div class="theorem-box" style="border-color:rgba(154,52,18,0.48);background:#FFFDF8;">
+  <div class="box-kicker">Core Mechanism Falsification · Direct Test of Eq. (4.1)</div>
+  <div class="box-header">${fmt(CORE_TIME_MECHANISM_FALSIFIER.heading)}</div>
+  <p>${fmt(CORE_TIME_MECHANISM_FALSIFIER.intro)}</p>
+  <p>${fmt(CORE_TIME_MECHANISM_FALSIFIER.coreFalsifier)}</p>
+  <p style="margin-bottom:0;">${fmt(CORE_TIME_MECHANISM_FALSIFIER.practicalRealization)}</p>
+</div>
+<table class="data-table">
+  <caption>Table 7.3: Protocol Timeline and Required Sensitivity (P1–P6)</caption>
+  <thead><tr><th>Protocol</th><th>Required Sensitivity</th><th>Current State of the Art</th><th>Expected Year</th></tr></thead>
+  <tbody>${TABLE_7_3_PROTOCOL_TIMELINE.map(
+    (r) =>
+      `<tr><td><strong>${fmt(r.protocol)}</strong></td><td>${fmt(r.requiredSensitivity)}</td><td>${fmt(r.currentStateOfTheArt)}</td><td style="font-family:var(--paper-font-mono);white-space:nowrap;">${esc(r.expectedYear)}</td></tr>`
   ).join('')}</tbody>
 </table>`;
         }
@@ -145,6 +177,17 @@ export function buildSelfContainedMonographHtml(): string {
   <tbody>${CLAIM_EVIDENCE_LEDGER.map(
     (row) =>
       `<tr><td>${fmt(row.claim)}</td><td><strong>${fmt(row.status)}</strong></td><td>${fmt(row.evidenceAndDerivation)}</td><td>${fmt(row.evasionOrFreeParameter)}</td></tr>`
+  ).join('')}</tbody>
+</table>`;
+        }
+
+        if (sub.anchorId === 'sec-8-2') {
+          specialTables += `<table class="data-table">
+  <caption>Table 8.4: Five-Scalar Free Parameter Budget &amp; Information Criterion (ΔAIC = 16)</caption>
+  <thead><tr><th>Scalar Field</th><th>Free Parameters</th><th>Count</th></tr></thead>
+  <tbody>${TABLE_8_4_SCALAR_BUDGET.map(
+    (row) =>
+      `<tr><td><strong>${fmt(row.scalar)}</strong></td><td>${fmt(row.freeParameters)}</td><td style="font-family:var(--paper-font-mono);color:#8B4513;">${esc(row.count)}</td></tr>`
   ).join('')}</tbody>
 </table>`;
         }
@@ -224,6 +267,18 @@ export function buildSelfContainedMonographHtml(): string {
 </table>
 <h4>Known Open Problems (OP-1 to OP-5)</h4>
 <ul>${KNOWN_OPEN_PROBLEMS.map((op) => `<li><strong>${esc(op.code)} — ${fmt(op.topic)}:</strong> ${fmt(op.description)}</li>`).join('')}</ul>`
+      : ''
+  }
+  ${
+    app.letter === 'M'
+      ? `<table class="data-table">
+  <caption>Table M.1: Status Reclassification Matrix (Table 0.3 Audit)</caption>
+  <thead><tr><th>Equation</th><th>Old Status</th><th>New Status</th><th>Justification</th></tr></thead>
+  <tbody>${APPENDIX_M_STATUS_TABLE.map(
+    (row) =>
+      `<tr><td>${fmt(row.equation)}</td><td style="font-family:var(--paper-font-mono);color:#475569;">${esc(row.oldStatus)}</td><td style="font-family:var(--paper-font-mono);color:#8B4513;"><strong>${esc(row.newStatus)}</strong></td><td>${fmt(row.justification)}</td></tr>`
+  ).join('')}</tbody>
+</table>`
       : ''
   }
 </div>`
@@ -648,7 +703,7 @@ export function buildSelfContainedMonographHtml(): string {
             <ul>${ch.subsections.map((s) => `<li>${esc(s.number)} ${fmt(s.title)}</li>`).join('')}</ul>
           </li>`
       ).join('')}
-      <li><strong>Appendices A–L:</strong> Formal Theorems, CODATA Constants, Numerical Derivations, Revision Registry &amp; H10 Closures</li>
+      <li><strong>Appendices A–O:</strong> Formal Theorems, CODATA Constants, Numerical Derivations, Status Audit, Toy Model, Revision Registry &amp; H10 Closures</li>
       <li><strong>Backmatter:</strong> Governance Disclosures (CRediT, COI, Data, Funding) · References [1]–[${PAPER_REFERENCES.length}]</li>
     </ul>
   </nav>
@@ -721,10 +776,10 @@ export function buildSelfContainedMonographHtml(): string {
   <!-- CHAPTERS 1 TO 8 -->
   ${chaptersHtml}
 
-  <!-- APPENDICES A TO L -->
+  <!-- APPENDICES A TO N -->
   <section id="appendices" class="chapter-start">
     <div class="chapter-kicker">Technical &amp; Derivation Appendices</div>
-    <h2>Formal Derivations, Constant Register &amp; Technical FAQ (Appendices A–L)</h2>
+    <h2>Formal Derivations, Constant Register &amp; Technical FAQ (Appendices A–O)</h2>
     ${appendicesHtml}
   </section>
 
@@ -746,7 +801,7 @@ export function buildSelfContainedMonographHtml(): string {
     <p>${fmt(ETHICS_AND_GOVERNANCE.dataAndCodeAvailability)}</p>
   </section>
 
-  <!-- COMPREHENSIVE REFERENCES [1]–[106] & CITED VERSION (NO ORCIDs IN REFERENCES) -->
+  <!-- COMPREHENSIVE REFERENCES [1]–[109] & CITED VERSION (NO ORCIDs IN REFERENCES) -->
   <section id="references" class="chapter-start">
     <div class="chapter-kicker">Bibliography</div>
     <h2>References</h2>

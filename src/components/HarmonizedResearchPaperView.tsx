@@ -25,6 +25,7 @@ import {
   AUDITED_CLOSURE_THEOREMS,
   PAPER_APPENDICES,
   PAPER_REFERENCES,
+  CORE_TIME_MECHANISM_FALSIFIER,
   buildFullMarkdownPaper,
   type PaperEquation
 } from '../types/harmonizedPaperData';
@@ -45,6 +46,10 @@ import {
   REVISION_HISTORY_TABLE,
   RESPONSE_TO_REVIEWERS,
   KNOWN_OPEN_PROBLEMS,
+  TABLE_7_2_FITTED_VS_PREDICTED,
+  TABLE_7_3_PROTOCOL_TIMELINE,
+  TABLE_8_4_SCALAR_BUDGET,
+  APPENDIX_M_STATUS_TABLE,
   H10_PREREG_SHA256
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES, HarmonizedPaperFigure } from './HarmonizedPaperFigures';
@@ -368,7 +373,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
               : 'bg-[#FAF8F3] dark:bg-[#081026] text-[#475569] dark:text-[#CBD5E1]'
           }`}
         >
-          App. A–L
+          App. A–O
         </button>
         <button
           onClick={() => jumpToSection('references')}
@@ -391,7 +396,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
               Table of Contents
             </div>
             <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">
-              Chapters 1–8 · App. A–L · Refs [1–{PAPER_REFERENCES.length}]
+              Chapters 1–8 · App. A–O · Refs [1–{PAPER_REFERENCES.length}]
             </div>
           </div>
 
@@ -440,7 +445,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                 focusedAnchor === 'appendices' ? 'text-[#8B4513] dark:text-[#FB923C]' : ''
               }`}
             >
-              Appendices A–L &amp; FAQ
+              Appendices A–O &amp; FAQ
             </button>
             <button
               onClick={() => jumpToSection('governance')}
@@ -913,7 +918,39 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                         </div>
                       )}
 
-                      {/* §7.3 Experimental & Observational Protocols */}
+                      {/* §7.1 Table 7.2 Fitted Inputs vs. Genuine Predictions */}
+                      {sub.anchorId === 'sec-7-1' && (
+                        <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] my-6">
+                          <table className="w-full text-left igrt-tabular" style={{ fontSize: '14px', lineHeight: 1.52 }}>
+                            <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
+                              Table 7.2: Fitted Inputs vs. Genuine Predictions
+                            </caption>
+                            <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                              <tr>
+                                <th className="p-3 font-normal">Fitted / Tuned Input</th>
+                                <th className="p-3 font-normal">Genuine Prediction (No Free Parameter)</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
+                              {TABLE_7_2_FITTED_VS_PREDICTED.map((row) => (
+                                <tr key={row.fittedInput}>
+                                  <td className="p-3"><MathText text={row.fittedInput} /></td>
+                                  <td className="p-3 text-[#15803D] dark:text-[#4ADE80]"><MathText text={row.genuinePrediction} /></td>
+                                </tr>
+                              ))}
+                            </tbody>
+                            <tfoot className="bg-[#FAF6EE] dark:bg-[#081026] border-t border-[#D6CABE] dark:border-[#334155]">
+                              <tr>
+                                <td colSpan={2} className="p-3 italic text-[13px] text-[#475569] dark:text-[#94A3B8]">
+                                  Note: Only the right column counts as evidence. The left column is tuned to match data and does not constitute a prediction.
+                                </td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                      )}
+
+                      {/* §7.3 Experimental & Observational Protocols + Core Falsifier + Table 7.3 */}
                       {sub.anchorId === 'sec-7-3' && (
                         <div className="space-y-6 my-5">
                           <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155]">
@@ -946,6 +983,52 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                                       <div className="text-[#475569] dark:text-[#94A3B8] italic"><MathText text={pr.noiseAndAuditNote} /></div>
                                     </td>
                                     <td className="p-3"><MathText text={pr.falsificationCriterion} /></td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+
+                          <div className="igrt-keep-together p-5 sm:p-6 rounded-lg border border-[#9A3412]/50 dark:border-[#EA580C]/60 bg-[#FFFDF8] dark:bg-[#081026] space-y-3">
+                            <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#E2D9C8] dark:border-[#1E293B]">
+                              <span className="font-cinzel text-[11px] uppercase tracking-[0.14em] text-[#8B4513] dark:text-[#FB923C]">
+                                Core Mechanism Falsification · Direct Test of Eq. (4.1)
+                              </span>
+                            </div>
+                            <div style={{ fontSize: 'var(--igrt-h4-size)' }} className="font-['Playfair_Display'] text-[#0F172A] dark:text-white">
+                              <MathText text={CORE_TIME_MECHANISM_FALSIFIER.heading} />
+                            </div>
+                            <p style={{ fontSize: '16.5px', lineHeight: 1.62 }}>
+                              <MathText text={CORE_TIME_MECHANISM_FALSIFIER.intro} />
+                            </p>
+                            <p style={{ fontSize: '16.5px', lineHeight: 1.62 }}>
+                              <MathText text={CORE_TIME_MECHANISM_FALSIFIER.coreFalsifier} />
+                            </p>
+                            <p style={{ marginBottom: 0, fontSize: '16.5px', lineHeight: 1.62 }}>
+                              <MathText text={CORE_TIME_MECHANISM_FALSIFIER.practicalRealization} />
+                            </p>
+                          </div>
+
+                          <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155]">
+                            <table className="w-full text-left igrt-tabular" style={{ fontSize: '14px', lineHeight: 1.52 }}>
+                              <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
+                                Table 7.3: Protocol Timeline and Required Sensitivity (P1–P6)
+                              </caption>
+                              <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                                <tr>
+                                  <th className="p-3 font-normal">Protocol</th>
+                                  <th className="p-3 font-normal">Required Sensitivity</th>
+                                  <th className="p-3 font-normal">Current State of the Art</th>
+                                  <th className="p-3 font-normal">Expected Year</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
+                                {TABLE_7_3_PROTOCOL_TIMELINE.map((row) => (
+                                  <tr key={row.protocol}>
+                                    <td className="p-3 font-mono text-[#8B4513] dark:text-[#FB923C] whitespace-nowrap"><MathText text={row.protocol} /></td>
+                                    <td className="p-3"><MathText text={row.requiredSensitivity} /></td>
+                                    <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={row.currentStateOfTheArt} /></td>
+                                    <td className="p-3 font-mono text-[13px] whitespace-nowrap">{row.expectedYear}</td>
                                   </tr>
                                 ))}
                               </tbody>
@@ -1041,6 +1124,33 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                         </div>
                       )}
 
+                      {/* §8.2 Free Parameter Budget & Information Criterion (Table 8.4) */}
+                      {sub.anchorId === 'sec-8-2' && (
+                        <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] my-6">
+                          <table className="w-full text-left igrt-tabular" style={{ fontSize: '14px', lineHeight: 1.52 }}>
+                            <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
+                              Table 8.4: Five-Scalar Free Parameter Budget &amp; Information Criterion (ΔAIC = 16)
+                            </caption>
+                            <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                              <tr>
+                                <th className="p-3 font-normal">Scalar Field</th>
+                                <th className="p-3 font-normal">Free Parameters</th>
+                                <th className="p-3 font-normal">Count</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
+                              {TABLE_8_4_SCALAR_BUDGET.map((row) => (
+                                <tr key={row.scalar}>
+                                  <td className="p-3 font-medium"><MathText text={row.scalar} /></td>
+                                  <td className="p-3"><MathText text={row.freeParameters} /></td>
+                                  <td className="p-3 font-mono text-[#8B4513] dark:text-[#FB923C] tabular-nums">{row.count}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+
                       {/* Render inline SVG figures positioned after this subsection */}
                       {subFigs.map((fig) => (
                         <HarmonizedPaperFigure key={fig.id} figure={fig} />
@@ -1053,14 +1163,14 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
             </React.Fragment>
           ))}
 
-          {/* APPENDICES A–L */}
+          {/* APPENDICES A–N */}
           {showAppendices && (
             <>
               {readingMode === 'continuous' && (
                 <div className="igrt-page-break-banner print:hidden" aria-hidden="true">
                   <span className="h-px flex-1 bg-[#D6CABE] dark:bg-[#334155]" />
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#8B4513] dark:text-[#FDBA74] px-2">
-                    New Page · Appendices A–L
+                    New Page · Appendices A–O
                   </span>
                   <span className="h-px flex-1 bg-[#D6CABE] dark:bg-[#334155]" />
                 </div>
@@ -1074,7 +1184,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                     Mathematical &amp; Derivation Appendices
                   </div>
                   <h2 style={{ fontSize: 'var(--igrt-h2-size)', lineHeight: 1.2 }}>
-                    Appendices A–L: Derivations, CODATA Units &amp; Technical FAQ
+                    Appendices A–O: Derivations, CODATA Units &amp; Technical FAQ
                   </h2>
                 </div>
 
@@ -1245,6 +1355,33 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                         >
                           Download verify-igrt-monograph.mjs
                         </button>
+                      </div>
+                    )}
+                    {app.letter === 'M' && (
+                      <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] mt-4 bg-white dark:bg-[#0B1530]">
+                        <table className="w-full text-left igrt-tabular" style={{ fontSize: '13.5px', lineHeight: 1.5 }}>
+                          <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
+                            Table M.1: Status Reclassification Matrix (Table 0.3 Audit)
+                          </caption>
+                          <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                            <tr>
+                              <th className="p-3 font-normal">Equation</th>
+                              <th className="p-3 font-normal">Old Status</th>
+                              <th className="p-3 font-normal">New Status</th>
+                              <th className="p-3 font-normal">Justification</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
+                            {APPENDIX_M_STATUS_TABLE.map((row) => (
+                              <tr key={row.equation}>
+                                <td className="p-3 font-medium whitespace-nowrap"><MathText text={row.equation} /></td>
+                                <td className="p-3 font-mono text-[12.5px] text-[#64748B] dark:text-[#94A3B8] whitespace-nowrap">{row.oldStatus}</td>
+                                <td className="p-3 font-mono text-[12.5px] text-[#8B4513] dark:text-[#FB923C] whitespace-nowrap">{row.newStatus}</td>
+                                <td className="p-3"><MathText text={row.justification} /></td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     )}
                   </div>

@@ -23,9 +23,12 @@ export interface PaperFigureSpec {
 
 function sampleBounceSvgPaths(): {
   igrtPath: string;
+  igrtAreaPath: string;
   grLeftPath: string;
   grRightPath: string;
   bounceY: number;
+  uvLeftX: number;
+  uvRightX: number;
 } {
   // Plot box: x in [115, 765], y in [58, 265]; normalized u = t/t_0 in [-2.3, 2.3]
   // Exact UV-saturated bounce profile for w = 0: a(u) = (1 + u^2)^(1/3), a_max = (1 + 2.3^2)^(1/3) ≈ 1.846
@@ -44,6 +47,8 @@ function sampleBounceSvgPaths(): {
     const a = Math.pow(1 + u * u, 1 / 3);
     igrtPts.push(`${i === 0 ? 'M' : 'L'} ${toX(u).toFixed(1)} ${toY(a).toFixed(1)}`);
   }
+  const igrtPath = igrtPts.join(' ');
+  const igrtAreaPath = `${igrtPath} L ${(x0 + w).toFixed(1)} ${yBot} L ${x0.toFixed(1)} ${yBot} Z`;
 
   const grLeftPts: string[] = [];
   const grRightPts: string[] = [];
@@ -58,17 +63,22 @@ function sampleBounceSvgPaths(): {
   }
 
   return {
-    igrtPath: igrtPts.join(' '),
+    igrtPath,
+    igrtAreaPath,
     grLeftPath: grLeftPts.join(' '),
     grRightPath: grRightPts.join(' '),
-    bounceY: Number(toY(1.0).toFixed(1))
+    bounceY: Number(toY(1.0).toFixed(1)),
+    uvLeftX: Number(toX(-0.55).toFixed(1)),
+    uvRightX: Number(toX(0.55).toFixed(1))
   };
 }
 
 function sampleThawingWzSvgPath(): {
   curvePath: string;
+  thawAreaPath: string;
   markers: Array<{ z: number; x: number; y: number; wVal: number }>;
   yAtW: (w: number) => number;
+  toX: (z: number) => number;
   w0: number;
   wA: number;
 } {
@@ -141,7 +151,7 @@ function sampleThawingWzSvgPath(): {
   const plotW = 650;
   const yTop = 58;
   const plotH = 198;
-  const wMin = -1.01;
+  const wMin = -1.015;
   const wMax = -0.888;
 
   const toX = (z: number) => x0 + (z / 3) * plotW;
@@ -153,6 +163,9 @@ function sampleThawingWzSvgPath(): {
     const wVal = wAtZ(z);
     pts.push(`${i === 0 ? 'M' : 'L'} ${toX(z).toFixed(1)} ${yAtW(wVal).toFixed(1)}`);
   }
+  const curvePath = pts.join(' ');
+  const yLcdm = yAtW(-1.0).toFixed(1);
+  const thawAreaPath = `${curvePath} L ${(x0 + plotW).toFixed(1)} ${yLcdm} L ${x0.toFixed(1)} ${yLcdm} Z`;
 
   const markers = [0, 1, 2, 3].map((z) => {
     const wVal = wAtZ(z);
@@ -164,11 +177,12 @@ function sampleThawingWzSvgPath(): {
     };
   });
 
-  return { curvePath: pts.join(' '), markers, yAtW, w0, wA };
+  return { curvePath, thawAreaPath, markers, yAtW, toX, w0, wA };
 }
 
 function sampleHaywardLapseSvgPaths(): {
   subExtremalPath: string;
+  subTrappedAreaPath: string;
   extremalPath: string;
   schwarzschildPath: string;
   toX: (r: number) => number;
@@ -194,14 +208,27 @@ function sampleHaywardLapseSvgPaths(): {
   const subPts: string[] = [];
   const extPts: string[] = [];
   const swPts: string[] = [];
+  const trappedPts: string[] = [];
   const muSub = 2.0;
   const muRem = (3 * Math.sqrt(3)) / 4; // ~ 1.299038
 
   for (let i = 0; i <= 110; i++) {
     const r = (rMax * i) / 110;
-    subPts.push(`${i === 0 ? 'M' : 'L'} ${toX(r).toFixed(1)} ${toY(evalF(r, muSub)).toFixed(1)}`);
+    const fSub = evalF(r, muSub);
+    subPts.push(`${i === 0 ? 'M' : 'L'} ${toX(r).toFixed(1)} ${toY(fSub).toFixed(1)}`);
     extPts.push(`${i === 0 ? 'M' : 'L'} ${toX(r).toFixed(1)} ${toY(evalF(r, muRem)).toFixed(1)}`);
   }
+
+  // Sample exact trapped negative pocket f(r) <= 0 for sub-extremal Hayward (r_− ≈ 0.8730, r_+ ≈ 3.7112)
+  const rM = 0.873;
+  const rP = 3.711;
+  const yZero = toY(0).toFixed(1);
+  trappedPts.push(`M ${toX(rM).toFixed(1)} ${yZero}`);
+  for (let i = 0; i <= 48; i++) {
+    const r = rM + ((rP - rM) * i) / 48;
+    trappedPts.push(`L ${toX(r).toFixed(1)} ${toY(Math.min(0, evalF(r, muSub))).toFixed(1)}`);
+  }
+  trappedPts.push(`L ${toX(rP).toFixed(1)} ${yZero} Z`);
 
   // Schwarzschild f(r) = 1 - 3/r plotted where f >= fMin -> r >= 3/1.55 ≈ 1.9355
   let startedSw = false;
@@ -216,22 +243,23 @@ function sampleHaywardLapseSvgPaths(): {
 
   return {
     subExtremalPath: subPts.join(' '),
+    subTrappedAreaPath: trappedPts.join(' '),
     extremalPath: extPts.join(' '),
     schwarzschildPath: swPts.join(' '),
     toX,
     toY,
-    rMinusX: Number(toX(0.873).toFixed(1)),
-    rPlusX: Number(toX(3.711).toFixed(1)),
+    rMinusX: Number(toX(rM).toFixed(1)),
+    rPlusX: Number(toX(rP).toFixed(1)),
     rStarX: Number(toX(Math.sqrt(3)).toFixed(1))
   };
 }
 
-function sampleLissajousSvgPath(): string {
+function sampleLissajousSvgPath(scale = 1.0): string {
   // Exact 2:1 parametric curve: x(theta) = sin(theta), y(theta) = sin(2*theta)
   const cx = 275;
   const cy = 168;
-  const rx = 140;
-  const ry = 104;
+  const rx = 140 * scale;
+  const ry = 104 * scale;
   const pts: string[] = [];
   const N = 120;
   for (let i = 0; i <= N; i++) {
@@ -246,7 +274,9 @@ function sampleLissajousSvgPath(): string {
 const BOUNCE_DATA = sampleBounceSvgPaths();
 const THAW_DATA = sampleThawingWzSvgPath();
 const HAYWARD_DATA = sampleHaywardLapseSvgPaths();
-const LISSAJOUS_PATH = sampleLissajousSvgPath();
+const LISSAJOUS_PATH = sampleLissajousSvgPath(1.0);
+const LISSAJOUS_OUTER = sampleLissajousSvgPath(1.06);
+const LISSAJOUS_INNER = sampleLissajousSvgPath(0.94);
 
 export const PAPER_FIGURES: PaperFigureSpec[] = [
   {
@@ -256,73 +286,113 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     afterSubsectionAnchor: 'sec-1-4',
     title: 'Logical Architecture and Chapter Roadmap of the IGRT Monograph',
     caption:
-      'Figure 1. Logical architecture connecting the historical foundation, HL-LHC spectral test, emerging technologies, and seven postulates (Chapter 1) to principal PU(H) and split-included associated E_stat = P ×_{PU(H)} S(N) bundles (Chapter 2), luminal Type Ia five-scalar Horndeski gravity and Type III₁ Araki matter-diamond dynamics (Chapter 3), Tomita–Takesaki single-mode and smeared Krein correspondences (Chapter 4), canonical BFV BRST unfreezing and detailed-balance BKM dissipation (Chapter 5), explicit L_UV bounce and Hayward/QES/QFC-conditional regularity (Chapter 6), observational protocols P1–P6 (Chapter 7), and closure synthesis with epistemic ledger Table 8.3 and Appendices A–L (Chapter 8).',
+      'Figure 1. Logical architecture connecting the historical foundation, HL-LHC spectral test, emerging technologies, and seven postulates (Chapter 1) to trivial bookkeeping principal PU(H) and split-included associated E_stat = P ×_{PU(H)} S(N) bundles (Chapter 2), luminal Type Ia five-scalar Horndeski gravity and Type III₁ Araki matter-diamond dynamics (Chapter 3), Tomita–Takesaki MT-calibrated postulate α_mod, background-independence closure §4.1.1, and smeared Krein correspondences (Chapter 4), canonical BFV BRST unfreezing and detailed-balance BKM dissipation (Chapter 5), explicit L_UV bounce and Hayward/QES/QFC-conditional regularity (Chapter 6), observational protocols P1–P6 & Core Falsifier (Chapter 7), and Minimal Core / Phenomenology closure synthesis with Table 8.3–8.4 and Appendices A–O (Chapter 8).',
     isSchematic: true,
-    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 374" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Chapter roadmap of the IGRT monograph">
-  <rect x="0" y="0" width="860" height="374" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="22" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.8">SCHEMATIC ARCHITECTURE — LOGICAL DEPENDENCY MAP</text>
-  <line x1="22" y1="37" x2="838" y2="37" stroke="#E2D9C8" stroke-width="1"/>
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 390" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Chapter roadmap of the IGRT monograph">
+  <defs>
+    <linearGradient id="fig1Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F5EFE4"/>
+    </linearGradient>
+    <linearGradient id="fig1ClosureCard" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFDF8"/>
+      <stop offset="100%" stop-color="#FDF2E4"/>
+    </linearGradient>
+    <marker id="fig1Arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#9A3412"/>
+    </marker>
+    <marker id="fig1ArrowSlate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#475569"/>
+    </marker>
+  </defs>
 
-  <rect x="22" y="52" width="190" height="76" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="117" y="76" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#0F172A">Ch. 1: Scope &amp; Tests</text>
-  <text x="117" y="97" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#475569">4D Base, LHC &amp; Tech (§1.1–1.4)</text>
-  <text x="117" y="116" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#8B4513">Eq. (1.1) · Table 1.1</text>
+  <rect x="0" y="0" width="860" height="390" fill="url(#fig1Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#9A3412"/>
+  <text x="24" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#9A3412" letter-spacing="0.9">SCHEMATIC ARCHITECTURE — LOGICAL DEPENDENCY MAP &amp; MINIMAL CORE SPLIT</text>
+  <text x="836" y="28" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#64748B">IGRT-2026-H10</text>
+  <line x1="24" y1="39" x2="836" y2="39" stroke="#DFD5C3" stroke-width="1"/>
 
-  <rect x="230" y="52" width="190" height="76" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="325" y="76" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#0F172A">Ch. 2: PU(H) &amp; E_stat</text>
-  <text x="325" y="97" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#475569">SLD QFI, Split N &amp; S^3</text>
-  <text x="325" y="116" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#8B4513">Est. Result 2.1 · Eqs. (2.1)–(2.3)</text>
+  <!-- Subtle Flow Band Annotations -->
+  <text x="24" y="54" font-family="'DejaVu Sans Mono', monospace" font-size="9.2" fill="#64748B" letter-spacing="0.6">STAGE I: KINEMATICAL CORE &amp; MODULAR SYNCHRONIZATION (PAPER I BACKBONE)</text>
 
-  <rect x="438" y="52" width="192" height="76" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="534" y="76" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#0F172A">Ch. 3: Horndeski + Araki</text>
-  <text x="534" y="97" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="9.8" fill="#475569">5-Scalar · κ_ψ=2.173×10^{−21} GeV^{−1}</text>
-  <text x="534" y="116" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#8B4513">Theorem 3.1 · Eqs. (3.1)–(3.3)</text>
+  <!-- Row 1 Cards (y=62, h=80) with subtle shadow + colored left accent bar -->
+  <rect x="25" y="65" width="188" height="80" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="22" y="62" width="188" height="80" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="22" y="62" width="5" height="80" rx="2" fill="#0F172A"/>
+  <text x="118" y="86" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="12.8" font-weight="700" fill="#0F172A">Ch. 1: Scope &amp; Tests</text>
+  <text x="118" y="106" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.0" fill="#475569">4D Base, LHC &amp; Tech (§1.1–1.4)</text>
+  <text x="118" y="128" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.8" fill="#9A3412">Eq. (1.1) · Table 1.1</text>
 
-  <rect x="648" y="52" width="190" height="76" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="743" y="76" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#0F172A">Ch. 4: Calibration</text>
-  <text x="743" y="97" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.0" fill="#475569">Ansatz σ_1, E_mod &amp; Smeared D_C</text>
-  <text x="743" y="116" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#8B4513">Theorem 4.1 · Eqs. (4.1)–(4.3)</text>
+  <rect x="233" y="65" width="188" height="80" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="230" y="62" width="188" height="80" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="230" y="62" width="5" height="80" rx="2" fill="#1D4ED8"/>
+  <text x="326" y="86" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="12.8" font-weight="700" fill="#0F172A">Ch. 2: PU(H) &amp; E_stat</text>
+  <text x="326" y="106" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="9.8" fill="#475569">Bookkeeping δ(P)=0 · SLD QFI</text>
+  <text x="326" y="128" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#1D4ED8">Est. Res. 2.1 · Eqs. (2.1)–(2.3)</text>
 
-  <line x1="212" y1="90" x2="224" y2="90" stroke="#8B4513" stroke-width="1.5"/>
-  <polygon points="224,86 230,90 224,94" fill="#8B4513"/>
-  <line x1="420" y1="90" x2="432" y2="90" stroke="#8B4513" stroke-width="1.5"/>
-  <polygon points="432,86 438,90 432,94" fill="#8B4513"/>
-  <line x1="630" y1="90" x2="642" y2="90" stroke="#8B4513" stroke-width="1.5"/>
-  <polygon points="642,86 648,90 642,94" fill="#8B4513"/>
+  <rect x="441" y="65" width="189" height="80" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="438" y="62" width="189" height="80" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="438" y="62" width="5" height="80" rx="2" fill="#15803D"/>
+  <text x="535" y="86" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="12.6" font-weight="700" fill="#0F172A">Ch. 3: Horndeski + Araki</text>
+  <text x="535" y="106" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="9.6" fill="#475569">5-Scalar · κ_ψ=2.173×10^{−21} GeV^{−1}</text>
+  <text x="535" y="128" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#15803D">Thm 3.1 · Eqs. (3.1)–(3.3)</text>
 
-  <path d="M 743 128 L 743 154 L 117 154 L 117 175" fill="none" stroke="#8B4513" stroke-width="1.3" stroke-dasharray="4,3"/>
-  <polygon points="113,173 117,180 121,173" fill="#8B4513"/>
+  <rect x="651" y="65" width="188" height="80" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="648" y="62" width="188" height="80" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="648" y="62" width="5" height="80" rx="2" fill="#9A3412"/>
+  <text x="744" y="86" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="12.8" font-weight="700" fill="#0F172A">Ch. 4: Calibration</text>
+  <text x="744" y="106" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="9.8" fill="#475569">MT-saturated α_mod · §4.1.1</text>
+  <text x="744" y="128" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#9A3412">Thm 4.1 · Eqs. (4.1)–(4.3)</text>
 
-  <rect x="22" y="182" width="190" height="78" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="117" y="206" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#0F172A">Ch. 5: WDW Unfreezing</text>
-  <text x="117" y="227" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#475569">Unbounded S^1 &amp; DB-BKM</text>
-  <text x="117" y="246" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#8B4513">Est. Result 5.1 · Eqs. (5.1)–(5.2)</text>
+  <!-- Connecting Row 1 Arrows -->
+  <line x1="210" y1="102" x2="226" y2="102" stroke="#9A3412" stroke-width="1.6" marker-end="url(#fig1Arrow)"/>
+  <line x1="418" y1="102" x2="434" y2="102" stroke="#9A3412" stroke-width="1.6" marker-end="url(#fig1Arrow)"/>
+  <line x1="627" y1="102" x2="644" y2="102" stroke="#9A3412" stroke-width="1.6" marker-end="url(#fig1Arrow)"/>
 
-  <rect x="230" y="182" width="190" height="78" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="325" y="206" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#0F172A">Ch. 6: Regularity</text>
-  <text x="325" y="227" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#475569">L_UV, Red n_T &amp; QES</text>
-  <text x="325" y="246" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#8B4513">Theorem 6.1 · Eqs. (6.1)–(6.3)</text>
+  <!-- Feedback Loop Curve between Stages -->
+  <path d="M 744 142 L 744 166 L 116 166 L 116 189" fill="none" stroke="#9A3412" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#fig1Arrow)"/>
+  <text x="430" y="162" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.0" fill="#9A3412">STAGE II: DYNAMICAL UNFREEZING, STRONG-FIELD REGULARITY &amp; PHENOMENOLOGY (PAPER II)</text>
 
-  <rect x="438" y="182" width="192" height="78" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="534" y="206" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#0F172A">Ch. 7: Phenomenology</text>
-  <text x="534" y="227" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#475569">KG ODE w_a&lt;0, Y_00 P1–P6</text>
-  <text x="534" y="246" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#8B4513">Eq. (7.1) · Table 7.1</text>
+  <!-- Row 2 Cards (y=194, h=82) -->
+  <rect x="25" y="197" width="188" height="82" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="22" y="194" width="188" height="82" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="22" y="194" width="5" height="82" rx="2" fill="#0F172A"/>
+  <text x="118" y="218" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="12.8" font-weight="700" fill="#0F172A">Ch. 5: WDW Unfreezing</text>
+  <text x="118" y="238" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="9.8" fill="#475569">Rieffel S^1, O(ℏ) Dirac &amp; BKM</text>
+  <text x="118" y="260" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#9A3412">Est. Res. 5.1 · Eqs. (5.1)–(5.2)</text>
 
-  <rect x="648" y="182" width="190" height="78" rx="4" fill="#FFF7ED" stroke="#8B4513" stroke-width="1.5"/>
-  <text x="743" y="206" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#0F172A">Ch. 8: Closure</text>
-  <text x="743" y="227" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#7C2D12">Ledger &amp; Conclusions</text>
-  <text x="743" y="246" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#8B4513">Eq. (8.1) · Tables 8.1–8.3</text>
+  <rect x="233" y="197" width="188" height="82" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="230" y="194" width="188" height="82" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="230" y="194" width="5" height="82" rx="2" fill="#1D4ED8"/>
+  <text x="326" y="218" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="12.8" font-weight="700" fill="#0F172A">Ch. 6: Regularity</text>
+  <text x="326" y="238" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="9.8" fill="#475569">L_UV, Red n_T &amp; ξ_0 = 2^{−1/4}</text>
+  <text x="326" y="260" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#1D4ED8">Thm 6.1 · Eqs. (6.1)–(6.3)</text>
 
-  <line x1="212" y1="221" x2="224" y2="221" stroke="#8B4513" stroke-width="1.5"/>
-  <polygon points="224,217 230,221 224,225" fill="#8B4513"/>
-  <line x1="420" y1="221" x2="432" y2="221" stroke="#8B4513" stroke-width="1.5"/>
-  <polygon points="432,217 438,221 432,225" fill="#8B4513"/>
-  <line x1="630" y1="221" x2="642" y2="221" stroke="#8B4513" stroke-width="1.5"/>
-  <polygon points="642,217 648,221 642,225" fill="#8B4513"/>
+  <rect x="441" y="197" width="189" height="82" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="438" y="194" width="189" height="82" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="438" y="194" width="5" height="82" rx="2" fill="#15803D"/>
+  <text x="535" y="218" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="12.6" font-weight="700" fill="#0F172A">Ch. 7: Phenomenology</text>
+  <text x="535" y="238" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="9.8" fill="#475569">KG w_a&lt;0, Y_{00} P1–P6 &amp; Core</text>
+  <text x="535" y="260" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#15803D">Eq. (7.1) · Tables 7.1–7.3</text>
 
-  <rect x="22" y="284" width="816" height="66" rx="4" fill="#F4EFE6" stroke="#D6CABE" stroke-width="1.2"/>
-  <text x="430" y="311" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#0F172A">Appendices A–F: Formal Proofs &amp; Metrology Budgets   |   Appendices G–L: CODATA Units, Audit Registry &amp; H10 Closures</text>
-  <text x="430" y="334" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#64748B">Program Closure: P(M, PU(H)) &amp; E_stat(N) → Covariant Field Equations → Epistemic Ledger &amp; Empirical Falsification</text>
+  <rect x="651" y="197" width="188" height="82" rx="4" fill="#9A3412" opacity="0.10"/>
+  <rect x="648" y="194" width="188" height="82" rx="4" fill="url(#fig1ClosureCard)" stroke="#9A3412" stroke-width="1.5"/>
+  <rect x="648" y="194" width="5" height="82" rx="2" fill="#9A3412"/>
+  <text x="744" y="218" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="12.8" font-weight="700" fill="#0F172A">Ch. 8: Closure</text>
+  <text x="744" y="238" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="9.8" fill="#7C2D12">Core Split · ΔAIC=16 Budget</text>
+  <text x="744" y="260" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#9A3412">Eq. (8.1) · Tables 8.1–8.4</text>
+
+  <!-- Connecting Row 2 Arrows -->
+  <line x1="210" y1="235" x2="226" y2="235" stroke="#9A3412" stroke-width="1.6" marker-end="url(#fig1Arrow)"/>
+  <line x1="418" y1="235" x2="434" y2="235" stroke="#9A3412" stroke-width="1.6" marker-end="url(#fig1Arrow)"/>
+  <line x1="627" y1="235" x2="644" y2="235" stroke="#9A3412" stroke-width="1.6" marker-end="url(#fig1Arrow)"/>
+
+  <!-- Bottom Appendices A–O Synthesis Plate -->
+  <rect x="22" y="294" width="814" height="76" rx="4" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1.2"/>
+  <rect x="22" y="294" width="814" height="22" rx="4" fill="#EFE8DA"/>
+  <text x="430" y="309" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.4" font-weight="600" fill="#9A3412" letter-spacing="0.5">TECHNICAL APPENDICES A–O &amp; EPISTEMIC SEPARATION ARCHITECTURE</text>
+  <text x="430" y="335" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">Minimal Core (Paper I): Ch. 2, Ch. 4–5, App. B, D, M, N, O.1–3 (0 Free Params) | Extensions (Paper II): Ch. 3, Ch. 6–7, App. A, C, E–L, O.4–6</text>
+  <text x="430" y="356" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.8" fill="#475569">Program Closure: Bookkeeping P(M, PU(H)) &amp; E_stat(N) → Covariant Field Equations → Status Table M.1 &amp; Toy Model Eq. (N.1)</text>
 </svg>`
   },
   {
@@ -332,55 +402,100 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     afterSubsectionAnchor: 'sec-2-1',
     title: 'Principal PU(H)-Bundle P(M, PU(H)) & Associated Statistical Bundle E_stat Over 4D Spacetime',
     caption:
-      'Figure 2. Schematic trivial principal projective-unitary bundle P(M, PU(H)) (δ(P) = 0 ∈ H³(M, ℤ)) and associated statistical state bundle E_stat = P ×_{PU(H)} S(N) over split-included Type I detector factor N ⊂ A(O_ext) projecting via π : E_stat → M onto the 4D Lorentzian base manifold (M, g_μν) of signature (−,+,+,+), where Diff⁺(M) acts cleanly on base M. Over each event x ∈ M sits the normal statistical fiber S_x(N) equipped with SLD metric g_ij^QFI; horizontal curves lifted via A_μ follow the synchronization ansatz dτ = (1/c)√(−g_μν dx^μ dx^ν) = α_mod ds_QFI.',
+      'Figure 2. Schematic trivial principal projective-unitary bundle P(M, PU(H)) (δ(P) = 0 ∈ H³(M, ℤ), retained as covariant bookkeeping device) and associated statistical state bundle E_stat = P ×_{PU(H)} S(N) over split-included Type I detector factor N ⊂ A(O_ext) projecting via π : E_stat → M onto the 4D Lorentzian base manifold (M, g_μν) of signature (−,+,+,+), where Diff⁺(M) acts cleanly on base M. Over each event x ∈ M sits the normal statistical fiber S_x(N) equipped with SLD metric g_ij^QFI; horizontal curves lifted via A_μ follow the Mandelstam–Tamm Calibration Postulate dτ = (1/c)√(−g_μν dx^μ dx^ν) = α_mod ds_QFI.',
     isSchematic: true,
-    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 395" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Principal PU(H)-bundle and associated statistical bundle E_stat over Lorentzian base manifold M">
-  <rect x="0" y="0" width="860" height="395" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">SCHEMATIC GEOMETRY — PRINCIPAL P(M, PU(H)) &amp; ASSOCIATED BUNDLE E_stat</text>
-  <line x1="24" y1="36" x2="836" y2="36" stroke="#E2D9C8" stroke-width="1"/>
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 404" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Principal PU(H)-bundle and associated statistical bundle E_stat over Lorentzian base manifold M">
+  <defs>
+    <linearGradient id="fig2Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F5EFE4"/>
+    </linearGradient>
+    <linearGradient id="fig2Manifold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#EFE7D6"/>
+      <stop offset="55%" stop-color="#E6DCC7"/>
+      <stop offset="100%" stop-color="#DCD0B8"/>
+    </linearGradient>
+    <radialGradient id="fig2FiberGrad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F3EFE6"/>
+    </radialGradient>
+    <linearGradient id="fig2ConeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1D4ED8" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#1D4ED8" stop-opacity="0.03"/>
+    </linearGradient>
+    <marker id="fig2ArrowBrown" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#9A3412"/>
+    </marker>
+    <marker id="fig2ArrowNavy" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0F172A"/>
+    </marker>
+  </defs>
 
-  <path d="M 85 284 C 240 272, 580 288, 770 274 L 802 356 C 600 380, 220 346, 52 366 Z" fill="#EFE9DD" stroke="#1E293B" stroke-width="1.5"/>
-  <path d="M 125 296 C 280 286, 560 300, 745 288" fill="none" stroke="#D6CABE" stroke-width="0.9"/>
-  <path d="M 95 338 C 250 328, 540 344, 765 328" fill="none" stroke="#D6CABE" stroke-width="0.9"/>
-  <text x="72" y="355" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13" fill="#0F172A">Base Spacetime (M, g_μν), signature (−,+,+,+), Diff⁺(M) action</text>
+  <rect x="0" y="0" width="860" height="404" fill="url(#fig2Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#1D4ED8"/>
+  <text x="24" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#9A3412" letter-spacing="0.7">SCHEMATIC GEOMETRY — BOOKKEEPING P(M, PU(H)) &amp; ASSOCIATED BUNDLE E_stat</text>
+  <text x="836" y="28" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">δ(P) = 0 ∈ H³(M, ℤ)</text>
+  <line x1="24" y1="39" x2="836" y2="39" stroke="#DFD5C3" stroke-width="1"/>
 
-  <path d="M 110 326 C 300 316, 520 326, 745 312" fill="none" stroke="#8B4513" stroke-width="2.4"/>
-  <circle cx="154" cy="323" r="4.5" fill="#0F172A"/>
-  <text x="154" y="341" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#0F172A">x(λ_1)</text>
-  <circle cx="706" cy="315" r="4.5" fill="#0F172A"/>
-  <text x="706" y="333" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#0F172A">x(λ_2)</text>
-  <text x="430" y="309" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.6" fill="#8B4513">Timelike worldline ds^2 = g_μν dx^μ dx^ν &lt; 0</text>
+  <!-- Base Manifold (M, g_μν) with drop shadow and coordinate lines -->
+  <path d="M 90 292 C 245 280, 585 296, 775 282 L 807 364 C 605 388, 225 354, 57 374 Z" fill="#0F172A" opacity="0.08"/>
+  <path d="M 85 286 C 240 274, 580 290, 770 276 L 802 358 C 600 382, 220 348, 52 368 Z" fill="url(#fig2Manifold)" stroke="#0F172A" stroke-width="1.6"/>
+  <path d="M 118 302 C 280 291, 560 305, 752 292" fill="none" stroke="#C8BCAA" stroke-width="0.9"/>
+  <path d="M 90 344 C 250 334, 540 350, 770 334" fill="none" stroke="#C8BCAA" stroke-width="0.9"/>
+  <line x1="250" y1="283" x2="232" y2="361" stroke="#C8BCAA" stroke-width="0.8"/>
+  <line x1="430" y1="286" x2="424" y2="367" stroke="#C8BCAA" stroke-width="0.8"/>
+  <line x1="610" y1="284" x2="616" y2="365" stroke="#C8BCAA" stroke-width="0.8"/>
+  <text x="72" y="359" font-family="'DejaVu Serif', Georgia, serif" font-size="12.8" fill="#0F172A">Base Spacetime (M, g_μν), signature (−,+,+,+), Diff⁺(M) action</text>
 
-  <line x1="154" y1="323" x2="128" y2="286" stroke="#64748B" stroke-width="1.1" stroke-dasharray="3,2"/>
-  <line x1="154" y1="323" x2="180" y2="286" stroke="#64748B" stroke-width="1.1" stroke-dasharray="3,2"/>
-  <ellipse cx="154" cy="286" rx="26" ry="5" fill="none" stroke="#64748B" stroke-width="1.1"/>
-  <text x="118" y="281" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">Light cone</text>
+  <!-- Timelike Worldline -->
+  <path d="M 112 329 C 300 319, 520 329, 745 315" fill="none" stroke="#9A3412" stroke-width="2.6" marker-end="url(#fig2ArrowBrown)"/>
+  <circle cx="154" cy="326" r="5" fill="#0F172A" stroke="#FFFFFF" stroke-width="1.5"/>
+  <text x="154" y="344" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.5" fill="#0F172A">x(λ_1)</text>
+  <circle cx="706" cy="318" r="5" fill="#0F172A" stroke="#FFFFFF" stroke-width="1.5"/>
+  <text x="706" y="336" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.5" fill="#0F172A">x(λ_2)</text>
+  <text x="430" y="311" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.4" font-weight="600" fill="#9A3412">Timelike worldline ds^2 = g_μν dx^μ dx^ν &lt; 0</text>
 
-  <ellipse cx="154" cy="126" rx="94" ry="74" fill="#FFFFFF" fill-opacity="0.96" stroke="#1E293B" stroke-width="1.5"/>
-  <line x1="154" y1="200" x2="154" y2="316" stroke="#1E293B" stroke-width="1.3" stroke-dasharray="5,3"/>
-  <polygon points="150,312 154,319 158,312" fill="#1E293B"/>
-  <text x="154" y="76" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="600" fill="#0F172A">Fiber S_{x_1}(N)</text>
-  <text x="154" y="95" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.8" fill="#475569">PU(H) states ρ(θ) ∈ S(N)</text>
-  <circle cx="162" cy="138" r="4" fill="#8B4513"/>
-  <path d="M 134 158 Q 160 139 182 115" fill="none" stroke="#15803D" stroke-width="2"/>
-  <text x="154" y="182" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#15803D">Metric g_ij^QFI</text>
+  <!-- Light Cone at x(λ_1) -->
+  <polygon points="154,326 126,287 182,287" fill="url(#fig2ConeGrad)"/>
+  <line x1="154" y1="326" x2="126" y2="287" stroke="#1D4ED8" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <line x1="154" y1="326" x2="182" y2="287" stroke="#1D4ED8" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <ellipse cx="154" cy="287" rx="28" ry="5.5" fill="#1D4ED8" fill-opacity="0.10" stroke="#1D4ED8" stroke-width="1.2"/>
+  <text x="118" y="283" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.0" fill="#1D4ED8">Light cone</text>
 
-  <ellipse cx="706" cy="124" rx="94" ry="74" fill="#FFFFFF" fill-opacity="0.96" stroke="#1E293B" stroke-width="1.5"/>
-  <line x1="706" y1="198" x2="706" y2="308" stroke="#1E293B" stroke-width="1.3" stroke-dasharray="5,3"/>
-  <polygon points="702,304 706,311 710,304" fill="#1E293B"/>
-  <text x="706" y="74" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="600" fill="#0F172A">Fiber S_{x_2}(N)</text>
-  <text x="706" y="93" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#475569">Rank-const. → 4·g_FS (S^3)</text>
-  <circle cx="698" cy="134" r="4" fill="#8B4513"/>
-  <path d="M 674 154 Q 698 136 720 112" fill="none" stroke="#15803D" stroke-width="2"/>
-  <text x="706" y="180" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#15803D">Covariant shift D_μ</text>
+  <!-- Left Fiber S_{x_1}(N) -->
+  <ellipse cx="157" cy="131" rx="96" ry="74" fill="#0F172A" opacity="0.07"/>
+  <ellipse cx="154" cy="127" rx="96" ry="74" fill="url(#fig2FiberGrad)" stroke="#0F172A" stroke-width="1.6"/>
+  <ellipse cx="154" cy="127" rx="76" ry="54" fill="none" stroke="#E2D9C8" stroke-width="0.9" stroke-dasharray="3,3"/>
+  <line x1="154" y1="201" x2="154" y2="317" stroke="#0F172A" stroke-width="1.3" stroke-dasharray="5,3" marker-end="url(#fig2ArrowNavy)"/>
+  <text x="154" y="77" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="13" font-weight="700" fill="#0F172A">Fiber S_{x_1}(N)</text>
+  <text x="154" y="96" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.4" fill="#475569">PU(H) states ρ(θ) ∈ S(N)</text>
+  <path d="M 130 160 Q 158 140 184 114" fill="none" stroke="#15803D" stroke-width="2.2"/>
+  <circle cx="162" cy="138" r="4.6" fill="#9A3412" stroke="#FFFFFF" stroke-width="1.4"/>
+  <text x="154" y="182" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#15803D">Metric g_ij^QFI</text>
 
-  <path d="M 162 138 C 320 98, 540 104, 698 134" fill="none" stroke="#8B4513" stroke-width="2.4"/>
-  <text x="430" y="94" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#8B4513">Horizontal Lift via PU(H) Connection A_μ</text>
+  <!-- Right Fiber S_{x_2}(N) -->
+  <ellipse cx="709" cy="129" rx="96" ry="74" fill="#0F172A" opacity="0.07"/>
+  <ellipse cx="706" cy="125" rx="96" ry="74" fill="url(#fig2FiberGrad)" stroke="#0F172A" stroke-width="1.6"/>
+  <ellipse cx="706" cy="125" rx="76" ry="54" fill="none" stroke="#E2D9C8" stroke-width="0.9" stroke-dasharray="3,3"/>
+  <line x1="706" y1="199" x2="706" y2="309" stroke="#0F172A" stroke-width="1.3" stroke-dasharray="5,3" marker-end="url(#fig2ArrowNavy)"/>
+  <text x="706" y="75" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="13" font-weight="700" fill="#0F172A">Fiber S_{x_2}(N)</text>
+  <text x="706" y="94" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.4" fill="#475569">Rank-const. → 4·g_FS (S^3)</text>
+  <path d="M 672 156 Q 698 136 724 110" fill="none" stroke="#15803D" stroke-width="2.2"/>
+  <circle cx="698" cy="134" r="4.6" fill="#9A3412" stroke="#FFFFFF" stroke-width="1.4"/>
+  <text x="706" y="180" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#15803D">Covariant shift D_μ</text>
 
-  <rect x="195" y="204" width="470" height="36" rx="3" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1"/>
-  <text x="430" y="226" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.0" fill="#0F172A">dτ = (1/c)√(−g_μν dx^μ dx^ν) = [ℏ/(E_mod·σ_1(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ</text>
+  <!-- Horizontal Lift Connection Arc -->
+  <path d="M 167 137 C 325 94, 540 100, 691 132" fill="none" stroke="#9A3412" stroke-width="2.5" marker-end="url(#fig2ArrowBrown)"/>
+  <text x="430" y="90" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" font-weight="600" fill="#9A3412">Horizontal Lift via PU(H) Connection A_μ</text>
 
-  <text x="430" y="258" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#0F172A">Projection π : E_stat = P ×_{PU(H)} S(N) → M  (δ(P) = 0)</text>
+  <!-- Central Formula Callout Card -->
+  <rect x="193" y="202" width="474" height="44" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="190" y="199" width="474" height="44" rx="4" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1.2"/>
+  <rect x="190" y="199" width="4" height="44" rx="2" fill="#9A3412"/>
+  <text x="429" y="217" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.4" fill="#9A3412">CALIBRATION POSTULATE (MT-SATURATED · EQ. 4.1)</text>
+  <text x="429" y="234" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.8" fill="#0F172A">dτ = (1/c)√(−g_μν dx^μ dx^ν) = [ℏ/(E_mod·σ_1(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ</text>
+
+  <text x="430" y="264" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.4" font-weight="600" fill="#0F172A">Projection π : E_stat = P ×_{PU(H)} S(N) → M  (Bookkeeping δ(P) = 0; Split Bound &lt; 10^{−30})</text>
 </svg>`
   },
   {
@@ -392,43 +507,88 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     caption:
       'Figure 3. Analytical FLRW bounce solution from the UV limiting-curvature sector L_UV at dust equation of state w = 0: a(t)/a_min = [1 + (t/t_0)²]¹/³ (general w: [1 + (t/t_w)²]^{1/(3(1+w))}) satisfying H² = (8πG/3)ρ(1 − ρ/ρ_max) (solid terracotta), plotted against classical GR singular collapse |t/t_0|²/³ → 0 (dashed slate). At t = t_bounce, H = 0, ρ = ρ_max, and turnaround acceleration ä/a = +4πGρ_max(1 + w) > 0 prevents geodesic focusing.',
     isSchematic: false,
-    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Analytical FLRW bounce scale factor evolution">
-  <rect x="0" y="0" width="860" height="340" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">ANALYTICAL SOLUTION (L_UV, w = 0) — FLRW BOUNCE a(t)/a_min = [1 + (t/t_0)^2]^{1/3}</text>
-  <line x1="24" y1="36" x2="836" y2="36" stroke="#E2D9C8" stroke-width="1"/>
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 350" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Analytical FLRW bounce scale factor evolution">
+  <defs>
+    <linearGradient id="fig3Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F5EFE4"/>
+    </linearGradient>
+    <linearGradient id="fig3BounceArea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C2410C" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#C2410C" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="fig3UvBand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#D97706" stop-opacity="0.02"/>
+      <stop offset="50%" stop-color="#D97706" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#D97706" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
 
-  <rect x="115" y="58" width="650" height="207" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="0" y="0" width="860" height="350" fill="url(#fig3Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#9A3412"/>
+  <text x="24" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#9A3412" letter-spacing="0.6">ANALYTICAL SOLUTION (L_UV, w = 0) — FLRW BOUNCE a(t)/a_min = [1 + (t/t_0)^2]^{1/3}</text>
+  <line x1="24" y1="39" x2="836" y2="39" stroke="#DFD5C3" stroke-width="1"/>
+
+  <!-- Plot Panel -->
+  <rect x="115" y="58" width="650" height="207" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.3"/>
+  <!-- Shaded UV Turning-Point Band -->
+  <rect x="${BOUNCE_DATA.uvLeftX}" y="58" width="${(BOUNCE_DATA.uvRightX - BOUNCE_DATA.uvLeftX).toFixed(1)}" height="207" fill="url(#fig3UvBand)"/>
+
+  <!-- Fine Coordinate Gridlines -->
+  <line x1="277.5" y1="58" x2="277.5" y2="265" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="602.5" y1="58" x2="602.5" y2="265" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="115" y1="106" x2="765" y2="106" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="115" y1="209" x2="765" y2="209" stroke="#F1F5F9" stroke-width="1"/>
   <line x1="440" y1="58" x2="440" y2="265" stroke="#94A3B8" stroke-width="1.1" stroke-dasharray="4,3"/>
-  <line x1="115" y1="${BOUNCE_DATA.bounceY}" x2="765" y2="${BOUNCE_DATA.bounceY}" stroke="#E2D9C8" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="115" y1="${BOUNCE_DATA.bounceY}" x2="765" y2="${BOUNCE_DATA.bounceY}" stroke="#E2D9C8" stroke-width="1.1" stroke-dasharray="4,3"/>
 
-  <text x="105" y="${BOUNCE_DATA.bounceY + 4}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#8B4513">a_min (1.0)</text>
-  <text x="105" y="269" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#475569">0</text>
-  <text x="105" y="66" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#475569">1.85</text>
-  <text x="52" y="162" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13" fill="#0F172A" transform="rotate(-90 52 162)">a(t) / a_min</text>
+  <!-- Axis Ticks & Labels -->
+  <line x1="110" y1="${BOUNCE_DATA.bounceY}" x2="115" y2="${BOUNCE_DATA.bounceY}" stroke="#9A3412" stroke-width="1.3"/>
+  <line x1="110" y1="265" x2="115" y2="265" stroke="#475569" stroke-width="1.2"/>
+  <line x1="110" y1="58" x2="115" y2="58" stroke="#475569" stroke-width="1.2"/>
+  <text x="104" y="${BOUNCE_DATA.bounceY + 4}" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" font-weight="600" fill="#9A3412">a_min (1.0)</text>
+  <text x="104" y="269" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">0</text>
+  <text x="104" y="64" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">1.85</text>
+  <text x="44" y="162" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="13.5" fill="#0F172A" transform="rotate(-90 44 162)">a(t) / a_min</text>
 
-  <text x="115" y="285" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">−2.3</text>
-  <text x="277" y="285" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">−1.15</text>
-  <text x="440" y="285" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#8B4513">t = t_bounce (0)</text>
-  <text x="602" y="285" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">+1.15</text>
-  <text x="765" y="285" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">+2.3</text>
-  <text x="440" y="311" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" fill="#0F172A">Dimensionless Cosmic Time (t − t_bounce) / t_0</text>
+  <line x1="115" y1="265" x2="115" y2="270" stroke="#475569" stroke-width="1.2"/>
+  <line x1="277.5" y1="265" x2="277.5" y2="270" stroke="#475569" stroke-width="1.2"/>
+  <line x1="440" y1="265" x2="440" y2="270" stroke="#9A3412" stroke-width="1.3"/>
+  <line x1="602.5" y1="265" x2="602.5" y2="270" stroke="#475569" stroke-width="1.2"/>
+  <line x1="765" y1="265" x2="765" y2="270" stroke="#475569" stroke-width="1.2"/>
 
-  <path d="${BOUNCE_DATA.grLeftPath}" fill="none" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="6,4"/>
-  <path d="${BOUNCE_DATA.grRightPath}" fill="none" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="6,4"/>
-  <path d="${BOUNCE_DATA.igrtPath}" fill="none" stroke="#8B4513" stroke-width="2.6"/>
+  <text x="115" y="286" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">−2.3</text>
+  <text x="277.5" y="286" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">−1.15</text>
+  <text x="440" y="286" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.6" font-weight="600" fill="#9A3412">t = t_bounce (0)</text>
+  <text x="602.5" y="286" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">+1.15</text>
+  <text x="765" y="286" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">+2.3</text>
+  <text x="440" y="316" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="13" fill="#0F172A">Dimensionless Cosmic Time (t − t_bounce) / t_0</text>
 
-  <circle cx="440" cy="${BOUNCE_DATA.bounceY}" r="5" fill="#8B4513"/>
-  <circle cx="440" cy="265" r="4" fill="#64748B"/>
-  <line x1="396" y1="108" x2="436" y2="${(BOUNCE_DATA.bounceY - 5).toFixed(1)}" stroke="#8B4513" stroke-width="1.1"/>
-  <text x="428" y="102" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">ä/a = +4πGρ_max(1 + w) &gt; 0</text>
-  <line x1="490" y1="252" x2="446" y2="262" stroke="#64748B" stroke-width="1.1"/>
-  <text x="494" y="253" text-anchor="start" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#64748B">Classical GR singularity (a → 0)</text>
+  <!-- Area Under Analytical IGRT Bounce Curve -->
+  <path d="${BOUNCE_DATA.igrtAreaPath}" fill="url(#fig3BounceArea)"/>
 
-  <rect x="498" y="68" width="256" height="60" rx="3" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <line x1="508" y1="86" x2="532" y2="86" stroke="#8B4513" stroke-width="2.5"/>
-  <text x="540" y="90" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#0F172A">IGRT Bounce (L_UV, k_phys ≤ M_Pl)</text>
-  <line x1="508" y1="110" x2="532" y2="110" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="5,3"/>
-  <text x="540" y="114" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">Classical GR Singular Limit (w = 0)</text>
+  <!-- GR Singular Limit vs Analytical Bounce Curve -->
+  <path d="${BOUNCE_DATA.grLeftPath}" fill="none" stroke="#94A3B8" stroke-width="1.9" stroke-dasharray="6,4"/>
+  <path d="${BOUNCE_DATA.grRightPath}" fill="none" stroke="#94A3B8" stroke-width="1.9" stroke-dasharray="6,4"/>
+  <path d="${BOUNCE_DATA.igrtPath}" fill="none" stroke="#9A3412" stroke-width="2.8" stroke-linecap="round"/>
+
+  <!-- Anchor Points & Annotations -->
+  <circle cx="440" cy="${BOUNCE_DATA.bounceY}" r="5.5" fill="#9A3412" stroke="#FFFFFF" stroke-width="1.8"/>
+  <circle cx="440" cy="265" r="4.5" fill="#64748B" stroke="#FFFFFF" stroke-width="1.4"/>
+  <line x1="396" y1="108" x2="435" y2="${(BOUNCE_DATA.bounceY - 5).toFixed(1)}" stroke="#9A3412" stroke-width="1.2"/>
+  <text x="392" y="102" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#0F172A">ä/a = +4πGρ_max(1 + w) &gt; 0</text>
+  <text x="392" y="117" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.8" fill="#B45309">ρ = ρ_max = 0.4094 ρ_Pl (H = 0)</text>
+
+  <line x1="496" y1="250" x2="447" y2="262" stroke="#64748B" stroke-width="1.1"/>
+  <text x="500" y="253" text-anchor="start" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" fill="#475569">Classical GR singularity (a → 0)</text>
+
+  <!-- Legend Box with Offset Shadow -->
+  <rect x="498" y="70" width="256" height="62" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="495" y="67" width="256" height="62" rx="4" fill="#FCFBF7" stroke="#D6CABE" stroke-width="1.1"/>
+  <line x1="507" y1="86" x2="533" y2="86" stroke="#9A3412" stroke-width="2.8"/>
+  <text x="541" y="90" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#0F172A">IGRT Bounce (L_UV, k_phys ≤ M_Pl)</text>
+  <line x1="507" y1="110" x2="533" y2="110" stroke="#94A3B8" stroke-width="1.9" stroke-dasharray="5,3"/>
+  <text x="541" y="114" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" fill="#475569">Classical GR Singular Limit (w = 0)</text>
 </svg>`
   },
   {
@@ -440,45 +600,79 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     caption:
       'Figure 4. Linear-scale plot of the numerically integrated PNGB Klein–Gordon thawing dark-energy trajectory w(z) across redshift z ∈ [0, 3] (θ_i = 1.95 rad, f_φ = M̄_Pl = 2.435 × 10¹⁸ GeV, m_DE ≈ 1.30 H_0 ≈ 1.94 × 10⁻³³ eV), obeying early freezing 1 + w ∝ (1 + z)⁻³ and thawing to w_0 = −0.908 today with CPL tangent w_a = −0.177 < 0 while strictly satisfying w(z) ≥ −1 (falsified by P3 if DESI phantom crossing w_a < −0.4 persists >3σ).',
     isSchematic: false,
-    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Numerical Klein-Gordon thawing dark energy equation of state w(z)">
-  <rect x="0" y="0" width="860" height="330" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">NUMERICAL KLEIN–GORDON ODE — PNGB THAWING w(z) (θ_i = 1.95, w_0 = ${THAW_DATA.w0.toFixed(3)}, w_a = ${THAW_DATA.wA.toFixed(3)})</text>
-  <line x1="24" y1="36" x2="836" y2="36" stroke="#E2D9C8" stroke-width="1"/>
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Numerical Klein-Gordon thawing dark energy equation of state w(z)">
+  <defs>
+    <linearGradient id="fig4Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F5EFE4"/>
+    </linearGradient>
+    <linearGradient id="fig4ThawGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9A3412" stop-opacity="0.24"/>
+      <stop offset="50%" stop-color="#D97706" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#15803D" stop-opacity="0.06"/>
+    </linearGradient>
+  </defs>
 
-  <rect x="115" y="58" width="650" height="198" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="0" y="0" width="860" height="340" fill="url(#fig4Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#15803D"/>
+  <text x="24" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#9A3412" letter-spacing="0.6">NUMERICAL KLEIN–GORDON ODE — PNGB THAWING w(z) (θ_i = 1.95, w_0 = ${THAW_DATA.w0.toFixed(3)}, w_a = ${THAW_DATA.wA.toFixed(3)})</text>
+  <line x1="24" y1="39" x2="836" y2="39" stroke="#DFD5C3" stroke-width="1"/>
 
+  <!-- Plot Panel -->
+  <rect x="115" y="58" width="650" height="198" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.3"/>
+
+  <!-- Sub-phantom Forbidden Strip below w = -1.00 -->
+  <rect x="115" y="${THAW_DATA.yAtW(-1.00).toFixed(1)}" width="650" height="${(256 - THAW_DATA.yAtW(-1.00)).toFixed(1)}" fill="#F1F5F9"/>
+
+  <!-- Vertical Coordinate Gridlines -->
+  <line x1="${THAW_DATA.toX(0.5).toFixed(1)}" y1="58" x2="${THAW_DATA.toX(0.5).toFixed(1)}" y2="256" stroke="#F8FAFC" stroke-width="1"/>
+  <line x1="${THAW_DATA.toX(1.0).toFixed(1)}" y1="58" x2="${THAW_DATA.toX(1.0).toFixed(1)}" y2="256" stroke="#E2E8F0" stroke-width="1"/>
+  <line x1="${THAW_DATA.toX(1.5).toFixed(1)}" y1="58" x2="${THAW_DATA.toX(1.5).toFixed(1)}" y2="256" stroke="#F8FAFC" stroke-width="1"/>
+  <line x1="${THAW_DATA.toX(2.0).toFixed(1)}" y1="58" x2="${THAW_DATA.toX(2.0).toFixed(1)}" y2="256" stroke="#E2E8F0" stroke-width="1"/>
+  <line x1="${THAW_DATA.toX(2.5).toFixed(1)}" y1="58" x2="${THAW_DATA.toX(2.5).toFixed(1)}" y2="256" stroke="#F8FAFC" stroke-width="1"/>
+
+  <!-- Horizontal Reference Lines & Labels -->
   <line x1="115" y1="${THAW_DATA.yAtW(-0.91).toFixed(1)}" x2="765" y2="${THAW_DATA.yAtW(-0.91).toFixed(1)}" stroke="#E2E8F0" stroke-width="1"/>
-  <text x="105" y="${(THAW_DATA.yAtW(-0.91) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#475569">−0.91</text>
-  <text x="756" y="${(THAW_DATA.yAtW(-0.91) - 8).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#8B4513">Present Thaw w_0 = −0.908 (w_a = −0.177 &lt; 0)</text>
+  <text x="104" y="${(THAW_DATA.yAtW(-0.91) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">−0.91</text>
 
   <line x1="115" y1="${THAW_DATA.yAtW(-0.96).toFixed(1)}" x2="765" y2="${THAW_DATA.yAtW(-0.96).toFixed(1)}" stroke="#E2E8F0" stroke-width="1"/>
-  <text x="105" y="${(THAW_DATA.yAtW(-0.96) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#475569">−0.96</text>
+  <text x="104" y="${(THAW_DATA.yAtW(-0.96) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">−0.96</text>
 
-  <line x1="115" y1="${THAW_DATA.yAtW(-1.00).toFixed(1)}" x2="765" y2="${THAW_DATA.yAtW(-1.00).toFixed(1)}" stroke="#334155" stroke-width="1.4" stroke-dasharray="6,4"/>
-  <text x="105" y="${(THAW_DATA.yAtW(-1.00) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#0F172A">−1.00 (ΛCDM)</text>
+  <line x1="115" y1="${THAW_DATA.yAtW(-1.00).toFixed(1)}" x2="765" y2="${THAW_DATA.yAtW(-1.00).toFixed(1)}" stroke="#334155" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="104" y="${(THAW_DATA.yAtW(-1.00) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" font-weight="600" fill="#0F172A">−1.00 (ΛCDM)</text>
 
-  <line x1="331.7" y1="58" x2="331.7" y2="256" stroke="#F1F5F9" stroke-width="1"/>
-  <line x1="548.3" y1="58" x2="548.3" y2="256" stroke="#F1F5F9" stroke-width="1"/>
+  <text x="48" y="157" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="13.5" fill="#0F172A" transform="rotate(-90 48 157)">w(z)</text>
+  <text x="115" y="278" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.4" font-weight="600" fill="#9A3412">z = 0</text>
+  <text x="331.7" y="278" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.4" fill="#475569">z = 1</text>
+  <text x="548.3" y="278" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.4" fill="#475569">z = 2</text>
+  <text x="765" y="278" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.4" fill="#475569">z = 3</text>
+  <text x="440" y="310" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="13" fill="#0F172A">Cosmological Redshift z</text>
 
-  <text x="48" y="157" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13" fill="#0F172A" transform="rotate(-90 48 157)">w(z)</text>
-  <text x="115" y="276" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#475569">z = 0</text>
-  <text x="331.7" y="276" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#475569">z = 1</text>
-  <text x="548.3" y="276" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#475569">z = 2</text>
-  <text x="765" y="276" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#475569">z = 3</text>
-  <text x="440" y="305" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" fill="#0F172A">Cosmological Redshift z</text>
+  <!-- Shaded Thawing Margin Above ΛCDM -->
+  <path d="${THAW_DATA.thawAreaPath}" fill="url(#fig4ThawGrad)"/>
 
-  <path d="${THAW_DATA.curvePath}" fill="none" stroke="#8B4513" stroke-width="2.7"/>
+  <!-- Numerical RK2 Thawing Curve -->
+  <path d="${THAW_DATA.curvePath}" fill="none" stroke="#9A3412" stroke-width="2.9" stroke-linecap="round"/>
+
+  <!-- Sample Markers with White Halos -->
   ${THAW_DATA.markers
     .map(
       (m) =>
-        `<circle cx="${m.x}" cy="${m.y}" r="3.8" fill="#8B4513"/><text x="${
-          m.z === 0 ? m.x + 8 : m.z === 3 ? m.x - 6 : m.x
-        }" y="${m.y + (m.z === 0 ? -10 : -11)}" text-anchor="${
+        `<circle cx="${m.x}" cy="${m.y}" r="4.6" fill="#9A3412" stroke="#FFFFFF" stroke-width="1.6"/><text x="${
+          m.z === 0 ? m.x + 9 : m.z === 3 ? m.x - 6 : m.x + 4
+        }" y="${m.y + (m.z === 0 ? -9 : -11)}" text-anchor="${
           m.z === 0 ? 'start' : m.z === 3 ? 'end' : 'middle'
-        }" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">${m.wVal.toFixed(4)}</text>`
+        }" font-family="'DejaVu Sans Mono', monospace" font-size="10.8" font-weight="600" fill="#1E293B">${m.wVal.toFixed(4)}</text>`
     )
     .join('\n  ')}
-  <text x="520" y="148" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#15803D">Ghost-free non-phantom thawing: 1 + w ∝ (1 + z)^{−3}, w(z) ≥ −1</text>
+
+  <!-- Callout Box -->
+  <rect x="444" y="69" width="310" height="58" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="441" y="66" width="310" height="58" rx="4" fill="#FCFBF7" stroke="#D6CABE" stroke-width="1.1"/>
+  <text x="454" y="88" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" font-weight="600" fill="#9A3412">Present Thaw w_0 = −0.908 (w_a = −0.177 &lt; 0)</text>
+  <text x="454" y="109" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.8" fill="#15803D">Ghost-free non-phantom: 1 + w ∝ (1 + z)^{−3}, w(z) ≥ −1</text>
+
+  <text x="756" y="${(THAW_DATA.yAtW(-1.00) + 15).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#64748B">Phantom regime w &lt; −1 excluded by canonical PNGB (DESI w_a &lt; −0.4 falsifier)</text>
 </svg>`
   },
   {
@@ -490,47 +684,85 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     caption:
       'Figure 5. Exact radial lapse profiles f(r) = 1 − (2GMr²)/(r³ + 2GMℓ₀²) plotted across r/ℓ₀ ∈ [0, 5.5], illustrating the derived UV core scale ℓ₀ = ξ₀ ℓ_Pl obtained by equating K_Hayward(0) = 24/ℓ₀⁴ to K_max = 48/ℓ_Pl⁴ of sector L_UV, which fixes ξ₀ = 2⁻¹/⁴ ≈ 0.8409. Sub-extremal masses (M > M_rem) possess inner (r_−) and outer (r_+) horizons coalescing at r_* = √3 ℓ₀ with vanishing surface gravity κ_± = 0; dynamical back-reaction truncates collapse prior to Cauchy extension.',
     isSchematic: false,
-    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Regular Frolov-Hayward lapse function f(r)">
-  <rect x="0" y="0" width="860" height="340" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">ANALYTICAL METRIC PROFILE — FROLOV–HAYWARD HORIZON MERGER (ℓ_0 = ξ_0 ℓ_Pl)</text>
-  <line x1="24" y1="36" x2="836" y2="36" stroke="#E2D9C8" stroke-width="1"/>
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 350" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Regular Frolov-Hayward lapse function f(r)">
+  <defs>
+    <linearGradient id="fig5Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F5EFE4"/>
+    </linearGradient>
+    <linearGradient id="fig5TrappedGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1D4ED8" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#1D4ED8" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="fig5CoreGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#15803D" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#15803D" stop-opacity="0.0"/>
+    </linearGradient>
+  </defs>
 
-  <rect x="105" y="56" width="670" height="212" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="0" y="0" width="860" height="350" fill="url(#fig5Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#0F172A"/>
+  <text x="24" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#9A3412" letter-spacing="0.6">ANALYTICAL METRIC PROFILE — FROLOV–HAYWARD HORIZON MERGER (ℓ_0 = ξ_0 ℓ_Pl)</text>
+  <line x1="24" y1="39" x2="836" y2="39" stroke="#DFD5C3" stroke-width="1"/>
+
+  <rect x="105" y="56" width="670" height="212" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.3"/>
+  <!-- Regular de Sitter Core Band near r=0 -->
+  <rect x="105" y="56" width="68" height="212" fill="url(#fig5CoreGrad)"/>
+
+  <!-- Coordinate Gridlines -->
+  <line x1="${HAYWARD_DATA.toX(1).toFixed(1)}" y1="56" x2="${HAYWARD_DATA.toX(1).toFixed(1)}" y2="268" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="${HAYWARD_DATA.toX(2).toFixed(1)}" y1="56" x2="${HAYWARD_DATA.toX(2).toFixed(1)}" y2="268" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="${HAYWARD_DATA.toX(3).toFixed(1)}" y1="56" x2="${HAYWARD_DATA.toX(3).toFixed(1)}" y2="268" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="${HAYWARD_DATA.toX(4).toFixed(1)}" y1="56" x2="${HAYWARD_DATA.toX(4).toFixed(1)}" y2="268" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="${HAYWARD_DATA.toX(5).toFixed(1)}" y1="56" x2="${HAYWARD_DATA.toX(5).toFixed(1)}" y2="268" stroke="#F1F5F9" stroke-width="1"/>
   <line x1="105" y1="${HAYWARD_DATA.toY(1).toFixed(1)}" x2="775" y2="${HAYWARD_DATA.toY(1).toFixed(1)}" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="105" y1="${HAYWARD_DATA.toY(0).toFixed(1)}" x2="775" y2="${HAYWARD_DATA.toY(0).toFixed(1)}" stroke="#334155" stroke-width="1.3"/>
-  <text x="96" y="${(HAYWARD_DATA.toY(1) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#0F172A">f = +1.0</text>
-  <text x="96" y="${(HAYWARD_DATA.toY(0) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#0F172A">f = 0.0</text>
-  <text x="96" y="${(HAYWARD_DATA.toY(-0.5) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#475569">−0.5</text>
+  <line x1="105" y1="${HAYWARD_DATA.toY(0.5).toFixed(1)}" x2="775" y2="${HAYWARD_DATA.toY(0.5).toFixed(1)}" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="105" y1="${HAYWARD_DATA.toY(0).toFixed(1)}" x2="775" y2="${HAYWARD_DATA.toY(0).toFixed(1)}" stroke="#334155" stroke-width="1.4"/>
 
-  <text x="${HAYWARD_DATA.toX(0).toFixed(1)}" y="286" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">0</text>
-  <text x="${HAYWARD_DATA.toX(1).toFixed(1)}" y="286" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">1</text>
-  <text x="${HAYWARD_DATA.toX(2).toFixed(1)}" y="286" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">2</text>
-  <text x="${HAYWARD_DATA.toX(3).toFixed(1)}" y="286" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">3</text>
-  <text x="${HAYWARD_DATA.toX(4).toFixed(1)}" y="286" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">4</text>
-  <text x="${HAYWARD_DATA.toX(5).toFixed(1)}" y="286" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">5</text>
-  <text x="440" y="311" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" fill="#0F172A">Radial Coordinate r / ℓ_0</text>
+  <!-- Trapped Interior Pocket (f(r) < 0) -->
+  <path d="${HAYWARD_DATA.subTrappedAreaPath}" fill="url(#fig5TrappedGrad)"/>
+  <text x="${((HAYWARD_DATA.rMinusX + HAYWARD_DATA.rPlusX) / 2).toFixed(1)}" y="${(HAYWARD_DATA.toY(0) + 18).toFixed(1)}" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#1D4ED8">Trapped region (r_− &lt; r &lt; r_+)</text>
 
-  <path d="${HAYWARD_DATA.schwarzschildPath}" fill="none" stroke="#94A3B8" stroke-width="1.7" stroke-dasharray="5,4"/>
-  <path d="${HAYWARD_DATA.subExtremalPath}" fill="none" stroke="#1E293B" stroke-width="2.4"/>
-  <path d="${HAYWARD_DATA.extremalPath}" fill="none" stroke="#8B4513" stroke-width="2.6"/>
+  <!-- Y & X Axis Labels -->
+  <text x="95" y="${(HAYWARD_DATA.toY(1) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" font-weight="600" fill="#0F172A">f = +1.0</text>
+  <text x="95" y="${(HAYWARD_DATA.toY(0) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" font-weight="600" fill="#0F172A">f = 0.0</text>
+  <text x="95" y="${(HAYWARD_DATA.toY(-0.5) + 4).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">−0.5</text>
 
-  <circle cx="${HAYWARD_DATA.rMinusX}" cy="${HAYWARD_DATA.toY(0).toFixed(1)}" r="4" fill="#1E293B"/>
-  <text x="${HAYWARD_DATA.rMinusX - 8}" y="${(HAYWARD_DATA.toY(0) - 9).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#0F172A">r_−</text>
-  <circle cx="${HAYWARD_DATA.rPlusX}" cy="${HAYWARD_DATA.toY(0).toFixed(1)}" r="4" fill="#1E293B"/>
-  <text x="${HAYWARD_DATA.rPlusX + 9}" y="${(HAYWARD_DATA.toY(0) + 15).toFixed(1)}" text-anchor="start" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#0F172A">r_+</text>
-  <circle cx="${HAYWARD_DATA.rStarX}" cy="${HAYWARD_DATA.toY(0).toFixed(1)}" r="4.8" fill="#8B4513"/>
-  <line x1="${HAYWARD_DATA.rStarX}" y1="142" x2="${HAYWARD_DATA.rStarX}" y2="${(HAYWARD_DATA.toY(0) - 6).toFixed(1)}" stroke="#8B4513" stroke-width="1.1"/>
-  <text x="${HAYWARD_DATA.rStarX}" y="135" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#8B4513">r_* = √3 ℓ_0 (κ_± = 0)</text>
+  <text x="${HAYWARD_DATA.toX(0).toFixed(1)}" y="287" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">0</text>
+  <text x="${HAYWARD_DATA.toX(1).toFixed(1)}" y="287" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">1</text>
+  <text x="${HAYWARD_DATA.toX(2).toFixed(1)}" y="287" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">2</text>
+  <text x="${HAYWARD_DATA.toX(3).toFixed(1)}" y="287" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">3</text>
+  <text x="${HAYWARD_DATA.toX(4).toFixed(1)}" y="287" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">4</text>
+  <text x="${HAYWARD_DATA.toX(5).toFixed(1)}" y="287" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="11.2" fill="#475569">5</text>
+  <text x="440" y="317" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="13" fill="#0F172A">Radial Coordinate r / ℓ_0</text>
 
-  <text x="115" y="${(HAYWARD_DATA.toY(1) - 8).toFixed(1)}" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#15803D">Regular de Sitter Core f(0) = 1</text>
+  <!-- Lapse Curves -->
+  <path d="${HAYWARD_DATA.schwarzschildPath}" fill="none" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="5,4"/>
+  <path d="${HAYWARD_DATA.subExtremalPath}" fill="none" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="${HAYWARD_DATA.extremalPath}" fill="none" stroke="#9A3412" stroke-width="2.8" stroke-linecap="round"/>
 
-  <rect x="434" y="174" width="328" height="82" rx="3" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <line x1="446" y1="194" x2="472" y2="194" stroke="#1E293B" stroke-width="2.4"/>
-  <text x="480" y="198" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#0F172A">M &gt; M_rem (GM/ℓ₀ = 2.0: r_− &amp; r_+)</text>
-  <line x1="446" y1="216" x2="472" y2="216" stroke="#8B4513" stroke-width="2.6"/>
-  <text x="480" y="220" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#8B4513">M = M_rem (Extremal Zero-T_H Core)</text>
-  <line x1="446" y1="238" x2="472" y2="238" stroke="#94A3B8" stroke-width="1.7" stroke-dasharray="5,4"/>
-  <text x="480" y="242" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#475569">Classical Schwarzschild (Divergent r → 0)</text>
+  <!-- Horizon Markers with White Halos -->
+  <circle cx="${HAYWARD_DATA.rMinusX}" cy="${HAYWARD_DATA.toY(0).toFixed(1)}" r="4.5" fill="#0F172A" stroke="#FFFFFF" stroke-width="1.5"/>
+  <text x="${HAYWARD_DATA.rMinusX - 8}" y="${(HAYWARD_DATA.toY(0) - 9).toFixed(1)}" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="11.4" font-weight="600" fill="#0F172A">r_−</text>
+
+  <circle cx="${HAYWARD_DATA.rPlusX}" cy="${HAYWARD_DATA.toY(0).toFixed(1)}" r="4.5" fill="#0F172A" stroke="#FFFFFF" stroke-width="1.5"/>
+  <text x="${HAYWARD_DATA.rPlusX + 9}" y="${(HAYWARD_DATA.toY(0) + 16).toFixed(1)}" text-anchor="start" font-family="'DejaVu Sans Mono', monospace" font-size="11.4" font-weight="600" fill="#0F172A">r_+</text>
+
+  <circle cx="${HAYWARD_DATA.rStarX}" cy="${HAYWARD_DATA.toY(0).toFixed(1)}" r="5.2" fill="#9A3412" stroke="#FFFFFF" stroke-width="1.6"/>
+  <line x1="${HAYWARD_DATA.rStarX}" y1="141" x2="${HAYWARD_DATA.rStarX}" y2="${(HAYWARD_DATA.toY(0) - 6).toFixed(1)}" stroke="#9A3412" stroke-width="1.2"/>
+  <text x="${HAYWARD_DATA.rStarX}" y="134" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.4" font-weight="600" fill="#9A3412">r_* = √3 ℓ_0 (κ_± = 0)</text>
+
+  <text x="115" y="${(HAYWARD_DATA.toY(1) - 8).toFixed(1)}" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.4" font-weight="600" fill="#15803D">Regular de Sitter Core f(0) = 1</text>
+
+  <!-- Legend Box with Offset Shadow -->
+  <rect x="435" y="177" width="330" height="83" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="432" y="174" width="330" height="83" rx="4" fill="#FCFBF7" stroke="#D6CABE" stroke-width="1.1"/>
+  <line x1="444" y1="194" x2="472" y2="194" stroke="#0F172A" stroke-width="2.5"/>
+  <text x="480" y="198" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" fill="#0F172A">M &gt; M_rem (GM/ℓ₀ = 2.0: r_− &amp; r_+)</text>
+  <line x1="444" y1="216" x2="472" y2="216" stroke="#9A3412" stroke-width="2.8"/>
+  <text x="480" y="220" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#9A3412">M = M_rem (Extremal Zero-T_H Core)</text>
+  <line x1="444" y1="238" x2="472" y2="238" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="5,4"/>
+  <text x="480" y="242" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" fill="#475569">Classical Schwarzschild (Divergent r → 0)</text>
 </svg>`
   },
   {
@@ -542,53 +774,91 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     caption:
       'Figure 6. True 45° Penrose conformal causal diagram illustrating non-singular collapse and unitary evaporation: a regular timelike core at r = 0 supports outer apparent and dynamical horizons enclosing an interior Quantum Extremal Island that bounds remnant entropy S_rem ≤ 3π/√2 ≈ 6.66 nats (under derived ξ_0 = 2⁻¹/⁴) while preserving the Generalized Second Law conditional on the Quantum Focusing Conjecture / QNEC before coalescing into a zero-temperature extremal remnant approaching i⁺.',
     isSchematic: true,
-    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 370" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Penrose conformal diagram of a regular evaporating black hole">
-  <rect x="0" y="0" width="860" height="370" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">CONFORMAL CAUSAL STRUCTURE (45° NULL RAYS) — REGULAR EVAPORATING REMNANT</text>
-  <line x1="24" y1="36" x2="836" y2="36" stroke="#E2D9C8" stroke-width="1"/>
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 380" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Penrose conformal diagram of a regular evaporating black hole">
+  <defs>
+    <linearGradient id="fig6Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F5EFE4"/>
+    </linearGradient>
+    <linearGradient id="fig6WedgeGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ECFDF5"/>
+      <stop offset="45%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EFF6FF"/>
+    </linearGradient>
+    <linearGradient id="fig6IslandGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FDE68A" stop-opacity="0.78"/>
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.38"/>
+    </linearGradient>
+    <marker id="fig6ArrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#1D4ED8"/>
+    </marker>
+    <marker id="fig6ArrowBrown" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#9A3412"/>
+    </marker>
+  </defs>
 
-  <line x1="176" y1="54" x2="176" y2="334" stroke="#15803D" stroke-width="3"/>
-  <text x="165" y="198" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#15803D">Regular r = 0</text>
-  <text x="165" y="216" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#15803D">timelike core</text>
+  <rect x="0" y="0" width="860" height="380" fill="url(#fig6Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#15803D"/>
+  <text x="24" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#9A3412" letter-spacing="0.6">CONFORMAL CAUSAL STRUCTURE (45° NULL RAYS) — REGULAR EVAPORATING REMNANT</text>
+  <line x1="24" y1="39" x2="836" y2="39" stroke="#DFD5C3" stroke-width="1"/>
 
-  <!-- Exact 45-degree null boundaries: (176,334)->(316,194)->(176,54) -->
-  <line x1="176" y1="334" x2="316" y2="194" stroke="#1E293B" stroke-width="1.6"/>
-  <line x1="316" y1="194" x2="176" y2="54" stroke="#1E293B" stroke-width="1.6"/>
-  <text x="268" y="280" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" fill="#0F172A">ℐ⁻ (Past null ∞)</text>
-  <text x="268" y="122" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" fill="#0F172A">ℐ⁺ (Future null ∞)</text>
+  <!-- Conformal Spacetime Wedge (176,340)->(320,196)->(176,52) -->
+  <polygon points="176,340 320,196 176,52" fill="url(#fig6WedgeGrad)"/>
 
-  <circle cx="176" cy="334" r="3.8" fill="#0F172A"/>
-  <text x="188" y="340" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#0F172A">i⁻</text>
-  <circle cx="316" cy="194" r="4" fill="#0F172A"/>
-  <text x="326" y="198" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#0F172A">i⁰ (Spatial ∞)</text>
-  <circle cx="176" cy="54" r="4" fill="#0F172A"/>
-  <text x="188" y="58" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" fill="#0F172A">i⁺ (Remnant asymptote)</text>
+  <!-- Subtle Conformal Constant-r / Constant-t Guide Curves -->
+  <path d="M 176 340 Q 252 196 176 52" fill="none" stroke="#CBD5E1" stroke-width="0.9" stroke-dasharray="2,3"/>
+  <path d="M 176 340 Q 290 196 176 52" fill="none" stroke="#CBD5E1" stroke-width="0.9" stroke-dasharray="2,3"/>
+  <path d="M 176 196 Q 248 196 320 196" fill="none" stroke="#E2E8F0" stroke-width="0.9"/>
 
-  <!-- Inward 45-degree collapsing null shell from ℐ⁻ to r=0 -->
-  <line x1="268" y1="242" x2="176" y2="150" stroke="#8B4513" stroke-width="2.1" stroke-dasharray="5,3"/>
-  <line x1="224" y1="214" x2="236" y2="210" stroke="#8B4513" stroke-width="1"/>
-  <text x="183" y="224" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#8B4513">45° Infalling</text>
-  <text x="183" y="238" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.2" fill="#8B4513">null shell</text>
+  <!-- Regular r = 0 Timelike Core -->
+  <line x1="176" y1="52" x2="176" y2="340" stroke="#15803D" stroke-width="3.4"/>
+  <text x="163" y="198" text-anchor="end" font-family="'DejaVu Serif', Georgia, serif" font-size="12.4" font-weight="700" fill="#15803D">Regular r = 0</text>
+  <text x="163" y="216" text-anchor="end" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" fill="#15803D">timelike core</text>
+
+  <!-- Exact 45-degree Null Inf Boundaries -->
+  <line x1="176" y1="340" x2="320" y2="196" stroke="#0F172A" stroke-width="1.8"/>
+  <line x1="320" y1="196" x2="176" y2="52" stroke="#0F172A" stroke-width="1.8"/>
+  <text x="266" y="286" font-family="'DejaVu Serif', Georgia, serif" font-size="12.2" fill="#0F172A">ℐ⁻ (Past null ∞)</text>
+  <text x="266" y="118" font-family="'DejaVu Serif', Georgia, serif" font-size="12.2" fill="#0F172A">ℐ⁺ (Future null ∞)</text>
+
+  <!-- Asymptotic Infinities -->
+  <circle cx="176" cy="340" r="4.5" fill="#0F172A" stroke="#FFFFFF" stroke-width="1.4"/>
+  <text x="188" y="346" font-family="'DejaVu Serif', Georgia, serif" font-size="12" fill="#0F172A">i⁻</text>
+  <circle cx="320" cy="196" r="4.5" fill="#0F172A" stroke="#FFFFFF" stroke-width="1.4"/>
+  <text x="331" y="200" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.6" fill="#0F172A">i⁰ (Spatial ∞)</text>
+  <circle cx="176" cy="52" r="4.5" fill="#0F172A" stroke="#FFFFFF" stroke-width="1.4"/>
+  <text x="188" y="57" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">i⁺ (Remnant asymptote)</text>
+
+  <!-- Inward 45-degree Collapsing Null Shell from ℐ⁻ to r=0 -->
+  <line x1="270" y1="246" x2="180" y2="156" stroke="#9A3412" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#fig6ArrowBrown)"/>
+  <line x1="226" y1="216" x2="238" y2="212" stroke="#9A3412" stroke-width="1"/>
+  <text x="184" y="226" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.0" font-weight="600" fill="#9A3412">45° Infalling</text>
+  <text x="184" y="240" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.0" fill="#9A3412">null shell</text>
 
   <!-- Trapped Core + QES Island bounded by r_- and r_+ -->
-  <path d="M 176 150 C 224 174, 242 146, 222 122 C 206 104, 188 94, 176 90 Z" fill="#FDE68A" fill-opacity="0.55" stroke="#8B4513" stroke-width="1.8"/>
-  <text x="185" y="136" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#7C2D12">QES</text>
-  <text x="182" y="150" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" fill="#7C2D12">Island</text>
+  <path d="M 176 152 C 228 176, 246 146, 224 121 C 208 103, 189 92, 176 88 Z" fill="url(#fig6IslandGrad)" stroke="#9A3412" stroke-width="1.9"/>
+  <text x="184" y="134" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.4" font-weight="600" fill="#7C2D12">QES</text>
+  <text x="182" y="148" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.0" fill="#7C2D12">Island</text>
 
-  <!-- Outward 45-degree Hawking radiation rays to ℐ⁺ -->
-  <line x1="208" y1="138" x2="258" y2="88" stroke="#2563EB" stroke-width="1.2" stroke-dasharray="3,2"/>
-  <line x1="222" y1="126" x2="272" y2="76" stroke="#2563EB" stroke-width="1.2" stroke-dasharray="3,2"/>
-  <text x="274" y="84" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#1D4ED8">Hawking quanta</text>
+  <!-- Outward 45-degree Hawking Radiation Rays to ℐ⁺ -->
+  <line x1="208" y1="138" x2="256" y2="90" stroke="#1D4ED8" stroke-width="1.4" stroke-dasharray="3,2" marker-end="url(#fig6ArrowBlue)"/>
+  <line x1="222" y1="126" x2="270" y2="78" stroke="#1D4ED8" stroke-width="1.4" stroke-dasharray="3,2" marker-end="url(#fig6ArrowBlue)"/>
+  <text x="275" y="83" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#1D4ED8">Hawking quanta</text>
 
-  <rect x="430" y="78" width="412" height="224" rx="4" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1.2"/>
-  <text x="444" y="106" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="600" fill="#8B4513">CAUSAL &amp; UNITARITY INVARIANTS</text>
-  <line x1="444" y1="116" x2="828" y2="116" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="444" y="140" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#0F172A">1. Postulate I holds on outer r &gt; r_+ &amp; physical domains</text>
-  <text x="444" y="165" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#0F172A">2. QES Island bounds S_rem ≤ 6.66 nats (ξ_0 = 2^{−1/4}); QFC-GSL</text>
-  <text x="444" y="191" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="600" fill="#15803D">3. Remnant M_rem = (3√3/4)( ℓ_0 c^2 / G ) ≈ 2.38×10^{−8} kg</text>
-  <text x="444" y="218" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.7" fill="#1E293B">4. Dynamical evaporation r_± → r_* truncates spacetime</text>
-  <text x="444" y="238" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.7" fill="#1E293B">    prior to Cauchy extension (κ_− → 0 kills mass inflation).</text>
-  <text x="444" y="268" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.8" fill="#1D4ED8">5. Outgoing 45° radiation carries entanglement to ℐ⁺.</text>
+  <!-- Causal & Unitarity Invariants Plate -->
+  <rect x="431" y="75" width="411" height="238" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="428" y="72" width="411" height="238" rx="4" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1.2"/>
+  <rect x="428" y="72" width="411" height="32" rx="4" fill="#EFE8DA"/>
+  <text x="444" y="93" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#9A3412" letter-spacing="0.5">CAUSAL &amp; UNITARITY INVARIANTS</text>
+  <line x1="428" y1="104" x2="839" y2="104" stroke="#DFD5C3" stroke-width="1"/>
+
+  <text x="444" y="131" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.4" fill="#0F172A">1. Postulate I holds on outer r &gt; r_+ &amp; physical domains</text>
+  <text x="444" y="159" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.4" fill="#0F172A">2. QES Island bounds S_rem ≤ 6.66 nats (ξ_0 = 2^{−1/4}); QFC-GSL</text>
+  <text x="444" y="187" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.6" font-weight="600" fill="#15803D">3. Remnant M_rem = (3√3/4)( ℓ_0 c^2 / G ) ≈ 2.38×10^{−8} kg</text>
+  <text x="444" y="216" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.4" fill="#1E293B">4. Dynamical evaporation r_± → r_* truncates spacetime</text>
+  <text x="444" y="236" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.4" fill="#1E293B">    prior to Cauchy extension (κ_− → 0 kills mass inflation).</text>
+  <text x="444" y="266" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.4" fill="#1D4ED8">5. Outgoing 45° radiation carries entanglement to ℐ⁺.</text>
+  <text x="444" y="294" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#64748B">Axisymmetric Kerr/RN κ_− ℓ_0 &lt; 1 &amp; Gain 0.2048 &lt; 1 (App. L)</text>
 </svg>`
   },
   {
@@ -600,33 +870,60 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     caption:
       'Figure 7. Exact parametric 2:1 Lissajous figure-8 phase portrait generated by input underdamped holonomy ULDM phase φ_osc (m_osc = h f_clock / c² ≈ 2.65 × 10⁻²³ eV, sub-dominant halo fraction f_DM ≤ 0.02 with λ_dB ≈ 2.07 kpc, ε₀ ≈ 1.4 × 10⁻¹⁸): differential ⁸⁷Sr/¹⁷¹Yb optical clock modulation x(t) = sin(ωt/2) at f_clock = 6.4 nHz against isotropic Y_{00} monopole pulsar-timing strain y(t) = sin(ωt) at f_PTA = 2f_clock = 12.8 nHz (a 2:1 signature shared generically by quadratically coupled ULDM). Accounting for realistic clock flicker/drift noise plus steep PTA red noise S_red ∝ f⁻¹³/³, 5-yr (1.01 cycles, Δf = 6.34 nHz) and 15-yr (3.03 cycles) joint Cramér–Rao ratio uncertainties are 2.00 ± 0.25 and 2.00 ± 0.08.',
     isSchematic: false,
-    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="2:1 Lissajous harmonic phase portrait">
-  <rect x="0" y="0" width="860" height="330" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="24" y="27" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#8B4513" letter-spacing="0.6">ANALYTICAL PHASE PORTRAIT — 2:1 MONOPOLE LOCK (f_PTA = 2·f_clock = 12.8 nHz)</text>
-  <line x1="24" y1="36" x2="836" y2="36" stroke="#E2D9C8" stroke-width="1"/>
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="2:1 Lissajous harmonic phase portrait">
+  <defs>
+    <linearGradient id="fig7Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F5EFE4"/>
+    </linearGradient>
+    <radialGradient id="fig7Glow" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#9A3412" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#9A3412" stop-opacity="0.0"/>
+    </radialGradient>
+  </defs>
 
-  <rect x="135" y="64" width="280" height="208" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
-  <line x1="115" y1="168" x2="435" y2="168" stroke="#64748B" stroke-width="1.2"/>
-  <line x1="275" y1="50" x2="275" y2="288" stroke="#64748B" stroke-width="1.2"/>
-  <text x="275" y="306" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#0F172A">Dual-clock diff. x(t) = sin(ωt/2), f_clock = 6.4 nHz</text>
-  <text x="52" y="168" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A" transform="rotate(-90 52 168)">PTA Y_{00} monopole y(t) = sin(ωt)</text>
-  <text x="72" y="168" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.0" fill="#475569" transform="rotate(-90 72 168)">f_PTA = 12.8 nHz</text>
+  <rect x="0" y="0" width="860" height="340" fill="url(#fig7Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#1D4ED8"/>
+  <text x="24" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#9A3412" letter-spacing="0.6">ANALYTICAL PHASE PORTRAIT — 2:1 MONOPOLE LOCK (f_PTA = 2·f_clock = 12.8 nHz)</text>
+  <line x1="24" y1="39" x2="836" y2="39" stroke="#DFD5C3" stroke-width="1"/>
 
-  <path d="${LISSAJOUS_PATH}" fill="none" stroke="#8B4513" stroke-width="2.6"/>
-  <circle cx="275" cy="168" r="4.5" fill="#0F172A"/>
-  <polygon points="366,61 376,64 368,70" fill="#8B4513"/>
-  <polygon points="184,275 174,272 182,266" fill="#8B4513"/>
+  <!-- Left Plot Panel -->
+  <rect x="135" y="64" width="280" height="208" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.3"/>
+  <circle cx="275" cy="168" r="102" fill="url(#fig7Glow)"/>
+  <line x1="205" y1="64" x2="205" y2="272" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="345" y1="64" x2="345" y2="272" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="135" y1="116" x2="415" y2="116" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="135" y1="220" x2="415" y2="220" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="118" y1="168" x2="432" y2="168" stroke="#64748B" stroke-width="1.3"/>
+  <line x1="275" y1="52" x2="275" y2="286" stroke="#64748B" stroke-width="1.3"/>
 
-  <rect x="454" y="68" width="384" height="208" rx="4" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1.2"/>
-  <text x="470" y="96" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#0F172A">Input ULDM φ_osc &amp; Joint Red-Noise Budget</text>
-  <line x1="470" y1="106" x2="822" y2="106" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="470" y="129" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">□ h̄_μν = 16πG (δT_μν + δI_μν[δφ_osc^2])  (generic 2:1 ULDM)</text>
-  <text x="470" y="151" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">m_osc ≈ 2.65×10^{−23} eV; f_DM ≤ 0.02 (λ_dB ≈ 2.07 kpc)</text>
-  <text x="470" y="178" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.5" font-weight="600" fill="#15803D">Joint Clock Flicker + PTA Red-Noise Cramér–Rao:</text>
-  <text x="470" y="200" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">• Isotropic Y_{00} monopole (f_PTA = 12.8 nHz = 2·f_clock)</text>
-  <text x="470" y="220" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">• 5 yr (1.01 cyc, Δf = 6.34 nHz): 2.00 ± 0.25</text>
-  <text x="470" y="240" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">• 15 yr (3.03 cyc, Δf = 2.11 nHz): 2.00 ± 0.08</text>
-  <text x="470" y="260" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#475569">• Dual ^{87}Sr/^{171}Yb clock drift-mitigated budget [106]</text>
+  <text x="275" y="308" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">Dual-clock diff. x(t) = sin(ωt/2), f_clock = 6.4 nHz</text>
+  <text x="50" y="168" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A" transform="rotate(-90 50 168)">PTA Y_{00} monopole y(t) = sin(ωt)</text>
+  <text x="70" y="168" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="10.6" fill="#475569" transform="rotate(-90 70 168)">f_PTA = 12.8 nHz</text>
+
+  <!-- 15-yr / 5-yr Phase Envelope & Crisp 2:1 Lissajous Curve -->
+  <path d="${LISSAJOUS_OUTER}" fill="none" stroke="#F59E0B" stroke-width="1.0" stroke-dasharray="3,3" opacity="0.7"/>
+  <path d="${LISSAJOUS_INNER}" fill="none" stroke="#F59E0B" stroke-width="1.0" stroke-dasharray="3,3" opacity="0.7"/>
+  <path d="${LISSAJOUS_PATH}" fill="none" stroke="#9A3412" stroke-width="2.9" stroke-linejoin="round"/>
+  <circle cx="275" cy="168" r="5" fill="#0F172A" stroke="#FFFFFF" stroke-width="1.5"/>
+  <polygon points="366,61 377,64 368,71" fill="#9A3412"/>
+  <polygon points="184,275 173,272 182,265" fill="#9A3412"/>
+
+  <!-- Right Budget Plate with Offset Shadow -->
+  <rect x="453" y="67" width="388" height="222" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="450" y="64" width="388" height="222" rx="4" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1.2"/>
+  <rect x="450" y="64" width="388" height="32" rx="4" fill="#EFE8DA"/>
+  <text x="466" y="85" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.0" font-weight="600" fill="#0F172A">Input ULDM φ_osc &amp; Joint Red-Noise Budget</text>
+  <line x1="450" y1="96" x2="838" y2="96" stroke="#DFD5C3" stroke-width="1"/>
+  <text x="466" y="120" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.1" fill="#334155">□ h̄_μν = 16πG (δT_μν + δI_μν[δφ_osc^2])  (generic 2:1 ULDM)</text>
+  <text x="466" y="143" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.1" fill="#334155">m_osc ≈ 2.65×10^{−23} eV; f_DM ≤ 0.02 (λ_dB ≈ 2.07 kpc)</text>
+  <text x="466" y="165" font-family="'DejaVu Sans Mono', monospace" font-size="10.4" fill="#9A3412">Target amplitude: ε_0 ≈ 1.4×10^{−18} (P1 clock modulation)</text>
+  <line x1="466" y1="178" x2="822" y2="178" stroke="#EAE2D2" stroke-width="1"/>
+  <text x="466" y="199" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" font-weight="600" fill="#15803D">Joint Clock Flicker + PTA Red-Noise Cramér–Rao:</text>
+  <text x="466" y="220" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.0" fill="#475569">• Isotropic Y_{00} monopole (f_PTA = 12.8 nHz = 2·f_clock)</text>
+  <text x="466" y="240" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.0" fill="#475569">• 5 yr (1.01 cyc, Δf = 6.34 nHz): 2.00 ± 0.25</text>
+  <text x="466" y="260" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.0" fill="#475569">• 15 yr (3.03 cyc, Δf = 2.11 nHz): 2.00 ± 0.08 (SNR 25.1)</text>
+  <text x="466" y="280" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.8" fill="#64748B">• Dual ^{87}Sr/^{171}Yb clock drift + PTA S_red budget [106]</text>
 </svg>`
   },
   {
@@ -636,63 +933,93 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     afterSubsectionAnchor: 'sec-7-3',
     title: 'Overview of the Six Non-Null Observational & Laboratory Protocols (P1–P6)',
     caption:
-      'Figure 8. Experimental roadmap summarizing non-null Protocols P1–P6 across IPTA and dual ⁸⁷Sr/¹⁷¹Yb optical lattice clocks (P1), 10⁻¹⁴ kg levitated silica nanosphere (R_0 = 1.028 μm) & 10m VLBAI interferometry (P2), Simons Observatory, LiteBIRD & DESI DR2 (P3), LVK O5 / CE / ET gravitational-wave ringdowns (P4), CANNEX / Eöt-Wash Chameleon force-gradient metrology (P5), and HL-LHC scalar portal & outer-heliosphere tracking (P6).',
+      'Figure 8. Experimental roadmap summarizing non-null Protocols P1–P6 across IPTA and dual ⁸⁷Sr/¹⁷¹Yb optical lattice clocks (P1), 10⁻¹⁴ kg levitated silica nanosphere (R_0 = 1.028 μm) & 10m VLBAI interferometry (P2), Simons Observatory, LiteBIRD & DESI DR2 (P3), LVK O5 / CE / ET gravitational-wave ringdowns (P4), CANNEX / Eöt-Wash Chameleon force-gradient metrology (P5), and HL-LHC scalar portal & outer-heliosphere tracking (P6), complemented by the Core Time Mechanism Falsifier (Eq. 4.1 via P1).',
     isSchematic: true,
-    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 580" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Six experimental and observational falsification protocols schematic">
-  <rect x="0" y="0" width="860" height="580" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>
-  <text x="22" y="30" font-family="'DejaVu Sans', Arial, sans-serif" font-size="14.2" font-weight="600" fill="#8B4513" letter-spacing="0.6">EXPERIMENTAL ROADMAP — NON-NULL FALSIFICATION PROTOCOLS (P1–P6)</text>
-  <line x1="22" y1="41" x2="838" y2="41" stroke="#E2D9C8" stroke-width="1"/>
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 618" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Six experimental and observational falsification protocols schematic">
+  <defs>
+    <linearGradient id="fig8Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F5EFE4"/>
+    </linearGradient>
+    <linearGradient id="fig8Header" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#EFE8DA"/>
+      <stop offset="100%" stop-color="#F7F2E9"/>
+    </linearGradient>
+  </defs>
 
-  <!-- Row 1: P1, P2 (2 columns x 398w x 158h, 20px center gap) -->
-  <rect x="22" y="56" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="38" y="83" font-family="'DejaVu Sans', Arial, sans-serif" font-size="14.5" font-weight="600" fill="#8B4513">P1: IPTA + ^{87}Sr/^{171}Yb Clocks</text>
-  <line x1="38" y1="93" x2="404" y2="93" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="38" y="117" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#0F172A">Test: 2:1 lock (f_PTA = 2 f_clock = 12.8 nHz)</text>
-  <text x="38" y="142" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">Signal: Y_{00} monopole; m_osc = 2.65×10^{−23} eV</text>
-  <text x="38" y="167" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">Bound: f_DM ≤ 0.02; 2.00 ± 0.25 (5y) / ±0.08 (15y)</text>
-  <text x="38" y="196" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.8" font-weight="600" fill="#15803D">Window: 2026–2035 (SNR 25.1; PTA Red Noise)</text>
+  <rect x="0" y="0" width="860" height="618" fill="url(#fig8Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#9A3412"/>
+  <text x="22" y="30" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#9A3412" letter-spacing="0.6">EXPERIMENTAL ROADMAP — NON-NULL FALSIFICATION PROTOCOLS (P1–P6)</text>
+  <text x="838" y="30" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.4" fill="#15803D">2026–2035 WINDOW</text>
+  <line x1="22" y1="42" x2="838" y2="42" stroke="#DFD5C3" stroke-width="1"/>
 
-  <rect x="440" y="56" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="456" y="83" font-family="'DejaVu Sans', Arial, sans-serif" font-size="14.5" font-weight="600" fill="#8B4513">P2: 10^{−14} kg Nanospheres &amp; VLBAI</text>
-  <line x1="456" y1="93" x2="822" y2="93" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="456" y="117" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#0F172A">Test: Γ_Araki = (4/3) Γ_DP (DP overlap)</text>
-  <text x="456" y="142" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">Target: R_0 = 1.028 μm SiO_2; Δx = 180 nm</text>
-  <text x="456" y="167" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">Rate: Γ_Araki = 1.18 s^{−1} (η_Araki = 4/3)</text>
-  <text x="456" y="196" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.8" font-weight="600" fill="#15803D">Falsifier: Γ_Araki &lt; 0.05 s^{−1} (&lt;10^{−12} Pa UHV)</text>
+  <!-- Row 1: P1, P2 -->
+  <rect x="25" y="59" width="398" height="156" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="22" y="56" width="398" height="156" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="22" y="56" width="398" height="32" rx="4" fill="url(#fig8Header)"/>
+  <text x="38" y="77" font-family="'DejaVu Serif', Georgia, serif" font-size="13.8" font-weight="700" fill="#9A3412">P1: IPTA + ^{87}Sr/^{171}Yb Clocks</text>
+  <text x="404" y="77" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">SNR 25.1</text>
+  <text x="38" y="112" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Test: 2:1 lock (f_PTA = 2 f_clock = 12.8 nHz)</text>
+  <text x="38" y="137" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Signal: Y_{00} monopole; m_osc = 2.65×10^{−23} eV</text>
+  <text x="38" y="162" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Bound: f_DM ≤ 0.02; 2.00 ± 0.25 (5y) / ±0.08 (15y)</text>
+  <text x="38" y="192" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Window: 2026–2035 (ε_0 ≈ 1.4×10^{−18}; PTA Red Noise)</text>
+
+  <rect x="443" y="59" width="398" height="156" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="440" y="56" width="398" height="156" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="440" y="56" width="398" height="32" rx="4" fill="url(#fig8Header)"/>
+  <text x="456" y="77" font-family="'DejaVu Serif', Georgia, serif" font-size="13.8" font-weight="700" fill="#9A3412">P2: 10^{−14} kg Nanospheres &amp; VLBAI</text>
+  <text x="822" y="77" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">SNR 23.5</text>
+  <text x="456" y="112" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Test: Γ_Araki = (κ_ψ/κ_0) Γ_DP (DP overlap)</text>
+  <text x="456" y="137" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Target: R_0 = 1.028 μm SiO_2; Δx = 180 nm</text>
+  <text x="456" y="162" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Rate: Γ_Araki = 1.18 s^{−1} (η_Araki = 4/3)</text>
+  <text x="456" y="192" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: Γ_Araki &lt; 0.05 s^{−1} (2030–2035, UHV)</text>
 
   <!-- Row 2: P3, P4 -->
-  <rect x="22" y="230" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="38" y="257" font-family="'DejaVu Sans', Arial, sans-serif" font-size="14.5" font-weight="600" fill="#8B4513">P3: SO / LiteBIRD / DESI DR2</text>
-  <line x1="38" y1="267" x2="404" y2="267" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="38" y="291" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#0F172A">Bounce: n_s = 0.964; red n_T = −0.036</text>
-  <text x="38" y="316" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">Tensor/NG: r = 24c_s^3 = 0.0123; f_NL^{eq} = −4.38</text>
-  <text x="38" y="341" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">KG Thaw: w_0 = −0.908; w_a = −0.177 (S_8 ≤ 0.847)</text>
-  <text x="38" y="370" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.8" font-weight="600" fill="#15803D">Falsifier: r ∉ [0.004, 0.025] or w_a &lt; −0.4</text>
+  <rect x="25" y="231" width="398" height="156" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="22" y="228" width="398" height="156" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="22" y="228" width="398" height="32" rx="4" fill="url(#fig8Header)"/>
+  <text x="38" y="249" font-family="'DejaVu Serif', Georgia, serif" font-size="13.8" font-weight="700" fill="#9A3412">P3: SO / LiteBIRD / DESI DR2</text>
+  <text x="404" y="249" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">SNR 12.3</text>
+  <text x="38" y="284" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Bounce: n_s = 0.964; red n_T = −0.036</text>
+  <text x="38" y="309" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Tensor/NG: r = 24c_s^3 = 0.0123; f_NL^{eq} = −4.38</text>
+  <text x="38" y="334" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">KG Thaw: w_0 = −0.908; w_a = −0.177 (S_8 ≤ 0.847)</text>
+  <text x="38" y="364" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: r ∉ [0.004, 0.025] or w_a &lt; −0.4 (2030–2035)</text>
 
-  <rect x="440" y="230" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="456" y="257" font-family="'DejaVu Sans', Arial, sans-serif" font-size="14.5" font-weight="600" fill="#8B4513">P4: LVK O5 / CE / ET Ringdowns</text>
-  <line x1="456" y1="267" x2="822" y2="267" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="456" y="291" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#0F172A">Test: Hayward-core echo delay Δt_echo</text>
-  <text x="456" y="316" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">Delays: 17.8 ms (10 M_⊙); 109.2 ms (60 M_⊙)</text>
-  <text x="456" y="341" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">Input: K_echo = |R_eff| = 0.18 (|H| = 1)</text>
-  <text x="456" y="370" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.8" font-weight="600" fill="#15803D">Falsifier: |R_eff| &lt; 0.03 (3G Coherent Stack)</text>
+  <rect x="443" y="231" width="398" height="156" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="440" y="228" width="398" height="156" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="440" y="228" width="398" height="32" rx="4" fill="url(#fig8Header)"/>
+  <text x="456" y="249" font-family="'DejaVu Serif', Georgia, serif" font-size="13.8" font-weight="700" fill="#9A3412">P4: LVK O5 / CE / ET Ringdowns</text>
+  <text x="822" y="249" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">SNR 9.0</text>
+  <text x="456" y="284" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Test: Hayward-core echo delay Δt_echo</text>
+  <text x="456" y="309" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Delays: 17.8 ms (10 M_⊙); 109.2 ms (60 M_⊙)</text>
+  <text x="456" y="334" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Input: K_echo = |R_eff| = 0.18 (|H| = 1)</text>
+  <text x="456" y="364" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: |R_eff| &lt; 0.03 (2027–2035, 3G Stack)</text>
 
   <!-- Row 3: P5, P6 -->
-  <rect x="22" y="404" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="38" y="431" font-family="'DejaVu Sans', Arial, sans-serif" font-size="14.5" font-weight="600" fill="#8B4513">P5: CANNEX &amp; Eöt-Wash Metrology</text>
-  <line x1="38" y1="441" x2="404" y2="441" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="38" y="465" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#0F172A">Test: Plate pressure ΔP_Ch (10 μm–1 cm)</text>
-  <text x="38" y="490" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">Sector: M_Ch = 2.4 meV; ΔP_Ch ~ 0.1–2 nN/m^2</text>
-  <text x="38" y="515" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">Screen: Z_ψ = 7.05×10^{14}; Λ_local = 4.67 μeV</text>
-  <text x="38" y="544" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.8" font-weight="600" fill="#15803D">PPN: |γ_PPN − 1| = 1.77×10^{−11} (1 AU)</text>
+  <rect x="25" y="403" width="398" height="156" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="22" y="400" width="398" height="156" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="22" y="400" width="398" height="32" rx="4" fill="url(#fig8Header)"/>
+  <text x="38" y="421" font-family="'DejaVu Serif', Georgia, serif" font-size="13.8" font-weight="700" fill="#9A3412">P5: CANNEX &amp; Eöt-Wash Metrology</text>
+  <text x="404" y="421" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">SNR ≥ 10</text>
+  <text x="38" y="456" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Test: Plate pressure ΔP_Ch (10 μm–1 cm)</text>
+  <text x="38" y="481" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Sector: M_Ch = 2.4 meV; ΔP_Ch ~ 0.1–2 nN/m^2</text>
+  <text x="38" y="506" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Screen: Z_ψ = 7.05×10^{14}; Λ_local = 4.67 μeV</text>
+  <text x="38" y="536" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">PPN: |γ_PPN − 1| = 1.77×10^{−11} (2026–2030)</text>
 
-  <rect x="440" y="404" width="398" height="158" rx="5" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.3"/>
-  <text x="456" y="431" font-family="'DejaVu Sans', Arial, sans-serif" font-size="14.5" font-weight="600" fill="#8B4513">P6: HL-LHC Portal &amp; Deep-Space</text>
-  <line x1="456" y1="441" x2="822" y2="441" stroke="#E2D9C8" stroke-width="1"/>
-  <text x="456" y="465" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#0F172A">Portal: Φ_portal (m_portal = 1.84 ± 0.18 TeV)</text>
-  <text x="456" y="490" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">Rates: sin θ_H = 0.04–0.08; σ = 0.18–0.70 fb</text>
-  <text x="456" y="515" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.0" fill="#1E293B">Coupling: δσ_Zh &gt; 1.5% vs. κ_Z ≈ 1.5% (1σ)</text>
-  <text x="456" y="544" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.8" font-weight="600" fill="#15803D">Reach: HL-LHC 3000 fb^{−1} (4.7σ; Deep Space)</text>
+  <rect x="443" y="403" width="398" height="156" rx="4" fill="#0F172A" opacity="0.06"/>
+  <rect x="440" y="400" width="398" height="156" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="440" y="400" width="398" height="32" rx="4" fill="url(#fig8Header)"/>
+  <text x="456" y="421" font-family="'DejaVu Serif', Georgia, serif" font-size="13.8" font-weight="700" fill="#9A3412">P6: HL-LHC Portal &amp; Deep-Space</text>
+  <text x="822" y="421" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">4.7σ Reach</text>
+  <text x="456" y="456" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Portal: Φ_portal (m_portal = 1.84 ± 0.18 TeV)</text>
+  <text x="456" y="481" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Rates: sin θ_H = 0.04–0.08; σ = 0.18–0.70 fb</text>
+  <text x="456" y="506" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Coupling: δσ_Zh &gt; 1.5% vs. κ_Z ≈ 1.5% (1σ)</text>
+  <text x="456" y="536" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Reach: HL-LHC 3000 fb^{−1} (2029–2035)</text>
+
+  <!-- Core Time Mechanism Falsifier Banner -->
+  <rect x="22" y="571" width="816" height="33" rx="4" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.2"/>
+  <rect x="22" y="571" width="6" height="33" rx="2" fill="#9A3412"/>
+  <text x="434" y="592" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#0F172A">CORE TIME MECHANISM FALSIFIER: dτ_IGRT/ds_QFI = ℏ/(E_mod σ_1) (Eq. 4.1) tested at 10^{−18} via dual-clock P1 [106]</text>
 </svg>`
   }
 ];

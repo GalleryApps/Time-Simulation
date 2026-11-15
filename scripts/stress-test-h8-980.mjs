@@ -38,13 +38,16 @@ assert(paperAppSrc.includes('n_T = −0.036'), 'H10 must enforce shared red tens
 assert(paperAppSrc.includes('2.35 M_⊙'), 'H10 must include causal Horndeski TOV NS M_max = 2.35 M_⊙');
 assert(paperAppSrc.includes('0.9294'), 'H10 must include 1+1D Hayward-Vaidya max(κ_− ℓ_0) = 0.9294');
 assert(paperAppSrc.includes('S_8 = 0.8216'), 'H10 must include RK4 linear growth ODE S_8 = 0.8216');
-assert(paperAppSrc.includes('4.0 × 10^{−15}'), 'H10 must include 2-stage ekpyrotic BKL shear 4.0 × 10^-15');
+assert(paperAppSrc.includes('4.0×10^{−15}'), 'H10 must include 2-stage ekpyrotic BKL shear 4.0×10^-15');
 assert(paperAppSrc.includes('A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch'), 'H10 must include 5-mode extended Krein-Connes A_F^{H10}');
 assert(paperAppSrc.includes('g_* = 1.3105') && paperAppSrc.includes('λ_* = 0.1440'), 'H10 must include Wetterich FRG UV fixed point');
 assert(paperAppSrc.includes('d_s: 3.989 → 2.002'), 'H10 must include CDT spectral dimension flow');
 assert(paperAppSrc.includes('τ_re = 0.0537') && paperAppSrc.includes('η_B = 6.13 × 10^{−10}'), 'H10 must include reionization and leptogenesis closures');
 assert(paperAppSrc.includes('κ_− ℓ_0 ≤ 0.6639') && paperAppSrc.includes('0.2048 < 1'), 'H10 must include axisymmetric Kerr-Hayward & superradiance quenching');
 assert(paperAppSrc.includes('OP-1') && paperAppSrc.includes('OP-5'), 'H10 must declare OP-1..OP-5');
+assert(paperDataSrc.includes("letter: 'O'"), 'H10 must contain Appendix O extended closures');
+assert(paperAppSrc.includes('scripts/igrt-cosmology-suite.mjs'), 'H10 must reference scripts/igrt-cosmology-suite.mjs');
+assert(fs.existsSync(path.join(repoRoot, 'scripts/igrt-cosmology-suite.mjs')), 'Standalone cosmology suite must exist on disk');
 
 // Verify companion workbenches contain zero legacy stale H6/H9 tokens
 for (const [label, src] of [
@@ -93,6 +96,7 @@ assert.equal(H8_COMPOSITE_METRICS.maxCriteriaScore, 1740, 'Max score must equal 
 assert.equal(H8_COMPOSITE_METRICS.nonApplicableCount, 25, 'Non-applicable subset must equal 25 criteria');
 assert.equal(H8_COMPOSITE_METRICS.applicablePhysicsCount, 555, 'Applicable Physics subset must equal 555 criteria');
 assert.equal(H8_COMPOSITE_METRICS.applicablePhysicsMax, 1665, 'Applicable Physics max score must equal 1,665 pts');
+assert(H8_COMPOSITE_METRICS.applicablePhysicsPercentage >= 85, 'Applicable Physics score must exceed 85%');
 
 // Verify unique IDs and valid 0..3 scores for every single criterion
 const uidSet = new Set();

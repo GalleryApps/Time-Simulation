@@ -24,7 +24,8 @@ import {
   AUDITED_TEST_PROTOCOLS,
   AUDITED_CLOSURE_THEOREMS,
   PAPER_APPENDICES,
-  PAPER_REFERENCES
+  PAPER_REFERENCES,
+  CORE_TIME_MECHANISM_FALSIFIER
 } from '../types/harmonizedPaperData';
 import {
   PLAIN_LANGUAGE_SUMMARY,
@@ -43,6 +44,10 @@ import {
   REVISION_HISTORY_TABLE,
   RESPONSE_TO_REVIEWERS,
   KNOWN_OPEN_PROBLEMS,
+  TABLE_7_2_FITTED_VS_PREDICTED,
+  TABLE_7_3_PROTOCOL_TIMELINE,
+  TABLE_8_4_SCALAR_BUDGET,
+  APPENDIX_M_STATUS_TABLE,
   H10_PREREG_SHA256
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
@@ -1848,6 +1853,94 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     y += totalH + 0.16;
   };
 
+  const drawFramedCoreFalsifierBox = (falsifier: typeof CORE_TIME_MECHANISM_FALSIFIER) => {
+    const boxPad = 0.16;
+    const innerW = CONTENT_W - 2 * boxPad;
+    const bodySize = 10.1;
+    const bodyLineH = (bodySize * 1.48) / 72;
+    const kickerH = 0.22;
+
+    const titleRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.heading)), innerW, innerW, 'serif', 'bold', 11);
+    const titleH = titleRes.lines.length * ((11 * 1.38) / 72) + 0.08;
+
+    const introRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.intro)), innerW, innerW, 'serif', 'normal', bodySize);
+    const coreRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.coreFalsifier)), innerW, innerW, 'serif', 'normal', bodySize);
+    const pracRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.practicalRealization)), innerW, innerW, 'serif', 'normal', bodySize);
+
+    const totalH =
+      boxPad +
+      kickerH +
+      titleH +
+      introRes.lines.length * bodyLineH +
+      0.07 +
+      coreRes.lines.length * bodyLineH +
+      0.07 +
+      pracRes.lines.length * bodyLineH +
+      boxPad;
+
+    ensureSpace(totalH + 0.15);
+    y += 0.06;
+
+    doc.setFillColor(255, 253, 248);
+    doc.setDrawColor(154, 52, 18);
+    doc.setLineWidth(0.012);
+    doc.rect(MARGIN, y, CONTENT_W, totalH, 'FD');
+
+    let cy = y + boxPad + 0.04;
+    setInkColor([139, 69, 19]);
+    drawTextMixed('CORE MECHANISM FALSIFICATION  ·  DIRECT TEST OF EQ. (4.1)', MARGIN + boxPad, cy, 'sans', 'normal', 8);
+    cy += 0.08;
+    doc.setDrawColor(226, 217, 200);
+    doc.line(MARGIN + boxPad, cy, PAGE_W - MARGIN - boxPad, cy);
+    cy += 0.15;
+
+    setInkColor([15, 23, 42]);
+    for (const lw of titleRes.lines) {
+      let lx = MARGIN + boxPad;
+      for (let wi = 0; wi < lw.length; wi++) {
+        if (wi > 0) lx += titleRes.spaceWidth;
+        for (const r of lw[wi].runs) {
+          drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
+          lx += r.width;
+        }
+      }
+      cy += (11 * 1.38) / 72;
+    }
+    cy += 0.06;
+
+    const drawJustifiedPara = (res: { lines: InlineWord[][]; spaceWidth: number }) => {
+      for (let li = 0; li < res.lines.length; li++) {
+        const lineWords = res.lines[li];
+        const isLast = li === res.lines.length - 1;
+        const totalWordsW = lineWords.reduce((a, w) => a + w.width, 0);
+        let gap = res.spaceWidth;
+        if (!isLast && lineWords.length > 1) {
+          const candidate = (innerW - totalWordsW) / (lineWords.length - 1);
+          if (candidate >= res.spaceWidth * 0.7 && candidate <= res.spaceWidth * 6) gap = candidate;
+        }
+        let lx = MARGIN + boxPad;
+        for (let wi = 0; wi < lineWords.length; wi++) {
+          for (const r of lineWords[wi].runs) {
+            drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
+            lx += r.width;
+          }
+          if (wi < lineWords.length - 1) lx += gap;
+        }
+        cy += bodyLineH;
+      }
+    };
+
+    doc.setTextColor(24, 34, 56);
+    activeInkRgb = [24, 34, 56];
+    drawJustifiedPara(introRes);
+    cy += 0.07;
+    drawJustifiedPara(coreRes);
+    cy += 0.07;
+    drawJustifiedPara(pracRes);
+
+    y += totalH + 0.16;
+  };
+
   const drawFramedWorkedBox = (worked: {
     title: string;
     setup: string;
@@ -2110,7 +2203,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     }
   }
   drawRule([226, 217, 200], 0.006);
-  writeRichParagraph('Appendices A–L: Formal Theorems, CODATA Units, Derivations, Revision Registry & H10 Closures', {
+  writeRichParagraph('Appendices A–O: Formal Theorems, CODATA Units, Derivations, Status Audit, Toy Model, Revision Registry & H10 Closures', {
     size: 10.2,
     style: 'bold',
     justify: false,
@@ -2307,6 +2400,22 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         );
       }
 
+      if (sub.anchorId === 'sec-7-1') {
+        drawPdfTable(
+          'TABLE 7.2: FITTED INPUTS VS. GENUINE PREDICTIONS',
+          [
+            { header: 'Fitted / Tuned Input', width: 3.10, justify: true },
+            { header: 'Genuine Prediction (No Free Parameter)', width: CONTENT_W - 3.10, color: [21, 128, 61], justify: true }
+          ],
+          TABLE_7_2_FITTED_VS_PREDICTED.map((row) => [row.fittedInput, row.genuinePrediction]),
+          { cellSize: 8.5, padX: 0.065 }
+        );
+        writeRichParagraph(
+          'Note: Only the right column counts as evidence. The left column is tuned to match data and does not constitute a prediction.',
+          { style: 'italic', size: 8.6, color: [71, 85, 105], justify: true, afterSpace: 0.14 }
+        );
+      }
+
       if (sub.anchorId === 'sec-7-3') {
         drawPdfTable(
           'TABLE 7.1: EXPERIMENTAL & OBSERVATIONAL FALSIFICATION PROTOCOLS (P1–P6)',
@@ -2323,6 +2432,25 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
             `${pr.predictedSignal} (${pr.noiseAndAuditNote}) Falsification: ${pr.falsificationCriterion}`
           ]),
           { cellSize: 8.4, padX: 0.055 }
+        );
+
+        drawFramedCoreFalsifierBox(CORE_TIME_MECHANISM_FALSIFIER);
+
+        drawPdfTable(
+          'TABLE 7.3: PROTOCOL TIMELINE AND REQUIRED SENSITIVITY (P1–P6)',
+          [
+            { header: 'Protocol', width: 1.30, font: 'serif', style: 'bold', color: [139, 69, 19] },
+            { header: 'Required Sensitivity', width: 1.85, justify: false },
+            { header: 'Current State of the Art', width: 1.85, justify: false },
+            { header: 'Expected Year', width: CONTENT_W - 5.00, font: 'mono' }
+          ],
+          TABLE_7_3_PROTOCOL_TIMELINE.map((r) => [
+            r.protocol,
+            r.requiredSensitivity,
+            r.currentStateOfTheArt,
+            r.expectedYear
+          ]),
+          { cellSize: 8.3, padX: 0.06 }
         );
       }
 
@@ -2378,6 +2506,19 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         );
       }
 
+      if (sub.anchorId === 'sec-8-2') {
+        drawPdfTable(
+          'TABLE 8.4: FIVE-SCALAR FREE PARAMETER BUDGET & INFORMATION CRITERION (ΔAIC = 16)',
+          [
+            { header: 'Scalar Field', width: 1.95, justify: false },
+            { header: 'Free Parameters', width: CONTENT_W - 2.65, justify: false },
+            { header: 'Count', width: 0.70, font: 'mono', color: [139, 69, 19] }
+          ],
+          TABLE_8_4_SCALAR_BUDGET.map((row) => [row.scalar, row.freeParameters, row.count]),
+          { cellSize: 8.5, padX: 0.06 }
+        );
+      }
+
       // Embed rasterized inline SVG figures belonging after this subsection
       const matchedFigs = PAPER_FIGURES.filter((f) => f.afterSubsectionAnchor === sub.anchorId);
       for (const fig of matchedFigs) {
@@ -2407,10 +2548,10 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   }
 
   // =========================================================
-  // APPENDICES A–L
+  // APPENDICES A–N
   // =========================================================
   startChapterOnNewPage();
-  drawPlayfairHeadline('Appendices A–L: Derivations, Units & Technical FAQ', 28, 0.18);
+  drawPlayfairHeadline('Appendices A–O: Derivations, Units & Technical FAQ', 28, 0.18);
   for (const app of PAPER_APPENDICES) {
     if (y > MARGIN + 0.25) {
       y += 0.18;
@@ -2511,6 +2652,24 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         });
       }
     }
+    if (app.letter === 'M') {
+      drawPdfTable(
+        'TABLE M.1: STATUS RECLASSIFICATION MATRIX (TABLE 0.3 AUDIT)',
+        [
+          { header: 'Equation', width: 1.55, justify: false },
+          { header: 'Old Status', width: 0.95, font: 'mono', color: [71, 85, 105] },
+          { header: 'New Status', width: 1.35, font: 'mono', color: [139, 69, 19] },
+          { header: 'Justification', width: CONTENT_W - 3.85, justify: true }
+        ],
+        APPENDIX_M_STATUS_TABLE.map((row) => [
+          row.equation,
+          row.oldStatus,
+          row.newStatus,
+          row.justification
+        ]),
+        { cellSize: 8.2, padX: 0.055 }
+      );
+    }
     y += 0.12;
   }
 
@@ -2537,7 +2696,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   });
 
   // =========================================================
-  // CITED VERSION & REFERENCES [1]–[106] (NO ORCIDs IN REFERENCES)
+  // CITED VERSION & REFERENCES [1]–[109] (NO ORCIDs IN REFERENCES)
   // =========================================================
   startChapterOnNewPage();
   drawPlayfairHeadline('References', 28, 0.16);

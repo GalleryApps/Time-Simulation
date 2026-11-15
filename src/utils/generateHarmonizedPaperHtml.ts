@@ -196,7 +196,7 @@ export function buildSelfContainedMonographHtml(): string {
     app.letter === 'H'
       ? `<table class="data-table">
   <caption>Table H.1: Complete Numerical &amp; Parameter Closure Summary</caption>
-  <thead><tr><th>Parameter / Scale</th><th>Defining Relation</th><th>Numerical Value</th><th>Regime / Protocol</th></tr></thead>
+  <thead><tr><th>Parameter / Scale</th><th>Defining Relation</th><th>Numerical Value (Units Shown)</th><th>Regime / Protocol</th></tr></thead>
   <tbody>${TABLE_H1_CLOSURES.map(
     (row) =>
       `<tr><td>${fmt(row.parameter)}</td><td>${fmt(row.formula)}</td><td>${fmt(row.value)}</td><td>${fmt(row.regime)}</td></tr>`
@@ -242,10 +242,40 @@ export function buildSelfContainedMonographHtml(): string {
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${esc(PAPER_META.title)}</title>
 <style>
+  @font-face {
+    font-family: 'DejaVu Serif';
+    src: url('/fonts/DejaVuSerif.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'DejaVu Serif';
+    src: url('/fonts/DejaVuSerif-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Noto Serif';
+    src: url('/fonts/NotoSerif-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: 'DejaVu Sans';
+    src: url('/fonts/DejaVuSans.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'DejaVu Sans Mono';
+    src: url('/fonts/DejaVuSansMono.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
   :root {
-    --paper-font-body: "Source Serif 4", "DejaVu Serif", "Libre Baskerville", Georgia, "Times New Roman", serif;
-    --paper-font-head: "Playfair Display", Georgia, serif;
-    --paper-font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+    --paper-font-body: "DejaVu Serif", "Source Serif 4", "Libre Baskerville", Georgia, "Times New Roman", serif;
+    --paper-font-head: "Playfair Display", "DejaVu Serif", Georgia, serif;
+    --paper-font-mono: "DejaVu Sans Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
     --paper-body-size: 18px;
     --paper-h1-size: 32px;
     --paper-h2-size: 26px;
@@ -567,6 +597,8 @@ export function buildSelfContainedMonographHtml(): string {
     color: #F8FAFC;
     padding: 10px 12px;
     border-radius: 5px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
     overflow-x: auto;
     margin: 10px 0 0 0;
   }

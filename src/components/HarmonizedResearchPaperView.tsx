@@ -713,7 +713,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                       {DIMENSIONAL_ANALYSIS_CLOSURE_A.map((dim) => (
                         <tr key={dim.quantity}>
                           <td className="p-3"><MathText text={dim.quantity} /></td>
-                          <td className="p-3 font-mono text-[12.5px]"><MathText text={dim.expression} /></td>
+                          <td className="p-3 font-serif text-[13.5px]"><MathText text={dim.expression} /></td>
                           <td className="p-3"><MathText text={dim.siUnits} /></td>
                           <td className="p-3"><MathText text={dim.naturalUnits} /></td>
                           <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={dim.auditNote} /></td>
@@ -741,7 +741,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                       {DIMENSIONAL_ANALYSIS_CLOSURE_B.map((dim) => (
                         <tr key={dim.quantity}>
                           <td className="p-3"><MathText text={dim.quantity} /></td>
-                          <td className="p-3 font-mono text-[12.5px]"><MathText text={dim.expression} /></td>
+                          <td className="p-3 font-serif text-[13.5px]"><MathText text={dim.expression} /></td>
                           <td className="p-3"><MathText text={dim.siUnits} /></td>
                           <td className="p-3"><MathText text={dim.naturalUnits} /></td>
                           <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={dim.auditNote} /></td>
@@ -959,7 +959,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                                     </td>
                                     <td className="p-3 space-y-1">
                                       <div
-                                        className="font-mono text-[12.5px]"
+                                        className="font-serif text-[13.5px]"
                                         dangerouslySetInnerHTML={{ __html: pr.formulaHtml }}
                                       />
                                       <div><MathText text={pr.predictedSignal} /></div>
@@ -1145,7 +1145,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                             <tr>
                               <th className="p-3 font-normal">Parameter / Scale</th>
                               <th className="p-3 font-normal">Defining Relation</th>
-                              <th className="p-3 font-normal">Numerical Value</th>
+                              <th className="p-3 font-normal">Numerical Value (Units Shown)</th>
                               <th className="p-3 font-normal">Regime / Protocol</th>
                             </tr>
                           </thead>
@@ -1153,7 +1153,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                             {TABLE_H1_CLOSURES.map((row) => (
                               <tr key={row.parameter}>
                                 <td className="p-3 font-medium"><MathText text={row.parameter} /></td>
-                                <td className="p-3 font-mono text-[12.5px]"><MathText text={row.formula} /></td>
+                                <td className="p-3 font-serif text-[13.5px]"><MathText text={row.formula} /></td>
                                 <td className="p-3"><MathText text={row.value} /></td>
                                 <td className="p-3 text-[#475569] dark:text-[#94A3B8]"><MathText text={row.regime} /></td>
                               </tr>

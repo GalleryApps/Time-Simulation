@@ -15,7 +15,7 @@ export type MathSegment =
   | { type: 'sup'; children: MathSegment[] }
   | { type: 'italic'; children: MathSegment[] };
 
-const URL_OR_NON_MATH_RE = /(https?:\/\/[^\s)]+|arXiv:[^\s)]+|DOI:[^\s)]+|@article\{[\s\S]*?\})/g;
+const URL_OR_NON_MATH_RE = /(https?:\/\/[^\s)]+|arXiv:[^\s)]+|DOI:[^\s)]+|\bhi_class\b|@article\{[\s\S]*?\})/g;
 
 // Subscript/superscript unbraced token pattern
 // Matches: "4,X", "x₁", "x₂", alphanumeric + Greek tokens, or single symbol (*, +, −, ±, ⊙, ∞)

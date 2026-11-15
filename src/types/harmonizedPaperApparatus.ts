@@ -336,7 +336,7 @@ export const DIMENSIONAL_ANALYSIS_CLOSURE_B: DimensionalClosureRow[] = [
   },
   {
     quantity: '14. General-w Bounce & Turnaround',
-    expression: 'a(t)/a_min = [ 1 + (t/t_w)² ]^{1/(3(1+w))};  (ä/a)|_{ρ=ρ_max} = 4πG ρ_max(1+w)',
+    expression: 'a(t)/a_min = [ 1 + (t/t_w)^2 ]^{1/(3(1+w))}\n(ä/a)|_{ρ=ρ_max} = 4πG ρ_max (1 + w)',
     siUnits: 'a/a_min [1] (t_w in s); ä/a [s⁻²]',
     naturalUnits: '[1]; GeV²',
     auditNote: 't_w = [√(6πG ρ_max)(1+w)]⁻¹ has units s, making t/t_w dimensionless; turnaround acceleration ä/a has units s⁻².'
@@ -350,28 +350,28 @@ export const DIMENSIONAL_ANALYSIS_CLOSURE_B: DimensionalClosureRow[] = [
   },
   {
     quantity: '16. Screening Z_ψ & Local Cutoff Λ_local',
-    expression: 'Z_ψ = (r_{V,⊕}/r_⊕)^{3/2};  Λ_3 = (M̄_Pl · H_0^2)^{1/3};  Λ_local = Z_ψ^{1/2} Λ_3',
-    siUnits: 'Z_ψ [1] (7.05×10^{14}); Λ_3 = 1.758×10^{−13} eV; Λ_local = 4.67 μeV',
-    naturalUnits: 'Z_ψ [1]; Λ_3, Λ_local [eV]',
-    auditNote: 'Natural-unit [M̄_Pl · H_0²]^{1/3} = [GeV · GeV²]^{1/3} = GeV; dressed terrestrial Galileon cutoff Λ_local = Z_ψ^{1/2} Λ_3 (4.2 cm).'
+    expression: 'Z_ψ = (r_{V,⊕}/r_⊕)^{3/2}\nΛ_3 = (M̄_Pl · H_0^2)^{1/3}\nΛ_local = Z_ψ^{1/2} Λ_3',
+    siUnits: 'Z_ψ [1] (7.05×10^{14})\nΛ_3 = (M̄_Pl c² · (ℏ H_0)²)^{1/3} = 1.758×10^{−13} eV\nΛ_local = 4.67 μeV',
+    naturalUnits: 'Z_ψ [1]; Λ_3, Λ_local [eV] (ℏ = c = 1)',
+    auditNote: 'In natural units [M̄_Pl · H_0²]^{1/3} = [eV · eV²]^{1/3} = eV (in SI: M̄_Pl c² = 2.435×10^{27} eV, ℏ H_0 = 1.492×10^{−33} eV); dressed cutoff Λ_local (4.2 cm).'
   },
   {
     quantity: '17. Chameleon Mass² & CANNEX Pressure',
-    expression: 'm_eff²(ρ) = V″(φ_Ch) + (β_Ch² / M_Pl²) ρ;  ΔP_Ch ~ 10^{−10}–2×10^{−9} N/m²',
-    siUnits: 'm⁻² (or GeV²/(ℏc)²); ΔP_Ch in N/m² = Pa',
-    naturalUnits: 'eV² / GeV²; ΔP_Ch in eV⁴ (with M_Ch ≈ 2.4 meV)',
-    auditNote: 'Independent Chameleon φ_Ch produces excess pressure 1–2 orders above CANNEX 10^{−11}–10^{−12} N/m² noise floor.'
+    expression: 'm_eff^2(ρ) = V″(φ_Ch) + (β_Ch^2 / M_Pl^2) ρ\nΔP_Ch ~ 10^{−10}–2×10^{−9} N/m^2',
+    siUnits: 'm_eff^2/(ℏc)² [m⁻²]; ΔP_Ch in N/m² = Pa',
+    naturalUnits: 'eV² / GeV²; ΔP_Ch in eV⁴ (1 N/m² = 4.796×10⁻² eV⁴; M_Ch ≈ 2.4 meV)',
+    auditNote: 'Independent Chameleon φ_Ch yields ΔP_Ch 1–2 orders above CANNEX 10^{−11}–10^{−12} N/m² noise floor (matching (2.4 meV)^4 = 3.3×10⁻¹¹ eV⁴).'
   },
   {
     quantity: '18. Hayward Lapse, K(0), Echoes & QES',
-    expression: 'f(r) = 1 − (r_s r^2) / (r^3 + r_s ℓ_0^2);  K(0) = 24/ℓ_0^4;  r_I = r_+ − O(ℏ/(Mc))',
-    siUnits: 'f [1]; K(0) [m⁻⁴]; Δt_echo [s]; M_rem = 2.38×10^{−8} kg; S_rem [nats]',
-    naturalUnits: 'f [1]; K(0) [GeV⁴]; Δt_echo [GeV⁻¹]; S_rem ≈ 6.66 [nats]',
-    auditNote: 'With r_s = 2GM/c², ℓ_Pl²/r_+ = (Gℏ/c³)/(2GM/c²) = ℏ/(2Mc) has units of length [m], fixing the App. E QES error term.'
+    expression: 'f(r) = 1 − (r_s r^2) / (r^3 + r_s ℓ_0^2)\nK(0) = 24 / ℓ_0^4\nr_I = r_+ − O(ℏ/(Mc))',
+    siUnits: 'f [1]; K(0) [m⁻⁴]; r_I [m]; Δt_echo [s]; M_rem = 2.38×10^{−8} kg; S_rem [nats]',
+    naturalUnits: 'f [1]; K(0) [GeV⁴]; r_I, Δt_echo [GeV⁻¹]; S_rem ≈ 6.66 [nats]',
+    auditNote: 'With r_s = 2GM/c², ℓ_Pl²/r_+ = (Gℏ/c³)/(2GM/c²) = ℏ/(2Mc) has units of length [m], fixing the App. E QES island radius r_I.'
   },
   {
     quantity: '19. Nanosphere DP & Araki Rates (P2)',
-    expression: 'Γ_Araki = (4/3) Γ_DP = (4 G m² / (3 ℏ R_0)) · [(u²/2) − (3u³/16) + (u⁵/160)]  (u = Δx/R_0 < 2)',
+    expression: 'Γ_Araki = (4/3) Γ_DP\n= (4 G m² / (3 ℏ R_0)) · [(u²/2) − (3u³/16) + (u⁵/160)]\n(u = Δx / R_0 < 2)',
     siUnits: 's⁻¹ (1.18 s⁻¹ at R_0 = 1.028 μm, Δx = 180 nm)',
     naturalUnits: 'GeV',
     auditNote: '[(m³/kg·s²) · kg² / ((kg·m²/s) · m)] = s⁻¹. Exact overlapping-sphere integral at R_0 = 1.028 μm for 10^{−14} kg SiO₂.'
@@ -618,62 +618,62 @@ export const H10_PREREG_SHA256 =
 export const TABLE_H1_CLOSURES: ParameterClosureRow[] = [
   {
     parameter: 'Araki Scale Constant κ_ψ',
-    formula: 'κ_ψ = ℏc ℓ_Pl / (12π)  (CHM central-charge / Planck ansatz)',
-    value: '1.355 × 10^{−62} J·m² (2.173 × 10^{−21} GeV⁻¹)',
+    formula: 'κ_ψ = ℏc · ℓ_Pl / (12π)\n(CHM / Planck ansatz)',
+    value: '1.355 × 10^{−62} J·m²\n(2.173 × 10^{−21} GeV⁻¹)',
     regime: 'Matter diamond ΔK_V = 8π²r⁴/(15ℏc) Δ⟨T_00⟩; ψ_vac = 0 (§3.2, App. C)'
   },
   {
     parameter: 'Horndeski Braiding Scale Λ_3, FRG Fixed Point & CDT d_s',
-    formula: 'Λ_3 = (M̄_Pl · H_0^2)^{1/3};  c_2 ~ Λ_local^{−4};  β_g(g_*,λ_*)=β_λ=0',
-    value: '1.758×10^{−13} eV; c_2 = 2.1×10^{57} GeV⁻⁴ > 0; (g_*,λ_*)=(1.3105, 0.1440); d_s: 3.989→2.002',
+    formula: 'Λ_3 = (M̄_Pl · H_0^2)^{1/3}\nc_2 ~ Λ_local^{−4};  β_g(g_*,λ_*)=β_λ=0',
+    value: 'Λ_3 = 1.758×10^{−13} eV\nc_2 = 2.1×10^{57} GeV⁻⁴ > 0\n(g_*,λ_*)=(1.3105, 0.1440); d_s: 3.989→2.002',
     regime: 'FRG θ_real = 4.835 > 0; Borel = 0.9126; BBN |ΔG/G| ~ 10^{−38} (§3.1, App. G/L)'
   },
   {
     parameter: 'Solar, Earth, TOV Neutron-Star & Double-Pulsar Vainshtein',
-    formula: 'r_V = (γ r_s c² / H_0²)^{1/3};  Z_ψ = (r_{V,⊕} / r_⊕)^{3/2}',
-    value: 'r_V = 369.8 ly; Z_ψ = 7.05 × 10^{14}; Λ_local = 4.67 μeV; NS M_max = 2.35 M_⊙, Λ_{1.4} = 339',
-    regime: '|γ_PPN−1| = 1.77×10^{−11} (1 AU); NS 1.61×10^{−22}; PSR J0737-3039 3.44×10^{−15}'
+    formula: 'r_V = (γ r_s c² / H_0²)^{1/3}\nZ_ψ = (r_{V,⊕} / r_⊕)^{3/2}',
+    value: 'r_V = 369.8 ly; Z_ψ = 7.05 × 10^{14}\nΛ_local = 4.67 μeV\nTOV NS: M_max = 2.35 M_⊙ (solar masses), R_{1.4} = 11.57 km, Λ_{1.4} = 339',
+    regime: '|γ_PPN−1| = 1.77×10^{−11} (1 AU); NS (R_{1.4}/r_V)^{3/2} = 1.61×10^{−22}; PSR J0737-3039 = 3.44×10^{−15}'
   },
   {
     parameter: 'PNGB Dark Energy, τ_re, Lensing A_L/E_G & Joint Likelihood',
-    formula: 'φ̈_DE + 3H φ̇_DE + (V_0/f_φ) sin(φ_DE/f_φ) = 0;  Δln Z = −½Δχ² − ½Δk ln N',
-    value: 'w_0 = −0.908, w_a = −0.177; S_8 = 0.8216–0.8466; τ_re = 0.0537; ℓ_A = 300.31; Δχ² = +4.41 (Δln Z = −3.52)',
+    formula: 'φ̈_DE + 3H φ̇_DE + (V_0/f_φ) sin(φ_DE/f_φ) = 0\nΔln Z = −½Δχ² − ½Δk ln N',
+    value: 'w_0 = −0.908, w_a = −0.177\nS_8 = 0.8216–0.8466; τ_re = 0.0537\nℓ_A = 300.31; Δχ² = +4.41 (Δln Z = −3.52)',
     regime: 'A_L = 0.977–1.030; E_G = 0.4146; Ly-α ΔP/P = −3.96%; ΔN_eff = 0.0032 (§7.1, App. K)'
   },
   {
     parameter: '5-Mode A_F^{H10} Embedding, ULDM φ_osc & P1',
-    formula: 'A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch;  m_osc = h f_clock / c²',
-    value: 'm_osc = 2.647×10^{−23} eV (f_DM ≤ 0.02); |ε_{ψ,Ch}| = 4.42×10^{−16}; Fisher SNR 25.1',
+    formula: 'A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch\nm_osc = h f_clock / c²',
+    value: 'm_osc = 2.647×10^{−23} eV (f_DM ≤ 0.02)\n|ε_{ψ,Ch}| = 4.42×10^{−16}; Fisher SNR 25.1',
     regime: 'Dual ⁸⁷Sr/¹⁷¹Yb flicker + PTA red noise: 2.00 ± 0.25 (5 yr) / ± 0.08 (15 yr)'
   },
   {
     parameter: 'Spectral Higgs-Portal Mode Φ_portal',
-    formula: 'm_portal = √(2λ_Φ) v_Φ;  sin θ_H ≃ λ_mix v v_Φ / m_portal²',
-    value: 'm_portal ≈ 1.84 ± 0.18 TeV; sin θ_H ≈ 0.04–0.08; σ ≈ 0.18–0.70 fb (4.7σ)',
+    formula: 'm_portal = √(2λ_Φ) v_Φ\nsin θ_H ≃ λ_mix v v_Φ / m_portal²',
+    value: 'm_portal ≈ 1.84 ± 0.18 TeV\nsin θ_H ≈ 0.04–0.08; σ ≈ 0.18–0.70 fb (4.7σ)',
     regime: 'HL-LHC 3000 fb⁻¹; δσ_Zh > 1.5% vs. κ_Z ≈ 1.5%; VBF pp→jjΦΦ (P6)'
   },
   {
     parameter: '2-Stage Ekpyrotic Bounce, Reheating & Thermal Leptogenesis η_B',
-    formula: 'ρ_max = √3 / (32π² γ_BI³) ρ_Pl;  η_B = 7.04 c_sph (n_{N_1}/s) ε_1 κ_wash',
-    value: '0.4094 ρ_Pl (9.095×10^{75} GeV⁴); BKL 4.0×10^{−15}; T_reh = 3.40×10^{10} GeV; η_B = 6.13×10^{−10}',
-    regime: 'Ekpyrotic a^{−9} beats shear a^{−6}; SM portal reheating & B−L continuity (App. K)'
+    formula: 'ρ_max = √3 / (32π² γ_BI³) ρ_Pl\nη_B = 7.04 c_sph (n_{N_1}/s) ε_1 κ_wash',
+    value: '0.4094 ρ_Pl (9.095×10^{75} GeV⁴)\nBKL shear = 4.0×10^{−15}\nT_reh = 3.40×10^{10} GeV; η_B = 6.13×10^{−10}',
+    regime: 'Ekpyrotic w_ekp = 2 (a^{−9}) beats shear a^{−6}; SM portal reheating & B−L continuity (App. K)'
   },
   {
     parameter: 'Contracting Bounce Outputs (P3)',
-    formula: 'n_s − 1 = n_T = 12 w_contract / (1 + 3 w_contract);  r = 24 c_s³;  f_NL = −35/8',
-    value: 'n_s = 0.964, n_T = −0.036 (red), α_s = −3.6×10^{−5}, r = 0.0123 (SNR 12.3), f_NL = −4.38',
+    formula: 'n_s − 1 = n_T = 12 w_contract / (1 + 3 w_contract)\nr = 24 c_s³;  f_NL = −35/8',
+    value: 'n_s = 0.964, n_T = −0.036 (red)\nα_s = −3.6×10^{−5}; r = 0.0123 (SNR 12.3)\nf_NL = −4.38',
     regime: 'Canonical bounce f_NL undetectable at Planck (±47); small-c_s DBI bound c_s ≳ 0.25'
   },
   {
     parameter: 'Derived ξ_0 = 2^{−1/4}, Kerr–Hayward, RN–Hayward & Superradiance',
-    formula: 'K(0) = 24/ℓ_0^4 = 48/ℓ_Pl^4 ⇒ ξ_0 = 2^{−1/4};  |R_ergo|_max K_echo < 1',
-    value: 'M_rem = 1.09236 M_Pl; 1+1D max κ_− ℓ_0 = 0.9294; Kerr ≤ 0.6639; RN 0.2614; Cavity Gain 0.2048',
+    formula: 'K(0) = 24 / ℓ_0^4 = 48 / ℓ_Pl^4 ⇒ ξ_0 = 2^{−1/4}\n|R_ergo|_max · K_echo < 1',
+    value: 'M_rem = 1.09236 M_Pl (2.38 × 10^{−8} kg)\n1+1D max (κ_− ℓ_0) = 0.9294\nKerr ≤ 0.6639; RN 0.2614; Gain 0.2048',
     regime: 'Finite de Sitter torus core K ≤ 48/ℓ_Pl⁴; S_rem = 6.66 nats; GSL conditional on QFC (App. L)'
   },
   {
     parameter: 'P2 Nanosphere, P5 CANNEX & H10 SHA-256 Digest',
-    formula: 'R_0 = [3m / (4π ρ_SiO2)]^{1/3};  P_{LZ} = exp(−3.14 × 10²⁰);  DL split = 9.72×10^{−102}',
-    value: 'R_0 = 1.028 μm; Γ_Araki = 1.18 s⁻¹ (SNR 23.5); ΔP_Ch ~ 10^{−10}–2×10^{−9} N/m² (SNR ≥10)',
+    formula: 'R_0 = [3m / (4π ρ_SiO2)]^{1/3}\nP_{LZ} = exp(−3.14 × 10²⁰);  DL split = 9.72×10^{−102}',
+    value: 'R_0 = 1.028 μm; Γ_Araki = 1.18 s⁻¹ (SNR 23.5)\nΔP_Ch ~ 10^{−10}–2×10^{−9} N/m² (SNR ≥10)',
     regime: 'See unbroken H10 SHA-256 preregistration digest bar below Table H.1'
   }
 ];

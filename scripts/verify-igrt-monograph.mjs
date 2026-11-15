@@ -1026,7 +1026,7 @@ requireIncludes(dataSrc, 'harmonizedPaperData.ts', [
   'π(3ℓ_0²)/ℓ_Pl²',
   'r_I = r_+ − (c_bulk ℓ_Pl²) / (12π r_+) = r_+ − O(ℓ_Pl² / r_+) = r_+ − O(ℏ / (Mc))',
   '(δS_{grav+ψ}/δψ)',
-  '−∇_μ ψ ∇_ν ψ □ψ − ∇_{(μ} ψ ∇_{ν)}(∇ψ)²',
+  '+∇_μ ψ ∇_ν ψ □ψ − ∇_{(μ} ψ ∇_{ν)}(∇ψ)²',
   "letter: 'I'",
   "letter: 'J'",
   "letter: 'K'",

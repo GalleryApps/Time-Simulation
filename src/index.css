@@ -213,7 +213,7 @@
 
 .igrt-monograph {
   --igrt-font-body: 'Source Serif 4', 'DejaVu Serif', 'Libre Baskerville', Georgia, serif;
-  --igrt-font-heading: 'Playfair Display', Georgia, serif;
+  --igrt-font-heading: 'Playfair Display', 'DejaVu Serif', 'DejaVu Sans', Georgia, serif;
   --igrt-body-size: 18px;
   --igrt-h1-size: 32px;
   --igrt-h2-size: 26px;
@@ -249,6 +249,7 @@
 .igrt-monograph h4 {
   font-family: var(--igrt-font-heading) !important;
   font-weight: 400 !important;
+  font-variant-numeric: lining-nums;
   break-after: avoid;
   page-break-after: avoid;
 }
@@ -278,16 +279,24 @@
 }
 
 .igrt-eq-box sub,
-.igrt-eq-box sup {
+.igrt-eq-box sup,
+.igrt-monograph sub,
+.igrt-monograph sup,
+.igrt-tabular sub,
+.igrt-tabular sup {
   font-size: 0.76em;
   line-height: 0;
   position: relative;
   vertical-align: baseline;
 }
-.igrt-eq-box sub {
+.igrt-eq-box sub,
+.igrt-monograph sub,
+.igrt-tabular sub {
   top: 0.22em;
 }
-.igrt-eq-box sup {
+.igrt-eq-box sup,
+.igrt-monograph sup,
+.igrt-tabular sup {
   top: -0.34em;
 }
 

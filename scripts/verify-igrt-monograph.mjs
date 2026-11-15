@@ -951,7 +951,7 @@ requireIncludes(appSrc, 'LIST_OF_SYMBOLS & CLAIM_EVIDENCE_LEDGER & H10 APPARATUS
   '2.35 M_⊙',
   '0.9294',
   'S_8 = 0.8216',
-  '4.0 × 10^{−15}',
+  '4.0×10^{−15}',
   'A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch',
   '1.3105',
   '0.0537',
@@ -959,7 +959,6 @@ requireIncludes(appSrc, 'LIST_OF_SYMBOLS & CLAIM_EVIDENCE_LEDGER & H10 APPARATUS
   '0.2048',
   '3.989',
   preregSha256,
-  'WHAT_CHANGED_SUMMARY',
   'REVISION_HISTORY_TABLE',
   'RESPONSE_TO_REVIEWERS',
   'KNOWN_OPEN_PROBLEMS'
@@ -1048,15 +1047,14 @@ programmaticChecks += 2;
 const parityTokens = [
   'DIMENSIONAL_ANALYSIS_CLOSURE_A',
   'DIMENSIONAL_ANALYSIS_CLOSURE_B',
-  'WHAT_CHANGED_SUMMARY',
   'REVISION_HISTORY_TABLE',
   'RESPONSE_TO_REVIEWERS',
   'KNOWN_OPEN_PROBLEMS',
   'H10_PREREG_SHA256'
 ];
-requireIncludes(viewSrc, 'HarmonizedResearchPaperView.tsx', ['Edition H10', 'Appendices A–L', 'Table 0.2a', 'Table 0.2b', 'Table I.1', 'Table I.2', ...parityTokens]);
-requireIncludes(htmlSrc, 'generateHarmonizedPaperHtml.ts', ['Edition H10', 'Appendices A–L', 'Table 0.2a', 'Table 0.2b', 'Table I.1', 'Table I.2', ...parityTokens]);
-requireIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts', ['EDITION H10', 'Appendices A–L', 'TABLE 0.2a', 'TABLE 0.2b', 'TABLE I.1', 'TABLE I.2', ...parityTokens]);
+requireIncludes(viewSrc, 'HarmonizedResearchPaperView.tsx', ['H10 Preregistration Digest', 'Appendices A–L', 'Table 0.2a', 'Table 0.2b', 'Table I.1', 'Table I.2', ...parityTokens]);
+requireIncludes(htmlSrc, 'generateHarmonizedPaperHtml.ts', ['H10 Preregistration Digest', 'Appendices A–L', 'Table 0.2a', 'Table 0.2b', 'Table I.1', 'Table I.2', ...parityTokens]);
+requireIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts', ['H10 PREREGISTRATION DIGEST', 'Appendices A–L', 'TABLE 0.2a', 'TABLE 0.2b', 'TABLE I.1', 'TABLE I.2', ...parityTokens]);
 
 // Regression guards preventing legacy H9 SHA-256 digests, Appendices A-J labels, markdown ** leaks, or typo regressions
 const h10ForbiddenAcrossPaper = [
@@ -1079,7 +1077,13 @@ const h10ForbiddenAcrossPaper = [
   '∇_νψ',
   '∇^αψ',
   '∂_μA_ν',
-  '∂_νA_μ'
+  '∂_νA_μ',
+  'closing OP-4',
+  'Closed OP-4',
+  'closed OP-4',
+  'resolving OP-4',
+  '1 − 2GMr²/(',
+  '(r_s r^2)'
 ];
 forbidIncludes(appSrc, 'harmonizedPaperApparatus.ts (H10 regression)', [...h10ForbiddenAcrossPaper, '∈ [1]']);
 forbidIncludes(dataSrc, 'harmonizedPaperData.ts (H10 regression)', h10ForbiddenAcrossPaper);
@@ -1089,9 +1093,24 @@ assert(
 );
 programmaticChecks++;
 forbidIncludes(figSrc, 'HarmonizedPaperFigures.tsx (H10 regression)', [...h10ForbiddenAcrossPaper, 'r = 24c_s³ = 0.012;', 'ansatz ξ_0']);
-forbidIncludes(viewSrc, 'HarmonizedResearchPaperView.tsx (H10 regression)', h10ForbiddenAcrossPaper);
-forbidIncludes(htmlSrc, 'generateHarmonizedPaperHtml.ts (H10 regression)', h10ForbiddenAcrossPaper);
-forbidIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts (H10 regression)', h10ForbiddenAcrossPaper);
+forbidIncludes(viewSrc, 'HarmonizedResearchPaperView.tsx (H10 regression)', [...h10ForbiddenAcrossPaper, 'What Changed in Harmonized Edition']);
+forbidIncludes(htmlSrc, 'generateHarmonizedPaperHtml.ts (H10 regression)', [...h10ForbiddenAcrossPaper, 'What Changed in Harmonized Edition']);
+forbidIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts (H10 regression)', [...h10ForbiddenAcrossPaper, 'WHAT CHANGED IN HARMONIZED EDITION', 'What Changed in Harmonized Edition']);
+
+// Abstract, B4, C1 & PDF parser parity checks
+requireIncludes(appSrc, 'harmonizedPaperApparatus.ts (Abstract & B4)', [
+  'The unification of general relativity and quantum mechanics is obstructed by the "Problem of Time"',
+  'providing a falsifiable bridge between quantum information, modified gravity, and precision metrology.',
+  '(2GMr^2) / (r^3 + 2GM ℓ_0^2)'
+]);
+requireIncludes(dataSrc, 'harmonizedPaperData.ts (Abstract Markdown, B4 & C1)', [
+  'constitutive postulate of IGRT: it defines proper time as the modular-calibrated Fisher–Rao arc length',
+  '(2GMr²)/(r³ + 2GMℓ_0²)',
+  '## Abstract'
+]);
+requireIncludes(figSrc, 'HarmonizedPaperFigures.tsx (B4)', [
+  '(2GMr²)/(r³ + 2GMℓ₀²)'
+]);
 
 // Figure 4 caption & Figure 8 SVG integrity
 requireIncludes(figSrc, 'HarmonizedPaperFigures.tsx', [
@@ -1131,7 +1150,7 @@ requireIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts (SVG @font-face & glyph g
 // Parity checks for apparatus indices, C_ell parser support, and [1]..[106] full citation coverage
 requireIncludes(appSrc, 'harmonizedPaperApparatus.ts (H10 indices)', ['Table I.1', 'Table I.2', '(K.1)', '(L.1)']);
 const fmtSrc = fs.readFileSync(path.join(repoRoot, 'src/utils/formatMathUnicode.ts'), 'utf8');
-requireIncludes(fmtSrc, 'formatMathUnicode.ts (ell/hbar parser)', ['∞ℓℏ𝒞']);
+requireIncludes(fmtSrc, 'formatMathUnicode.ts (ell/hbar/Unicode script parser)', ['∞ℓℏ𝒞', 'SUB_DIGIT_MAP', 'splitPlainTextUnicodeScripts']);
 const proseBeforeRefs = dataSrc.split('export const HARMONIZED_PAPER_REFERENCES')[0] + '\n' + appSrc;
 const citedIds = new Set();
 for (const m of proseBeforeRefs.matchAll(/\[([0-9,\s–\-]+)\]/g)) {

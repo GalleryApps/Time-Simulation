@@ -36,7 +36,6 @@ import {
   CLAIM_EVIDENCE_LEDGER,
   ETHICS_AND_GOVERNANCE,
   TABLE_H1_CLOSURES,
-  WHAT_CHANGED_SUMMARY,
   REVISION_HISTORY_TABLE,
   RESPONSE_TO_REVIEWERS,
   KNOWN_OPEN_PROBLEMS,
@@ -658,9 +657,6 @@ export function buildSelfContainedMonographHtml(): string {
   <section class="chapter-start">
     <div class="chapter-kicker">Summary &amp; Editorial Reference Apparatus</div>
     <h2>Summary, Symbols &amp; Indices</h2>
-
-    <h3>What Changed in Harmonized Edition H10</h3>
-    <ul>${WHAT_CHANGED_SUMMARY.map((wc) => `<li><strong>${fmt(wc.category)}:</strong> ${fmt(wc.detail)}</li>`).join('')}</ul>
 
     <h3>Summary</h3>
     <p>${fmt(PLAIN_LANGUAGE_SUMMARY)}</p>

@@ -488,7 +488,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     afterSubsectionAnchor: 'sec-6-3',
     title: 'Regular Frolov–Hayward Black-Hole Radial Lapse Function f(r) and Horizon Merger',
     caption:
-      'Figure 5. Exact radial lapse profiles f(r) = 1 − 2GMr²/(r³ + 2GMℓ₀²) plotted across r/ℓ₀ ∈ [0, 5.5], illustrating the derived UV core scale ℓ₀ = ξ₀ ℓ_Pl obtained by equating K_Hayward(0) = 24/ℓ₀⁴ to K_max = 48/ℓ_Pl⁴ of sector L_UV, which fixes ξ₀ = 2⁻¹/⁴ ≈ 0.8409. Sub-extremal masses (M > M_rem) possess inner (r_−) and outer (r_+) horizons coalescing at r_* = √3 ℓ₀ with vanishing surface gravity κ_± = 0; dynamical back-reaction truncates collapse prior to Cauchy extension.',
+      'Figure 5. Exact radial lapse profiles f(r) = 1 − (2GMr²)/(r³ + 2GMℓ₀²) plotted across r/ℓ₀ ∈ [0, 5.5], illustrating the derived UV core scale ℓ₀ = ξ₀ ℓ_Pl obtained by equating K_Hayward(0) = 24/ℓ₀⁴ to K_max = 48/ℓ_Pl⁴ of sector L_UV, which fixes ξ₀ = 2⁻¹/⁴ ≈ 0.8409. Sub-extremal masses (M > M_rem) possess inner (r_−) and outer (r_+) horizons coalescing at r_* = √3 ℓ₀ with vanishing surface gravity κ_± = 0; dynamical back-reaction truncates collapse prior to Cauchy extension.',
     isSchematic: false,
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Regular Frolov-Hayward lapse function f(r)">
   <rect x="0" y="0" width="860" height="340" fill="#FAF8F3" stroke="#D6CABE" stroke-width="1"/>

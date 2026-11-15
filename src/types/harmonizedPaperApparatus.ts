@@ -28,8 +28,10 @@ export const PLAIN_LANGUAGE_SUMMARY =
 
 export const SHORTENED_ABSTRACT = {
   paragraphs: [
-    'Canonical quantum gravity encounters the Wheeler–DeWitt Problem of Time (Ĥ_total Ψ = 0), derived here by 3+1 ADM lapse variation (δS_IGRT/δN = 0) of our covariant action [Derived]. We formulate Information-Geometric Resonant Time (IGRT) on a trivial principal projective-unitary bundle P(M, PU(H)) (δ(P) = 0 ∈ H³(M, ℤ)) and associated statistical bundle E_stat = P ×_{PU(H)} S(N) over a four-dimensional Lorentzian base manifold (M, g_μν) of signature (−,+,+,+), upon which Diff⁺(M) acts via base-covering automorphisms [Derived]. On rank-preserving worldlines, an extended Jacobi–Finsler synchronization ansatz calibrated by α_mod = ℏ / (E_mod · σ_1(K_ξ)) equates proper time dτ = (1/c)√(−g_μν ẋ^μ ẋ^ν) dλ to SLD Fisher–Rao state arc length normalized per resolved clock mode (M = 1), reducing to discrete Uhlmann-purified steps τ_step ∑ ‖RAG_k − RES_k‖_F with O(N^{−2}) convergence [Ansatz]. Within Born–Oppenheimer factorization, the compact circle fiber shift H_Fisher = E_mod σ_1(K_ξ) D̂_Fisher possesses a discrete, doubly unbounded spectrum {E_mod σ_1 (2πk/L − Φ_Berry/L) : k ∈ ℤ}, circumventing Pauli’s bounded-Hamiltonian obstruction under positive-branch projection [Derived]; KMS detailed-balance quantum Markov semigroups obey instantaneous Bogoliubov–Kubo–Mori (BKM) entropy dissipation (d/dτ) S_Araki = −g̃_ij^BKM θ̇^i θ̇^j ≤ 0 [Established].',
-    'Infrared gravity is governed by the luminal Type Ia Horndeski Cubic Galileon action (G_{4,X} = 0, G_5 = 0, c_GW = c identically) [Axiom] with braiding scale Λ_3 = (M̄_Pl · H_0²)^{1/3} ≈ 1.76 × 10^{−13} eV (solar Vainshtein radius r_V ≈ 370 ly, derived |γ_PPN − 1| ≈ 1.77 × 10^{−11} at 1 AU; terrestrial r_{V,⊕} ≈ 5.33 ly, Z_ψ ≈ 7.05 × 10^{14}, dressed cutoff Λ_local ≈ 4.67 μeV), verified via all-orders Jordan–Einstein Bianchi consistency [Consistency] and Horndeski Type Ia TOV + Hinderer neutron-star integration (M_max = 2.35 M_⊙, Λ_{1.4} = 339, Vainshtein suppression 1.61 × 10^{−22}, PSR J0737-3039 dipole suppression 3.44 × 10^{−15}) [Derived]. All five scalars (ψ, φ_DE, Φ_portal, φ_osc, φ_Ch) embed into the 5-mode extended Krein–Connes algebra A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch (loop mixing |ε_{ψ,Ch}| = 4.42 × 10^{−16}), anchored by a 1-loop Wetterich FRG fixed point (g_* = 1.3105, λ_* = 0.1440, θ_real = 4.835 > 0), Borel–Padé resummation (0.9126), and CDT/L_UV spectral dimension flow d_s = 3.989 → 2.002 [Derived]. Polar decomposition yields Araki diamond modulus ψ ≥ 0 (κ_ψ = ℏc ℓ_Pl/(12π) ≈ 2.173 × 10^{−21} GeV⁻¹) [Ansatz], thawing dark energy φ_DE (w_0 ≈ −0.908, w_a ≈ −0.177, S_8 = 0.8216–0.8466, τ_re = 0.0537, A_L = 0.977–1.030, E_G = 0.415, joint compressed Δχ² = +4.41 / Laplace Δln Z = −3.52 vs. ΛCDM) [Derived], 2% ULDM φ_osc (m_osc ≈ 2.65 × 10^{−23} eV, Ly-α |ΔP/P| = 3.96%) [Input], portal Φ_portal (1.84 TeV), and IR Chameleon φ_Ch (2.4 meV) [Ansatz]. An explicit UV limiting-curvature sector L_UV yields a two-stage ekpyrotic-to-matter bounce (ρ_max ≈ 0.4094 ρ_Pl, BKL shear 4.0 × 10^{−15}, post-bounce T_reh = 3.40 × 10^{10} GeV, Davidson–Ibarra leptogenesis η_B = 6.13 × 10^{−10}, n_s ≈ 0.964, red n_T ≈ −0.036, r = 0.0123, f_NL = −4.38) plus derived Hayward cores (ξ_0 = 2^{−1/4}, M_rem = 1.092 M_Pl) extended to axisymmetric Kerr–Hayward (κ_− ℓ_0 ≤ 0.6639 < 1, superradiance cavity gain 0.2048 < 1) and charged RN–Hayward (κ_−^{RN} ℓ_0 = 0.2614 < 1) stability.'
+    'The unification of general relativity and quantum mechanics is obstructed by the "Problem of Time": the Wheeler–DeWitt equation of canonical quantum gravity forces the universal wavefunction to be stationary, eliminating any external parameter that could drive evolution. We propose Information-Geometric Resonant Time (IGRT), a framework that resolves this impasse by grounding time in quantum information rather than in a background coordinate.',
+    'IGRT is formulated on a principal fiber bundle over a four-dimensional Lorentzian spacetime, where each spacetime event carries an internal space of quantum states. We postulate that the proper time along any physical worldline is proportional to the rate at which these local quantum states become statistically distinguishable, as measured by the Symmetric Logarithmic Derivative (SLD) Fisher–Rao metric. This synchronization is calibrated by the local Tomita–Takesaki modular flow, with a discrete step size that converges to the continuum at second order.',
+    'The gravitational sector is governed by a luminal Type Ia Horndeski action (with gravitational waves propagating at the speed of light) and an explicit ultraviolet limiting-curvature sector. This structure yields a non-singular cosmological bounce, a stable Hayward black-hole core with a derived remnant mass, and a unified screening mechanism that satisfies Solar-System precision tests. All five scalar fields required by the phenomenology are embedded into a single extended Krein–Connes spectral algebra, suppressing radiative mixing to negligible levels.',
+    'The framework makes quantitative predictions testable across current and near-future experiments: a 2:1 harmonic correlation between optical-clock transitions and pulsar-timing residuals, a specific gravitational-wave ringdown echo signature, a short-range Chameleon force detectable by Casimir metrology, and a heavy Higgs-portal scalar within the reach of the High-Luminosity LHC. The theory is dimensionally closed, ghost-free, and explicitly separates established mathematical results from phenomenological inputs, providing a falsifiable bridge between quantum information, modified gravity, and precision metrology.'
   ]
 };
 
@@ -47,7 +49,7 @@ export const SCOPE_AND_NON_CLAIMS: { title: string; detail: string }[] = [
   {
     title: '3. Complete 5-Mode Spectral Algebra A_F^{H10} & Protected IR Chameleon Isolation',
     detail:
-      'All five scalar excitations—Araki modulus ψ ≥ 0, thawing PNGB φ_DE (1.94 × 10^{−33} eV), ULDM φ_osc (2.65 × 10^{−23} eV), Higgs portal Φ_portal (1.84 TeV), and IR Chameleon φ_Ch (2.4 meV)—embed into the 5-mode extended Krein–Connes algebra A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch [49–51], where ℤ_2 orthogonality suppresses Galileon-Chameleon radiative mixing to |ε_{ψ,Ch}| = (M_Ch/Λ_local)⁴/(16π²) = 4.42 × 10^{−16}, resolving OP-4 structurally while phenomenological β_Ch remains testable by CANNEX P5.'
+      'All five scalar excitations—Araki modulus ψ ≥ 0, thawing PNGB φ_DE (1.94 × 10^{−33} eV), ULDM φ_osc (2.65 × 10^{−23} eV), Higgs portal Φ_portal (1.84 TeV), and IR Chameleon φ_Ch (2.4 meV)—embed into the 5-mode extended Krein–Connes algebra A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch [49–51], where ℤ_2 orthogonality suppresses Galileon-Chameleon radiative mixing to |ε_{ψ,Ch}| = (M_Ch/Λ_local)⁴/(16π²) = 4.42 × 10^{−16}, achieving structural algebraic embedding while first-principles derivation of M_Ch and phenomenological β_Ch remain open under OP-4 (testable by CANNEX P5).'
   },
   {
     title: '4. Effective Field Theory Cutoffs, S-Matrix Positivity, FRG & Reproducibility',
@@ -364,7 +366,7 @@ export const DIMENSIONAL_ANALYSIS_CLOSURE_B: DimensionalClosureRow[] = [
   },
   {
     quantity: '18. Hayward Lapse, K(0), Echoes & QES',
-    expression: 'f(r) = 1 − (r_s r^2) / (r^3 + r_s ℓ_0^2)\nK(0) = 24 / ℓ_0^4\nr_I = r_+ − O(ℏ/(Mc))',
+    expression: 'f(r) = 1 − (2GMr^2) / (r^3 + 2GM ℓ_0^2)\nK(0) = 24 / ℓ_0^4\nr_I = r_+ − O(ℏ/(Mc))',
     siUnits: 'f [1]; K(0) [m⁻⁴]; r_I [m]; Δt_echo [s]; M_rem = 2.38×10^{−8} kg; S_rem [nats]',
     naturalUnits: 'f [1]; K(0) [GeV⁴]; r_I, Δt_echo [GeV⁻¹]; S_rem ≈ 6.66 [nats]',
     auditNote: 'With r_s = 2GM/c², ℓ_Pl²/r_+ = (Gℏ/c³)/(2GM/c²) = ℏ/(2Mc) has units of length [m], fixing the App. E QES island radius r_I.'
@@ -514,8 +516,8 @@ export const CLAIM_EVIDENCE_LEDGER: ClaimEvidenceRow[] = [
   {
     claim: 'Unbounded S¹ Fisher Hamiltonian H_Fisher evades Pauli theorem',
     status: 'Derived',
-    evidenceAndDerivation: '−i E_mod σ_1 (∂_s − i A_Berry) spectrum E_mod σ_1(2πk/L), k ∈ ℤ; Landau–Zener k>0 decay exp(−3.14×10^{20}) ≈ 0 (§5.1).',
-    evasionOrFreeParameter: 'Adiabatic clock–gravity barrier breakdown at Planckian E_mod ~ M_Pl c².'
+    evidenceAndDerivation: '−i E_mod σ_1 (∂_s − i A_Berry) spectrum E_mod σ_1(2πk/L), k ∈ ℤ; single-mode WKB Landau–Zener k>0 decay exp(−3.14×10^{20}) ≈ 0 (§5.1).',
+    evasionOrFreeParameter: 'Single-mode adiabatic clock–gravity barrier breakdown at Planckian E_mod ~ M_Pl c²; multi-mode (M ≫ 1) branch mixing open (OP-3).'
   },
   {
     claim: 'Master Synchronization Identity Eq. (4.1) & α_mod',
@@ -562,14 +564,14 @@ export const CLAIM_EVIDENCE_LEDGER: ClaimEvidenceRow[] = [
   {
     claim: 'Derived ξ_0 = 2^{−1/4}, Kerr–Hayward & RN–Hayward Cores, QES & Echo Quenching',
     status: 'Derived',
-    evidenceAndDerivation: 'K(0)=K_max derives ξ_0 = 2^{−1/4} (M_rem = 1.092 M_Pl); 1+1D Hayward–Vaidya max κ_− ℓ_0 = 0.9294 < 1; axisymmetric Kerr–Hayward κ_− ℓ_0 ≤ 0.6639 < 1; RN–Hayward 0.2614 < 1; superradiance cavity gain 0.2048 < 1; QES S_rem = 6.66 nats (§6.3–6.4, App. L).',
-    evasionOrFreeParameter: '3+1D non-axisymmetric binary-merger NR & unproven QFC in curved cores remain OP-5.'
+    evidenceAndDerivation: 'K(0)=K_max derives ξ_0 = 2^{−1/4} (M_rem = 1.092 M_Pl); 1+1D Hayward–Vaidya max κ_− ℓ_0 = 0.9294 < 1; axisymmetric Kerr–Hayward κ_− ℓ_0 ≤ 0.6639 < 1; RN–Hayward 0.2614 < 1; superradiance cavity gain 0.2048 < 1; QES s-wave 2D CFT S_rem = 6.66 nats (§6.3–6.4, App. L).',
+    evasionOrFreeParameter: '2D s-wave CFT / quasistatic QES approximations, 3+1D non-axisymmetric binary-merger NR, & GSL conditional on unproven Bousso QFC remain OP-5.'
   },
   {
     claim: '5-Mode Extended Spectral Algebra A_F^{H10} & P1 2:1 ULDM Lock',
     status: 'Derived',
-    evidenceAndDerivation: 'A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch accommodates all 5 scalars with |ε_{ψ,Ch}| = 4.42×10^{−16}; φ_osc (f_DM ≤ 0.02) satisfies Ly-α (−3.96%), ΔN_eff = 0.0032, & Fisher SNR 25.1 (§1.2, §7.2, App. F/L).',
-    evasionOrFreeParameter: 'Free coupling Δβ_eff & f_DM can evade; generic to any quadratic scalar ULDM.'
+    evidenceAndDerivation: 'A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch embeds all 5 scalars with |ε_{ψ,Ch}| = 4.42×10^{−16}; φ_osc (f_DM ≤ 0.02) satisfies Ly-α (−3.96%), ΔN_eff = 0.0032, & Fisher SNR 25.1 (§1.2, §7.2, App. F/L).',
+    evasionOrFreeParameter: 'Phenomenological Chameleon scale M_Ch / β_Ch remain OP-4; free Δβ_eff & f_DM can evade P1 (generic to quadratic scalar ULDM).'
   },
   {
     claim: 'P2, P4, P5, P6 empirical thresholds & H10 SHA-256 Preregistration Digest',
@@ -682,7 +684,7 @@ export const WHAT_CHANGED_SUMMARY: { category: string; detail: string }[] = [
   {
     category: 'Microscopic UV: 1-Loop Wetterich FRG, 5-Mode A_F^{H10} & CDT Flow (OP-2/3/4)',
     detail:
-      'Solved 1-loop Litim Wetterich FRG beta functions locating the non-Gaussian UV fixed point (g_* = 1.3105, λ_* = 0.1440, θ_real = 4.835 > 0) alongside Borel–Padé resummation (0.9126) and CDT/L_UV heat-kernel dimensional reduction d_s: 3.989 → 2.002; closed OP-4 structurally via 5-mode extended Krein–Connes algebra A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch with ℤ_2-protected Chameleon loop mixing |ε_{ψ,Ch}| = 4.42 × 10^{−16}; verified Fujikawa Weyl Jacobian & midisuperspace Dirac-Bergmann closure.'
+      'Solved 1-loop Litim Wetterich FRG beta functions locating the non-Gaussian UV fixed point (g_* = 1.3105, λ_* = 0.1440, θ_real = 4.835 > 0) alongside Borel–Padé resummation (0.9126) and CDT/L_UV heat-kernel dimensional reduction d_s: 3.989 → 2.002; achieved structural 5-mode embedding via extended Krein–Connes algebra A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch with ℤ_2-protected Chameleon loop mixing |ε_{ψ,Ch}| = 4.42 × 10^{−16} (while Chameleon scale M_Ch and β_Ch remain open under OP-4); verified Fujikawa Weyl Jacobian & midisuperspace Dirac-Bergmann closure.'
   },
   {
     category: 'Strong Field: Axisymmetric Kerr–Hayward, RN–Hayward & Superradiance (OP-5)',
@@ -740,7 +742,7 @@ export const REVISION_HISTORY_TABLE: RevisionHistoryRow[] = [
     edition: 'H10 (Current Cosmological Likelihood, Kerr/RN, FRG & 5-Mode A_F Closure)',
     scope: '635-Panel remediation: joint likelihood/τ_re/η_B, Kerr–Hayward, Wetterich FRG, CDT d_s, 5-mode A_F^{H10}',
     physicsAndNumericalClosures:
-      'Closed OP-4 via 5-mode A_F^{H10} (|ε_{ψ,Ch}| = 4.42×10⁻¹⁶); solved 1-loop Wetterich FRG fixed point (g_*=1.3105, λ_*=0.1440, θ=4.835), Borel resummation (0.9126), & CDT flow d_s=3.989→2.002; solved axisymmetric Kerr–Hayward (κ_− ℓ_0 ≤ 0.6639), RN–Hayward (0.2614), superradiance gain (0.2048), double pulsar (3.44×10⁻¹⁵), τ_re=0.0537, A_L/E_G/Ly-α, leptogenesis η_B=6.13×10⁻¹⁰, & joint Δχ²=+4.41 (Δln Z=−3.52).',
+      'Embedded all 5 scalars structurally via A_F^{H10} (|ε_{ψ,Ch}| = 4.42×10⁻¹⁶; Chameleon scale M_Ch & β_Ch remain OP-4); solved 1-loop Wetterich FRG fixed point (g_*=1.3105, λ_*=0.1440, θ=4.835), Borel resummation (0.9126), & CDT flow d_s=3.989→2.002; solved axisymmetric Kerr–Hayward (κ_− ℓ_0 ≤ 0.6639), RN–Hayward (0.2614), superradiance gain (0.2048), double pulsar (3.44×10⁻¹⁵), τ_re=0.0537, A_L/E_G/Ly-α, leptogenesis η_B=6.13×10⁻¹⁰, & joint Δχ²=+4.41 (Δln Z=−3.52).',
     editorialAndVerificationClosures:
       'Added Appendices K–L, R8 Reviewer Response, updated H10 SHA-256 preregistration digest (7463d727…), synchronized 980-vector runner & UI views.'
   }
@@ -772,7 +774,7 @@ export const RESPONSE_TO_REVIEWERS: ReviewerResponseRow[] = [
     issueId: 'R3. 5-Mode A_F^{H10}, Araki κ_ψ & Wetterich FRG',
     concernSummary: 'Resolve 5-scalar proliferation (OP-4), UV cutoff behavior above Λ_local, CHM 1/(12π) factor, and screening numerics.',
     resolutionAndLocation:
-      'Unified all five scalars (ψ, φ_DE, Φ_portal, φ_osc, φ_Ch) inside A_F^{H10} = ℂ⊕ℍ⊕M_3(ℂ)⊕ℂ_hol⊕ℂ_Ch with |ε_{ψ,Ch}| = 4.42×10⁻¹⁶ (closing OP-4); solved 1-loop Wetterich FRG fixed point (g_* = 1.3105, λ_* = 0.1440, θ_real = 4.835 > 0) & Borel sum (0.9126); verified CHM trace normalization (retaining Planck ℓ_Pl ansatz, App. C/L); verified Z_ψ = 7.05×10¹⁴, Λ_local = 4.67 μeV, c_2 > 0, NS 1.61×10⁻²², & PSR J0737-3039 3.44×10⁻¹⁵.',
+      'Unified all five scalars (ψ, φ_DE, Φ_portal, φ_osc, φ_Ch) structurally inside A_F^{H10} = ℂ⊕ℍ⊕M_3(ℂ)⊕ℂ_hol⊕ℂ_Ch with |ε_{ψ,Ch}| = 4.42×10⁻¹⁶ (leaving first-principles M_Ch derivation and CANNEX P5 β_Ch open under OP-4); solved 1-loop Wetterich FRG fixed point (g_* = 1.3105, λ_* = 0.1440, θ_real = 4.835 > 0) & Borel sum (0.9126); verified CHM trace normalization (retaining Planck ℓ_Pl ansatz, App. C/L); verified Z_ψ = 7.05×10¹⁴, Λ_local = 4.67 μeV, c_2 > 0, NS 1.61×10⁻²², & PSR J0737-3039 3.44×10⁻¹⁵.',
     status: 'Resolved (Constitutive α_mod/ℓ_Pl Ansatz Scoped)'
   },
   {
@@ -827,15 +829,15 @@ export const KNOWN_OPEN_PROBLEMS: { code: string; topic: string; description: st
   },
   {
     code: 'OP-3',
-    topic: 'First-Principles Selection of Constitutive α_mod and ℓ_Pl Scale in κ_ψ',
+    topic: 'Derivation of Constitutive Eq. (4.1), α_mod, ℓ_Pl Scale in κ_ψ & Multi-Mode S¹ Stability',
     description:
-      'H10 derives 1-loop Wetterich FRG UV fixed point (g_* = 1.3105, λ_* = 0.1440), Borel resummation (0.9126), and CHM 1/(12π) diamond trace; deriving α_mod and the microscopic preference of ℓ_Pl over ℓ_CG⁻¹ in κ_ψ from non-perturbative quantum microstates remains open.'
+      'H10 derives 1-loop Wetterich FRG UV fixed point (g_* = 1.3105, λ_* = 0.1440), Borel resummation (0.9126), and CHM 1/(12π) diamond trace; deriving the constitutive synchronization relation Eq. (4.1) from a deeper principle (e.g., Schwinger–Keldysh effective action or holographic entanglement first law), explaining α_mod and the microscopic preference of ℓ_Pl over ℓ_CG⁻¹ in κ_ψ, and controlling multi-mode / Planckian S¹ branch mixing remain open.'
   },
   {
     code: 'OP-4',
-    topic: 'Phenomenological CANNEX Test of A_F^{H10}-Embedded Chameleon φ_Ch',
+    topic: 'First-Principles Chameleon Scale Derivation & CANNEX Test of A_F^{H10}-Embedded φ_Ch',
     description:
-      'Extended 5-mode algebra A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch closes algebraic unification with |ε_{ψ,Ch}| = 4.42×10⁻¹⁶; phenomenological couplings (M_Ch ≈ 2.4 meV, β_Ch) await experimental CANNEX P5 testing.'
+      'Extended 5-mode algebra A_F^{H10} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch achieves structural algebraic embedding of all five scalars with |ε_{ψ,Ch}| = 4.42×10⁻¹⁶; first-principles spectral-action derivation of M_Ch ≈ 2.4 meV and phenomenological couplings β_Ch remain open and await experimental CANNEX P5 testing.'
   },
   {
     code: 'OP-5',

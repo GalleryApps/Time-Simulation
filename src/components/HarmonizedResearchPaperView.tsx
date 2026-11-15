@@ -42,7 +42,6 @@ import {
   CLAIM_EVIDENCE_LEDGER,
   ETHICS_AND_GOVERNANCE,
   TABLE_H1_CLOSURES,
-  WHAT_CHANGED_SUMMARY,
   REVISION_HISTORY_TABLE,
   RESPONSE_TO_REVIEWERS,
   KNOWN_OPEN_PROBLEMS,
@@ -566,25 +565,6 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                   <h2 style={{ fontSize: 'var(--igrt-h2-size)', lineHeight: 1.2 }}>
                     Summary, Symbols &amp; Indices
                   </h2>
-                </div>
-
-                <div className="space-y-4 py-2">
-                  <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>What Changed in Harmonized Edition H10</h3>
-                  <div className="grid grid-cols-1 gap-3">
-                    {WHAT_CHANGED_SUMMARY.map((wc) => (
-                      <div
-                        key={wc.category}
-                        className="p-4 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026]"
-                      >
-                        <div className="text-[#8B4513] dark:text-[#FB923C] font-medium mb-1" style={{ fontSize: '16px' }}>
-                          <MathText text={wc.category} />
-                        </div>
-                        <p className="mb-0 text-[#334155] dark:text-[#CBD5E1]" style={{ marginBottom: 0, fontSize: '15.5px' }}>
-                          <MathText text={wc.detail} />
-                        </p>
-                      </div>
-                    ))}
-                  </div>
                 </div>
 
                 <div className="space-y-4 py-2">

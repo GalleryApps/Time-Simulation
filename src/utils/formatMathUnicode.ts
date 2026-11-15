@@ -49,22 +49,103 @@ const SUP_DIGIT_MAP: Record<string, string> = {
   '⁻': '−'
 };
 
+const SUB_DIGIT_MAP: Record<string, string> = {
+  '₀': '0',
+  '₁': '1',
+  '₂': '2',
+  '₃': '3',
+  '₄': '4',
+  '₅': '5',
+  '₆': '6',
+  '₇': '7',
+  '₈': '8',
+  '₉': '9',
+  '₊': '+',
+  '₋': '−'
+};
+
+const UNICODE_SUP_RUN_RE = /^[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+/;
+const UNICODE_SUB_RUN_RE = /^[₀₁₂₃₄₅₆₇₈₉₊₋]+/;
+const ANY_UNICODE_SCRIPT_RE = /[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻₀₁₂₃₄₅₆₇₈₉₊₋]/;
+
 function mapSupDigits(raw: string): string {
   return [...raw].map((ch) => SUP_DIGIT_MAP[ch] ?? ch).join('');
 }
 
-function normalizeMathOperators(s: string): string {
-  return s
-    .replace(/ \|\| /g, ' ‖ ')
-    .replace(/''/g, '″')
-    .replace(/([fPVS])'/g, '$1′')
-    .replace(/([⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)\/([⁰¹²³⁴⁵⁶⁷⁸⁹]+)/g, (_m, num: string, den: string) => {
-      return `^{${mapSupDigits(num)}/${mapSupDigits(den)}}`;
-    });
+function mapSubDigits(raw: string): string {
+  return [...raw].map((ch) => SUB_DIGIT_MAP[ch] ?? ch).join('');
 }
 
-function parseMathChunk(input: string): MathSegment[] {
-  const s = normalizeMathOperators(input);
+function mapAllScriptDigitsToAscii(raw: string): string {
+  return [...raw].map((ch) => SUP_DIGIT_MAP[ch] ?? SUB_DIGIT_MAP[ch] ?? ch).join('');
+}
+
+function splitPlainTextUnicodeScripts(txt: string): MathSegment[] {
+  if (!ANY_UNICODE_SCRIPT_RE.test(txt)) {
+    return txt ? [{ type: 'text', text: txt }] : [];
+  }
+  const normalized = txt.replace(
+    /([⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)\/([⁰¹²³⁴⁵⁶⁷⁸⁹]+)/g,
+    (_m, num: string, den: string) => `${mapSupDigits(num)}/${mapSupDigits(den)}`
+  );
+  // First split rational superscript fractions (e.g. 2⁻¹/⁴) directly
+  const fracSplit = normalized.split(/([⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+\/[⁰¹²³⁴⁵⁶⁷⁸⁹]+)/g);
+  const out: MathSegment[] = [];
+  for (let fi = 0; fi < fracSplit.length; fi++) {
+    const chunk = fracSplit[fi];
+    if (!chunk) continue;
+    if (fi % 2 === 1) {
+      const [num, den] = chunk.split('/');
+      out.push({ type: 'sup', children: [{ type: 'text', text: `${mapSupDigits(num)}/${mapSupDigits(den)}` }] });
+      continue;
+    }
+    let idx = 0;
+    let buf = '';
+    const flushBuf = () => {
+      if (buf) {
+        out.push({ type: 'text', text: buf });
+        buf = '';
+      }
+    };
+    while (idx < chunk.length) {
+      const slice = chunk.slice(idx);
+      const supM = slice.match(UNICODE_SUP_RUN_RE);
+      if (supM) {
+        flushBuf();
+        out.push({ type: 'sup', children: [{ type: 'text', text: mapSupDigits(supM[0]) }] });
+        idx += supM[0].length;
+        continue;
+      }
+      const subM = slice.match(UNICODE_SUB_RUN_RE);
+      if (subM) {
+        flushBuf();
+        out.push({ type: 'sub', children: [{ type: 'text', text: mapSubDigits(subM[0]) }] });
+        idx += subM[0].length;
+        continue;
+      }
+      buf += chunk[idx];
+      idx++;
+    }
+    flushBuf();
+  }
+  return out;
+}
+
+function normalizeMathOperators(s: string, insideScript = false): string {
+  const base = s
+    .replace(/ \|\| /g, ' ‖ ')
+    .replace(/''/g, '″')
+    .replace(/([fPVS])'/g, '$1′');
+  if (insideScript) {
+    return mapAllScriptDigitsToAscii(base);
+  }
+  return base.replace(/([⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)\/([⁰¹²³⁴⁵⁶⁷⁸⁹]+)/g, (_m, num: string, den: string) => {
+    return `^{${mapSupDigits(num)}/${mapSupDigits(den)}}`;
+  });
+}
+
+function parseMathChunk(input: string, insideScript = false): MathSegment[] {
+  const s = normalizeMathOperators(input, insideScript);
   const out: MathSegment[] = [];
   let buf = '';
   let i = 0;
@@ -87,7 +168,7 @@ function parseMathChunk(input: string): MathSegment[] {
           const inner = s.slice(i + 2, closeIdx);
           out.push({
             type: ch === '_' ? 'sub' : 'sup',
-            children: parseMathChunk(inner)
+            children: parseMathChunk(inner, true)
           });
           i = closeIdx + 1;
           continue;
@@ -100,13 +181,32 @@ function parseMathChunk(input: string): MathSegment[] {
           flush();
           out.push({
             type: ch === '_' ? 'sub' : 'sup',
-            children: [{ type: 'text', text: m[1] }]
+            children: [{ type: 'text', text: mapAllScriptDigitsToAscii(m[1]) }]
           });
           i += 1 + m[1].length;
           continue;
         }
       }
     }
+
+    if (!insideScript) {
+      const slice = s.slice(i);
+      const supM = slice.match(UNICODE_SUP_RUN_RE);
+      if (supM) {
+        flush();
+        out.push({ type: 'sup', children: [{ type: 'text', text: mapSupDigits(supM[0]) }] });
+        i += supM[0].length;
+        continue;
+      }
+      const subM = slice.match(UNICODE_SUB_RUN_RE);
+      if (subM) {
+        flush();
+        out.push({ type: 'sub', children: [{ type: 'text', text: mapSubDigits(subM[0]) }] });
+        i += subM[0].length;
+        continue;
+      }
+    }
+
     buf += ch;
     i++;
   }
@@ -119,7 +219,7 @@ export function parseMathSegments(input: string): MathSegment[] {
   if (!input) return [];
   if (
     !/[_^{}\\|']/.test(input) &&
-    !/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+\/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/.test(input) &&
+    !ANY_UNICODE_SCRIPT_RE.test(input) &&
     !input.includes(' || ')
   ) {
     return [{ type: 'text', text: input }];
@@ -160,6 +260,7 @@ export function parseHtmlMathSegments(html: string): MathSegment[] {
   const stack: { tag: 'i' | 'sub' | 'sup'; children: MathSegment[] }[] = [];
 
   const target = () => (stack.length > 0 ? stack[stack.length - 1].children : root);
+  const isInsideScript = () => stack.some((s) => s.tag === 'sub' || s.tag === 'sup');
 
   for (const tok of tokens) {
     const lower = tok.toLowerCase();
@@ -182,7 +283,11 @@ export function parseHtmlMathSegments(html: string): MathSegment[] {
     } else {
       const decoded = decodeHtmlEntities(tok);
       if (decoded) {
-        target().push({ type: 'text', text: decoded });
+        if (isInsideScript()) {
+          target().push({ type: 'text', text: mapAllScriptDigitsToAscii(decoded) });
+        } else {
+          target().push(...splitPlainTextUnicodeScripts(decoded));
+        }
       }
     }
   }

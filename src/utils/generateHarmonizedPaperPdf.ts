@@ -40,7 +40,6 @@ import {
   CLAIM_EVIDENCE_LEDGER,
   ETHICS_AND_GOVERNANCE,
   TABLE_H1_CLOSURES,
-  WHAT_CHANGED_SUMMARY,
   REVISION_HISTORY_TABLE,
   RESPONSE_TO_REVIEWERS,
   KNOWN_OPEN_PROBLEMS,
@@ -226,8 +225,9 @@ function resolveFontForCluster(
   if (cluster.includes('\u2113')) {
     return ['NotoSerif', 'italic'];
   }
-  // Route single/double primes (′, ″) in serif to DejaVuSans for crisp parallel strokes (prevent serif prime smearing)
-  if (cluster.includes('\u2032') || cluster.includes('\u2033')) {
+  // Route single/double primes (′, ″) and any residual Unicode super/subscript block (U+2070..U+209F) to DejaVuSans
+  const firstCp = cluster.codePointAt(0) ?? 0;
+  if (cluster.includes('\u2032') || cluster.includes('\u2033') || (firstCp >= 0x2070 && firstCp <= 0x209f)) {
     return ['DejaVuSans', 'normal'];
   }
   if (clusterUsesAny(cluster, SERIF_MISSING)) {
@@ -534,7 +534,16 @@ function renderRichSegmentsCanvasPng(
         total += Math.max(1.8, px * 0.045);
       }
       setCanvasChunkFont(c, px, ch.familyCss, ch.italic);
-      total += c.measureText(ch.part).width;
+      const metrics = c.measureText(ch.part);
+      let partW = metrics.width;
+      if (
+        pi === parts.length - 1 &&
+        typeof metrics.actualBoundingBoxRight === 'number' &&
+        metrics.actualBoundingBoxRight > partW
+      ) {
+        partW = metrics.actualBoundingBoxRight + (ch.italic ? Math.max(1.5, px * 0.04) : 0);
+      }
+      total += partW;
       if (pi < parts.length - 1 && ch.part.includes('\u2113')) {
         total += Math.max(1.6, px * 0.04);
       }
@@ -678,7 +687,7 @@ function renderRichSegmentsCanvasPng(
 
   setCanvasChunkFont(ctx, fontPx, fontFamilyCss, false);
   const spaceW = ctx.measureText(' ').width;
-  const usableW = align === 'center' ? maxWidthPx - 40 : maxWidthPx;
+  const usableW = align === 'center' ? maxWidthPx - 56 : maxWidthPx;
 
   const lines: Array<{ words: CanvasWord[]; width: number }> = [];
   for (const lWords of logicalLines) {
@@ -710,9 +719,9 @@ function renderRichSegmentsCanvasPng(
   const didSoftWrap = lines.length > logicalLines.length;
   const canvasW =
     align === 'center'
-      ? Math.ceil(Math.min(maxWidthPx, Math.max(160, Math.max(...lines.map((l) => l.width)) + 56)))
+      ? Math.ceil(Math.min(maxWidthPx, Math.max(160, Math.max(...lines.map((l) => l.width)) + 84)))
       : Math.ceil(maxWidthPx);
-  const padTop = Math.round(fontPx * 0.54);
+  const padTop = Math.round(fontPx * 0.72);
   const canvasH = Math.max(lineH + padTop * 2, lines.length * lineH + padTop * 2);
 
   canvas.width = canvasW;
@@ -1445,11 +1454,14 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       doc.addImage(rendered.dataUrl, 'PNG', MARGIN, y - 0.04, rendered.widthIn, rendered.heightIn);
       y += rendered.heightIn + afterSpace;
     } else {
-      ensureSpace(0.5);
+      const pt = (fontPx * 72) / 96;
+      ensureSpace(pt / 72 + 0.35);
+      y += (pt * 0.72) / 72;
       writeRichParagraph(text, {
         font: 'serif',
         style: 'normal',
-        size: (fontPx * 72) / 96,
+        size: pt,
+        lineHeight: (pt * 1.24) / 72,
         justify: false,
         afterSpace
       });
@@ -1583,7 +1595,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     const cellSize = opts.cellSize ?? 8.6;
     const cellLineH = (cellSize * 1.46) / 72;
     const padX = opts.padX ?? 0.08;
-    const padY = 0.075;
+    const padY = 0.088;
     const totalW = columns.reduce((acc, c) => acc + c.width, 0);
 
     const drawHeaderBar = () => {
@@ -1607,7 +1619,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         }
         doc.setTextColor(15, 23, 42);
         activeInkRgb = [15, 23, 42];
-        let ly = y + padY + headerSize / 72;
+        let ly = y + padY + (headerSize * 1.12) / 72;
         for (const lineWords of headerLinesPerCol[ci].lines) {
           let lx = cx + padX;
           for (let wi = 0; wi < lineWords.length; wi++) {
@@ -1679,7 +1691,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
 
         const cellRes = prepared[ci];
         const availW = col.width - 2 * padX;
-        let ly = y + padY + cellSize / 72;
+        let ly = y + padY + (cellSize * 1.12) / 72;
 
         for (let li = 0; li < cellRes.lines.length; li++) {
           const lineWords = cellRes.lines[li];
@@ -1994,27 +2006,28 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   // =========================================================
   writeRichParagraph(`${PAPER_META.publicationStatus}  |  ${PAPER_META.edition}`, {
     font: 'sans',
-    size: 8.5,
+    size: 7.9,
     color: [139, 69, 19],
     justify: false,
-    afterSpace: 0.06
+    afterSpace: 0.04
   });
 
   drawRule([15, 23, 42], 0.015);
-  drawPlayfairHeadline(PAPER_META.title, 32, 0.14);
+  drawPlayfairHeadline(PAPER_META.title, 23, 0.06);
 
   writeRichParagraph(
-    `${PAPER_META.eprint}   |   ${PAPER_META.doi}\nPhySH: ${PAPER_META.physh}\nMSC 2020: ${PAPER_META.msc2020}`,
-    { font: 'mono', size: 8.4, color: [100, 116, 139], justify: false, afterSpace: 0.14 }
+    `${PAPER_META.eprint}  |  ${PAPER_META.doi}\nPhySH: ${PAPER_META.physh}  |  MSC 2020: ${PAPER_META.msc2020}`,
+    { font: 'mono', size: 7.7, lineHeight: (7.7 * 1.32) / 72, color: [100, 116, 139], justify: false, afterSpace: 0.055 }
   );
 
   for (const a of PAPER_META.authors) {
     writeRichParagraph(`${a.name} (ORCID: https://orcid.org/${a.orcid}) — ${a.affiliation}`, {
       font: 'serif',
-      size: 9.8,
+      size: 8.6,
+      lineHeight: (8.6 * 1.28) / 72,
       color: [15, 23, 42],
       justify: true,
-      afterSpace: 0.05
+      afterSpace: 0.02
     });
   }
 
@@ -2022,14 +2035,14 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
 
   writeRichParagraph('ABSTRACT', {
     font: 'sans',
-    size: 9.5,
+    size: 8.6,
     color: [139, 69, 19],
     justify: false,
-    afterSpace: 0.08
+    afterSpace: 0.035
   });
 
   for (const p of SHORTENED_ABSTRACT.paragraphs) {
-    writeRichParagraph(p, { size: 10.6, lineHeight: (10.6 * 1.48) / 72, afterSpace: 0.09 });
+    writeRichParagraph(p, { size: 9.2, lineHeight: (9.2 * 1.33) / 72, afterSpace: 0.045 });
   }
   drawEquationBox(
     MASTER_EQUATION_ABSTRACT.unicodeHtml,
@@ -2040,10 +2053,11 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   writeRichParagraph(PAPER_META.keywords.join(' · '), {
     prefixBold: 'Keywords: ',
     style: 'italic',
-    size: 9.4,
+    size: 8.6,
+    lineHeight: (8.6 * 1.30) / 72,
     color: [71, 85, 105],
     justify: true,
-    afterSpace: 0.08
+    afterSpace: 0.03
   });
 
   // =========================================================
@@ -2093,17 +2107,13 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   // =========================================================
   startChapterOnNewPage();
   drawPlayfairHeadline('Summary, Symbols & Indices', 28, 0.18);
-  writeRichParagraph('WHAT CHANGED IN HARMONIZED EDITION H10', {
+  writeRichParagraph('SUMMARY', {
     font: 'sans',
     size: 9.2,
     color: [139, 69, 19],
     justify: false,
     afterSpace: 0.08
   });
-  for (const wc of WHAT_CHANGED_SUMMARY) {
-    writeRichParagraph(wc.detail, { prefixBold: `${wc.category}: `, size: 9.9, afterSpace: 0.08 });
-  }
-  y += 0.08;
   writeRichParagraph(PLAIN_LANGUAGE_SUMMARY, { size: BODY_PT, lineHeight: BODY_LINE_IN, afterSpace: 0.16 });
 
   if (y > MARGIN + 0.2) y += 0.14;

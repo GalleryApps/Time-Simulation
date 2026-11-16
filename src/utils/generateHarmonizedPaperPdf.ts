@@ -9,7 +9,7 @@
  *   appendices, governance disclosures, and references
  * - Headlines: Playfair Display Regular (weight 400, strictly never bold) with resolved math sub/superscripts
  * - Equations: High-DPI HTML5 Canvas typesetting parsed from eq.unicodeHtml
- * - Figures: Rasterizes all 8 inline SVG diagrams with resolved <tspan> sub/superscripts
+ * - Figures & Plates: Rasterizes all 12 inline SVG diagrams + embeds 5 editorial illustration plates (Plates I–V)
  * - NO ORCIDs inside References
  */
 
@@ -48,9 +48,9 @@ import {
   TABLE_7_3_PROTOCOL_TIMELINE,
   TABLE_8_4_SCALAR_BUDGET,
   APPENDIX_M_STATUS_TABLE,
-  H10_PREREG_SHA256
+  H11_PREREG_SHA256
 } from '../types/harmonizedPaperApparatus';
-import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
+import { PAPER_FIGURES, PAPER_ILLUSTRATIONS } from '../components/HarmonizedPaperFigures';
 import {
   MathSegment,
   parseMathSegments,
@@ -888,6 +888,45 @@ async function rasterizeSvgToPng(
       resolve(null);
     }
   });
+}
+
+async function loadPlateImageForPdf(
+  url: string,
+  targetWidthInches: number
+): Promise<{ dataUrl: string; format: 'JPEG' | 'PNG'; widthIn: number; heightIn: number } | null> {
+  if (typeof fetch === 'undefined') return null;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const buf = await res.arrayBuffer();
+    const bytes = new Uint8Array(buf);
+    const isPng = bytes.length >= 4 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47;
+    const format: 'JPEG' | 'PNG' = isPng ? 'PNG' : 'JPEG';
+    const mime = isPng ? 'image/png' : 'image/jpeg';
+    const b64 = arrayBufferToBase64(buf);
+    const dataUrl = `data:${mime};base64,${b64}`;
+
+    let aspect = 9 / 16;
+    if (typeof Image !== 'undefined') {
+      aspect = await new Promise<number>((resolveAspect) => {
+        const img = new Image();
+        img.onload = () => {
+          resolveAspect(img.naturalWidth > 0 ? img.naturalHeight / img.naturalWidth : 9 / 16);
+        };
+        img.onerror = () => resolveAspect(9 / 16);
+        img.src = dataUrl;
+      });
+    }
+
+    return {
+      dataUrl,
+      format,
+      widthIn: targetWidthInches,
+      heightIn: targetWidthInches * aspect
+    };
+  } catch {
+    return null;
+  }
 }
 
 export interface RichWriteOpts {
@@ -2108,7 +2147,18 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     y += totalH + 0.16;
   };
 
-  // Pre-rasterize all 8 SVG diagrams
+  // Pre-load 5 archival illustration plates & pre-rasterize all 12 SVG diagrams
+  const plateImages = new Map<
+    number,
+    { dataUrl: string; format: 'JPEG' | 'PNG'; widthIn: number; heightIn: number }
+  >();
+  await Promise.all(
+    PAPER_ILLUSTRATIONS.map(async (plate) => {
+      const pImg = await loadPlateImageForPdf(plate.imagePath, CONTENT_W - 0.1);
+      if (pImg) plateImages.set(plate.id, pImg);
+    })
+  );
+
   const figureImages = new Map<number, { dataUrl: string; widthIn: number; heightIn: number }>();
   for (const fig of PAPER_FIGURES) {
     const png = await rasterizeSvgToPng(fig.svgMarkup, CONTENT_W - 0.1, fontsLoaded);
@@ -2181,7 +2231,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   drawPlayfairHeadline('Table of Contents', 30, 0.16);
   drawRule([214, 202, 190], 0.008);
   writeRichParagraph(
-    'Summary, Symbols & Indices: Summary · Scope & Closures · Symbols · Acronyms · Dimensional Closure · Equation Index',
+    'Summary, Symbols & Indices: Summary · Scope & Closures · Illustrations · Symbols · Acronyms · Dimensional Closure · Equation Index',
     { size: 10.2, justify: true, afterSpace: 0.12 }
   );
   for (const ch of PAPER_CHAPTERS) {
@@ -2203,7 +2253,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     }
   }
   drawRule([226, 217, 200], 0.006);
-  writeRichParagraph('Appendices A–O: Formal Theorems, CODATA Units, Derivations, Status Audit, Toy Model, Revision Registry & H10 Closures', {
+  writeRichParagraph('Appendices A–P: Formal Theorems, CODATA Units, Derivations, Status Audit, Toy Model, Revision Registry & H11 Closures', {
     size: 10.2,
     style: 'bold',
     justify: false,
@@ -2289,6 +2339,18 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     DIMENSIONAL_ANALYSIS_CLOSURE_B.map((d) => [d.quantity, d.expression, `SI: ${d.siUnits}\nNat.: ${d.naturalUnits}`, d.auditNote]),
     { cellSize: 8.5, padX: 0.055 }
   );
+
+  writeRichParagraph('LIST OF ILLUSTRATIONS', {
+    font: 'sans',
+    size: 9.2,
+    color: [139, 69, 19],
+    justify: false,
+    afterSpace: 0.05
+  });
+  for (const p of PAPER_ILLUSTRATIONS) {
+    writeRichParagraph(p.title, { prefixBold: `Plate ${p.roman}: `, size: 9.8, afterSpace: 0.03 });
+  }
+  y += 0.08;
 
   writeRichParagraph('LIST OF FIGURES', {
     font: 'sans',
@@ -2508,7 +2570,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
 
       if (sub.anchorId === 'sec-8-2') {
         drawPdfTable(
-          'TABLE 8.4: FIVE-SCALAR FREE PARAMETER BUDGET & INFORMATION CRITERION (ΔAIC = 16)',
+          'TABLE 8.4: MINIMAL ACTIVE PARAMETER BUDGET & INFORMATION CRITERION (k_eff = 2, ΔAIC = −1.84, Δln Z = +1.42)',
           [
             { header: 'Scalar Field', width: 1.95, justify: false },
             { header: 'Free Parameters', width: CONTENT_W - 2.65, justify: false },
@@ -2519,25 +2581,54 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         );
       }
 
+      // Embed archival illustration plates positioned after this subsection (with space above descriptions)
+      const matchedPlates = PAPER_ILLUSTRATIONS.filter((p) => p.afterSubsectionAnchor === sub.anchorId);
+      for (const plate of matchedPlates) {
+        const pImg = plateImages.get(plate.id);
+        if (pImg) {
+          ensureSpace(pImg.heightIn + 1.25);
+          const imgX = MARGIN + (CONTENT_W - pImg.widthIn) / 2;
+          doc.addImage(pImg.dataUrl, pImg.format, imgX, y, pImg.widthIn, pImg.heightIn);
+          doc.setDrawColor(214, 202, 190);
+          doc.setLineWidth(0.01);
+          doc.rect(imgX, y, pImg.widthIn, pImg.heightIn);
+          y += pImg.heightIn + 0.30;
+          doc.setDrawColor(226, 217, 200);
+          doc.setLineWidth(0.006);
+          doc.line(MARGIN, y - 0.14, PAGE_W - MARGIN, y - 0.14);
+        }
+        writeRichParagraph(plate.caption, {
+          prefixBold: `Plate ${plate.roman}: ${plate.title} — `,
+          style: 'normal',
+          size: 9.8,
+          color: [71, 85, 105],
+          justify: true,
+          afterSpace: 0.22
+        });
+      }
+
       // Embed rasterized inline SVG figures belonging after this subsection
       const matchedFigs = PAPER_FIGURES.filter((f) => f.afterSubsectionAnchor === sub.anchorId);
       for (const fig of matchedFigs) {
         const img = figureImages.get(fig.id);
         if (img) {
-          ensureSpace(img.heightIn + 0.95);
+          ensureSpace(img.heightIn + 1.15);
           const imgX = MARGIN + (CONTENT_W - img.widthIn) / 2;
           doc.addImage(img.dataUrl, 'PNG', imgX, y, img.widthIn, img.heightIn);
           doc.setDrawColor(214, 202, 190);
           doc.setLineWidth(0.008);
           doc.rect(imgX, y, img.widthIn, img.heightIn);
-          y += img.heightIn + 0.1;
+          y += img.heightIn + 0.30;
+          doc.setDrawColor(226, 217, 200);
+          doc.setLineWidth(0.006);
+          doc.line(MARGIN, y - 0.14, PAGE_W - MARGIN, y - 0.14);
         }
         writeRichParagraph(fig.caption, {
           style: 'normal',
           size: 9.8,
           color: [71, 85, 105],
           justify: true,
-          afterSpace: 0.18
+          afterSpace: 0.20
         });
       }
 
@@ -2548,10 +2639,10 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   }
 
   // =========================================================
-  // APPENDICES A–N
+  // APPENDICES A–P
   // =========================================================
   startChapterOnNewPage();
-  drawPlayfairHeadline('Appendices A–O: Derivations, Units & Technical FAQ', 28, 0.18);
+  drawPlayfairHeadline('Appendices A–P: Derivations, Units & Technical FAQ', 28, 0.18);
   for (const app of PAPER_APPENDICES) {
     if (y > MARGIN + 0.25) {
       y += 0.18;
@@ -2596,15 +2687,15 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       doc.rect(MARGIN, y, CONTENT_W, 0.36, 'FD');
       doc.setTextColor(139, 69, 19);
       activeInkRgb = [139, 69, 19];
-      drawTextMixed('H10 PREREGISTRATION DIGEST (SHA-256):', MARGIN + 0.08, y + 0.145, 'sans', 'normal', 7.4);
+      drawTextMixed('H11 PREREGISTRATION DIGEST (SHA-256):', MARGIN + 0.08, y + 0.145, 'sans', 'normal', 7.4);
       doc.setTextColor(15, 23, 42);
       activeInkRgb = [15, 23, 42];
-      drawTextMixed(H10_PREREG_SHA256, MARGIN + 0.08, y + 0.285, 'mono', 'normal', 8.1);
+      drawTextMixed(H11_PREREG_SHA256, MARGIN + 0.08, y + 0.285, 'mono', 'normal', 8.1);
       y += 0.50;
     }
     if (app.letter === 'I') {
       drawPdfTable(
-        'TABLE I.1: REVISION HISTORY (EDITIONS H6 → H7 → H8 → H9 → H10)',
+        'TABLE I.1: REVISION HISTORY (EDITIONS H6 → H7 → H8 → H9 → H10 → H11)',
         [
           { header: 'Edition', width: 1.12, font: 'serif', style: 'bold', color: [139, 69, 19] },
           { header: 'Scope', width: 1.13, justify: true },

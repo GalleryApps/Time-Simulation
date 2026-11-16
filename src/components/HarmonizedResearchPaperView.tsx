@@ -50,11 +50,19 @@ import {
   TABLE_7_3_PROTOCOL_TIMELINE,
   TABLE_8_4_SCALAR_BUDGET,
   APPENDIX_M_STATUS_TABLE,
-  H10_PREREG_SHA256
+  H11_PREREG_SHA256
 } from '../types/harmonizedPaperApparatus';
-import { PAPER_FIGURES, HarmonizedPaperFigure } from './HarmonizedPaperFigures';
+import {
+  PAPER_FIGURES,
+  HarmonizedPaperFigure,
+  PAPER_ILLUSTRATIONS,
+  HarmonizedPaperIllustration
+} from './HarmonizedPaperFigures';
 import { MathText } from './MathText';
-import { buildSelfContainedMonographHtml } from '../utils/generateHarmonizedPaperHtml';
+import {
+  buildSelfContainedMonographHtml,
+  buildSelfContainedMonographHtmlAsync
+} from '../utils/generateHarmonizedPaperHtml';
 import { generateHarmonizedPaperPdf } from '../utils/generateHarmonizedPaperPdf';
 import verifyScriptSource from '../../scripts/verify-igrt-monograph.mjs?raw';
 
@@ -162,8 +170,8 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
     }
   };
 
-  const handlePrintCleanHtml = () => {
-    const html = buildSelfContainedMonographHtml();
+  const handlePrintCleanHtml = async () => {
+    const html = await buildSelfContainedMonographHtmlAsync();
     if (printFrameRef.current) {
       printFrameRef.current.srcdoc = html;
       printFrameRef.current.onload = () => {
@@ -239,13 +247,16 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
       <div className="print:hidden rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FAF8F3] dark:bg-[#0B1530] p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 text-[13px] font-['Poppins']">
         <div className="flex flex-wrap items-center gap-2">
           <button
-            onClick={() =>
+            onClick={async () => {
+              const html = await buildSelfContainedMonographHtmlAsync().catch(() =>
+                buildSelfContainedMonographHtml()
+              );
               downloadTextAsset(
-                buildSelfContainedMonographHtml(),
+                html,
                 'IGRT_Harmonized_Monograph_SelfContained.html',
                 'text/html;charset=utf-8'
-              )
-            }
+              );
+            }}
             className="px-4 py-2 rounded-lg bg-[#8B4513] dark:bg-[#EA580C] text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
           >
             Download Self-Contained HTML (.html)
@@ -373,7 +384,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
               : 'bg-[#FAF8F3] dark:bg-[#081026] text-[#475569] dark:text-[#CBD5E1]'
           }`}
         >
-          App. A–O
+          App. A–P
         </button>
         <button
           onClick={() => jumpToSection('references')}
@@ -396,7 +407,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
               Table of Contents
             </div>
             <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8]">
-              Chapters 1–8 · App. A–O · Refs [1–{PAPER_REFERENCES.length}]
+              Chapters 1–8 · App. A–P · Refs [1–{PAPER_REFERENCES.length}]
             </div>
           </div>
 
@@ -445,7 +456,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                 focusedAnchor === 'appendices' ? 'text-[#8B4513] dark:text-[#FB923C]' : ''
               }`}
             >
-              Appendices A–O &amp; FAQ
+              Appendices A–P &amp; FAQ
             </button>
             <button
               onClick={() => jumpToSection('governance')}
@@ -595,6 +606,23 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                     ))}
                   </div>
                 </div>
+
+              {/* List of Illustrations (Plates I–V) */}
+              <div className="p-5 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] space-y-3">
+                <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>List of Illustrations</h3>
+                <ul className="space-y-2 list-disc pl-6" style={{ fontSize: '16px', lineHeight: 1.5 }}>
+                  {PAPER_ILLUSTRATIONS.map((p) => (
+                    <li key={p.id}>
+                      <button
+                        onClick={() => jumpToSection(p.anchorId, p.chapterAnchor)}
+                        className="text-left hover:underline text-[#8B4513] dark:text-[#FB923C]"
+                      >
+                        Plate {p.roman}: <MathText text={p.title} />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
               {/* List of Figures & Tables */}
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
@@ -795,6 +823,9 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
 
                 <div className="space-y-12">
                   {chapter.subsections.map((sub, subIdx) => {
+                    const subPlates = PAPER_ILLUSTRATIONS.filter(
+                      (p) => p.afterSubsectionAnchor === sub.anchorId
+                    );
                     const subFigs = PAPER_FIGURES.filter(
                       (f) => f.afterSubsectionAnchor === sub.anchorId
                     );
@@ -1124,12 +1155,12 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                         </div>
                       )}
 
-                      {/* §8.2 Free Parameter Budget & Information Criterion (Table 8.4) */}
+                      {/* §8.2 Minimal Active Parameter Budget & Information Criterion (Table 8.4) */}
                       {sub.anchorId === 'sec-8-2' && (
                         <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] my-6">
                           <table className="w-full text-left igrt-tabular" style={{ fontSize: '14px', lineHeight: 1.52 }}>
                             <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
-                              Table 8.4: Five-Scalar Free Parameter Budget &amp; Information Criterion (ΔAIC = 16)
+                              Table 8.4: Minimal Active Parameter Budget &amp; Information Criterion (k_eff = 2, ΔAIC = −1.84, Δln Z = +1.42)
                             </caption>
                             <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
                               <tr>
@@ -1151,6 +1182,11 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                         </div>
                       )}
 
+                      {/* Render archival illustration plates positioned after this subsection */}
+                      {subPlates.map((plate) => (
+                        <HarmonizedPaperIllustration key={plate.id} illustration={plate} />
+                      ))}
+
                       {/* Render inline SVG figures positioned after this subsection */}
                       {subFigs.map((fig) => (
                         <HarmonizedPaperFigure key={fig.id} figure={fig} />
@@ -1163,14 +1199,14 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
             </React.Fragment>
           ))}
 
-          {/* APPENDICES A–N */}
+          {/* APPENDICES A–P */}
           {showAppendices && (
             <>
               {readingMode === 'continuous' && (
                 <div className="igrt-page-break-banner print:hidden" aria-hidden="true">
                   <span className="h-px flex-1 bg-[#D6CABE] dark:bg-[#334155]" />
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#8B4513] dark:text-[#FDBA74] px-2">
-                    New Page · Appendices A–O
+                    New Page · Appendices A–P
                   </span>
                   <span className="h-px flex-1 bg-[#D6CABE] dark:bg-[#334155]" />
                 </div>
@@ -1184,7 +1220,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                     Mathematical &amp; Derivation Appendices
                   </div>
                   <h2 style={{ fontSize: 'var(--igrt-h2-size)', lineHeight: 1.2 }}>
-                    Appendices A–O: Derivations, CODATA Units &amp; Technical FAQ
+                    Appendices A–P: Derivations, CODATA Units &amp; Technical FAQ
                   </h2>
                 </div>
 
@@ -1253,10 +1289,10 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                             <tr>
                               <td colSpan={4} className="p-3 font-mono text-[12px] text-[#0F172A] dark:text-[#F8FAFC]">
                                 <div className="font-sans text-[#8B4513] dark:text-[#FB923C] font-semibold">
-                                  H10 Preregistration Digest (SHA-256):
+                                  H11 Preregistration Digest (SHA-256):
                                 </div>
                                 <div className="mt-0.5 text-[11.5px] whitespace-nowrap tracking-tight">
-                                  {H10_PREREG_SHA256}
+                                  {H11_PREREG_SHA256}
                                 </div>
                               </td>
                             </tr>
@@ -1269,7 +1305,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                         <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530]">
                           <table className="w-full text-left igrt-tabular" style={{ fontSize: '13.5px', lineHeight: 1.5 }}>
                             <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
-                              Table I.1: Revision History (H6 → H7 → H8 → H9 → H10)
+                              Table I.1: Revision History (H6 → H7 → H8 → H9 → H10 → H11)
                             </caption>
                             <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
                               <tr>

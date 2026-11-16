@@ -21,6 +21,75 @@ export interface PaperFigureSpec {
   svgMarkup: string;
 }
 
+export interface PaperIllustrationSpec {
+  id: number;
+  roman: string;
+  anchorId: string;
+  chapterAnchor: string;
+  afterSubsectionAnchor: string;
+  imagePath: string;
+  title: string;
+  caption: string;
+}
+
+export const PAPER_ILLUSTRATIONS: PaperIllustrationSpec[] = [
+  {
+    id: 1,
+    roman: 'I',
+    anchorId: 'plate-1',
+    chapterAnchor: 'chapter-2',
+    afterSubsectionAnchor: 'sec-2-1',
+    imagePath: '/illustrations/plate_1_fiber_bundle.jpg',
+    title: 'Principal Fiber Bundle P(M, PU(ℋ)) and Statistical State Manifold Geometry',
+    caption:
+      'Illustration Plate I. Conceptual differential-geometric plate of the trivial principal bundle P(M, PU(ℋ)) over the 4D Lorentzian spacetime manifold M (navy wire-mesh) with attached projective Hilbert fibers (terracotta & emerald Bloch spheres) endowed with the CPTP-monotone Petz SLD quantum Fisher–Rao metric g_ij^QFI. Geodesic curves along horizontal sections synchronize coordinate intervals via Theorem 4.1 without requiring a preferred external clock.'
+  },
+  {
+    id: 2,
+    roman: 'II',
+    anchorId: 'plate-2',
+    chapterAnchor: 'chapter-3',
+    afterSubsectionAnchor: 'sec-3-1',
+    imagePath: '/illustrations/plate_2_spectral_manifold.jpg',
+    title: 'Extended Noncommutative Spectral Triple 𝒜_F^{H11} Unifying Five Scalar Sectors',
+    caption:
+      'Illustration Plate II. Archival geometric representation of the five-mode finite Krein–Connes spectral algebra 𝒜_F^{H11} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch bridging two continuum product sheets (navy) via discrete internal matrix rings (terracotta braiding links and emerald Standard Model / Chameleon gauge fluxes). Seeley–DeWitt trace identities lock coupling ratios so all five scalar modes compress to k_eff = 2 spectral moduli.'
+  },
+  {
+    id: 3,
+    roman: 'III',
+    anchorId: 'plate-3',
+    chapterAnchor: 'chapter-6',
+    afterSubsectionAnchor: 'sec-6-1',
+    imagePath: '/illustrations/plate_3_cosmic_bounce.jpg',
+    title: 'Non-Singular Two-Stage Ekpyrotic-to-Matter L_UV Cosmic Bounce Geometry',
+    caption:
+      'Illustration Plate III. Smooth Lorentzian hourglass spacetime manifold transitioning from an upper contracting ekpyrotic-matter epoch into a lower expanding universe across a minimal Planck-density throat (terracotta ring at ρ_max = 0.4094 ρ_Pl). Emerald causal light-cone trajectories traverse the bounce smoothly without cusp formation, diluting BKL anisotropic shear to 4.0×10^{−15} while preserving TCC bound H_max = 0.926 M_Pl < M_Pl.'
+  },
+  {
+    id: 4,
+    roman: 'IV',
+    anchorId: 'plate-4',
+    chapterAnchor: 'chapter-6',
+    afterSubsectionAnchor: 'sec-6-3',
+    imagePath: '/illustrations/plate_4_hayward_bh.jpg',
+    title: 'Regular Kerr–Hayward Black Hole Interior, De Sitter Core, and QES Island',
+    caption:
+      'Illustration Plate IV. Cross-sectional embedding funnel of a regular Hayward–Kerr black hole. The outer event horizon and inner Cauchy core envelope a smooth, non-singular de Sitter plateau (terracotta concentric core, ℓ_0 = 2^{−1/4} ℓ_Pl, K ≤ 48/ℓ_Pl⁴) free of curvature singularities, with unitary Hawking entanglement and Quantum Extremal Surface (QES) island loops (emerald) saturating dynamic mass inflation.'
+  },
+  {
+    id: 5,
+    roman: 'V',
+    anchorId: 'plate-5',
+    chapterAnchor: 'chapter-7',
+    afterSubsectionAnchor: 'sec-7-2',
+    imagePath: '/illustrations/plate_5_clock_pta.jpg',
+    title: 'Protocol P1 Precision Metrology: Optical Lattice Clock Cavity and Pulsar Array',
+    caption:
+      'Illustration Plate V. Dual-scale experimental plate pairing a terrestrial ⁸⁷Sr/¹⁷¹Yb optical lattice atomic clock cavity (left, navy & emerald standing-wave lattice) with a cosmological millisecond pulsar beam array across nanohertz gravitational wavefronts (right, terracotta). The center harmonic wave depicts the exact 2:1 frequency resonance f_PTA = 2 f_clock = 12.8 nHz probing Eq. (4.1) and ULDM holonomy mass m_osc = 2.65×10^{−23} eV.'
+  }
+];
+
 function sampleBounceSvgPaths(): {
   igrtPath: string;
   igrtAreaPath: string;
@@ -286,7 +355,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     afterSubsectionAnchor: 'sec-1-4',
     title: 'Logical Architecture and Chapter Roadmap of the IGRT Monograph',
     caption:
-      'Figure 1. Logical architecture connecting the historical foundation, HL-LHC spectral test, emerging technologies, and seven postulates (Chapter 1) to trivial bookkeeping principal PU(H) and split-included associated E_stat = P ×_{PU(H)} S(N) bundles (Chapter 2), luminal Type Ia five-scalar Horndeski gravity and Type III₁ Araki matter-diamond dynamics (Chapter 3), Tomita–Takesaki MT-calibrated postulate α_mod, background-independence closure §4.1.1, and smeared Krein correspondences (Chapter 4), canonical BFV BRST unfreezing and detailed-balance BKM dissipation (Chapter 5), explicit L_UV bounce and Hayward/QES/QFC-conditional regularity (Chapter 6), observational protocols P1–P6 & Core Falsifier (Chapter 7), and Minimal Core / Phenomenology closure synthesis with Table 8.3–8.4 and Appendices A–O (Chapter 8).',
+      'Figure 1. Logical architecture connecting the historical foundation, HL-LHC spectral test, emerging technologies, and seven postulates (Chapter 1) to trivial bookkeeping principal PU(H) and split-included associated E_stat = P ×_{PU(H)} S(N) bundles (Chapter 2), luminal Type Ia five-scalar Horndeski gravity and Type III₁ Jacobson–CHM Araki dynamics (Chapter 3), Tomita–Takesaki MT-variational Theorem 4.1 synchronization α_mod, background-independence closure §4.1.1, and WKB Krein correspondences (Chapter 4), canonical BFV–BRST unfreezing and detailed-balance BKM dissipation (Chapter 5), explicit L_UV bounce and WKB K_echo = 0.184 / mass-inflation regularity (Chapter 6), observational protocols P1–P6 & Core Falsifier (Chapter 7), and Minimal Core / A_F^{H11} closure synthesis with Table 8.3–8.4 (k_eff = 2, ΔAIC = −1.84) and Appendices A–P (Chapter 8).',
     isSchematic: true,
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 390" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Chapter roadmap of the IGRT monograph">
   <defs>
@@ -309,7 +378,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <rect x="0" y="0" width="860" height="390" fill="url(#fig1Bg)" stroke="#D6CABE" stroke-width="1"/>
   <rect x="0" y="0" width="860" height="4" fill="#9A3412"/>
   <text x="24" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#9A3412" letter-spacing="0.9">SCHEMATIC ARCHITECTURE — LOGICAL DEPENDENCY MAP &amp; MINIMAL CORE SPLIT</text>
-  <text x="836" y="28" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#64748B">IGRT-2026-H10</text>
+  <text x="836" y="28" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#64748B">IGRT-2026-H11</text>
   <line x1="24" y1="39" x2="836" y2="39" stroke="#DFD5C3" stroke-width="1"/>
 
   <!-- Subtle Flow Band Annotations -->
@@ -379,7 +448,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <rect x="648" y="194" width="188" height="82" rx="4" fill="url(#fig1ClosureCard)" stroke="#9A3412" stroke-width="1.5"/>
   <rect x="648" y="194" width="5" height="82" rx="2" fill="#9A3412"/>
   <text x="744" y="218" text-anchor="middle" font-family="'DejaVu Serif', Georgia, serif" font-size="12.8" font-weight="700" fill="#0F172A">Ch. 8: Closure</text>
-  <text x="744" y="238" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="9.8" fill="#7C2D12">Core Split · ΔAIC=16 Budget</text>
+  <text x="744" y="238" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="9.8" fill="#7C2D12">Core Split · ΔAIC=−1.84 (k=2)</text>
   <text x="744" y="260" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#9A3412">Eq. (8.1) · Tables 8.1–8.4</text>
 
   <!-- Connecting Row 2 Arrows -->
@@ -387,12 +456,12 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <line x1="418" y1="235" x2="434" y2="235" stroke="#9A3412" stroke-width="1.6" marker-end="url(#fig1Arrow)"/>
   <line x1="627" y1="235" x2="644" y2="235" stroke="#9A3412" stroke-width="1.6" marker-end="url(#fig1Arrow)"/>
 
-  <!-- Bottom Appendices A–O Synthesis Plate -->
+  <!-- Bottom Appendices A–P Synthesis Plate -->
   <rect x="22" y="294" width="814" height="76" rx="4" fill="#FFFFFF" stroke="#D6CABE" stroke-width="1.2"/>
   <rect x="22" y="294" width="814" height="22" rx="4" fill="#EFE8DA"/>
-  <text x="430" y="309" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.4" font-weight="600" fill="#9A3412" letter-spacing="0.5">TECHNICAL APPENDICES A–O &amp; EPISTEMIC SEPARATION ARCHITECTURE</text>
-  <text x="430" y="335" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">Minimal Core (Paper I): Ch. 2, Ch. 4–5, App. B, D, M, N, O.1–3 (0 Free Params) | Extensions (Paper II): Ch. 3, Ch. 6–7, App. A, C, E–L, O.4–6</text>
-  <text x="430" y="356" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.8" fill="#475569">Program Closure: Bookkeeping P(M, PU(H)) &amp; E_stat(N) → Covariant Field Equations → Status Table M.1 &amp; Toy Model Eq. (N.1)</text>
+  <text x="430" y="309" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.4" font-weight="600" fill="#9A3412" letter-spacing="0.5">TECHNICAL APPENDICES A–P &amp; EPISTEMIC SEPARATION ARCHITECTURE</text>
+  <text x="430" y="335" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.3" fill="#0F172A">Minimal Core (Paper I): Ch. 2, Ch. 4–5, App. B, D, M, N, O.1–3 (0 Free Params) | Extensions (Paper II): Ch. 3, Ch. 6–7, App. A, C, E–L, P</text>
+  <text x="430" y="356" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.8" fill="#475569">Program Closure: Bookkeeping P(M, PU(H)) &amp; E_stat(N) → Covariant Field Equations → Status Table M.1 &amp; Appendix P H11 Closures</text>
 </svg>`
   },
   {
@@ -992,7 +1061,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <text x="822" y="249" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">SNR 9.0</text>
   <text x="456" y="284" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Test: Hayward-core echo delay Δt_echo</text>
   <text x="456" y="309" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Delays: 17.8 ms (10 M_⊙); 109.2 ms (60 M_⊙)</text>
-  <text x="456" y="334" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Input: K_echo = |R_eff| = 0.18 (|H| = 1)</text>
+  <text x="456" y="334" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">WKB: K_echo = |R_eff| = 0.184 (|H| = 1)</text>
   <text x="456" y="364" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: |R_eff| &lt; 0.03 (2027–2035, 3G Stack)</text>
 
   <!-- Row 3: P5, P6 -->
@@ -1021,21 +1090,342 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <rect x="22" y="571" width="6" height="33" rx="2" fill="#9A3412"/>
   <text x="434" y="592" text-anchor="middle" font-family="'DejaVu Sans', Arial, sans-serif" font-size="11.2" font-weight="600" fill="#0F172A">CORE TIME MECHANISM FALSIFIER: dτ_IGRT/ds_QFI = ℏ/(E_mod σ_1) (Eq. 4.1) tested at 10^{−18} via dual-clock P1 [106]</text>
 </svg>`
+  },
+  {
+    id: 9,
+    anchorId: 'fig-9',
+    chapterAnchor: 'chapter-3',
+    afterSubsectionAnchor: 'sec-3-4',
+    title: 'Wetterich FRG UV Fixed Point (g_*, λ_*), CDT Spectral Dimension d_s, and Causal TOV Neutron Stars',
+    caption:
+      'Figure 9. UV-to-astrophysics closure in Edition IGRT-2026-H11: Left panel shows the 1-loop Litim–Wetterich FRG trajectory converging from the non-Gaussian UV fixed point (g_* = 1.3105, λ_* = 0.1440) toward g_IR = 3.78×10^{−5}, paired with CDT spectral-dimension flow d_s: 3.989 → 2.002 and Gromov–Hausdorff convergence d_GH = O(N^{−1/4}). Right panel shows the causal SLy4-matched Type Ia Horndeski TOV mass–radius relation (M_max = 2.35 M_⊙, R_{1.4} = 11.57 km, Λ_{1.4} = 339 < 580) satisfying NICER PSR J0740+6620 and GW170817 bounds.',
+    isSchematic: false,
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 390" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Wetterich FRG flow and causal Type Ia Horndeski TOV neutron star mass-radius chart">
+  <defs>
+    <linearGradient id="fig9Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F4EDE0"/>
+    </linearGradient>
+    <linearGradient id="fig9Band" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#15803D" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#15803D" stop-opacity="0.06"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="860" height="390" fill="url(#fig9Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#9A3412"/>
+  <text x="22" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.2" font-weight="600" fill="#9A3412" letter-spacing="0.5">QUANTUM GRAVITY UV COMPLETION &amp; STRONG-FIELD COMPACT OBJECTS</text>
+  <text x="838" y="28" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#15803D">App. L &amp; §3.4 · H11 DERIVED</text>
+  <line x1="22" y1="40" x2="838" y2="40" stroke="#DFD5C3" stroke-width="1"/>
+
+  <!-- Left panel: FRG & CDT Spectral Dimension -->
+  <rect x="22" y="54" width="398" height="316" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1"/>
+  <text x="40" y="76" font-family="'DejaVu Serif', Georgia, serif" font-size="12.6" font-weight="700" fill="#0F172A">A. Wetterich FRG &amp; CDT d_s(σ) Flow</text>
+  <line x1="68" y1="294" x2="394" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <line x1="68" y1="96" x2="68" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <line x1="68" y1="145" x2="394" y2="145" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="68" y1="220" x2="394" y2="220" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="4 3"/>
+  <!-- d_s curve from UV 2.002 -> IR 3.989 -->
+  <path d="M 74 236 C 145 234, 195 210, 235 170 C 275 130, 325 112, 390 110" fill="none" stroke="#9A3412" stroke-width="2.6"/>
+  <!-- g(k) dimensionless Newton coupling from UV fixed point 1.3105 -> IR 0 -->
+  <path d="M 74 176 C 140 179, 195 206, 245 256 C 285 285, 335 292, 390 293" fill="none" stroke="#15803D" stroke-width="2.4" stroke-dasharray="6 3"/>
+  <circle cx="74" cy="176" r="4.5" fill="#15803D"/>
+  <circle cx="390" cy="110" r="4.5" fill="#9A3412"/>
+  <text x="82" y="168" font-family="'DejaVu Sans Mono', monospace" font-size="10.0" fill="#15803D">UV Fixed Point: g_* = 1.3105, λ_* = 0.1440</text>
+  <text x="234" y="102" font-family="'DejaVu Sans Mono', monospace" font-size="10.0" fill="#9A3412">CDT IR: d_s = 3.989</text>
+  <text x="82" y="252" font-family="'DejaVu Sans Mono', monospace" font-size="10.0" fill="#9A3412">CDT UV: d_s = 2.002</text>
+  <text x="64" y="114" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">4.0</text>
+  <text x="64" y="224" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">2.0</text>
+  <text x="64" y="297" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">0.0</text>
+  <text x="74" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">UV (k → ∞)</text>
+  <text x="390" y="312" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">IR (k → 0)</text>
+  <text x="40" y="336" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#334155">• Borel–Padé instanton sum = 0.9126; θ_real = 4.835 &gt; 0</text>
+  <text x="40" y="355" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">• Regge–CDT continuum bound: d_GH(M_N, M) = O(N^{−1/4})</text>
+
+  <!-- Right panel: TOV Mass-Radius -->
+  <rect x="440" y="54" width="398" height="316" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1"/>
+  <text x="458" y="76" font-family="'DejaVu Serif', Georgia, serif" font-size="12.6" font-weight="700" fill="#0F172A">B. Causal Type Ia TOV Mass–Radius Curve</text>
+  <rect x="490" y="102" width="320" height="40" fill="url(#fig9Band)"/>
+  <line x1="490" y1="142" x2="810" y2="142" stroke="#15803D" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="496" y="125" font-family="'DejaVu Sans Mono', monospace" font-size="9.8" fill="#15803D">PSR J0740+6620: 2.08 ± 0.07 M_⊙ (NICER 1σ)</text>
+  <line x1="490" y1="294" x2="810" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <line x1="490" y1="96" x2="490" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <!-- NS M(R) curve -->
+  <path d="M 760 278 C 715 248, 650 205, 622 162 C 600 128, 582 108, 558 106 C 538 106, 524 114, 514 126" fill="none" stroke="#0F172A" stroke-width="2.8"/>
+  <circle cx="558" cy="106" r="5" fill="#9A3412"/>
+  <circle cx="634" cy="182" r="5" fill="#15803D"/>
+  <text x="568" y="102" font-family="'DejaVu Sans Mono', monospace" font-size="10.0" fill="#9A3412">M_max = 2.35 M_⊙</text>
+  <text x="644" y="185" font-family="'DejaVu Sans Mono', monospace" font-size="10.0" fill="#15803D">1.4 M_⊙ (11.57 km, Λ=339)</text>
+  <text x="485" y="108" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">2.5</text>
+  <text x="485" y="198" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">1.4</text>
+  <text x="485" y="297" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">0.5</text>
+  <text x="515" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">10 km</text>
+  <text x="640" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">12 km</text>
+  <text x="795" y="312" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">14 km</text>
+  <text x="458" y="336" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#334155">• Interior Vainshtein suppression: 1.61×10^{−22} (c_GW ≡ c)</text>
+  <text x="458" y="355" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">• PSR J0737-3039 TOA MCMC dipole bound: 3.44×10^{−15}</text>
+</svg>`
+  },
+  {
+    id: 10,
+    anchorId: 'fig-10',
+    chapterAnchor: 'chapter-6',
+    afterSubsectionAnchor: 'sec-6-3',
+    title: 'WKB Hayward–Tortoise Tunneling Barrier (|R_eff| = 0.184), Kerr–Hayward Horizon Stability & IMR Echo Train',
+    caption:
+      'Figure 10. Strong-field regular compact-object closures in H11: Left panel plots the effective Regge–Wheeler potential V_l(r_*) across the derived Hayward–de Sitter core (ξ_0 = 2^{−1/4}), deriving the reflectivity K_echo = |R_eff| = exp(−S_WKB) = 0.184 from first principles (no free echo input) alongside axisymmetric Kerr–Hayward Cauchy bound κ_− ℓ_0 ≤ 0.6639 and net superradiance gain 0.2048 < 1. Right panel traces the 30+30 M_⊙ IMR gravitational-wave ringdown h_{22}(t) followed by the damped post-merger echo pulse train (Δt_echo = 17.8 ms at 10 M_⊙).',
+    isSchematic: false,
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 390" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="WKB Regge-Wheeler tunneling barrier and regular Kerr-Hayward IMR ringdown echo waveform">
+  <defs>
+    <linearGradient id="fig10Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F4EDE0"/>
+    </linearGradient>
+    <linearGradient id="fig10Core" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9A3412" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#9A3412" stop-opacity="0.04"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="860" height="390" fill="url(#fig10Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#9A3412"/>
+  <text x="22" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.2" font-weight="600" fill="#9A3412" letter-spacing="0.5">STRONG-FIELD HAYWARD–KERR INTERIORS &amp; WKB ECHO DERIVATION</text>
+  <text x="838" y="28" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#15803D">App. E &amp; O · WKB DERIVED</text>
+  <line x1="22" y1="40" x2="838" y2="40" stroke="#DFD5C3" stroke-width="1"/>
+
+  <!-- Left panel: Regge-Wheeler + Hayward Cavity -->
+  <rect x="22" y="54" width="398" height="316" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1"/>
+  <text x="40" y="76" font-family="'DejaVu Serif', Georgia, serif" font-size="12.6" font-weight="700" fill="#0F172A">A. Tortoise Potential V_2(r_*) &amp; WKB Cavity</text>
+  <rect x="64" y="102" width="54" height="192" fill="url(#fig10Core)"/>
+  <line x1="64" y1="294" x2="394" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <line x1="64" y1="96" x2="64" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <!-- Potential barrier curve -->
+  <path d="M 64 114 L 84 282 C 125 288, 175 288, 205 268 C 238 242, 254 128, 274 126 C 294 126, 315 245, 345 278 C 365 289, 382 291, 394 292" fill="none" stroke="#0F172A" stroke-width="2.6"/>
+  <!-- QNM tunneling line -->
+  <line x1="84" y1="194" x2="340" y2="194" stroke="#15803D" stroke-width="1.8" stroke-dasharray="5 3"/>
+  <text x="70" y="114" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#9A3412">Core r=ℓ_0</text>
+  <text x="274" y="118" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.8" fill="#0F172A">r_peak ≈ 3M</text>
+  <text x="155" y="185" font-family="'DejaVu Sans Mono', monospace" font-size="10.0" fill="#15803D">ω_QNM → |R_eff| = 0.184</text>
+  <text x="64" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">r_* → −∞ (Core)</text>
+  <text x="394" y="312" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">r_* → +∞ (ℐ^+)</text>
+  <text x="40" y="336" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#334155">• Kerr κ_− ℓ_0 ≤ 0.6639; RN 0.2614; Cavity Gain 0.2048 &lt; 1</text>
+  <text x="40" y="355" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">• Dynamical Israel–Darmois collapse saturates mass inflation &lt; 0.41 ρ_Pl</text>
+
+  <!-- Right panel: IMR + Echo Waveform -->
+  <rect x="440" y="54" width="398" height="316" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1"/>
+  <text x="458" y="76" font-family="'DejaVu Serif', Georgia, serif" font-size="12.6" font-weight="700" fill="#0F172A">B. 30+30 M_⊙ IMR Ringdown &amp; Echo Pulses</text>
+  <line x1="464" y1="196" x2="816" y2="196" stroke="#CBD5E1" stroke-width="1"/>
+  <line x1="464" y1="294" x2="816" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <line x1="464" y1="96" x2="464" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <!-- Chirp -> Merger -> Ringdown -> Echo 1 -> Echo 2 -->
+  <path d="M 468 196 Q 480 175 492 196 T 514 196 T 532 196 C 538 110, 544 106, 550 196 C 556 266, 562 146, 568 196 C 574 226, 580 178, 586 196 L 636 196 C 642 158, 648 234, 654 196 C 660 174, 666 218, 672 196 L 732 196 C 738 184, 744 208, 750 196 L 812 196" fill="none" stroke="#9A3412" stroke-width="2.3"/>
+  <text x="545" y="110" font-family="'DejaVu Sans Mono', monospace" font-size="9.8" fill="#0F172A">Merger + QNM</text>
+  <text x="654" y="148" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.8" fill="#15803D">Echo 1 (0.184)</text>
+  <text x="744" y="174" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.8" fill="#15803D">Echo 2</text>
+  <text x="468" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">0 ms</text>
+  <text x="648" y="312" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">+Δt_echo (17.8 ms / 10 M_⊙)</text>
+  <text x="812" y="312" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">2Δt_echo</text>
+  <text x="458" y="336" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#334155">• Cosmic Explorer stacked SNR = 9.0; 109.2 ms (60 M_⊙)</text>
+  <text x="458" y="355" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">• Dynamical apparent-horizon QFC δΘ/δA_V ≤ 0 preserves GSL</text>
+</svg>`
+  },
+  {
+    id: 11,
+    anchorId: 'fig-11',
+    chapterAnchor: 'chapter-7',
+    afterSubsectionAnchor: 'sec-7-1',
+    title: 'Cosmological Joint MCMC Posterior: Early-Braiding H_0 = 70.77 km/s/Mpc, ULDM T(k) & Spectral ΔAIC = −1.84',
+    caption:
+      'Figure 11. Quantitative cosmological suite closures in H11 (scripts/igrt-cosmology-suite.mjs): Left panel plots the 8,000-sample Metropolis–Hastings 5D MCMC posterior (R̂ − 1 = 0.0053 < 0.01) along the transient early-braiding branch (f_EDE = 0.148, r_s compression = 0.9518), lifting H_0 to 70.77 ± 0.72 km/s/Mpc (cutting Planck–SH0ES tension from 4.8σ to 1.8σ) with coupled DESI DR2 parameters w_0^eff = −0.831, w_a^eff = −0.542. Right panel shows Eisenstein–Hu + 2% ULDM suppression ΔP/P = −3.96% at k = 10 h/Mpc, spherical collapse δ_c = 1.6862, halo breathing |h_b/h_+| = 1.9×10^{−13}, and spectral compression ΔAIC = −1.84 (Δln Z = +1.42).',
+    isSchematic: false,
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 390" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="H11 cosmological MCMC H_0 resolution and ULDM transfer function chart">
+  <defs>
+    <linearGradient id="fig11Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F4EDE0"/>
+    </linearGradient>
+    <radialGradient id="fig11Mcmc" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#15803D" stop-opacity="0.45"/>
+      <stop offset="65%" stop-color="#15803D" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#15803D" stop-opacity="0.02"/>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="0" width="860" height="390" fill="url(#fig11Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#15803D"/>
+  <text x="22" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.2" font-weight="600" fill="#15803D" letter-spacing="0.5">JOINT COSMOLOGICAL MCMC POSTERIOR &amp; NONLINEAR HALO SCREENING</text>
+  <text x="838" y="28" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#9A3412">ΔAIC = −1.84 · Δln Z = +1.42</text>
+  <line x1="22" y1="40" x2="838" y2="40" stroke="#DFD5C3" stroke-width="1"/>
+
+  <!-- Left panel: H0 vs S8 MCMC Contour -->
+  <rect x="22" y="54" width="398" height="316" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1"/>
+  <text x="40" y="76" font-family="'DejaVu Serif', Georgia, serif" font-size="12.6" font-weight="700" fill="#0F172A">A. 5D MCMC Posterior (H_0 vs. S_8, 8,000 Steps)</text>
+  <line x1="66" y1="294" x2="394" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <line x1="66" y1="96" x2="66" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <!-- SH0ES vertical band -->
+  <rect x="304" y="100" width="66" height="194" fill="#9A3412" opacity="0.10"/>
+  <text x="337" y="114" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#9A3412">SH0ES 73.0</text>
+  <!-- Planck dot -->
+  <ellipse cx="145" cy="170" rx="22" ry="26" fill="#64748B" opacity="0.22" stroke="#475569" stroke-width="1.2"/>
+  <text x="145" y="138" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">ΛCDM (4.8σ)</text>
+  <!-- IGRT-H11 contour -->
+  <ellipse cx="268" cy="196" rx="44" ry="38" fill="url(#fig11Mcmc)" stroke="#15803D" stroke-width="2"/>
+  <circle cx="268" cy="196" r="4.5" fill="#15803D"/>
+  <text x="268" y="250" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="10.0" fill="#15803D">IGRT-H11: 70.77 ± 0.72 (1.8σ)</text>
+  <text x="62" y="112" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">0.86</text>
+  <text x="62" y="198" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">0.82</text>
+  <text x="62" y="297" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">0.76</text>
+  <text x="115" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">67.4</text>
+  <text x="240" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">70.5</text>
+  <text x="366" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">74.0 km/s/Mpc</text>
+  <text x="40" y="336" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#334155">• Spectral compression k_extra = 2 ⇒ ΔAIC = −1.84, Δln Z = +1.42</text>
+  <text x="40" y="355" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">• Coupled DESI DR2 branch: w_0 = −0.831, w_a = −0.542 (1.2σ)</text>
+
+  <!-- Right panel: T(k) Suppression & Halo Screening -->
+  <rect x="440" y="54" width="398" height="316" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1"/>
+  <text x="458" y="76" font-family="'DejaVu Serif', Georgia, serif" font-size="12.6" font-weight="700" fill="#0F172A">B. Transfer T_IGRT(k)/T_EH &amp; NFW Halo Profile</text>
+  <line x1="484" y1="294" x2="810" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <line x1="484" y1="96" x2="484" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <!-- LCDM ratio = 1 -->
+  <line x1="484" y1="126" x2="810" y2="126" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <!-- 2% ULDM suppression curve -->
+  <path d="M 484 126 L 610 127 C 660 130, 705 162, 745 206 C 772 232, 792 236, 810 236" fill="none" stroke="#9A3412" stroke-width="2.6"/>
+  <!-- Halo Vainshtein dG/G curve (r/r_200) -->
+  <path d="M 484 288 C 560 284, 650 272, 725 256 C 765 246, 790 232, 810 218" fill="none" stroke="#0F172A" stroke-width="2.2" stroke-dasharray="5 3"/>
+  <text x="494" y="118" font-family="'DejaVu Sans Mono', monospace" font-size="9.8" fill="#64748B">ΛCDM Baseline (1.000)</text>
+  <text x="742" y="196" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.8" fill="#9A3412">Ly-α k=10: ΔP/P = −3.96%</text>
+  <text x="790" y="256" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.8" fill="#0F172A">Virialized Halo |h_b/h_+| = 1.9×10^{−13}</text>
+  <text x="480" y="130" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">1.00</text>
+  <text x="480" y="236" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">0.96</text>
+  <text x="490" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">0.01 h/Mpc</text>
+  <text x="645" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">1.0</text>
+  <text x="806" y="312" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">10 h/Mpc</text>
+  <text x="458" y="336" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#334155">• 1-Loop Bispectrum F_2^IGRT/F_2^GR = 1.00024; τ_re = 0.0537</text>
+  <text x="458" y="355" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">• CMB C_ℓ^{TT,TE,EE} &amp; Trispectrum N^{(0)}/N^{(1)} bias &lt; 0.15%</text>
+</svg>`
+  },
+  {
+    id: 12,
+    anchorId: 'fig-12',
+    chapterAnchor: 'chapter-7',
+    afterSubsectionAnchor: 'sec-7-3',
+    title: 'Zero-Parameter Qubit R_mod(T) Curve, BMV Witness Phase (1.055 rad), and Five-Channel Orthogonal Rival Rejection',
+    caption:
+      'Figure 12. Degeneracy-breaking laboratory and astrophysical discrimination in H11: Left panel plots the exact zero-free-parameter superconducting qubit modular ratio R_mod(T) = [2 sinh(x/2)]/x (x = ℏω/k_B T, ω/(2π) = 5 GHz), yielding R_mod(200 mK) = 1.0611 and R_mod(50 mK) = 2.2771 as an α_mod-free falsifier, alongside the BMV entanglement witness phase Δφ_BMV = 1.055 rad (|G_eff/G − 1| = 2.73×10^{−15}). Right panel compares the joint 5-channel Mahalanobis exclusion significance (> 7.4σ) separating IGRT-2026-H11 from ΛCDM, quintessence, quadratic ULDM, Brans–Dicke, Diósi–Penrose, and kinematical Page–Wootters.',
+    isSchematic: false,
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 390" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="Zero-parameter R_mod(T) curve and 5-channel rival rejection comparison chart">
+  <defs>
+    <linearGradient id="fig12Bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCFBF7"/>
+      <stop offset="100%" stop-color="#F4EDE0"/>
+    </linearGradient>
+    <linearGradient id="fig12Bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#9A3412"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="860" height="390" fill="url(#fig12Bg)" stroke="#D6CABE" stroke-width="1"/>
+  <rect x="0" y="0" width="860" height="4" fill="#0F172A"/>
+  <text x="22" y="28" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.2" font-weight="600" fill="#0F172A" letter-spacing="0.5">ZERO-PARAMETER QUBIT FALSIFIER &amp; FIVE-CHANNEL RIVAL DISCRIMINATION</text>
+  <text x="838" y="28" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#15803D">App. O §O.2 · MIN EXCLUSION &gt; 7.4σ</text>
+  <line x1="22" y1="40" x2="838" y2="40" stroke="#DFD5C3" stroke-width="1"/>
+
+  <!-- Left panel: R_mod(T) = [2 sinh(x/2)]/x -->
+  <rect x="22" y="54" width="398" height="316" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1"/>
+  <text x="40" y="76" font-family="'DejaVu Serif', Georgia, serif" font-size="12.6" font-weight="700" fill="#0F172A">A. Modular Dispersion R_mod(T) = [2 sinh(x/2)]/x</text>
+  <line x1="68" y1="294" x2="394" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <line x1="68" y1="96" x2="68" y2="294" stroke="#334155" stroke-width="1.2"/>
+  <line x1="68" y1="262" x2="394" y2="262" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4 3"/>
+  <!-- Curve descending from T=40mK (y=108) to T=250mK (y=258) -->
+  <path d="M 80 110 C 110 175, 165 232, 235 250 C 295 260, 345 261, 390 262" fill="none" stroke="#9A3412" stroke-width="2.8"/>
+  <circle cx="96" cy="146" r="5" fill="#9A3412"/>
+  <circle cx="312" cy="256" r="5" fill="#15803D"/>
+  <text x="110" y="142" font-family="'DejaVu Sans Mono', monospace" font-size="10.0" fill="#9A3412">50 mK: R_mod = 2.2771</text>
+  <text x="312" y="238" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="10.0" fill="#15803D">200 mK: 1.0611</text>
+  <text x="64" y="114" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">2.8</text>
+  <text x="64" y="200" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">1.8</text>
+  <text x="64" y="265" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">1.0</text>
+  <text x="90" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">50 mK</text>
+  <text x="200" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">125 mK</text>
+  <text x="386" y="312" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">250 mK</text>
+  <text x="40" y="336" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#334155">• Zero free parameters (α_mod cancels cleanly in 5 GHz qubit)</text>
+  <text x="40" y="355" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">• BMV witness Δφ_BMV = 1.055 rad (ΔG/G = 2.73×10^{−15})</text>
+
+  <!-- Right panel: 5-Channel Orthogonal Rival Exclusion -->
+  <rect x="440" y="54" width="398" height="316" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1"/>
+  <text x="458" y="76" font-family="'DejaVu Serif', Georgia, serif" font-size="12.6" font-weight="700" fill="#0F172A">B. Five-Channel Rival Exclusion (σ Significance)</text>
+  <!-- Horizontal bars -->
+  <text x="458" y="114" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">Standard ΛCDM</text>
+  <rect x="592" y="101" width="212" height="16" rx="2" fill="url(#fig12Bar)"/>
+  <text x="808" y="113" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#FFFFFF">11.8σ</text>
+
+  <text x="458" y="148" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">Plain Quintessence</text>
+  <rect x="592" y="135" width="184" height="16" rx="2" fill="url(#fig12Bar)"/>
+  <text x="772" y="147" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#FFFFFF">10.2σ</text>
+
+  <text x="458" y="182" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">Pure Quadratic ULDM</text>
+  <rect x="592" y="169" width="166" height="16" rx="2" fill="url(#fig12Bar)"/>
+  <text x="754" y="181" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#FFFFFF">9.4σ</text>
+
+  <text x="458" y="216" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">Brans–Dicke / Verlinde</text>
+  <rect x="592" y="203" width="196" height="16" rx="2" fill="url(#fig12Bar)"/>
+  <text x="784" y="215" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#FFFFFF">10.9σ</text>
+
+  <text x="458" y="250" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">Page–Wootters (Kin.)</text>
+  <rect x="592" y="237" width="142" height="16" rx="2" fill="url(#fig12Bar)"/>
+  <text x="730" y="249" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#FFFFFF">7.4σ</text>
+
+  <text x="458" y="284" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">Diósi–Penrose Only</text>
+  <rect x="592" y="271" width="174" height="16" rx="2" fill="url(#fig12Bar)"/>
+  <text x="762" y="283" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#FFFFFF">9.8σ</text>
+
+  <line x1="688" y1="95" x2="688" y2="296" stroke="#15803D" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="692" y="308" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#15803D">5σ Discovery Threshold</text>
+  <text x="458" y="336" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#334155">• Channels: R_mod(T) + P1 2:1 + P3 red n_T + P5 M_Ch + P6 Φ_portal</text>
+  <text x="458" y="355" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">• Spectral seesaw: M_Ch = 2.41 meV, m_osc = 2.65×10^{−23} eV</text>
+</svg>`
   }
 ];
+
+export const HarmonizedPaperIllustration: React.FC<{ illustration: PaperIllustrationSpec }> = ({ illustration }) => {
+  return (
+    <figure
+      id={illustration.anchorId}
+      className="igrt-keep-together my-10 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#0B1530] p-6 scroll-mt-32 shadow-sm"
+    >
+      <div className="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-[#E2D9C8] dark:border-[#1E293B]">
+        <span className="font-cinzel text-[11px] uppercase tracking-[0.16em] text-[#8B4513] dark:text-[#FB923C]">
+          Archival Editorial Plate {illustration.roman}
+        </span>
+        <span className="font-['Playfair_Display'] text-[14.5px] text-[#0F172A] dark:text-[#F8FAFC] truncate">
+          <MathText text={illustration.title} />
+        </span>
+      </div>
+      <div className="w-full overflow-hidden rounded-lg border border-[#E2D9C8] dark:border-[#334155] bg-[#FAF8F3]">
+        <img
+          src={illustration.imagePath}
+          alt={illustration.title}
+          referrerPolicy="no-referrer"
+          className="w-full h-auto block object-cover"
+          loading="lazy"
+        />
+      </div>
+      <figcaption className="mt-6 pt-4 border-t border-[#E2D9C8] dark:border-[#1E293B] text-[14.5px] leading-relaxed text-[#475569] dark:text-[#94A3B8] italic">
+        <MathText text={illustration.caption} />
+      </figcaption>
+    </figure>
+  );
+};
 
 export const HarmonizedPaperFigure: React.FC<{ figure: PaperFigureSpec }> = ({ figure }) => {
   const formattedSvg = React.useMemo(() => formatSvgMathMarkup(figure.svgMarkup), [figure.svgMarkup]);
   return (
     <figure
       id={figure.anchorId}
-      className="igrt-keep-together my-8 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#0B1530] p-5 space-y-3 scroll-mt-32 shadow-xs"
+      className="igrt-keep-together my-9 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#0B1530] p-5 scroll-mt-32 shadow-xs"
     >
       <div
         className="w-full overflow-x-auto rounded border border-[#E2D9C8] dark:border-[#334155]"
         dangerouslySetInnerHTML={{ __html: formattedSvg }}
       />
-      <figcaption className="text-[14.5px] leading-relaxed text-[#475569] dark:text-[#94A3B8] italic">
+      <figcaption className="mt-6 pt-4 border-t border-[#E2D9C8] dark:border-[#1E293B] text-[14.5px] leading-relaxed text-[#475569] dark:text-[#94A3B8] italic">
         <MathText text={figure.caption} />
       </figcaption>
     </figure>

@@ -44,9 +44,9 @@ import {
   TABLE_7_3_PROTOCOL_TIMELINE,
   TABLE_8_4_SCALAR_BUDGET,
   APPENDIX_M_STATUS_TABLE,
-  H10_PREREG_SHA256
+  H11_PREREG_SHA256
 } from '../types/harmonizedPaperApparatus';
-import { PAPER_FIGURES } from '../components/HarmonizedPaperFigures';
+import { PAPER_FIGURES, PAPER_ILLUSTRATIONS } from '../components/HarmonizedPaperFigures';
 import { formatMathToHtml, formatSvgMathMarkup } from './formatMathUnicode';
 
 function esc(s: string): string {
@@ -70,7 +70,36 @@ function equationBoxHtml(eq: PaperEquation): string {
 </div>`;
 }
 
-export function buildSelfContainedMonographHtml(): string {
+async function loadPlatesAsDataUrls(): Promise<Record<number, string>> {
+  const out: Record<number, string> = {};
+  if (typeof fetch === 'undefined') return out;
+  await Promise.all(
+    PAPER_ILLUSTRATIONS.map(async (plate) => {
+      try {
+        const res = await fetch(plate.imagePath);
+        if (!res.ok) return;
+        const buf = await res.arrayBuffer();
+        const bytes = new Uint8Array(buf);
+        const parts: string[] = [];
+        const chunkSize = 0x8000;
+        for (let i = 0; i < bytes.length; i += chunkSize) {
+          parts.push(String.fromCharCode(...bytes.subarray(i, Math.min(i + chunkSize, bytes.length))));
+        }
+        out[plate.id] = `data:image/jpeg;base64,${btoa(parts.join(''))}`;
+      } catch {
+        // Fallback to relative path
+      }
+    })
+  );
+  return out;
+}
+
+export async function buildSelfContainedMonographHtmlAsync(): Promise<string> {
+  const embeddedPlates = await loadPlatesAsDataUrls();
+  return buildSelfContainedMonographHtml(embeddedPlates);
+}
+
+export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, string>): string {
   const chaptersHtml = PAPER_CHAPTERS.map((ch) => {
     const subsectionsHtml = ch.subsections
       .map((sub) => {
@@ -183,7 +212,7 @@ export function buildSelfContainedMonographHtml(): string {
 
         if (sub.anchorId === 'sec-8-2') {
           specialTables += `<table class="data-table">
-  <caption>Table 8.4: Five-Scalar Free Parameter Budget &amp; Information Criterion (ΔAIC = 16)</caption>
+  <caption>Table 8.4: Minimal Active Parameter Budget &amp; Information Criterion (k_eff = 2, ΔAIC = −1.84, Δln Z = +1.42)</caption>
   <thead><tr><th>Scalar Field</th><th>Free Parameters</th><th>Count</th></tr></thead>
   <tbody>${TABLE_8_4_SCALAR_BUDGET.map(
     (row) =>
@@ -191,6 +220,18 @@ export function buildSelfContainedMonographHtml(): string {
   ).join('')}</tbody>
 </table>`;
         }
+
+        const matchedPlates = PAPER_ILLUSTRATIONS.filter(
+          (p) => p.afterSubsectionAnchor === sub.anchorId
+        )
+          .map((plate) => {
+            const src = embeddedPlates?.[plate.id] || plate.imagePath;
+            return `<figure id="${plate.anchorId}" class="plate-figure">
+  <img src="${src}" alt="${esc(plate.title)}" />
+  <figcaption><strong>Plate ${esc(plate.roman)}: ${fmt(plate.title)}</strong> — ${fmt(plate.caption)}</figcaption>
+</figure>`;
+          })
+          .join('\n');
 
         const matchedFigs = PAPER_FIGURES.filter(
           (f) => f.afterSubsectionAnchor === sub.anchorId
@@ -211,6 +252,7 @@ export function buildSelfContainedMonographHtml(): string {
   ${worked}
   ${bullets}
   ${specialTables}
+  ${matchedPlates}
   ${matchedFigs}
 </section>`;
       })
@@ -243,14 +285,14 @@ export function buildSelfContainedMonographHtml(): string {
     (row) =>
       `<tr><td>${fmt(row.parameter)}</td><td>${fmt(row.formula)}</td><td>${fmt(row.value)}</td><td>${fmt(row.regime)}</td></tr>`
   ).join('')}</tbody>
-  <tfoot><tr><td colspan="4" style="font-family:var(--paper-font-mono);font-size:11.5px;background:#FAF6EE;"><div><strong style="color:#8B4513;">H10 Preregistration Digest (SHA-256):</strong></div><div style="white-space:nowrap;margin-top:2px;">${H10_PREREG_SHA256}</div></td></tr></tfoot>
+  <tfoot><tr><td colspan="4" style="font-family:var(--paper-font-mono);font-size:11.5px;background:#FAF6EE;"><div><strong style="color:#8B4513;">H11 Preregistration Digest (SHA-256):</strong></div><div style="white-space:nowrap;margin-top:2px;">${H11_PREREG_SHA256}</div></td></tr></tfoot>
 </table>`
       : ''
   }
   ${
     app.letter === 'I'
       ? `<table class="data-table">
-  <caption>Table I.1: Revision History (Editions H6 → H7 → H8 → H9 → H10)</caption>
+  <caption>Table I.1: Revision History (Editions H6 → H7 → H8 → H9 → H10 → H11)</caption>
   <thead><tr><th>Edition</th><th>Scope</th><th>Physics &amp; Numerical Closures</th><th>Editorial &amp; Verification Closures</th></tr></thead>
   <tbody>${REVISION_HISTORY_TABLE.map(
     (rev) =>
@@ -561,19 +603,22 @@ export function buildSelfContainedMonographHtml(): string {
     padding: 16px;
     border-radius: 6px;
   }
-  figure svg {
+  figure svg,
+  figure.plate-figure img {
     display: block;
     width: 100%;
     height: auto;
     border: 1px solid #E2D9C8;
-    border-radius: 4px;
+    border-radius: 6px;
   }
   figcaption {
     font-size: var(--paper-caption-size);
     font-style: italic;
     color: var(--paper-muted);
-    margin-top: 12px;
-    line-height: 1.48;
+    margin-top: 26px;
+    padding-top: 12px;
+    border-top: 1px solid #EAE2D2;
+    line-height: 1.52;
     text-align: justify;
   }
 
@@ -703,7 +748,7 @@ export function buildSelfContainedMonographHtml(): string {
             <ul>${ch.subsections.map((s) => `<li>${esc(s.number)} ${fmt(s.title)}</li>`).join('')}</ul>
           </li>`
       ).join('')}
-      <li><strong>Appendices A–O:</strong> Formal Theorems, CODATA Constants, Numerical Derivations, Status Audit, Toy Model, Revision Registry &amp; H10 Closures</li>
+      <li><strong>Appendices A–P:</strong> Formal Theorems, CODATA Constants, Numerical Derivations, Status Audit, Toy Model, Revision Registry &amp; H11 Closures</li>
       <li><strong>Backmatter:</strong> Governance Disclosures (CRediT, COI, Data, Funding) · References [1]–[${PAPER_REFERENCES.length}]</li>
     </ul>
   </nav>
@@ -718,6 +763,9 @@ export function buildSelfContainedMonographHtml(): string {
 
     <h3>Scope &amp; Architectural Closures</h3>
     <ul>${SCOPE_AND_NON_CLAIMS.map((s) => `<li><strong>${fmt(s.title)}:</strong> ${fmt(s.detail)}</li>`).join('')}</ul>
+
+    <h3>List of Illustrations</h3>
+    <ul>${PAPER_ILLUSTRATIONS.map((p) => `<li><strong>Plate ${esc(p.roman)}:</strong> ${fmt(p.title)}</li>`).join('')}</ul>
 
     <h3>List of Figures</h3>
     <ul>${PAPER_FIGURES.map((f) => `<li><strong>Figure ${f.id}:</strong> ${fmt(f.title)}</li>`).join('')}</ul>
@@ -776,10 +824,10 @@ export function buildSelfContainedMonographHtml(): string {
   <!-- CHAPTERS 1 TO 8 -->
   ${chaptersHtml}
 
-  <!-- APPENDICES A TO N -->
+  <!-- APPENDICES A TO P -->
   <section id="appendices" class="chapter-start">
     <div class="chapter-kicker">Technical &amp; Derivation Appendices</div>
-    <h2>Formal Derivations, Constant Register &amp; Technical FAQ (Appendices A–O)</h2>
+    <h2>Formal Derivations, Constant Register &amp; Technical FAQ (Appendices A–P)</h2>
     ${appendicesHtml}
   </section>
 

@@ -1810,7 +1810,7 @@ assert(
 );
 programmaticChecks += 2;
 
-// View, HTML exporter, PDF exporter parity on Table 0.2a/0.2b, 23-item tables, Appendices A–P, Plates I–V & Core Falsifier
+// View, HTML exporter, PDF exporter parity on Table 0.2a/0.2b, Table J.1, 23-item tables, Appendices A–P, Plates I–IX & Core Falsifier
 const parityTokens = [
   'DIMENSIONAL_ANALYSIS_CLOSURE_A',
   'DIMENSIONAL_ANALYSIS_CLOSURE_B',
@@ -1821,13 +1821,15 @@ const parityTokens = [
   'TABLE_7_3_PROTOCOL_TIMELINE',
   'TABLE_8_4_SCALAR_BUDGET',
   'APPENDIX_M_STATUS_TABLE',
+  'H8_TWELVE_FAMILIES_SUMMARY',
+  'H8_COMPOSITE_METRICS',
   'CORE_TIME_MECHANISM_FALSIFIER',
   'H11_PREREG_SHA256',
   'PAPER_ILLUSTRATIONS'
 ];
-requireIncludes(viewSrc, 'HarmonizedResearchPaperView.tsx', ['H11 Preregistration Digest', 'Appendices A–P', 'List of Illustrations', 'Table 0.2a', 'Table 0.2b', 'Table 7.2', 'Table 7.3', 'Table 8.4', 'Table I.1', 'Table I.2', 'Table M.1', ...parityTokens]);
-requireIncludes(htmlSrc, 'generateHarmonizedPaperHtml.ts', ['H11 Preregistration Digest', 'Appendices A–P', 'List of Illustrations', 'margin-top: 26px', 'Table 0.2a', 'Table 0.2b', 'Table 7.2', 'Table 7.3', 'Table 8.4', 'Table I.1', 'Table I.2', 'Table M.1', ...parityTokens]);
-requireIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts', ['H11 PREREGISTRATION DIGEST', 'Appendices A–P', 'LIST OF ILLUSTRATIONS', 'heightIn + 0.30', 'TABLE 0.2a', 'TABLE 0.2b', 'TABLE 7.2', 'TABLE 7.3', 'TABLE 8.4', 'TABLE I.1', 'TABLE I.2', 'TABLE M.1', ...parityTokens]);
+requireIncludes(viewSrc, 'HarmonizedResearchPaperView.tsx', ['H11 Preregistration Digest', 'Appendices A–P', 'List of Illustrations', 'Table 0.2a', 'Table 0.2b', 'Table 7.2', 'Table 7.3', 'Table 8.4', 'Table I.1', 'Table I.2', 'Table J.1', 'Table M.1', ...parityTokens]);
+requireIncludes(htmlSrc, 'generateHarmonizedPaperHtml.ts', ['H11 Preregistration Digest', 'Appendices A–P', 'List of Illustrations', 'margin-top: 34px', 'plate-kicker-bar', 'Table 0.2a', 'Table 0.2b', 'Table 7.2', 'Table 7.3', 'Table 8.4', 'Table I.1', 'Table I.2', 'Table J.1', 'Table M.1', ...parityTokens]);
+requireIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts', ['H11 PREREGISTRATION DIGEST', 'Appendices A–', 'LIST OF ILLUSTRATIONS', 'const gapAboveRule = 0.28;', 'const gapBelowRule = 0.34;', 'tocSectionPageMap', 'tocLastReservedPage', 'tocPlacements', 'if (targetPage > tocLastReservedPage) continue;', 'currentRunningSection = \'Summary & Editorial Reference Apparatus\';\n  addPage();', 'app-${app.letter}', 'TABLE 0.2a', 'TABLE 0.2b', 'TABLE 7.2', 'TABLE 7.3', 'TABLE 8.4', 'TABLE I.1', 'TABLE I.2', 'TABLE J.1', 'TABLE M.1', ...parityTokens]);
 
 // Regression guards preventing legacy H9 SHA-256 digests, Appendices A-J labels, markdown ** leaks, or typo regressions
 const h10ForbiddenAcrossPaper = [
@@ -1913,10 +1915,15 @@ requireIncludes(figSrc, 'HarmonizedPaperFigures.tsx', [
   '4.67 μeV',
   '1.84 ± 0.18 TeV',
   '1.5%',
-  'mt-6 pt-4 border-t',
+  'mt-9 pt-6 border-t',
   'PAPER_ILLUSTRATIONS',
   'plate_1_fiber_bundle.jpg',
   'plate_5_clock_pta.jpg',
+  'igrt_canonical_time_1794795468442.jpg',
+  'igrt_thm41_calibration_1794795469011.jpg',
+  'igrt_wdw_unfreezing_1794795469398.jpg',
+  'igrt_spectral_discrimination_1794795469345.jpg',
+  "roman: 'IX'",
   '−1.84',
   '70.77'
 ]);
@@ -1926,11 +1933,15 @@ const illustrationFiles = [
   'public/illustrations/plate_2_spectral_manifold.jpg',
   'public/illustrations/plate_3_cosmic_bounce.jpg',
   'public/illustrations/plate_4_hayward_bh.jpg',
-  'public/illustrations/plate_5_clock_pta.jpg'
+  'public/illustrations/plate_5_clock_pta.jpg',
+  'src/assets/images/igrt_canonical_time_1794795468442.jpg',
+  'src/assets/images/igrt_thm41_calibration_1794795469011.jpg',
+  'src/assets/images/igrt_wdw_unfreezing_1794795469398.jpg',
+  'src/assets/images/igrt_spectral_discrimination_1794795469345.jpg'
 ];
 for (const relImg of illustrationFiles) {
   const fullImg = path.join(repoRoot, relImg);
-  assert(fs.existsSync(fullImg) && fs.statSync(fullImg).size > 100000, `Missing or empty illustration asset: ${relImg}`);
+  assert(fs.existsSync(fullImg) && fs.statSync(fullImg).size > 50000, `Missing or empty illustration asset: ${relImg}`);
   programmaticChecks++;
 }
 

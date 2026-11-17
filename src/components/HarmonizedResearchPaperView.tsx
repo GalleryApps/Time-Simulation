@@ -58,17 +58,26 @@ import {
   PAPER_ILLUSTRATIONS,
   HarmonizedPaperIllustration
 } from './HarmonizedPaperFigures';
+import {
+  H8_COMPOSITE_METRICS,
+  H8_TWELVE_FAMILIES_SUMMARY
+} from '../types/harmonizedPaperH8StressTest';
 import { MathText } from './MathText';
 import {
   buildSelfContainedMonographHtml,
   buildSelfContainedMonographHtmlAsync
 } from '../utils/generateHarmonizedPaperHtml';
 import { generateHarmonizedPaperPdf } from '../utils/generateHarmonizedPaperPdf';
+import {
+  buildLatexBundleZipBlob,
+  buildStandaloneLatex
+} from '../utils/generateHarmonizedPaperLatex';
 import verifyScriptSource from '../../scripts/verify-igrt-monograph.mjs?raw';
 
 interface HarmonizedResearchPaperViewProps {
   onNavigateToModel?: () => void;
   onNavigateToStressTest?: () => void;
+  onNavigateToH12?: () => void;
 }
 
 const UnicodeEquationBox: React.FC<{ eq: PaperEquation }> = ({ eq }) => (
@@ -95,7 +104,8 @@ const UnicodeEquationBox: React.FC<{ eq: PaperEquation }> = ({ eq }) => (
 
 export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewProps> = ({
   onNavigateToModel,
-  onNavigateToStressTest
+  onNavigateToStressTest,
+  onNavigateToH12
 }) => {
   const [readingMode, setReadingMode] = useState<'continuous' | 'chapter'>('continuous');
   const [focusedAnchor, setFocusedAnchor] = useState<string>('chapter-1');
@@ -104,6 +114,8 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
   const [showCiteModal, setShowCiteModal] = useState<boolean>(false);
   const [copySuccess, setCopySuccess] = useState<string | null>(null);
   const [pdfDownloading, setPdfDownloading] = useState<boolean>(false);
+  const [latexDownloading, setLatexDownloading] = useState<boolean>(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
   const printFrameRef = useRef<HTMLIFrameElement | null>(null);
   const monographRef = useRef<HTMLDivElement | null>(null);
 
@@ -162,9 +174,13 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
   }, [readingMode]);
 
   const handleDownloadPdf = async () => {
+    setPdfError(null);
     setPdfDownloading(true);
     try {
       await generateHarmonizedPaperPdf();
+    } catch (err) {
+      console.error('PDF export failed:', err);
+      setPdfError(err instanceof Error ? err.message : 'PDF export encountered an unexpected error.');
     } finally {
       setTimeout(() => setPdfDownloading(false), 1200);
     }
@@ -202,6 +218,27 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadLatexBundle = async () => {
+    setPdfError(null);
+    setLatexDownloading(true);
+    try {
+      const zipBlob = await buildLatexBundleZipBlob();
+      const url = URL.createObjectURL(zipBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'IGRT_Harmonized_Monograph_H11_LaTeX.zip';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('LaTeX bundle export failed:', err);
+      setPdfError(err instanceof Error ? err.message : 'LaTeX bundle export failed.');
+    } finally {
+      setTimeout(() => setLatexDownloading(false), 900);
+    }
   };
 
   const jumpToSection = (anchorId: string, topSectionAnchor?: string) => {
@@ -268,11 +305,35 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
           >
             {pdfDownloading ? 'Generating A4 PDF…' : 'Download A4 PDF (.pdf)'}
           </button>
+          {pdfError && (
+            <span className="text-[12px] text-[#9A3412] dark:text-[#FB923C] font-medium">
+              {pdfError}
+            </span>
+          )}
           <button
             onClick={handlePrintCleanHtml}
             className="px-3.5 py-2 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#081026] text-[#0C1836] dark:text-[#CBD5E1] hover:border-[#8B4513] transition-colors whitespace-nowrap shrink-0"
           >
             Print Monograph (A4 CSS)
+          </button>
+          <button
+            onClick={handleDownloadLatexBundle}
+            disabled={latexDownloading}
+            className="px-4 py-2 rounded-lg bg-[#15803D] text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap shrink-0 disabled:opacity-60"
+          >
+            {latexDownloading ? 'Bundling LaTeX (.zip)…' : 'Download LaTeX Bundle (.zip)'}
+          </button>
+          <button
+            onClick={() =>
+              downloadTextAsset(
+                buildStandaloneLatex(),
+                'IGRT_Harmonized_Monograph_H11.tex',
+                'application/x-tex;charset=utf-8'
+              )
+            }
+            className="px-3.5 py-2 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#081026] text-[#0C1836] dark:text-[#CBD5E1] hover:border-[#8B4513] transition-colors whitespace-nowrap shrink-0"
+          >
+            Download LaTeX (.tex)
           </button>
           <button
             onClick={() =>
@@ -343,6 +404,14 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
               className="px-3 py-1.5 rounded-lg bg-[#15803D] text-white text-[12px] hover:bg-[#166534]"
             >
               Stress-Test Matrix ↗
+            </button>
+          )}
+          {onNavigateToH12 && (
+            <button
+              onClick={onNavigateToH12}
+              className="px-3 py-1.5 rounded-lg bg-[#EA580C] text-white text-[12px] font-medium hover:bg-[#C2410C]"
+            >
+              Follow-Up Monograph (IGRT-H12) ↗
             </button>
           )}
         </div>
@@ -607,7 +676,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                   </div>
                 </div>
 
-              {/* List of Illustrations (Plates I–V) */}
+              {/* List of Illustrations (Plates I–IX) */}
               <div className="p-5 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] space-y-3">
                 <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>List of Illustrations</h3>
                 <ul className="space-y-2 list-disc pl-6" style={{ fontSize: '16px', lineHeight: 1.5 }}>
@@ -1370,27 +1439,70 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                       </div>
                     )}
                     {app.letter === 'J' && (
-                      <div className="print:hidden rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4 mt-3 flex flex-wrap items-center justify-between gap-3 text-[13.5px] font-['Poppins']">
-                        <div>
-                          <div className="font-medium text-[#0F172A] dark:text-[#F8FAFC]">
-                            Public Verification Harness: <code className="font-mono text-[#8B4513] dark:text-[#FB923C]">scripts/verify-igrt-monograph.mjs</code>
-                          </div>
-                          <div className="text-[#475569] dark:text-[#94A3B8] text-[12.5px]">
-                            Run <code className="font-mono">node scripts/verify-igrt-monograph.mjs</code> to audit all ODEs, integrals, constants, tables, equations, and SVGs.
-                          </div>
+                      <div className="space-y-4 mt-3">
+                        <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530]">
+                          <table className="w-full text-left igrt-tabular" style={{ fontSize: '13.5px', lineHeight: 1.5 }}>
+                            <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">
+                              Table J.1: Complete 12-Family 980-Vector Adversarial Stress-Test Closure Scorecard (542/542 = 100.0% Technical)
+                            </caption>
+                            <thead className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                              <tr>
+                                <th className="p-3 font-normal">Family</th>
+                                <th className="p-3 font-normal">Criteria</th>
+                                <th className="p-3 font-normal">H11 Score / Max</th>
+                                <th className="p-3 font-normal">Status &amp; Audit Notes</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#E2D9C8] dark:divide-[#1E293B]">
+                              {H8_TWELVE_FAMILIES_SUMMARY.map((fam) => (
+                                <tr key={fam.id}>
+                                  <td className="p-3 font-medium">
+                                    Family {fam.id}: <MathText text={fam.name} />
+                                  </td>
+                                  <td className="p-3 font-mono tabular-nums">{fam.count}</td>
+                                  <td className="p-3 font-mono text-[#15803D] dark:text-[#4ADE80] whitespace-nowrap tabular-nums">
+                                    <strong>{fam.h8Score} / {fam.maxScore}</strong> ({fam.percentage}%)
+                                  </td>
+                                  <td className="p-3 text-[#475569] dark:text-[#94A3B8]">
+                                    {fam.score0Count > 0
+                                      ? `${fam.score3Count} full-score (3/3); ${fam.score0Count} isolated Popperian CC / Scope / External items`
+                                      : `${fam.score3Count}/${fam.count} full-score (3/3) self-contained technical closures`}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                            <tfoot className="bg-[#FAF6EE] dark:bg-[#081026] border-t border-[#D6CABE] dark:border-[#334155]">
+                              <tr>
+                                <td colSpan={4} className="p-3 font-mono text-[12px] text-[#0F172A] dark:text-[#F8FAFC]">
+                                  Self-Contained Technical Closure: {H8_COMPOSITE_METRICS.selfContainedTechCount}/{H8_COMPOSITE_METRICS.selfContainedTechCount} = {H8_COMPOSITE_METRICS.selfContainedTechScore}/{H8_COMPOSITE_METRICS.selfContainedTechMax} pts ({H8_COMPOSITE_METRICS.selfContainedTechPercentage}%) &nbsp;|&nbsp; Structural Attacks: {H8_COMPOSITE_METRICS.attacksSurvives}/{H8_COMPOSITE_METRICS.attacksCount - 1} Survived (ATK-20 External Peer Review) &nbsp;|&nbsp; Upgrade Gates: {H8_COMPOSITE_METRICS.upgradesCount}/{H8_COMPOSITE_METRICS.upgradesCount} ({H8_COMPOSITE_METRICS.upgradesPending} Pending) &nbsp;|&nbsp; Composite Vectors: {H8_COMPOSITE_METRICS.selfContainedVectorsPassed}/{H8_COMPOSITE_METRICS.selfContainedVectorsTotal} ({H8_COMPOSITE_METRICS.selfContainedVectorsPercentage}%) &nbsp;|&nbsp; Isolated Non-Applicable: {H8_COMPOSITE_METRICS.nonApplicableCount} Popperian/Scope + {H8_COMPOSITE_METRICS.externalMilestoneCount} External Milestones
+                                </td>
+                              </tr>
+                            </tfoot>
+                          </table>
                         </div>
-                        <button
-                          onClick={() =>
-                            downloadTextAsset(
-                              verifyScriptSource,
-                              'verify-igrt-monograph.mjs',
-                              'text/javascript;charset=utf-8'
-                            )
-                          }
-                          className="px-3.5 py-2 rounded-lg bg-[#8B4513] dark:bg-[#EA580C] text-white text-[12.5px] font-medium hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
-                        >
-                          Download verify-igrt-monograph.mjs
-                        </button>
+
+                        <div className="print:hidden rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4 flex flex-wrap items-center justify-between gap-3 text-[13.5px] font-['Poppins']">
+                          <div>
+                            <div className="font-medium text-[#0F172A] dark:text-[#F8FAFC]">
+                              Public Verification Harness: <code className="font-mono text-[#8B4513] dark:text-[#FB923C]">scripts/verify-igrt-monograph.mjs</code>
+                            </div>
+                            <div className="text-[#475569] dark:text-[#94A3B8] text-[12.5px]">
+                              Run <code className="font-mono">node scripts/verify-igrt-monograph.mjs</code> to audit all ODEs, integrals, constants, tables, equations, and SVGs.
+                            </div>
+                          </div>
+                          <button
+                            onClick={() =>
+                              downloadTextAsset(
+                                verifyScriptSource,
+                                'verify-igrt-monograph.mjs',
+                                'text/javascript;charset=utf-8'
+                              )
+                            }
+                            className="px-3.5 py-2 rounded-lg bg-[#8B4513] dark:bg-[#EA580C] text-white text-[12.5px] font-medium hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
+                          >
+                            Download verify-igrt-monograph.mjs
+                          </button>
+                        </div>
                       </div>
                     )}
                     {app.letter === 'M' && (

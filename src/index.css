@@ -259,6 +259,33 @@
   margin-bottom: 1.15rem;
 }
 
+.igrt-h12-paper {
+  --igrt-font-body: 'Book Antiqua', 'Palatino Linotype', Palatino, 'URW Palladio L', 'Source Serif 4', Georgia, serif;
+  --igrt-body-size: 16px;
+  font-family: var(--igrt-font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.igrt-h12-paper p {
+  font-family: var(--igrt-font-body) !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  max-width: 100% !important;
+  text-align: justify !important;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.igrt-h12-chapter-title {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 400 !important;
+  font-size: 40px !important;
+  line-height: 1.18 !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 2.75rem !important;
+}
+
 .igrt-page-break-banner {
   display: flex;
   align-items: center;

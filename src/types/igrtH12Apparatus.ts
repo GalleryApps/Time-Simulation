@@ -1,0 +1,1331 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * IGRT-H12 Structured Apparatus, Taxonomies, Device Specs, Protocols & Appendices (A-K):
+ * "IGRT-H12: Fifth-Dimensional Resonant Geometry, Temporal Folding, Quantum Portals,
+ *  Black-Hole Connectivity & Advanced Physical Applications"
+ *
+ * Strictly zero LaTeX syntax; pure Unicode + HTML <sup>/<sub> typography.
+ * Every numerical benchmark directly computed by scripts/verify-igrt-h12.mjs.
+ */
+
+export type H12EpistemicCategory =
+  | 'CATEGORY A — ESTABLISHED'
+  | 'CATEGORY B — DERIVED'
+  | 'CATEGORY C — CONJECTURAL'
+  | 'CATEGORY D — SPECULATIVE ENGINEERING';
+
+export interface H12Equation {
+  label: string;
+  unicodeHtml: string;
+  plainText: string;
+  caption: string;
+  category: H12EpistemicCategory;
+}
+
+export interface H12AuthorSpec {
+  name: string;
+  orcid: string;
+  orcidUrl: string;
+  role: string;
+  affiliation: string;
+}
+
+export interface H12Meta {
+  monographId: string;
+  shortTitle: string;
+  title: string;
+  subtitle: string;
+  edition: string;
+  date: string;
+  predecessor: string;
+  authors: string;
+  authorRoster: H12AuthorSpec[];
+  affiliation: string;
+  keywords: string[];
+  verifyCommand: string;
+}
+
+export const H12_META: H12Meta = {
+  monographId: 'IGRT-2026-H12',
+  shortTitle: 'Folding Time Across Hidden Dimensions (IGRT-H12)',
+  title:
+    'Folding Time Across Hidden Dimensions: Fifth-Dimensional Resonant Geometry, Quantum Portals, and the Limits of Spacetime Shortcuts',
+  subtitle:
+    'From Cosmic Wormholes and Black-Hole Cores to Everyday Double-Slit Interference — A Rigorous Follow-Up Monograph Extending Information-Geometric Resonant Time (IGRT-2026-H11)',
+  edition: 'Research Monograph Edition H12 (13 Chapters · Appendices L–N · Supplementary Volume II A–K)',
+  date: 'November 2026',
+  predecessor: 'IGRT-2026-H11 (Harmonized 4D Research Monograph)',
+  authors: 'Jean-Charles Tassan, Marlon D. Bulaqueña, and Wilson John Sterking Lauret',
+  authorRoster: [
+    {
+      name: 'Jean-Charles Tassan',
+      orcid: '0009-0000-8566-0486',
+      orcidUrl: 'https://orcid.org/0009-0000-8566-0486',
+      role: 'Modular Time, SLD Fisher Geometry & Quantum Foundations',
+      affiliation: 'Laboratory of Resonant Epistemology & Open Quantum Systems'
+    },
+    {
+      name: 'Marlon D. Bulaqueña',
+      orcid: '0009-0007-3966-0494',
+      orcidUrl: 'https://orcid.org/0009-0007-3966-0494',
+      role: 'Mathematical General Relativity & 5D Brane Geometry',
+      affiliation: 'Department of Theoretical Physics, Extended Gravity Research Program'
+    },
+    {
+      name: 'Wilson John Sterking Lauret',
+      orcid: '0009-0004-7889-6641',
+      orcidUrl: 'https://orcid.org/0009-0004-7889-6641',
+      role: 'Black-Hole Thermodynamics, Optical Analogs & Falsification',
+      affiliation: 'Extended Gravity & Quantum Information Metrology Consortium'
+    }
+  ],
+  affiliation: 'Program on Information-Geometric Gravity, Higher-Dimensional Spacetime & Quantum Metrology',
+  keywords: [
+    'Information-Geometric Resonant Time (IGRT)',
+    '5D Warped Kaluza–Klein & Brane Geometry',
+    'Modular Time & Temporal Folding',
+    'Beltrami Geodesic Shortcuts (Category C)',
+    'Hayward Regular Black Holes & Gregory–Laflamme Instability',
+    'Morris–Thorne Traversable Wormholes & Null Energy Condition',
+    'SLD Quantum Fisher Information & Wave–Particle Duality',
+    'Falsification Protocols P7–P12'
+  ],
+  verifyCommand: 'node scripts/verify-igrt-h12.mjs'
+};
+
+export const H12_MASTER_EQUATIONS: H12Equation[] = [
+  {
+    label: '(H12.0.1)',
+    category: 'CATEGORY C — CONJECTURAL',
+    unicodeHtml:
+      '<i>d</i><i>s</i><sub>5</sub><sup>2</sup> = <i>e</i><sup>2α<sub><i>t</i></sub><i>k</i>|<i>y</i>|</sup> (−<i>c</i><sup>2</sup> <i>dt</i><sup>2</sup>) + <i>e</i><sup>−2α<sub><i>x</i></sub><i>k</i>|<i>y</i>|</sup> <i>g</i><sub><i>ij</i></sub><sup>(3)</sup> <i>dx</i><sup><i>i</i></sup> <i>dx</i><sup><i>j</i></sup> + Φ<sub>rad</sub><sup>2</sup>(<i>x</i>) <i>dy</i><sup>2</sup>, &nbsp;&nbsp; <i>c</i><sub>eff</sub>(<i>y</i>) = <i>c</i> · <i>e</i><sup>(α<sub><i>t</i></sub> + α<sub><i>x</i></sub>)<i>k</i>|<i>y</i>|</sup>',
+    plainText:
+      'ds_5^2 = e^{2 alpha_t k |y|} (-c^2 dt^2) + e^{-2 alpha_x k |y|} g_{ij}^{(3)} dx^i dx^j + Phi_rad^2(x) dy^2,  c_eff(y) = c e^{(alpha_t + alpha_x) k |y|}',
+    caption:
+      'Assumed generalized 5D warped bulk metric ansatz (Category C: postulated geometry, not unconditionally derived from a vacuum action) reducing smoothly to H11 4D geometry on y = 0; conformal RS case α_t = −1, α_x = +1 yields c_eff(y) = c identically, while asymmetric bulk α_t + α_x > 0 requires bulk anisotropic stress-energy.'
+  },
+  {
+    label: '(H12.0.2)',
+    category: 'CATEGORY C — CONJECTURAL',
+    unicodeHtml:
+      '<i>d</i>τ<sub>obs</sub> = [ ℏ / (<i>E</i><sub>mod</sub> · σ<sub>1</sub>(<i>K</i><sub>ξ</sub>)) ] √(<i>g</i><sub><i>ij</i></sub><sup>QFI</sup> θ̇<sup><i>i</i></sup> θ̇<sup><i>j</i></sup>) <i>d</i>λ &nbsp;=&nbsp; <i>c</i><sup>−1</sup> √(−<i>G</i><sub><i>AB</i></sub> <i>Ẋ</i><sup><i>A</i></sup> <i>Ẋ</i><sup><i>B</i></sup>) <i>d</i>λ, &nbsp;&nbsp; η<sub>fold</sub> ≡ Δτ<sub>5</sub> / Δτ<sub>4</sub>',
+    plainText:
+      'd tau_obs = [ hbar / (E_mod * sigma_1(K_xi)) ] sqrt(g_ij^QFI theta_dot^i theta_dot^j) d lambda = c^{-1} sqrt(-G_AB X_dot^A X_dot^B) d lambda,  eta_fold = Delta tau_5 / Delta tau_4',
+    caption:
+      'Five-dimensional lift of the H11 clock relation defining the folding ratio η_fold ≡ Δτ_5 / Δτ_4 (Category C: η_fold is a mathematical definition built on the postulated 5D bulk extension, not an unconditional derivation).'
+  }
+];
+
+export const H12_ABSTRACT_PARAGRAPHS: string[] = [
+  'Information-Geometric Resonant Time (IGRT), Edition H11, established a strictly four-dimensional, diffeomorphism-invariant principal fiber bundle formulation of physical time in which proper duration dτ along any worldline is fixed by the Symmetric Logarithmic Derivative Quantum Fisher Information metric g_ij^QFI on the projective Hilbert fiber PU(ℋ), with gravitational coupling κ_ψ = ℏc ℓ_Pl / (12π) = 2.1727 × 10⁻²¹ GeV⁻¹ derived from causal-diamond Araki relative entropy. Because H11 intentionally confines physical spacetime to 4D (M_4) and leaves extra spacetime dimensions outside its preregistered scope, any rigorous investigation of a physical fifth coordinate y, spacetime shortcuts, temporal folding, black-hole connectivity, or portal geometries requires an explicit, self-consistent follow-up architecture.',
+  'This monograph (IGRT-H12) develops that fifth-dimensional extension across 13 core chapters, 3 extended engineering/audit appendices (L–N), and a separate Supplementary Volume II containing Technical Appendices A–K, maintaining a strict four-tier epistemic discipline (Category A: Established; Category B: Derived; Category C: Conjectural; Category D: Speculative Engineering). All 12 core axioms and verified numerical closures of H11—including ξ_0 = 2⁻¹/⁴, K_echo = 0.184, M_rem = 1.09236 M_Pl, and the H_0 = 70.77 ± 0.72 km s⁻¹ Mpc⁻¹ cosmological posterior—are preserved intact in the low-energy limit E ≪ m_KK^(1), where Eöt-Wash torsion-balance data bound R_5 ≤ 44 μm (m_KK^(1) ≥ 4.485 meV) and suppress 5D Kaluza–Klein corrections at 1 neV to 4.972 × 10⁻¹⁴.',
+  'Direct variational integration (verified deterministically by scripts/verify-igrt-h12.mjs) establishes decisive negative theorems alongside clearly labeled Category C conjectures. First, flat compact M_4 × S¹ yields L_5/L_4 = 1.001249 > 1 (Category B: zero shortcut), and conformally flat Randall–Sundrum AdS_5 preserves c_eff(y) = c everywhere (Category B Horizon Theorem: Δt_5 ≥ Δt_4). Genuine bulk arrival shortcuts Δt_5 < Δt_4 arise mathematically only on assumed asymmetrically warped bulks or bent branes, where Beltrami shooting yields η_fold = 0.86634 (k Δx = 2), 0.34279 (k Δx = 10), and 0.07770 (k Δx = 50) (strictly reclassified as Category C mathematical possibilities, not physical predictions). Second, exact Einstein-tensor evaluation proves that the standard 4D H11 Hayward metric satisfies radial NEC (ρ + p_r = 0) and transverse NEC (ρ + p_⊥ > 0) at r_core = 2.5389 × 10⁻²² m, establishing that ordinary H11 regular black holes are NOT traversable portals. Macroscopic Morris–Thorne wormholes require −1.0637 × 10⁻³ M_⊙ (r_0 = 1 m) to −3.1912 M_⊙ (r_0 = 3 km) of NEC-violating stress-energy—exceeding laboratory Casimir vacuum density by 10⁷¹ at meter scales and reaching O(1) parity (0.2436) only at the Planck scale ℓ_0 = 1.3591 × 10⁻³⁵ m.',
+  'Finally, we derive exact double-slit wave–particle duality complementarity V² + D_QFI² = 1 from the SLD Fisher metric independently of 5D while flagging the Born rule explicitly as Category A (postulate, not derived from 5D), prove that 5D microcausality preserves the no-communication theorem, isolate what is uniquely 5D versus what is already resolved in 4D IGRT-H11, catalog every non-derived Category C/D claim, and specify experimental protocols P7–P12.'
+];
+
+export const H12_NON_SPECIALIST_SUMMARY =
+  'Summary for Non-Specialists: Imagine our observable universe as a flat sheet (four-dimensional spacetime) possibly embedded inside a deeper hidden landscape (a fifth dimension). Using exact mathematics rather than science-fiction analogies, this follow-up study tests whether stepping into a hidden extra dimension could allow faster cosmic travel, time folding, or sci-fi portals. Our strongest discoveries are clear negative proofs: simple flat extra dimensions actually slow down signals, standard warped extra dimensions cannot beat the speed of light, ordinary black holes are strictly sealed rather than doorways, and holding open a human-sized wormhole requires more negative energy than laboratory vacuum physics can supply by 71 orders of magnitude. While certain asymmetric extra-dimensional shapes mathematically allow apparent time-folding shortcuts without breaking local causality, no fifth dimension or spacetime shortcut has been observed in nature. Instead, we show how upcoming precision tabletop sensors, atomic clocks, matter-wave interferometers, and gravitational-wave detectors can honestly test or rule out these hidden-dimension hypotheses without altering any of our verified four-dimensional physics.';
+
+export const H12_SCOPE_AND_NON_CLAIMS: { title: string; points: string[] } = {
+  title: 'Epistemic Boundaries, Preserved H11 Foundations & Explicit Non-Claims',
+  points: [
+    'H11 Integrity Preserved: Nothing in H12 alters, retracts, or invalidates the 4D predictions of IGRT-2026-H11 (verified by 665 assertions in scripts/verify-igrt-monograph.mjs). H11 remains the exact effective 4D low-energy limit (E ≪ 4.485 meV) of H12.',
+    'Fifth Dimension Status (Category C): H12 treats the physical fifth dimension y as a mathematically consistent, conditionally falsifiable theoretical extension—NOT an established experimental fact.',
+    'No Free Wormholes or Warp Drives (Category B Negative Theorems): Ordinary 4D Hayward regular black holes do NOT violate NEC and are NOT portals. Macroscopic traversable wormholes remain blocked by >70 orders of magnitude relative to physical Casimir vacuum energy densities.',
+    'Quantum Foundations Boundary (Category A): The Born rule P = |ψ|² is treated strictly as an established quantum postulate—it is NOT claimed to be derived from 5D geometry. Entanglement nonlocality strictly preserves no-signaling ([O_A, O_B] = 0).',
+    'Analog vs. Gravitational Engineering (Category D vs. A): Laboratory optical, cold-atom, acoustic, and qubit analog devices (Devices A–F) probe information-geometric mathematics and effective curved metrics; they do NOT open physical astrophysical portals.'
+  ]
+};
+
+export interface H11ToH12ComponentRow {
+  component: string;
+  h11Role: string;
+  h11EquationOrValue: string;
+  h12Status: 'Preserved Unchanged' | 'Extended to 5D' | 'Replaced / Generalized';
+  h12Modification: string;
+  category: H12EpistemicCategory;
+}
+
+export const H11_TWELVE_COMPONENTS_AUDIT: H11ToH12ComponentRow[] = [
+  {
+    component: '1. Principal Bundle P(M_4, PU(ℋ))',
+    h11Role: 'Base 4D spacetime with projective Hilbert state fiber',
+    h11EquationOrValue: 'π: P → M_4; fiber PU(ℋ)',
+    h12Status: 'Extended to 5D',
+    h12Modification: 'Postulated lift to 5D bulk bundle P_5(M_5, PU(ℋ)), where y ∈ K_1 is a physical spacetime coordinate strictly distinct from internal fiber θ ∈ PU(ℋ); lift is assumed rather than derived from a 5D action.',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    component: '2. Master QFI Clock Identification',
+    h11Role: 'Equalizes proper time to modular-normalized SLD Fisher line element',
+    h11EquationOrValue: 'dτ = [ℏ/(E_mod σ_1(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ',
+    h12Status: 'Extended to 5D',
+    h12Modification: 'Defined on 5D bulk arc length Eq. (H12.0.2); introduces coordinate-invariant temporal folding ratio η_fold ≡ Δτ_5 / Δτ_4 as a definition on the assumed 5D lift.',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    component: '3. Araki Coupling Constant κ_ψ',
+    h11Role: 'Bridges causal-diamond relative entropy density to scalar field ψ²',
+    h11EquationOrValue: 'κ_ψ = ℏc ℓ_Pl/(12π) = 1.3554 × 10⁻⁶² J·m² = 2.1727 × 10⁻²¹ GeV⁻¹',
+    h12Status: 'Preserved Unchanged',
+    h12Modification: 'Recovered identically on the y = 0 brane for E ≪ m_KK^(1); KK correction at 1 neV is 4.972 × 10⁻¹⁴.',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    component: '4. Horndeski / Vainshtein Screening',
+    h11Role: 'Solar-system PPN recovery via Λ_3 = 1.758 × 10⁻¹³ eV & Z_ψ',
+    h11EquationOrValue: 'Λ_local = 4.67 μeV; |γ_PPN − 1| ≪ 10⁻⁵',
+    h12Status: 'Extended to 5D',
+    h12Modification: '5D radion Φ_rad(x) is assumed to inherit Vainshtein/Goldberger–Wise screening so Eöt-Wash R_5 ≤ 44 μm (m_KK ≥ 4.485 meV) and Cassini PPN bounds remain satisfied (full 5D field-equation screening not explicitly derived).',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    component: '5. Regular Black-Hole Hayward Core',
+    h11Role: 'UV regular core parameter ξ_0 = 2⁻¹/⁴, ℓ_0 = 1.3591 × 10⁻³⁵ m',
+    h11EquationOrValue: 'f(r) = 1 − 2GMr²/(r³ + 2GMℓ_0²)',
+    h12Status: 'Extended to 5D',
+    h12Modification: '4D Hayward NEC satisfaction (ρ + p_r = 0) is strictly Category B derived; however, 5D brane-world black-string embedding with Weyl tidal charge and Gregory–Laflamme threshold r_+/R_AdS = 0.876 is an assumed Category C extension.',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    component: '6. WKB Echo Amplitude & QES Island',
+    h11Role: 'Tortoise barrier reflectivity & Page-curve remnant M_rem',
+    h11EquationOrValue: 'K_echo = 0.184; M_rem = 1.09236 M_Pl',
+    h12Status: 'Preserved Unchanged',
+    h12Modification: 'Preserved in 4D ringdown channel (P4); extended in P10 to search for scalar/KK leakage modes |h_s/h_t| < 10⁻³ at ET/CE.',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    component: '7. Early-Braiding Hubble Closure',
+    h11Role: 'Acoustic shrinkage resolving Planck–SH0ES tension (4.8σ → 1.8σ)',
+    h11EquationOrValue: 'H_0 = 70.77 ± 0.72; w_0 = −0.831, w_a = −0.542',
+    h12Status: 'Preserved Unchanged',
+    h12Modification: 'Untouched by heavy KK tower (m_KK ≥ 4.485 meV ≫ T_CMB); bulk radion drift constrained by BBN & GW170817.',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    component: '8. Spectral Compression A_F^{H11}',
+    h11Role: 'Derives M_Ch, m_osc, and dark matter budget (k_eff = 2 moduli)',
+    h11EquationOrValue: 'M_Ch = 2.44 meV; Ω_DM h² = 0.1194',
+    h12Status: 'Extended to 5D',
+    h12Modification: 'KK/radion excitations constrained to < 1% subdominant fraction alongside H11 remnant + ULDM budget.',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    component: '9. Buchholz–Wichmann & BFV–BRST UV Closure',
+    h11Role: 'Split property bound 2 × 10⁻¹¹⁰ & nilpotent {Ω_BFV, Ω_BFV} = 0',
+    h11EquationOrValue: 'd_GH = 0.0142; Wetterich g_* = 1.3105',
+    h12Status: 'Extended to 5D',
+    h12Modification: '5D non-renormalizable EFT below M_5 (≥ 2.985 × 10⁸ GeV flat / 1.8101 × 10¹⁸ GeV warped); full 5D BFV–BRST constraint algebra {Ω_BFV^(5), Ω_BFV^(5)} is not explicitly computed in H12.',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    component: '10. Ekpyrotic–L_UV Bounce Cosmology',
+    h11Role: 'Non-singular scale-invariant spectrum n_s = 0.9637',
+    h11EquationOrValue: 'r < 0.03; |f_NL^eq| < 5',
+    h12Status: 'Extended to 5D',
+    h12Modification: 'Brane-collision / orbifold S¹/ℤ_2 geometric realization of the ekpyrotic bounce (Category C).',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    component: '11. H11 Protocols P1–P6',
+    h11Role: 'Preregistered 4D empirical tests (PTA, SiO_2, LiteBIRD, GW, CANNEX, LHC)',
+    h11EquationOrValue: 'SHA-256: 57cf3f1c...048d',
+    h12Status: 'Preserved Unchanged',
+    h12Modification: 'The H11 protocols P1–P6 test 4D physics only; they do not confirm 5D. H12 adds distinct 5D protocols P7–P12.',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    component: '12. Diffeomorphism & Microcausality Discipline',
+    h11Role: 'No superluminal signaling; invariant observables only',
+    h11EquationOrValue: '[φ(x), φ(y)] = 0 for spacelike (x − y)² > 0',
+    h12Status: 'Extended to 5D',
+    h12Modification: 'Follows directly from standard Lorentzian (−,+,+,+,+) metric signature in globally hyperbolic charts; preserves 5D null lightcones ds_5² ≤ 0 and quantum no-communication [O_A, O_B] = 0.',
+    category: 'CATEGORY A — ESTABLISHED'
+  }
+];
+
+export interface TemporalNotionRow {
+  notion: string;
+  symbol: string;
+  mathematicalDefinition: string;
+  physicalRole: string;
+  foldsInH12: string;
+  category: H12EpistemicCategory;
+}
+
+export const SEVEN_TEMPORAL_NOTIONS: TemporalNotionRow[] = [
+  {
+    notion: '1. Coordinate Time',
+    symbol: 't (or x⁰/c)',
+    mathematicalDefinition: 'Foliation parameter on 5D chart (t, x^i, y); gauge-dependent',
+    physicalRole: 'Global bookkeeping label; not directly measurable by local clocks',
+    foldsInH12: 'Shifts under chart reparametrization; arrival coordinate time Δt_5 < Δt_4 defines bulk shortcut only for invariant null worldlines between fixed brane events',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    notion: '2. 4D Brane Proper Time',
+    symbol: 'τ_4',
+    mathematicalDefinition: '∫ c⁻¹ √(−g_μν^(4) ẋ^μ ẋ^ν) dλ at y = 0',
+    physicalRole: 'Elapsed tick of an ideal atomic/optical clock confined to the 4D brane',
+    foldsInH12: 'Reference baseline against which 5D bulk twin paths are compared',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    notion: '3. 5D Bulk Proper Time',
+    symbol: 'τ_5',
+    mathematicalDefinition: '∫ c⁻¹ √(−G_AB Ẋ^A Ẋ^B) dλ along γ ⊂ M_5',
+    physicalRole: 'Elapsed tick of a hypothetical bulk-traversing physical clock',
+    foldsInH12: 'Folds invariantly: η_fold = Δτ_5 / Δτ_4 < 1 under warped redshift or asymmetric bulk excursions',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    notion: '4. Tomita–Takesaki Modular Time',
+    symbol: 's_mod',
+    mathematicalDefinition: 'Δ_ξ^{i s_mod} A Δ_ξ^{−i s_mod}, where Δ_ξ = e^{−K_ξ}',
+    physicalRole: 'Intrinsic operator-algebraic automorphism parameter on causal-diamond algebra 𝒜(𝒪)',
+    foldsInH12: 'Drives local clock rate via modular Hamiltonian spectral gap σ_1(K_ξ)',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    notion: '5. QFI / Bures Information Time',
+    symbol: 's_QFI',
+    mathematicalDefinition: '∫ √(g_ij^QFI θ̇^i θ̇^j) dλ = 2 ∫ √(g_ij^Bures θ̇^i θ̇^j) dλ',
+    physicalRole: 'Dimensionless distinguishability distance swept in projective Hilbert space PU(ℋ)',
+    foldsInH12: 'Proportional to τ_5 via α_mod = ℏ/(E_mod σ_1(K_ξ)); 3.2937 × 10¹² rad for 2.16795 ms benchmark',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    notion: '6. KMS Thermal Time',
+    symbol: 't_th = −ℏ β s_mod',
+    mathematicalDefinition: 'Analytic strip Im(s_mod) ∈ [0, 1] KMS periodicity β = (k_B T)⁻¹',
+    physicalRole: 'Equilibrium Unruh/Hawking/Gibbons–Hawking thermodynamic time scale',
+    foldsInH12: 'Maps bulk surface gravity κ_5 to effective brane temperature T_eff',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    notion: '7. Cosmological FRW / Conformal Time',
+    symbol: 't_FRW, η_conf',
+    mathematicalDefinition: 'ds² = −dt_FRW² + a²(t) dΣ² = a²(η)(−dη² + dΣ²)',
+    physicalRole: 'Comoving synchronous cosmic clock measuring expansion H(z)',
+    foldsInH12: 'Subject to apparent acceleration corrections if M_4 embeds dynamically in M_5 (Ch. 11)',
+    category: 'CATEGORY A — ESTABLISHED'
+  }
+];
+
+export interface BlackHoleClassRow {
+  classId: string;
+  label: string;
+  metricSignatureAndForm: string;
+  necStatus: string;
+  portalViability: string;
+  stabilityAndConstraints: string;
+  category: H12EpistemicCategory;
+}
+
+export const SIX_BLACK_HOLE_CLASSES: BlackHoleClassRow[] = [
+  {
+    classId: 'Class A',
+    label: '4D Classical Schwarzschild / Kerr',
+    metricSignatureAndForm: 'ds² = −(1 − r_s/r)dt² + (1 − r_s/r)⁻¹dr² + r²dΩ²',
+    necStatus: 'Vacuum T_μν = 0; NEC trivially satisfied (ρ + p_r = 0)',
+    portalViability: 'NON-TRAVERSABLE. Einstein–Rosen bridge pinches off faster than light; spacelike singularity at r = 0.',
+    stabilityAndConstraints: 'Established GR solution; exact baseline for LVK ringdowns.',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    classId: 'Class B',
+    label: '4D H11 Regular Hayward Black Hole',
+    metricSignatureAndForm: 'f(r) = 1 − 2GMr²/(r³ + 2GMℓ_0²), ξ_0 = 2⁻¹/⁴',
+    necStatus: 'Radial NEC ρ + p_r = 0 identically; transverse ρ + p_⊥ > 0 (verified at r_core = 2.539 × 10⁻²² m)',
+    portalViability: 'NON-TRAVERSABLE. Smooth de Sitter core prevents singularity and produces K_echo = 0.184 ringdown echoes, NOT a portal.',
+    stabilityAndConstraints: 'Inner Cauchy horizon saturates mass inflation at ρ_infl/ρ_Pl = 0.4094 (H11 App. P).',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    classId: 'Class C',
+    label: '5D Brane-World Hayward with Tidal Charge',
+    metricSignatureAndForm: 'f_5D(r) = 1 − (2GMr² + q_tidal R_AdS r)/(r³ + 2GMℓ_0²)',
+    necStatus: 'Effective bulk Weyl projection E_μν mimics negative stress-energy if q_tidal < 0',
+    portalViability: 'NON-PORTAL (horizon persists), unless extreme q_tidal removes horizon (naked/horizonless compact object).',
+    stabilityAndConstraints: 'Subject to Gregory–Laflamme instability if bulk black string extends across R_AdS with r_+/R_AdS < 0.876.',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    classId: 'Class D',
+    label: 'Black-Bounce / Simpson–Visser Hybrid',
+    metricSignatureAndForm: 'ds² = −f(r)dt² + f(r)⁻¹dr² + (r² + a_0²)dΩ²',
+    necStatus: 'NEC VIOLATED at bounce throat r = 0 whenever a_0 > r_s (ρ + p_r < 0)',
+    portalViability: 'CONDITIONAL ONE-WAY / TWO-WAY BOUNCE depending on a_0 vs r_s; transitions smoothly from regular BH to wormhole as a_0 crosses 2GM.',
+    stabilityAndConstraints: 'Requires effective NEC-violating matter or Horndeski/quantum backreaction near a_0.',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    classId: 'Class E',
+    label: 'Morris–Thorne Traversable Wormhole',
+    metricSignatureAndForm: 'ds² = −e^{2Φ(r)}c²dt² + (1 − b(r)/r)⁻¹dr² + r²dΩ², b(r_0)=r_0, b\'(r_0)<1',
+    necStatus: 'NEC STRICTLY VIOLATED everywhere near throat: (ρc² + p_r)|_{r_0} = −9.6309 × 10⁴² J/m³ at r_0 = 1 m',
+    portalViability: 'TRAVERSABLE IN PRINCIPLE if supported by −1.064 × 10⁻³ M_⊙ (r_0=1 m) or −3.191 M_⊙ (r_0=3 km) exotic stress-energy.',
+    stabilityAndConstraints: 'Blocked by Casimir/quantum inequality deficit of 10⁷¹ at macroscopic scales; quantum foam regime only at r_0 ~ ℓ_0 (ratio 0.2436).',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    classId: 'Class F',
+    label: 'Holographic ER=EPR Quantum-Connected Pair',
+    metricSignatureAndForm: 'AdS_5 Kruskal double-sided geometry dual to thermofield double |TFD⟩',
+    necStatus: 'Ordinary boundary/bulk NEC forbids traversal unless double-trace boundary coupling O_L O_R injects negative null energy (Gao–Jafferis–Wall)',
+    portalViability: 'CONJECTURAL / QUANTUM TELEPORTATION ANALOG ONLY; macroscopic traversable causal shortcuts remain unestablished in asymptotically flat 4D.',
+    stabilityAndConstraints: 'Strictly preserves no-communication theorem; cannot transmit FTL signals without classical channel.',
+    category: 'CATEGORY C — CONJECTURAL'
+  }
+];
+
+export interface PortalMechanismRow {
+  id: number;
+  mechanism: string;
+  tier: 'Tier 1 (Established Physics / Zero Portal)' | 'Tier 2 (Benchtop Metric Analog Only)' | 'Tier 3 (Marginal Perturbative Effect)' | 'Tier 4 (Quantum-Scale Only)' | 'Tier 5 (Physically Unrealizable at Macro Scales)';
+  physicalAction: string;
+  quantitativeObstacleOrLimit: string;
+  category: H12EpistemicCategory;
+}
+
+export const ELEVEN_PORTAL_MECHANISMS: PortalMechanismRow[] = [
+  {
+    id: 1,
+    mechanism: '1. Controlled Classical Gravitational Focusing',
+    tier: 'Tier 1 (Established Physics / Zero Portal)',
+    physicalAction: 'Converges null rays via positive energy T_μν (Raychaudhuri focusing R_μν k^μ k^ν ≥ 0).',
+    quantitativeObstacleOrLimit: 'Strictly increases focusing and forms horizons/singularities; CANNOT create flare-out (b\' < 1).',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    id: 2,
+    mechanism: '2. High-Intensity Electromagnetic Fields',
+    tier: 'Tier 1 (Established Physics / Zero Portal)',
+    physicalAction: 'Maxwell stress tensor satisfies ρ + p_r ≥ 0 and weak/dominant energy conditions everywhere.',
+    quantitativeObstacleOrLimit: 'Even Schwinger limit E_S = 1.32 × 10¹⁸ V/m creates e⁺e⁻ pairs, not NEC violation.',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    id: 3,
+    mechanism: '3. Coherent Quantum States (Squeezed Light)',
+    tier: 'Tier 3 (Marginal Perturbative Effect)',
+    physicalAction: 'Locally dips ⟨:T_00:⟩ < 0 between positive-energy pulses via squeezed vacuum interference.',
+    quantitativeObstacleOrLimit: 'Strictly constrained by Ford–Roman quantum inequalities (∫ ρ(t) w(t) dt ≥ −C ℏ / τ⁴); cannot sustain static macro throats.',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    id: 4,
+    mechanism: '4. Casimir Vacuum Engineering',
+    tier: 'Tier 4 (Quantum-Scale Only)',
+    physicalAction: 'Conducting boundaries exclude EM vacuum modes: ρ_Casimir = −π²ℏc / (720 d⁴) < 0.',
+    quantitativeObstacleOrLimit: 'At r_0 = 1 m: Casimir density is 4.50 × 10⁻⁷¹ of wormhole NEC requirement; matches O(1) (0.2436) only at Planck gap d ~ ℓ_0.',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    id: 5,
+    mechanism: '5. Bulk Vacuum / Radion–Horndeski Brane Engineering',
+    tier: 'Tier 3 (Marginal Perturbative Effect)',
+    physicalAction: 'Effective cubic Galileon / Araki scalar T_μν^(eff) can violate NEC transiently during bounce/phantom episodes.',
+    quantitativeObstacleOrLimit: 'Local Vainshtein screening Z_ψ = 7.05 × 10¹⁴ suppresses terrestrial fifth forces and prevents unscreened macro metric jumps.',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    id: 6,
+    mechanism: '6. Superconducting Cavities & Metamaterials',
+    tier: 'Tier 2 (Benchtop Metric Analog Only)',
+    physicalAction: 'Modulates phase velocity, refractive index n(r), and effective dispersion metric for photons/phonons.',
+    quantitativeObstacleOrLimit: 'Couples to electromagnetic permittivity, NOT spacetime Ricci curvature G_μν (no gravitational metric shortcut).',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    id: 7,
+    mechanism: '7. High-Energy Particle Collisions (HL-LHC / 100 TeV)',
+    tier: 'Tier 4 (Quantum-Scale Only)',
+    physicalAction: 'Probes virtual/real KK gravitons if M_5 ~ TeV; constrains Φ_portal in H11 Protocol P6.',
+    quantitativeObstacleOrLimit: 'If TeV-scale micro black holes formed, Hawking evaporation occurs in ~10⁻²⁶ s (not stable traversable portals).',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    id: 8,
+    mechanism: '8. Macroscopic Quantum Entanglement (ER=EPR)',
+    tier: 'Tier 2 (Benchtop Metric Analog Only)',
+    physicalAction: 'In AdS/CFT toy models, dualizes entangled states to non-traversable wormholes rendered marginally traversable via classical O_L O_R coupling.',
+    quantitativeObstacleOrLimit: 'Requires external classical channel; 0 bits FTL capacity; untested in flat 4D spacetime.',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    id: 9,
+    mechanism: '9. Resonant Optical Cavities & Interferometers',
+    tier: 'Tier 2 (Benchtop Metric Analog Only)',
+    physicalAction: 'Accumulates extreme phase sensitivity (δφ < 10⁻⁶ rad) to test QFI metric corrections and modular phase shifts (P9).',
+    quantitativeObstacleOrLimit: 'Precision measurement sensor, not an actuator of 5D bulk curvature.',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    id: 10,
+    mechanism: '10. Modular Clock Networks & Optical Lattices',
+    tier: 'Tier 2 (Benchtop Metric Analog Only)',
+    physicalAction: 'Realizes engineered modular Hamiltonians K_ξ and tests δν/ν ~ 10⁻¹⁹ gravitational redshift residuals (P8).',
+    quantitativeObstacleOrLimit: 'Tests proper-time folding η_fold from potential gradients, does not transport matter across extra dimensions.',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    id: 11,
+    mechanism: '11. Coherent 5D Kaluza–Klein Mode Excitation',
+    tier: 'Tier 5 (Physically Unrealizable at Macro Scales)',
+    physicalAction: 'Excites massive KK gravitons (m_KK ≥ 4.485 meV) into the bulk coordinate y.',
+    quantitativeObstacleOrLimit: 'Gravitational cross-section σ ~ G² E² / c⁸ suppresses bulk graviton production rates by ~10⁻⁶⁰ in laboratory apparatus.',
+    category: 'CATEGORY B — DERIVED'
+  }
+];
+
+export interface DeviceTenFieldSpec {
+  deviceId: string;
+  name: string;
+  category: H12EpistemicCategory;
+  physicalPrinciple: string;
+  governingEquations: string;
+  architecture: string;
+  operatingRegime: string;
+  predictedSignal: string;
+  noiseFloor: string;
+  engineeringFeasibility: string;
+  whatItActuallyTests: string;
+  whatItDoesNotDo: string;
+  failureCriteria: string;
+}
+
+export const SIX_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
+  {
+    deviceId: 'Device A',
+    name: 'Modular Resonance Detector (Optical-Lattice & Trap QFI Probe)',
+    category: 'CATEGORY B — DERIVED',
+    physicalPrinciple: 'Measures SLD Quantum Fisher Information rate √(g_ij^QFI θ̇^i θ̇^j) vs. atomic proper time τ along driven Floquet-modular trajectories.',
+    governingEquations: 'dτ = [ℏ/(E_mod σ_1(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ',
+    architecture: 'Dual Sr-87 / Yb-171 optical lattice clocks (10⁻¹⁹ stability) coupled to programmable Raman-driven synthetic gauge fields.',
+    operatingRegime: 'Ultra-high vacuum 10⁻¹¹ Torr, T ~ 1 μK, modulation frequencies 1 Hz–100 kHz.',
+    predictedSignal: 'Exact 1:1 scaling between accumulated Bures geodesic arc s_QFI and Ramsey phase uncertainty Δφ_CRB = 1/√(N F_Q); null 5D drift |δν/ν| < 10⁻¹⁹ (P8).',
+    noiseFloor: 'Quantum projection noise 2 × 10⁻¹⁹ / √(τ/s); blackbody radiation shift < 10⁻¹⁹.',
+    engineeringFeasibility: 'HIGH (Near-Term, 2026–2030): All subsystems exist at JILA / PTB / RIKEN.',
+    whatItActuallyTests: 'Tests H11/H12 QFI clock law (Eq. H12.0.2) and bounds unshielded modular/5D drift.',
+    whatItDoesNotDo: 'Does NOT alter spacetime metric G_AB or induce backward time travel.',
+    failureCriteria: 'Falsifies modular scaling if measured Δτ deviates from QFI speed limit outside 3σ systematic envelope, or detects anomalous dispersion violating Lorentz invariance.'
+  },
+  {
+    deviceId: 'Device B',
+    name: '5D Geometric Resonator (CANNEX-Class Sub-10 μm Casimir–Yukawa Plate)',
+    category: 'CATEGORY B — DERIVED',
+    physicalPrinciple: 'Searches for non-Newtonian Yukawa deviations V_5D(r) = −(GMm/r)(1 + α_KK e^{−r/R_5}) arising from compact or warped fifth-dimension graviton modes.',
+    governingEquations: 'ΔP_KK(d) = −2π G σ_1 σ_2 α_KK R_5 e^{−d/R_5}  (S¹: α_KK = 2)',
+    architecture: 'Electrostatic-shielded cryogenic parallel-plate interferometer (gap d = 3–30 μm) suppressing Casimir background via thin gold-coated dielectric membrane.',
+    operatingRegime: 'Cryogenic 4.2 K, seismic isolation < 10⁻¹² m/√Hz at 10 Hz, gap d = 5–20 μm.',
+    predictedSignal: 'If R_5 ∈ [10, 44] μm exists, exponential force residual exceeds 10⁻¹⁰ N/m² threshold (P7 reach m_KK = 19.733 meV); simultaneously probes H11 Chameleon P5.',
+    noiseFloor: 'Patch-potential electrostatic noise & thermal Brownian cantilever noise ~ 3 × 10⁻¹¹ N/m².',
+    engineeringFeasibility: 'HIGH (Near-Term, 2026–2029): Direct upgrade of CANNEX & Washington Eöt-Wash apparatus.',
+    whatItActuallyTests: 'Directly constrains compact extra dimension radius R_5 < 10 μm and 5D Yukawa coupling α_KK.',
+    whatItDoesNotDo: 'Does NOT excite macroscopic portals or stabilize wormhole throats (Casimir deficit remains 10⁵⁹ at 1 μm).',
+    failureCriteria: 'Null detection down to 10⁻¹¹ N/m² rules out compact flat S¹ extra dimensions down to R_5 < 10 μm (m_KK > 19.733 meV).'
+  },
+  {
+    deviceId: 'Device C',
+    name: 'Temporal Folding Simulator (Asymmetric Optical/Circuit Analog Metric)',
+    category: 'CATEGORY D — SPECULATIVE ENGINEERING',
+    physicalPrinciple: 'Realizes an effective 2+1D asymmetric Gordon optical metric ds_eff² = −c²/n(y)² dt² + dx² + dy² to demonstrate Beltrami geodesic shortcuts in a laboratory analog medium.',
+    governingEquations: 'δ ∫ c n_eff(y)⁻¹ √(1 + y\'²) dx = 0  (analogous to Model 2B η_fold < 1)',
+    architecture: 'Graded-index (GRIN) photonic crystal waveguide slab where index n(y) decreases away from the reference edge y = 0.',
+    operatingRegime: '1550 nm pulsed femtosecond laser, index contrast Δn/n ≈ 0.35 over slab width W = 500 μm.',
+    predictedSignal: 'Wavepackets plunging into low-index bulk layers arrive earlier than surface-guided wavepackets (η_fold_analog ≈ 0.74), visually reproducing Ch. 4 Model 2B geodesics.',
+    noiseFloor: 'Chromatic waveguide dispersion ±15 fs; modal scattering loss < 0.2 dB/cm.',
+    engineeringFeasibility: 'HIGH (Benchtop Photonics Analog): Immediate demonstration of curved-metric geodesic shortcuts.',
+    whatItActuallyTests: 'Validates variational Beltrami solver dynamics and differential optical path folding.',
+    whatItDoesNotDo: 'Does NOT exceed vacuum speed c (n ≥ 1 strictly) and does NOT warp real spacetime curvature.',
+    failureCriteria: 'Signal loss or failure to match variational Euler–Lagrange arrival profile within ±2% of refractive index calibration.'
+  },
+  {
+    deviceId: 'Device D',
+    name: 'Quantum Interference Modulator (Double-Slit SLD Fisher Interferometer)',
+    category: 'CATEGORY B — DERIVED',
+    physicalPrinciple: 'Probes exact complementarity V² + D_QFI² = 1 across tunable which-path overlap γ_coh ∈ [0, 1] and bounds anomalous 5D decoherence/phase shifts |δV_5D| < 10⁻⁶.',
+    governingEquations: 'F_Q(φ) = γ_coh²,  V = γ_coh,  D_QFI = √(1 − γ_coh²)  ⇒  V² + D_QFI² = 1',
+    architecture: 'Mach–Zehnder / Talbot–Lau matter-wave interferometer with controllable polarization/ancilla path marker.',
+    operatingRegime: 'Single-photon or Cs-133 atom beam, phase stabilization < 10⁻⁷ rad.',
+    predictedSignal: 'Sweeping γ_coh traces unit circle V² + D_QFI² = 1 within shot noise; any 5D bulk-decoherence term ΔV_5D > 10⁻⁶ is excluded at >5σ (Protocol P9).',
+    noiseFloor: 'Shot-noise floor 1/√N ≈ 10⁻⁷ for N = 10¹⁴ integrated counts.',
+    engineeringFeasibility: 'HIGH (Immediate Laboratory Implementation): Standard quantum-optics testbed.',
+    whatItActuallyTests: 'Tests SLD QFI complementarity identity and bounds anomalous bulk-coupling phase errors.',
+    whatItDoesNotDo: 'Does NOT route particles through a spatial 5th dimension nor derive Born\'s rule from geometry.',
+    failureCriteria: 'Violation of V² + D_QFI² ≤ 1 (impossible in standard QM) or reproducible unshielded phase anomaly violating Lorentz bounds.'
+  },
+  {
+    deviceId: 'Device E',
+    name: 'Higher-Dimensional Connectivity Detector (3G GW & Qubit ER=EPR Dual Probe)',
+    category: 'CATEGORY C — CONJECTURAL',
+    physicalPrinciple: 'Operates on two tracks: (E1) 3G gravitational-wave polarization decomposition for KK/bulk leakage |h_scalar/h_tensor|; (E2) superconducting qubit circuit simulation of Gao–Jafferis–Wall traversable teleportation.',
+    governingEquations: 'h_AB = h_TT^(4D) + h_scalar^(rad) e_AB^(b) + ∑_n h_AB^(KK,n) e^{−m_n y}',
+    architecture: 'Triangular Einstein Telescope + Cosmic Explorer network (E1); 50-qubit Sycamore/Willow-class processor running TFD scrambler (E2).',
+    operatingRegime: '10 Hz–3 kHz GW band at SNR > 100 (E1); 20 mK dilution refrigerator (E2).',
+    predictedSignal: '3G network bounds scalar/KK ringdown leakage below 10⁻³ alongside H11 K_echo = 0.184 (Protocol P10); qubit circuit reproduces SYK-like OTOC teleportation peak.',
+    noiseFloor: 'Quantum radiation-pressure + Newtonian gravity-gradient noise at 10 Hz (~10⁻²⁴ / √Hz).',
+    engineeringFeasibility: 'MEDIUM–LONG TERM: Qubit analog now; 3G GW network 2035+.',
+    whatItActuallyTests: 'Constraints on extra-dimensional GW energy loss and holographic scrambling dynamics.',
+    whatItDoesNotDo: 'Does NOT open macroscopic wormholes or allow superluminal communication.',
+    failureCriteria: 'Absence of scalar/KK ringdown polarization above 10⁻³ excludes TeV-scale bulk leakage scenarios.'
+  },
+  {
+    deviceId: 'Device F',
+    name: 'Black-Hole Analog Portal Simulator (BEC Sonic Horizon & Hayward Echo Rig)',
+    category: 'CATEGORY B — DERIVED',
+    physicalPrinciple: 'Simulates acoustic Hawking radiation and Hayward-like subcritical core reflection (K_echo = 0.184 analog) in a transonic Bose–Einstein condensate.',
+    governingEquations: 'ds_acoustic² = (ρ_0/c_s) [ −(c_s² − v²) dt² − 2 v_i dx^i dt + δ_ij dx^i dx^j ]',
+    architecture: 'Quasi-1D Rb-87 BEC waterfall trap with dual Feshbach-tunable sound speed step mimicking regularized core barrier.',
+    operatingRegime: 'T ≈ 50 nK, c_s ≈ 1.5 mm/s, condensate lifetime 500 ms.',
+    predictedSignal: 'Correlated Hawking phonon pairs across sonic horizon plus quantized post-horizon acoustic reflection pulse matching tortoise-potential reflectivity.',
+    noiseFloor: 'Thermal phonon background ~ 0.15 quanta per mode.',
+    engineeringFeasibility: 'HIGH (Demonstrated Platform): Extends Steinhauer-type acoustic horizon experiments.',
+    whatItActuallyTests: 'Verifies tortoise-barrier echo dynamics, QES entanglement entropy growth, and wave scattering.',
+    whatItDoesNotDo: 'Does NOT test NEC violation in Einstein gravity or construct real spacetime horizons.',
+    failureCriteria: 'Discrepancy between measured acoustic Bogoliubov spectrum and effective metric scattering matrix.'
+  }
+];
+
+export interface ProtocolH12Row {
+  id: string;
+  name: string;
+  targetObservable: string;
+  relationToH11: string;
+  numericalSensitivity: string;
+  falsificationCriterion: string;
+  timeline: string;
+  category: H12EpistemicCategory;
+}
+
+export const H12_PROTOCOLS_P7_TO_P10: ProtocolH12Row[] = [
+  {
+    id: 'P7',
+    name: 'Short-Range KK Gravity & Radion Screening (Tests 5D Bulk, NOT Folding)',
+    targetObservable: 'Yukawa force residual α_KK e^{−d/R_5} across 5–44 μm',
+    relationToH11: 'Tests the compact 5D bulk hypothesis rather than temporal folding; shares CANNEX hardware with H11 P5 via orthogonal exponential vs. power-law pressure template.',
+    numericalSensitivity: 'Reach R_5 = 10 μm ⇒ m_KK^(1) = 19.733 meV (improving 44 μm / 4.485 meV baseline by 4.4×)',
+    falsificationCriterion: 'Null detection down to 10⁻¹¹ N/m² excludes flat S¹ extra dimensions with R_5 ≥ 10 μm.',
+    timeline: '2026–2030',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    id: 'P8',
+    name: 'Optical & Nuclear Clock Residual (Tests KK Corrections, NOT Bulk Trajectory Folding)',
+    targetObservable: 'Fractional frequency residual δν/ν vs. driven modular Fisher / KK drift',
+    relationToH11: 'Tests local KK loop corrections and state-space QFI scaling (NOT macroscopic bulk trajectory shortcuts); extends H11 P1 from ULDM lock to local clock bounds.',
+    numericalSensitivity: '|δν/ν| ≤ 10⁻¹⁹ across Sr-87 lattice & Th-229 transitions (4.972 × 10⁻¹⁴ KK ceiling at 1 neV easily compatible)',
+    falsificationCriterion: 'Any reproducible discrepancy outside GR redshift + QFI scaling falsifies unshielded bulk-brane detuning.',
+    timeline: '2027–2032',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    id: 'P9',
+    name: 'Quantum Double-Slit Visibility Bound (Tests Decoherence, NOT 5D Spatial Transit)',
+    targetObservable: 'Complementarity saturation V² + D_QFI² and 5D decoherence drift δV_5D',
+    relationToH11: 'Tests anomalous decoherence against the SLD Fisher complementarity identity on PU(ℋ) (does NOT test physical travel through y or bulk folding).',
+    numericalSensitivity: '|δV_5D| < 10⁻⁶ at N = 10¹⁴ events; verifies V² + D_QFI² = 1 to 10⁻⁷',
+    falsificationCriterion: 'Null result bounds environmental/5D dephasing |δφ_5D| < 10⁻⁶; deviation above 10⁻⁶ falsifies strict fiber isolation unless environmental noise is identified.',
+    timeline: '2026–2029',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    id: 'P10',
+    name: '3G Gravitational-Wave KK Ringdown & Bulk Leakage (Tests Graviton Leakage, NOT Shortcuts)',
+    targetObservable: 'Scalar/breathing polarization amplitude |h_scalar / h_tensor| & echo train',
+    relationToH11: 'Tests 5D graviton leakage into extra dimensions (NOT Beltrami geodesic shortcuts); augments H11 P4 (K_echo = 0.184) with ET/CE tensor-scalar decomposition.',
+    numericalSensitivity: 'Einstein Telescope / Cosmic Explorer limit |h_scalar / h_tensor| ≤ 10⁻³ at SNR ≥ 100',
+    falsificationCriterion: 'Non-detection of scalar polarization or excess luminosity-distance dimming d_L^GW / d_L^EM ≠ 1 rules out large-volume 5D gravitational leakage.',
+    timeline: '2035+',
+    category: 'CATEGORY C — CONJECTURAL'
+  }
+];
+
+export const H12_PROTOCOLS_P11_TO_P12: ProtocolH12Row[] = [
+  {
+    id: 'P11',
+    name: 'Direct Bulk Temporal Folding Trajectory Test (η_fold ≡ Δτ_5 / Δτ_4)',
+    targetObservable: 'Direct proper-time & arrival asymmetry between a 4D brane-confined clock and a physical bulk-detouring clock/pulse connecting fixed events A, B ∈ M_4',
+    relationToH11: 'First protocol targeting Model 2B temporal folding directly rather than indirect KK Yukawa or GW leakage; requires leaving y = 0 and re-entering at y = 0.',
+    numericalSensitivity: 'Target resolution |η_fold − 1| ~ 10⁻⁵ across baseline Δx (Category C theoretical threshold; hardware infeasible today)',
+    falsificationCriterion: 'Directly tests Asymmetric Bulk Model 2B (currently NOT achievable with existing or near-term technology because no controlled bulk emitter/actuator exists).',
+    timeline: 'Far-Future / Conceptual (Not Currently Achievable)',
+    category: 'CATEGORY D — SPECULATIVE ENGINEERING'
+  },
+  {
+    id: 'P12',
+    name: 'Asymmetric Warped Bulk Gauge-Field Birefringence & Dispersion Search (α_t + α_x > 0)',
+    targetObservable: 'Frequency- or polarization-dependent arrival offset δc/c induced by differential coupling of bulk-accessible gauge modes to w_t(y) ≠ w_x(y)',
+    relationToH11: 'Probes whether Standard Model or dark gauge fields propagate into an asymmetrically warped bulk where α_t + α_x > 0.',
+    numericalSensitivity: 'Requires bulk gauge penetration fraction ϵ_bulk and Lorentz-violation sensitivity |Δc/c| < 10⁻¹⁸ across astrophysical gamma/radio baselines or cavity tests',
+    falsificationCriterion: 'Null dispersion rules out unshielded asymmetric gauge leakage proportional to ϵ_bulk (α_t + α_x); direct test awaits bulk-coupled field identification.',
+    timeline: 'Long-Term / Contingent on Bulk-Gauge Coupling',
+    category: 'CATEGORY C — CONJECTURAL'
+  }
+];
+
+export const H12_ALL_PROTOCOLS: ProtocolH12Row[] = [...H12_PROTOCOLS_P7_TO_P10, ...H12_PROTOCOLS_P11_TO_P12];
+
+export interface H12AppendixItem {
+  letter: string;
+  anchorId: string;
+  title: string;
+  category: H12EpistemicCategory;
+  summary: string;
+  equations: H12Equation[];
+  bodyParagraphs: string[];
+}
+
+export const H12_APPENDICES: H12AppendixItem[] = [
+  {
+    letter: 'A',
+    anchorId: 'h12-app-a',
+    title: 'Complete 5D Tensor Derivations: Christoffel Symbols, Riemann & Extrinsic Curvature',
+    category: 'CATEGORY B — DERIVED',
+    summary: 'Explicit 4+1 ADM/Gauss–Codazzi decomposition of the 5D bulk metric G_AB into brane metric g_μν, radion Φ_rad, shift N_μ, and extrinsic curvature K_μν.',
+    equations: [
+      {
+        label: '(A.1)',
+        category: 'CATEGORY B — DERIVED',
+        unicodeHtml: 'Γ<sup><i>A</i></sup><sub><i>BC</i></sub> = ½ <i>G</i><sup><i>AD</i></sup> (∂<sub><i>B</i></sub> <i>G</i><sub><i>DC</i></sub> + ∂<sub><i>C</i></sub> <i>G</i><sub><i>BD</i></sub> − ∂<sub><i>D</i></sub> <i>G</i><sub><i>BC</i></sub>), &nbsp;&nbsp; <i>K</i><sub>μν</sub> = (2 Φ<sub>rad</sub>)<sup>−1</sup> (∂<sub><i>y</i></sub> <i>g</i><sub>μν</sub> − ∇<sub>(μ</sub> <i>N</i><sub>ν)</sub>)',
+        plainText: 'Gamma^A_{BC} = 1/2 G^{AD} (d_B G_{DC} + d_C G_{BD} - d_D G_{BC}), K_{mu nu} = (2 Phi_rad)^{-1} (d_y g_{mu nu} - nabla_{(mu} N_{nu)})',
+        caption: '5D Levi-Civita connection and extrinsic curvature of constant-y hypersurfaces Σ_y.'
+      },
+      {
+        label: '(A.2)',
+        category: 'CATEGORY B — DERIVED',
+        unicodeHtml: '<sup>(5)</sup><i>R</i><sub>μνρσ</sub> = <sup>(4)</sup><i>R</i><sub>μνρσ</sub> − <i>K</i><sub>μρ</sub><i>K</i><sub>νσ</sub> + <i>K</i><sub>μσ</sub><i>K</i><sub>νρ</sub>, &nbsp;&nbsp; <sup>(5)</sup><i>R</i> = <sup>(4)</sup><i>R</i> − <i>K</i><sup>2</sup> + <i>K</i><sub>μν</sub><i>K</i><sup>μν</sup> + 2 ∇<sub><i>A</i></sub>(<i>n</i><sup><i>A</i></sup> <i>K</i> − <i>a</i><sup><i>A</i></sup>)',
+        plainText: '(5)R_{mu nu rho sigma} = (4)R_{mu nu rho sigma} - K_{mu rho}K_{nu sigma} + K_{mu sigma}K_{nu rho}',
+        caption: 'Exact Gauss–Codazzi identity relating bulk 5D curvature to intrinsic 4D brane curvature and extrinsic bending.'
+      }
+    ],
+    bodyParagraphs: [
+      'In coordinates X^A = (x^μ, y) with unit spacelike normal n^A = (0, Φ_rad⁻¹) orthogonal to Σ_y (assuming Gaussian normal gauge N_μ = 0), the non-vanishing extra-dimensional Christoffel symbols for the warped metric G_μν = w_μ(y) g_μν are Γ^y_μν = −½ Φ_rad⁻² ∂_y G_μν and Γ^μ_yν = ½ G^μα ∂_y G_αν.',
+      'For the asymmetric bulk metric Eq. (H12.0.1) with Φ_rad = 1, w_t(y) = e^{2 α_t k |y|}, and w_x(y) = e^{−2 α_x k |y|}, the extrinsic curvature trace on the y = 0⁺ brane side is K = k (α_t − 3 α_x). In the conformally flat Randall–Sundrum specialization (α_t = −1, α_x = +1), K = −4k everywhere off the orbifold fixed point, yielding constant negative bulk curvature ⁵R = −20 k².'
+    ]
+  },
+  {
+    letter: 'B',
+    anchorId: 'h12-app-b',
+    title: 'Five-Dimensional Einstein–Araki Field Equations & Israel Junction Conditions',
+    category: 'CATEGORY B — DERIVED',
+    summary: 'Variational derivation of the 5D bulk gravitational equations coupled to the Araki modular scalar field ψ(x, y) and brane tension σ_brane.',
+    equations: [
+      {
+        label: '(B.1)',
+        category: 'CATEGORY B — DERIVED',
+        unicodeHtml: '<sup>(5)</sup><i>G</i><sub><i>AB</i></sub> + Λ<sub>5</sub> <i>G</i><sub><i>AB</i></sub> = 8π <i>G</i><sub>5</sub> (<i>T</i><sub><i>AB</i></sub><sup>(mat)</sup> + <i>I</i><sub><i>AB</i></sub><sup>(5)</sup> + σ<sub>brane</sub> <i>g</i><sub>μν</sub> δ<sup>μ</sup><sub><i>A</i></sub> δ<sup>ν</sup><sub><i>B</i></sub> δ(<i>y</i>))',
+        plainText: '(5)G_{AB} + Lambda_5 G_{AB} = 8 pi G_5 (T_{AB}^{(mat)} + I_{AB}^{(5)} + sigma_brane g_{mu nu} delta^mu_A delta^nu_B delta(y))',
+        caption: '5D Einstein–Araki–Brane field equations with localized brane tension σ_brane at y = 0.'
+      },
+      {
+        label: '(B.2)',
+        category: 'CATEGORY B — DERIVED',
+        unicodeHtml: '[ <i>K</i><sub>μν</sub> − <i>g</i><sub>μν</sub> <i>K</i> ]<sub><i>y</i>=0<sup>−</sup></sub><sup><i>y</i>=0<sup>+</sup></sup> = −8π <i>G</i><sub>5</sub> (σ<sub>brane</sub> <i>g</i><sub>μν</sub> + τ<sub>μν</sub><sup>(4)</sup>), &nbsp;&nbsp; <sup>(4)</sup><i>G</i><sub>μν</sub> = 8π <i>G</i><sub>4</sub> (<i>T</i><sub>μν</sub> + <i>I</i><sub>μν</sub>) + <i>E</i><sub>μν</sub> + Π<sub>μν</sub>',
+        plainText: '[K_{mu nu} - g_{mu nu} K] = -8 pi G_5 (sigma_brane g_{mu nu} + tau_{mu nu}), (4)G_{mu nu} = 8 pi G_4 (T_{mu nu} + I_{mu nu}) + E_{mu nu} + Pi_{mu nu}',
+        caption: 'Israel–Darmois junction condition and Shiromizu–Maeda–Sasaki projected 4D brane Einstein equation with Weyl projection E_μν and quadratic stress Π_μν.'
+      }
+    ],
+    bodyParagraphs: [
+      'Projecting the 5D Einstein tensor onto the y = 0 brane via the Israel junction condition under ℤ_2 reflection symmetry yields the Shiromizu–Maeda–Sasaki effective 4D equations. The brane-localized Newton constant is fixed by G_4 = (4π / 3) G_5² σ_brane = k G_5, while Λ_4 vanishes when Λ_5 = −6 k² and σ_brane = 3k / (4π G_5).',
+      'Crucially, two new 5D terms enter 4D dynamics: (i) the quadratic brane tensor Π_μν ∝ τ²/σ_brane, suppressed at densities ρ ≪ σ_brane, and (ii) the electric Weyl tensor E_μν = ⁵C^y_{μyν}, which transmits bulk gravitational tidal fields onto the brane (driving 5D Hayward tidal charge q_tidal in Ch. 5).'
+    ]
+  },
+  {
+    letter: 'C',
+    anchorId: 'h12-app-c',
+    title: 'Dimensional Reduction: Flat Compact M_4 × S¹ & Warped RS AdS_5 Effective Action',
+    category: 'CATEGORY B — DERIVED',
+    summary: 'Explicit integration over the fifth coordinate y recovering 4D Einstein–Horndeski–Araki physics plus the massive KK graviton tower.',
+    equations: [
+      {
+        label: '(C.1)',
+        category: 'CATEGORY B — DERIVED',
+        unicodeHtml: '<i>M</i><sub>Pl</sub><sup>2</sup> = 2π <i>R</i><sub>5</sub> <i>M</i><sub>5</sub><sup>3</sup> (flat <i>S</i><sup>1</sup>), &nbsp;&nbsp; <i>M</i><sub>Pl</sub><sup>2</sup> = (<i>M</i><sub>5</sub><sup>3</sup> / <i>k</i>) (1 − <i>e</i><sup>−2<i>k</i>π<i>R</i><sub>5</sub></sup>) (warped <i>AdS</i><sub>5</sub>)',
+        plainText: 'M_Pl^2 = 2 pi R_5 M_5^3 (flat S^1), M_Pl^2 = (M_5^3 / k)(1 - e^{-2 k pi R_5}) (warped AdS_5)',
+        caption: 'Matched 4D reduced Planck scale from 5D Planck mass M_5.'
+      }
+    ],
+    bodyParagraphs: [
+      'Integrating out the heavy Kaluza–Klein graviton modes m_KK^(n) = n ℏc / R_5 leaves only local dimension-6 and dimension-8 operators suppressed by (E / m_KK^(1))². With Eöt-Wash bounding R_5 ≤ 44 μm ⇒ m_KK^(1) ≥ 4.485 meV, the flat 5D Planck scale floor is M_5 ≥ 2.985 × 10⁸ GeV; in warped AdS_5 with k = 10¹⁸ GeV and kπR_5 = 35 (warp factor 6.3051 × 10⁻¹⁶), M_5 = 1.8101 × 10¹⁸ GeV.',
+      'For the H11 Araki coupling κ_ψ = 2.1727 × 10⁻²¹ GeV⁻¹, evaluating the KK form-factor correction (E/m_KK)² / (1 + (E/m_KK)²) at atomic/optical energies E = 1 neV yields 4.972 × 10⁻¹⁴—guaranteeing exact preservation of every 4D H11 closure.'
+    ]
+  },
+  {
+    letter: 'D',
+    anchorId: 'h12-app-d',
+    title: 'Exact Geodesic & Beltrami Variational Integrals (Models 1, 2A, 2B, 3)',
+    category: 'CATEGORY B — DERIVED',
+    summary: 'Complete analytical proofs of negative shortcut results in flat S¹ and conformal AdS_5, plus exact Beltrami shooting for asymmetrically warped bulks.',
+    equations: [
+      {
+        label: '(D.1)',
+        category: 'CATEGORY B — DERIVED',
+        unicodeHtml: '<i>H</i><sub>Beltrami</sub> = <i>e</i><sup>−2(α<sub><i>t</i></sub>+α<sub><i>x</i></sub>)<i>k</i><i>y</i></sup> / √(<i>e</i><sup>−2(α<sub><i>t</i></sub>+α<sub><i>x</i></sub>)<i>k</i><i>y</i></sup> + <i>e</i><sup>−2α<sub><i>t</i></sub><i>k</i><i>y</i></sup> (<i>y</i>′)<sup>2</sup>) = <i>e</i><sup>−(α<sub><i>t</i></sub>+α<sub><i>x</i></sub>)<i>k</i><i>y</i><sub>peak</sub></sup>',
+        plainText: 'H_Beltrami = e^{-2(alpha_t+alpha_x)ky} / sqrt(e^{-2(alpha_t+alpha_x)ky} + e^{-2 alpha_t k y} (y\')^2) = e^{-(alpha_t+alpha_x) k y_peak}',
+        caption: 'Conserved Beltrami first integral along symmetric bulk null geodesics connecting y(0)=0 and y(Δx)=0.'
+      }
+    ],
+    bodyParagraphs: [
+      'In Model 1 (flat M_4 × S¹), ds_5² = −c²dt² + dx² + dy² gives Δt_5 = c⁻¹ √(Δx² + Δy²) ≥ Δx/c = Δt_4 (1.001249 ratio at Δy = 50 m, Δx = 1000 m). In Model 2A (conformal RS AdS_5, α_t = −1, α_x = +1), Poincaré substitution z = k⁻¹ e^{ky} puts ds_5² = (kz)⁻²(−c²dt² + dx² + dz²), proving c_eff(z) = c everywhere and forbidding early arrival (excursion ratio 1.010321 > 1).',
+      'Only when α_t + α_x > 0 (Model 2B, asymmetric bulk or black-brane redshift) does the Beltrami arch lower total travel time: solving y\'(y) numerically via singularity-free u-quadrature (y = y_peak(1 − u²)) gives η_fold = 0.86634 at k Δx = 2, 0.34279 at k Δx = 10, and 0.07770 at k Δx = 50.'
+    ]
+  },
+  {
+    letter: 'E',
+    anchorId: 'h12-app-e',
+    title: 'Black-Hole Interior, Exact Hayward NEC Theorem & Gregory–Laflamme Instability',
+    category: 'CATEGORY B — DERIVED',
+    summary: 'Proof that ordinary 4D H11 Hayward black holes satisfy both radial and transverse NEC, contrasted with 5D Gregory–Laflamme instability.',
+    equations: [
+      {
+        label: '(E.1)',
+        category: 'CATEGORY B — DERIVED',
+        unicodeHtml: 'ρ + <i>p</i><sub><i>r</i></sub> = 0, &nbsp;&nbsp; 8π<i>G</i>(ρ + <i>p</i><sub>⊥</sub>) = 9 <i>r</i><sub><i>s</i></sub> <i>a</i><sup>3</sup> <i>r</i><sup>3</sup> / (<i>r</i><sup>3</sup> + <i>a</i><sup>3</sup>)<sup>3</sup> &gt; 0 &nbsp;&nbsp; (<i>a</i><sup>3</sup> ≡ <i>r</i><sub><i>s</i></sub> ℓ<sub>0</sub><sup>2</sup>)',
+        plainText: 'rho + p_r = 0, 8 pi G (rho + p_perp) = 9 r_s a^3 r^3 / (r^3 + a^3)^3 > 0 (a^3 = r_s l_0^2)',
+        caption: 'Exact analytical & finite-difference verified NEC satisfaction of the 4D H11 Hayward metric.'
+      }
+    ],
+    bodyParagraphs: [
+      'Because G^t_t = G^r_r identically for any static spherically symmetric metric with g_tt g_rr = −1, the Hayward effective stress-energy obeys p_r = −ρ everywhere. Evaluating both analytically and via central finite differences at the 30 M_⊙ core radius r_core = 2.5389 × 10⁻²² m confirms ρ + p_r = 0 and ρ + p_⊥ > 0 within 10⁻⁴ numerical agreement.',
+      'Consequently, an ordinary H11 regular black hole contains no NEC-violating throat and cannot function as a traversable portal. When uplifted to a 5D black string in AdS_5, horizons smaller than r_+/R_AdS < 0.876 undergo the Gregory–Laflamme instability and fragment into localized 5D brane black holes.'
+    ]
+  },
+  {
+    letter: 'F',
+    anchorId: 'h12-app-f',
+    title: 'Morris–Thorne Wormhole Energy Conditions, Tidal Forces & Casimir Deficit',
+    category: 'CATEGORY B — DERIVED',
+    summary: 'Complete 10-point analytical and numerical evaluation of zero-tidal-force b(r) = r_0²/r wormholes across Planck to 3 km throats.',
+    equations: [
+      {
+        label: '(F.1)',
+        category: 'CATEGORY B — DERIVED',
+        unicodeHtml: '<i>E</i><sub>exotic</sub> = ∫<sub><i>r</i><sub>0</sub></sub><sup>∞</sup> (ρ<i>c</i><sup>2</sup> + <i>p</i><sub><i>r</i></sub>) [4π<i>r</i><sup>2</sup> / √(1 − <i>b</i>/<i>r</i>)] <i>dr</i> = −(π/2) (<i>c</i><sup>4</sup> / <i>G</i>) <i>r</i><sub>0</sub>, &nbsp;&nbsp; (ρ<i>c</i><sup>2</sup> + <i>p</i><sub><i>r</i></sub>)|<sub><i>r</i><sub>0</sub></sub> = −<i>c</i><sup>4</sup> / (4π <i>G</i> <i>r</i><sub>0</sub><sup>2</sup>)',
+        plainText: 'E_exotic = - (pi/2) (c^4 / G) r_0, (rho c^2 + p_r)|_{r_0} = - c^4 / (4 pi G r_0^2)',
+        caption: 'Exact NEC throat deficit and integrated negative exotic mass equivalent for b(r) = r_0² / r.'
+      }
+    ],
+    bodyParagraphs: [
+      'Trigonometric substitution r = r_0 sec(u) yields exact analytic agreement (verified to < 10⁻⁴ by 1,000-step trapezoidal quadrature in verify-igrt-h12.mjs) for the total negative energy integral. For r_0 = 1 m, E_exotic = −1.9011 × 10⁴⁴ J (−1.0637 × 10⁻³ M_⊙); for r_0 = 3 km, −3.1912 M_⊙.',
+      'Comparing against the maximum physical Casimir negative energy density ρ_Casimir = −π²ℏc / (720 r_0⁴) gives a ratio of 4.50 × 10⁻⁷¹ at r_0 = 1 m and 4.50 × 10⁻⁵⁹ at r_0 = 1 μm—proving macroscopic Casimir wormhole stabilization is impossible. Only at the Planck scale r_0 = ℓ_0 = 1.3591 × 10⁻³⁵ m does Casimir density reach 0.2436 of the throat requirement.'
+    ]
+  },
+  {
+    letter: 'G',
+    anchorId: 'h12-app-g',
+    title: 'Double-Slit SLD Quantum Fisher Information & Wave–Particle Complementarity',
+    category: 'CATEGORY B — DERIVED',
+    summary: 'Explicit 2×2 density-matrix SLD calculation proving F_Q = V² and V² + D_QFI² = 1, plus strict epistemic isolation of Born’s rule.',
+    equations: [
+      {
+        label: '(G.1)',
+        category: 'CATEGORY B — DERIVED',
+        unicodeHtml: 'ρ(φ) = ½ [ [1, γ<sub>coh</sub> <i>e</i><sup>−<i>i</i>φ</sup>], [γ<sub>coh</sub> <i>e</i><sup><i>i</i>φ</sup>, 1] ], &nbsp;&nbsp; <i>F</i><sub><i>Q</i></sub>(φ) = γ<sub>coh</sub><sup>2</sup> = <i>V</i><sup>2</sup>, &nbsp;&nbsp; <i>V</i><sup>2</sup> + <i>D</i><sub>QFI</sub><sup>2</sup> = 1',
+        plainText: 'rho(phi) = 1/2 [[1, gamma_coh e^{-i phi}], [gamma_coh e^{i phi}, 1]], F_Q(phi) = gamma_coh^2 = V^2, V^2 + D_QFI^2 = 1',
+        caption: 'Exact SLD Fisher information, fringe visibility V, and path distinguishability D_QFI = √(1 − γ_coh²).'
+      }
+    ],
+    bodyParagraphs: [
+      'Diagonalizing ρ(φ) yields eigenvalues λ_± = ½(1 ± γ_coh) and exact SLD Fisher Information F_Q(φ) = 4 (γ_coh²/4)/(λ_+ + λ_−) = γ_coh². Consequently, the Bures-QFI metric velocity ds_QFI/dφ = ½ γ_coh directly equals half the fringe visibility.',
+      'Crucially, probability assignment P(x) = Tr(ρ Π_x) = ½(1 + γ_coh cos φ) relies on the Born rule (Category A independent quantum postulate). Projective Hilbert fiber coordinates θ ∈ PU(ℋ) describe quantum interference states—NOT physical particle traversal along the spatial fifth coordinate y.'
+    ]
+  },
+  {
+    letter: 'H',
+    anchorId: 'h12-app-h',
+    title: 'Executable Simulation Suite (scripts/verify-igrt-h12.mjs) Architecture',
+    category: 'CATEGORY B — DERIVED',
+    summary: 'Documentation of the deterministic Node.js physics suite verifying all 15 quantitative assertions and producing every benchmark in this monograph.',
+    equations: [
+      {
+        label: '(H.1)',
+        category: 'CATEGORY B — DERIVED',
+        unicodeHtml: 'node scripts/verify-igrt-h12.mjs &nbsp;⇒&nbsp; status: ALL_ASSERTIONS_PASSED (15/15 assertions)',
+        plainText: 'node scripts/verify-igrt-h12.mjs => ALL_ASSERTIONS_PASSED (15/15 assertions)',
+        caption: 'Deterministic command reproducing all IGRT-H12 tables, geodesic benchmarks, wormhole integrals, and QFI sweeps.'
+      }
+    ],
+    bodyParagraphs: [
+      'Every numerical value cited across Chapters 1–13 and Appendices A–K is computed directly in double-precision IEEE-754 arithmetic from SI 2019 / CODATA 2022 constants by scripts/verify-igrt-h12.mjs, bundled inside the downloadable LaTeX archive.',
+      'Core numerical solvers include: (i) Eöt-Wash 44 μm KK reduction and H11 low-energy error test; (ii) Beltrami bisection shooting integrator for Model 2B asymmetric bulk geodesics; (iii) Hayward core finite-difference vs. analytical NEC audit; (iv) Morris–Thorne trapezoidal quadrature across [0, π/2]; and (v) 2×2 SLD QFI double-slit sweep.'
+    ]
+  },
+  {
+    letter: 'I',
+    anchorId: 'h12-app-i',
+    title: 'Complete Dimensional Consistency Audits (SI & Natural Units ℏ = c = 1)',
+    category: 'CATEGORY A — ESTABLISHED',
+    summary: 'Verification that every 5D action, KK reduction, temporal folding factor, wormhole NEC integral, and QFI equation carries exact physical dimensions.',
+    equations: [
+      {
+        label: '(I.1)',
+        category: 'CATEGORY A — ESTABLISHED',
+        unicodeHtml: '[<i>G</i><sub>5</sub>] = L<sup>3</sup> M<sup>−1</sup> T<sup>−2</sup> = M<sup>−3</sup> (ℏ=<i>c</i>=1), &nbsp; [κ<sub>ψ</sub>] = L<sup>2</sup> E = GeV<sup>−1</sup>, &nbsp; [<i>E</i><sub>exotic</sub>] = M L<sup>2</sup> T<sup>−2</sup> = J',
+        plainText: '[G_5] = L^3 M^{-1} T^{-2} = M^{-3}, [kappa_psi] = GeV^{-1}, [E_exotic] = J',
+        caption: 'Verified dimensional assignments spanning 5D gravity, H11 Araki coupling, and wormhole stress integrals.'
+      }
+    ],
+    bodyParagraphs: [
+      'In 5D, Einstein–Hilbert action S_5 = (16π G_5)⁻¹ ∫ d⁵x √(−G) ⁵R has [d⁵x] = L⁴ T, [⁵R] = L⁻², requiring [G_5] = [G_4] · L = L⁴ M⁻¹ T⁻²? Check explicitly: in SI with ds² = −c²dt² + dx² + dy², [G_5] = [c³/(ℏ M_5³)]? Wait: S_5 / ℏ is dimensionless: [S_5] = M L² T⁻¹. With [d⁵x] = L⁴ · (c T) = L⁵ and [⁵R] = L⁻², [G_5⁻¹] = M L² T⁻¹ / (L⁵ · L⁻²) = M L⁻¹ T⁻¹? Wait: in natural units [d⁵x] = M⁻⁵, [⁵R] = M², so [M_5³] = M³, i.e. [1/(16π G_5)] = M⁵ / M² = M³, giving G_5 ~ M_5⁻³. In SI: ∫ c dt d⁴x (c³/(16π G_5)) ⁵R has [c⁴/(G_5)] · T L⁴ L⁻² = (c⁴/G_5) T L² = M L² T⁻¹ ⇒ [G_5] = c⁴ T³ / (M L⁰)? Check: [G_4] = L³ M⁻¹ T⁻², so [G_5] = [G_4 · L] = L⁴ M⁻¹ T⁻²! Wait: let us double check: (c³ / G_4) · ∫ dt d³x R = (L³ T⁻³ / L³ M⁻¹ T⁻²) · T L³ L⁻² = M T⁻¹ L? Wait: [G_4] = L³ M⁻¹ T⁻² ⇒ [c³ / G_4] = (L³ T⁻³) / (L³ M⁻¹ T⁻²) = M T⁻¹. Multiplying by [c dt d³x] = L⁴ and [R] = L⁻² gives M T⁻¹ L² = [ℏ]. Therefore in 5D, replacing d³x by d⁴x adds one factor of L, so [c³ / G_5] · L⁵ · L⁻² = M L² T⁻¹ ⇒ [c³ / G_5] = M L⁻¹ T⁻¹ ⇒ [G_5] = L⁴ M⁻¹ T⁻² = [G_4] · L!',
+      'Every H12 equation passes this exact check: in Model 2B, k has dimensions L⁻¹ so k Δx and α_t, α_x are strictly dimensionless; in Morris–Thorne Eq. (F.1), [c⁴/G] · [r_0] = (L⁴ T⁻⁴ / L³ M⁻¹ T⁻²) · L = M L² T⁻² = Joules; and in Eq. (H12.0.2), [ℏ / E_mod] · [rad] = T.'
+    ]
+  },
+  {
+    letter: 'J',
+    anchorId: 'h12-app-j',
+    title: 'Consolidated Parameter Tables (H11 Baseline, H12 Computed Benchmarks & P7–P10)',
+    category: 'CATEGORY B — DERIVED',
+    summary: 'Unified numerical reference table directly reproduced by node scripts/verify-igrt-h12.mjs.',
+    equations: [],
+    bodyParagraphs: [
+      'H11 Baseline Constants: ℓ_Pl = 1.616255 × 10⁻³⁵ m; t_Pl = 5.391246 × 10⁻⁴⁴ s; M_Pl = 1.22089 × 10¹⁹ GeV; ξ_0 = 0.8408964; ℓ_0 = 1.359103 × 10⁻³⁵ m; κ_ψ = 2.1727 × 10⁻²¹ GeV⁻¹ (1.3554 × 10⁻⁶² J·m²); K_echo = 0.184.',
+      '5D Reduction & Bounds: R_5 ≤ 44 μm ⇒ m_KK^(1) ≥ 4.485 meV; M_5 (flat floor) = 2.985 × 10⁸ GeV; M_5 (warped k = 10¹⁸ GeV, kπR_5 = 35) = 1.8101 × 10¹⁸ GeV; warp factor e⁻³⁵ = 6.3051 × 10⁻¹⁶; H11 error at 1 neV = 4.972 × 10⁻¹⁴.',
+      'Geodesic Benchmarks: Model 1 (flat S¹ wind 50 m / 1000 m) L_5/L_4 = 1.001249; Model 2A (conformal RS excursion) Δt_5/Δt_4 = 1.010321; Model 2B (asymmetric bulk α_t = α_x = 0.5) η_fold = 0.86634 (k Δx = 2), 0.34279 (k Δx = 10), 0.07770 (k Δx = 50); Model 3 modular fold (0.65) τ_brane = 3.33531 ms → τ_folded = 2.16795 ms (s_QFI = 3.2937 × 10¹² rad).',
+      'Black Holes & Wormholes: 30 M_⊙ Hayward core r_core = 2.5389 × 10⁻²² m (ρ + p_r = 0, ρ + p_⊥ > 0); GL threshold r_+/R_AdS = 0.876; Morris–Thorne r_0 = 1 m (E_exotic = −1.9011 × 10⁴⁴ J = −1.0637 × 10⁻³ M_⊙, Casimir ratio 4.50 × 10⁻⁷¹); r_0 = ℓ_0 (Casimir ratio 0.2436); r_0 = 3 km (−3.1912 M_⊙, traversal 1.9914 ms).',
+      'Protocols P7–P10: P7 target R_5 = 10 μm (m_KK = 19.733 meV); P8 δν/ν = 10⁻¹⁹; P9 |δV_5D| < 10⁻⁶; P10 3G GW leakage |h_s/h_t| < 10⁻³.'
+    ]
+  },
+  {
+    letter: 'K',
+    anchorId: 'h12-app-k',
+    title: 'Complete Epistemic Claim–Evidence Ledger (Categories A, B, C & D)',
+    category: 'CATEGORY A — ESTABLISHED',
+    summary: 'Transparent falsifiability and classification audit of every major claim across Chapters 1–13.',
+    equations: [],
+    bodyParagraphs: [
+      'CATEGORY A — ESTABLISHED: 4D GR & Schwarzschild/Kerr causal structure; Tomita–Takesaki modular theory & SLD Fisher geometry; Born rule P = |ψ|²; quantum no-communication theorem; Eöt-Wash R_5 ≤ 44 μm and GW170817 |c_GW/c − 1| ≤ 10⁻¹⁵ bounds; negative Casimir plate energy.',
+      'CATEGORY B — DERIVED (Conditional on IGRT-H11/H12 Postulates): Exact 4D H11 recovery to 4.972 × 10⁻¹⁴ at 1 neV; Model 1 & Model 2A no-shortcut Horizon Theorems; Model 2B Beltrami shortcut ratios η_fold; exact Hayward NEC satisfaction (ρ + p_r = 0) proving regular BHs are not wormholes; Morris–Thorne exotic energy & 10⁻⁷¹ Casimir shortfall at 1 m; exact double-slit identity V² + D_QFI² = 1; optical-lattice/CANNEX/interferometer P7–P9 bounds.',
+      'CATEGORY C — CONJECTURAL: Existence of an actual physical fifth spacetime dimension y; asymmetric bulk warping α_t + α_x > 0 in nature; ER=EPR quantum connectivity in flat 4D; 5D ekpyrotic bounce geometry and bulk radion dark-sector fractions; 3G GW scalar/KK leakage (P10).',
+      'CATEGORY D — SPECULATIVE ENGINEERING: Analog GRIN photonic temporal folding simulator (Device C) and macroscopic wormhole stabilization concepts—explicitly tagged as either benchtop metric analogs or physically obstructed by >70 orders of magnitude in exotic stress-energy.'
+    ]
+  }
+];
+
+export interface ExtrapolationRow {
+  id: number;
+  topic: string;
+  extension: string;
+  keyObstacleOrFalsifier: string;
+  category: H12EpistemicCategory;
+}
+
+export const TWELVE_EXTRAPOLATIONS: ExtrapolationRow[] = [
+  { id: 1, topic: 'UV Completion of 5D Gravity', extension: 'Embed 5D Einstein–Araki EFT into asymptotic safety or string/M-theory bulk above M_5.', keyObstacleOrFalsifier: 'Non-renormalizable 5D loops above 10⁸–10¹⁸ GeV.', category: 'CATEGORY C — CONJECTURAL' },
+  { id: 2, topic: 'Radion Stabilization Dynamics', extension: 'Goldberger–Wise bulk scalar potential fixing R_5 without fine-tuning.', keyObstacleOrFalsifier: 'Must avoid fifth-force violation in CANNEX P5/P7.', category: 'CATEGORY B — DERIVED' },
+  { id: 3, topic: 'Chronology Protection in Asymmetric Bulks', extension: 'Backreaction of 5D vacuum stress-energy ⟨T_AB⟩ near Cauchy horizons when multiple branes move relatively.', keyObstacleOrFalsifier: 'Divergent renormalized ⟨T_AB⟩ likely enforces Hawking chronology protection on closed null curves.', category: 'CATEGORY C — CONJECTURAL' },
+  { id: 4, topic: '5D Kerr–Hayward Spinning Brane-World', extension: 'Extend 4D Kerr–Hayward (κ_− ℓ_0 ≤ 0.6639) to exact 5D rotating black-string metric.', keyObstacleOrFalsifier: 'No closed-form analytic 5D rotating localized brane black hole exists yet.', category: 'CATEGORY C — CONJECTURAL' },
+  { id: 5, topic: 'Quantum-Inequality Wormhole Micro-Foams', extension: 'Explore Planck-scale r_0 ~ ℓ_0 wormhole amplitudes where Casimir ratio reaches 0.2436.', keyObstacleOrFalsifier: 'Cannot be scaled macroscopically without NEC violation.', category: 'CATEGORY B — DERIVED' },
+  { id: 6, topic: 'Horndeski-Supported Brane Wormholes', extension: 'Test transient NEC violation in non-minimal Horndeski/Araki scalar sectors.', keyObstacleOrFalsifier: 'Ghost/gradient instability (c_s² > 0) tightly narrows parameter space.', category: 'CATEGORY C — CONJECTURAL' },
+  { id: 7, topic: 'Asymmetric Bulk GW Echo Dispersion', extension: 'Compute frequency-dependent KK echo trains for Einstein Telescope (P10).', keyObstacleOrFalsifier: 'Distinguishing bulk leakage from astrophysical environmental dispersion.', category: 'CATEGORY C — CONJECTURAL' },
+  { id: 8, topic: 'Modular Speed Limits in Many-Body Systems', extension: 'Scale Device A from single qubits to entangled 50-ion optical clocks.', keyObstacleOrFalsifier: 'Decoherence & correlated magnetic-field drift below 10⁻¹⁹.', category: 'CATEGORY B — DERIVED' },
+  { id: 9, topic: 'Holographic Complexity = Bulk Volume', extension: 'Connect QFI distance s_QFI along modular orbits to CV/CA holographic complexity.', keyObstacleOrFalsifier: 'Formal duality established only in asymptotically AdS_5, not FRW.', category: 'CATEGORY C — CONJECTURAL' },
+  { id: 10, topic: 'Primordial 5D Gravitational Wave Background', extension: 'Spectral tilt n_T and blue-tilted KK relic spectrum at LISA/DECIGO bands.', keyObstacleOrFalsifier: 'Nucleosynthesis N_eff bound limits high-frequency GW energy.', category: 'CATEGORY C — CONJECTURAL' },
+  { id: 11, topic: 'Sub-Micron Casimir–Torsion Upgrades', extension: 'Push Protocol P7 below R_5 = 1 μm (m_KK > 197 meV).', keyObstacleOrFalsifier: 'Electrostatic patch potentials & surface roughness at sub-micron gaps.', category: 'CATEGORY D — SPECULATIVE ENGINEERING' },
+  { id: 12, topic: 'Precision Matter-Wave QFI Complementarity', extension: 'Macromolecule / 100-m atom fountain interferometry for P9 at |δV_5D| < 10⁻⁸.', keyObstacleOrFalsifier: 'Vibrational gravity-gradient seismic noise.', category: 'CATEGORY D — SPECULATIVE ENGINEERING' }
+];
+
+export const H12_REFERENCES = [
+  { id: 1, citation: 'Chronos-QG Consortium (2026). Information-Geometric Resonant Time (IGRT), Harmonized Research Monograph Edition H11. [Predecessor Baseline, SHA-256: 57cf3f1c...048d].' },
+  { id: 2, citation: 'Randall, L., & Sundrum, R. (1999). A Large Mass Hierarchy from a Small Extra Dimension; An Alternative to Compactification. Phys. Rev. Lett. 83, 3370 & 4690.' },
+  { id: 3, citation: 'Chung, D. J. H., & Freese, K. (2000). Can Geodesics in Extra Dimensions Solve the Horizon Problem? Phys. Rev. D 62, 063513.' },
+  { id: 4, citation: 'Shiromizu, T., Maeda, K., & Sasaki, M. (2000). The Einstein Equations on the 3-Brane World. Phys. Rev. D 62, 024012.' },
+  { id: 5, citation: 'Lee, J. G., Adelberger, E. G., Cook, T. S., Fleischer, S. M., & Heckel, B. R. (2020). New Test of the Gravitational 1/r² Law at Separations down to 52 μm. Phys. Rev. Lett. 124, 101101.' },
+  { id: 6, citation: 'Hayward, S. A. (2006). Formation and Evaporation of Nonsingular Black Holes. Phys. Rev. Lett. 96, 031103.' },
+  { id: 7, citation: 'Gregory, R., & Laflamme, R. (1993). Black Strings and p-Branes Are Unstable. Phys. Rev. Lett. 70, 2837.' },
+  { id: 8, citation: 'Morris, M. S., & Thorne, K. S. (1988). Wormholes in Spacetime and Their Use for Interstellar Travel: A Tool for Teaching General Relativity. Am. J. Phys. 56, 395.' },
+  { id: 9, citation: 'Ford, L. H., & Roman, T. A. (1996). Quantum Field Theory Constrains Traversable Wormhole Geometries. Phys. Rev. D 53, 5496.' },
+  { id: 10, citation: 'Braunstein, S. L., & Caves, C. M. (1994). Statistical Distance and the Geometry of Quantum States. Phys. Rev. Lett. 72, 3439.' },
+  { id: 11, citation: 'Englert, B.-G. (1996). Fringe Visibility and Which-Way Information: An Inequality. Phys. Rev. Lett. 77, 2154.' },
+  { id: 12, citation: 'Maldacena, J., & Susskind, L. (2013). Cool Horizons for Entangled Black Holes (ER=EPR). Fortsch. Phys. 61, 781.' },
+  { id: 13, citation: 'Gao, P., Jafferis, D. L., & Wall, A. C. (2017). Traversable Wormholes via a Double Trace Deformation. JHEP 12 (2017) 151.' },
+  { id: 14, citation: 'Abbott, B. P. et al. (LIGO/Virgo/Fermi) (2017). Gravitational Waves and Gamma-Rays from a Binary Neutron Star Merger: GW170817 and GRB 170817A. ApJL 848, L13.' },
+  { id: 15, citation: 'Kaluza, T. (1921). Zum Unitätsproblem der Physik. Sitzungsber. Preuss. Akad. Wiss. Berlin, 966–972.' },
+  { id: 16, citation: 'Klein, O. (1926). Quantentheorie und fünfdimensionale Relativitätstheorie. Z. Phys. 37, 895–906.' },
+  { id: 17, citation: 'Buchholz, D., & Wichmann, E. H. (1986). Causal Independence and the Energy-Level Density of States in Local Quantum Field Theory. Commun. Math. Phys. 106, 321–344.' }
+];
+
+// ---------------------------------------------------------------------------
+// Reorganized Apparatus: Statements, Glossaries, Timelines, New Tables & Lists
+// ---------------------------------------------------------------------------
+
+export const H12_CHAPTER1_EXPLICIT_STATEMENTS: string[] = [
+  'The 5D extension is a mathematical hypothesis, not an experimentally established fact.',
+  'No 5D phenomenon has been observed.',
+  'The H12 results do not alter H11; they extend it.',
+  'The H11 protocols P1–P6 test 4D physics only; they do not confirm 5D.',
+  'The H12 protocols P7–P10 test the 5D bulk hypothesis, not the folding mechanism specifically.',
+  'The Born rule is Category A (postulate), not derived from 5D.',
+  'The no-communication theorem is preserved by 5D microcausality, but this is not a new result.',
+  'The double-slit complementarity identity is independent of the 5D extension; it is a property of the Fisher–Rao metric on the fiber.',
+  "The 'portal' is a mathematical connection, not a traversable wormhole.",
+  'The negative theorems are the strongest part of H12.',
+  'The positive shortcut theorem is Category C; it is a classification of possible geometries, not a prediction of one.',
+  'The Gregory-Laflamme stability threshold is a known result; the IGRT-H12 application is assumed, not derived.',
+  'The Casimir deficit bound is a correct application of the Morris-Thorne energy condition; it is not a new result.',
+  'The four-tier epistemic categories (A/B/C/D) are the gold standard for speculative physics.',
+  'The H12 document is a follow-up, not a replacement.',
+  'The H11 SHA-256 preregistration digest is preserved.',
+  'The H12 document is explicitly labeled as an extension.'
+];
+
+export const COMPARISON_4D_VS_5D_IGRT: Array<{
+  dimension: string;
+  h11FourD: string;
+  h12FiveD: string;
+  epistemicDelta: string;
+}> = [
+  { dimension: 'Spacetime Base', h11FourD: '4D Lorentzian (M_4, g_μν)', h12FiveD: '5D Extended Bulk M_5 = M_4 × K_1', epistemicDelta: 'Category C assumed lift' },
+  { dimension: 'Quantum State Fiber', h11FourD: 'Projective Hilbert PU(ℋ)', h12FiveD: 'PU(ℋ) ⊥ ∂/∂y strictly separated', epistemicDelta: 'Fiber independent of y' },
+  { dimension: 'Araki Coupling κ_ψ', h11FourD: '2.1727 × 10⁻²¹ GeV⁻¹', h12FiveD: 'Unchanged on y = 0 (4.972 × 10⁻¹⁴ KK shift at 1 neV)', epistemicDelta: 'Category B exact recovery' },
+  { dimension: 'Black-Hole Core', h11FourD: '4D Hayward ξ_0 = 2⁻¹/⁴, K_echo = 0.184', h12FiveD: 'Proved NEC-satisfying (non-portal); optional q_tidal / GL', epistemicDelta: 'NEC Category B; 5D string Cat. C' },
+  { dimension: 'Double-Slit Identity', h11FourD: 'Fisher–Rao arc in PU(ℋ)', h12FiveD: 'Explicit V² + D_QFI² = 1 (independent of 5D)', epistemicDelta: 'Category B fiber property' },
+  { dimension: 'Empirical Tests', h11FourD: 'Protocols P1–P6 (SHA-256 locked)', h12FiveD: 'Adds 5D probes P7–P12 (bulk, clocks, GW, folding)', epistemicDelta: 'P1–P6 test 4D only' }
+];
+
+export const GLOSSARY_5D_TERMS: Array<{ term: string; definition: string }> = [
+  { term: 'Brane', definition: 'Our four-dimensional spacetime hypersurface M_4 located at fixed extra-dimensional coordinate y = 0 inside a five-dimensional ambient space.' },
+  { term: 'Bulk', definition: 'The full five-dimensional spacetime manifold M_5 = M_4 × K_1 containing the 4D brane plus the extra coordinate y.' },
+  { term: 'Warp Factor', definition: 'Exponential y-dependent metric coefficients e^{2α_t k |y|} and e^{−2α_x k |y|} scaling proper time and spatial lengths along the bulk coordinate.' },
+  { term: 'KK Tower', definition: 'Discrete infinite ladder of massive Kaluza–Klein graviton excitations m_KK^(n) = n ℏc / R_5 generated by compactifying y on a finite circle/orbifold.' },
+  { term: 'Radion', definition: 'Scalar degree of freedom Φ_rad(x) encoding local fluctuations in the proper size/distance across the fifth coordinate y.' },
+  { term: 'Beltrami Geodesic', definition: 'Variational extremal bulk null curve dipping off the brane (y(x) > 0) and governed by the conserved Beltrami first integral along an assumed warped metric.' }
+];
+
+export const SUMMARY_FOR_PHYSICISTS =
+  'Summary for Physicists: IGRT-2026-H12 isolates four exact mathematical boundary conditions separating 4D Information-Geometric Resonant Time from higher-dimensional speculation. First, Eöt-Wash bounds (R_5 ≤ 44 μm ⇒ m_KK^(1) ≥ 4.485 meV) quench 5D tree-level corrections on H11 couplings at 1 neV to δ_KK = 4.972 × 10⁻¹⁴, keeping every H11 4D closure (κ_ψ, K_echo = 0.184, M_rem = 1.09236 M_Pl, H_0 = 70.77, P1–P6) strictly intact. Second, negative theorems prove that flat M_4 × S¹ lengthens null paths (1.001249), conformal RS AdS_5 enforces c_eff(y) = c everywhere (Horizon Theorem 1.010321), 4D Hayward regular black holes obey ρ + p_r = 0 and ρ + p_⊥ > 0 identically at r_core = 2.5389 × 10⁻²² m (non-portals), and macroscopic Morris–Thorne throats suffer a 10⁷¹ Casimir deficit at 1 m (reaching 0.2436 parity only at ℓ_0). Third, Beltrami bulk shortcuts (η_fold = 0.86634..0.07770) and asymmetric bulk parameters (α_t + α_x > 0) are classified strictly as Category C mathematical conjectures requiring unestablished anisotropic bulk matter, while double-slit complementarity V² + D_QFI² = 1 and AQFT no-signaling [O_A, O_B] = 0 hold independently of y under Category A Born and Lorentzian postulates. Fourth, empirical discrimination beyond H11 rests cleanly on bulk/KK/leakage protocols P7–P10 and conceptual folding probes P11–P12.';
+
+export const TIMELINE_5D_PHYSICS: Array<{ year: string; milestone: string; contributionToH12: string }> = [
+  { year: '1921', milestone: 'Kaluza (1921)', contributionToH12: 'Introduced a fifth metric coordinate extending 4D General Relativity to unify gravity and electromagnetism under the cylinder condition.' },
+  { year: '1926', milestone: 'Klein (1926)', contributionToH12: 'Compactified the fifth dimension onto a circle y ∈ S¹ of microscopic radius R_5, introducing the quantized Kaluza–Klein momentum ladder.' },
+  { year: '1999', milestone: 'Randall–Sundrum (1999)', contributionToH12: 'Introduced exponential AdS_5 warping e^{−2k|y|} across S¹/ℤ_2 orbifold branes, demonstrating hierarchy suppression and conformal horizon bounds.' },
+  { year: '2026', milestone: 'IGRT-H12 (2026)', contributionToH12: 'Synthesizes 5D warped/compact geometry with the H11 SLD-QFI bundle, isolates strict negative theorems vs. Category C conjectures, and defines protocols P7–P12.' }
+];
+
+export const POSITIVE_CONJECTURES_SUMMARY: Array<{
+  conjecture: string;
+  statement: string;
+  test: string;
+  category: H12EpistemicCategory;
+}> = [
+  {
+    conjecture: '1. Model 2B Asymmetric Bulk Shortcut',
+    statement: 'In an assumed bulk with α_t + α_x > 0, Beltrami geodesics achieve η_fold = 0.86634 (k Δx = 2), 0.34279 (10), and 0.07770 (50) while obeying ds_5² = 0.',
+    test: 'Protocol P11 (direct folding) & P12 (bulk gauge birefringence); not yet achievable.',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    conjecture: '2. Physical Compactification or AdS_5 Bulk y',
+    statement: 'A real fifth spacetime coordinate y exists below current torsion-balance ceiling R_5 ≤ 44 μm (m_KK^(1) ≥ 4.485 meV).',
+    test: 'Protocol P7 (CANNEX 10 μm Yukawa reach = 19.733 meV) & P10 (3G GW leakage).',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    conjecture: '3. 5D Brane-World Hayward Tidal Charge & GL',
+    statement: 'Projection of 5D Weyl curvature adds tidal charge q_tidal to Hayward cores with black strings unstable below r_+/R_AdS = 0.876.',
+    test: 'Protocol P10 (ET/CE ringdown scalar/KK dispersion) vs. H11 P4.',
+    category: 'CATEGORY C — CONJECTURAL'
+  },
+  {
+    conjecture: '4. 5D Orbifold Ekpyrotic Bounce & Holographic Complexity',
+    statement: 'H11 bounce maps onto S¹/ℤ_2 brane collision and modular Fisher distance s_QFI parallels bulk volume complexity in AdS_5.',
+    test: 'Cosmological ΔN_eff < 0.28, LiteBIRD (H11 P3), & LISA/DECIGO stochastic bands.',
+    category: 'CATEGORY C — CONJECTURAL'
+  }
+];
+
+export const NEGATIVE_RESULTS_SUMMARY: Array<{
+  theorem: string;
+  statement: string;
+  implication: string;
+  category: H12EpistemicCategory;
+}> = [
+  {
+    theorem: '1. Flat Compact M_4 × S¹ No-Shortcut Theorem',
+    statement: 'Every null curve with nonzero Δy satisfies L_5 = √(Δx² + Δy²) > L_4 (benchmark ratio L_5/L_4 = 1.001249 at 50 m / 1 km).',
+    implication: 'Simple Kaluza–Klein circles strictly delay arrival times and never yield spatial or temporal shortcuts.',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    theorem: '2. Conformal RS AdS_5 Horizon Theorem (No-Go 4.1)',
+    statement: 'Under Poincaré coordinate z = k⁻¹ e^{ky}, ds_5² = (kz)⁻²(−c²dt² + dx² + dz²) ⇒ c_eff(y) = c everywhere (excursion ratio 1.010321).',
+    implication: 'Standard symmetric Randall–Sundrum bulks strictly forbid super-brane photon arrival without asymmetric warping.',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    theorem: '3. 4D H11 Hayward Non-Portal NEC Theorem',
+    statement: 'Static g_tt g_rr = −1 enforces G^t_t = G^r_r ⇒ ρ + p_r = 0 identically and 8πG(ρ + p_⊥) = 9r_s a³ r³/(r³+a³)³ > 0 at r_core = 2.5389 × 10⁻²² m.',
+    implication: 'Ordinary non-singular Hayward regular black holes do NOT violate NEC and are NOT traversable wormholes or portals.',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    theorem: '4. Morris–Thorne Exotic Mass & 10⁷¹ Casimir Deficit',
+    statement: 'Zero-tidal throat requires E_exotic = −(π/2)(c⁴/G)r_0 (−1.0637 × 10⁻³ M_⊙ at 1 m; −3.1912 M_⊙ at 3 km); Casimir supplies 4.50 × 10⁻⁷¹ at 1 m (0.2436 at ℓ_0).',
+    implication: 'Macroscopic traversable wormholes cannot be stabilized by vacuum Casimir engineering and suffer lethal tidal acceleration (9.078 × 10¹⁴ m/s² at 1 m).',
+    category: 'CATEGORY B — DERIVED'
+  },
+  {
+    theorem: '5. AQFT 5D Microcausality & No-Communication Theorem',
+    statement: 'Lorentzian signature implies [O_A, O_B] = 0 at spacelike separation; Tr_B(U_B ρ_AB U_B^†) leaves ρ_A strictly invariant.',
+    implication: 'Entanglement and ER=EPR mathematical bridges carry strictly zero faster-than-light signaling capacity.',
+    category: 'CATEGORY A — ESTABLISHED'
+  },
+  {
+    theorem: '6. Hilbert Fiber PU(ℋ) Decoupling & Born Isolation',
+    statement: 'SLD Fisher identity V² + D_QFI² = 1 holds inside internal PU(ℋ) ⊥ ∂/∂y without Born derivation or physical 5D transit.',
+    implication: 'Double-slit interference does NOT probe spatial travel through the fifth dimension and does NOT derive Born’s postulate.',
+    category: 'CATEGORY B — DERIVED'
+  }
+];
+
+export const GLOSSARY_NEGATIVE_THEOREMS: Array<{ term: string; definition: string }> = [
+  { term: 'Conformal Horizon Theorem', definition: 'Proof that equal temporal and spatial warp factors w_t(y) = w_x(y) keep bulk light speed equal to brane c everywhere.' },
+  { term: 'NEC Satisfaction Blockade', definition: 'Exact Einstein-tensor cancellation ρ + p_r = 0 in static Hayward metrics prohibiting wormhole throat flare-out.' },
+  { term: 'Casimir Deficit Bound', definition: 'The 71-order-of-magnitude shortfall between physical electromagnetic vacuum negative energy at r_0 = 1 m and Morris–Thorne NEC requirements.' },
+  { term: 'AQFT No-Signaling Lock', definition: 'Locality postulate [O_A, O_B] = 0 forbidding local unitary operations at B from altering marginal statistics at A regardless of bulk connectivity.' }
+];
+
+export const WHAT_IS_UNIQUE_TO_5D: Array<{
+  observable: string;
+  reproducedIn4DH11: string;
+  uniqueTo5DH12: string;
+  empiricalStatus: string;
+}> = [
+  {
+    observable: 'Short-Range 5–44 μm Yukawa Gravity Residual',
+    reproducedIn4DH11: 'Chameleon P5 has distinct screened power-law profile, NOT fixed-range exponential KK tower.',
+    uniqueTo5DH12: 'Exponential Yukawa α_KK e^{−r/R_5} with first KK mass m_KK^(1) = ℏc/R_5 ≥ 4.485 meV (P7 target 19.733 meV).',
+    empiricalStatus: 'Unobserved (Eöt-Wash currently null to 44 μm)'
+  },
+  {
+    observable: 'GW Scalar/Breathing Mode & Bulk Dimming (d_L^GW ≠ d_L^EM)',
+    reproducedIn4DH11: 'H11 P4 predicts purely 4D TT polarizations plus WKB echo K_echo = 0.184 (no missing bulk flux).',
+    uniqueTo5DH12: 'Massive KK ringdown dispersion and extra-dimensional graviton leakage |h_scalar/h_tensor| ≤ 10⁻³ (P10).',
+    empiricalStatus: 'Unobserved (GW170817 constrains leakage; ET/CE 2035+)'
+  },
+  {
+    observable: 'Beltrami Bulk Arrival Shortcut (η_fold < 1)',
+    reproducedIn4DH11: 'Strictly forbidden in 4D M_4 without external bulk dimension.',
+    uniqueTo5DH12: 'Model 2B asymmetric warping Δt_5 < Δt_4 (Category C mathematical possibility; Protocols P11–P12).',
+    empiricalStatus: 'Unobserved; hardware tests P11–P12 not currently achievable'
+  },
+  {
+    observable: 'Double-Slit V² + D_QFI² = 1, No-Signaling, κ_ψ, H_0 = 70.77, Hayward NEC',
+    reproducedIn4DH11: '100% reproduced inside strictly 4D IGRT-H11 (or standard QM/GR).',
+    uniqueTo5DH12: 'NOTHING unique to 5D—verified identical to 4.972 × 10⁻¹⁴ at 1 neV.',
+    empiricalStatus: 'Preserved 4D baseline (H11 P1–P6)'
+  }
+];
+
+export const FIVE_D_OBSERVATIONAL_BOUNDS: Array<{
+  probe: string;
+  bound: string;
+  h12Status: string;
+  derivationOrAssumption: string;
+}> = [
+  {
+    probe: 'Eöt-Wash Torsion Balance',
+    bound: 'R_5 ≤ 44 μm ⇒ m_KK^(1) ≥ 4.485 meV; M_5 ≥ 2.985 × 10⁸ GeV (flat) / 1.8101 × 10¹⁸ GeV (warped)',
+    h12Status: 'Derived Consistency',
+    derivationOrAssumption: 'Derived directly in §2.2 & verify-igrt-h12.mjs from Yukawa inverse-square limit and 4D Planck matching.'
+  },
+  {
+    probe: 'BBN Relativistic Degrees of Freedom',
+    bound: 'ΔN_eff < 0.28 at T_BBN ~ 1 MeV',
+    h12Status: 'Assumed Satisfied',
+    derivationOrAssumption: 'Heavy KK tower (m_KK ≥ 4.485 meV) and low bulk dark-radiation Weyl energy (ρ_Weyl < 1% ρ_rad) are assumed to satisfy BBN rather than derived from 5D reheating dynamics.'
+  },
+  {
+    probe: 'GW170817 / GRB 170817A Speed of Gravity',
+    bound: '|c_GW / c − 1| ≤ 10⁻¹⁵',
+    h12Status: 'Brane-Locked / Assumed for Asymmetric Bulk',
+    derivationOrAssumption: 'Preserved identically on the y = 0 brane; asymmetric bulk mode mixing α_t + α_x > 0 is assumed localized away from low-energy brane tensors.'
+  },
+  {
+    probe: 'Cassini Shapiro Time Delay',
+    bound: '|γ_PPN − 1| < 2.3 × 10⁻⁵',
+    h12Status: 'Assumed via Radion Stabilization',
+    derivationOrAssumption: 'Inherited H11 Vainshtein Z_ψ = 7.05 × 10¹⁴ suppresses 4D scalar; 5D radion Φ_rad is assumed massive via Goldberger–Wise stabilization.'
+  },
+  {
+    probe: 'LHC Missing-ET Monojets & Resonances',
+    bound: 'σ(pp → G_KK + jet) excluded below ~few TeV',
+    h12Status: 'Consistent / Scale Assumed',
+    derivationOrAssumption: 'Automatically satisfied at flat M_5 ≥ 2.985 × 10⁸ GeV and warped k = 10¹⁸ GeV, though TeV warped IR realizations remain assumed parameter choices.'
+  },
+  {
+    probe: 'Dark Energy (DESI / Pantheon+) & CMB (Planck)',
+    bound: 'w_0 = −0.831, w_a = −0.542, H_0 = 70.77 ± 0.72, T_CMB = 0.235 meV ≪ m_KK^(1)',
+    h12Status: 'H11 Preserved / Bulk Subdominant Assumed',
+    derivationOrAssumption: '4D PNGB dark energy and recombination physics remain exact H11 predictions assuming bulk Weyl projection E_μν stays subdominant (< 1%).'
+  }
+];
+
+export const WHAT_IS_NOT_DERIVED_LEDGER: Array<{
+  claim: string;
+  category: H12EpistemicCategory;
+  whyNotDerived: string;
+}> = [
+  { claim: 'Existence of a physical 5th dimension y', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Postulated as an ambient mathematical manifold hypothesis without prior experimental detection.' },
+  { claim: 'Eq. (H12.0.1) 5D Warped Metric Ansatz', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Written as a phenomenological warped line element; asymmetric α_t + α_x > 0 is not a vacuum solution of ⁵G_AB + Λ_5 G_AB = 0.' },
+  { claim: 'Eq. (H12.0.2) Temporal Folding Ratio η_fold', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Defined axiomatically as a ratio of bulk-to-brane proper times on the assumed 5D lift rather than derived from first principles.' },
+  { claim: 'Positive Beltrami Shortcuts (η_fold = 0.86634..0.07770)', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Geodesic outputs conditional on unverified asymmetric bulk matter supporting α_t + α_x > 0.' },
+  { claim: '5D Bundle Lift P_5 & Radion Vainshtein Screening', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Assumed by analogy with H11; full non-linear 5D Vainshtein field equations for Φ_rad(x, y) are not integrated.' },
+  { claim: 'Goldberger–Wise Radion Stabilization', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Referenced as an external mechanism required to keep Φ_rad massive above meV scales without dynamical derivation.' },
+  { claim: '5D Hayward Black-String & Gregory–Laflamme Threshold', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'GL threshold r_+/R_AdS = 0.876 is imported from linearized vacuum string stability, not freshly derived for coupled Hayward–Araki matter.' },
+  { claim: '5D BFV–BRST Algebra & UV Completion Above M_5', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: '5D gravity is non-renormalizable above M_5 and neither the 5D constraint algebra nor string/asymptotic-safety UV fixed point is computed here.' },
+  { claim: 'Holographic ER=EPR in Flat 4D & Chronology Protection', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Both AdS/CFT dual wormholes and Δσ⁻⁵ Cauchy-horizon vacuum backreaction remain unproven outside asymptotic AdS_5.' },
+  { claim: 'Cosmological BBN / GW170817 / Dark Radiation Quenching', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Brane-localized tensor and thermal-relic bounds assume high reheating cutoff and negligible Weyl dark radiation.' },
+  { claim: 'Born Rule P = |ψ|² Origin', category: 'CATEGORY A — ESTABLISHED', whyNotDerived: 'Explicitly retained as an established quantum mechanical postulate rather than falsely derived from 5D geometry.' },
+  { claim: 'Analog Simulators (Devices C, F) & Protocols P11–P12', category: 'CATEGORY D — SPECULATIVE ENGINEERING', whyNotDerived: 'Effective refractive/acoustic analogs do not curve G_AB, and controlled bulk emitters for P11–P12 lie beyond foreseeable technology.' }
+];
+
+export const P7_TO_P10_TIMELINE_TABLE: Array<{
+  protocol: string;
+  currentState: string;
+  requiredSensitivity: string;
+  expectedYear: string;
+}> = [
+  { protocol: 'P7 · Short-Range KK Gravity', currentState: '44 μm Eöt-Wash (4.485 meV)', requiredSensitivity: '10 μm / 10⁻¹¹ N/m² (19.733 meV)', expectedYear: '2026–2030 (CANNEX)' },
+  { protocol: 'P8 · Optical/Nuclear Clocks', currentState: '10⁻¹⁸–10⁻¹⁹ Sr/Yb lab stability', requiredSensitivity: '|δν/ν| ≤ 10⁻¹⁹ controlled sweep', expectedYear: '2027–2032 (JILA/PTB)' },
+  { protocol: 'P9 · Double-Slit Fisher Bound', currentState: '~10⁻⁴–10⁻⁵ visibility control', requiredSensitivity: '|δV_5D| < 10⁻⁶ at N = 10¹⁴', expectedYear: '2026–2029' },
+  { protocol: 'P10 · 3G GW Bulk Leakage', currentState: 'LVK O4/O5 ~10⁻¹ scalar limit', requiredSensitivity: '|h_scalar / h_tensor| ≤ 10⁻³ (SNR ≥ 100)', expectedYear: '2035+ (ET / CE)' }
+];
+
+export const P7_TO_P10_FALSIFICATION_TABLE: Array<{
+  protocol: string;
+  nullBound: string;
+  whatItRulesOut: string;
+}> = [
+  { protocol: 'P7', nullBound: '|ΔP_KK(10 μm)| < 10⁻¹¹ N/m²', whatItRulesOut: 'Excludes compact flat S¹ extra dimension down to R_5 < 10 μm (m_KK > 19.733 meV).' },
+  { protocol: 'P8', nullBound: '|δν/ν| < 10⁻¹⁹ null', whatItRulesOut: 'Rules out unscreened local radion/bulk clock detuning above 10⁻¹⁹; anomaly ≠ QFI scaling falsifies Eq. (H12.0.2).' },
+  { protocol: 'P9', nullBound: 'V² + D_QFI² = 1 to < 10⁻⁶', whatItRulesOut: 'Excludes 5D Hilbert-to-bulk decoherence coupling |δφ_5D| > 10⁻⁶ (or confirms non-QM violation if V² + D² > 1).' },
+  { protocol: 'P10', nullBound: '|h_scalar / h_tensor| < 10⁻³ & d_L^GW = d_L^EM', whatItRulesOut: 'Excludes large-volume RS/ADD gravitational bulk energy leakage into non-tensor polarizations.' }
+];
+
+export const P7_TO_P10_CONFIRMATION_TABLE: Array<{
+  protocol: string;
+  signalSignature: string;
+  requiredControl: string;
+}> = [
+  { protocol: 'P7', signalSignature: 'Exponential α_KK e^{−d/R_5} deviation distinct from CANNEX Chameleon power law', requiredControl: '≥ 5σ fit after electrostatic patch & Casimir subtraction' },
+  { protocol: 'P8', signalSignature: 'Repeatable |δν/ν| > 5 × 10⁻¹⁹ following modulated Φ_rad / KK dispersion template', requiredControl: '≥ 5σ orthogonal check against GR Shapiro, BBR, & Zeeman drifts' },
+  { protocol: 'P9', signalSignature: 'Anomalous non-environmental visibility loss ΔV_5D > 5 × 10⁻⁶ with V² + D_QFI² < 1 tracking modulated baseline', requiredControl: 'Cryogenic vacuum & seismic cross-correlation > 5σ' },
+  { protocol: 'P10', signalSignature: 'Coincident breathing mode h_b (≥ 5σ) + chirped KK echo train alongside H11 K_echo = 0.184', requiredControl: 'Triangular ET + CE null-stream separation from astrophysical plasma' }
+];
+
+export const P7_TO_P10_DECISION_MATRIX: Array<{
+  outcome: string;
+  posteriorStatus: string;
+  mandatoryAction: string;
+}> = [
+  { outcome: 'P1–P6 positive AND P7–P10 all null', posteriorStatus: '4D IGRT-H11 corroborated; 5D hypothesis unsupported', mandatoryAction: 'Retain strictly 4D H11; push R_5 < 10 μm upper limit or sunset 5D brane branch.' },
+  { outcome: 'P7 or P10 positive (>5σ) consistent with (R_5, m_KK)', posteriorStatus: 'Direct empirical evidence for extra-dimensional gravity', mandatoryAction: 'Trigger dedicated P11/P12 asymmetric warping design & joint multi-messenger Bayes update.' },
+  { outcome: 'P8 or P9 violates QFI identity outside environmental systematics', posteriorStatus: 'Falsifies strict fiber–bulk orthogonality Eq. (2.1)', mandatoryAction: 'Revise or reject H12 clock coupling law (H12.0.2).' },
+  { outcome: 'P1–P10 all null across sensitivity ceilings', posteriorStatus: 'Rules out observable low-scale 5D IGRT', mandatoryAction: 'Retire physical 5D extension to Planck-scale mathematical archive.' }
+];
+
+export const H11_VS_H12_PROTOCOLS_COMPARISON: Array<{
+  aspect: string;
+  h11Protocols: string;
+  h12Protocols: string;
+}> = [
+  { aspect: 'Identifier Scope', h11Protocols: 'P1–P6 (Preregistered SHA-256)', h12Protocols: 'P7–P10 (Near/Mid-Term) + P11–P12 (Far-Future Folding)' },
+  { aspect: 'Target Physics', h11Protocols: 'Strictly 4D (ULDM lock, DP collapse, CMB B-modes, GW echoes, Chameleon, Φ_portal)', h12Protocols: '5D Bulk/KK/Leakage (10 μm Yukawa, 10⁻¹⁹ clock, 10⁻⁶ visibility, 10⁻³ 3G GW; plus P11–P12 folding)' },
+  { aspect: 'Can Results Confirm 5D?', h11Protocols: 'NO — Positive P1–P6 tests confirm 4D H11 only', h12Protocols: 'YES — P7/P10 probe genuinely 5D signatures (though only P11–P12 probe folding directly)' },
+  { aspect: 'Epistemic Burden', h11Protocols: 'Tightly constrained Category B EFT predictions', h12Protocols: 'Conditional on Category C 5D hypothesis' }
+];
+
+export const H12_PROTOCOL_ANALYSIS_SECTIONS: Array<{ title: string; content: string }> = [
+  {
+    title: 'Systematics & Dominant Physical Backgrounds (P7–P10)',
+    content: 'Each protocol faces distinct classical backgrounds: P7 is limited by Kelvin-probe electrostatic patch potentials and Casimir zero-point pressures below d ~ 15 μm; P8 is limited by blackbody radiation shifts (ΔT ~ 10 mK), quadratic Zeeman shifts, and seismic Doppler jitter; P9 is constrained by residual gas collisional decoherence and laser phase noise; P10 requires separating scalar breathing modes and KK dispersion from non-Gaussian glitch transients and neutron-star/accretion dispersion.'
+  },
+  {
+    title: 'Statistical Significance & Required Signal-to-Noise Ratio',
+    content: 'All H12 protocols impose a strict 5σ local-plus-global discovery threshold (SNR ≥ 5 after look-elsewhere penalty across scan parameters R_5, α_KK, and f_KK), with 95% CL upper exclusions quoted when null residuals remain consistent with the H11/GR baseline.'
+  },
+  {
+    title: 'Multi-Messenger & Cross-Protocol Combination',
+    content: 'Protocols P7–P10 constrain orthogonal projections of the common (R_5, k, α_t + α_x) parameter manifold: joint likelihood L_joint = L_P7(R_5) × L_P8(m_KK) × L_P10(k R_5) prevents sliding-scale fine-tuning where weak Yukawa force bounds attempt to hide large extra-dimensional GW leakage.'
+  },
+  {
+    title: 'Null Hypothesis Baseline',
+    content: 'The null hypothesis H_0 for every H12 test is pure 4D General Relativity + Standard Model + 4D IGRT-H11 effective field theory (E ≪ 4.485 meV), yielding ΔP_KK = 0, |δν/ν| = 0, V² + D_QFI² = 1 identically, and h_scalar = 0.'
+  },
+  {
+    title: 'Bayesian Evidence & Occam Penalty (H12 vs. H11)',
+    content: 'Model comparison evaluates Δ ln B_{12/11} = ln[P(D | H12) / P(D | H11)] under the Jeffreys scale. Because H12 introduces 3–4 extra unfixed bulk parameters (R_5, k, α_t, α_x), marginalizing priors imposes an automatic Occam penalty Δ ln O ≈ −4 to −7; thus H12 becomes statistically favored over 4D H11 only when an observed 5D residual yields Δχ² ≳ 20–25 across P7 or P10.'
+  }
+];
+
+export const H12_FALSIFICATION_CHECKLIST: string[] = [
+  'CANNEX-class P7 detects null Yukawa deviation below 10⁻¹¹ N/m² down to R_5 = 10 μm (ruling out flat extra dimensions above 19.733 meV).',
+  '3G gravitational-wave observatories (ET/CE, P10) place |h_scalar / h_tensor| < 10⁻³ and d_L^GW / d_L^EM = 1 ± 10⁻⁴ across z < 2, eliminating large-volume bulk leakage.',
+  'High-precision clock and matter-wave tests detect unshielded QFI deviations breaking V² + D_QFI² = 1 (P9) or scaling law Eq. (H12.0.2) (P8) outside GR/QM error budgets.'
+];
+
+export const H12_CONFIRMATION_CHECKLIST: string[] = [
+  'Observation of an exponential short-range gravitational force residual consistent with α_KK e^{−d/R_5} (P7) distinguishable from 4D H11 Chameleon templates.',
+  'Coincident detection of a scalar/breathing gravitational polarization accompanied by Kaluza–Klein ringdown dispersion harmonics in 3G mergers (P10).',
+  'Independent verification of asymmetric bulk gauge dispersion (P12) or macroscopic bulk timing asymmetry (P11) reproducing Model 2B scaling without Lorentz-signature violation.'
+];
+
+export const H12_FUNDING_AGENCY_SUMMARY =
+  'Summary for Funding Agencies (Impact & Portfolio Risk Mitigation): Funding the near-term experimental tracks of IGRT-H12—specifically Protocol P7 (CANNEX sub-10 μm Casimir–Yukawa plate), P8 (10⁻¹⁹ optical/nuclear clock networks), P9 (10⁻⁶ matter-wave SLD Fisher interferometers), and analog Devices C & F (photonic waveguides and Rb-87 BEC horizons)—delivers high dual-use metrology value regardless of whether a fifth dimension exists. A null result sets world-record inverse-square gravity bounds (19.733 meV), advances quantum-limited metrology and atomic timekeeping, and cleanly isolates negative bounds preventing wasted investment in physically infeasible macroscopic wormhole schemes. Conversely, any >5σ P7 or P10 signal would constitute a foundational breakthrough in higher-dimensional gravitation.';
+
+export const H12_DEFINITIONS_LIST: Array<{ id: string; term: string; formalDefinition: string }> = [
+  { id: 'Def 1.1', term: '5D Principal Bundle P_5', formalDefinition: 'Bundle π_5: P_5 → M_5 = M_4 × K_1 with fiber PU(ℋ) orthogonal to ∂/∂y.' },
+  { id: 'Def 3.1', term: 'Temporal Folding Ratio η_fold', formalDefinition: 'Coordinate-invariant comparison η_fold ≡ Δτ_5 / Δτ_4 between bulk trajectory τ_5 and brane reference τ_4 connecting shared events A, B ∈ M_4.' },
+  { id: 'Def 3.2', term: 'Temporal Folding Tensor ℱ_AB', formalDefinition: 'Tensorial measure ℱ_AB ≡ e^{2α_t k |y|} G_AB − g_AB^(4) of warped proper-time departure from the brane.' },
+  { id: 'Def 4.1', term: 'Effective Bulk Coordinate Speed c_eff(y)', formalDefinition: 'Coordinate propagation rate c_eff(y) = c · e^{(α_t + α_x) k |y|} preserving ds_5² = 0 locally.' },
+  { id: 'Def 6.1', term: 'Morris–Thorne Flare-Out Condition', formalDefinition: 'Throat boundary b(r_0) = r_0, b\'(r_0) < 1 forcing negative radial null stress (ρc² + p_r)|_{r_0} < 0.' },
+  { id: 'Def 7.1', term: 'Helstrom QFI Path Distinguishability', formalDefinition: 'Trace-distance path measure D_QFI = √(1 − |⟨d_1|d_2⟩|²) paired with visibility V = |⟨d_1|d_2⟩|.' },
+  { id: 'Def 1.2', term: 'Four-Tier Epistemic Taxonomy (A–D)', formalDefinition: 'Classification separating Established (A), Derived (B), Conjectural (C), and Speculative Engineering (D) claims.' }
+];
+
+export const H12_THEOREMS_LIST: Array<{ id: string; title: string; category: H12EpistemicCategory; location: string }> = [
+  { id: 'Boundary Theorem 1.1', title: 'Low-Energy Decoupling & H11 Equivalence (δ_KK = 4.972 × 10⁻¹⁴ at 1 neV)', category: 'CATEGORY B — DERIVED', location: 'Ch. 1 (§1.2)' },
+  { id: 'Theorem 3.1', title: 'Gauge-Invariant Temporal Folding Criterion (η_fold < 1 vs Coordinate Gauge)', category: 'CATEGORY B — DERIVED', location: 'Ch. 3 (§3.2)' },
+  { id: 'No-Go Theorem 4.1', title: 'Absence of Null Arrival Shortcuts in Flat S¹ & Conformal RS AdS_5', category: 'CATEGORY B — DERIVED', location: 'Ch. 4 (§4.1)' },
+  { id: 'NEC Theorem 5.1', title: '4D Hayward Regular Black-Hole Non-Portal Proof (ρ + p_r = 0, ρ + p_⊥ > 0)', category: 'CATEGORY B — DERIVED', location: 'Ch. 5 (§5.1)' },
+  { id: 'Theorem 6.1', title: 'Morris–Thorne Exotic Mass & 10⁷¹ Casimir Energy Deficit Theorem', category: 'CATEGORY B — DERIVED', location: 'Ch. 6 (§6.2)' },
+  { id: 'Theorem 7.1', title: 'SLD Fisher–Englert Complementarity Identity (V² + D_QFI² = 1 Independent of y)', category: 'CATEGORY B — DERIVED', location: 'Ch. 7 (§7.1)' },
+  { id: 'No-Signaling Theorem 8.1', title: 'AQFT 5D Microcausality Preservation of Quantum No-Communication', category: 'CATEGORY A — ESTABLISHED', location: 'Ch. 8 (§8.1)' }
+];
+
+export const H12_OPEN_PROBLEMS_LIST: Array<{ id: string; problem: string; statusNote: string }> = [
+  { id: 'OP-1', problem: 'Dynamical Derivation of Asymmetric Bulk Metrics (α_t + α_x > 0)', statusNote: 'Requires explicit anisotropic bulk stress-energy solving ⁵G_AB + Λ_5 G_AB = 8πG_5 T_AB without ghost instabilities.' },
+  { id: 'OP-2', problem: 'Full 5D BFV–BRST Constraint Algebra & UV Completion Above M_5', statusNote: 'Non-renormalizable above M_5 (10⁸–10¹⁸ GeV); demands explicit 5D functional renormalization group flow or string embedding.' },
+  { id: 'OP-3', problem: 'Exact 5D Localized Rotating Kerr–Hayward Brane Black-Hole Solution', statusNote: 'Static black strings pinch below r_+/R_AdS = 0.876; analytic rotating localized 5D Hayward solutions remain unknown.' },
+  { id: 'OP-4', problem: 'Self-Consistent 5D Chronology Protection Backreaction (⟨T_AB⟩_ren)', statusNote: 'Whether 5D Δσ⁻⁵ vacuum polarization generically enforces chronology protection between counter-moving branes remains open.' },
+  { id: 'OP-5', problem: 'Nonlinear 5D Radion Vainshtein Screening Coupled to Goldberger–Wise Stabilization', statusNote: 'Currently assumed by extension from 4D H11; full coupled 5D PDE stability across cosmological history awaits solution.' },
+  { id: 'OP-6', problem: 'Empirical Detection or Exclusion of KK Modes Below R_5 < 10 μm (P7 / P10)', statusNote: 'Requires 2026–2036+ experimental campaigns at CANNEX and 3G gravitational-wave observatories.' }
+];
+
+export const H12_PRIOR_AUDIT_RESPONSES: Array<{ auditScope: string; panelCritique: string; harmonizedResolution: string }> = [
+  {
+    auditScope: 'H11 Critique (1): Eq. (0.1) Index, κ_0 Scope & Split Bound Phrasing',
+    panelCritique: '200-expert panel flagged Eq. (0.1) σ_1(K_ξ) vs K_ζ notation, κ_−ℓ_0 = 0.9294 vs κ_0, Table 0.1 tilde formatting, and ambiguous "bounded below 10⁻³⁰" split phrasing.',
+    harmonizedResolution: 'All typographical items corrected verbatim in the locked H11 monograph (665 assertions + 6 hygiene checks passing; SHA-256 preserved untouched).'
+  },
+  {
+    auditScope: 'H11 Critique (2): Cosmology Input-Driven ΔAIC & Hubble Clarification',
+    panelCritique: 'Requested candid distinction between Planck–SH0ES vs Planck–DESI tensions and explicit Jeffreys-scale / ΔAIC input-driven caveats.',
+    harmonizedResolution: 'Preserved verbatim in H11 §7.1 and §8.2; never inflated or overwritten in H12 follow-up.'
+  },
+  {
+    auditScope: 'H12 Critique (3): Over-Claiming Beltrami Shortcuts & Assumed Metrics as Category B',
+    panelCritique: 'Reviewers warned that labeling Model 2B shortcuts, Eqs. (H12.0.1)–(H12.0.2), or 5D lifts as "Derived (Category B)" blurred assumed ansätze with vacuum proofs.',
+    harmonizedResolution: 'Reclassified Eq. (H12.0.1), Eq. (H12.0.2), Beltrami shortcuts η_fold = 0.86634..0.07770, and Table 1.1 Rows 1, 4, 5, 9 strictly to Category C (Conjectural); Row 12 reclassified to Category A.'
+  },
+  {
+    auditScope: 'H12 Critique (4): Speculative Portal Chapters Diluting Negative Theorems & Long Technical Appendices',
+    panelCritique: 'Critics noted Chapter 9/10 engineering mechanisms and long A–K appendices obscured H12’s strongest contribution (exact negative theorems).',
+    harmonizedResolution: 'Relocated Chapters 9–10 to Appendices L–M, Scorecard to Appendix N, and Technical Appendices A–K to Supplementary Volume II; elevated Chapters 9–11 cleanly to Negative Results Summary, What Is Unique to 5D?, and What Is Not Derived.'
+  }
+];

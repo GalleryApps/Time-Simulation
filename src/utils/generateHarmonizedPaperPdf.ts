@@ -9,7 +9,8 @@
  *   appendices, governance disclosures, and references
  * - Headlines: Playfair Display Regular (weight 400, strictly never bold) with resolved math sub/superscripts
  * - Equations: High-DPI HTML5 Canvas typesetting parsed from eq.unicodeHtml
- * - Figures & Plates: Rasterizes all 12 inline SVG diagrams + embeds 5 editorial illustration plates (Plates I–V)
+ * - Figures & Plates: Rasterizes all 12 inline SVG diagrams + embeds 9 archival illustration plates (Plates I–IX)
+ * - Apparatus: Real computed TOC page numbers, chapter-aware running headers, and Table J.1 980-vector scorecard
  * - NO ORCIDs inside References
  */
 
@@ -52,6 +53,10 @@ import {
 } from '../types/harmonizedPaperApparatus';
 import { PAPER_FIGURES, PAPER_ILLUSTRATIONS } from '../components/HarmonizedPaperFigures';
 import {
+  H8_COMPOSITE_METRICS,
+  H8_TWELVE_FAMILIES_SUMMARY
+} from '../types/harmonizedPaperH8StressTest';
+import {
   MathSegment,
   parseMathSegments,
   parseHtmlMathSegments,
@@ -69,6 +74,65 @@ interface LoadedPdfFonts {
 
 let cachedFontsPromise: Promise<LoadedPdfFonts | null> | null = null;
 
+const REQUIRED_TTF_TABLES = ['head', 'name', 'cmap', 'hhea', 'maxp', 'hmtx', 'loca', 'glyf'] as const;
+
+function validateTrueTypeBuffer(buf: ArrayBuffer, label: string): void {
+  if (buf.byteLength < 32768 || buf.byteLength > 15_000_000) {
+    throw new Error(`Invalid TTF byte length (${buf.byteLength}) for ${label}`);
+  }
+  const view = new DataView(buf);
+  const sfntVersion = view.getUint32(0, false);
+  // 0x00010000 = TrueType, 0x74727565 = 'true'
+  if (sfntVersion !== 0x00010000 && sfntVersion !== 0x74727565) {
+    throw new Error(`Invalid SFNT signature 0x${sfntVersion.toString(16)} for ${label}`);
+  }
+  const numTables = view.getUint16(4, false);
+  if (numTables < 8 || numTables > 64) {
+    throw new Error(`Invalid SFNT table count (${numTables}) for ${label}`);
+  }
+  const dirEnd = 12 + numTables * 16;
+  if (dirEnd > buf.byteLength) {
+    throw new Error(`Truncated SFNT table directory for ${label}`);
+  }
+
+  const tables = new Map<string, { offset: number; length: number }>();
+  for (let i = 0; i < numTables; i++) {
+    const rec = 12 + i * 16;
+    const tag = String.fromCharCode(
+      view.getUint8(rec),
+      view.getUint8(rec + 1),
+      view.getUint8(rec + 2),
+      view.getUint8(rec + 3)
+    );
+    const offset = view.getUint32(rec + 8, false);
+    const length = view.getUint32(rec + 12, false);
+    if (length === 0 || offset < dirEnd || offset > buf.byteLength || offset + length > buf.byteLength) {
+      throw new Error(`Out-of-bounds TTF table '${tag}' (${offset}+${length}) for ${label}`);
+    }
+    tables.set(tag, { offset, length });
+  }
+
+  for (const req of REQUIRED_TTF_TABLES) {
+    if (!tables.has(req)) {
+      throw new Error(`Missing required TTF table '${req}' for ${label}`);
+    }
+  }
+
+  const head = tables.get('head')!;
+  if (head.length < 54) {
+    throw new Error(`Invalid 'head' table length (${head.length}) for ${label}`);
+  }
+  const indexToLocFormat = view.getInt16(head.offset + 50, false);
+  if (indexToLocFormat !== 0 && indexToLocFormat !== 1) {
+    throw new Error(`Invalid indexToLocFormat (${indexToLocFormat}) for ${label}`);
+  }
+  const loca = tables.get('loca')!;
+  const unit = indexToLocFormat === 0 ? 2 : 4;
+  if (loca.length > 2_000_000 || loca.length % unit !== 0) {
+    throw new Error(`Invalid 'loca' table length (${loca.length}) for ${label}`);
+  }
+}
+
 function arrayBufferToBase64(buf: ArrayBuffer): string {
   const bytes = new Uint8Array(buf);
   const chunkSize = 0x8000;
@@ -81,9 +145,21 @@ function arrayBufferToBase64(buf: ArrayBuffer): string {
 }
 
 async function fetchFontBuffer(url: string): Promise<ArrayBuffer> {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Failed to fetch font ${url}: ${res.status}`);
-  return res.arrayBuffer();
+  const tryFetch = async (targetUrl: string, init?: RequestInit): Promise<ArrayBuffer> => {
+    const res = await fetch(targetUrl, { credentials: 'same-origin', ...init });
+    if (!res.ok) throw new Error(`Failed to fetch font ${targetUrl}: ${res.status}`);
+    const buf = await res.arrayBuffer();
+    validateTrueTypeBuffer(buf, targetUrl);
+    return buf;
+  };
+
+  try {
+    return await tryFetch(url);
+  } catch {
+    // Bust any stale HTTP/proxy cache entry and retry once
+    const sep = url.includes('?') ? '&' : '?';
+    return await tryFetch(`${url}${sep}t=${Date.now()}`, { cache: 'reload' });
+  }
 }
 
 async function registerBrowserFontFace(
@@ -133,11 +209,133 @@ async function loadEmbeddedPdfFonts(): Promise<LoadedPdfFonts | null> {
         };
       } catch (err) {
         console.warn('Could not load Unicode TTF fonts for PDF export, falling back:', err);
+        cachedFontsPromise = null;
         return null;
       }
     })();
   }
   return cachedFontsPromise;
+}
+
+const REQUIRED_REGISTERED_PDF_FONTS: Array<[string, string]> = [
+  ['DejaVuSerif', 'normal'],
+  ['DejaVuSerif', 'bold'],
+  ['NotoSerif', 'italic'],
+  ['DejaVuSans', 'normal'],
+  ['DejaVuSansMono', 'normal']
+];
+
+function verifyRegisteredPdfFonts(doc: jsPDF): boolean {
+  try {
+    for (const [family, style] of REQUIRED_REGISTERED_PDF_FONTS) {
+      const fontObj = (doc as unknown as {
+        getFont?: (f: string, s: string) => { metadata?: { Unicode?: { widths?: unknown }; widthOfString?: unknown } };
+      }).getFont?.(family, style);
+      if (!fontObj?.metadata?.Unicode?.widths || typeof fontObj.metadata.widthOfString !== 'function') {
+        return false;
+      }
+      doc.setFont(family, style);
+      doc.setFontSize(11);
+      const w = doc.getTextWidth('A');
+      if (!Number.isFinite(w) || w <= 0) {
+        return false;
+      }
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const WINANSI_FALLBACK_MAP: Record<string, string> = {
+  '\u2212': '-',
+  '\u2013': '-',
+  '\u2014': '--',
+  '\u2018': "'",
+  '\u2019': "'",
+  '\u201C': '"',
+  '\u201D': '"',
+  '\u2026': '...',
+  '\u210F': 'hbar',
+  '\u2113': 'l',
+  '\u2192': '->',
+  '\u21D2': '=>',
+  '\u21D4': '<=>',
+  '\u27F9': '==>',
+  '\u27FA': '<==>',
+  '\u2264': '<=',
+  '\u2265': '>=',
+  '\u2260': '!=',
+  '\u2248': '~=',
+  '\u2243': '~=',
+  '\u2261': '===',
+  '\u221E': 'inf',
+  '\u2202': 'd',
+  '\u2207': 'nabla',
+  '\u221A': 'sqrt',
+  '\u222B': 'int',
+  '\u2211': 'sum',
+  '\u2208': 'in',
+  '\u2209': 'notin',
+  '\u2205': '{}',
+  '\u226A': '<<',
+  '\u226B': '>>',
+  '\u2272': '<~',
+  '\u2273': '>~',
+  '\u2299': 'O',
+  '\u2295': '(+)',
+  '\u2297': '(x)',
+  '\u22C5': '.',
+  '\u27E8': '<',
+  '\u27E9': '>',
+  '\u2032': "'",
+  '\u2033': "''",
+  '\u03B1': 'alpha',
+  '\u03B2': 'beta',
+  '\u03B3': 'gamma',
+  '\u03B4': 'delta',
+  '\u03B5': 'eps',
+  '\u03B7': 'eta',
+  '\u03B8': 'theta',
+  '\u03BA': 'kappa',
+  '\u03BB': 'lambda',
+  '\u03BC': 'mu',
+  '\u03BD': 'nu',
+  '\u03BE': 'xi',
+  '\u03C0': 'pi',
+  '\u03C1': 'rho',
+  '\u03C3': 'sigma',
+  '\u03C4': 'tau',
+  '\u03C6': 'phi',
+  '\u03C7': 'chi',
+  '\u03C8': 'psi',
+  '\u03C9': 'omega',
+  '\u0393': 'Gamma',
+  '\u0394': 'Delta',
+  '\u0398': 'Theta',
+  '\u039B': 'Lambda',
+  '\u03A3': 'Sigma',
+  '\u03A6': 'Phi',
+  '\u03A8': 'Psi',
+  '\u03A9': 'Omega'
+};
+
+function sanitizeStandardPdfText(str: string): string {
+  let out = '';
+  for (const ch of str) {
+    const mapped = WINANSI_FALLBACK_MAP[ch];
+    if (mapped !== undefined) {
+      out += mapped;
+    } else {
+      const cp = ch.codePointAt(0) ?? 32;
+      if (cp <= 0xFF) {
+        out += ch;
+      } else if (!COMBINING_RE.test(ch)) {
+        out += '?';
+      }
+    }
+  }
+  return out;
 }
 
 // Characters verified against cmap tables of public/fonts/*.ttf
@@ -455,7 +653,8 @@ function renderRichSegmentsCanvasPng(
   dpi: number,
   align: 'center' | 'left',
   color: string,
-  lineHeightMult: number
+  lineHeightMult: number,
+  padMult = 0.78
 ): { dataUrl: string; widthIn: number; heightIn: number; didSoftWrap: boolean } | null {
   if (typeof document === 'undefined') return null;
 
@@ -739,7 +938,7 @@ function renderRichSegmentsCanvasPng(
     align === 'center'
       ? Math.ceil(Math.min(maxWidthPx, Math.max(160, Math.max(...lines.map((l) => l.width)) + 84)))
       : Math.ceil(maxWidthPx);
-  const padTop = Math.round(fontPx * 0.72);
+  const padTop = Math.round(fontPx * padMult);
   const canvasH = Math.max(lineH + padTop * 2, lines.length * lineH + padTop * 2);
 
   canvas.width = canvasW;
@@ -801,7 +1000,7 @@ function renderUnicodeEquationPng(
       330,
       'center',
       '#0F172A',
-      1.76
+      1.90
     );
     if (!res) return null;
     if (!res.didSoftWrap || i === fontCandidates.length - 1) {
@@ -826,7 +1025,8 @@ function renderPlayfairRegularHeadlinePng(
     96 * 2.5,
     'left',
     color,
-    1.42
+    1.42,
+    0.34
   );
 }
 
@@ -896,11 +1096,13 @@ async function loadPlateImageForPdf(
 ): Promise<{ dataUrl: string; format: 'JPEG' | 'PNG'; widthIn: number; heightIn: number } | null> {
   if (typeof fetch === 'undefined') return null;
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { credentials: 'same-origin' });
     if (!res.ok) return null;
     const buf = await res.arrayBuffer();
     const bytes = new Uint8Array(buf);
-    const isPng = bytes.length >= 4 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47;
+    const isPng = bytes.length >= 8 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47;
+    const isJpeg = bytes.length >= 4 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+    if (!isPng && !isJpeg) return null;
     const format: 'JPEG' | 'PNG' = isPng ? 'PNG' : 'JPEG';
     const mime = isPng ? 'image/png' : 'image/jpeg';
     const b64 = arrayBufferToBase64(buf);
@@ -960,25 +1162,41 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   ]);
 
   // A4 portrait (210mm x 297mm) = 8.268 in x 11.693 in; margins 25mm = 0.984 in
-  const doc = new jsPDF({
+  let doc = new jsPDF({
     orientation: 'portrait',
     unit: 'in',
     format: 'a4',
     compress: true
   });
 
-  const hasUnicodeFonts = Boolean(fontsLoaded);
+  let hasUnicodeFonts = false;
   if (fontsLoaded) {
-    doc.addFileToVFS('DejaVuSerif.ttf', fontsLoaded.serifRegular);
-    doc.addFont('DejaVuSerif.ttf', 'DejaVuSerif', 'normal');
-    doc.addFileToVFS('DejaVuSerif-Bold.ttf', fontsLoaded.serifBold);
-    doc.addFont('DejaVuSerif-Bold.ttf', 'DejaVuSerif', 'bold');
-    doc.addFileToVFS('NotoSerif-Italic.ttf', fontsLoaded.serifItalic);
-    doc.addFont('NotoSerif-Italic.ttf', 'NotoSerif', 'italic');
-    doc.addFileToVFS('DejaVuSans.ttf', fontsLoaded.sansRegular);
-    doc.addFont('DejaVuSans.ttf', 'DejaVuSans', 'normal');
-    doc.addFileToVFS('DejaVuSansMono.ttf', fontsLoaded.monoRegular);
-    doc.addFont('DejaVuSansMono.ttf', 'DejaVuSansMono', 'normal');
+    try {
+      doc.addFileToVFS('DejaVuSerif.ttf', fontsLoaded.serifRegular);
+      doc.addFont('DejaVuSerif.ttf', 'DejaVuSerif', 'normal');
+      doc.addFileToVFS('DejaVuSerif-Bold.ttf', fontsLoaded.serifBold);
+      doc.addFont('DejaVuSerif-Bold.ttf', 'DejaVuSerif', 'bold');
+      doc.addFileToVFS('NotoSerif-Italic.ttf', fontsLoaded.serifItalic);
+      doc.addFont('NotoSerif-Italic.ttf', 'NotoSerif', 'italic');
+      doc.addFileToVFS('DejaVuSans.ttf', fontsLoaded.sansRegular);
+      doc.addFont('DejaVuSans.ttf', 'DejaVuSans', 'normal');
+      doc.addFileToVFS('DejaVuSansMono.ttf', fontsLoaded.monoRegular);
+      doc.addFont('DejaVuSansMono.ttf', 'DejaVuSansMono', 'normal');
+      hasUnicodeFonts = verifyRegisteredPdfFonts(doc);
+    } catch (err) {
+      console.warn('Unicode TTF registration failed for PDF export, using standard PDF fonts:', err);
+      hasUnicodeFonts = false;
+    }
+
+    if (!hasUnicodeFonts) {
+      console.warn('Unicode TTF verification failed for PDF export, resetting clean fallback document.');
+      doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'in',
+        format: 'a4',
+        compress: true
+      });
+    }
   }
 
   const PAGE_W = 8.268;
@@ -1001,16 +1219,22 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     creator: 'IGRT Research Group'
   });
 
+  let currentRunningSection = 'Title & Abstract';
+  const pageSectionLabels: Record<number, string> = { 1: 'Title & Abstract' };
+
   const addPage = () => {
     doc.addPage('a4', 'portrait');
     y = MARGIN;
+    pageSectionLabels[doc.getNumberOfPages()] = currentRunningSection;
   };
 
-  const startChapterOnNewPage = () => {
+  const startChapterOnNewPage = (runningLabel?: string) => {
+    if (runningLabel) currentRunningSection = runningLabel;
     if (y > MARGIN + 0.05) {
       addPage();
     } else {
       y = MARGIN;
+      pageSectionLabels[doc.getNumberOfPages()] = currentRunningSection;
     }
   };
 
@@ -1048,9 +1272,10 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       }
       doc.setFont(c.fontName, c.fontStyle);
       doc.setFontSize(size);
-      const baseText = COMBINING_RE.test(c.text)
+      const rawBaseText = COMBINING_RE.test(c.text)
         ? c.text.replace(/[\u0300-\u036F\u20D0-\u20FF]/g, '')
         : c.text;
+      const baseText = hasUnicodeFonts ? rawBaseText : sanitizeStandardPdfText(rawBaseText);
       total += doc.getTextWidth(baseText);
       if (ci < chunks.length - 1 && c.text.includes('\u2113')) {
         total += Math.max(0.008, size * 0.0010);
@@ -1069,8 +1294,8 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   ) => {
     const sizeIn = size / 72;
     const isCapOrTall = /[A-ZΑ-ΩΔΘΛΞΠΣΦΨΩφθbdfhklt∇∂]/.test(base);
-    const isMidTall = /[ψijg]/.test(base);
-    const heightRatio = isCapOrTall ? 0.96 : isMidTall ? 0.83 : 0.74;
+    const isMidTall = /[ψij]/.test(base);
+    const heightRatio = isCapOrTall ? 0.96 : isMidTall ? 0.83 : 0.66;
     const ay = baselineY - sizeIn * heightRatio;
     const xMid = cx + w * 0.50;
     const span = Math.max(w * 0.92, sizeIn * 0.52);
@@ -1137,11 +1362,12 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       }
       doc.setFont(c.fontName, c.fontStyle);
       doc.setFontSize(size);
-      if (!COMBINING_RE.test(c.text)) {
-        doc.text(c.text, cx, baselineY);
-        cx += doc.getTextWidth(c.text);
+      const renderChunk = hasUnicodeFonts ? c.text : sanitizeStandardPdfText(c.text);
+      if (!COMBINING_RE.test(renderChunk)) {
+        doc.text(renderChunk, cx, baselineY);
+        cx += doc.getTextWidth(renderChunk);
       } else {
-        const clusters = splitGraphemeClusters(c.text);
+        const clusters = splitGraphemeClusters(renderChunk);
         for (const cl of clusters) {
           if (!COMBINING_RE.test(cl)) {
             doc.text(cl, cx, baselineY);
@@ -2147,14 +2373,14 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     y += totalH + 0.16;
   };
 
-  // Pre-load 5 archival illustration plates & pre-rasterize all 12 SVG diagrams
+  // Pre-load 9 archival illustration plates & pre-rasterize all 12 SVG diagrams
   const plateImages = new Map<
     number,
     { dataUrl: string; format: 'JPEG' | 'PNG'; widthIn: number; heightIn: number }
   >();
   await Promise.all(
     PAPER_ILLUSTRATIONS.map(async (plate) => {
-      const pImg = await loadPlateImageForPdf(plate.imagePath, CONTENT_W - 0.1);
+      const pImg = await loadPlateImageForPdf(plate.imagePath, CONTENT_W - 0.28);
       if (pImg) plateImages.set(plate.id, pImg);
     })
   );
@@ -2225,52 +2451,122 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   });
 
   // =========================================================
-  // PAGE 2: DEDICATED TABLE OF CONTENTS
+  // DEDICATED TABLE OF CONTENTS (ISOLATED PAGES BEFORE SUMMARY)
+  // Render header first so post-header Y is exact (never estimated),
+  // precompute deterministic (pageOffset, rowY) placements, reserve exact
+  // blank pages, and force Summary onto the next fresh page.
   // =========================================================
-  startChapterOnNewPage();
-  drawPlayfairHeadline('Table of Contents', 30, 0.16);
-  drawRule([214, 202, 190], 0.008);
-  writeRichParagraph(
-    'Summary, Symbols & Indices: Summary · Scope & Closures · Illustrations · Symbols · Acronyms · Dimensional Closure · Equation Index',
-    { size: 10.2, justify: true, afterSpace: 0.12 }
-  );
+  interface TocEntrySpec {
+    key: string;
+    kind: 'major' | 'sub';
+    prefix?: string;
+    label: string;
+  }
+  const tocEntries: TocEntrySpec[] = [
+    {
+      key: 'summary',
+      kind: 'major',
+      label: 'Summary, Symbols & Indices (Plates, Figures, Tables 0.1–0.3 & Dimensional Closure)'
+    }
+  ];
   for (const ch of PAPER_CHAPTERS) {
-    writeRichParagraph(`Chapter ${ch.number}: ${ch.title}`, {
-      size: 10.6,
-      style: 'bold',
-      color: [15, 23, 42],
-      justify: false,
-      afterSpace: 0.045
+    tocEntries.push({
+      key: `ch-${ch.number}`,
+      kind: 'major',
+      label: `Chapter ${ch.number}: ${ch.title}`
     });
     for (const sub of ch.subsections) {
-      writeRichParagraph(`${sub.number}  ${sub.title}`, {
-        size: 9.6,
-        indent: 0.25,
-        color: [71, 85, 105],
-        justify: false,
-        afterSpace: 0.03
+      tocEntries.push({
+        key: `sub-${sub.anchorId}`,
+        kind: 'sub',
+        prefix: sub.number,
+        label: sub.title
       });
     }
   }
-  drawRule([226, 217, 200], 0.006);
-  writeRichParagraph('Appendices A–P: Formal Theorems, CODATA Units, Derivations, Status Audit, Toy Model, Revision Registry & H11 Closures', {
-    size: 10.2,
-    style: 'bold',
-    justify: false,
-    afterSpace: 0.06
+  tocEntries.push({
+    key: 'appendices',
+    kind: 'major',
+    label: `Appendices A–${PAPER_APPENDICES[PAPER_APPENDICES.length - 1]?.letter ?? 'P'}: Formal Theorems, CODATA Units & Technical Closures`
   });
-  writeRichParagraph(`Governance Disclosures · References [1]–[${PAPER_REFERENCES.length}]`, {
-    size: 10.2,
-    style: 'bold',
-    justify: false,
-    afterSpace: 0.06
+  for (const app of PAPER_APPENDICES) {
+    tocEntries.push({
+      key: `app-${app.letter}`,
+      kind: 'sub',
+      prefix: `App. ${app.letter}`,
+      label: app.title
+    });
+  }
+  tocEntries.push({
+    key: 'governance',
+    kind: 'major',
+    label: 'Governance Disclosures (CRediT, COI, Data, Code & Funding)'
+  });
+  tocEntries.push({
+    key: 'references',
+    kind: 'major',
+    label: `References [1]–[${PAPER_REFERENCES.length}] & Citation Formats`
   });
 
+  const tocSectionPageMap = new Map<string, number>();
+  const TOC_PAGE_NUM_COL_W = 0.62;
+  const TOC_LABEL_COL_W = CONTENT_W - TOC_PAGE_NUM_COL_W;
+  const TOC_SUB_INDENT = 0.18;
+  const TOC_PREFIX_COL_W = 0.56;
+
+  const tocPreparedRows = tocEntries.map((entry) => {
+    const isMajor = entry.kind === 'major';
+    const fontSize = isMajor ? 9.8 : 8.7;
+    const baseIndent = isMajor ? 0 : TOC_SUB_INDENT;
+    const titleIndent = baseIndent + (entry.prefix ? TOC_PREFIX_COL_W : 0);
+    const availW = TOC_LABEL_COL_W - titleIndent;
+    const wrapped = buildWordLines(
+      parseMathSegments(pdfBmpSafeUnicode(entry.label)),
+      availW,
+      availW,
+      'serif',
+      isMajor ? 'bold' : 'normal',
+      fontSize
+    );
+    const lineH = (fontSize * (isMajor ? 1.30 : 1.24)) / 72;
+    const extraBefore = isMajor && (entry.key.startsWith('ch-') || entry.key === 'appendices' || entry.key === 'governance') ? 0.04 : 0;
+    const extraAfter = isMajor ? 0.026 : 0.014;
+    const rowH = extraBefore + wrapped.lines.length * lineH + extraAfter;
+    return { entry, fontSize, baseIndent, titleIndent, wrapped, lineH, extraBefore, extraAfter, rowH };
+  });
+
+  startChapterOnNewPage('Table of Contents');
+  const tocStartPage = doc.getNumberOfPages();
+  drawPlayfairHeadline('Table of Contents', 26, 0.08);
+  drawRule([214, 202, 190], 0.008);
+  const tocFirstPageStartY = y;
+
+  let planPageOffset = 0;
+  let planY = tocFirstPageStartY;
+  const TOC_BOTTOM_LIMIT = MAX_Y - 0.10;
+  const tocPlacements = tocPreparedRows.map((row) => {
+    if (planY + row.rowH > TOC_BOTTOM_LIMIT) {
+      planPageOffset++;
+      planY = MARGIN + 0.04;
+    }
+    const placement = { pageOffset: planPageOffset, rowY: planY, row };
+    planY += row.rowH;
+    return placement;
+  });
+  const tocPagesNeeded = planPageOffset + 1;
+  for (let extra = 1; extra < tocPagesNeeded; extra++) {
+    addPage();
+  }
+  const tocLastReservedPage = doc.getNumberOfPages();
+
   // =========================================================
-  // SUMMARY, SYMBOLS & INDICES (NEW PAGE)
+  // SUMMARY, SYMBOLS & INDICES (ALWAYS ON DEDICATED NEW PAGE)
+  // Unconditionally advance past tocLastReservedPage so TOC & Summary can never share a page.
   // =========================================================
-  startChapterOnNewPage();
-  drawPlayfairHeadline('Summary, Symbols & Indices', 28, 0.18);
+  currentRunningSection = 'Summary & Editorial Reference Apparatus';
+  addPage();
+  tocSectionPageMap.set('summary', doc.getNumberOfPages());
+  drawPlayfairHeadline('Summary, Symbols & Indices', 26, 0.16);
   writeRichParagraph('SUMMARY', {
     font: 'sans',
     size: 9.2,
@@ -2390,7 +2686,10 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   // CHAPTERS 1 TO 8 (NEW PAGE PER CHAPTER + INLINE SVG PNGS)
   // =========================================================
   for (const chapter of PAPER_CHAPTERS) {
-    startChapterOnNewPage();
+    const chShortTitle =
+      chapter.title.length > 42 ? `${chapter.title.slice(0, 40).trim()}…` : chapter.title;
+    startChapterOnNewPage(`Chapter ${chapter.number} · ${chShortTitle}`);
+    tocSectionPageMap.set(`ch-${chapter.number}`, doc.getNumberOfPages());
     writeRichParagraph(`CHAPTER ${chapter.number}`, {
       font: 'sans',
       size: 9,
@@ -2411,7 +2710,8 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       if (y > MARGIN + 0.25) {
         y += 0.22;
       }
-      ensureSpace(1.75);
+      ensureSpace(2.15);
+      tocSectionPageMap.set(`sub-${sub.anchorId}`, doc.getNumberOfPages());
       writeRichParagraph(`[Status: ${sub.epistemicStatus}]`, {
         font: 'sans',
         size: 8.0,
@@ -2581,21 +2881,67 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         );
       }
 
-      // Embed archival illustration plates positioned after this subsection (with space above descriptions)
+      // Embed archival illustration plates positioned after this subsection (museum card + wide description air)
       const matchedPlates = PAPER_ILLUSTRATIONS.filter((p) => p.afterSubsectionAnchor === sub.anchorId);
       for (const plate of matchedPlates) {
         const pImg = plateImages.get(plate.id);
+        const capEstLines = buildWordLines(
+          parseMathSegments(pdfBmpSafeUnicode(`Plate ${plate.roman}: ${plate.title} — ${plate.caption}`)),
+          CONTENT_W,
+          CONTENT_W,
+          'serif',
+          'normal',
+          9.8
+        ).lines.length;
+        const capEstH = capEstLines * ((9.8 * 1.48) / 72) + 0.26;
         if (pImg) {
-          ensureSpace(pImg.heightIn + 1.25);
-          const imgX = MARGIN + (CONTENT_W - pImg.widthIn) / 2;
-          doc.addImage(pImg.dataUrl, pImg.format, imgX, y, pImg.widthIn, pImg.heightIn);
+          const cardPad = 0.14;
+          const topBarH = 0.29;
+          const plateFrameH = cardPad + topBarH + pImg.heightIn + cardPad;
+          const gapAboveRule = 0.28;
+          const gapBelowRule = 0.34;
+          ensureSpace(plateFrameH + gapAboveRule + gapBelowRule + capEstH);
+
+          // Archival #FAF8F3 outer plate frame
+          doc.setFillColor(250, 248, 243);
           doc.setDrawColor(214, 202, 190);
           doc.setLineWidth(0.01);
-          doc.rect(imgX, y, pImg.widthIn, pImg.heightIn);
-          y += pImg.heightIn + 0.30;
+          doc.rect(MARGIN, y, CONTENT_W, plateFrameH, 'FD');
+
+          // Top plate kicker & title strip
+          const kickerTxt = `ARCHIVAL EDITORIAL PLATE ${plate.roman}`;
+          doc.setTextColor(139, 69, 19);
+          activeInkRgb = [139, 69, 19];
+          drawTextMixed(kickerTxt, MARGIN + cardPad, y + cardPad + 0.07, 'sans', 'normal', 7.8);
+          const kickerW = measureTextMixed(kickerTxt, 'sans', 'normal', 7.8);
+          const titleAvail = CONTENT_W - 2 * cardPad - kickerW - 0.18;
+          let shortTitle = pdfBmpSafeUnicode(plate.title);
+          while (measureTextMixed(shortTitle, 'serif', 'italic', 8.6) > titleAvail && shortTitle.length > 16) {
+            shortTitle = `${shortTitle.slice(0, -2).trim()}…`;
+          }
+          const titleW = measureTextMixed(shortTitle, 'serif', 'italic', 8.6);
+          doc.setTextColor(15, 23, 42);
+          activeInkRgb = [15, 23, 42];
+          drawTextMixed(shortTitle, PAGE_W - MARGIN - cardPad - titleW, y + cardPad + 0.07, 'serif', 'italic', 8.6);
+
           doc.setDrawColor(226, 217, 200);
           doc.setLineWidth(0.006);
-          doc.line(MARGIN, y - 0.14, PAGE_W - MARGIN, y - 0.14);
+          doc.line(MARGIN + cardPad, y + cardPad + 0.16, PAGE_W - MARGIN - cardPad, y + cardPad + 0.16);
+
+          // Plate artwork inset
+          const imgX = MARGIN + (CONTENT_W - pImg.widthIn) / 2;
+          const imgY = y + cardPad + topBarH;
+          doc.addImage(pImg.dataUrl, pImg.format, imgX, imgY, pImg.widthIn, pImg.heightIn);
+          doc.setDrawColor(226, 217, 200);
+          doc.setLineWidth(0.008);
+          doc.rect(imgX, imgY, pImg.widthIn, pImg.heightIn);
+
+          // Generous whitespace above illustration description (both above & below separator hairline)
+          y += plateFrameH + gapAboveRule;
+          doc.setDrawColor(226, 217, 200);
+          doc.setLineWidth(0.007);
+          doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+          y += gapBelowRule;
         }
         writeRichParagraph(plate.caption, {
           prefixBold: `Plate ${plate.roman}: ${plate.title} — `,
@@ -2603,7 +2949,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           size: 9.8,
           color: [71, 85, 105],
           justify: true,
-          afterSpace: 0.22
+          afterSpace: 0.26
         });
       }
 
@@ -2611,24 +2957,36 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
       const matchedFigs = PAPER_FIGURES.filter((f) => f.afterSubsectionAnchor === sub.anchorId);
       for (const fig of matchedFigs) {
         const img = figureImages.get(fig.id);
+        const capEstLines = buildWordLines(
+          parseMathSegments(pdfBmpSafeUnicode(fig.caption)),
+          CONTENT_W,
+          CONTENT_W,
+          'serif',
+          'normal',
+          9.8
+        ).lines.length;
+        const capEstH = capEstLines * ((9.8 * 1.48) / 72) + 0.24;
         if (img) {
-          ensureSpace(img.heightIn + 1.15);
+          const gapAboveRule = 0.26;
+          const gapBelowRule = 0.32;
+          ensureSpace(img.heightIn + gapAboveRule + gapBelowRule + capEstH);
           const imgX = MARGIN + (CONTENT_W - img.widthIn) / 2;
           doc.addImage(img.dataUrl, 'PNG', imgX, y, img.widthIn, img.heightIn);
           doc.setDrawColor(214, 202, 190);
-          doc.setLineWidth(0.008);
+          doc.setLineWidth(0.009);
           doc.rect(imgX, y, img.widthIn, img.heightIn);
-          y += img.heightIn + 0.30;
+          y += img.heightIn + gapAboveRule;
           doc.setDrawColor(226, 217, 200);
-          doc.setLineWidth(0.006);
-          doc.line(MARGIN, y - 0.14, PAGE_W - MARGIN, y - 0.14);
+          doc.setLineWidth(0.007);
+          doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+          y += gapBelowRule;
         }
         writeRichParagraph(fig.caption, {
           style: 'normal',
           size: 9.8,
           color: [71, 85, 105],
           justify: true,
-          afterSpace: 0.20
+          afterSpace: 0.24
         });
       }
 
@@ -2641,13 +2999,15 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   // =========================================================
   // APPENDICES A–P
   // =========================================================
-  startChapterOnNewPage();
+  startChapterOnNewPage('Appendices A–P · Derivations & Closures');
+  tocSectionPageMap.set('appendices', doc.getNumberOfPages());
   drawPlayfairHeadline('Appendices A–P: Derivations, Units & Technical FAQ', 28, 0.18);
   for (const app of PAPER_APPENDICES) {
     if (y > MARGIN + 0.25) {
       y += 0.18;
     }
-    ensureSpace(1.5);
+    ensureSpace(1.75);
+    tocSectionPageMap.set(`app-${app.letter}`, doc.getNumberOfPages());
     writeRichParagraph(`[Status: ${app.status}]`, {
       font: 'sans',
       size: 8.0,
@@ -2743,6 +3103,52 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         });
       }
     }
+    if (app.letter === 'J') {
+      drawPdfTable(
+        'TABLE J.1: 12-FAMILY 980-VECTOR ADVERSARIAL STRESS-TEST CLOSURE SCORECARD (542/542 = 100.0% TECHNICAL)',
+        [
+          { header: 'Criterion Family', width: 2.05, justify: false },
+          { header: 'N', width: 0.42, font: 'mono', justify: false },
+          { header: 'H11 Score / Max', width: 1.25, font: 'mono', color: [21, 128, 61], justify: false },
+          { header: 'Status & Audit Notes', width: CONTENT_W - 3.72, justify: false }
+        ],
+        H8_TWELVE_FAMILIES_SUMMARY.map((fam) => [
+          `Family ${fam.id}: ${fam.name}`,
+          `${fam.count}`,
+          `${fam.h8Score} / ${fam.maxScore} (${fam.percentage}%)`,
+          fam.score0Count > 0
+            ? `${fam.score3Count} full-score (3/3); ${fam.score0Count} isolated Popperian CC / Scope / External items`
+            : `${fam.score3Count}/${fam.count} full-score (3/3) self-contained technical closures`
+        ]),
+        { cellSize: 8.1, padX: 0.055 }
+      );
+      ensureSpace(0.72);
+      const boxInnerW = CONTENT_W - 0.16;
+      const compLine1 = `SELF-CONTAINED TECHNICAL SCORE: ${H8_COMPOSITE_METRICS.selfContainedTechCount}/${H8_COMPOSITE_METRICS.selfContainedTechCount} = ${H8_COMPOSITE_METRICS.selfContainedTechScore}/${H8_COMPOSITE_METRICS.selfContainedTechMax} (${H8_COMPOSITE_METRICS.selfContainedTechPercentage}%)  ·  COMPOSITE VECTORS: ${H8_COMPOSITE_METRICS.selfContainedVectorsPassed}/${H8_COMPOSITE_METRICS.selfContainedVectorsTotal} (${H8_COMPOSITE_METRICS.selfContainedVectorsPercentage}%)`;
+      const compLine2 = `Red-Team: ${H8_COMPOSITE_METRICS.attacksSurvives}/${H8_COMPOSITE_METRICS.attacksCount - 1} Survived (ATK-20 External Peer Review Pending)`;
+      const compLine3 = `Upgrade Gates: ${H8_COMPOSITE_METRICS.upgradesCount}/${H8_COMPOSITE_METRICS.upgradesCount} (${H8_COMPOSITE_METRICS.upgradesPending} Pending)  ·  Isolated: ${H8_COMPOSITE_METRICS.nonApplicableCount} Popperian/Scope + ${H8_COMPOSITE_METRICS.externalMilestoneCount} External`;
+      let pt1 = 7.2;
+      while (pt1 > 5.6 && measureTextMixed(compLine1, 'sans', 'normal', pt1) > boxInnerW) pt1 -= 0.2;
+      let pt2 = 7.1;
+      while (pt2 > 5.6 && measureTextMixed(compLine2, 'mono', 'normal', pt2) > boxInnerW) pt2 -= 0.2;
+      let pt3 = 7.1;
+      while (pt3 > 5.6 && measureTextMixed(compLine3, 'mono', 'normal', pt3) > boxInnerW) pt3 -= 0.2;
+
+      doc.setFillColor(250, 246, 238);
+      doc.setDrawColor(21, 128, 61);
+      doc.setLineWidth(0.01);
+      doc.rect(MARGIN, y, CONTENT_W, 0.62, 'FD');
+      doc.setTextColor(21, 128, 61);
+      activeInkRgb = [21, 128, 61];
+      drawTextMixed(compLine1, MARGIN + 0.08, y + 0.16, 'sans', 'normal', pt1);
+      doc.setTextColor(15, 23, 42);
+      activeInkRgb = [15, 23, 42];
+      drawTextMixed(compLine2, MARGIN + 0.08, y + 0.34, 'mono', 'normal', pt2);
+      doc.setTextColor(71, 85, 105);
+      activeInkRgb = [71, 85, 105];
+      drawTextMixed(compLine3, MARGIN + 0.08, y + 0.51, 'mono', 'normal', pt3);
+      y += 0.76;
+    }
     if (app.letter === 'M') {
       drawPdfTable(
         'TABLE M.1: STATUS RECLASSIFICATION MATRIX (TABLE 0.3 AUDIT)',
@@ -2767,7 +3173,8 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   // =========================================================
   // GOVERNANCE DISCLOSURES
   // =========================================================
-  startChapterOnNewPage();
+  startChapterOnNewPage('Governance Disclosures');
+  tocSectionPageMap.set('governance', doc.getNumberOfPages());
   drawPlayfairHeadline('Governance Disclosures', 28, 0.18);
   for (const c of ETHICS_AND_GOVERNANCE.creditRoles) {
     writeRichParagraph(c.roles, { prefixBold: `${c.author}: `, size: 10.4, afterSpace: 0.06 });
@@ -2789,7 +3196,8 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   // =========================================================
   // CITED VERSION & REFERENCES [1]–[109] (NO ORCIDs IN REFERENCES)
   // =========================================================
-  startChapterOnNewPage();
+  startChapterOnNewPage('References [1]–[109]');
+  tocSectionPageMap.set('references', doc.getNumberOfPages());
   drawPlayfairHeadline('References', 28, 0.16);
 
   writeRichParagraph('HOW TO CITE (CITED VERSION — APA & BIBTEX)', {
@@ -2829,7 +3237,60 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   }
 
   // =========================================================
-  // RUNNING HEADERS & FOOTERS WITH ARCHIVAL HAIRLINE RULES
+  // STAMP TABLE OF CONTENTS USING DETERMINISTIC RESERVATIONS
+  // =========================================================
+  for (const { pageOffset, rowY, row } of tocPlacements) {
+    const targetPage = tocStartPage + pageOffset;
+    if (targetPage > tocLastReservedPage) continue;
+    doc.setPage(targetPage);
+
+    let drawY = rowY + row.extraBefore;
+    const isMajor = row.entry.kind === 'major';
+    const pg = tocSectionPageMap.get(row.entry.key);
+    const pgLabel = pg !== undefined ? `p. ${pg}` : '';
+    const pgW = pgLabel ? measureTextMixed(pgLabel, 'mono', 'normal', isMajor ? 8.8 : 8.1) : 0;
+
+    if (row.entry.prefix) {
+      setInkColor([139, 69, 19]);
+      drawTextMixed(row.entry.prefix, MARGIN + row.baseIndent, drawY, 'sans', 'normal', 8.3);
+    }
+
+    let lastLineEndX = MARGIN + row.titleIndent;
+    let firstLineY = drawY;
+    for (let li = 0; li < row.wrapped.lines.length; li++) {
+      const lineWords = row.wrapped.lines[li];
+      let lx = MARGIN + row.titleIndent;
+      setInkColor(isMajor ? [15, 23, 42] : [51, 65, 85]);
+      for (let wi = 0; wi < lineWords.length; wi++) {
+        if (wi > 0) lx += row.wrapped.spaceWidth;
+        for (const r of lineWords[wi].runs) {
+          drawTextMixed(r.text, lx, drawY + r.dy, r.family, r.style, r.size, r.dy !== 0);
+          lx += r.width;
+        }
+      }
+      if (li === 0) firstLineY = drawY;
+      lastLineEndX = lx;
+      drawY += row.lineH;
+    }
+
+    if (pgLabel) {
+      const targetBaselineY = row.wrapped.lines.length === 1 ? firstLineY : drawY - row.lineH;
+      const leaderStart = lastLineEndX + 0.08;
+      const leaderEnd = PAGE_W - MARGIN - pgW - 0.08;
+      if (leaderEnd > leaderStart + 0.14) {
+        doc.setDrawColor(214, 202, 190);
+        doc.setLineWidth(0.005);
+        for (let dx = leaderStart; dx < leaderEnd; dx += 0.075) {
+          doc.line(dx, targetBaselineY - 0.015, Math.min(dx + 0.015, leaderEnd), targetBaselineY - 0.015);
+        }
+      }
+      setInkColor(isMajor ? [139, 69, 19] : [100, 116, 139]);
+      drawTextMixed(pgLabel, PAGE_W - MARGIN - pgW, targetBaselineY, 'mono', 'normal', isMajor ? 8.8 : 8.1);
+    }
+  }
+
+  // =========================================================
+  // CHAPTER-AWARE RUNNING HEADERS & FOOTERS WITH ARCHIVAL HAIRLINES
   // =========================================================
   const totalPages = doc.getNumberOfPages();
   for (let p = 1; p <= totalPages; p++) {
@@ -2839,9 +3300,11 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     doc.setTextColor(110, 120, 138);
     activeInkRgb = [110, 120, 138];
     if (p > 1) {
-      const headerTxt = 'Information-Geometric Resonant Time (IGRT) — Harmonized Research Monograph';
-      const hw = measureTextMixed(headerTxt, 'serif', 'italic', 8.4);
-      drawTextMixed(headerTxt, (PAGE_W - hw) / 2, 0.48, 'serif', 'italic', 8.4);
+      const leftHeader = 'Information-Geometric Resonant Time (IGRT)';
+      const rightHeader = pageSectionLabels[p] ?? 'Harmonized Research Monograph';
+      drawTextMixed(leftHeader, MARGIN, 0.48, 'serif', 'italic', 8.2);
+      const rhw = measureTextMixed(rightHeader, 'sans', 'normal', 7.6);
+      drawTextMixed(rightHeader, PAGE_W - MARGIN - rhw, 0.48, 'sans', 'normal', 7.6);
       doc.line(MARGIN, 0.58, PAGE_W - MARGIN, 0.58);
     }
     doc.line(MARGIN, PAGE_H - 0.58, PAGE_W - MARGIN, PAGE_H - 0.58);

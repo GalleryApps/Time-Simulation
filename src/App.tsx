@@ -24,6 +24,7 @@ import { Harmonization1500LabView } from './components/Harmonization1500LabView'
 import { Harmonized500StressTestView } from './components/Harmonized500StressTestView';
 import { HarmonizedModelView } from './components/HarmonizedModelView';
 import { HarmonizedResearchPaperView } from './components/HarmonizedResearchPaperView';
+import { IgrtH12PaperView } from './components/IgrtH12PaperView';
 import { AdversarialPanel580View } from './components/AdversarialPanel580View';
 import { RefinedModelTechnologiesView } from './components/RefinedModelTechnologiesView';
 import { SiteImprovements380View } from './components/SiteImprovements380View';
@@ -134,6 +135,7 @@ export default function App() {
     { id: 'adv-580', tab: 'adversarial-panel-580', title: '580-Criterion Comprehensive Adversarial Stress Test', category: 'Adversarial Evaluation', desc: 'Comprehensive multi-stage stress test: 500 baseline criteria, 80 new synthesis criteria (XI & XII), 20 direct attacks, and 380 upgrade gates.' },
     { id: 'hm-sim', tab: 'harmonized-model', title: 'Live Computational Laboratory & Audio Synthesizer', category: 'Interactive Simulator', desc: 'FLRW Quantum Bounce engine, 2:1 Lissajous resonance audio synthesizer, coupled DESI w(z) & 8k 5D MCMC explorer, and Chameleon–Vainshtein / derived WKB K_echo=0.184 calculator.' },
     { id: 'hp-1', tab: 'harmonized-paper', title: 'Harmonized Model: Full Publishable Research Paper (IGRT-2026-H11)', category: 'Devoted Paper', desc: 'Complete 8-chapter publishable research monograph for IGRT-2026-H11 with Appendices A–P, Plates I–V & Figs 1–12, claim ledger, H11 SHA-256 preregistration digest, HTML/MD download, and Unicode DejaVuSans A4 PDF export.' },
+    { id: 'h12-1', tab: 'igrt-h12-paper', title: 'IGRT-H12 Follow-Up Monograph: 5D Resonant Geometry, Temporal Folding & Portals', category: 'Follow-Up Monograph (H12)', desc: '13-chapter + 11-appendix rigorous 5D extension covering warped/flat geodesics, Hayward NEC proof, Morris–Thorne Casimir deficit, double-slit QFI V² + D² = 1, Devices A–F, and Protocols P7–P10.' },
     { id: 'c500', tab: 'criteria500', title: '500-Criterion Adversarial Matrix', category: 'Evaluation Matrix', desc: 'Granular point-by-point audit across 10 domains with filterable search and verified scores.' },
     { id: 'usim', tab: 'universesim', title: 'Dual Universe Simulation (Model A vs B)', category: 'Interactive Simulation', desc: 'Side-by-side comparative simulation across 5 physical scenarios with high-DPI canvases and coordinate probes.' },
     { id: 'harm1500', tab: 'harmonization', title: '1,500 Harmonization Lab & 6 Studies', category: 'Synthesis Lab', desc: 'Six independent formal studies proving the mathematical closure of the Bulaqueña–Tassan synthesis.' },
@@ -291,7 +293,18 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               }`}
             >
               <span>Harmonized Research Paper</span>
-              <span className="font-mono text-[10px] opacity-90">PRD/CQG</span>
+              <span className="font-mono text-[10px] opacity-90">H11</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('igrt-h12-paper')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
+                activeTab === 'igrt-h12-paper' 
+                  ? 'bg-[#EA580C] text-white shadow-xs font-medium' 
+                  : 'text-[#9A3412] dark:text-[#FDBA74] hover:bg-[#FFEDD5]/60 dark:hover:bg-[#173065]'
+              }`}
+            >
+              <span>Follow-Up Monograph</span>
+              <span className="font-mono text-[10px] opacity-90">H12 · 5D</span>
             </button>
             <button
               onClick={() => setActiveTab('universesim')}
@@ -382,6 +395,13 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
             <HarmonizedResearchPaperView 
               onNavigateToModel={() => setActiveTab('harmonized-model')}
               onNavigateToStressTest={() => setActiveTab('harmonized-stresstest')}
+              onNavigateToH12={() => setActiveTab('igrt-h12-paper')}
+            />
+          )}
+          {activeTab === 'igrt-h12-paper' && (
+            <IgrtH12PaperView
+              onNavigateToH11Paper={() => setActiveTab('harmonized-paper')}
+              onNavigateToH11Model={() => setActiveTab('harmonized-model')}
             />
           )}
           {activeTab === 'site-improvements' && (

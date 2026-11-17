@@ -2,13 +2,17 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  *
- * Publication-Grade Inline SVG Figures (Figures 1–8) for the IGRT Monograph.
+ * Publication-Grade Inline SVG Figures (Figures 1–12) & Archival Plates (Plates I–IX) for the IGRT Monograph.
  * Zero LaTeX markup; pure Unicode symbols; analytical curves sampled from exact equations.
  */
 
 import React from 'react';
 import { formatSvgMathMarkup } from '../utils/formatMathUnicode';
 import { MathText } from './MathText';
+import plate6ProblemTimeImg from '../assets/images/igrt_canonical_time_1794795468442.jpg';
+import plate7Thm41CalibImg from '../assets/images/igrt_thm41_calibration_1794795469011.jpg';
+import plate8WdwUnfreezeImg from '../assets/images/igrt_wdw_unfreezing_1794795469398.jpg';
+import plate9SpectralDiscImg from '../assets/images/igrt_spectral_discrimination_1794795469345.jpg';
 
 export interface PaperFigureSpec {
   id: number;
@@ -87,6 +91,50 @@ export const PAPER_ILLUSTRATIONS: PaperIllustrationSpec[] = [
     title: 'Protocol P1 Precision Metrology: Optical Lattice Clock Cavity and Pulsar Array',
     caption:
       'Illustration Plate V. Dual-scale experimental plate pairing a terrestrial ⁸⁷Sr/¹⁷¹Yb optical lattice atomic clock cavity (left, navy & emerald standing-wave lattice) with a cosmological millisecond pulsar beam array across nanohertz gravitational wavefronts (right, terracotta). The center harmonic wave depicts the exact 2:1 frequency resonance f_PTA = 2 f_clock = 12.8 nHz probing Eq. (4.1) and ULDM holonomy mass m_osc = 2.65×10^{−23} eV.'
+  },
+  {
+    id: 6,
+    roman: 'VI',
+    anchorId: 'plate-6',
+    chapterAnchor: 'chapter-1',
+    afterSubsectionAnchor: 'sec-1-1',
+    imagePath: plate6ProblemTimeImg,
+    title: 'Canonical Problem of Time: Frozen WDW Hypersurface vs. Synchronized Fiber Folia',
+    caption:
+      'Illustration Plate VI. Contrasting the timeless four-dimensional Wheeler–DeWitt spatial lattice where external clocks freeze (left, slate ink) against emergent statistical trajectory bundles along curved projective-Hilbert fiber foliations (right, emerald & terracotta arrows synchronized by harmonic arcs). Varying the 3+1 ADM decomposition of S_IGRT derives Ĥ_total Ψ = 0, unfreezing relational duration via information-geometric arc length.'
+  },
+  {
+    id: 7,
+    roman: 'VII',
+    anchorId: 'plate-7',
+    chapterAnchor: 'chapter-4',
+    afterSubsectionAnchor: 'sec-4-1',
+    imagePath: plate7Thm41CalibImg,
+    title: 'Theorem 4.1 Variational Synchronization & O(N⁻²) Uhlmann–Frobenius Convergence',
+    caption:
+      'Illustration Plate VII. Riemannian SLD Fisher–Rao geodesic arc (deep navy & emerald) inside a curved state manifold dome approached by a discrete Uhlmann–Frobenius polygonal staircase (terracotta chords ‖RAG_k − RES_k‖_F = 2 sin(Δθ_k/4)). Extremizing the coupled worldline–clock action δS_clock/δα_mod = 0 derives unique Mandelstam–Tamm calibration α_mod = ℏ/(E_mod σ_1) to 5.55×10⁻¹⁷ with O(N⁻²) continuum limit.'
+  },
+  {
+    id: 8,
+    roman: 'VIII',
+    anchorId: 'plate-8',
+    chapterAnchor: 'chapter-5',
+    afterSubsectionAnchor: 'sec-5-1',
+    imagePath: plate8WdwUnfreezeImg,
+    title: 'Compact S¹ Unbounded Modular Clock Spectrum & Detailed-Balance BKM Flow',
+    caption:
+      'Illustration Plate VIII. Rotating compact Bures circle S¹ (terracotta ring manifold, circumference L) driving the unbounded discrete Fisher clock spectrum Spec(H_Fisher) = {E_mod σ_1 (2πk/L) : k ∈ ℤ} along a helical Born–Oppenheimer wavepacket trajectory (navy & emerald detailed-balance flow streamlines). Positive-branch k > 0 projection unfreezes iℏ ∂χ/∂τ_FR while Landau–Zener branch-mixing decay exp(−10²⁰) protects adiabatic evolution.'
+  },
+  {
+    id: 9,
+    roman: 'IX',
+    anchorId: 'plate-9',
+    chapterAnchor: 'chapter-8',
+    afterSubsectionAnchor: 'sec-8-2',
+    imagePath: plate9SpectralDiscImg,
+    title: 'Compressed A_F^{H11} Five-Scalar Seesaw (k_eff = 2) Across Six Orthogonal Observatories',
+    caption:
+      'Illustration Plate IX. Central compressed Krein–Connes spectral hub (twin continuous moduli k_eff = 2 tying five scalar sectors at |ε_{ψ,Ch}| = 4.42×10⁻¹⁶) radiating orthogonal discrimination channels to optical lattice clocks (P1), levitated SiO₂ interferometers (P2), CMB B-mode satellites (P3), gravitational-wave detectors (P4), Casimir parallel plates (P5), and HL-LHC Higgs-portal detectors (P6), separating IGRT from competing models by > 7.4σ.'
   }
 ];
 
@@ -1407,7 +1455,7 @@ export const HarmonizedPaperIllustration: React.FC<{ illustration: PaperIllustra
           loading="lazy"
         />
       </div>
-      <figcaption className="mt-6 pt-4 border-t border-[#E2D9C8] dark:border-[#1E293B] text-[14.5px] leading-relaxed text-[#475569] dark:text-[#94A3B8] italic">
+      <figcaption className="mt-9 pt-6 border-t border-[#E2D9C8] dark:border-[#1E293B] text-[14.5px] leading-relaxed text-[#475569] dark:text-[#94A3B8] italic">
         <MathText text={illustration.caption} />
       </figcaption>
     </figure>
@@ -1425,7 +1473,7 @@ export const HarmonizedPaperFigure: React.FC<{ figure: PaperFigureSpec }> = ({ f
         className="w-full overflow-x-auto rounded border border-[#E2D9C8] dark:border-[#334155]"
         dangerouslySetInnerHTML={{ __html: formattedSvg }}
       />
-      <figcaption className="mt-6 pt-4 border-t border-[#E2D9C8] dark:border-[#1E293B] text-[14.5px] leading-relaxed text-[#475569] dark:text-[#94A3B8] italic">
+      <figcaption className="mt-9 pt-6 border-t border-[#E2D9C8] dark:border-[#1E293B] text-[14.5px] leading-relaxed text-[#475569] dark:text-[#94A3B8] italic">
         <MathText text={figure.caption} />
       </figcaption>
     </figure>

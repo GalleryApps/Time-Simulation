@@ -373,6 +373,7 @@ export function pdfBmpSafeUnicode(input: string): string {
     .replace(/𝒢/g, 'G')
     .replace(/𝒦/g, 'K')
     .replace(/𝒩/g, 'N')
+    .replace(/𝒪/g, 'O')
     .replace(/𝒱/g, 'V')
     .replace(/𝐱/g, 'x');
 }

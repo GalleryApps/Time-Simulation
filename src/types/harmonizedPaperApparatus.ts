@@ -37,7 +37,7 @@ export const SHORTENED_ABSTRACT = {
   paragraphs: [
     'The unification of general relativity and quantum mechanics is obstructed by the "Problem of Time": the Wheeler–DeWitt equation of canonical quantum gravity forces the universal wavefunction to be stationary, eliminating any external parameter that could drive evolution. We propose Information-Geometric Resonant Time (IGRT), a framework that resolves this impasse by grounding time in quantum information rather than in a background coordinate.',
     'IGRT is formulated on a principal fiber bundle over a four-dimensional Lorentzian spacetime, where each spacetime event carries an internal space of quantum states. By Theorem 4.1 (Mandelstam–Tamm variational stationarity δS_clock = 0), proper time along any physical worldline equals the modular-calibrated distinguishability arc length under the Symmetric Logarithmic Derivative (SLD) Fisher–Rao metric. This synchronization is calibrated by the local Tomita–Takesaki modular flow on Doplicher–Longo split Type I detector algebras, converging to the continuum at second order O(N⁻²).',
-    'The gravitational sector is governed by a luminal Type Ia Horndeski action (c_GW = c) plus covariant ultraviolet limiting-curvature sector L_UV, while Theorem 3.2 derives Araki modulus coupling κ_ψ = ℏc ℓ_Pl/(12π) via Jacobson–CHM causal-diamond invariance and Hubbard–Stratonovich saddle matching. This structure yields a non-singular two-stage ekpyrotic-to-matter bounce (BKL shear 4.0×10⁻¹⁵), an acoustic early-braiding H_0 = 70.77 ± 0.72 km s⁻¹ Mpc⁻¹ trajectory reducing Hubble tension from 4.8σ to 1.8σ, and regular Kerr–Hayward black-hole cores with derived ξ_0 = 2⁻¹/⁴, mass-inflation saturation (ρ_infl < 0.41 ρ_Pl), and WKB barrier reflectivity K_echo = |R_eff| = 0.184. All five scalar modes compress into extended Krein–Connes spectral algebra A_F^{H11} with k_eff = 2 independent spectral moduli (ΔAIC = −1.84, Δln Z = +1.42 vs. ΛCDM).',
+    'The gravitational sector is governed by a luminal Type Ia Horndeski action (c_GW = c) plus covariant ultraviolet limiting-curvature sector L_UV, while Theorem 3.2 derives Araki modulus coupling κ_ψ = ℏc ℓ_Pl/(12π) via Jacobson–CHM causal-diamond invariance and Hubbard–Stratonovich saddle matching. This structure yields a non-singular two-stage ekpyrotic-to-matter bounce (BKL shear 4.0×10⁻¹⁵), an acoustic early-braiding H_0 = 70.77 ± 0.72 km s⁻¹ Mpc⁻¹ trajectory reducing Hubble tension from 4.8σ to 1.8σ, and regular Kerr–Hayward black-hole cores with derived ξ_0 = 2⁻¹/⁴, mass-inflation saturation (ρ_infl < 0.41 ρ_Pl), and WKB barrier reflectivity K_echo = |R_eff| = 0.184. All five scalar modes compress into extended Krein–Connes spectral algebra A_F^{H11} with k_eff = 2 independent spectral moduli (ΔAIC = −1.84, Δln Z = +1.42 vs. ΛCDM — weak preference; see §8.2 for candid assessment).',
     'The framework provides deterministic, script-verified predictions testable across current and near-future experiments (Protocols P1–P6, P1–P6 Fisher SNR 4.7–35.4σ multi-channel rival rejection): a 2:1 harmonic correlation between optical clocks and pulsar timing arrays, gravitational-wave ringdown echoes, short-range Chameleon forces at CANNEX, and a heavy Higgs-portal scalar at the HL-LHC.'
   ]
 };
@@ -46,7 +46,7 @@ export const SCOPE_AND_NON_CLAIMS: { title: string; detail: string }[] = [
   {
     title: '1. Bundle Architecture, Split Independence & Global Hyperbolicity Scope',
     detail:
-      'Macroscopic spacetime is a smooth 4D Lorentzian manifold (M, g_μν) of signature (−,+,+,+), globally hyperbolic on domains of outer communication and across physical 1+1D Hayward–Vaidya (max κ_− ℓ_0 = 0.9294 < 1), axisymmetric Kerr–Hayward (κ_− ℓ_0 ≤ 0.6639 < 1, ring core K ≤ 48/ℓ_Pl⁴), charged RN–Hayward (κ_−^{RN} ℓ_0 = 0.2614 < 1), and dynamical Israel–Darmois mass-inflation saturated (ρ_infl/ρ_Pl = 0.4094 < 0.41) black-hole regions (§6.3, App. P). Quantum frames use trivial principal bundle P(M, PU(H)) over split Type I detector factors N ⊂ A(O_ext) with Buchholz–Wichmann split error bounded below 10⁻³⁰ (2×10⁻¹¹⁰ at nominal parameters; App. D & P).'
+      'Macroscopic spacetime is a smooth 4D Lorentzian manifold (M, g_μν) of signature (−,+,+,+), globally hyperbolic on domains of outer communication and across physical 1+1D Hayward–Vaidya (max κ_− ℓ_0 = 0.9294 < 1), axisymmetric Kerr–Hayward (κ_− ℓ_0 ≤ 0.6639 < 1, ring core K ≤ 48/ℓ_Pl⁴), charged RN–Hayward (κ_−^{RN} ℓ_0 = 0.2614 < 1), and dynamical Israel–Darmois mass-inflation saturated (ρ_infl/ρ_Pl = 0.4094 < 0.41) black-hole regions (§6.3, App. P). Quantum frames use trivial principal bundle P(M, PU(H)) over split Type I detector factors N ⊂ A(O_ext) with Buchholz–Wichmann split error bounded above by 10⁻³⁰ (2 × 10⁻¹¹⁰ < 10⁻³⁰ at nominal parameters; App. D & P).'
   },
   {
     title: '2. Epistemic Rigor: Theorems 3.1, 3.2, 4.1 & Deterministic Numerical Verification',
@@ -241,6 +241,7 @@ export const LIST_OF_TABLES: { number: string; title: string; location: string }
   { number: 'Table H.1', title: 'Reproducible Numerical & Parameter Register (H_0 = 67.4–73.0 & H11 Closures)', location: 'Appendix H' },
   { number: 'Table I.1', title: 'Revision History (Editions H6 → H7 → H8 → H9 → H10 → H11)', location: 'Appendix I' },
   { number: 'Table I.2', title: 'Formal Response to Reviewers Matrix (R1–R11)', location: 'Appendix I' },
+  { number: 'Table J.1', title: '12-Family 980-Vector Adversarial Stress-Test Closure Scorecard (542/542 = 100.0% Technical)', location: 'Appendix J' },
   { number: 'Table M.1', title: 'Status Reclassification Audit of Table 0.3 Equations (Response to Reviewer 5)', location: 'Appendix M' }
 ];
 
@@ -714,9 +715,9 @@ export const WHAT_CHANGED_SUMMARY: { category: string; detail: string }[] = [
       'Derived K_echo = |R_eff| = 0.184 directly from WKB Hayward–Tortoise barrier tunneling (removing free input K_echo); derived w_contract = −0.0030 (n_s = 0.9637), M_Ch = 2.44 meV, m_osc = 2.65×10⁻²³ eV, and Ω_rem h² + Ω_osc h² = 0.1194 from A_F^{H11} spectral trace ratios (compressing scalar budget to k_eff = 2 continuous moduli); established > 7.4σ (min 35.4σ) 6-channel rival separation.'
   },
   {
-    category: 'Strong-Field OP-5 & Bespoke Archival Plates I–V + Figures 9–12',
+    category: 'Strong-Field OP-5 & Bespoke Archival Plates I–IX + Figures 9–12',
     detail:
-      'Closed Israel–Darmois dynamical thin-shell mass-inflation saturation (ρ_infl/ρ_Pl = 0.4094 < 0.41), 30+30 M_⊙ Kerr–Hayward IMR waveform (M_f = 57.1 M_⊙, f_220 = 299.4 Hz, Δt_echo = 103.9 ms), and local apparent-horizon QFC variation (dΘ/dA_V ≤ 0); added 5 bespoke archival editorial plates (Plates I–V) and 4 analytical SVG Figures (9–12) with generous spacing above every illustration description across React, HTML, and PDF.'
+      'Closed Israel–Darmois dynamical thin-shell mass-inflation saturation (ρ_infl/ρ_Pl = 0.4094 < 0.41), 30+30 M_⊙ Kerr–Hayward IMR waveform (M_f = 57.1 M_⊙, f_220 = 299.4 Hz, Δt_echo = 103.9 ms), and local apparent-horizon QFC variation (dΘ/dA_V ≤ 0); added 9 bespoke archival editorial plates (Plates I–IX) and 4 analytical SVG Figures (9–12) with generous spacing above every illustration description across React, HTML, and PDF.'
   }
 ];
 
@@ -770,11 +771,11 @@ export const REVISION_HISTORY_TABLE: RevisionHistoryRow[] = [
   },
   {
     edition: 'H11 (Current Complete Technical Closure Edition)',
-    scope: '580-criterion perfect technical closure, Plates I–V & Figures 9–12',
+    scope: '580-criterion perfect technical closure, Plates I–IX & Figures 9–12',
     physicsAndNumericalClosures:
       'Solved early-braiding H_0 = 70.77 ± 0.72 (4.8σ → 1.8σ), 8k MCMC (R̂−1 = 0.0053), C_ℓ^{TT,TE,EE}, bispectrum/trispectrum, NFW PM halo profile, k_eff = 2 A_F^{H11} compression (ΔAIC = −1.84, Δln Z = +1.42), WKB K_echo = 0.184, Theorem 3.2 κ_ψ & Theorem 4.1 variational α_mod, 3+1 BFV–BRST Ω²=0, Picard–Lefschetz thimble, Regge–CDT d_GH = O(N⁻¹/⁴), Israel–Darmois mass-inflation saturation (0.4094 < 0.41), 30+30 M_⊙ IMR, & local QFC.',
     editorialAndVerificationClosures:
-      'Added Appendix P, Table 8.4 compressed budget, R11 Reviewer Response, 5 bespoke archival editorial illustrations (Plates I–V), Figures 9–12, generous caption breathing space across React/HTML/PDF, and H11 SHA-256 preregistration digest (57cf3f1c…).'
+      'Added Appendix P, Table 8.4 compressed budget, Table J.1 stress-test scorecard, R11 Reviewer Response, 9 bespoke archival editorial illustrations (Plates I–IX), Figures 9–12, computed PDF TOC page numbers, generous caption breathing space across React/HTML/PDF, and H11 SHA-256 preregistration digest (57cf3f1c…).'
   }
 ];
 
@@ -823,10 +824,10 @@ export const RESPONSE_TO_REVIEWERS: ReviewerResponseRow[] = [
   },
   {
     issueId: 'R6. Typography, PDF Glyphs, Illustrations & Caption Breathing Room',
-    concernSummary: 'Add bespoke editorial illustrations & quantitative SVGs, guarantee spacing above every description, and verify H11 cross-module parity.',
+    concernSummary: 'Add bespoke editorial illustrations & quantitative SVGs, guarantee spacing above every description, compute TOC page numbers, and verify H11 cross-module parity.',
     resolutionAndLocation:
-      'Added 5 bespoke archival editorial illustrations (Plates I–V) and 4 analytical SVG Figures (9–12) with explicit whitespace above every description across React UI, HTML, and A4 PDF; enforced DejaVuSans/Playfair typography and synchronized all companion workbench views and H11 stress runner.',
-    status: 'Resolved (Plates I–V & Figs 1–12)'
+      'Added 9 bespoke archival editorial illustrations (Plates I–IX) and 4 analytical SVG Figures (9–12) with generous whitespace above every description across React UI, HTML, and A4 PDF; added real page numbers to the PDF Table of Contents, Table J.1 closure scorecard, chapter-aware running headers, DejaVuSans/Playfair typography, and synchronized all companion workbench views and H11 stress runner.',
+    status: 'Resolved (Plates I–IX & Figs 1–12)'
   },
   {
     issueId: 'R7. Strong-Field ADM Closure, BFV–BRST, Picard–Lefschetz & Regge–CDT',
@@ -860,7 +861,7 @@ export const RESPONSE_TO_REVIEWERS: ReviewerResponseRow[] = [
     issueId: 'R11. 580-Criterion Technical Stress Audit & Illustration Enhancement (H10 → H11)',
     concernSummary: 'Eliminate all self-contained technical gaps (OP-1..OP-5 internal items) for a perfect technical score, add bespoke illustrations, and add whitespace above captions.',
     resolutionAndLocation:
-      'Closed OP-1..OP-5 internal technical items in Appendix P & scripts/verify-igrt-monograph.mjs; added Plates I–V + Figures 9–12 with explicit spacing above descriptions across React, HTML, and A4 PDF; isolated external journal review & 2026–2036 experiments.',
+      'Closed OP-1..OP-5 internal technical items in Appendix P & scripts/verify-igrt-monograph.mjs; added Plates I–IX + Figures 9–12 + Table J.1 scorecard with generous spacing above descriptions across React, HTML, and A4 PDF; isolated external journal review & 2026–2036 experiments.',
     status: 'Resolved (100% Technical Suite)'
   }
 ];

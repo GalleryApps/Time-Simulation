@@ -51,6 +51,11 @@ import {
   H12_THEOREMS_LIST,
   H12_OPEN_PROBLEMS_LIST,
   H12_PRIOR_AUDIT_RESPONSES,
+  EPISTEMIC_BC_GREY_AREA_RUBRIC,
+  H11_665_ASSERTIONS_CATALOG,
+  REGULATOR_SENSITIVITY_TABLE,
+  MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE,
+  P7_TO_P10_NOISE_BUDGET_TABLE,
   H12_APPENDICES,
   H12_REFERENCES,
   type H12EpistemicCategory,
@@ -120,6 +125,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
   const [pdfBusy, setPdfBusy] = useState(false);
   const [suppPdfBusy, setSuppPdfBusy] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
+  const [beltramiBranch, setBeltramiBranch] = useState<'phenom' | 'em'>('phenom');
   const [kDxSlider, setKDxSlider] = useState<number>(10);
   const [wormholeLogRadius, setWormholeLogRadius] = useState<number>(0);
 
@@ -169,9 +175,28 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
   };
 
   const liveBeltrami = useMemo(() => {
+    const dx = kDxSlider;
+    if (beltramiBranch === 'em') {
+      if (dx >= Math.PI) {
+        return {
+          withinHorizon: false,
+          yPeak: Infinity,
+          etaFold: 2 / Math.PI,
+          cEffRatio: Math.PI / 2
+        };
+      }
+      const half = 0.5 * dx;
+      const yPeak = -Math.log(Math.cos(half));
+      const etaFold = Math.sin(half) / half;
+      return {
+        withinHorizon: true,
+        yPeak,
+        etaFold,
+        cEffRatio: 1 / etaFold
+      };
+    }
     const beta = 1.0;
     const alpha_t = 0.5;
-    const dx = kDxSlider;
     const computeHalf = (yPeak: number) => {
       if (yPeak <= 0) return { xHalf: 0, cdtHalf: 0 };
       const C = Math.exp(-beta * yPeak);
@@ -203,8 +228,8 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
     const yPeak = 0.5 * (lo + hi);
     const { cdtHalf } = computeHalf(yPeak);
     const etaFold = (2 * cdtHalf) / dx;
-    return { yPeak, etaFold, cEffRatio: 1 / etaFold };
-  }, [kDxSlider]);
+    return { withinHorizon: true, yPeak, etaFold, cEffRatio: 1 / etaFold };
+  }, [kDxSlider, beltramiBranch]);
 
   const liveWormhole = useMemo(() => {
     const r0 = Math.pow(10, wormholeLogRadius);
@@ -237,7 +262,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             <span aria-hidden="true">·</span>
             <span>{H12_META.edition}</span>
             <span aria-hidden="true">·</span>
-            <span className="text-[#166534] dark:text-[#86EFAC]">15/15 Assertions Verified</span>
+            <span className="text-[#166534] dark:text-[#86EFAC]">62/62 Assertions Verified</span>
             <span aria-hidden="true">·</span>
             <button
               onClick={() => scrollToAnchor('h12-app-n')}
@@ -662,6 +687,16 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
 
                     {sub.equation && <H12EquationBox eq={sub.equation} />}
 
+                    {sub.bulletPoints && sub.bulletPoints.length > 0 && (
+                      <ul className="text-[14.5px] leading-[1.6] text-[#1E293B] dark:text-[#E2E8F0] list-disc pl-6 space-y-1.5 text-justify">
+                        {sub.bulletPoints.map((bp, bpi) => (
+                          <li key={bpi}>
+                            <strong>{bp.label}:</strong> <MathText text={bp.text} />
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
                     {sub.theoremBox && (
                       <div className="my-6 rounded-xl border border-[#15803D]/35 bg-[#F4FAF6] dark:bg-[#052E16]/45 p-6 space-y-3">
                         <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#15803D]/20">
@@ -773,6 +808,36 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       </table>
                     </div>
 
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
+                        Table 1.3 · Epistemic Boundary Rubric Resolving Category B vs. Category C Grey Areas
+                      </div>
+                      <table className="w-full text-xs text-left">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr>
+                            <th className="p-2.5">Boundary Case</th>
+                            <th className="p-2.5">Derived Core vs. Conjectural Premise</th>
+                            <th className="p-2.5">Category &amp; Decision Rule</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {EPISTEMIC_BC_GREY_AREA_RUBRIC.map((g) => (
+                            <tr key={g.boundaryCase}>
+                              <td className="p-2.5 font-medium"><MathText text={g.boundaryCase} /></td>
+                              <td className="p-2.5 space-y-1">
+                                <div><strong>Derived:</strong> <MathText text={g.derivedAspect} /></div>
+                                <div className="text-[#475569] dark:text-[#94A3B8]"><strong>Conjectural:</strong> <MathText text={g.conjecturalAspect} /></div>
+                              </td>
+                              <td className="p-2.5 space-y-1">
+                                <div className="font-mono text-[10.5px] text-[#9A3412] dark:text-[#FDBA74]">{g.assignedCategory}</div>
+                                <div><MathText text={g.ruleApplied} /></div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 space-y-2.5">
                       <div className="font-mono text-xs font-semibold text-[#9A3412] dark:text-[#FDBA74] uppercase">
                         Glossary of Five-Dimensional Terms
@@ -793,10 +858,64 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                   </div>
                 )}
 
+                {ch.number === 2 && (
+                  <div className="space-y-6">
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
+                        Table 2.1 · Structured Catalog of All 665 Verified IGRT-H11 Assertions (SHA-256 Pinned)
+                      </div>
+                      <table className="w-full text-xs text-left tabular-nums">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr>
+                            <th className="p-2.5">Verification Group</th>
+                            <th className="p-2.5">Assertions</th>
+                            <th className="p-2.5">Verified Physical &amp; Mathematical Scope</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {H11_665_ASSERTIONS_CATALOG.map((row) => (
+                            <tr key={row.moduleGroup}>
+                              <td className="p-2.5 font-medium">{row.moduleGroup}</td>
+                              <td className="p-2.5 font-mono font-semibold">{row.assertionCount}</td>
+                              <td className="p-2.5"><MathText text={row.verifiedPhysicalScope} /></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
+                        Table 2.2 · Eöt-Wash ±2 μm Error Propagation, Multi-Regulator Stability &amp; Clock Energy Sweep
+                      </div>
+                      <table className="w-full text-xs text-left tabular-nums">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr>
+                            <th className="p-2.5">Regime / UV Regulator</th>
+                            <th className="p-2.5">Scale / Ratio</th>
+                            <th className="p-2.5">Computed Output</th>
+                            <th className="p-2.5">Physical Significance</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {REGULATOR_SENSITIVITY_TABLE.map((row) => (
+                            <tr key={row.regimeOrRegulator}>
+                              <td className="p-2.5 font-medium"><MathText text={row.regimeOrRegulator} /></td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={row.energyOrRadius} /></td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={row.computedOutput} /></td>
+                              <td className="p-2.5"><MathText text={row.physicalInterpretation} /></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
                 {ch.number === 3 && (
                   <div className="overflow-x-auto rounded-xl border border-[#EAE2D2] dark:border-[#1E293B]">
                     <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
-                      Table 3.1 · Taxonomy of Seven Distinct Temporal Notions in IGRT-H12
+                      Table 3.1 · Taxonomy of Seven Distinct Temporal Notions &amp; Standard Literature Correspondence
                     </div>
                     <table className="w-full text-xs text-left">
                       <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
@@ -804,7 +923,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                           <th className="p-2.5">Notion</th>
                           <th className="p-2.5">Symbol</th>
                           <th className="p-2.5">Definition</th>
-                          <th className="p-2.5">Behavior Under Temporal Folding</th>
+                          <th className="p-2.5">Folding &amp; Literature Correspondence</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
@@ -813,7 +932,10 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                             <td className="p-2.5 font-medium">{t.notion}</td>
                             <td className="p-2.5 font-mono">{t.symbol}</td>
                             <td className="p-2.5"><MathText text={t.mathematicalDefinition} /></td>
-                            <td className="p-2.5"><MathText text={t.foldsInH12} /></td>
+                            <td className="p-2.5 space-y-1">
+                              <div><MathText text={t.foldsInH12} /></div>
+                              <div className="text-[11px] text-[#475569] dark:text-[#94A3B8]"><em>Literature:</em> <MathText text={t.literatureComparison} /></div>
+                            </td>
                           </tr>
                         ))}
                       </tbody>
@@ -826,11 +948,39 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                     <div className="rounded-xl border border-[#EA580C]/40 bg-[#FFF7ED] dark:bg-[#1E140B] p-4 sm:p-5 space-y-3">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <span className="font-mono text-xs font-semibold text-[#9A3412] dark:text-[#FDBA74]">
-                          Interactive Beltrami Bulk Shortcut Explorer (Model 2B · α_t = α_x = 0.5)
+                          Interactive Beltrami Bulk Shortcut Explorer ({beltramiBranch === 'em' ? '5D Einstein–Maxwell · α_t = 1.0, α_x = 0.0' : 'Model 2B · α_t = α_x = 0.5'})
                         </span>
                         <span className="text-[10.5px] font-mono text-[#9A3412] dark:text-[#FDBA74]">
                           CATEGORY C — CONJECTURAL
                         </span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
+                        <button
+                          onClick={() => {
+                            setBeltramiBranch('phenom');
+                            setKDxSlider(10);
+                          }}
+                          className={`px-2.5 py-1 rounded border transition-colors ${
+                            beltramiBranch === 'phenom'
+                              ? 'bg-[#9A3412] text-white border-transparent'
+                              : 'bg-white dark:bg-[#0B1530] text-[#475569] dark:text-[#CBD5E1] border-[#D6CABE] dark:border-[#334155]'
+                          }`}
+                        >
+                          Phenomenological (0.5, 0.5)
+                        </button>
+                        <button
+                          onClick={() => {
+                            setBeltramiBranch('em');
+                            setKDxSlider(2.0);
+                          }}
+                          className={`px-2.5 py-1 rounded border transition-colors ${
+                            beltramiBranch === 'em'
+                              ? 'bg-[#9A3412] text-white border-transparent'
+                              : 'bg-white dark:bg-[#0B1530] text-[#475569] dark:text-[#CBD5E1] border-[#D6CABE] dark:border-[#334155]'
+                          }`}
+                        >
+                          Ghost-Free 5D Einstein–Maxwell (1.0, 0.0)
+                        </button>
                       </div>
                       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                         <label className="text-xs font-mono shrink-0">
@@ -838,9 +988,9 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         </label>
                         <input
                           type="range"
-                          min={1}
-                          max={50}
-                          step={1}
+                          min={beltramiBranch === 'em' ? 0.2 : 1}
+                          max={beltramiBranch === 'em' ? 4.5 : 50}
+                          step={beltramiBranch === 'em' ? 0.1 : 1}
                           value={kDxSlider}
                           onChange={(e) => setKDxSlider(Number(e.target.value))}
                           className="w-full accent-[#EA580C]"
@@ -848,15 +998,20 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
                         <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#EAE2D2] dark:border-[#334155]">
-                          Peak Bulk Excursion: <strong>{liveBeltrami.yPeak.toFixed(4)} / k</strong>
+                          Peak Bulk Excursion: <strong>{liveBeltrami.withinHorizon ? `${liveBeltrami.yPeak.toFixed(4)} / k` : '∞ (y → ∞ horizon)'}</strong>
                         </div>
                         <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#EAE2D2] dark:border-[#334155]">
-                          Folding Ratio η_fold: <strong>{liveBeltrami.etaFold.toFixed(5)}</strong>
+                          Folding Ratio η_fold: <strong>{liveBeltrami.withinHorizon ? liveBeltrami.etaFold.toFixed(5) : '2/π = 0.63662 ceiling'}</strong>
                         </div>
                         <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#EAE2D2] dark:border-[#334155]">
-                          Apparent c_eff / c: <strong>{liveBeltrami.cEffRatio.toFixed(4)}×</strong>
+                          Apparent c_eff / c: <strong>{liveBeltrami.withinHorizon ? `${liveBeltrami.cEffRatio.toFixed(4)}×` : 'π/2 = 1.5708× ceiling'}</strong>
                         </div>
                       </div>
+                      {!liveBeltrami.withinHorizon && (
+                        <div className="text-[11.5px] font-mono text-[#9F1239] dark:text-[#FDA4AF]">
+                          Finite-Span Horizon Reached (k Δx ≥ π): without spatial warping α_x &gt; 0, symmetric turning arches do not close past k Δx = π; η_fold is bounded below by 2/π = 0.63662.
+                        </div>
+                      )}
                     </div>
 
                     <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
@@ -880,6 +1035,32 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                                 <div className="text-[10.5px] font-mono text-[#9A3412] dark:text-[#FDBA74]">{p.category}</div>
                                 <div><MathText text={p.test} /></div>
                               </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
+                        Table 4.2 · Model 2B Quadrature Convergence, Euler–Lagrange &amp; Node-by-Node ds_5² ≡ 0 Audit
+                      </div>
+                      <table className="w-full text-xs text-left tabular-nums">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr>
+                            <th className="p-2.5">Span &amp; Resolution</th>
+                            <th className="p-2.5">Peak Bulk Depth</th>
+                            <th className="p-2.5">Folding &amp; Speed</th>
+                            <th className="p-2.5">Convergence &amp; Null Residual</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE.map((row) => (
+                            <tr key={row.benchmarkSpan}>
+                              <td className="p-2.5 font-medium"><MathText text={row.benchmarkSpan} /></td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={row.turningPeak} /></td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={row.etaFoldAndSpeed} /></td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={row.elAndNullResidual} /></td>
                             </tr>
                           ))}
                         </tbody>
@@ -1192,6 +1373,30 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                           {P7_TO_P10_DECISION_MATRIX.map((d) => (
                             <tr key={d.outcome}><td className="p-2.5 font-medium">{d.outcome}</td><td className="p-2.5">{d.posteriorStatus}</td><td className="p-2.5"><MathText text={d.mandatoryAction} /></td></tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono text-xs font-semibold">Table 12.7 · Quantitative Noise Budgets &amp; Systematic Mitigation (P7–P10)</div>
+                      <table className="w-full text-xs text-left tabular-nums">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr>
+                            <th className="p-2.5">Protocol</th>
+                            <th className="p-2.5">Dominant Noise Sources</th>
+                            <th className="p-2.5">Quantitative Floor</th>
+                            <th className="p-2.5">Mitigation Architecture</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {P7_TO_P10_NOISE_BUDGET_TABLE.map((nb) => (
+                            <tr key={nb.protocol}>
+                              <td className="p-2.5 font-medium">{nb.protocol}</td>
+                              <td className="p-2.5">{nb.primaryNoiseSources}</td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={nb.quantitativeBudget} /></td>
+                              <td className="p-2.5"><MathText text={nb.mitigationArchitecture} /></td>
+                            </tr>
                           ))}
                         </tbody>
                       </table>

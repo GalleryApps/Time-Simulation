@@ -3,15 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * IGRT-H12 Publication-Grade A4 Direct PDF Exporter
- * - Real embedded static PlayfairDisplay-Regular.ttf (weight 400, strictly non-bold, 30pt = 40px)
+ * - Real embedded static PlayfairDisplay-Regular.ttf (weight 400, strictly non-bold, 26.25pt = 35px)
  *   for ALL Level-1 Chapter Titles, Cover Title, TOC Heading & List Headings, with automatic
  *   Greek/math glyph routing to DejaVuSerif / DejaVuSans so zero .notdef glyphs appear.
  * - Body paragraphs in DejaVuSerif 12pt (16px) with 6.35mm (1.5x) line spacing, fully word-justified.
+ * - Dedicated Title/Cover Page (Page 1), ample 30mm top margin, strict 4-color muted earth scheme.
  * - Preserves U+2113 (ℓ_Pl) cleanly (removed .replace(/ℓ/g, 'l') typo).
  * - Exports both:
- *   (1) generateIgrtH12Pdf(): Main Monograph (Cover, Abstract + Non-Specialist Summary,
+ *   (1) generateIgrtH12Pdf(): Main Monograph (Cover Page, Abstract + Non-Specialist Summary,
  *       Computed TOC, 5 Front-Matter Lists, Foundational 5D Equations & Scope, Chapters 1–13,
- *       Appendices L, M & N, References)
+ *       Appendices L & M, References; excludes Adversarial Stress-Test Scorecard)
  *   (2) generateIgrtH12SupplementaryPdf(): Supplementary Volume II (Technical Appendices A–K)
  */
 
@@ -53,6 +54,12 @@ import {
   H12_PRIOR_AUDIT_RESPONSES,
   H12_APPENDICES,
   H12_REFERENCES,
+  EPISTEMIC_BC_GREY_AREA_RUBRIC,
+  H11_665_ASSERTIONS_CATALOG,
+  REGULATOR_SENSITIVITY_TABLE,
+  MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE,
+  P7_TO_P10_NOISE_BUDGET_TABLE,
+  H12_PROTOCOL_ANALYSIS_SECTIONS,
   type H12Equation
 } from '../types/igrtH12Apparatus';
 import {
@@ -61,11 +68,6 @@ import {
   H12_FRONTMATTER_TABLES_LIST,
   H12_FRONTMATTER_EQUATIONS_LIST
 } from '../types/igrtH12Data';
-import {
-  H12_TEN_DOMAIN_AUDITS,
-  H12_SIXTEEN_REDTEAM_ATTACKS,
-  H12_STRESS_TEST_SUMMARY
-} from '../types/igrtH12StressTest';
 import { H12_ARCHIVAL_PLATES, H12_FIGURES } from '../components/IgrtH12Figures';
 import {
   parseMathSegments,
@@ -206,10 +208,8 @@ function verifyRegisteredFonts(doc: jsPDF): boolean {
  */
 function bmpSafeH12(raw: string): string {
   const step1 = pdfBmpSafeUnicode(raw)
-    .replace(/𝒪/g, 'O')
-    .replace(/ℱ/g, 'F')
-    .replace(/ℋ/g, 'H')
-    .replace(/⊙/g, 'o');
+    .replace(/𝒜/g, 'A')
+    .replace(/𝒪/g, 'O');
   let out = '';
   for (const ch of step1) {
     const cp = ch.codePointAt(0) ?? 32;
@@ -237,26 +237,42 @@ function fallbackAsciiSafe(raw: string): string {
 }
 
 const SERIF_USE_SANS = new Set([
+  '\u210B', // ℋ
   '\u210F', // ℏ
-  '\u2192', // →
-  '\u21D2', // ⇒
-  '\u226A', // ≪
-  '\u226B', // ≫
-  '\u27E8', // ⟨
-  '\u27E9', // ⟩
-  '\u2299', // ⊙
-  '\u22A5', // ⊥
+  '\u2112', // ℒ
+  '\u2113', // ℓ
   '\u2124', // ℤ
+  '\u2131', // ℱ
+  '\u2192', // →
+  '\u2194', // ↔
+  '\u21A6', // ↦
+  '\u21D2', // ⇒
+  '\u2202', // ∂
+  '\u2207', // ∇
   '\u2208', // ∈
-  '\u221A', // √
-  '\u222B', // ∫
   '\u2211', // ∑
+  '\u2212', // −
+  '\u221A', // √
   '\u221E', // ∞
+  '\u222A', // ∪
+  '\u222B', // ∫
+  '\u222E', // ∮
+  '\u2245', // ≅
   '\u2248', // ≈
+  '\u2260', // ≠
   '\u2261', // ≡
   '\u2264', // ≤
   '\u2265', // ≥
-  '\u2260', // ≠
+  '\u226A', // ≪
+  '\u226B', // ≫
+  '\u2282', // ⊂
+  '\u2297', // ⊗
+  '\u2299', // ⊙
+  '\u22A5', // ⊥
+  '\u25A1', // □
+  '\u27E8', // ⟨
+  '\u27E9', // ⟩
+  '\u2016', // ‖
   '\u2032'  // ′
 ]);
 
@@ -377,6 +393,14 @@ async function fetchImageDataUrl(urlPath: string): Promise<{ dataUrl: string; as
 // 3. Shared PDF Typography Engine
 // ---------------------------------------------------------------------------
 
+type EarthRgb = [number, number, number];
+// Strictly 4 Muted Earth Colors (+ soft #F6F2EA parchment ground tint of Warm Stone)
+const EARTH_UMBER: EarthRgb = [58, 46, 38];         // #3A2E26 — deep umber ink, primary titles & body copy
+const EARTH_TERRACOTTA: EarthRgb = [143, 91, 74];   // #8F5B4A — muted clay terracotta (subheadings, Cat C/D, page numbers)
+const EARTH_SAGE: EarthRgb = [100, 112, 91];        // #64705B — muted sage moss (Cat A/B, ORCID links, takeaways)
+const EARTH_STONE: EarthRgb = [142, 127, 107];      // #8E7F6B — muted warm stone (headers, dividers, captions, summaries)
+const EARTH_PARCHMENT: EarthRgb = [246, 242, 234];  // #F6F2EA — soft warm-stone tint for callout boxes
+
 type PdfFontFamily = 'playfair' | 'serif' | 'sans' | 'mono';
 type PdfFontStyle = 'normal' | 'bold' | 'italic';
 
@@ -384,8 +408,8 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
   const pageW = 210;
   const marginX = 20;
   const contentW = pageW - 2 * marginX;
-  const topY = 22;
-  const bottomLimit = 276;
+  const topY = 30;
+  const bottomLimit = 272;
   let y = topY;
 
   interface TocEntry {
@@ -418,14 +442,24 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     }
   };
 
-  const resolveCharBucket = (ch: string, baseFamily: PdfFontFamily): PdfFontFamily => {
-    if (!hasUnicodeFonts) return baseFamily;
-    if (baseFamily === 'sans' || baseFamily === 'mono') return baseFamily;
+  const resolveCharBucket = (
+    ch: string,
+    baseFamily: PdfFontFamily,
+    resolvedStyle: PdfFontStyle = 'normal'
+  ): PdfFontFamily => {
+    if (!hasUnicodeFonts || baseFamily === 'sans') return baseFamily;
     const cp = ch.codePointAt(0) ?? 32;
     if (SERIF_USE_SANS.has(ch) || (cp >= 0x2070 && cp <= 0x209f)) return 'sans';
+    if (resolvedStyle === 'italic' && cp >= 0x2100 && cp <= 0x27ff) return 'sans';
+    if (baseFamily === 'mono') {
+      if (cp >= 0x2100 || (cp >= 0x0370 && cp <= 0x03ff)) return 'sans';
+      return 'mono';
+    }
     if (baseFamily === 'playfair') {
-      // Playfair Display lacks Greek & mathematical operators; route cleanly to DejaVuSerif
-      if ((cp >= 0x0370 && cp <= 0x03ff) || cp >= 0x2100) return 'serif';
+      // Playfair Display lacks Greek, extended dot-Latin (Ẋ/ẋ), and mathematical symbols; route cleanly
+      if ((cp >= 0x0370 && cp <= 0x03ff) || (cp >= 0x1e00 && cp <= 0x1eff) || cp >= 0x2100) {
+        return 'serif';
+      }
       return 'playfair';
     }
     return 'serif';
@@ -439,7 +473,7 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     baseStyle?: PdfFontStyle
   ): number => {
     const resolvedStyle: PdfFontStyle = baseStyle ?? (boldBase ? 'bold' : 'normal');
-    if (!hasUnicodeFonts || baseFamily === 'sans' || baseFamily === 'mono') {
+    if (!hasUnicodeFonts || baseFamily === 'sans') {
       setFontSafe(baseFamily, resolvedStyle, fontSize);
       return doc.getTextWidth(chunk);
     }
@@ -453,7 +487,7 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
       buf = '';
     };
     for (const ch of chunk) {
-      const fam = resolveCharBucket(ch, baseFamily);
+      const fam = resolveCharBucket(ch, baseFamily, resolvedStyle);
       if (buf && fam !== curFam) flushMeasure();
       curFam = fam;
       buf += ch;
@@ -472,7 +506,7 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     baseStyle?: PdfFontStyle
   ): void => {
     const resolvedStyle: PdfFontStyle = baseStyle ?? (boldBase ? 'bold' : 'normal');
-    if (!hasUnicodeFonts || baseFamily === 'sans' || baseFamily === 'mono') {
+    if (!hasUnicodeFonts || baseFamily === 'sans') {
       setFontSafe(baseFamily, resolvedStyle, fontSize);
       doc.text(chunk, startX, yPos);
       return;
@@ -488,7 +522,7 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
       buf = '';
     };
     for (const ch of chunk) {
-      const fam = resolveCharBucket(ch, baseFamily);
+      const fam = resolveCharBucket(ch, baseFamily, resolvedStyle);
       if (buf && fam !== curFam) flush();
       curFam = fam;
       buf += ch;
@@ -557,14 +591,15 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     maxW: number,
     boldBase: boolean,
     fontSize: number,
-    baseFamily: PdfFontFamily = 'serif'
+    baseFamily: PdfFontFamily = 'serif',
+    baseStyle?: PdfFontStyle
   ): string => {
-    if (measureTokenWidth(cleanText, boldBase, fontSize, baseFamily) <= maxW) return cleanText;
+    if (measureTokenWidth(cleanText, boldBase, fontSize, baseFamily, baseStyle) <= maxW) return cleanText;
     const ellipsis = '…';
-    const ellipsisW = measureTokenWidth(ellipsis, boldBase, fontSize, baseFamily);
+    const ellipsisW = measureTokenWidth(ellipsis, boldBase, fontSize, baseFamily, baseStyle);
     let out = '';
     for (const ch of cleanText) {
-      if (measureTokenWidth(out + ch, boldBase, fontSize, baseFamily) + ellipsisW > maxW) break;
+      if (measureTokenWidth(out + ch, boldBase, fontSize, baseFamily, baseStyle) + ellipsisW > maxW) break;
       out += ch;
     }
     return out.trimEnd() + ellipsis;
@@ -576,7 +611,7 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     maxW: number,
     fontSize = 12,
     lineGap = 6.35,
-    color: [number, number, number] = [24, 34, 53],
+    color: EarthRgb = EARTH_UMBER,
     boldBase = false,
     justify = false,
     baseFamily: PdfFontFamily = 'serif',
@@ -626,14 +661,14 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
       doc.addPage();
       y = topY;
     }
-    // Level 1 uses Playfair Display Regular (30pt = 40px, strictly NEVER bold) with generous post-heading spacing
-    const size = level === 1 ? 30 : level === 2 ? 14 : 11.5;
-    const lineGap = level === 1 ? 11.6 : level === 2 ? 6.0 : 5.0;
+    // Level 1 uses Playfair Display Regular (26.25pt = 35px, strictly NEVER bold) with generous spacing
+    const size = level === 1 ? 26.25 : level === 2 ? 13.5 : 11.2;
+    const lineGap = level === 1 ? 10.6 : level === 2 ? 5.8 : 4.9;
     const boldHeading = level !== 1;
     const headingFamily: PdfFontFamily = level === 1 ? 'playfair' : 'serif';
-    const gapBefore = level === 1 ? (y <= topY + 2 ? 4 : 8) : level === 2 ? 5 : 3.5;
-    const gapAfter = level === 1 ? 14 : level === 2 ? 3.5 : 2.5;
-    ensureSpace(level === 1 ? 44 : 18);
+    const gapBefore = level === 1 ? (y <= topY + 2 ? 3 : 8) : level === 2 ? 5 : 3.5;
+    const gapAfter = level === 1 ? 12 : level === 2 ? 3.5 : 2.5;
+    ensureSpace(level === 1 ? 42 : 18);
     y += gapBefore;
     if (recordToc) {
       tocEntries.push({ label: safeStr(text), page: doc.getNumberOfPages(), indent: tocIndent });
@@ -644,14 +679,14 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
       contentW,
       size,
       lineGap,
-      level === 1 ? [12, 24, 54] : [154, 52, 18],
+      level === 1 ? EARTH_UMBER : EARTH_TERRACOTTA,
       boldHeading,
       false,
       headingFamily,
       level === 1 ? 'normal' : undefined
     );
     if (level === 1) {
-      doc.setDrawColor(214, 202, 190);
+      doc.setDrawColor(...EARTH_STONE);
       doc.setLineWidth(0.35);
       doc.line(marginX, y - 2, marginX + contentW, y - 2);
     }
@@ -661,10 +696,8 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
   const drawCategoryTag = (cat: string) => {
     ensureSpace(6);
     setFontSafe('mono', 'normal', 8);
-    if (cat.includes('ESTABLISHED')) doc.setTextColor(30, 64, 175);
-    else if (cat.includes('DERIVED')) doc.setTextColor(21, 128, 61);
-    else if (cat.includes('CONJECTURAL')) doc.setTextColor(146, 64, 14);
-    else doc.setTextColor(159, 18, 57);
+    if (cat.includes('ESTABLISHED') || cat.includes('DERIVED')) doc.setTextColor(...EARTH_SAGE);
+    else doc.setTextColor(...EARTH_TERRACOTTA);
     doc.text(clipMixedLine(`[${safeStr(cat)}]`, contentW, false, 8, 'mono'), marginX, y);
     y += 4.5;
   };
@@ -677,27 +710,25 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     const boxH = eqLines.length * 4.8 + capLines.length * 4.1 + 10;
 
     ensureSpace(boxH + 5);
-    doc.setFillColor(253, 251, 247);
-    doc.setDrawColor(214, 202, 190);
+    doc.setFillColor(...EARTH_PARCHMENT);
+    doc.setDrawColor(...EARTH_STONE);
     doc.setLineWidth(0.3);
     doc.roundedRect(marginX, y, contentW, boxH, 2, 2, 'FD');
 
     let cy = y + 6;
-    setFontSafe('sans', 'normal', 9.5);
-    doc.setTextColor(15, 23, 42);
+    doc.setTextColor(...EARTH_UMBER);
     for (const l of eqLines) {
-      const lw = measureTokenWidth(l, false, 9.5, 'sans');
+      const lw = measureTokenWidth(l, false, 9.5, 'sans', 'normal');
       const cx = marginX + Math.max(4, (contentW - lw) / 2);
-      doc.text(l, cx, cy);
+      drawMixedRun(l, cx, cy, false, 9.5, 'sans', 'normal');
       cy += 4.8;
     }
     cy += 1.2;
-    setFontSafe('serif', 'italic', 8.6);
-    doc.setTextColor(71, 85, 105);
+    doc.setTextColor(...EARTH_STONE);
     for (const cl of capLines) {
       const clw = measureTokenWidth(cl, false, 8.6, 'serif', 'italic');
       const cx = marginX + Math.max(4, (contentW - clw) / 2);
-      doc.text(cl, cx, cy);
+      drawMixedRun(cl, cx, cy, false, 8.6, 'serif', 'italic');
       cy += 4.1;
     }
     y += boxH + 5;
@@ -767,66 +798,116 @@ export async function generateIgrtH12Pdf(): Promise<void> {
     Promise.all(H12_ARCHIVAL_PLATES.map(async (p) => ({ plate: p, raster: await fetchImageDataUrl(p.imagePath) })))
   ]);
 
-  // Cover Page (Playfair Display Regular title)
+  const cleanPdfText = (s: string): string =>
+    s
+      .replace(
+        'Appendices L–N house portal mechanisms, laboratory devices A–F, and the adversarial stress-test scorecard',
+        'Appendices L–M house portal mechanisms and laboratory devices A–F'
+      )
+      .replace('followed by Appendices L, M, and N.', 'followed by Appendices L and M.')
+      .replace('Scorecard to Appendix N, and ', 'and ');
+
+  // -------------------------------------------------------------------------
+  // Dedicated Cover Page (Page 1 Only — Muted 4-Color Earth Scheme)
+  // -------------------------------------------------------------------------
+  ctx.setY(38);
+  doc.setDrawColor(...EARTH_STONE);
+  doc.setLineWidth(0.35);
+  doc.line(marginX, ctx.getY(), marginX + contentW, ctx.getY());
+  ctx.addY(6);
+
   ctx.drawMathInlineText(
-    `${H12_META.monographId} · ${H12_META.edition} · ${H12_META.date}`,
+    `${H12_META.monographId} · ${H12_META.edition.replace('Appendices L–N', 'Appendices L–M')} · ${H12_META.date}`,
     marginX,
     contentW,
     8.5,
-    4.0,
-    [154, 52, 18],
+    4.2,
+    EARTH_TERRACOTTA,
     false,
     false,
     'mono'
   );
-  ctx.addY(3);
+  ctx.addY(12);
 
-  ctx.drawMathInlineText(H12_META.title, marginX, contentW, 25, 10.2, [8, 16, 38], false, false, 'playfair', 'normal');
-  ctx.addY(2);
-  ctx.drawMathInlineText(H12_META.subtitle, marginX, contentW, 11.2, 5.1, [71, 85, 105], false, false, 'serif', 'italic');
-  ctx.addY(3);
-
-  ctx.drawMathInlineText(`Authors: ${H12_META.authors}`, marginX, contentW, 11.2, 5.1, [12, 24, 54], false, false);
-  ctx.addY(1.2);
-  for (const author of H12_META.authorRoster) {
-    ctx.drawMathInlineText(`${author.name} — ${author.affiliation}`, marginX + 2, contentW - 2, 9.3, 4.2, [24, 34, 53], false, false);
-    const orcidText = `ORCID: ${author.orcidUrl}`;
-    const orcidY = ctx.getY();
-    ctx.drawMathInlineText(orcidText, marginX + 4, contentW - 4, 8.1, 4.1, [21, 128, 61], false, false, 'mono');
-    const linkW = Math.min(contentW - 4, ctx.measureTokenWidth(orcidText, false, 8.1, 'mono'));
-    if (typeof (doc as unknown as { link?: unknown }).link === 'function') {
-      doc.link(marginX + 4, orcidY - 3.2, linkW, 4.2, { url: author.orcidUrl });
-    }
-  }
-  ctx.addY(1.5);
-
-  ctx.drawMathInlineText(
-    `Predecessor Preserved: ${H12_META.predecessor} | Verification Solver: ${H12_META.verifyCommand}`,
-    marginX,
-    contentW,
-    8.1,
-    3.9,
-    [100, 116, 139],
-    false,
-    false,
-    'mono'
-  );
-  ctx.addY(3);
-
-  doc.setDrawColor(234, 88, 12);
-  doc.setLineWidth(0.5);
-  doc.line(marginX, ctx.getY(), marginX + contentW, ctx.getY());
+  // Main Cover Title: Playfair Display Regular 26.25pt (= 35px), never bold
+  ctx.drawMathInlineText(H12_META.title, marginX, contentW, 26.25, 11.2, EARTH_UMBER, false, false, 'playfair', 'normal');
   ctx.addY(4);
 
-  // Abstract + Summary for Non-Specialists (No Master Equations inside Abstract)
+  doc.setDrawColor(...EARTH_TERRACOTTA);
+  doc.setLineWidth(0.8);
+  doc.line(marginX, ctx.getY(), marginX + 40, ctx.getY());
+  ctx.addY(8);
+
+  ctx.drawMathInlineText(H12_META.subtitle, marginX, contentW, 11.8, 5.8, EARTH_STONE, false, false, 'serif', 'italic');
+  ctx.addY(14);
+
+  ctx.drawMathInlineText('AUTHORS', marginX, contentW, 8.2, 4.0, EARTH_TERRACOTTA, false, false, 'mono');
+  ctx.addY(2);
+  for (const author of H12_META.authorRoster) {
+    ctx.drawMathInlineText(author.name, marginX, contentW, 12.2, 5.4, EARTH_UMBER, true, false);
+    ctx.drawMathInlineText(author.affiliation, marginX + 2, contentW - 2, 10.0, 4.6, EARTH_STONE, false, false);
+    const orcidText = `ORCID: ${author.orcidUrl}`;
+    const orcidY = ctx.getY();
+    ctx.drawMathInlineText(orcidText, marginX + 2, contentW - 2, 8.2, 4.2, EARTH_SAGE, false, false, 'mono');
+    const linkW = Math.min(contentW - 2, ctx.measureTokenWidth(orcidText, false, 8.2, 'mono'));
+    if (typeof (doc as unknown as { link?: unknown }).link === 'function') {
+      doc.link(marginX + 2, orcidY - 3.2, linkW, 4.2, { url: author.orcidUrl });
+    }
+    ctx.addY(3.2);
+  }
+
+  // Anchor archival metadata colophon at foot of Cover Page
+  if (ctx.getY() < 224) ctx.setY(224);
+  doc.setFillColor(...EARTH_PARCHMENT);
+  doc.setDrawColor(...EARTH_STONE);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(marginX, ctx.getY(), contentW, 34, 2, 2, 'FD');
+  ctx.addY(7);
+  ctx.drawMathInlineText(
+    `Predecessor Preserved: ${H12_META.predecessor}`,
+    marginX + 5,
+    contentW - 10,
+    8.5,
+    4.4,
+    EARTH_UMBER,
+    false,
+    false,
+    'mono'
+  );
+  ctx.drawMathInlineText(
+    `Verification Solver: ${H12_META.verifyCommand}`,
+    marginX + 5,
+    contentW - 10,
+    8.5,
+    4.4,
+    EARTH_SAGE,
+    false,
+    false,
+    'mono'
+  );
+  ctx.drawMathInlineText(
+    'Epistemic Discipline: Category A (Established) · B (Derived) · C (Conjectural) · D (Speculative)',
+    marginX + 5,
+    contentW - 10,
+    8.2,
+    4.4,
+    EARTH_STONE,
+    false,
+    false,
+    'mono'
+  );
+
+  // Page 2: Abstract + Summary for Non-Specialists (Strict Dedicated Page Start)
+  doc.addPage();
+  ctx.setY(topY);
   ctx.drawHeading('Abstract', 1, true, 0, false);
   for (const p of H12_ABSTRACT_PARAGRAPHS) {
-    ctx.drawMathInlineText(p, marginX, contentW, 12, 6.35, [24, 34, 53], false, true);
+    ctx.drawMathInlineText(p, marginX, contentW, 12, 6.35, EARTH_UMBER, false, true);
     ctx.addY(2.0);
   }
-  ctx.drawMathInlineText(H12_NON_SPECIALIST_SUMMARY, marginX + 2, contentW - 4, 11.5, 6.05, [30, 64, 175], false, true);
+  ctx.drawMathInlineText(H12_NON_SPECIALIST_SUMMARY, marginX + 2, contentW - 4, 11.5, 6.05, EARTH_SAGE, false, true);
   ctx.addY(2.0);
-  ctx.drawMathInlineText(`Keywords: ${H12_META.keywords.join(' · ')}`, marginX, contentW, 9.6, 4.7, [71, 85, 105], false, true);
+  ctx.drawMathInlineText(`Keywords: ${H12_META.keywords.join(' · ')}`, marginX, contentW, 9.6, 4.7, EARTH_STONE, false, true);
 
   // Reserve 2 pages right after Abstract for Computed Table of Contents
   doc.addPage();
@@ -846,7 +927,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
     ctx.drawMathInlineText(`${fg.figureNumber} (Ch.${fg.anchorChapter}): ${fg.title} [${fg.category}]`, marginX + 2, contentW - 2, 10, 4.9);
   }
   ctx.drawHeading('List of Tables', 2, false, 1);
-  for (const tb of H12_FRONTMATTER_TABLES_LIST) {
+  for (const tb of H12_FRONTMATTER_TABLES_LIST.filter((t) => t.location !== 'Appendix N')) {
     ctx.drawMathInlineText(`${tb.id} (${tb.location}): ${tb.title}`, marginX + 2, contentW - 2, 10, 4.9);
   }
   ctx.drawHeading('List of Principal Equations', 2, false, 1);
@@ -869,14 +950,14 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   }
   ctx.drawHeading(H12_SCOPE_AND_NON_CLAIMS.title, 2, false, 1);
   for (const pt of H12_SCOPE_AND_NON_CLAIMS.points) {
-    ctx.drawMathInlineText(`• ${pt}`, marginX + 2, contentW - 2, 11, 5.8, [30, 41, 59], false, true);
+    ctx.drawMathInlineText(`• ${pt}`, marginX + 2, contentW - 2, 11, 5.8, EARTH_UMBER, false, true);
     ctx.addY(1.6);
   }
 
   // Chapters 1 to 13
   for (const ch of H12_CHAPTERS) {
     ctx.drawHeading(`Chapter ${ch.number}. ${ch.title}`, 1, true, 0, true);
-    ctx.drawMathInlineText(ch.leadSummary, marginX, contentW, 11.5, 6.05, [71, 85, 105], false, true, 'serif', 'italic');
+    ctx.drawMathInlineText(ch.leadSummary, marginX, contentW, 11.5, 6.05, EARTH_STONE, false, true, 'serif', 'italic');
     ctx.addY(4);
 
     if (ch.number === 2) {
@@ -891,26 +972,36 @@ export async function generateIgrtH12Pdf(): Promise<void> {
       ctx.drawHeading(`${sub.number} ${sub.title}`, 2, true, 1);
       ctx.drawCategoryTag(sub.category);
       for (const p of sub.paragraphs) {
-        ctx.drawMathInlineText(p, marginX, contentW, 12, 6.35, [24, 34, 53], false, true);
+        ctx.drawMathInlineText(cleanPdfText(p), marginX, contentW, 12, 6.35, EARTH_UMBER, false, true);
         ctx.addY(2.6);
       }
       if (sub.equation) ctx.drawEquationBox(sub.equation);
+      if (sub.bulletPoints && sub.bulletPoints.length > 0) {
+        for (const bp of sub.bulletPoints) {
+          ctx.drawMathInlineText(`• ${bp.label}: ${bp.text}`, marginX + 2, contentW - 2, 11.2, 5.8, EARTH_UMBER, false, true);
+          ctx.addY(1.2);
+        }
+        ctx.addY(1.2);
+      }
       if (sub.theoremBox) {
         ctx.ensureSpace(26);
         ctx.drawCategoryTag(sub.theoremBox.category);
-        ctx.drawMathInlineText(`${sub.theoremBox.number}: ${sub.theoremBox.title}`, marginX + 2, contentW - 4, 11.5, 5.8, [21, 128, 61], true, false);
-        ctx.drawMathInlineText(sub.theoremBox.statement, marginX + 2, contentW - 4, 11.5, 6.05, [15, 23, 42], false, true);
+        ctx.drawMathInlineText(`${sub.theoremBox.number}: ${sub.theoremBox.title}`, marginX + 2, contentW - 4, 11.5, 5.8, EARTH_SAGE, true, false);
+        for (const hyp of sub.theoremBox.hypotheses) {
+          ctx.drawMathInlineText(`• ${hyp}`, marginX + 4, contentW - 6, 10.8, 5.5, EARTH_SAGE, false, true);
+        }
+        ctx.drawMathInlineText(sub.theoremBox.statement, marginX + 2, contentW - 4, 11.5, 6.05, EARTH_UMBER, false, true);
         ctx.addY(3);
       }
       if (sub.workedExample) {
         ctx.ensureSpace(28);
-        ctx.drawMathInlineText(sub.workedExample.title, marginX + 2, contentW - 4, 11.5, 5.8, [154, 52, 18], true, false);
-        ctx.drawMathInlineText(sub.workedExample.setup, marginX + 2, contentW - 4, 11, 5.8, [71, 85, 105], false, true);
+        ctx.drawMathInlineText(sub.workedExample.title, marginX + 2, contentW - 4, 11.5, 5.8, EARTH_TERRACOTTA, true, false);
+        ctx.drawMathInlineText(sub.workedExample.setup, marginX + 2, contentW - 4, 11, 5.8, EARTH_STONE, false, true);
         sub.workedExample.steps.forEach((st, idx) => {
-          ctx.drawMathInlineText(`${idx + 1}. ${st}`, marginX + 4, contentW - 6, 11, 5.8, [24, 34, 53], false, true);
+          ctx.drawMathInlineText(`${idx + 1}. ${st}`, marginX + 4, contentW - 6, 11, 5.8, EARTH_UMBER, false, true);
         });
         ctx.drawEquationBox(sub.workedExample.resultEquation);
-        ctx.drawMathInlineText(`Takeaway: ${sub.workedExample.takeaway}`, marginX + 2, contentW - 4, 11, 5.8, [21, 128, 61], true, true);
+        ctx.drawMathInlineText(`Takeaway: ${sub.workedExample.takeaway}`, marginX + 2, contentW - 4, 11, 5.8, EARTH_SAGE, true, true);
         ctx.addY(3);
       }
     }
@@ -926,19 +1017,37 @@ export async function generateIgrtH12Pdf(): Promise<void> {
         ctx.drawMathInlineText(`${c.dimension}: 4D=${c.h11FourD} | 5D=${c.h12FiveD} (${c.epistemicDelta})`, marginX + 2, contentW - 2, 10, 5.0);
         ctx.addY(1.0);
       }
+      ctx.drawHeading('Table 1.3 · Epistemic Boundary Rubric Resolving Category B vs. Category C Grey Areas', 3, false, 1);
+      for (const g of EPISTEMIC_BC_GREY_AREA_RUBRIC) {
+        ctx.drawMathInlineText(`${g.boundaryCase} [${g.assignedCategory}]: Derived: ${g.derivedAspect} Conjectural: ${g.conjecturalAspect} — ${g.ruleApplied}`, marginX + 2, contentW - 2, 10, 5.0);
+        ctx.addY(1.1);
+      }
       ctx.drawHeading('Glossary of Five-Dimensional Terms', 3, false, 1);
       for (const g of GLOSSARY_5D_TERMS) {
         ctx.drawMathInlineText(`${g.term}: ${g.definition}`, marginX + 2, contentW - 2, 10, 5.0);
         ctx.addY(1.0);
       }
-      ctx.drawMathInlineText(SUMMARY_FOR_PHYSICISTS, marginX, contentW, 11.5, 6.05, [21, 128, 61], false, true);
+      ctx.drawMathInlineText(SUMMARY_FOR_PHYSICISTS, marginX, contentW, 11.5, 6.05, EARTH_SAGE, false, true);
       ctx.addY(2);
     }
 
+    if (ch.number === 2) {
+      ctx.drawHeading('Table 2.1 · Structured Catalog of All 665 Verified IGRT-H11 Assertions', 3, false, 1);
+      for (const row of H11_665_ASSERTIONS_CATALOG) {
+        ctx.drawMathInlineText(`${row.moduleGroup} (${row.assertionCount} assertions): ${row.verifiedPhysicalScope}`, marginX + 2, contentW - 2, 10, 5.0);
+        ctx.addY(1.0);
+      }
+      ctx.drawHeading('Table 2.2 · Eöt-Wash ±2 μm Error Propagation, Multi-Regulator Stability & Clock Energy Sweep', 3, false, 1);
+      for (const row of REGULATOR_SENSITIVITY_TABLE) {
+        ctx.drawMathInlineText(`${row.regimeOrRegulator} (${row.energyOrRadius}): ${row.computedOutput} — ${row.physicalInterpretation}`, marginX + 2, contentW - 2, 10, 5.0);
+        ctx.addY(1.0);
+      }
+    }
+
     if (ch.number === 3) {
-      ctx.drawHeading('Table 3.1 · Seven Orthogonal Temporal Notions', 3, false, 1);
+      ctx.drawHeading('Table 3.1 · Seven Orthogonal Temporal Notions & Standard Literature Correspondence', 3, false, 1);
       for (const t of SEVEN_TEMPORAL_NOTIONS) {
-        ctx.drawMathInlineText(`${t.notion} (${t.symbol}): ${t.mathematicalDefinition} — ${t.foldsInH12}`, marginX + 2, contentW - 2, 10, 5.0);
+        ctx.drawMathInlineText(`${t.notion} (${t.symbol}): ${t.mathematicalDefinition} — ${t.foldsInH12} | Literature: ${t.literatureComparison}`, marginX + 2, contentW - 2, 10, 5.0);
         ctx.addY(1.1);
       }
     }
@@ -947,6 +1056,11 @@ export async function generateIgrtH12Pdf(): Promise<void> {
       ctx.drawHeading('Table 4.1 · Positive Conjectures Summary Table (Category C)', 3, false, 1);
       for (const p of POSITIVE_CONJECTURES_SUMMARY) {
         ctx.drawMathInlineText(`${p.conjecture} [${p.category}]: ${p.statement} (Test: ${p.test})`, marginX + 2, contentW - 2, 10, 5.0);
+        ctx.addY(1.1);
+      }
+      ctx.drawHeading('Table 4.2 · Model 2B Quadrature Convergence, Euler–Lagrange & ds_5² ≡ 0 Audit', 3, false, 1);
+      for (const row of MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE) {
+        ctx.drawMathInlineText(`${row.benchmarkSpan} (${row.turningPeak}): ${row.etaFoldAndSpeed} | ${row.elAndNullResidual}`, marginX + 2, contentW - 2, 10, 5.0);
         ctx.addY(1.1);
       }
     }
@@ -1017,11 +1131,21 @@ export async function generateIgrtH12Pdf(): Promise<void> {
       for (const cmp of H11_VS_H12_PROTOCOLS_COMPARISON) {
         ctx.drawMathInlineText(`${cmp.aspect}: H11=${cmp.h11Protocols} | H12=${cmp.h12Protocols}`, marginX + 2, contentW - 2, 9.8, 4.9);
       }
+      ctx.drawHeading('Table 12.7 · Quantitative Noise Budgets & Systematic Mitigation (P7–P10)', 3, false, 1);
+      for (const nb of P7_TO_P10_NOISE_BUDGET_TABLE) {
+        ctx.drawMathInlineText(`${nb.protocol}: Sources: ${nb.primaryNoiseSources} | Floor: ${nb.quantitativeBudget} | Mitigation: ${nb.mitigationArchitecture}`, marginX + 2, contentW - 2, 9.8, 4.9);
+        ctx.addY(1.0);
+      }
+      ctx.drawHeading('Protocol Statistical Framework, Joint Likelihood & Bayesian Occam Penalty', 3, false, 1);
+      for (const sec of H12_PROTOCOL_ANALYSIS_SECTIONS) {
+        ctx.drawMathInlineText(`${sec.title}: ${sec.content}`, marginX + 2, contentW - 2, 10, 5.0, EARTH_UMBER, false, true);
+        ctx.addY(1.1);
+      }
       ctx.drawHeading('Falsification & Confirmation Checklists', 3, false, 1);
       for (const f of H12_FALSIFICATION_CHECKLIST) ctx.drawMathInlineText(`• [Falsify] ${f}`, marginX + 2, contentW - 2, 10, 5.0);
       for (const c of H12_CONFIRMATION_CHECKLIST) ctx.drawMathInlineText(`• [Confirm] ${c}`, marginX + 2, contentW - 2, 10, 5.0);
       ctx.addY(1.5);
-      ctx.drawMathInlineText(H12_FUNDING_AGENCY_SUMMARY, marginX, contentW, 11, 5.8, [15, 23, 42], false, true);
+      ctx.drawMathInlineText(H12_FUNDING_AGENCY_SUMMARY, marginX, contentW, 11, 5.8, EARTH_UMBER, false, true);
     }
 
     if (ch.number === 13) {
@@ -1034,9 +1158,15 @@ export async function generateIgrtH12Pdf(): Promise<void> {
       for (const op of H12_OPEN_PROBLEMS_LIST) {
         ctx.drawMathInlineText(`${op.id}: ${op.problem} — ${op.statusNote}`, marginX + 2, contentW - 2, 10, 5.0);
       }
-      ctx.drawHeading('Response to Prior Audits (200-Expert Panel)', 3, false, 1);
+      ctx.drawHeading('Response to Prior & 40-Expert Audits', 3, false, 1);
       for (const r of H12_PRIOR_AUDIT_RESPONSES) {
-        ctx.drawMathInlineText(`${r.auditScope}: ${r.panelCritique} -> ${r.harmonizedResolution}`, marginX + 2, contentW - 2, 10, 5.0);
+        ctx.drawMathInlineText(
+          cleanPdfText(`${r.auditScope}: ${r.panelCritique} -> ${r.harmonizedResolution}`),
+          marginX + 2,
+          contentW - 2,
+          10,
+          5.0
+        );
       }
     }
 
@@ -1045,10 +1175,10 @@ export async function generateIgrtH12Pdf(): Promise<void> {
       const imgW = contentW;
       const imgH = Math.min(95, imgW * raster.aspect);
       ctx.ensureSpace(imgH + 38);
-      ctx.drawMathInlineText(`${fig.figureNumber}: ${fig.title} [${fig.category}]`, marginX, contentW, 10.5, 4.8, [21, 128, 61], true, false);
+      ctx.drawMathInlineText(`${fig.figureNumber}: ${fig.title} [${fig.category}]`, marginX, contentW, 10.5, 4.8, EARTH_SAGE, true, false);
       doc.addImage(raster.dataUrl, 'PNG', marginX, ctx.getY(), imgW, imgH);
       ctx.addY(imgH + 7.5);
-      ctx.drawMathInlineText(fig.caption, marginX, contentW, 9.5, 4.6, [71, 85, 105], false, true);
+      ctx.drawMathInlineText(fig.caption, marginX, contentW, 9.5, 4.6, EARTH_STONE, false, true);
       ctx.addY(5);
     }
 
@@ -1057,22 +1187,22 @@ export async function generateIgrtH12Pdf(): Promise<void> {
       const imgW = contentW;
       const imgH = Math.min(108, imgW * raster.aspect);
       ctx.ensureSpace(imgH + 40);
-      ctx.drawMathInlineText(`${plate.figureNumber}: ${plate.title} [${plate.category}]`, marginX, contentW, 10.5, 4.8, [154, 52, 18], true, false);
+      ctx.drawMathInlineText(`${plate.figureNumber}: ${plate.title} [${plate.category}]`, marginX, contentW, 10.5, 4.8, EARTH_TERRACOTTA, true, false);
       doc.addImage(raster.dataUrl, 'JPEG', marginX, ctx.getY(), imgW, imgH);
       ctx.addY(imgH + 8);
-      ctx.drawMathInlineText(plate.description, marginX, contentW, 9.5, 4.6, [71, 85, 105], false, true);
+      ctx.drawMathInlineText(plate.description, marginX, contentW, 9.5, 4.6, EARTH_STONE, false, true);
       ctx.addY(5);
     }
   }
 
-  // Main Monograph Appendices L, M, N
-  for (const app of H12_MAIN_APPENDICES_LMN) {
+  // Main Monograph Appendices L & M (Appendix N Adversarial Stress-Test Scorecard excluded from PDF)
+  for (const app of H12_MAIN_APPENDICES_LMN.filter((a) => a.letter !== 'N')) {
     ctx.drawHeading(`Appendix ${app.letter}: ${app.title}`, 1, true, 0, true);
     ctx.drawCategoryTag(app.category);
-    ctx.drawMathInlineText(app.leadSummary, marginX, contentW, 11.5, 6.05, [71, 85, 105], false, true, 'serif', 'italic');
+    ctx.drawMathInlineText(app.leadSummary, marginX, contentW, 11.5, 6.05, EARTH_STONE, false, true, 'serif', 'italic');
     ctx.addY(3);
     for (const p of app.paragraphs) {
-      ctx.drawMathInlineText(p, marginX, contentW, 12, 6.35, [24, 34, 53], false, true);
+      ctx.drawMathInlineText(p, marginX, contentW, 12, 6.35, EARTH_UMBER, false, true);
       ctx.addY(2.2);
     }
     if (app.letter === 'L') {
@@ -1089,63 +1219,39 @@ export async function generateIgrtH12Pdf(): Promise<void> {
         ctx.addY(1.4);
       }
     }
-    if (app.letter === 'N') {
-      ctx.drawHeading('Table N.1 · Ten-Domain Adversarial Audit Breakdown', 3, false, 1);
-      for (const dom of H12_TEN_DOMAIN_AUDITS) {
-        ctx.drawMathInlineText(
-          `${dom.domainNumber} — ${dom.domainName}: ${dom.selfContainedPoints}/${dom.maxPoints} (Applicable ${dom.applicablePoints}/${dom.maxPoints}) [${dom.verdict}] · ${dom.openFrontierNotes}`,
-          marginX + 2,
-          contentW - 2,
-          9.8,
-          4.8
-        );
-        ctx.addY(1.0);
-      }
-      ctx.drawHeading('Table N.2 · Sixteen Direct Red-Team Attacks (H12-ATK-01 .. H12-ATK-16)', 3, false, 1);
-      for (const atk of H12_SIXTEEN_REDTEAM_ATTACKS) {
-        ctx.drawMathInlineText(
-          `${atk.id} [${atk.pointsAwarded}/${atk.maxPoints} · ${atk.technicalStatus}] ${atk.attackTitle}: ${atk.h12ResolutionAndCitation}`,
-          marginX + 2,
-          contentW - 2,
-          9.6,
-          4.7
-        );
-        ctx.addY(1.2);
-      }
-    }
   }
 
   ctx.drawHeading('References', 1, true, 0, true);
   for (const ref of H12_REFERENCES) {
-    ctx.drawMathInlineText(`[${ref.id}] ${ref.citation}`, marginX, contentW, 10.5, 5.2, [24, 34, 53], false, true);
+    ctx.drawMathInlineText(`[${ref.id}] ${ref.citation}`, marginX, contentW, 10.5, 5.2, EARTH_UMBER, false, true);
     ctx.addY(1.5);
   }
 
-  // Populate Reserved TOC Pages (Playfair Display Regular 30pt heading)
+  // Populate Reserved TOC Pages (Playfair Display Regular 26.25pt = 35px heading)
   let currentTocPage = tocPage1;
   doc.setPage(currentTocPage);
   let ty = topY;
-  ctx.setFontSafe(hasUnicodeFonts ? 'playfair' : 'serif', 'normal', 30);
-  doc.setTextColor(12, 24, 54);
+  ctx.setFontSafe(hasUnicodeFonts ? 'playfair' : 'serif', 'normal', 26.25);
+  doc.setTextColor(...EARTH_UMBER);
   doc.text('Table of Contents', marginX, ty);
   ty += 6;
-  doc.setDrawColor(214, 202, 190);
+  doc.setDrawColor(...EARTH_STONE);
   doc.setLineWidth(0.35);
   doc.line(marginX, ty, marginX + contentW, ty);
   ty += 12;
 
   for (const entry of tocEntries) {
-    const step = entry.indent ? 5.0 : 6.2;
+    const step = entry.indent ? 4.8 : 5.9;
     if (ty + step > bottomLimit) {
       if (currentTocPage === tocPage1) {
         currentTocPage = tocPage2;
         doc.setPage(currentTocPage);
         ty = topY;
         ctx.setFontSafe(hasUnicodeFonts ? 'playfair' : 'serif', 'normal', 18);
-        doc.setTextColor(12, 24, 54);
+        doc.setTextColor(...EARTH_UMBER);
         doc.text('Table of Contents (continued)', marginX, ty);
         ty += 5;
-        doc.setDrawColor(214, 202, 190);
+        doc.setDrawColor(...EARTH_STONE);
         doc.setLineWidth(0.3);
         doc.line(marginX, ty, marginX + contentW, ty);
         ty += 8;
@@ -1154,19 +1260,19 @@ export async function generateIgrtH12Pdf(): Promise<void> {
       }
     }
     const indentPx = (entry.indent ?? 0) * 5.0;
-    const fSize = entry.indent ? 9.1 : 10.2;
+    const fSize = entry.indent ? 9.0 : 10.1;
     ctx.setFontSafe('serif', 'normal', fSize);
-    doc.setTextColor(entry.indent ? 51 : 12, entry.indent ? 65 : 24, entry.indent ? 85 : 54);
+    doc.setTextColor(...(entry.indent ? EARTH_STONE : EARTH_UMBER));
     const maxLabelW = contentW - indentPx - 16;
     const clipped = ctx.clipMixedLine(entry.label, maxLabelW, false, fSize, 'serif');
     ctx.drawMixedRun(clipped, marginX + indentPx, ty, false, fSize, 'serif', 'normal');
     ctx.setFontSafe('mono', 'normal', 9.0);
-    doc.setTextColor(154, 52, 18);
+    doc.setTextColor(...EARTH_TERRACOTTA);
     doc.text(String(entry.page), marginX + contentW, ty, { align: 'right' });
     ty += step;
   }
 
-  // Stamp Running Headers & Page Numbers
+  // Stamp Running Headers & Page Numbers (Page 1 Cover remains clean without running header/footer)
   const totalPages = doc.getNumberOfPages();
   const runningHeader = ctx.clipMixedLine(
     ctx.safeStr('IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret'),
@@ -1179,15 +1285,15 @@ export async function generateIgrtH12Pdf(): Promise<void> {
     doc.setPage(p);
     if (p > 1) {
       ctx.setFontSafe('mono', 'normal', 7.6);
-      doc.setTextColor(100, 116, 139);
-      doc.text(runningHeader, marginX, 13);
-      doc.setDrawColor(234, 226, 210);
+      doc.setTextColor(...EARTH_STONE);
+      doc.text(runningHeader, marginX, 14);
+      doc.setDrawColor(...EARTH_STONE);
       doc.setLineWidth(0.2);
-      doc.line(marginX, 15.5, marginX + contentW, 15.5);
+      doc.line(marginX, 17, marginX + contentW, 17);
+      ctx.setFontSafe('mono', 'normal', 8);
+      doc.setTextColor(...EARTH_STONE);
+      doc.text(`Page ${p} of ${totalPages}`, pageW / 2, 285, { align: 'center' });
     }
-    ctx.setFontSafe('mono', 'normal', 8);
-    doc.setTextColor(100, 116, 139);
-    doc.text(`Page ${p} of ${totalPages}`, pageW / 2, 287, { align: 'center' });
   }
 
   doc.save('IGRT_H12_Monograph.pdf');
@@ -1202,55 +1308,68 @@ export async function generateIgrtH12SupplementaryPdf(): Promise<void> {
   const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
   const hasUnicodeFonts = registerAllFontsOnDoc(doc, fonts);
   const ctx = createPdfContext(doc, hasUnicodeFonts);
-  const { marginX, contentW, pageW } = ctx;
+  const { marginX, contentW, pageW, topY } = ctx;
+
+  // Dedicated Cover Page for Supplementary Volume II
+  ctx.setY(44);
+  doc.setDrawColor(...EARTH_STONE);
+  doc.setLineWidth(0.35);
+  doc.line(marginX, ctx.getY(), marginX + contentW, ctx.getY());
+  ctx.addY(6);
 
   ctx.drawMathInlineText(
     `${H12_META.monographId} · Supplementary Volume II (Technical Appendices A–K) · ${H12_META.date}`,
     marginX,
     contentW,
     8.5,
-    4.0,
-    [30, 64, 175],
+    4.2,
+    EARTH_TERRACOTTA,
     false,
     false,
     'mono'
   );
-  ctx.addY(3);
+  ctx.addY(10);
   ctx.drawMathInlineText(
     'Supplementary Volume II: Technical Appendices (A–K)',
     marginX,
     contentW,
-    30,
-    11.6,
-    [8, 16, 38],
+    26.25,
+    11.0,
+    EARTH_UMBER,
     false,
     false,
     'playfair',
     'normal'
   );
   ctx.addY(6);
+  doc.setDrawColor(...EARTH_TERRACOTTA);
+  doc.setLineWidth(0.8);
+  doc.line(marginX, ctx.getY(), marginX + 40, ctx.getY());
+  ctx.addY(8);
   ctx.drawMathInlineText(
     `Companion Mathematical Proofs & Numerical Solver Derivations for "${H12_META.title}" — ${H12_META.authors}.`,
     marginX,
     contentW,
-    11.2,
-    5.2,
-    [71, 85, 105],
+    11.4,
+    5.6,
+    EARTH_STONE,
     false,
     true,
     'serif',
     'italic'
   );
-  ctx.addY(6);
+
+  doc.addPage();
+  ctx.setY(topY);
 
   for (const app of H12_APPENDICES) {
     ctx.drawHeading(`Appendix ${app.letter}: ${app.title}`, 2, false, 0);
     ctx.drawCategoryTag(app.category);
-    ctx.drawMathInlineText(app.summary, marginX, contentW, 11, 5.5, [71, 85, 105], false, true, 'serif', 'italic');
+    ctx.drawMathInlineText(app.summary, marginX, contentW, 11, 5.5, EARTH_STONE, false, true, 'serif', 'italic');
     ctx.addY(2);
     for (const eq of app.equations) ctx.drawEquationBox(eq);
     for (const p of app.bodyParagraphs) {
-      ctx.drawMathInlineText(p, marginX, contentW, 11.5, 6.05, [24, 34, 53], false, true);
+      ctx.drawMathInlineText(p, marginX, contentW, 11.5, 6.05, EARTH_UMBER, false, true);
       ctx.addY(2);
     }
   }
@@ -1267,15 +1386,15 @@ export async function generateIgrtH12SupplementaryPdf(): Promise<void> {
     doc.setPage(p);
     if (p > 1) {
       ctx.setFontSafe('mono', 'normal', 7.6);
-      doc.setTextColor(100, 116, 139);
-      doc.text(runningHeader, marginX, 13);
-      doc.setDrawColor(234, 226, 210);
+      doc.setTextColor(...EARTH_STONE);
+      doc.text(runningHeader, marginX, 14);
+      doc.setDrawColor(...EARTH_STONE);
       doc.setLineWidth(0.2);
-      doc.line(marginX, 15.5, marginX + contentW, 15.5);
+      doc.line(marginX, 17, marginX + contentW, 17);
+      ctx.setFontSafe('mono', 'normal', 8);
+      doc.setTextColor(...EARTH_STONE);
+      doc.text(`Page ${p} of ${totalPages}`, pageW / 2, 285, { align: 'center' });
     }
-    ctx.setFontSafe('mono', 'normal', 8);
-    doc.setTextColor(100, 116, 139);
-    doc.text(`Page ${p} of ${totalPages}`, pageW / 2, 287, { align: 'center' });
   }
 
   doc.save('IGRT_H12_Supplementary_Appendices_A_K.pdf');

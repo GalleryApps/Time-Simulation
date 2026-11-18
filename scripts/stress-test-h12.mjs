@@ -22,7 +22,7 @@ const solverRaw = execFileSync(process.execPath, [path.join(repoRoot, 'scripts/v
 });
 const solver = JSON.parse(solverRaw);
 assert.equal(solver.status, 'ALL_ASSERTIONS_PASSED');
-assert.equal(solver.assertions_count, 15);
+assert.equal(solver.assertions_count, 62);
 
 // 2. Read & inspect all IGRT-H12 TypeScript sources
 const appSrc = fs.readFileSync(path.join(repoRoot, 'src/types/igrtH12Apparatus.ts'), 'utf8');
@@ -30,9 +30,10 @@ const dataSrc = fs.readFileSync(path.join(repoRoot, 'src/types/igrtH12Data.ts'),
 const stressSrc = fs.readFileSync(path.join(repoRoot, 'src/types/igrtH12StressTest.ts'), 'utf8');
 const figSrc = fs.readFileSync(path.join(repoRoot, 'src/components/IgrtH12Figures.tsx'), 'utf8');
 const pdfSrc = fs.readFileSync(path.join(repoRoot, 'src/utils/generateIgrtH12Pdf.ts'), 'utf8');
+const exportSrc = fs.readFileSync(path.join(repoRoot, 'src/utils/generateIgrtH12Exports.ts'), 'utf8');
 const viewSrc = fs.readFileSync(path.join(repoRoot, 'src/components/IgrtH12PaperView.tsx'), 'utf8');
 
-// Check zero raw LaTeX delimiters leaked into H12 monograph data/UI
+// Check zero raw LaTeX delimiters or draft scratchpad notes leaked into H12 monograph data/UI
 for (const [name, src] of [
   ['igrtH12Apparatus.ts', appSrc],
   ['igrtH12Data.ts', dataSrc],
@@ -40,6 +41,30 @@ for (const [name, src] of [
 ]) {
   assert(!src.includes('\\frac{'), `${name} contains raw LaTeX \\frac`);
   assert(!src.includes('\\begin{equation}'), `${name} contains raw LaTeX \\begin{equation}`);
+  assert(!src.includes('Wait carefully'), `${name} contains draft phrasing "Wait carefully"`);
+  assert(!src.includes('Wait:'), `${name} contains draft phrasing "Wait:"`);
+  assert(!src.includes('... −3('), `${name} contains leftover ellipsis formula fragment`);
+  assert(!src.includes('− ... simplifying'), `${name} contains leftover ellipsis formula fragment`);
+}
+for (const [name, src] of [
+  ['igrtH12Apparatus.ts', appSrc],
+  ['IgrtH12PaperView.tsx', viewSrc],
+  ['generateIgrtH12Pdf.ts', pdfSrc],
+  ['generateIgrtH12Exports.ts', exportSrc]
+]) {
+  assert(!src.includes('15/15'), `${name} still references stale 15/15 assertion count`);
+}
+for (const sym of [
+  'EPISTEMIC_BC_GREY_AREA_RUBRIC',
+  'H11_665_ASSERTIONS_CATALOG',
+  'REGULATOR_SENSITIVITY_TABLE',
+  'MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE',
+  'P7_TO_P10_NOISE_BUDGET_TABLE'
+]) {
+  assert(appSrc.includes(sym), `igrtH12Apparatus.ts missing ${sym}`);
+  assert(viewSrc.includes(sym), `IgrtH12PaperView.tsx missing ${sym}`);
+  assert(pdfSrc.includes(sym), `generateIgrtH12Pdf.ts missing ${sym}`);
+  assert(exportSrc.includes(sym), `generateIgrtH12Exports.ts missing ${sym}`);
 }
 
 // Check solver benchmarks are synced verbatim across H12 monograph
@@ -51,12 +76,18 @@ for (const token of [
   '0.86634',
   '0.34279',
   '0.07770',
+  '0.84147',
+  '0.63662',
   '2.5389 × 10⁻²²',
   '0.876',
   '4.50 × 10⁻⁷¹',
   '0.2436',
   '19.733 meV',
   '2.985 × 10⁸',
+  '3.761 × 10⁸',
+  '3.149 × 10⁻¹⁶',
+  '5.873 × 10⁻³',
+  '1.31 × 10⁻⁴²',
   '1.8101 × 10¹⁸'
 ]) {
   assert(
@@ -65,17 +96,13 @@ for (const token of [
   );
 }
 
-// 3. Verify all 6 archival plates & all 6 Unicode + Playfair Display TTF fonts for PDF export
+// 3. Verify both user-provided archival plates & all 6 Unicode + Playfair Display TTF fonts for PDF export
 for (const plateFile of [
   'public/assets/aistudio/IGRT__Resonance_Across_Dimensions__2__d69e7395.png',
-  'public/assets/aistudio/Information-Geometric_Resonant_Time_Infographic_83db2666.png',
-  'src/assets/images/plate_h12_beltrami_folding_1794953764201.jpg',
-  'src/assets/images/plate_h12_hayward_wormhole_1794953764917.jpg',
-  'src/assets/images/plate_h12_qfi_complementarity_1794953765530.jpg',
-  'src/assets/images/plate_h12_cosmic_extrapolations_1794953766440.jpg'
+  'public/assets/aistudio/Information-Geometric_Resonant_Time_Infographic_83db2666.png'
 ]) {
   const full = path.join(repoRoot, plateFile);
-  assert(fs.existsSync(full), `Missing archival plate: ${plateFile}`);
+  assert(fs.existsSync(full), `Missing user archival plate: ${plateFile}`);
   assert(fs.statSync(full).size > 20_000, `Corrupt/empty archival plate: ${plateFile}`);
 }
 
@@ -105,6 +132,18 @@ for (const orcid of ['0009-0000-8566-0486', '0009-0007-3966-0494', '0009-0004-78
 const cssSrc = fs.readFileSync(path.join(repoRoot, 'src/index.css'), 'utf8');
 assert(pdfSrc.includes("addFont('PlayfairDisplay-Regular.ttf', 'PlayfairDisplay', 'normal')"), 'PDF must embed static PlayfairDisplay-Regular');
 assert(pdfSrc.includes("headingFamily: PdfFontFamily = level === 1 ? 'playfair' : 'serif'"), 'PDF Level-1 chapters must render with PlayfairDisplay Regular');
+assert(pdfSrc.includes('26.25') && pdfSrc.includes('topY = 30'), 'PDF titles must use 26.25pt (35px) with ample 30mm top margin');
+assert(
+  pdfSrc.includes('EARTH_UMBER') &&
+    pdfSrc.includes('EARTH_TERRACOTTA') &&
+    pdfSrc.includes('EARTH_SAGE') &&
+    pdfSrc.includes('EARTH_STONE'),
+  'PDF must employ strict 4-color muted earth scheme'
+);
+assert(
+  !figSrc.includes('plate_h12_') && figSrc.includes('Figure H12-10'),
+  'Figures must replace non-user plates and include 10 clean minimalist illustrations'
+);
 const bmpSafeBody = pdfSrc.slice(pdfSrc.indexOf('function bmpSafeH12'), pdfSrc.indexOf('function fallbackAsciiSafe'));
 assert(!bmpSafeBody.includes(".replace(/ℓ/g, 'l')"), 'bmpSafeH12 must preserve Unicode script ℓ (never downgrade ℓ_Pl to lPl)');
 assert(pdfSrc.includes('bmpSafeH12'), 'PDF generator must enforce strict BMP glyph safety');
@@ -112,6 +151,10 @@ assert(pdfSrc.includes('verifyRegisteredFonts'), 'PDF generator must validate TT
 assert(pdfSrc.includes('wrapMixedLines'), 'PDF generator must wrap text using mixed-font widths to prevent margin overflow');
 assert(pdfSrc.includes('tocPage1') && pdfSrc.includes('tocPage2'), 'PDF generator must place multi-page TOC directly after Abstract');
 assert(pdfSrc.includes('generateIgrtH12SupplementaryPdf'), 'PDF module must export separate Supplementary Vol II PDF builder');
+assert(
+  pdfSrc.includes("a.letter !== 'N'") && !pdfSrc.includes('Table N.1') && !pdfSrc.includes('Table N.2'),
+  'PDF monograph must exclude Appendix N / Adversarial Stress-Test Scorecard'
+);
 assert(viewSrc.includes('generateIgrtH12Pdf') && viewSrc.includes('generateIgrtH12SupplementaryPdf'), 'UI must wire Main and Supplementary PDF downloads');
 assert(viewSrc.includes('igrt-h12-chapter-title'), 'H12 Paper View must apply Playfair Display Regular 40px chapter titles');
 assert(cssSrc.includes('Book Antiqua') && cssSrc.includes('line-height: 1.5'), 'CSS must configure Book Antiqua 16px with 1.5 line spacing');

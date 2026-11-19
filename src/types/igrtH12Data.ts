@@ -4,14 +4,14 @@
  *
  * IGRT-H12 Full 13-Chapter Research Monograph Dataset (Unicode/HTML Only):
  * "Folding Time Across Hidden Dimensions: Fifth-Dimensional Resonant Geometry,
- *  Quantum Portals, and the Limits of Spacetime Shortcuts"
+ *  Mathematical Portals, and the Limits of Spacetime Shortcuts"
  *
  * Structure after Comprehensive Epistemic & Structural Reorganization:
  * - Main Body: Chapters 1–13 (Ch. 9 Negative Results Summary; Ch. 10 What Is Unique to 5D?;
- *   Ch. 11 What Is Not Derived; Ch. 12 Protocols P7–P12; Ch. 13 Extrapolations, Open Problems & Prior Audits)
+ *   Ch. 11 What Is Not Derived; Ch. 12 Protocols P7–P13; Ch. 13 Extrapolations, Open Problems & Prior Audits)
  * - Main Monograph Extended Appendices: Appendix L (Portal Mechanisms), Appendix M (Devices A–F),
  *   Appendix N (Adversarial Stress-Test Scorecard 500 Criteria + 16 Red-Team Attacks)
- * - Supplementary Volume II: Technical Appendices A–K (mathematical derivations & numerical suites)
+ * - Technical Appendices: Appendices A–K (mathematical derivations & numerical suites)
  *
  * Strictly adheres to:
  * - Zero LaTeX syntax anywhere in UI/HTML strings
@@ -22,8 +22,11 @@
 import {
   H12_META,
   H12_MASTER_EQUATIONS,
+  H12_PORTAL_DEFINITION_BOX,
+  H12_METRIC_SIGNATURE_BOX,
+  H12_FOUNDATIONAL_EQUATIONS_NOTE,
   H12_ABSTRACT_PARAGRAPHS,
-  H12_NON_SPECIALIST_SUMMARY,
+  H12_SUMMARY_FOR_NON_SPECIALISTS,
   H12_SCOPE_AND_NON_CLAIMS,
   H12_CHAPTER1_EXPLICIT_STATEMENTS,
   H11_TWELVE_COMPONENTS_AUDIT,
@@ -40,10 +43,10 @@ import {
   FIVE_D_OBSERVATIONAL_BOUNDS,
   WHAT_IS_NOT_DERIVED_LEDGER,
   H12_ALL_PROTOCOLS,
-  P7_TO_P10_TIMELINE_TABLE,
-  P7_TO_P10_FALSIFICATION_TABLE,
-  P7_TO_P10_CONFIRMATION_TABLE,
-  P7_TO_P10_DECISION_MATRIX,
+  P7_TO_P13_TIMELINE_TABLE,
+  P7_TO_P13_FALSIFICATION_TABLE,
+  P7_TO_P13_CONFIRMATION_TABLE,
+  P7_TO_P13_DECISION_MATRIX,
   H11_VS_H12_PROTOCOLS_COMPARISON,
   H12_PROTOCOL_ANALYSIS_SECTIONS,
   H12_FALSIFICATION_CHECKLIST,
@@ -60,7 +63,13 @@ import {
   H11_665_ASSERTIONS_CATALOG,
   REGULATOR_SENSITIVITY_TABLE,
   MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE,
-  P7_TO_P10_NOISE_BUDGET_TABLE,
+  P7_TO_P13_NOISE_BUDGET_TABLE,
+  P13_SYSTEMATIC_ERROR_BUDGET,
+  P13_STATISTICAL_ERROR_BUDGET,
+  P7_TO_P13_COMBINED_BOUNDS_TABLE,
+  P7_TO_P13_SENSITIVITY_PROJECTION_TABLE,
+  P13_SUMMARY_OF_BOUNDS_TABLE,
+  P13_DEDICATED_PROTOCOLS_AND_CHECKS,
   H12_APPENDICES,
   H12_REFERENCES,
   type H12EpistemicCategory,
@@ -124,8 +133,8 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Reader’s Guide, Metric Signature Convention & Category B/C Boundary Discipline',
         category: 'CATEGORY A — ESTABLISHED',
         paragraphs: [
-          'This follow-up monograph is intentionally organized to separate established negative proofs from conjectural five-dimensional possibilities and laboratory analog engineering. Readers seeking non-technical orientation should begin with the Summary for Non-Specialists at the close of the Abstract, Table 1.2 (4D vs. 5D Comparison), and the Glossary of 5D Terms at the end of Chapter 1. Readers auditing technical physics should examine Chapter 2 (5D action variation, regulators, and Eöt-Wash bounds), Chapter 4 (Beltrami geodesic proofs and Category B no-shortcut theorems), Chapters 5–6 (exact Hayward NEC satisfaction and Morris–Thorne Casimir deficit), Chapter 7 (2×2 SLD Fisher complementarity), and Chapter 9 (Negative Results Summary).',
-          'Standardized Metric Signature & Grey-Area Discipline: Throughout IGRT-H12, four-dimensional spacetime M_4 carries strict mostly-plus Lorentzian signature (−, +, +, +), and its five-dimensional extension M_5 = M_4 × K_1 carries (−, +, +, +, +) where the fifth coordinate y is spacelike (+dy²); mixed or Euclidean (−,+,+,+,−) bulk signatures are excluded to prevent ghost instabilities and chart confusion. To resolve grey-area edge cases between Derived (Category B) and Conjectural (Category C), H12 enforces the Boundary Premise Rule audited in Table 1.3: any exact mathematical theorem proven unconditionally from Category A or H11 premises (such as negative obstruction theorems) receives Category B, whereas any variational calculation whose physical background metric or radion potential is postulated rather than derived from a ghost-free 5D action is quarantined strictly in Category C.'
+          'This follow-up monograph is intentionally organized to separate established negative proofs from conjectural five-dimensional possibilities and laboratory analog engineering. Readers seeking the strongest scientific content should go directly to Chapter 9 (Negative Results Summary). Readers seeking the positive conjectures should go to Chapter 4 (Beltrami Geodesics, Category C). Readers seeking experimental tests should go to Chapter 12 (Protocols P7–P13). Additionally, readers seeking accessible orientation should review the Summary for Non-Specialists at the end of the Abstract, Table 1.2 (4D vs. 5D Comparison including the "Testable Now?" audit column), and the Glossary of 5D Terms at the end of Chapter 1, while technical auditors should inspect Chapter 2 (5D action variation δS_total/δG^{AB} = 0, regulators, and Eöt-Wash bounds), Chapter 4, Chapters 5–6, and Chapter 7.',
+          'Standardized Metric Signature & Grey-Area Discipline: Throughout IGRT-H12, four-dimensional spacetime M_4 carries strict mostly-plus Lorentzian signature (−, +, +, +), and its five-dimensional extension M_5 = M_4 × K_1 carries (−, +, +, +, +) where the fifth coordinate y is spacelike (+dy²). The metric signature is (−,+,+,+,+). Mixed signatures are excluded. Foundational equations declaration: Eqs. (H12.0.1) and (H12.0.2) are postulated, not derived. They define the 5D hypothesis. To resolve grey-area edge cases between Derived (Category B) and Conjectural (Category C), H12 enforces the Category B/C Boundary Rubric Box placed at the opening of Chapter 1 (Table 1.3): any exact mathematical theorem proven unconditionally from Category A or H11 premises (such as negative obstruction theorems) receives Category B, whereas any variational calculation whose physical background metric or radion potential is postulated rather than derived from a ghost-free 5D action is quarantined strictly in Category C.'
         ]
       },
       {
@@ -153,8 +162,8 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'EFT Transition Thresholds, Perturbative Axiom Preservation Proof & SHA-256 Locking',
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
-          'H11 excludes extra spatial dimensions from its scope and carries a preregistration SHA-256 digest (57cf3f1cef74a45cd936663f1b017212e2f64b1bee05f55cdff9068a2b05048d) locked prior to 2026–2036 empirical runs P1–P6. To guarantee permanent immutability against software updates, scripts/verify-igrt-h12.mjs automatically reads src/types/harmonizedPaperApparatus.ts on every execution and asserts verbatim match with that 64-character hex digest. Formally, the operational boundary between H11 4D effective field theory and active 5D Kaluza–Klein propagation sits at Lorentz-invariant center-of-mass / transfer scale √|q²| = m_KK^(1) ≡ ℏc/R_5 ≥ 4.485 meV: below E ≪ m_KK^(1), bulk KK modes stay virtual; above m_KK^(1), real KK gravitons propagate until perturbative 5D gravity reaches UV cutoff M_5 (≥ 2.985 × 10⁸ GeV flat S¹ / 3.761 × 10⁸ GeV S¹/ℤ_2 / 1.8101 × 10¹⁸ GeV warped AdS_5).',
-          'Non-Perturbative Resolvent & Perturbative Axiom Stability Proof: Beyond weak-coupling expansions, spectral decomposition of the positive self-adjoint bulk Laplacian on M_4 × K_1 under Dirichlet/Neumann orbifold boundary conditions separates the exact 5D Green resolvent into zero-mode plus Sturm–Liouville gapped KK spectrum (−□_5 + iε)⁻¹ = (−□_4 + iε)⁻¹ + ∑_{n ≥ 1} |ψ_n(0)|² (−□_4 + m_n² + iε)⁻¹. For any bounded H11 state space below energy E < m_KK^(1), the massive resolvent operator norm is bounded strictly by ‖(−□_4 + m_1²)⁻¹‖ ≤ (m_KK^(1)² − E²)⁻¹, guaranteeing Banach contraction convergence for coupled Einstein–Araki solutions and preserving all 12 H11 core axioms non-perturbatively. Evaluating δ_KK(1 neV) across non-perturbative FRG Litim cutoff (3.149 × 10⁻¹⁶), Heat-Kernel exponential (4.972 × 10⁻¹⁴), Pauli–Villars (4.972 × 10⁻¹⁴), MS-bar (9.645 × 10⁻¹⁵), and full KK ζ(2) summation (8.179 × 10⁻¹⁴) leaves all 665 H11 assertions strictly invariant (Table 2.2).'
+          'H11 [1] excludes extra spatial dimensions from its scope and carries a preregistration SHA-256 digest (57cf3f1cef74a45cd936663f1b017212e2f64b1bee05f55cdff9068a2b05048d) locked prior to 2026–2036 empirical runs P1–P6. To guarantee permanent immutability against software updates, scripts/verify-igrt-h12.mjs automatically reads src/types/harmonizedPaperApparatus.ts on every execution and asserts verbatim match with that 64-character hex digest. The H11 low-energy limit is exact at E ≪ m_KK^(1). Formally, the operational boundary between H11 4D effective field theory and active 5D Kaluza–Klein [15, 16] propagation sits at Lorentz-invariant center-of-mass / transfer scale √|q²| = m_KK^(1) ≡ ℏc/R_5 ≥ 4.485 meV (Eöt-Wash limit [5]): below E ≪ m_KK^(1), bulk KK modes stay virtual; above m_KK^(1), real KK gravitons propagate until perturbative 5D gravity reaches UV cutoff M_5 (≥ 2.985 × 10⁸ GeV flat S¹ / 3.761 × 10⁸ GeV S¹/ℤ_2 / 1.8101 × 10¹⁸ GeV warped AdS_5 [2]), stabilized by Goldberger–Wise radion mass [21].',
+          'Non-Perturbative Resolvent, Explicit KK Correction Summation & Axiom Stability Proof: Spectral decomposition of the positive self-adjoint bulk Laplacian on M_4 × K_1 under Dirichlet/Neumann orbifold boundary conditions separates the exact 5D Green resolvent into zero-mode plus Sturm–Liouville gapped KK spectrum (−□_5 + iε)⁻¹ = (−□_4 + iε)⁻¹ + ∑_{n ≥ 1} |ψ_n(0)|² (−□_4 + m_n² + iε)⁻¹. At four-momentum transfer E ≪ m_KK^(1), expanding each massive propagator (−q² + m_n²)⁻¹ = m_n⁻² [1 + E²/m_n² + O((E/m_n)⁴)] yields exact dimensionless relative KK correction δ_KK(E) = ∑_{n=1}^∞ (E/m_n)² = (E/m_KK^(1))² ζ(2) = (π²/6)(E/m_KK^(1))² for flat S¹ (and single-mode form factor (E/m_KK^(1))² / [1 + (E/m_KK^(1))²]), bounded strictly in operator norm by ‖(−□_4 + m_1²)⁻¹‖ ≤ (m_KK^(1)² − E²)⁻¹. Evaluating δ_KK(1 neV) across tree-level (4.972 × 10⁻¹⁴), Heat-Kernel exponential (4.972 × 10⁻¹⁴), Pauli–Villars (4.972 × 10⁻¹⁴), MS-bar (9.645 × 10⁻¹⁵), FRG Litim cutoff (3.149 × 10⁻¹⁶), and full KK ζ(2) summation (8.179 × 10⁻¹⁴) leaves all 12 H11 axioms and 665 assertions strictly invariant (Table 2.2).'
         ],
         theoremBox: {
           number: 'Boundary Theorem 1.1',
@@ -195,7 +204,7 @@ export const H12_CHAPTERS: H12Chapter[] = [
         category: 'CATEGORY C — CONJECTURAL',
         paragraphs: [
           'In lifting M_4 → M_5 with local coordinates X^A = (x⁰, x¹, x², x³, y), four mathematically distinct interpretations of the fifth coordinate y must be cleanly separated before writing field equations: (i) Flat compact Kaluza–Klein circle y ∈ S¹ of radius R_5; (ii) Warped S¹/ℤ_2 Randall–Sundrum bulk coordinate y ∈ [0, π R_5] with warp scale k; (iii) Dynamically accessible bulk embedding coordinate coupled to 5D Weyl projection E_μν; and (iv) Modular-state resonance parameter θ ∈ PU(ℋ)—which MUST NOT be confused with a spatial coordinate.',
-          'Variational Derivation of P_5 & Bundle Orthogonality Proof (G_{Ai} = 0): Rather than postulating principal bundle P_5(M_5, PU(ℋ)) purely by analogy, consider the gauge-invariant 5D Einstein–Hilbert–Araki–Yang–Mills action S_{5,bundle} = ∫ d⁵X √(−G) [ (⁵R − 2Λ_5)/(16π G_5) − ¼ Tr(ℱ_{AB}^PU ℱ^{AB,PU}) + ℒ_ψ^(5) ], where Ehresmann gauge connection A_A^i(X) takes values in Lie algebra u(ℋ) on local section σ: U ⊂ M_5 → P_5. Requiring gauge invariance under local vertical PU(ℋ) transformations fixes unique torsionless Kaluza–Klein bundle metric dS_total² = G_AB(X) dX^A dX^B + α_QFI² g_ij^QFI(θ) Dθ^i Dθ^j with Dθ^i = dθ^i + A^i_A(X) dX^A; on pure brane/bulk backgrounds satisfying Gauss–Morse orthogonality A^i_y = 0, cross-terms vanish identically (G_{Ai} = 0 ⇒ ∂/∂y ⊥ PU(ℋ)). Importantly, while the mathematical bundle orthogonality is action-derived once M_5 is given, whether a physical spacetime fifth coordinate y exists in nature remains strictly Category C pending empirical detection under Protocols P7 and P10.'
+          'Variational Derivation of P_5 & Bundle Orthogonality Proof (G_{Ai} = 0): Rather than postulating principal bundle P_5(M_5, PU(ℋ)) purely by analogy, consider the gauge-invariant 5D Einstein–Hilbert–Araki–Yang–Mills action S_{5,bundle} = ∫ d⁵X √(−G) [ (⁵R − 2Λ_5)/(16π G_5) − ¼ Tr(ℱ_{AB}^PU ℱ^{AB,PU}) + ℒ_ψ^(5) ], where Ehresmann gauge connection A_A^i(X) takes values in Lie algebra u(ℋ) on local section σ: U ⊂ M_5 → P_5. Requiring gauge invariance under local vertical PU(ℋ) transformations fixes unique torsionless Kaluza–Klein bundle metric dS_total² = G_AB(X) dX^A dX^B + α_QFI² g_ij^QFI(θ) Dθ^i Dθ^j with Dθ^i = dθ^i + A^i_A(X) dX^A. Because internal state preparation on the brane leaves bulk translations pure gauge (ℱ_{yμ}^PU = 0 ⇒ Gauss–Morse orthogonality A^i_y = 0), off-diagonal metric cross-terms vanish identically (G_{yi} = α_QFI² g_{ij}^QFI A^j_y = 0 and G_{Ai} = 0 ⇒ ∂/∂y ⊥ PU(ℋ)). Importantly, while bundle separation y ≠ θ is strictly consistent with the 5D action, whether a physical spacetime fifth coordinate y exists in nature remains Category C.'
         ],
         equation: {
           label: '(2.1)',
@@ -212,9 +221,9 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: '5D Semiclassical Action Variation, Ghost-Free Einstein–Maxwell Bulk & Eöt-Wash Reduction',
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
-          'Complete 5D Semiclassical Action, Quantum Backreaction & Gauss–Codazzi Projection: On the ℤ_2 orbifold bulk M_5 with brane boundary ∂M_5 = {y = 0}, the full semiclassical action S_total = ∫ d⁵X √(−G) [ (⁵R − 2Λ_5)/(16π G_5) + ℒ_ψ^(5) + ℒ_EM ] + (8π G_5)⁻¹ ∫_{∂M_5} d⁴x √(−g) [K] + Γ_1-loop[g, Φ_rad] − ∫_{y=0} d⁴x √(−g) σ_brane pairs the Gibbons–Hawking–York surface term S_GHY with 1-loop brane vacuum effective action Γ_1-loop. Varying δS_total cancels all normal derivatives δG_{AB,y} on y = 0 while retaining 1-loop quantum backreaction ⟨τ_{μν}^vac(y=0)⟩ = −(2/√−g) δΓ_1-loop/δg^{μν}. In Gaussian normal gauge (G_{yy} = Φ_rad², non-vanishing Christoffels Γ^y_{00} = α_t k e^{2α_t k|y|} Φ_rad⁻² c², Γ^y_{ij} = α_x k e^{−2α_x k|y|} Φ_rad⁻² g_{ij}^(3), Γ^0_{y0} = α_t k, Γ^i_{yj} = −α_x k δ^i_j), expanding ⁵R = ⁴R − K² + K_{μν}K^{μν} + 2 ∇_A(n^A K) and enforcing semiclassical Israel junction [K_{μν} − g_{μν} K]⁺_− = −8π G_5 (σ_brane g_{μν} + τ_{μν} + ⟨τ_{μν}^vac⟩) recovers exact Shiromizu–Maeda–Sasaki brane gravity.',
-          'Exact Tensor Evaluation & Ghost-Free Einstein–Maxwell Toy Lagrangian for Model 2B (Category C): Evaluating metric Eq. (H12.0.1) with Φ_rad = 1 yields scalar curvature ⁵R = −(2 α_t² − 6 α_t α_x + 12 α_x²) k² and exact mixed diagonal Einstein components G^0_0 = 6 α_x² k², G^i_i = (α_t² − 2 α_t α_x + 3 α_x²) k², and G^y_y = 3(α_x² − α_t α_x) k². While isotropic RS warping (α_t = −1, α_x = +1) recovers pure vacuum AdS_5 (⁵G^A_B = 6 k² δ^A_B, ⁵R = −20 k²), asymmetric Model 2B warping (α_t + α_x > 0) produces G^0_0 ≠ G^i_i ≠ G^y_y. Crucially, asymmetric shortcuts admit an exact, strictly ghost-free, NEC-satisfying canonical 5D Einstein–Maxwell–Λ_5 realization: choosing ℒ_EM = −¼ F_{AB} F^{AB} with bulk electric field F_{0y} = E_0 e^{k|y|} obeying ∂_y(√−G F^{0y}) = 0 gives T^0_0 = −½ E_0², T^i_i = +½ E_0², T^y_y = −½ E_0²; setting α_t = 1, α_x = 0, Λ_5 = −½ k², and 8π G_5 E_0² = k² satisfies G^A_B + Λ_5 δ^A_B = 8π G_5 T^A_B identically (residual < 10⁻¹⁴ in verify-igrt-h12.mjs)! Because no macroscopic bulk Maxwell flux F_{0y} has been observed on our brane, asymmetric Model 2B remains strictly Category C.',
-          'Dynamic Radion Planck Matching, Orbifold S¹/ℤ_2, ±2 μm Propagation & Thermal/Regulator Sweeps: Integrating dynamic radion fluctuations Φ_rad(x, y) = 1 + φ_rad(x) across mixed compact-warped geometry yields M̄_Pl²(φ_rad) = (M_5³/k) ∫_{−π R_5}^{π R_5} k e^{−2k|y|} Φ_rad(x,y) dy = (M_5³/k)(1 − e^{−2kπR_5})(1 + φ_rad) plus canonical 4D Brans–Dicke kinetic term −(3 M̄_Pl² / 2)(∂φ_rad)²/(1 + φ_rad). Using CODATA M̄_Pl = 2.4353 × 10¹⁸ GeV and Eöt-Wash R_5 = 44 ± 2 μm yields KK ladder m_KK^(1,2,3) = 4.485 / 8.969 / 13.454 meV (n=1 error +0.214/−0.195 meV), flat S¹ floor M_5(S¹) = 2.985 (±0.045) × 10⁸ GeV, S¹/ℤ_2 orbifold floor M_5(S¹/ℤ_2) = 2^{1/3} M_5(S¹) = 3.761 × 10⁸ GeV, and warped AdS_5 scale M_5 = 1.8101 × 10¹⁸ GeV (k = 10¹⁸ GeV, kπR_5 = 35). At 1 neV, non-perturbative Heat-Kernel (4.972 × 10⁻¹⁴) and FRG Litim (3.149 × 10⁻¹⁶) cutoffs confirm full stability, while thermal background sweeps show cryogenic 4 K (δ = 5.873 × 10⁻³) lies safely inside the 44 μm EFT whereas 77 K and 300 K exceed m_KK^(1) by factors 1.48 and 5.76 (Table 2.2).'
+          'Complete 5D Semiclassical Action Variation δS_total / δG^{AB} = 0 & Worldline Geodesic Derivation of Eqs. (H12.0.1)–(H12.0.2): On the ℤ_2 orbifold bulk M_5 with brane boundary ∂M_5 = {y = 0}, the full semiclassical action S_total = ∫ d⁵X √(−G) [ (⁵R − 2Λ_5)/(16π G_5) + ℒ_ψ^(5) + ℒ_EM ] + (8π G_5)⁻¹ ∫_{∂M_5} d⁴x √(−g) [K] + Γ_1-loop[g, Φ_rad] − ∫_{y=0} d⁴x √(−g) σ_brane pairs the Gibbons–Hawking–York surface term S_GHY with 1-loop brane vacuum effective action Γ_1-loop. Executing explicit Palatini variation δS_total / δG^{AB} = 0 (with δ(√−G ⁵R) = √−G [⁵G_{AB} δG^{AB} + ∇_C W^C]) cancels all normal derivatives δG_{AB,y} on y = 0 against δS_GHY and yields exact 5D field equations ⁵G^A_B + Λ_5 δ^A_B = 8π G_5 (T^A_B^(EM) + I^A_B^(5) + [σ_brane g_μν + ⟨τ_{μν}^vac⟩] δ^μ_A δ^ν_B δ(y)) together with Shiromizu–Maeda–Sasaki (2000) [4] brane gravity via [K_{μν} − g_{μν} K]⁺_− = −8π G_5 (σ_brane g_μν + τ_{μν} + ⟨τ_{μν}^vac⟩). Inserting a separable warp ansatz G_{00} = −e^{2α_t k|y|} c², G_{ij} = e^{−2α_x k|y|} g_{ij}^(3) produces Eq. (H12.0.1) strictly as a postulated classification family (exact for vacuum AdS_5 at (−1, +1) and for Einstein–Maxwell flux at (1.0, 0.0), assumed in Model 2B). Simultaneously, varying the 5D relativistic clock worldline action S_particle = −mc ∫ √(−G_AB Ẋ^A Ẋ^B) dλ (whose affine limit yields d²X^A/dλ² + Γ^A_{BC} Ẋ^B Ẋ^C = 0) gives invariant proper duration Δτ_5 = c⁻¹ ∫ √(−G_AB Ẋ^A Ẋ^B) dλ, proving that once Eq. (H12.0.1) is postulated, the folding ratio η_fold ≡ Δτ_5/Δτ_4 of Eq. (H12.0.2) follows directly from the 5D geodesic variational integral.',
+          'Exact Tensor Evaluation, Finite-Difference Bianchi Check & Ghost-Free Einstein–Maxwell Bulk: Evaluating metric ansatz Eq. (H12.0.1) with Φ_rad = 1 gives scalar curvature ⁵R = −(2 α_t² − 6 α_t α_x + 12 α_x²) k² and mixed Einstein tensor G^0_0 = 6 α_x² k², G^i_i = (α_t² − 2 α_t α_x + 3 α_x²) k², G^y_y = 3(α_x² − α_t α_x) k²—independently confirmed via central finite-difference metric differentiation (Christoffel → Ricci → Einstein < 10⁻⁶, contracted Bianchi divergence ∇_A G^A_y < 10⁻⁷; Assertion 72). Thus δS_total / δG^{AB} = 0 recovers isotropic vacuum AdS_5 (⁵G^A_B = 6 k² δ^A_B = −Λ_5 δ^A_B, ⁵R = −20 k²) only for conformal RS (α_t = −1, α_x = +1) [2]. By contrast, asymmetric Model 2B warping (α_t + α_x > 0) is NOT a vacuum solution of δS_total / δG^{AB} = 0: the phenomenological (α_t = 0.5, α_x = 0.5) parameters are assumed rather than derived from a physical field source and strictly violate the 5D Null Energy Condition along both x (−k²) and y (−1.5 k²). For the realizable asymmetric branch (α_t = 1.0, α_x = 0.0), The 5D action is ghost-free Einstein-Maxwell. Specifically, choosing canonical Maxwell term ℒ_EM = −¼ F_{AB} F^{AB} with electric flux F_{0y} = E_0 e^{k|y|} obeying ∂_y(√−G F^{0y}) = 0 gives NEC-satisfying stress tensor T^0_0 = −½ E_0², T^i_i = +½ E_0², T^y_y = −½ E_0², solving G^A_B + Λ_5 δ^A_B = 8π G_5 T^A_B identically at Λ_5 = −½ k² and 8π G_5 E_0² = k² (residual < 10⁻¹⁴); because no macroscopic bulk electric flux F_{0y} has been observed, even this branch remains Category C.',
+          'Dynamic Radion Planck Matching [21], Orbifold S¹/ℤ_2, Eöt-Wash Bound & Thermal/Regulator Sweeps: Integrating dynamic radion fluctuations Φ_rad(x, y) = 1 + φ_rad(x) across mixed compact-warped geometry yields M̄_Pl²(φ_rad) = (M_5³/k) ∫_{−π R_5}^{π R_5} k e^{−2k|y|} Φ_rad(x,y) dy = (M_5³/k)(1 − e^{−2kπR_5})(1 + φ_rad) plus canonical 4D Brans–Dicke kinetic term −(3 M̄_Pl² / 2)(∂φ_rad)²/(1 + φ_rad). The Eöt-Wash bound is R_5 ≤ 44 μm. Using CODATA M̄_Pl = 2.4353 × 10¹⁸ GeV and Eöt-Wash R_5 = 44 ± 2 μm [5] yields KK ladder m_KK^(1,2,3) = 4.485 / 8.969 / 13.454 meV (n=1 error +0.214/−0.195 meV), flat S¹ floor M_5(S¹) = 2.985 (±0.045) × 10⁸ GeV, S¹/ℤ_2 orbifold floor M_5(S¹/ℤ_2) = 2^{1/3} M_5(S¹) = 3.761 × 10⁸ GeV, and warped AdS_5 scale M_5 = 1.8101 × 10¹⁸ GeV (k = 10¹⁸ GeV, kπR_5 = 35). At 1 neV, non-perturbative Heat-Kernel (4.972 × 10⁻¹⁴) and FRG Litim (3.149 × 10⁻¹⁶) cutoffs confirm full stability, while thermal background sweeps show cryogenic 4 K (δ = 5.873 × 10⁻³) lies safely inside the 44 μm EFT whereas 77 K and 300 K exceed m_KK^(1) by factors 1.48 and 5.76 (Table 2.2).'
         ],
         workedExample: {
           title: 'Worked Example 2.1 — Exact Eöt-Wash Floor, S¹/ℤ_2 Orbifold, Non-Perturbative Regulators & Thermal Sweep',
@@ -251,8 +260,8 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Taxonomy of Seven Temporal Notions, Component-Wise ℱ_AB & Tomita–Takesaki Modular Link',
         category: 'CATEGORY A — ESTABLISHED',
         paragraphs: [
-          'Discussions of "temporal folding" frequently collapse distinct mathematical quantities—confusing coordinate-chart reparametrizations of t with invariant proper-time intervals Δτ, Tomita–Takesaki modular flow s_mod, or Bures information distance s_QFI. Table 3.1 codifies seven mutually orthogonal temporal notions alongside their exact correspondences with ADM slicing, Borchers–Haag modular theory, Connes–Rovelli thermal time, and Braunstein–Caves statistical length.',
-          'Tomita–Takesaki Eigenstates, KMS Analyticity & Full ADM-Shift Tensor ℱ_AB: Along causal diamond algebra 𝒜(𝒪) with modular operator Δ_ξ = e^{−K_ξ} generated by grand-canonical local Hamiltonian K_ξ = β(H_loc − μ N), unitary automorphism σ_s(A) = Δ_ξ^{is} A Δ_ξ^{−is} acts analytically across the KMS strip 0 < Im(s) < 1, imposing periodicity β = (k_B T)⁻¹ and thermal time t_th = −ℏ β s_mod. Expanding local clock states |θ(λ)⟩ in eigenvectors |n⟩ of K_ξ fixes clock rate dτ_5 / dλ = α_mod √(g_ij^QFI θ̇^i θ̇^j), where s_QFI has dimensionless units rad and α_mod ≡ ℏ / (E_mod σ_1(K_ξ)) has units s. Retaining general ADM shift vector N_μ(X) ≠ 0 in the 4+1 split G_{00} = −e^{2α_t k|y|} c² + N_μ N^μ, G_{0i} = N_i, G_{μy} = N_μ Φ_rad, Temporal Folding Tensor ℱ_AB ≡ e^{2α_t k|y|} G_AB − g_AB^(4) yields exact components ℱ_00 = e^{2α_t k|y|}(N_μ N^μ + c²(1 − e^{2α_t k|y|})), ℱ_0i = e^{2α_t k|y|} N_i, ℱ_ij = (e^{2(α_t−α_x)k|y|} − 1) g_ij^(3), ℱ_yy = e^{2α_t k|y|} Φ_rad², and off-diagonal frame-dragging bulk mixing ℱ_{μy} = e^{2α_t k|y|} N_μ Φ_rad.'
+          'Discussions of "temporal folding" frequently collapse distinct mathematical quantities—confusing coordinate-chart reparametrizations of t with invariant proper-time intervals Δτ, Tomita–Takesaki modular flow s_mod (Connes & Rovelli 1994 [20]), or Bures information distance s_QFI (Braunstein & Caves 1994 [10]). Table 3.1 codifies seven mutually orthogonal temporal notions alongside their exact correspondences with ADM slicing, Borchers–Haag modular theory, Connes–Rovelli thermal time [20], and Braunstein–Caves statistical length [10].',
+          'Tomita–Takesaki Eigenstates, KMS Analyticity & Full ADM-Shift Tensor ℱ_AB: Along causal diamond algebra 𝒜(𝒪) with modular operator Δ_ξ = e^{−K_ξ} generated by grand-canonical local Hamiltonian K_ξ = β(H_loc − μ N), unitary automorphism σ_s(A) = Δ_ξ^{is} A Δ_ξ^{−is} acts analytically across the KMS strip 0 < Im(s) < 1, imposing periodicity β = (k_B T)⁻¹ and thermal time t_th = −ℏ β s_mod [20]. Expanding local clock states |θ(λ)⟩ in eigenvectors |n⟩ of K_ξ fixes clock rate dτ_5 / dλ = α_mod √(g_ij^QFI θ̇^i θ̇^j), where s_QFI has dimensionless units rad and α_mod ≡ ℏ / (E_mod σ_1(K_ξ)) has units s, obeying the quantum Cramér–Rao speed limit Δτ ≥ ℏ/(2 E_mod σ_1) verified for Model 3 in Assertion 79 [10]. Retaining general ADM shift vector N_μ(X) ≠ 0 in the 4+1 split G_{00} = −e^{2α_t k|y|} c² + N_μ N^μ, G_{0i} = N_i, G_{μy} = N_μ Φ_rad, Temporal Folding Tensor ℱ_AB ≡ e^{2α_t k|y|} G_AB − g_AB^(4) yields exact components ℱ_00 = e^{2α_t k|y|}(N_μ N^μ + c²(1 − e^{2α_t k|y|})), ℱ_0i = e^{2α_t k|y|} N_i, ℱ_ij = (e^{2(α_t−α_x)k|y|} − 1) g_ij^(3), ℱ_yy = e^{2α_t k|y|} Φ_rad², and off-diagonal frame-dragging bulk mixing ℱ_{μy} = e^{2α_t k|y|} N_μ Φ_rad.'
         ],
         equation: {
           label: '(3.1)',
@@ -301,8 +310,8 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Negative Theorems: Multi-Baseline M_4 × S¹ & Generalized Conformal Horizon Theorem',
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
-          'Flat Compact M_4 × S¹ Multi-Baseline Proof (Category B — Derived): On flat ds_5² = −c² dt² + dx² + dy², null condition ds_5² = 0 fixes c dt = √(dx² + dy²). By the Euclidean triangle inequality, any smooth or bent null trajectory with net bulk winding/excursion Δy = 50 m between brane endpoints separated by Δx has L_5 = √(Δx² + Δy²) > Δx = L_4 strictly: at Δx = 1 m, L_5/L_4 = 50.01×; at Δx = 1,000 m, L_5/L_4 = 1.001249×; at Δx = 10,000 km (10⁷ m), L_5/L_4 = 1 + 1.25 × 10⁻¹¹ > 1; and across an astrophysical 1 Mpc baseline (3.0857 × 10²² m), L_5/L_4 = 1 + 1.31 × 10⁻⁴² > 1. Thus flat compactification NEVER produces arrival shortcuts across any laboratory or extragalactic distance.',
-          'RS Poincaré Jacobian & Generalized Curved Horizon Theorem (Category B — Derived): On conformal Randall–Sundrum AdS_5, ds_5² = e^{−2k|y|}(−c² dt² + dx²) + dy², applying z(y) = k⁻¹ e^{k|y|} yields Jacobian dz/dy = sgn(y) e^{k|y|} = sgn(y) kz, whose invariance dz² = (kz)² dy² transforms the line element into ds_5² = (kz)⁻²(−c² dt² + dx² + dz²). Because dt² and dx² share equal conformal prefactor (kz)⁻², c_eff(y) = c identically everywhere; symmetric excursions with midpoint height Δz = 0.25/k give numerical delay Δt_5 / Δt_4 = 1.010321 > 1. More generally, on ANY 5D bulk of conformal type ds_5² = w²(y) g_μν^(4)(x) dx^μ dx^ν + dy² over an arbitrary curved 4D metric g_μν^(4), setting ds_5² = 0 yields −g_μν^(4) dx^μ dx^ν = w⁻²(y) dy² ≥ 0, proving every bulk path projected back to M_4 is causal (timelike or null) inside the 4D lightcone of g_μν^(4) and strictly satisfies Δt_5 ≥ Δt_4.'
+          'Analytic Flat Compact M_4 × S¹ Multi-Baseline Proof (Category B — Derived): On flat ds_5² = −c² dt² + dx² + dy², null condition ds_5² = 0 fixes c dt/dx = dL_5/dx = √(1 + (y\')²) ≥ 1 identically, with strictly greater inequality dL_5/dx > 1 wherever y\'(x) ≠ 0. Integrating along any smooth or bent bulk trajectory with net winding/excursion Δy = 50 m between brane endpoints separated by Δx yields L_5 = ∫ √(1 + (y\')²) dx ≥ √(Δx² + Δy²) > Δx = L_4 strictly: at Δx = 1 m, L_5/L_4 = 50.01×; at Δx = 1,000 m, L_5/L_4 = 1.001249×; at Δx = 10,000 km (10⁷ m), L_5/L_4 = 1 + 1.25 × 10⁻¹¹ > 1; and across an astrophysical 1 Mpc baseline (3.0857 × 10²² m), L_5/L_4 = 1 + 1.31 × 10⁻⁴² > 1. Thus flat compactification NEVER produces arrival shortcuts across any laboratory or extragalactic distance.',
+          'RS Poincaré Jacobian & Analytic Conformal Horizon Proof (Category B — Derived): On conformal Randall–Sundrum AdS_5 [2], ds_5² = e^{−2k|y|}(−c² dt² + dx²) + dy², applying z(y) = k⁻¹ e^{k|y|} yields Jacobian dz/dy = sgn(y) e^{k|y|} = sgn(y) kz, transforming the line element into ds_5² = (kz)⁻²(−c² dt² + dx² + dz²). Equivalently, in Eq. (H12.0.1) α_t = −1, α_x = +1 enforces α_t + α_x = 0, so effective brane-projected speed c_eff(y) = c · e^{(α_t+α_x)k|y|} = c · e⁰ = c identically everywhere (Assertion 71). Symmetric excursions with midpoint height Δz = 0.25/k give numerical delay Δt_5 / Δt_4 = 1.010321 > 1. More generally, on ANY 5D bulk of conformal type ds_5² = w²(y) g_μν^(4)(x) dx^μ dx^ν + dy² over arbitrary curved 4D metric g_μν^(4), setting ds_5² = 0 yields −g_μν^(4) dx^μ dx^ν = w⁻²(y) dy² ≥ 0, proving every bulk path projected back to M_4 is causal inside the 4D lightcone of g_μν^(4) and strictly satisfies Δt_5 ≥ Δt_4 (generalizing Chung & Freese 2000 [3]).'
         ],
         theoremBox: {
           number: 'No-Go Theorem 4.1',
@@ -313,18 +322,18 @@ export const H12_CHAPTERS: H12Chapter[] = [
             'Metric takes flat M_4 × S¹ form or generalized curved conformal form ds_5² = w²(y) g_μν^(4)(x) dx^μ dx^ν + dy² with shared temporal-spatial warp w(y).'
           ],
           statement:
-            'Every piecewise-C² 5D null curve connecting events A and B on the y = 0 brane projects onto a causal (non-spacelike) trajectory in (M_4, g_μν^(4)) and satisfies Δt_5 ≥ Δt_4 identically. Bulk super-brane shortcuts are strictly forbidden unless either w_t(y) ≠ w_x(y) (asymmetric warping) or extrinsic brane embedding breaks Gauss–Codazzi flatness.'
+            'Every piecewise-C² 5D null curve connecting events A and B on the y = 0 brane projects onto a causal (non-spacelike) trajectory in (M_4, g_μν^(4)) and satisfies Δt_5 ≥ Δt_4 identically. Bulk super-brane shortcuts are strictly forbidden unless either w_t(y) ≠ w_x(y) (asymmetric warping) or extrinsic brane embedding breaks Gauss–Codazzi flatness [3, 4].'
         }
       },
       {
         number: '4.2',
         anchorId: 'h12-sec-4-2',
-        title: 'Model 2B Asymmetrically Warped Beltrami Geodesics, Convergence & P11–P12 Link (Category C)',
+        title: 'Model 2B Asymmetrically Warped Beltrami Geodesics, Exact 5D NEC Obstruction & P11–P13 Link (Category C)',
         category: 'CATEGORY C — CONJECTURAL',
         paragraphs: [
-          'Variational Equations & Beltrami First Integral (Category C): Evaluating metric determinant and nonzero Ricci-flatness obstructions for asymmetric metric Eq. (H12.0.1) (G_00 = −e^{2α_t k|y|} c², G_11 = e^{−2α_x k|y|}, G_yy = 1, √−G = e^{(α_t − 3α_x)k|y|}) demonstrates that asymmetric shortcuts require either the exact ghost-free 5D Einstein–Maxwell bulk (α_t = 1, α_x = 0) derived in §2.2 or phenomenological anisotropic bulk stress-energy (α_x > 0). Along 5D null trajectories ds_5² = 0, c dt/dx = L(y, y\') = √(e^{−2βky} + e^{−2α_t ky}(y\')²) where β ≡ α_t + α_x. Because L is autonomous in x, Euler–Lagrange equation d/dx(∂L/∂y\') = ∂L/∂y integrates to Beltrami invariant H_Beltrami = L − y\'(∂L/∂y\') = e^{−2βky}/L = C_const = e^{−β k y_peak}.',
-          'Exact Closed-Form Ghost-Free Einstein–Maxwell Theorem & Finite-Span Horizon Ceiling (k Δx < π): Setting the ghost-free Einstein–Maxwell parameters (α_t = 1.0, α_x = 0.0) reduces the Beltrami slope equation to y\'(y) = √(e^{2k(y_peak − y)} − 1), which integrates in closed form to k Δx / 2 = arccos(e^{−k y_peak}) < π/2. Consequently, the ghost-free EM bulk exhibits an exact finite-span horizon ceiling k Δx < π (3.141593): above k Δx ≥ π no symmetric turning arch exists without α_x > 0. Strictly inside 0 < k Δx < π, turning depth y_peak = −k⁻¹ ln cos(k Δx / 2) and folding ratio η_fold^EM = sin(k Δx / 2) / (k Δx / 2) are exact (at k Δx = 2: y_peak = 0.61563 / k, η_fold = sin(1) = 0.84147, c_eff/c = 1.1884×, verified against N_u = 800 vs 1,600 quadrature to 1.39 × 10⁻⁷, EL residual 1.64 × 10⁻⁹, ds_5² = 4.45 × 10⁻¹⁶; horizon limit lim_{kΔx→π⁻} η_fold^EM = 2/π = 0.63662).',
-          'Unbounded-Span Phenomenological Model 2B Convergence (Table 4.2): Extending arches to unbounded spans k Δx ∈ {10, 50} requires α_x > 0 (such as phenomenological α_t = α_x = 0.5). Removing the turning-point singularity via y = y_peak(1 − u²), dy = −2 y_peak u du over u ∈ [0, 1] and bisecting across N_u = 800 vs 1,600 yields η_fold = 0.86634 (k Δx = 2: Δ = 6.55 × 10⁻⁸, EL = 1.93 × 10⁻⁹, ds_5² = 4.91 × 10⁻¹⁶), η_fold = 0.34279 (k Δx = 10: Δ = 2.18 × 10⁻⁷, EL = 4.40 × 10⁻¹⁰, ds_5² = 5.24 × 10⁻¹⁶), and η_fold = 0.07770 (k Δx = 50: Δ = 1.68 × 10⁻⁷, EL = 2.57 × 10⁻⁹, ds_5² = 6.11 × 10⁻¹⁶). Testing this Category C channel motivates Protocol P11 (currently hardware-infeasible) and Protocol P12 (bulk gauge birefringence |Δc/c| < 10⁻¹⁸).'
+          'Epistemic Classification & Exact 5D NEC Obstruction Theorem (Assertions 68, 72–73): The positive shortcut theorem is a classification of possible geometries, not a prediction of a physical one. Furthermore, The asymmetric warp required for shortcuts is not derived from a physical principle; no such principle is currently known. Contracting mixed 5D Einstein tensor G^A_B along x-null (k^0 = e^{−α_t ky}, k^x = e^{α_x ky}) and y-null (k^0 = e^{−α_t ky}, k^y = 1) bulk vectors proves the exact 5D NEC factorization identities −G^0_0 + G^x_x = (α_t − 3 α_x)(α_t + α_x) k² and −G^0_0 + G^y_y = −3 α_x(α_t + α_x) k². Consequently, phenomenological Model 2B (α_t = 0.5, α_x = 0.5) strictly violates the 5D Null Energy Condition in both the brane x-direction (−k²) and bulk y-direction (−1.5 k²) (Assertion 73), barring standard ghost-free matter support! Conversely, 5D Einstein–Maxwell (α_t = 1.0, α_x = 0.0) obeys the 5D NEC identically (+k² along x, 0 along y) while remaining physically unobserved. Along Beltrami curves [3], minimizing null optical action with ds_5² = 0 fixes c dt/dx = L(y, y\') = √(e^{−2βky} + e^{−2α_t ky}(y\')²) (β ≡ α_t + α_x) and Beltrami invariant H_Beltrami = e^{−2βky}/L = e^{−β k y_peak}. Equivalently, affine Killing momenta e^{2α_t ky}(c ṫ) = 1 and e^{−2α_x ky} ẋ = e^{−β k y_peak} satisfy the exact 5D affine geodesic ODE d²y/dλ² + Γ^y_{00}(c ṫ)² + Γ^y_{xx} ẋ² = 0 (5.56 × 10⁻¹² / 3.48 × 10⁻¹¹ in Assertion 68) and local null microcausality ds_5² ≤ 0 (< 6.11 × 10⁻¹⁶ everywhere).',
+          'Exact Closed-Form Ghost-Free Einstein–Maxwell Theorem & Finite-Span Horizon Ceiling (k Δx < π): Setting the ghost-free Einstein–Maxwell parameters (α_t = 1.0, α_x = 0.0) reduces the Beltrami slope equation to y\'(y) = √(e^{2k(y_peak − y)} − 1), which integrates in closed form to k Δx / 2 = arccos(e^{−k y_peak}) < π/2. Consequently, the ghost-free EM bulk exhibits an exact finite-span horizon ceiling k Δx < π (3.141593): above k Δx ≥ π no symmetric turning arch exists without α_x > 0 (whose activation violates 5D NEC). Strictly inside 0 < k Δx < π, turning depth y_peak = −k⁻¹ ln cos(k Δx / 2) and folding ratio η_fold^EM = sin(k Δx / 2) / (k Δx / 2) are exact (at k Δx = 2: y_peak = 0.61563 / k, η_fold = sin(1) = 0.84147, c_eff/c = 1.1884×, verified against N_u = 800 vs 1,600 quadrature to 1.39 × 10⁻⁷, EL residual 1.64 × 10⁻⁹, ds_5² = 4.45 × 10⁻¹⁶; horizon limit lim_{kΔx→π⁻} η_fold^EM = 2/π = 0.63662).',
+          'Unbounded-Span Phenomenological Model 2B Convergence (Table 4.2): Extending arches to unbounded spans k Δx ∈ {10, 50} requires α_x > 0 (such as NEC-violating Model 2B α_t = α_x = 0.5). Removing the turning-point singularity via y = y_peak(1 − u²), dy = −2 y_peak u du over u ∈ [0, 1] and bisecting across N_u = 800 vs 1,600 yields η_fold = 0.86634 (k Δx = 2: Δ = 6.55 × 10⁻⁸, EL = 1.93 × 10⁻⁹, ds_5² = 4.91 × 10⁻¹⁶), η_fold = 0.34279 (k Δx = 10: Δ = 2.18 × 10⁻⁷, EL = 4.40 × 10⁻¹⁰, ds_5² = 5.24 × 10⁻¹⁶), and η_fold = 0.07770 (k Δx = 50: Δ = 1.68 × 10⁻⁷, EL = 2.57 × 10⁻⁹, ds_5² = 6.11 × 10⁻¹⁶). Testing this Category C channel motivates Protocol P11 (not currently achievable), Protocol P12 (bulk gauge birefringence |Δc/c| < 10⁻¹⁸), and passive multi-messenger bound P13 (|η_fold^{GW−EM} − 1| ≤ 4.129 × 10⁻¹⁶).'
         ],
         equation: {
           label: '(4.1)',
@@ -351,8 +360,8 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Explicit Proof That 4D H11 Hayward Black Holes Are NOT Portals',
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
-          'A persistent misconception conflates non-singular regular black holes (such as the H11 Hayward metric f(r) = 1 − 2GMr² / (r³ + 2GMℓ_0²) with derived UV ratio ξ_0 ≡ ℓ_0 / ℓ_Pl = 2⁻¹/⁴ ≈ 0.840896, denoted σ_0 in pre-harmonized drafts) with traversable wormholes. Exact Einstein-tensor evaluation proves this mathematically false — establishing unconditionally that 4D Hayward regular black holes are NOT traversable portals.',
-          'Explicit NEC Derivation & Core Arithmetic: For static metric ds² = −f(r) c² dt² + f(r)⁻¹ dr² + r² dΩ², exact Christoffel contraction gives G^t_t = (r f\' + f − 1)/r² and G^r_r = (r f\' + f − 1)/r², forcing p_r = −ρ c² ⇒ ρ c² + p_r = 0 identically everywhere for any f(r) (zero radial flare-out). Differentiating f(r) = 1 − r_s r²/(r³ + a³) with a³ ≡ r_s ℓ_0² gives f\'(r) = r_s r(r³ − 2a³)/(r³ + a³)² and exact closed-form angular Einstein component G^θ_θ = (r f\'\' + 2f\')/(2r) = 3 r_s a³ (2 r³ − a³)/(r³ + a³)³, yielding transverse null sum 8πG(ρ + p_⊥)/c² = G^θ_θ − G^t_t = 9 r_s a³ r³ / (r³ + a³)³ > 0 strictly for every r > 0. For a M = 30 M_⊙ solar-mass remnant (r_s = 8.8599 × 10⁴ m, ℓ_0 = 1.3591 × 10⁻³⁵ m), r_core = (r_s ℓ_0²)^{1/3} = 2.5389 × 10⁻²² m; verify-igrt-h12.mjs confirms G^r_r − G^t_t = 0, exact G^θ_θ formula, and positive transverse NEC across r ∈ [0.25 r_core, 5.0 r_core] within < 10⁻⁴ finite-difference error, leaving the WKB tortoise barrier reflection amplitude K_echo = 0.184 cleanly tied to exterior ringdown echoes without interior wormhole transit.'
+          'A persistent misconception conflates non-singular regular black holes (such as the H11 Hayward (2006) [6] metric f(r) = 1 − 2GMr² / (r³ + 2GMℓ_0²) with derived UV ratio ξ_0 ≡ ℓ_0 / ℓ_Pl = 2⁻¹/⁴ ≈ 0.840896, denoted σ_0 in pre-harmonized drafts [1]) with traversable wormholes [8]. Exact null-vector Einstein-tensor contractions prove this mathematically false — establishing unconditionally that 4D Hayward regular black holes are NOT traversable portals, because the negative theorems rule out physical portals.',
+          'Explicit Null Contraction k^μ k^ν G_μν & Core Arithmetic: For static metric ds² = −f(r) c² dt² + f(r)⁻¹ dr² + r² dΩ², contracting any radial null vector k^μ = (f⁻¹/², ±f¹/², 0, 0) yields k^μ k^ν G_μν = G^r_r − G^t_t = 0 identically for every f(r) (since G^t_t = G^r_r = (r f\' + f − 1)/r² ⇒ p_r = −ρ c² ⇒ ρ c² + p_r = 0, zero radial flare-out). Contracting a transverse null vector k^μ_⊥ = (f⁻¹/², 0, r⁻¹, 0) yields k^μ_⊥ k^ν_⊥ G_μν = G^θ_θ − G^t_t = 8πG(ρ + p_⊥)/c²; differentiating f(r) = 1 − r_s r²/(r³ + a³) (a³ ≡ r_s ℓ_0²) gives f\'(r) = r_s r(r³ − 2a³)/(r³ + a³)² and G^θ_θ = (r f\'\' + 2f\')/(2r) = 3 r_s a³ (2 r³ − a³)/(r³ + a³)³, producing strictly positive transverse null contraction G^θ_θ − G^t_t = 9 r_s a³ r³ / (r³ + a³)³ > 0 for every r > 0 (verified numerically in Assertion 69; Raychaudhuri null focusing dθ/dλ < 0 in Assertion 75). For a M = 30 M_⊙ remnant (r_s = 8.8599 × 10⁴ m, ℓ_0 = 1.3591 × 10⁻³⁵ m, r_core = 2.5389 × 10⁻²² m), WKB echo amplitude K_echo = 0.184 remains strictly tied to exterior ringdown reflections without interior wormhole transit.'
         ],
         equation: {
           label: '(5.1)',
@@ -369,7 +378,7 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: '5D Brane-World Hayward Weyl Charge, Gregory–Laflamme Threshold & 6-Class Taxonomy',
         category: 'CATEGORY C — CONJECTURAL',
         paragraphs: [
-          'Lifting a Hayward core onto a 5D brane via Shiromizu–Maeda–Sasaki projection E_{μν} = ⁵C^y_{μyν} adds a Category C bulk Weyl tidal-charge term q_tidal into f_5D(r) = 1 − (2GMr² + q_tidal R_AdS r)/(r³ + 2GMℓ_0²) with effective Weyl density ρ_Weyl = q_tidal R_AdS / (8π G r⁴). Note carefully: the Gregory–Laflamme stability threshold r_+/R_AdS = 0.876 is an established instability criterion for linearized 5D vacuum Schwarzschild–AdS black strings (Gregory & Laflamme 1993); applying it to coupled Hayward–Araki strings with nonzero q_tidal stays Category C because full 5D non-linear string-pinching PDEs remain unsolved.',
+          'Lifting a Hayward core [6] onto a 5D brane via Shiromizu–Maeda–Sasaki projection E_{μν} = ⁵C^y_{μyν} [4] adds a Category C bulk Weyl tidal-charge term q_tidal into f_5D(r) = 1 − (2GMr² + q_tidal R_AdS r)/(r³ + 2GMℓ_0²) with effective Weyl density ρ_Weyl = q_tidal R_AdS / (8π G r⁴). Assertion 76 verifies numerically that q_tidal > 0 monotonically expands the outer horizon (f_5D(r_s) < 0) while q_tidal < 0 contracts it (f_5D(r_s) > 0) without creating a free macroscopic portal. Note verbatim: The Gregory-Laflamme stability threshold is assumed, not derived. Specifically, r_+/R_AdS = 0.876 is imported from linearized vacuum Schwarzschild–AdS_5 black strings (Gregory & Laflamme 1993 [7]); applying it to coupled Hayward–Araki black strings with nonzero q_tidal stays Category C because full 5D non-linear string-pinching PDEs remain unsolved.',
           'Table 5.1 classifies all six black-hole and portal-candidate geometries (Classes A through F) by exact metric, NEC violation status, traversability, and epistemic category.'
         ]
       }
@@ -407,8 +416,8 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Casimir–Quantum Inequality Deficit Across 35 Orders of Magnitude',
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
-          'Note explicitly: The Casimir deficit bound below is a correct quantitative application of the established Morris–Thorne Null Energy Condition integral, not a novel mechanism. Evaluating solveMorrisThorneWormhole in verify-igrt-h12.mjs exposes the insurmountable physical barrier at human scales: at r_0 = 1 m, throat NEC demands −9.6309 × 10⁴² J/m³ and integrated exotic mass −1.0637 × 10⁻³ M_⊙ (−1.9011 × 10⁴⁴ J), while transverse tidal acceleration on a 2 m traveler at 0.1c reaches a fatal 9.0783 × 10¹⁴ m/s² (traversal 663.784 ns). At r_0 = 3 km, exotic mass escalates to −3.1912 M_⊙ (tide 1.0087 × 10⁸ m/s², traversal 1.9914 ms).',
-          'Casimir Zeta-Regularized Mode Sum & 10⁷¹ Deficit: Summing transverse electromagnetic zero-point frequencies ω_n(k_⊥) = c √(k_⊥² + (nπ/d)²) between conducting plates separated by d yields bare mode sum E_0/A = ∑_{n=1}^∞ ∫ d²k_⊥/(2π)² (½ ℏ ω_n) whose Riemann zeta analytic continuation ζ(−3) = 1/120 yields finite energy density ρ_Casimir(d) = −π² ℏ c / (720 d⁴) < 0. Comparing directly against Morris–Thorne throat NEC gives |ρ_Casimir / NEC| = (π³ G ℏ) / (180 c³ r_0²) = 4.50 × 10⁻⁷¹ at r_0 = 1 m and 4.50 × 10⁻⁵⁹ at r_0 = 1 μm. Only at the H11 quantum-gravity core length r_0 = ℓ_0 = 1.3591 × 10⁻³⁵ m does Casimir density reach O(1) parity (ratio 0.2436, exotic mass −2.8748 × 10⁻⁸ kg)—proving macroscopic traversable portals are blocked by > 70 orders of magnitude in energy density.'
+          'Note explicitly: The Casimir deficit bound below is a correct quantitative application of the established Morris–Thorne (1988) [8] Null Energy Condition integral, and radial null-vector contraction k^μ k^ν G_μν = (8πG/c⁴)(ρ c² + p_r) = −2 r_0²/r⁴ < 0 (yielding Raychaudhuri null-ray defocusing dθ/dλ = −R_μν k^μ k^ν = +2/r_0² > 0 at r = r_0; Assertions 69 & 75) proves that zero-tidal Morris–Thorne wormholes [8] strictly require NEC violation. At r_0 = 1 m, throat NEC demands −9.6309 × 10⁴² J/m³ and integrated exotic mass −1.0637 × 10⁻³ M_⊙ (−1.9011 × 10⁴⁴ J), while transverse tidal acceleration on a 2 m traveler at 0.1c reaches a fatal 9.0783 × 10¹⁴ m/s² (traversal 663.784 ns). At r_0 = 3 km, exotic mass escalates to −3.1912 M_⊙ (tide 1.0087 × 10⁸ m/s², traversal 1.9914 ms).',
+          'Casimir Zeta-Regularized Mode Sum & Ford–Roman 10⁷¹ Deficit [9, 22]: Summing transverse electromagnetic zero-point frequencies ω_n(k_⊥) = c √(k_⊥² + (nπ/d)²) between real conducting plates [22] separated by d yields bare mode sum E_0/A = ∑_{n=1}^∞ ∫ d²k_⊥/(2π)² (½ ℏ ω_n) whose Riemann zeta analytic continuation ζ(−3) = 1/120 yields finite energy density ρ_Casimir(d) = −π² ℏ c / (720 d⁴) < 0. Comparing directly against Morris–Thorne throat NEC gives |ρ_Casimir / NEC| = (π³ G ℏ) / (180 c³ r_0²) = 4.50 × 10⁻⁷¹ at r_0 = 1 m and 4.50 × 10⁻⁵⁹ at r_0 = 1 μm. Independently, the Ford–Roman (1996) [9] curved-spacetime quantum inequality ρ_FR(τ_0) ≥ −3 ℏ c / [32 π² (c τ_0)⁴] evaluated over throat transit duration τ_0 = r_0 / c caps squeezed-vacuum energy density at ρ_FR = −3.003 × 10⁻²⁸ J/m³ (ratio |ρ_FR / NEC| = 3.118 × 10⁻⁷¹ at r_0 = 1 m vs. 0.1688 at r_0 = ℓ_0; Assertion 74). Only at the H11 quantum-gravity core length r_0 = ℓ_0 = 1.3591 × 10⁻³⁵ m does Casimir/FR density reach O(1) parity (0.2436 / 0.1688)—proving macroscopic traversable portals are blocked by > 70 orders of magnitude in energy density.'
         ],
         workedExample: {
           title: 'Worked Example 6.1 — Casimir Deficit Calculation (r_0 = 1 m vs r_0 = ℓ_0)',
@@ -447,7 +456,7 @@ export const H12_CHAPTERS: H12Chapter[] = [
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
           'Consider a coherent particle passing two slits coupled to a which-path detector: |Ψ(φ)⟩ = 2⁻¹/² (|1⟩|d_1⟩ + e^{iφ}|2⟩|d_2⟩) with detector overlap γ_coh = ⟨d_1 | d_2⟩ ∈ [0, 1]. Tracing out detector states |d_k⟩ produces reduced 2×2 path density matrix ρ(φ) = ½ [[1, γ_coh e^{−iφ}], [γ_coh e^{iφ}, 1]] inside projective Hilbert fiber PU(ℋ), with derivative ∂_φ ρ = ½ [[0, −i γ_coh e^{−iφ}], [i γ_coh e^{iφ}, 0]] and eigenvalues λ_± = ½(1 ± γ_coh) corresponding to orthonormal eigenstates |λ_±(φ)⟩ = 2⁻¹/² (|1⟩ ± e^{iφ}|2⟩).',
-          'Step-by-Step Eigenbasis Matrix Derivation & Residual Verification: Evaluating transition matrix elements ⟨λ_±|∂_φ ρ|λ_±⟩ = 0 (diagonal) and ⟨λ_+|∂_φ ρ|λ_−⟩ = −⟨λ_−|∂_φ ρ|λ_+⟩ = ½ i γ_coh, dividing by λ_+ + λ_− = 1 gives SLD eigenbasis matrix elements (L_φ)_{+−} = 2(½ i γ_coh)/1 = i γ_coh and (L_φ)_{−+} = −i γ_coh. Transforming back to path basis {|1⟩, |2⟩} yields exact Hermitian matrix L_φ = [[0, −i γ_coh e^{−iφ}], [i γ_coh e^{iφ}, 0]]. Direct multiplication verifies ½(L_φ ρ + ρ L_φ) = ∂_φ ρ identically (Frobenius residual 0.000 × 10⁰ across all γ_coh ∈ [0, 1] in verify-igrt-h12.mjs). Taking Tr(ρ L_φ²) yields SLD Quantum Fisher Information F_Q(φ) = γ_coh². Since screen intensity obeys P(φ) = ½(1 + γ_coh cos φ) ⇒ V = γ_coh and Helstrom minimum-error path distinguishability equals D_QFI = √(1 − γ_coh²), V² + D_QFI² = 1 and F_Q = V² hold unconditionally inside PU(ℋ).'
+          'Step-by-Step Eigenbasis Matrix Derivation & Residual Verification: Evaluating transition matrix elements ⟨λ_±|∂_φ ρ|λ_±⟩ = 0 (diagonal) and ⟨λ_+|∂_φ ρ|λ_−⟩ = −⟨λ_−|∂_φ ρ|λ_+⟩ = ½ i γ_coh, dividing by λ_+ + λ_− = 1 gives SLD eigenbasis matrix elements (L_φ)_{+−} = 2(½ i γ_coh)/1 = i γ_coh and (L_φ)_{−+} = −i γ_coh. Transforming back to path basis {|1⟩, |2⟩} yields exact Hermitian matrix L_φ = [[0, −i γ_coh e^{−iφ}], [i γ_coh e^{iφ}, 0]]. Direct multiplication verifies ½(L_φ ρ + ρ L_φ) = ∂_φ ρ identically (Frobenius residual 0.000 × 10⁰ across all γ_coh ∈ [0, 1] in verify-igrt-h12.mjs). Taking Tr(ρ L_φ²) yields SLD Quantum Fisher Information F_Q(φ) = γ_coh² (Braunstein & Caves 1994 [10]). Since screen intensity obeys P(φ) = ½(1 + γ_coh cos φ) ⇒ V = γ_coh and Helstrom minimum-error path distinguishability equals D_QFI = √(1 − γ_coh²), V² + D_QFI² = 1 (recovering Englert 1996 [11] as an exact equality for pure/two-mode QFI) and F_Q = V² hold unconditionally inside PU(ℋ).'
         ],
         equation: {
           label: '(7.1)',
@@ -464,8 +473,8 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Epistemic Safeguards: Born Rule Status & Independence from 5D',
         category: 'CATEGORY A — ESTABLISHED',
         paragraphs: [
-          'Two binding safeguards isolate Chapter 7 from five-dimensional overclaiming. First, The Born rule is Category A (postulate), not derived from 5D; probability extraction P(x) = Tr(ρ Π_x) = |ψ_1(x) + ψ_2(x)|² is an established quantum axiom imported identically from 4D quantum mechanics.',
-          'Second, The double-slit complementarity identity is independent of the 5D extension; it is a property of the Fisher–Rao metric on the fiber PU(ℋ), orthogonal to spatial 5D displacement (PU(ℋ) ⊥ ∂/∂y, Eq. 2.1). Particles do NOT travel through a spatial fifth dimension y between slits. Protocol P9 solely bounds whether speculative fiber–bulk coupling causes anomalous decoherence |δV_5D| < 10⁻⁶.'
+          'Two binding safeguards isolate Chapter 7 from five-dimensional overclaiming. The Born rule is Category A (postulate), not derived from 5D. Probability extraction P(x) = Tr(ρ Π_x) = |ψ_1(x) + ψ_2(x)|² is an established quantum axiom imported identically from 4D quantum mechanics.',
+          'Second, The double-slit complementarity identity is independent of the 5D extension. It is a property of the Fisher–Rao metric on the fiber PU(ℋ), orthogonal to spatial 5D displacement (PU(ℋ) ⊥ ∂/∂y, Eq. 2.1). Particles do NOT travel through a spatial fifth dimension y between slits. Protocol P9 solely bounds whether speculative fiber–bulk coupling causes anomalous decoherence |δV_5D| < 10⁻⁶.'
         ]
       }
     ]
@@ -484,8 +493,8 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Haag–Kastler Axioms, Buchholz–Wichmann Nuclearity & No-Communication Preservation',
         category: 'CATEGORY A — ESTABLISHED',
         paragraphs: [
-          'Let net 𝒪 ↦ 𝒜(𝒪) assign von Neumann observable algebras to open bounded diamonds 𝒪 ⊂ M_5 satisfying all four Haag–Kastler axioms on globally hyperbolic 5D spacetime (signature −,+,+,+,+): (i) Isotony (𝒪_1 ⊂ 𝒪_2 ⇒ 𝒜(𝒪_1) ⊂ 𝒜(𝒪_2)); (ii) Microcausality ([O_A, O_B] = 0 for all 5D-spacelike 𝒪_A, 𝒪_B); (iii) Isometric Poincaré/diffeomorphism covariance; and (iv) Primitive causality (𝒜(𝒪) = 𝒜(D(𝒪)) on domain of dependence). Preserving H11’s Buchholz–Wichmann (1986) nuclearity condition Tr(e^{−β H}) < ∞ enforces the split property 𝒜(𝒪_A ∪ 𝒪_B) ≅ 𝒜(𝒪_A) ⊗̄ 𝒜(𝒪_B) across buffered spacelike wedges.',
-          'Marginal Unitary Invariance Proof & Gao–Jafferis–Wall Boundary Rule: Applying any local unitary U_B ∈ 𝒜(𝒪_B) at Bob’s location transforms global state ρ_AB → ρ_AB\' = (I ⊗ U_B) ρ_AB (I ⊗ U_B†). Computing Alice’s expectation value ⟨O_A⟩\' = Tr[(O_A ⊗ I) (I ⊗ U_B) ρ_AB (I ⊗ U_B†)] and invoking cyclic invariance of the partial trace Tr_B[(I ⊗ U_B† U_B)(O_A ⊗ I) ρ_AB] = Tr_B[(O_A ⊗ I) ρ_AB] proves ρ_A\' = Tr_B(ρ_AB\') = ρ_A identically. The no-communication theorem is preserved by 5D microcausality, but this is not a new result. Even in holographic Gao–Jafferis–Wall double-trace protocols (e^{i g O_L O_R}) in AdS_5/CFT_4, quantum teleportation across the bulk bridge strictly requires sending classical information along the conformal boundary at speed v ≤ c — distinguishing information-assisted teleportation from macroscopic traversable wormhole transit.'
+          'Let net 𝒪 ↦ 𝒜(𝒪) assign von Neumann observable algebras to open bounded diamonds 𝒪 ⊂ M_5 satisfying all four Haag–Kastler axioms on globally hyperbolic 5D spacetime (Haag 1992 [18]; Brunetti, Fredenhagen & Verch 2003 [19], signature −,+,+,+,+): (i) Isotony (𝒪_1 ⊂ 𝒪_2 ⇒ 𝒜(𝒪_1) ⊂ 𝒜(𝒪_2)); (ii) Microcausality ([O_A, O_B] = 0 for all 5D-spacelike 𝒪_A, 𝒪_B); (iii) Isometric Poincaré/diffeomorphism covariance; and (iv) Primitive causality (𝒜(𝒪) = 𝒜(D(𝒪)) on domain of dependence). Preserving H11’s Buchholz–Wichmann (1986) [17] nuclearity condition Tr(e^{−β H}) < ∞ enforces the split property 𝒜(𝒪_A ∪ 𝒪_B) ≅ 𝒜(𝒪_A) ⊗̄ 𝒜(𝒪_B) across buffered spacelike wedges.',
+          'Marginal Unitary Invariance Proof & Gao–Jafferis–Wall Boundary Rule: Applying any local unitary U_B ∈ 𝒜(𝒪_B) at Bob’s location transforms global state ρ_AB → ρ_AB\' = (I ⊗ U_B) ρ_AB (I ⊗ U_B†). Computing Alice’s expectation value ⟨O_A⟩\' = Tr[(O_A ⊗ I) (I ⊗ U_B) ρ_AB (I ⊗ U_B†)] and invoking cyclic invariance of the partial trace Tr_B[(I ⊗ U_B† U_B)(O_A ⊗ I) ρ_AB] = Tr_B[(O_A ⊗ I) ρ_AB] proves ρ_A\' = Tr_B(ρ_AB\') = ρ_A identically. The no-communication theorem is preserved by 5D microcausality, but this is not a new result. It follows directly from standard AQFT locality [17, 18, 19]. Even in holographic Gao–Jafferis–Wall (2017) [13] double-trace protocols (e^{i g O_L O_R}) in AdS_5/CFT_4, quantum teleportation across the bulk bridge strictly requires sending classical information along the conformal boundary at speed v ≤ c — distinguishing information-assisted teleportation from macroscopic traversable wormhole transit.'
         ],
         theoremBox: {
           number: 'No-Signaling Theorem 8.1',
@@ -505,7 +514,7 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Ryu–Takayanagi Bulk Connectivity, ER=EPR Status & Chronology Protection',
         category: 'CATEGORY C — CONJECTURAL',
         paragraphs: [
-          'In asymptotically AdS_5/CFT_4 holography, Ryu–Takayanagi extremal bulk surfaces γ_A equate boundary entanglement entropy S(ρ_A) = Area(γ_A)/(4 G_5) to bulk geometric connectivity, and Araki modular density ψ²(x) motivates a Category C geometric bridge analogy. However, the "portal" is a mathematical connection, not a traversable wormhole: non-traversable Einstein–Rosen throats collapse inside horizons unless aided by boundary classical communication or negative-energy shocks, and whether 5D Δσ⁻⁵ vacuum backreaction ⟨T_AB⟩_ren enforces Hawking chronology protection in general FRW/brane bulks remains an open Category C conjecture.',
+          'In asymptotically AdS_5/CFT_4 holography (Maldacena & Susskind 2013 ER=EPR [12]), Ryu–Takayanagi extremal bulk surfaces γ_A equate boundary entanglement entropy S(ρ_A) = Area(γ_A)/(4 G_5) to bulk geometric connectivity, and Araki modular density ψ²(x) motivates a Category C geometric bridge analogy. However, the "portal" is a mathematical connection, not a traversable wormhole: non-traversable Einstein–Rosen throats collapse inside horizons unless aided by boundary classical communication [13] or negative-energy shocks, and whether 5D Δσ⁻⁵ vacuum backreaction ⟨T_AB⟩_ren enforces Hawking chronology protection in general FRW/brane bulks remains an open Category C conjecture.',
           'Laboratory qubit OTOC experiments and 3G gravitational-wave leakage searches (Device E / Protocol P10) probe scrambling dynamics and bulk scalar modes—never macroscopic wormhole transit.'
         ]
       }
@@ -526,7 +535,7 @@ export const H12_CHAPTERS: H12Chapter[] = [
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
           'The negative theorems are the strongest part of H12. Rather than chasing speculative science-fiction claims, Chapters 4–8 deploy exact variational calculus, Poincaré coordinate conformal invariants, Einstein-tensor algebraic identities, and quantum-inequality bounds to rule out five widely repeated higher-dimensional myths with zero ambiguity.',
-          'Specifically: (1) Flat M_4 × S¹ strictly delays bulk paths (L_5/L_4 = 1.001249 > 1); (2) Conformally flat Randall–Sundrum AdS_5 fixes c_eff(y) = c everywhere (Horizon Theorem excursion 1.010321); (3) 4D H11 Hayward regular black holes obey ρ + p_r = 0 and ρ + p_⊥ > 0 at r_core = 2.5389 × 10⁻²² m (NOT portals); (4) Zero-tidal Morris–Thorne wormholes require −1.0637 × 10⁻³ M_⊙ at 1 m (−3.1912 M_⊙ at 3 km), outstripping physical Casimir vacuum energy by 10⁷¹ at 1 m and achieving 0.2436 parity only at Planck length ℓ_0; (5) AQFT microcausality [O_A, O_B] = 0 enforces zero FTL signaling across ER=EPR bridges; and (6) Double-slit complementarity V² + D_QFI² = 1 lives strictly inside internal fiber PU(ℋ) ⊥ ∂/∂y.'
+          'Specifically: (1) Flat M_4 × S¹ strictly delays bulk paths (L_5/L_4 = 1.001249 > 1); (2) Conformally flat Randall–Sundrum AdS_5 [2] fixes c_eff(y) = c everywhere (Horizon Theorem excursion 1.010321), while exact 5D NEC factorization −G^0_0 + G^x_x = (α_t − 3α_x)(α_t + α_x) k², −G^0_0 + G^y_y = −3α_x(α_t + α_x) k² proves that phenomenological Model 2B (0.5, 0.5) violates 5D NEC along both x (−k²) and y (−1.5 k²) (Assertion 73); (3) 4D H11 Hayward regular black holes [6] obey ρ + p_r = 0 and ρ + p_⊥ > 0 at r_core = 2.5389 × 10⁻²² m (NOT portals); (4) Zero-tidal Morris–Thorne wormholes [8] require −1.0637 × 10⁻³ M_⊙ at 1 m (−3.1912 M_⊙ at 3 km), outstripping physical Casimir [22] and Ford–Roman [9] vacuum energy bounds by 10⁷¹ (3.118 × 10⁻⁷¹) at 1 m and achieving 0.2436 / 0.1688 parity only at Planck length ℓ_0; (5) AQFT microcausality [O_A, O_B] = 0 [17, 18, 19] enforces zero FTL signaling across ER=EPR bridges [12, 13]; and (6) Double-slit complementarity V² + D_QFI² = 1 [10, 11] lives strictly inside internal fiber PU(ℋ) ⊥ ∂/∂y.'
         ]
       },
       {
@@ -554,7 +563,7 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Isolating Genuinely Five-Dimensional Signatures from 4D H11 Physics',
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
-          'A vital epistemic discipline of H12 is asking which phenomena genuinely require five spacetime dimensions versus which phenomena are already complete inside 4D IGRT-H11. As cataloged in Table 10.1, double-slit QFI complementarity (V² + D_QFI² = 1), quantum no-signaling, Araki coupling κ_ψ = 2.1727 × 10⁻²¹ GeV⁻¹, Hayward core regularity (ξ_0 = 2⁻¹/⁴, K_echo = 0.184), and the Hubble closure H_0 = 70.77 ± 0.72 km s⁻¹ Mpc⁻¹ require ZERO fifth dimension and reproduce identically to 4.972 × 10⁻¹⁴ at 1 neV.',
+          'No 5D phenomenon has been observed. A vital epistemic discipline of H12 is asking which phenomena genuinely require five spacetime dimensions versus which phenomena are already complete inside 4D IGRT-H11. As cataloged in Table 10.1, double-slit QFI complementarity (V² + D_QFI² = 1), quantum no-signaling, Araki coupling κ_ψ = 2.1727 × 10⁻²¹ GeV⁻¹, Hayward core regularity (ξ_0 = 2⁻¹/⁴, K_echo = 0.184), and the Hubble closure H_0 = 70.77 ± 0.72 km s⁻¹ Mpc⁻¹ require ZERO fifth dimension and reproduce identically to 4.972 × 10⁻¹⁴ at 1 neV.',
           'Only three empirical channels are genuinely unique to a 5D bulk hypothesis: (i) exponential short-range Yukawa KK gravity α_KK e^{−d/R_5} below 44 μm (Protocol P7, distinct from H11 Chameleon power laws in P5); (ii) 3G gravitational-wave scalar/KK polarization leakage |h_scalar/h_tensor| ≤ 10⁻³ or luminosity-distance dimming d_L^GW ≠ d_L^EM (Protocol P10); and (iii) Model 2B asymmetric bulk arrival shortcuts / gauge birefringence (Protocols P11–P12, Category C).'
         ]
       },
@@ -565,7 +574,7 @@ export const H12_CHAPTERS: H12Chapter[] = [
         category: 'CATEGORY C — CONJECTURAL',
         paragraphs: [
           'Every higher-dimensional theory must survive existing precision experiments across 40 orders of magnitude in energy. Table 10.2 audits H12 against six observational pillars, explicitly distinguishing derived from assumed compatibility:',
-          'Eöt-Wash (44 μm ⇒ m_KK^(1) ≥ 4.485 meV, M_5 ≥ 2.985 × 10⁸ GeV flat / 1.8101 × 10¹⁸ GeV warped) and CMB thermal decoupling (T_CMB = 0.235 meV ≪ 4.485 meV) are directly derived. By contrast, BBN relativistic species (ΔN_eff < 0.28), GW170817 gravitational wave speed (|c_GW/c − 1| ≤ 10⁻¹⁵), Cassini Shapiro PPN constraint (|γ_PPN − 1| < 2.3 × 10⁻⁵ via assumed Goldberger–Wise / Vainshtein radion mass), LHC monojet exclusions, and late-time Dark Energy dominance (w_0 = −0.831, w_a = −0.542 with bulk Weyl projection < 1%) rely on explicit low-energy localization and stabilization assumptions detailed in Chapter 11.'
+          'Eöt-Wash (44 μm [5] ⇒ m_KK^(1) ≥ 4.485 meV, M_5 ≥ 2.985 × 10⁸ GeV flat / 1.8101 × 10¹⁸ GeV warped) and CMB thermal decoupling (T_CMB = 0.235 meV ≪ 4.485 meV) are directly derived. By contrast, BBN relativistic species (1% Weyl dark radiation ⇒ ΔN_eff = 0.0614 < 0.28; Assertion 77), GW170817 gravitational wave speed [14] (|c_GW/c − 1| ≤ 10⁻¹⁵), Cassini Shapiro PPN constraint (|γ_PPN − 1| < 2.3 × 10⁻⁵ via assumed Goldberger–Wise [21] / Vainshtein radion mass giving 10 μm Yukawa attenuation 0.7967 and 1 AU attenuation = 0.000), LHC monojet exclusions, and late-time Dark Energy dominance (w_0 = −0.831, w_a = −0.542 with bulk Weyl projection < 1%) rely on explicit low-energy localization and stabilization assumptions detailed in Chapter 11.'
         ]
       }
     ]
@@ -584,8 +593,8 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Exhaustive Ledger of Category C/D Assumptions & Unproven Lifts',
         category: 'CATEGORY C — CONJECTURAL',
         paragraphs: [
-          'Transparent science demands stating plainly what a paper does NOT derive. Table 11.1 lists every non-derived claim across IGRT-2026-H12 together with the exact mathematical or physical reason it remains outside the derived Category B core.',
-          'In particular: (1) Neither the existence of a physical 5th coordinate y nor the phenomenological ansatz Eq. (H12.0.1) is derived; asymmetric α_t + α_x > 0 requires unconstructed anisotropic bulk matter; (2) Eq. (H12.0.2) defines η_fold ≡ Δτ_5 / Δτ_4 as a ratio on the assumed 5D lift; (3) Bundle lift P_5, 5D radion Vainshtein screening, Goldberger–Wise stabilization, 5D BFV–BRST constraint closure, and UV completion above M_5 (10⁸–10¹⁸ GeV) are postulated rather than solved; (4) Hayward black-string Gregory–Laflamme instability (r_+/R_AdS = 0.876) is imported from vacuum AdS_5 literature; (5) 5D orbifold ekpyrotic bounce embedding, BBN dark-radiation quenching, and chronology protection Δσ⁻⁵ backreaction remain conjectural; (6) The Born rule P = |ψ|² is explicitly Category A (postulate); and (7) Devices C & F and Protocols P11–P12 are optical analogs or currently unachievable conceptual designs.'
+          'This chapter catalogs every Category C/D claim that is not derived from first principles. Transparent science demands stating plainly what a paper does NOT derive; Table 11.1 lists every non-derived claim across IGRT-2026-H12 together with the exact mathematical or physical reason it remains outside the derived Category B core.',
+          'In particular: (1) Neither the existence of a physical 5th coordinate y nor the phenomenological ansatz Eq. (H12.0.1) is derived; phenomenological Model 2B (0.5, 0.5) violates the 5D NEC (−k² along x, −1.5 k² along y) and requires unconstructed anisotropic exotic bulk matter, while exact ghost-free Einstein–Maxwell (1.0, 0.0) assumes unobserved macroscopic bulk electric flux; (2) Eq. (H12.0.2) defines η_fold ≡ Δτ_5 / Δτ_4 as a ratio on the assumed 5D lift; (3) Bundle lift P_5, 5D radion Vainshtein screening, Goldberger–Wise stabilization [21], 5D BFV–BRST constraint closure, and UV completion above M_5 (10⁸–10¹⁸ GeV) are postulated rather than solved; (4) Hayward black-string Gregory–Laflamme instability (r_+/R_AdS = 0.876) is imported from vacuum AdS_5 literature [7]; (5) 5D orbifold ekpyrotic bounce embedding, BBN dark-radiation quenching, and chronology protection Δσ⁻⁵ backreaction remain conjectural; (6) The Born rule P = |ψ|² is explicitly Category A (postulate); and (7) Devices C & F and Protocols P11–P12 are optical analogs or currently unachievable conceptual designs.'
         ]
       }
     ]
@@ -593,19 +602,20 @@ export const H12_CHAPTERS: H12Chapter[] = [
   {
     number: 12,
     anchorId: 'h12-chapter-12',
-    runningLabel: 'Chapter 12 · Empirical Protocols P7–P12',
+    runningLabel: 'Chapter 12 · Empirical Protocols P7–P13',
     title: 'Experimental Protocols and Falsification',
     leadSummary:
-      'Distinguishes 4D H11 tests (P1–P6) from 5D bulk/KK probes (P7–P10) and newly formalized folding/birefringence tests (P11–P12), and supplies timeline, falsification, confirmation, decision-matrix, systematics, Bayesian Occam, checklist, and funding-impact modules.',
+      'Separates 4D H11 tests (P1–P6) from 5D bulk/KK/decoherence/leakage probes (P7–P10), unachievable active folding concepts (P11–P12), and the immediate passive multi-messenger arrival asymmetry test (P13), with full timeline, falsification, confirmation, decision-matrix, systematics, Bayesian Occam, and checklist modules.',
     subsections: [
       {
         number: '12.1',
         anchorId: 'h12-sec-12-1',
-        title: 'Scope Distinction: H11 (P1–P6), Bulk Probes (P7–P10) & Folding Probes (P11–P12)',
+        title: 'Scope Distinction: H11 (P1–P6), Bulk Probes (P7–P10), Active Folding (P11–P12) & Passive Bound P13',
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
           'The H11 protocols P1–P6 test 4D physics only; they do not confirm 5D. Even a decisive 5σ detection across P1 (2:1 ULDM dual-clock lock), P2 (1.028 μm silica DP collapse), P3 (LiteBIRD B-modes), P4 (K_echo = 0.184 echoes), P5 (CANNEX Chameleon), or P6 (HL-LHC Φ_portal) verifies four-dimensional IGRT-H11 without establishing an extra spacetime dimension.',
-          'Crucially, the H12 protocols P7–P10 test the 5D bulk hypothesis, not the folding mechanism specifically: P7 searches for exponential short-range Yukawa deviations down to R_5 = 10 μm (m_KK = 19.733 meV); P8 bounds fractional optical/nuclear clock KK/QFI drift |δν/ν| ≤ 10⁻¹⁹; P9 tests 5D decoherence in double-slit interferometry below |δV_5D| < 10⁻⁶; and P10 probes 3G gravitational-wave scalar/KK bulk leakage |h_scalar/h_tensor| ≤ 10⁻³ at ET/CE. To close the empirical gap cleanly, Table 12.1 also defines Protocol P11 (Direct Bulk Temporal Folding Trajectory Test targeting η_fold < 1 — explicitly flagged as NOT achievable with today’s technology) and Protocol P12 (Asymmetric Bulk Gauge-Field Birefringence Search testing α_t + α_x > 0).'
+          'P7–P10 test the 5D bulk; P11–P12 test the folding mechanism but are currently untestable; P13 is a passive bound. Specifically, P7 (10 μm / 19.733 meV Yukawa extending Eöt-Wash [5]) tests the 5D bulk; P8 (10⁻¹⁹ optical/nuclear clocks) tests KK corrections; P9 (10⁻⁶ interferometric visibility) tests decoherence; and P10 (GW bulk leakage |h_scalar/h_tensor| ≤ 10⁻³) tests 5D graviton leakage. By contrast, Protocols P11–P12 test the folding mechanism, but no current experiment can achieve the required sensitivity. The folding mechanism is not currently testable in controlled laboratory hardware.',
+          'To provide an immediate passive empirical bridge without laboratory bulk emitters, Table 12.1 introduces Protocol P13 (Direct Passive Multi-Messenger Arrival Asymmetry Test): Protocol P13 is a passive bound from existing data, not an active test of the folding mechanism. Comparing brane-bound GRB 170817A photons against bulk-accessible GW170817 gravitational waves [14] across D_L = 40 Mpc (|Δt_{GW−EM}| ≤ 1.7 s) directly bounds natural graviton-vs-photon bulk folding to |η_fold^{GW−EM} − 1| ≡ c |Δt_{GW−EM}| / D_L ≤ 4.129 × 10⁻¹⁶ today (conservative 26 Mpc: 6.353 × 10⁻¹⁶; statistical error only: 2.716 × 10⁻¹⁷; Assertion 70), with stacked 3G ET/CE + GRB catalogs (N = 150 BNS at 400 Mpc, 0.5 s lag dispersion) pushing sensitivity to 9.916 × 10⁻¹⁹ < 10⁻¹⁸ (Assertion 78).'
         ]
       },
       {
@@ -614,16 +624,24 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Systematics, Statistical Thresholds, Multi-Messenger Joint Likelihood, Null Baseline & Bayesian Evidence',
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
-          ...H12_PROTOCOL_ANALYSIS_SECTIONS.map((s) => `${s.title}: ${s.content}`)
+          ...H12_PROTOCOL_ANALYSIS_SECTIONS.map((s) => `${s.title}: ${s.content}`),
+          'Quantitative Joint Log-Likelihood Evaluation: Summing orthogonal Gaussian log-likelihood terms ln ℒ_joint(Θ_5D) = −½ ∑_{k ∈ {7,8,9,10,13}} ((x_k − μ_k(Θ_5D))/σ_k)² = −½ Δχ² evaluated at the 5σ discovery boundary (Δχ² = 25.00 across 1 effective bulk degree of freedom) yields ln ℒ_joint = −12.50 relative to the saturated signal fit. Subtracting the four-parameter Jeffreys–Occam complexity penalty Δ ln 𝒪 = −4 × 1.40 = −5.60 establishes net model-selection log-Bayes factor Δ ln B_{12/11} = ½ Δχ² + Δ ln 𝒪 = +12.50 − 5.60 = +6.90 (> +5.0 decisive Jeffreys threshold; Assertions 62 & 65).'
         ],
         equation: {
           label: '(12.1)',
           category: 'CATEGORY B — DERIVED',
           unicodeHtml:
-            'ln ℒ<sub>joint</sub> = ∑<sub><i>k</i>∈{7,8,9,10}</sub> ln ℒ<sub>P<i>k</i></sub>(Θ<sub>5D</sub>), &nbsp;&nbsp; Δ ln <i>B</i><sub>12/11</sub> = ½ Δχ<sup>2</sup> + Δ ln 𝒪 = +6.90 (at 5σ, Δ ln 𝒪 = −5.60)',
-          plainText: 'ln L_joint = sum_{k=7..10} ln L_Pk(Theta_5D), Delta ln B_{12/11} = 1/2 Delta chi^2 + Delta ln O = +6.90 (at 5 sigma, Delta ln O = -5.60)',
-          caption: 'Multi-messenger joint log-likelihood and Jeffreys-scale Bayes factor incorporating the 4-parameter Occam penalty.'
+            'ln ℒ<sub>joint</sub> = −½ ∑<sub><i>k</i>∈{7,8,9,10,13}</sub> ((<i>x</i><sub><i>k</i></sub> − μ<sub><i>k</i></sub>)/σ<sub><i>k</i></sub>)<sup>2</sup> = −12.50 (Δχ<sup>2</sup>=25), &nbsp;&nbsp; Δ ln <i>B</i><sub>12/11</sub> = +6.90 (Δ ln 𝒪 = −5.60)',
+          plainText: 'ln L_joint = -1/2 sum ((x_k - mu_k)/sigma_k)^2 = -12.50 (at Delta chi^2 = 25), Delta ln B_{12/11} = +6.90 (Delta ln O = -5.60)',
+          caption: 'Quantitative multi-messenger joint log-likelihood across P7–P10 & P13 and Jeffreys-scale Bayes factor incorporating the 4-parameter Occam penalty.'
         }
+      },
+      {
+        number: '12.3',
+        anchorId: 'h12-sec-12-3',
+        title: 'Dedicated Protocol P13 Methodology: Falsification, Confirmation, Systematics & 3G Prospects',
+        category: 'CATEGORY B — DERIVED',
+        paragraphs: P13_DEDICATED_PROTOCOLS_AND_CHECKS.map((item) => `${item.title}: ${item.content}`)
       }
     ]
   },
@@ -684,8 +702,8 @@ export const H12_CHAPTERS: H12Chapter[] = [
         title: 'Unified Scientific Verdict, Open Problems & Response to Prior Audits',
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
-          'Unified Verdict: IGRT-2026-H12 extends IGRT-2026-H11 to five dimensions without altering a single 4D prediction (4.972 × 10⁻¹⁴ low-energy shift at 1 neV; 665/665 H11 assertions intact). Its strongest pillars are closed Category A/B negative proofs: zero shortcuts in flat S¹ (1.001249) and conformal RS AdS_5 (1.010321), exact Hayward NEC satisfaction proving regular black holes are not portals, a 10⁷¹ macroscopic Casimir wormhole deficit at 1 m, and strict 5D AQFT no-signaling.',
-          'Positive Beltrami shortcuts—both the exact finite-span ghost-free Einstein–Maxwell branch (η_fold = 0.84147 at k Δx = 2 < π, limit 2/π = 0.63662) and phenomenological unbounded Model 2B (η_fold down to 0.07770)—remain explicitly quarantined as Category C mathematical possibilities contingent on unverified asymmetric bulk matter, awaiting future experimental discrimination across Protocols P7–P12. All open theoretical challenges (OP-1 to OP-6) and point-by-point resolutions to both the 200-expert and 40-expert panel audits are audited at the close of this chapter, followed by Appendices L, M, and N.'
+          'Unified Verdict: The H12 document is a follow-up, not a replacement for H11. The H11 SHA-256 preregistration digest is preserved. The H12 document is explicitly labeled as an extension. Concretely, IGRT-2026-H12 extends IGRT-2026-H11 [1] to five dimensions without altering a single 4D prediction (4.972 × 10⁻¹⁴ low-energy shift at 1 neV; 665/665 H11 assertions intact; verified across 80 deterministic assertions in scripts/verify-igrt-h12.mjs). Its strongest pillars are closed Category A/B negative proofs: zero shortcuts in flat S¹ (1.001249) and conformal RS AdS_5 [2] (1.010321), exact 5D NEC violation in phenomenological Model 2B (−k² along x, −1.5 k² along y), exact Hayward NEC satisfaction [6] proving regular black holes are not portals, a 10⁷¹ macroscopic Casimir/Ford–Roman wormhole deficit [8, 9, 22] at 1 m, and strict 5D AQFT no-signaling [17, 18, 19].',
+          'Positive Beltrami shortcuts—both the exact finite-span ghost-free Einstein–Maxwell branch (η_fold = 0.84147 at k Δx = 2 < π, limit 2/π = 0.63662) and phenomenological unbounded Model 2B (η_fold down to 0.07770)—remain explicitly quarantined as Category C mathematical classifications built on postulated metric ansätze, awaiting future empirical testing across bulk protocols P7–P10, conceptual folding probes P11–P12, and passive multi-messenger bound P13 (pushing to 9.916 × 10⁻¹⁹ in stacked 3G BNS catalogs). All open theoretical challenges (OP-1 to OP-6) and point-by-point methodological audit responses close this chapter, followed by Extended Appendices L–N and Technical Appendices A–K.'
         ]
       }
     ]
@@ -705,12 +723,12 @@ export const H12_MAIN_APPENDICES_LMN: H12ExtendedAppendix[] = [
   {
     letter: 'L',
     anchorId: 'h12-app-l',
-    title: 'Portal Formation Mechanisms and Theoretical Engineering (Moved from Ch. 9)',
+    title: 'Speculative Portal Mechanisms (Category D)',
     category: 'CATEGORY D — SPECULATIVE ENGINEERING',
     leadSummary:
       'Relocated from the core narrative so speculative engineering never obscures negative proofs; evaluates 11 candidate mechanisms across five quantitative feasibility tiers.',
     paragraphs: [
-      'Table L.1 systematically classifies eleven frequently proposed mechanisms—ranging from classical gravitational focusing and intense electromagnetic fields to Casimir cavities, squeezed quantum states, superconductors, colliders, entanglement, optical cavities, modular clocks, and 5D KK excitations.',
+      'Table L.1 systematically classifies eleven frequently proposed mechanisms—ranging from classical gravitational focusing and intense electromagnetic fields to Casimir cavities, squeezed quantum states, superconductors, colliders, entanglement, optical cavities, modular clocks, and 5D KK excitations. These mechanisms are theoretical speculations, not engineering designs.',
       'Three mechanisms belong to Tier 1 (Zero Portal: classical gravity focuses via Raychaudhuri; Maxwell EM satisfies NEC even at Schwinger limit 1.32 × 10¹⁸ V/m). Four belong to Tier 2 (Benchtop Metric Analogs: optical cavities, GRIN slabs, superconducting circuits, and optical-lattice clocks probe effective metrics cleanly without curving G_μν). Mechanisms 3 and 5 sit in Tier 3 (marginal perturbative effects constrained by Ford–Roman quantum inequalities or terrestrial Vainshtein Z_ψ = 7.05 × 10¹⁴). Casimir engineering (Mechanism 4) and HL-LHC collisions (Mechanism 7) are Planck/micro-scale only (Tier 4), while direct macro KK beaming (Mechanism 11) sits in Tier 5 (~10⁻⁶⁰ suppression).'
     ]
   },
@@ -748,7 +766,7 @@ export interface H12FrontMatterLists {
 export const H12_FRONTMATTER_TABLES_LIST: Array<{ id: string; title: string; location: string }> = [
   { id: 'Table 1.1', title: 'Audit of Twelve Core IGRT-H11 Components & 5D Status', location: 'Ch. 1 (§1.1)' },
   { id: 'Table 1.2', title: 'Direct Comparison: 4D IGRT-H11 vs. 5D IGRT-H12', location: 'Ch. 1 (§1.3)' },
-  { id: 'Table 1.3', title: 'Category B vs. Category C Grey-Area Boundary Rubric', location: 'Ch. 1 (§1.0)' },
+  { id: 'Table 1.3', title: 'Category B vs. Category C Grey-Area Boundary Rubric', location: 'Ch. 1 (Opening Box)' },
   { id: 'Table 2.1', title: 'Catalog of 665 Verified IGRT-H11 Monograph Assertions', location: 'Ch. 2 (§2.2)' },
   { id: 'Table 2.2', title: 'Eöt-Wash Uncertainty, UV Regulators & Clock Energy Sweep', location: 'Ch. 2 (§2.2)' },
   { id: 'Table 3.1', title: 'Taxonomy of Seven Orthogonal Temporal Notions & Literature', location: 'Ch. 3 (§3.1)' },
@@ -756,17 +774,22 @@ export const H12_FRONTMATTER_TABLES_LIST: Array<{ id: string; title: string; loc
   { id: 'Table 4.2', title: 'Model 2B Beltrami Quadrature Convergence & ds_5² = 0 Verification', location: 'Ch. 4 (§4.2)' },
   { id: 'Table 5.1', title: 'Six-Class Black-Hole & Portal Geometry Taxonomy (Classes A–F)', location: 'Ch. 5 (§5.2)' },
   { id: 'Table 6.1', title: 'Summary of Closed Negative Results (Wormholes & Horizons)', location: 'Ch. 6 (§6.2)' },
-  { id: 'Table 9.1', title: 'Consolidated Negative Results Summary Table', location: 'Ch. 9 (§9.2)' },
+  { id: 'Table 9.1', title: 'Consolidated Negative Results Summary Table (with P13)', location: 'Ch. 9 (§9.2)' },
   { id: 'Table 10.1', title: 'What Is Unique to 5D vs. Reproduced in 4D H11', location: 'Ch. 10 (§10.1)' },
   { id: 'Table 10.2', title: 'Observational Bounds Audit (Eöt-Wash, BBN, GW170817, Cassini, LHC, DE & CMB)', location: 'Ch. 10 (§10.2)' },
   { id: 'Table 11.1', title: 'What Is Not Derived — Exhaustive Epistemic Honesty Ledger', location: 'Ch. 11 (§11.1)' },
-  { id: 'Table 12.1', title: 'Empirical Falsification & Conceptual Protocols (P7–P12)', location: 'Ch. 12 (§12.1)' },
-  { id: 'Table 12.2', title: 'Experimental Timeline Table (P7–P10)', location: 'Ch. 12 (§12.2)' },
-  { id: 'Table 12.3', title: 'Protocol Falsification Threshold Table (P7–P10)', location: 'Ch. 12 (§12.2)' },
-  { id: 'Table 12.4', title: 'Protocol Confirmation Threshold Table (P7–P10)', location: 'Ch. 12 (§12.2)' },
+  { id: 'Table 12.1', title: 'Empirical Falsification & Conceptual Protocols (P7–P13)', location: 'Ch. 12 (§12.1)' },
+  { id: 'Table 12.2', title: 'Experimental Timeline Table (P7–P13)', location: 'Ch. 12 (§12.2)' },
+  { id: 'Table 12.3', title: 'Protocol Falsification Threshold Table (P7–P13)', location: 'Ch. 12 (§12.2)' },
+  { id: 'Table 12.4', title: 'Protocol Confirmation Threshold Table (P7–P13)', location: 'Ch. 12 (§12.2)' },
   { id: 'Table 12.5', title: 'Multi-Outcome Scientific Decision Matrix', location: 'Ch. 12 (§12.2)' },
-  { id: 'Table 12.6', title: 'Comparison Table: H11 (P1–P6) vs. H12 (P7–P12) Protocols', location: 'Ch. 12 (§12.2)' },
-  { id: 'Table 12.7', title: 'Quantitative Noise Budget & Systematic Controls (P7–P10)', location: 'Ch. 12 (§12.2)' },
+  { id: 'Table 12.6', title: 'Comparison Table: H11 (P1–P6) vs. H12 (P7–P13) Protocols', location: 'Ch. 12 (§12.2)' },
+  { id: 'Table 12.7', title: 'Quantitative Noise Budget & Systematic Controls (P7–P13)', location: 'Ch. 12 (§12.2)' },
+  { id: 'Table 12.8', title: 'Systematic Error Budget for Protocol P13 (GW170817 / GRB 170817A)', location: 'Ch. 12 (§12.3)' },
+  { id: 'Table 12.9', title: 'Statistical Error Budget for Protocol P13 (Single Event vs. 3G Stack)', location: 'Ch. 12 (§12.3)' },
+  { id: 'Table 12.10', title: 'Combined Orthogonal Bounds & Joint Likelihood Table (P7–P13)', location: 'Ch. 12 (§12.3)' },
+  { id: 'Table 12.11', title: 'Multi-Epoch Sensitivity Projection Table (P7–P13)', location: 'Ch. 12 (§12.3)' },
+  { id: 'Table 12.12', title: 'Summary of Passive Folding Bounds for Protocol P13', location: 'Ch. 12 (§12.3)' },
   { id: 'Table 13.1', title: 'Twelve Research Extrapolations & Open Obstacles', location: 'Ch. 13 (§13.5)' },
   { id: 'Table L.1', title: 'Five-Tier Assessment of Eleven Candidate Portal Mechanisms', location: 'Appendix L' },
   { id: 'Table M.1', title: 'Devices A–F Ten-Field Technical Specifications', location: 'Appendix M' },
@@ -803,14 +826,18 @@ export function buildH12FullMarkdown(): string {
     lines.push(`- **${au.name}** — ${au.affiliation} ([ORCID: ${au.orcid}](${au.orcidUrl}))`);
   });
   lines.push('');
+  lines.push(`> **Portal Definition:** ${H12_PORTAL_DEFINITION_BOX}`);
+  lines.push('');
   lines.push('## Abstract');
   H12_ABSTRACT_PARAGRAPHS.forEach((p) => {
     lines.push(p);
     lines.push('');
   });
-  lines.push(`> ${H12_NON_SPECIALIST_SUMMARY}`);
+  lines.push(`> ${H12_SUMMARY_FOR_NON_SPECIALISTS}`);
   lines.push('');
   lines.push('## Foundational Five-Dimensional Equations (Category C) & Epistemic Boundaries');
+  lines.push(`*${H12_FOUNDATIONAL_EQUATIONS_NOTE}*`);
+  lines.push('');
   H12_MASTER_EQUATIONS.forEach((eq) => {
     lines.push(`> **${eq.label} [${eq.category}]** \`${eq.plainText}\``);
     lines.push(`> *${eq.caption}*`);
@@ -836,6 +863,13 @@ export function buildH12FullMarkdown(): string {
       lines.push(`## Chapter ${ch.number}. ${ch.title}`);
       lines.push(`*${ch.leadSummary}*`);
       lines.push('');
+      if (ch.number === 1) {
+        lines.push(`> **Metric Signature Box:** ${H12_METRIC_SIGNATURE_BOX}`);
+        lines.push('');
+        lines.push('> **Category B/C Boundary Rubric Box (Table 1.3):**');
+        EPISTEMIC_BC_GREY_AREA_RUBRIC.forEach((r) => lines.push(`> - **${r.boundaryCase}** [${r.assignedCategory}]: Derived: ${r.derivedAspect} Conjectural: ${r.conjecturalAspect} — ${r.ruleApplied}`));
+        lines.push('');
+      }
       if (ch.number === 2) {
         lines.push('### Timeline of 5D Physics');
         TIMELINE_5D_PHYSICS.forEach((t) => lines.push(`- **${t.year} (${t.milestone})**: ${t.contributionToH12}`));
@@ -876,10 +910,7 @@ export function buildH12FullMarkdown(): string {
         H11_TWELVE_COMPONENTS_AUDIT.forEach((r) => lines.push(`- **${r.component}** [${r.h12Status} | ${r.category}]: ${r.h12Modification}`));
         lines.push('');
         lines.push('#### Table 1.2 · Comparison: 4D IGRT-H11 vs. 5D IGRT-H12');
-        COMPARISON_4D_VS_5D_IGRT.forEach((c) => lines.push(`- **${c.dimension}**: 4D=${c.h11FourD} | 5D=${c.h12FiveD} (${c.epistemicDelta})`));
-        lines.push('');
-        lines.push('#### Table 1.3 · Category B vs. Category C Grey-Area Rubric');
-        EPISTEMIC_BC_GREY_AREA_RUBRIC.forEach((r) => lines.push(`- **${r.boundaryCase}** [${r.assignedCategory}]: ${r.ruleApplied}`));
+        COMPARISON_4D_VS_5D_IGRT.forEach((c) => lines.push(`- **${c.dimension}** [Testable Now: ${c.testableNow}]: 4D=${c.h11FourD} | 5D=${c.h12FiveD} (${c.epistemicDelta})`));
         lines.push('');
         lines.push('#### Glossary of 5D Terms');
         GLOSSARY_5D_TERMS.forEach((g) => lines.push(`- **${g.term}**: ${g.definition}`));
@@ -935,28 +966,45 @@ export function buildH12FullMarkdown(): string {
         lines.push('');
       }
       if (ch.number === 12) {
-        lines.push('#### Table 12.1 · Empirical Protocols P7–P12');
+        lines.push('#### Table 12.1 · Empirical Protocols P7–P13');
         H12_ALL_PROTOCOLS.forEach((p) => lines.push(`- **${p.id} (${p.name})** [${p.category}]: ${p.numericalSensitivity} | Falsification: ${p.falsificationCriterion}`));
         lines.push('');
-        lines.push('#### Table 12.2 · Timeline Table (P7–P10)');
-        P7_TO_P10_TIMELINE_TABLE.forEach((t) => lines.push(`- **${t.protocol}**: ${t.currentState} -> ${t.requiredSensitivity} (${t.expectedYear})`));
+        lines.push('#### Table 12.2 · Timeline Table (P7–P13)');
+        P7_TO_P13_TIMELINE_TABLE.forEach((t) => lines.push(`- **${t.protocol}**: ${t.currentState} -> ${t.requiredSensitivity} (${t.expectedYear})`));
         lines.push('');
-        lines.push('#### Table 12.3 & 12.4 · Falsification vs. Confirmation Thresholds');
-        P7_TO_P10_FALSIFICATION_TABLE.forEach((f) => lines.push(`- **Falsify ${f.protocol}**: ${f.nullBound} => ${f.whatItRulesOut}`));
-        P7_TO_P10_CONFIRMATION_TABLE.forEach((c) => lines.push(`- **Confirm ${c.protocol}**: ${c.signalSignature} (Control: ${c.requiredControl})`));
+        lines.push('#### Table 12.3 & 12.4 · Falsification vs. Confirmation Thresholds (P7–P13)');
+        P7_TO_P13_FALSIFICATION_TABLE.forEach((f) => lines.push(`- **Falsify ${f.protocol}**: ${f.nullBound} => ${f.whatItRulesOut}`));
+        P7_TO_P13_CONFIRMATION_TABLE.forEach((c) => lines.push(`- **Confirm ${c.protocol}**: ${c.signalSignature} (Control: ${c.requiredControl})`));
         lines.push('');
         lines.push('#### Table 12.5 & 12.6 · Decision Matrix & H11 vs. H12 Comparison');
-        P7_TO_P10_DECISION_MATRIX.forEach((d) => lines.push(`- **${d.outcome}**: ${d.posteriorStatus} — Action: ${d.mandatoryAction}`));
+        P7_TO_P13_DECISION_MATRIX.forEach((d) => lines.push(`- **${d.outcome}**: ${d.posteriorStatus} — Action: ${d.mandatoryAction}`));
         H11_VS_H12_PROTOCOLS_COMPARISON.forEach((cmp) => lines.push(`- **${cmp.aspect}**: H11=${cmp.h11Protocols} | H12=${cmp.h12Protocols}`));
         lines.push('');
-        lines.push('#### Table 12.7 · Quantitative Noise Budget & Systematic Controls (P7–P10)');
-        P7_TO_P10_NOISE_BUDGET_TABLE.forEach((nb) => lines.push(`- **${nb.protocol}**: ${nb.primaryNoiseSources} | ${nb.quantitativeBudget} — ${nb.mitigationArchitecture}`));
+        lines.push('#### Table 12.7 · Quantitative Noise Budget & Systematic Controls (P7–P13)');
+        P7_TO_P13_NOISE_BUDGET_TABLE.forEach((nb) => lines.push(`- **${nb.protocol}**: ${nb.primaryNoiseSources} | ${nb.quantitativeBudget} — ${nb.mitigationArchitecture}`));
+        lines.push('');
+        lines.push('#### Table 12.8 · Systematic Error Budget for Protocol P13');
+        P13_SYSTEMATIC_ERROR_BUDGET.forEach((s) => lines.push(`- **${s.source}**: ${s.magnitudeOrUncertainty} | ${s.impactOnEtaFold} — ${s.mitigationStrategy}`));
+        lines.push('');
+        lines.push('#### Table 12.9 · Statistical Error Budget for Protocol P13');
+        P13_STATISTICAL_ERROR_BUDGET.forEach((st) => lines.push(`- **${st.channel}**: ${st.measurementPrecision} | ${st.propagatedEtaFoldError} — ${st.sampleScalingNote}`));
+        lines.push('');
+        lines.push('#### Table 12.10 · Combined Bound Table for P7–P13');
+        P7_TO_P13_COMBINED_BOUNDS_TABLE.forEach((cb) => lines.push(`- **${cb.protocolPairOrCluster}** (${cb.constrainedParameters}): ${cb.combinedJointLikelihoodRole} — ${cb.orthogonalExclusionPower}`));
+        lines.push('');
+        lines.push('#### Table 12.11 · Sensitivity Projection Table for P7–P13');
+        P7_TO_P13_SENSITIVITY_PROJECTION_TABLE.forEach((sp) => lines.push(`- **${sp.protocol}**: 2026=${sp.currentBaseline2026} | 2027–2032=${sp.nearTerm2027_2032} | 3G 2035+=${sp.longTerm3G2035Plus}`));
+        lines.push('');
+        lines.push('#### Table 12.12 · Summary of Bounds Table for P13');
+        P13_SUMMARY_OF_BOUNDS_TABLE.forEach((sb) => lines.push(`- **${sb.datasetOrRegime}** (${sb.baselineDistance}): ${sb.arrivalBoundOrPrecision} -> ${sb.etaFoldLimit} [${sb.epistemicNote}]`));
         lines.push('');
         lines.push('#### Protocol Statistical Framework & Bayesian Occam Penalty');
         H12_PROTOCOL_ANALYSIS_SECTIONS.forEach((sec) => lines.push(`- **${sec.title}**: ${sec.content}`));
         lines.push('');
-        lines.push('#### Falsification & Confirmation Checklists');
+        lines.push('#### Falsification Checklist');
         H12_FALSIFICATION_CHECKLIST.forEach((f) => lines.push(`- [Falsify] ${f}`));
+        lines.push('');
+        lines.push('#### Confirmation Checklist');
         H12_CONFIRMATION_CHECKLIST.forEach((c) => lines.push(`- [Confirm] ${c}`));
         lines.push('');
         lines.push(`> ${H12_FUNDING_AGENCY_SUMMARY}`);
@@ -969,7 +1017,7 @@ export function buildH12FullMarkdown(): string {
       lines.push('#### Open Problems (OP-1 .. OP-6)');
       H12_OPEN_PROBLEMS_LIST.forEach((o) => lines.push(`- **${o.id}: ${o.problem}** — ${o.statusNote}`));
       lines.push('');
-      lines.push('#### Response to Prior Audits');
+      lines.push('#### Response to Prior Methodological Audits');
       H12_PRIOR_AUDIT_RESPONSES.forEach((r) => lines.push(`- **${r.auditScope}**: ${r.panelCritique} -> ${r.harmonizedResolution}`));
       lines.push('');
     }
@@ -999,7 +1047,7 @@ export function buildH12FullMarkdown(): string {
   lines.push('');
   lines.push('---');
   lines.push('');
-  lines.push('## Supplementary Volume II: Technical Appendices A–K');
+  lines.push('## Technical Appendices (A–K)');
   H12_APPENDICES.forEach((app) => {
     lines.push(`### Appendix ${app.letter}: ${app.title} [${app.category}]`);
     lines.push(app.summary);

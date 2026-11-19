@@ -4,23 +4,26 @@
  *
  * Devoted Follow-Up Monograph View for IGRT-H12:
  * "Folding Time Across Hidden Dimensions: Fifth-Dimensional Resonant Geometry,
- *  Quantum Portals, and the Limits of Spacetime Shortcuts"
+ *  Mathematical Portals, and the Limits of Spacetime Shortcuts"
  *
  * Architecture:
  * - Preserves IGRT-2026-H11 completely untouched
  * - Pure Playfair Display Regular (40px, non-bold) chapter titles + Book Antiqua 16px justified prose
- * - Includes Summary for Non-Specialists, 5 Front-Matter Lists, Chapters 1–13 (reorganized with
+ * - Includes Unified Abstract (Layman + Scholar), 5 Front-Matter Lists, Chapters 1–13 (reorganized with
  *   Ch. 9 Negative Results Summary, Ch. 10 What Is Unique to 5D?, Ch. 11 What Is Not Derived),
  *   Appendices L–N (Portal Mechanisms, Devices A–F, Adversarial Stress-Test Scorecard),
- *   End-Matter Open Problems & Prior Audits, and separate Supplementary Volume II (Appendices A–K)
+ *   End-Matter Open Problems & Prior Audits, and Technical Appendices (A–K)
  */
 
 import React, { useMemo, useState } from 'react';
 import {
   H12_META,
   H12_MASTER_EQUATIONS,
+  H12_PORTAL_DEFINITION_BOX,
+  H12_METRIC_SIGNATURE_BOX,
+  H12_FOUNDATIONAL_EQUATIONS_NOTE,
   H12_ABSTRACT_PARAGRAPHS,
-  H12_NON_SPECIALIST_SUMMARY,
+  H12_SUMMARY_FOR_NON_SPECIALISTS,
   H12_SCOPE_AND_NON_CLAIMS,
   H11_TWELVE_COMPONENTS_AUDIT,
   COMPARISON_4D_VS_5D_IGRT,
@@ -36,10 +39,10 @@ import {
   FIVE_D_OBSERVATIONAL_BOUNDS,
   WHAT_IS_NOT_DERIVED_LEDGER,
   H12_ALL_PROTOCOLS,
-  P7_TO_P10_TIMELINE_TABLE,
-  P7_TO_P10_FALSIFICATION_TABLE,
-  P7_TO_P10_CONFIRMATION_TABLE,
-  P7_TO_P10_DECISION_MATRIX,
+  P7_TO_P13_TIMELINE_TABLE,
+  P7_TO_P13_FALSIFICATION_TABLE,
+  P7_TO_P13_CONFIRMATION_TABLE,
+  P7_TO_P13_DECISION_MATRIX,
   H11_VS_H12_PROTOCOLS_COMPARISON,
   H12_FALSIFICATION_CHECKLIST,
   H12_CONFIRMATION_CHECKLIST,
@@ -55,7 +58,12 @@ import {
   H11_665_ASSERTIONS_CATALOG,
   REGULATOR_SENSITIVITY_TABLE,
   MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE,
-  P7_TO_P10_NOISE_BUDGET_TABLE,
+  P7_TO_P13_NOISE_BUDGET_TABLE,
+  P13_SYSTEMATIC_ERROR_BUDGET,
+  P13_STATISTICAL_ERROR_BUDGET,
+  P7_TO_P13_COMBINED_BOUNDS_TABLE,
+  P7_TO_P13_SENSITIVITY_PROJECTION_TABLE,
+  P13_SUMMARY_OF_BOUNDS_TABLE,
   H12_APPENDICES,
   H12_REFERENCES,
   type H12EpistemicCategory,
@@ -80,10 +88,7 @@ import {
   buildH12StandaloneLatex,
   buildH12LatexBundleZipBlob
 } from '../utils/generateIgrtH12Exports';
-import {
-  generateIgrtH12Pdf,
-  generateIgrtH12SupplementaryPdf
-} from '../utils/generateIgrtH12Pdf';
+import { generateIgrtH12Pdf } from '../utils/generateIgrtH12Pdf';
 import {
   H12_TEN_DOMAIN_AUDITS,
   H12_SIXTEEN_REDTEAM_ATTACKS,
@@ -123,7 +128,6 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
   const [attackWaveFilter, setAttackWaveFilter] = useState<string>('ALL');
   const [zipBusy, setZipBusy] = useState(false);
   const [pdfBusy, setPdfBusy] = useState(false);
-  const [suppPdfBusy, setSuppPdfBusy] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
   const [beltramiBranch, setBeltramiBranch] = useState<'phenom' | 'em'>('phenom');
   const [kDxSlider, setKDxSlider] = useState<number>(10);
@@ -159,18 +163,6 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
       setPdfError(err instanceof Error ? err.message : 'PDF export encountered an error.');
     } finally {
       setPdfBusy(false);
-    }
-  };
-
-  const handleDownloadSupplementaryPdf = async () => {
-    setSuppPdfBusy(true);
-    setPdfError(null);
-    try {
-      await generateIgrtH12SupplementaryPdf();
-    } catch (err) {
-      setPdfError(err instanceof Error ? err.message : 'Supplementary PDF export encountered an error.');
-    } finally {
-      setSuppPdfBusy(false);
     }
   };
 
@@ -262,7 +254,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             <span aria-hidden="true">·</span>
             <span>{H12_META.edition}</span>
             <span aria-hidden="true">·</span>
-            <span className="text-[#166534] dark:text-[#86EFAC]">62/62 Assertions Verified</span>
+            <span className="text-[#166534] dark:text-[#86EFAC]">80/80 Assertions Verified</span>
             <span aria-hidden="true">·</span>
             <button
               onClick={() => scrollToAnchor('h12-app-n')}
@@ -348,14 +340,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             disabled={pdfBusy}
             className="px-3.5 py-2 rounded-lg text-xs font-medium bg-[#0C1836] dark:bg-[#EA580C] text-white hover:opacity-90 disabled:opacity-50 transition-opacity"
           >
-            {pdfBusy ? 'Generating Main A4 PDF…' : 'Download Main Monograph PDF (.pdf)'}
-          </button>
-          <button
-            onClick={handleDownloadSupplementaryPdf}
-            disabled={suppPdfBusy}
-            className="px-3.5 py-2 rounded-lg text-xs font-medium bg-[#1E40AF] text-white hover:opacity-90 disabled:opacity-50 transition-opacity"
-          >
-            {suppPdfBusy ? 'Generating Vol. II PDF…' : 'Download Supplementary Vol. II (A–K PDF)'}
+            {pdfBusy ? 'Generating Complete A4 PDF…' : 'Download Complete Monograph PDF (Main + A–K .pdf)'}
           </button>
           <button
             onClick={handleDownloadLatexZip}
@@ -460,7 +445,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
           </div>
           <nav className="space-y-1">
             <button onClick={() => scrollToAnchor('h12-abstract')} className="block w-full text-left px-2 py-1 rounded hover:bg-[#F4EFE6] dark:hover:bg-[#173065]">
-              Abstract &amp; Non-Specialist Summary
+              Abstract
             </button>
             <button onClick={() => scrollToAnchor('h12-lists')} className="block w-full text-left px-2 py-1 rounded hover:bg-[#F4EFE6] dark:hover:bg-[#173065]">
               Front-Matter Lists (Figures, Tables, Eqs, Theorems, Defs)
@@ -482,13 +467,21 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
               Appendices L, M &amp; N + References
             </button>
             <button onClick={() => scrollToAnchor('h12-supplementary-vol2')} className="block w-full text-left px-2 py-1 rounded hover:bg-[#F4EFE6] dark:hover:bg-[#173065] font-medium text-[#1E40AF] dark:text-[#93C5FD]">
-              Supplementary Vol. II: Tech. Appendices A–K
+              Technical Appendices (A–K)
             </button>
           </nav>
         </aside>
 
         <div className="lg:col-span-9 space-y-10">
-          {/* Pure Abstract + Non-Specialist Summary */}
+          {/* Boxed Portal Definition at Beginning of Document */}
+          <div className="rounded-xl border border-[#9A3412]/40 bg-[#FFF7ED] dark:bg-[#2A1205] p-5 text-[15px] leading-[1.6] text-[#7C2D12] dark:text-[#FDBA74] text-justify [hyphens:auto]">
+            <div className="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold mb-1.5">
+              Portal Definition Box
+            </div>
+            <MathText text={H12_PORTAL_DEFINITION_BOX} />
+          </div>
+
+          {/* Unified Layman & Scholar Abstract */}
           <section
             id="h12-abstract"
             className="rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-6 shadow-xs"
@@ -506,8 +499,8 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 </p>
               ))}
             </div>
-            <div className="rounded-xl border border-[#1E40AF]/30 bg-[#EFF6FF] dark:bg-[#0A193A] p-5 text-[15px] leading-[1.55] text-[#0C1836] dark:text-[#DBEAFE] text-justify [hyphens:auto]">
-              <MathText text={H12_NON_SPECIALIST_SUMMARY} />
+            <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 text-[15px] leading-[1.6] text-[#1E293B] dark:text-[#E2E8F0] text-justify [hyphens:auto]">
+              <MathText text={H12_SUMMARY_FOR_NON_SPECIALISTS} />
             </div>
             <div className="pt-4 border-t border-[#EAE2D2] dark:border-[#1E293B] text-[13.5px] text-[#475569] dark:text-[#94A3B8]">
               <strong className="font-medium text-[#0C1836] dark:text-[#FDFBF7]">Keywords:</strong>{' '}
@@ -591,6 +584,9 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             >
               Foundational Five-Dimensional Equations (Category C) &amp; Epistemic Boundaries
             </h2>
+            <div className="rounded-xl border border-[#9A3412]/35 bg-[#FFF7ED] dark:bg-[#2A1205] px-5 py-3.5 text-[15px] font-medium text-[#7C2D12] dark:text-[#FDBA74] text-justify [hyphens:auto]">
+              <MathText text={H12_FOUNDATIONAL_EQUATIONS_NOTE} />
+            </div>
             {H12_MASTER_EQUATIONS.map((eq) => (
               <H12EquationBox key={eq.label} eq={eq} />
             ))}
@@ -640,6 +636,47 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                     <MathText text={ch.leadSummary} />
                   </p>
                 </div>
+
+                {/* Chapter 1 Start: Metric Signature Box & Category B/C Boundary Rubric Box */}
+                {ch.number === 1 && (
+                  <div className="space-y-5">
+                    <div className="rounded-xl border border-[#1E40AF]/35 bg-[#EFF6FF] dark:bg-[#0A193A] p-4 sm:p-5 text-[14.5px] leading-[1.6] text-[#1E3A8A] dark:text-[#BFDBFE] text-justify [hyphens:auto]">
+                      <div className="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold mb-1">
+                        Metric Signature Box
+                      </div>
+                      <MathText text={H12_METRIC_SIGNATURE_BOX} />
+                    </div>
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
+                        Table 1.3 · Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas)
+                      </div>
+                      <table className="w-full text-xs text-left">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr>
+                            <th className="p-2.5">Boundary Case</th>
+                            <th className="p-2.5">Derived Core vs. Conjectural Premise</th>
+                            <th className="p-2.5">Category &amp; Decision Rule</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {EPISTEMIC_BC_GREY_AREA_RUBRIC.map((g) => (
+                            <tr key={g.boundaryCase}>
+                              <td className="p-2.5 font-medium"><MathText text={g.boundaryCase} /></td>
+                              <td className="p-2.5 space-y-1">
+                                <div><strong>Derived:</strong> <MathText text={g.derivedAspect} /></div>
+                                <div className="text-[#475569] dark:text-[#94A3B8]"><strong>Conjectural:</strong> <MathText text={g.conjecturalAspect} /></div>
+                              </td>
+                              <td className="p-2.5 space-y-1">
+                                <div className="font-mono text-[10.5px] text-[#9A3412] dark:text-[#FDBA74]">{g.assignedCategory}</div>
+                                <div><MathText text={g.ruleApplied} /></div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
 
                 {/* Chapter 2 Start: Timeline of 5D Physics */}
                 {ch.number === 2 && (
@@ -793,6 +830,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                             <th className="p-2.5">4D IGRT-H11</th>
                             <th className="p-2.5">5D IGRT-H12</th>
                             <th className="p-2.5">Epistemic Delta</th>
+                            <th className="p-2.5">Testable Now?</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
@@ -802,36 +840,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                               <td className="p-2.5"><MathText text={c.h11FourD} /></td>
                               <td className="p-2.5"><MathText text={c.h12FiveD} /></td>
                               <td className="p-2.5 font-mono text-[11px]">{c.epistemicDelta}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-
-                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
-                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
-                        Table 1.3 · Epistemic Boundary Rubric Resolving Category B vs. Category C Grey Areas
-                      </div>
-                      <table className="w-full text-xs text-left">
-                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                          <tr>
-                            <th className="p-2.5">Boundary Case</th>
-                            <th className="p-2.5">Derived Core vs. Conjectural Premise</th>
-                            <th className="p-2.5">Category &amp; Decision Rule</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
-                          {EPISTEMIC_BC_GREY_AREA_RUBRIC.map((g) => (
-                            <tr key={g.boundaryCase}>
-                              <td className="p-2.5 font-medium"><MathText text={g.boundaryCase} /></td>
-                              <td className="p-2.5 space-y-1">
-                                <div><strong>Derived:</strong> <MathText text={g.derivedAspect} /></div>
-                                <div className="text-[#475569] dark:text-[#94A3B8]"><strong>Conjectural:</strong> <MathText text={g.conjecturalAspect} /></div>
-                              </td>
-                              <td className="p-2.5 space-y-1">
-                                <div className="font-mono text-[10.5px] text-[#9A3412] dark:text-[#FDBA74]">{g.assignedCategory}</div>
-                                <div><MathText text={g.ruleApplied} /></div>
-                              </td>
+                              <td className="p-2.5 font-mono text-[11px]">{c.testableNow}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -1273,7 +1282,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                   <div className="space-y-6">
                     <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
                       <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
-                        Table 12.1 · Dedicated IGRT-H12 Empirical &amp; Conceptual Protocols (P7–P12)
+                        Table 12.1 · Dedicated IGRT-H12 Empirical &amp; Conceptual Protocols (P7–P13)
                       </div>
                       <table className="w-full text-xs text-left tabular-nums">
                         <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
@@ -1302,12 +1311,21 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                       <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
-                        <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono font-semibold">Table 12.2 · P7–P10 Experimental Timeline</div>
+                        <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono font-semibold">Table 12.2 · P7–P13 Experimental Timeline</div>
                         <table className="w-full text-left">
+                          <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                            <tr>
+                              <th className="p-2">Protocol</th>
+                              <th className="p-2">Current State</th>
+                              <th className="p-2">Required Sensitivity</th>
+                              <th className="p-2">Window</th>
+                            </tr>
+                          </thead>
                           <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
-                            {P7_TO_P10_TIMELINE_TABLE.map((t) => (
+                            {P7_TO_P13_TIMELINE_TABLE.map((t) => (
                               <tr key={t.protocol}>
                                 <td className="p-2 font-medium">{t.protocol}</td>
+                                <td className="p-2">{t.currentState}</td>
                                 <td className="p-2">{t.requiredSensitivity}</td>
                                 <td className="p-2 font-mono">{t.expectedYear}</td>
                               </tr>
@@ -1317,8 +1335,15 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       </div>
 
                       <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
-                        <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono font-semibold">Table 12.6 · H11 (P1–P6) vs. H12 (P7–P12)</div>
+                        <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono font-semibold">Table 12.6 · H11 (P1–P6) vs. H12 (P7–P13)</div>
                         <table className="w-full text-left">
+                          <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                            <tr>
+                              <th className="p-2">Aspect</th>
+                              <th className="p-2">H11 (P1–P6)</th>
+                              <th className="p-2">H12 (P7–P13)</th>
+                            </tr>
+                          </thead>
                           <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                             {H11_VS_H12_PROTOCOLS_COMPARISON.map((r) => (
                               <tr key={r.aspect}>
@@ -1334,10 +1359,17 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                       <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
-                        <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono font-semibold">Table 12.3 · Falsification Thresholds</div>
+                        <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono font-semibold">Table 12.3 · Falsification Thresholds (P7–P13)</div>
                         <table className="w-full text-left">
+                          <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                            <tr>
+                              <th className="p-2">Protocol</th>
+                              <th className="p-2">Null Falsification Bound</th>
+                              <th className="p-2">What It Rules Out</th>
+                            </tr>
+                          </thead>
                           <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
-                            {P7_TO_P10_FALSIFICATION_TABLE.map((r) => (
+                            {P7_TO_P13_FALSIFICATION_TABLE.map((r) => (
                               <tr key={r.protocol}>
                                 <td className="p-2 font-mono font-semibold">{r.protocol}</td>
                                 <td className="p-2 font-mono text-[11px]">{r.nullBound}</td>
@@ -1349,10 +1381,17 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       </div>
 
                       <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
-                        <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono font-semibold">Table 12.4 · Confirmation Thresholds</div>
+                        <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono font-semibold">Table 12.4 · Confirmation Thresholds (P7–P13)</div>
                         <table className="w-full text-left">
+                          <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                            <tr>
+                              <th className="p-2">Protocol</th>
+                              <th className="p-2">Positive Signal Signature</th>
+                              <th className="p-2">Required Systematic Control</th>
+                            </tr>
+                          </thead>
                           <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
-                            {P7_TO_P10_CONFIRMATION_TABLE.map((r) => (
+                            {P7_TO_P13_CONFIRMATION_TABLE.map((r) => (
                               <tr key={r.protocol}>
                                 <td className="p-2 font-mono font-semibold">{r.protocol}</td>
                                 <td className="p-2"><MathText text={r.signalSignature} /></td>
@@ -1365,13 +1404,13 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                     </div>
 
                     <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
-                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono text-xs font-semibold">Table 12.5 · Empirical Decision Matrix</div>
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono text-xs font-semibold">Table 12.5 · Empirical Decision Matrix (P7–P13)</div>
                       <table className="w-full text-xs text-left">
                         <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
                           <tr><th className="p-2.5">Experimental Outcome</th><th className="p-2.5">Posterior Scientific Status</th><th className="p-2.5">Mandatory Research Action</th></tr>
                         </thead>
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
-                          {P7_TO_P10_DECISION_MATRIX.map((d) => (
+                          {P7_TO_P13_DECISION_MATRIX.map((d) => (
                             <tr key={d.outcome}><td className="p-2.5 font-medium">{d.outcome}</td><td className="p-2.5">{d.posteriorStatus}</td><td className="p-2.5"><MathText text={d.mandatoryAction} /></td></tr>
                           ))}
                         </tbody>
@@ -1379,7 +1418,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                     </div>
 
                     <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
-                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono text-xs font-semibold">Table 12.7 · Quantitative Noise Budgets &amp; Systematic Mitigation (P7–P10)</div>
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono text-xs font-semibold">Table 12.7 · Quantitative Noise Budgets &amp; Systematic Mitigation (P7–P13)</div>
                       <table className="w-full text-xs text-left tabular-nums">
                         <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
                           <tr>
@@ -1390,7 +1429,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
-                          {P7_TO_P10_NOISE_BUDGET_TABLE.map((nb) => (
+                          {P7_TO_P13_NOISE_BUDGET_TABLE.map((nb) => (
                             <tr key={nb.protocol}>
                               <td className="p-2.5 font-medium">{nb.protocol}</td>
                               <td className="p-2.5">{nb.primaryNoiseSources}</td>
@@ -1402,6 +1441,128 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       </table>
                     </div>
 
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">Table 12.8 · P13 Systematic Error Budget (GW170817 / GRB 170817A &amp; Multi-Event Calibration)</div>
+                      <table className="w-full text-xs text-left tabular-nums">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr>
+                            <th className="p-2.5">Systematic Source</th>
+                            <th className="p-2.5">Magnitude / Uncertainty</th>
+                            <th className="p-2.5">Impact on η_fold</th>
+                            <th className="p-2.5">Mitigation Strategy</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {P13_SYSTEMATIC_ERROR_BUDGET.map((s) => (
+                            <tr key={s.source}>
+                              <td className="p-2.5 font-medium">{s.source}</td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={s.magnitudeOrUncertainty} /></td>
+                              <td className="p-2.5"><MathText text={s.impactOnEtaFold} /></td>
+                              <td className="p-2.5"><MathText text={s.mitigationStrategy} /></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">Table 12.9 · P13 Statistical Error Budget (Quadrature 0.05 s ⊕ 0.10 s &amp; 3G Stacking)</div>
+                      <table className="w-full text-xs text-left tabular-nums">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr>
+                            <th className="p-2.5">Measurement Channel</th>
+                            <th className="p-2.5">Timing Precision</th>
+                            <th className="p-2.5">Propagated η_fold Error</th>
+                            <th className="p-2.5">Sample Scaling Note</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {P13_STATISTICAL_ERROR_BUDGET.map((st) => (
+                            <tr key={st.channel}>
+                              <td className="p-2.5 font-medium">{st.channel}</td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={st.measurementPrecision} /></td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={st.propagatedEtaFoldError} /></td>
+                              <td className="p-2.5"><MathText text={st.sampleScalingNote} /></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">Table 12.10 · Combined Protocol Bounds (P7–P13 Orthogonal Joint Likelihood Closure)</div>
+                      <table className="w-full text-xs text-left tabular-nums">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr>
+                            <th className="p-2.5">Protocol Cluster</th>
+                            <th className="p-2.5">Constrained Parameters</th>
+                            <th className="p-2.5">Joint Likelihood Role</th>
+                            <th className="p-2.5">Orthogonal Exclusion Power</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {P7_TO_P13_COMBINED_BOUNDS_TABLE.map((cb) => (
+                            <tr key={cb.protocolPairOrCluster}>
+                              <td className="p-2.5 font-medium">{cb.protocolPairOrCluster}</td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={cb.constrainedParameters} /></td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={cb.combinedJointLikelihoodRole} /></td>
+                              <td className="p-2.5"><MathText text={cb.orthogonalExclusionPower} /></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                      <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                        <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono font-semibold">Table 12.11 · Protocol Sensitivity Projections (2026–2035+)</div>
+                        <table className="w-full text-left tabular-nums">
+                          <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                            <tr>
+                              <th className="p-2">Protocol</th>
+                              <th className="p-2">2026 Baseline</th>
+                              <th className="p-2">2027–2032</th>
+                              <th className="p-2">2035+ (3G)</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                            {P7_TO_P13_SENSITIVITY_PROJECTION_TABLE.map((pr) => (
+                              <tr key={pr.protocol}>
+                                <td className="p-2 font-medium">{pr.protocol}</td>
+                                <td className="p-2 font-mono text-[11px]"><MathText text={pr.currentBaseline2026} /></td>
+                                <td className="p-2 font-mono text-[11px]"><MathText text={pr.nearTerm2027_2032} /></td>
+                                <td className="p-2 font-mono text-[11px]"><MathText text={pr.longTerm3G2035Plus} /></td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                        <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2 font-mono font-semibold">Table 12.12 · Summary of P13 Multi-Messenger Bounds</div>
+                        <table className="w-full text-left tabular-nums">
+                          <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                            <tr>
+                              <th className="p-2">Dataset / Regime</th>
+                              <th className="p-2">Distance</th>
+                              <th className="p-2">η_fold Limit</th>
+                              <th className="p-2">Epistemic Status</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                            {P13_SUMMARY_OF_BOUNDS_TABLE.map((pb) => (
+                              <tr key={pb.datasetOrRegime}>
+                                <td className="p-2 font-medium">{pb.datasetOrRegime}</td>
+                                <td className="p-2 font-mono text-[11px]">{pb.baselineDistance}</td>
+                                <td className="p-2 font-mono text-[11px]"><MathText text={pb.etaFoldLimit} /></td>
+                                <td className="p-2">{pb.epistemicNote}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                       <div className="rounded-xl border border-[#9F1239]/30 bg-[#FFF1F2] dark:bg-[#4C0519]/40 p-4 space-y-2">
                         <div className="font-mono font-semibold text-[#9F1239] dark:text-[#FDA4AF] uppercase">Falsification Checklist</div>
@@ -1410,7 +1571,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         </ul>
                       </div>
                       <div className="rounded-xl border border-[#15803D]/30 bg-[#F4FAF6] dark:bg-[#052E16]/40 p-4 space-y-2">
-                        <div className="font-mono font-semibold text-[#166534] dark:text-[#86EFAC] uppercase">What Would Prove H12 Right?</div>
+                        <div className="font-mono font-semibold text-[#166534] dark:text-[#86EFAC] uppercase">Confirmation Checklist: What Would Prove H12 Right?</div>
                         <ul className="list-disc pl-4 space-y-1.5 text-[#14532D] dark:text-[#DCFCE7]">
                           {H12_CONFIRMATION_CHECKLIST.map((c, i) => <li key={i}><MathText text={c} /></li>)}
                         </ul>
@@ -1465,7 +1626,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
 
                     <div className="rounded-xl border border-[#1E40AF]/30 bg-[#EFF6FF] dark:bg-[#0A193A] p-5 space-y-3">
                       <h3 className="text-[20px] font-normal text-[#0C1836] dark:text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                        Response to Prior Audits (200-Expert Panel Critiques)
+                        Response to Prior Methodological Audits
                       </h3>
                       <div className="space-y-2.5 text-xs">
                         {H12_PRIOR_AUDIT_RESPONSES.map((r) => (
@@ -1680,7 +1841,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             </div>
           </section>
 
-          {/* Supplementary Volume II: Technical Appendices A-K (Separate Companion Panel) */}
+          {/* Technical Appendices A-K (Unified inside Complete Monograph PDF) */}
           <section
             id="h12-supplementary-vol2"
             className="rounded-2xl border-2 border-[#1E40AF]/40 bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-8 shadow-xs"
@@ -1688,7 +1849,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#D6CABE] dark:border-[#1E293B] pb-6">
               <div>
                 <div className="font-mono text-xs uppercase tracking-[0.16em] text-[#1E40AF] dark:text-[#93C5FD] mb-2">
-                  Supplementary Volume II · Detailed Mathematical Proofs &amp; Code Audits
+                  Included in Complete Monograph PDF · Detailed Mathematical Proofs &amp; Code Audits
                 </div>
                 <h2
                   className="igrt-h12-chapter-title text-[#081026] dark:text-white"
@@ -1698,11 +1859,11 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 </h2>
               </div>
               <button
-                onClick={handleDownloadSupplementaryPdf}
-                disabled={suppPdfBusy}
-                className="px-4 py-2 rounded-lg text-xs font-medium bg-[#1E40AF] text-white hover:opacity-90 disabled:opacity-50"
+                onClick={handleDownloadPdf}
+                disabled={pdfBusy}
+                className="px-4 py-2 rounded-lg text-xs font-medium bg-[#0C1836] dark:bg-[#EA580C] text-white hover:opacity-90 disabled:opacity-50"
               >
-                {suppPdfBusy ? 'Generating Vol. II PDF…' : 'Download Supplementary Vol. II PDF (.pdf)'}
+                {pdfBusy ? 'Generating Complete A4 PDF…' : 'Download Complete Monograph PDF (Main + A–K .pdf)'}
               </button>
             </div>
 

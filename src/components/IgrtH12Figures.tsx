@@ -421,14 +421,14 @@ export const H12_FIGURES: H12FigureSpec[] = [
     id: 'h12-fig-10',
     figureNumber: 'Figure H12-10',
     anchorChapter: 12,
-    title: 'Experimental Falsification Architecture: H11 Protocols P1–P6 vs. H12 Protocols P7–P10',
+    title: 'Experimental Falsification Architecture: H11 (P1–P6) vs. Bulk (P7–P10) vs. Folding (P11–P13)',
     category: 'CATEGORY B — DERIVED',
     caption:
-      'Minimalist synthesis replacing Plate H12-VI and clarifying the empirical separation between four-dimensional H11 tests (P1–P6) and five-dimensional H12 falsification probes (P7: 10 μm / 19.733 meV Yukawa; P8: 10⁻¹⁹ optical/nuclear clock; P9: 10⁻⁶ double-slit visibility; P10: 10⁻³ 3G GW scalar/KK leakage).',
+      'Minimalist synthesis clarifying the strict empirical separation between four-dimensional H11 tests (P1–P6), five-dimensional bulk/KK/decoherence/leakage probes (P7: 10 μm Yukawa; P8: 10⁻¹⁹ clocks; P9: 10⁻⁶ visibility; P10: 10⁻³ 3G GW leakage), currently unachievable active folding concepts (P11–P12), and the immediate passive GW170817/GRB 170817A arrival bound (P13: |η_fold − 1| ≤ 4.129 × 10⁻¹⁶).',
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" width="760" height="280" style="background:#F6F2EA;font-family:'DejaVu Serif',Georgia,serif">
   <rect x="0" y="0" width="760" height="280" fill="#F6F2EA"/>
   <rect x="16" y="16" width="728" height="248" fill="#FFFFFF" stroke="#8E7F6B" stroke-width="1"/>
-  <text x="380" y="42" text-anchor="middle" font-size="13" fill="#3A2E26">Empirical Falsification Boundary: H11 (4D EFT) vs. H12 (5D Probes)</text>
+  <text x="380" y="42" text-anchor="middle" font-size="13" fill="#3A2E26">Empirical Falsification Boundary: H11 (4D) vs. H12 Bulk (P7-P10) vs. Folding (P11-P13)</text>
   <!-- Left box -->
   <rect x="42" y="64" width="310" height="178" fill="#F6F2EA" stroke="#64705B" stroke-width="1.3"/>
   <text x="197" y="88" text-anchor="middle" font-size="12" fill="#64705B">IGRT-H11 Preregistered (4D Only)</text>
@@ -445,13 +445,15 @@ export const H12_FIGURES: H12FigureSpec[] = [
   <polygon points="406,153 398,149 398,157" fill="#8E7F6B"/>
   <!-- Right box -->
   <rect x="408" y="64" width="310" height="178" fill="#F6F2EA" stroke="#8F5B4A" stroke-width="1.3"/>
-  <text x="563" y="88" text-anchor="middle" font-size="12" fill="#8F5B4A">IGRT-H12 Dedicated 5D Probes</text>
+  <text x="563" y="88" text-anchor="middle" font-size="12" fill="#8F5B4A">IGRT-H12 5D Probes (P7-P13)</text>
   <line x1="428" y1="98" x2="698" y2="98" stroke="#8E7F6B" stroke-width="0.8"/>
-  <text x="428" y="124" font-size="10.5" fill="#3A2E26">P7: 10 um KK Yukawa (19.733 meV)</text>
-  <text x="428" y="150" font-size="10.5" fill="#3A2E26">P8: Optical/Nuclear Clock (10^-19)</text>
-  <text x="428" y="176" font-size="10.5" fill="#3A2E26">P9: Double-Slit Bound (&lt; 10^-6)</text>
-  <text x="428" y="202" font-size="10.5" fill="#3A2E26">P10: 3G ET/CE GW Leakage (&lt; 10^-3)</text>
-  <text x="563" y="236" text-anchor="middle" font-size="9.5" fill="#8F5B4A">Probes 5D Bulk via Devices A, B, D, E</text>
+  <text x="424" y="118" font-size="10" fill="#3A2E26">P7: 10 um KK Yukawa (Tests 5D Bulk)</text>
+  <text x="424" y="138" font-size="10" fill="#3A2E26">P8: 10^-19 Clocks (Tests KK Corr.)</text>
+  <text x="424" y="158" font-size="10" fill="#3A2E26">P9: 10^-6 Slits (Tests Decoherence)</text>
+  <text x="424" y="178" font-size="10" fill="#3A2E26">P10: 3G GW Leakage (Tests Graviton Loss)</text>
+  <text x="424" y="198" font-size="10" fill="#8F5B4A">P11-P12: Folding (Not Yet Testable)</text>
+  <text x="424" y="218" font-size="10" fill="#64705B">P13: GW170817 Bound (4.129e-16 Active)</text>
+  <text x="563" y="236" text-anchor="middle" font-size="9.5" fill="#8F5B4A">P7-P10 Probe Bulk; P11-P13 Isolate Folding</text>
 </svg>`
   }
 ];

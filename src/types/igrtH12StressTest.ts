@@ -137,12 +137,12 @@ export const H12_TEN_DOMAIN_AUDITS: H12DomainAuditRow[] = [
   },
   {
     domainNumber: 'Domain X',
-    domainName: '5D Observational Bounds, Uniqueness & Falsification P7–P12',
+    domainName: '5D Observational Bounds, Uniqueness & Falsification P7–P13',
     criteriaCount: 50,
     maxPoints: 150,
     selfContainedPoints: 150,
     applicablePoints: 145,
-    openFrontierNotes: 'BBN/GW170817/Cassini/LHC/CMB bounds audited (Ch. 10); H11 P1–P6 decoupled from 5D proof; P7–P12 defined (Ch. 12).',
+    openFrontierNotes: 'BBN/GW170817/Cassini/LHC/CMB bounds audited (Ch. 10); H11 P1–P6 decoupled from 5D proof; P7–P13 defined (Ch. 12).',
     verdict: 'CONJECTURAL FRONTIER (Bounded)',
     category: 'CATEGORY B — DERIVED'
   }
@@ -308,7 +308,7 @@ export const H12_SIXTEEN_REDTEAM_ATTACKS: H12RedTeamAttackRow[] = [
     wave: 'Wave IV: Engineering & Falsification',
     attackTitle: 'False Attribution of H11 Tests (P1–P6) as Proof of a 5th Dimension',
     adversarialChallenge: 'Would detecting 2:1 ULDM lock (P1) or K_echo = 0.184 (P4) prove IGRT-H12’s extra dimension?',
-    h12ResolutionAndCitation: 'Ch. 12.1 & Fig. H12-4 explicitly isolate H11 P1–P6 as 4D tests only; genuine 5D verification requires dedicated H12 Protocols P7–P10.',
+    h12ResolutionAndCitation: 'Ch. 12.1 & Fig. H12-10 explicitly isolate H11 P1–P6 as 4D tests only; genuine 5D bulk/folding tests require H12 Protocols P7–P10 and P11–P13.',
     technicalStatus: 'SURVIVED (Explicit Negative Theorem)',
     pointsAwarded: 15,
     maxPoints: 15,
@@ -317,9 +317,9 @@ export const H12_SIXTEEN_REDTEAM_ATTACKS: H12RedTeamAttackRow[] = [
   {
     id: 'H12-ATK-16',
     wave: 'Wave IV: Engineering & Falsification',
-    attackTitle: 'Empirical Underdetermination of P7–P10 Prior to 2026–2036+ Runs',
-    adversarialChallenge: 'Has any dedicated 5D signature (P7–P10) been detected experimentally yet?',
-    h12ResolutionAndCitation: 'No—H12 honestly flags all P7–P10 empirical detections as pending future runs (2026–2036+), preventing premature physical-discovery claims.',
+    attackTitle: 'Empirical Underdetermination of P7–P12 Prior to 2026–2036+ Runs & P13 Passive Ceiling',
+    adversarialChallenge: 'Has any dedicated 5D signature (P7–P13) been detected experimentally yet?',
+    h12ResolutionAndCitation: 'No—H12 honestly flags active folding probes (P11–P12) as unachievable today, bulk probes (P7–P10) as pending 2026–2036+ runs, and passive Protocol P13 as placing a strict null upper bound |η_fold^{GW−EM} − 1| ≤ 4.129 × 10⁻¹⁶ from GW170817.',
     technicalStatus: 'CONTAINED (Bounded Frontier)',
     pointsAwarded: 12,
     maxPoints: 15,
@@ -338,9 +338,9 @@ export const H12_STRESS_TEST_SUMMARY = {
   attackMaxPoints: 240,
   attackSelfContainedPoints: 234,
   grandMaxPoints: 1740,
-  grandSelfContainedPoints: 1734, // 1500 + 234 (UV 5D loops & pending P7-P10 empirical runs honestly bounded at -6)
+  grandSelfContainedPoints: 1734, // 1500 + 234 (UV 5D loops & pending P7-P12 empirical runs honestly bounded at -6)
   grandApplicablePoints: 1709,    // Reflects Category C/D empirical & exotic-matter frontiers honestly
   selfContainedScorePct: 99.66,   // 1734 / 1740 (100% mathematical & negative-theorem closure; 2 external UV/empirical bounds)
-  mathematicalClosurePct: 100.0,  // 500/500 criteria & 62/62 solver assertions mechanically verified
+  mathematicalClosurePct: 100.0,  // 500/500 criteria & 80/80 solver assertions mechanically verified
   overallEpistemicScorePct: 98.22 // 1709 / 1740 accounting for Category C/D open physical frontiers
 };

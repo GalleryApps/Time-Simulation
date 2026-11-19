@@ -9,19 +9,21 @@
  * - Body paragraphs in DejaVuSerif 12pt (16px) with 6.35mm (1.5x) line spacing, fully word-justified.
  * - Dedicated Title/Cover Page (Page 1), ample 30mm top margin, strict 4-color muted earth scheme.
  * - Preserves U+2113 (ℓ_Pl) cleanly (removed .replace(/ℓ/g, 'l') typo).
- * - Exports both:
- *   (1) generateIgrtH12Pdf(): Main Monograph (Cover Page, Abstract + Non-Specialist Summary,
- *       Computed TOC, 5 Front-Matter Lists, Foundational 5D Equations & Scope, Chapters 1–13,
- *       Appendices L & M, References; excludes Adversarial Stress-Test Scorecard)
- *   (2) generateIgrtH12SupplementaryPdf(): Supplementary Volume II (Technical Appendices A–K)
+ * - Exports generateIgrtH12Pdf(): Complete Unified Monograph (Cover Page, Unified Abstract,
+ *   Computed TOC, 5 Front-Matter Lists, Foundational 5D Equations & Scope, Chapters 1–13,
+ *   Extended Appendices L & M, References, and Technical Appendices A–K;
+ *   excludes Adversarial Stress-Test Scorecard Appendix N).
  */
 
 import { jsPDF } from 'jspdf';
 import {
   H12_META,
   H12_MASTER_EQUATIONS,
+  H12_PORTAL_DEFINITION_BOX,
+  H12_METRIC_SIGNATURE_BOX,
+  H12_FOUNDATIONAL_EQUATIONS_NOTE,
   H12_ABSTRACT_PARAGRAPHS,
-  H12_NON_SPECIALIST_SUMMARY,
+  H12_SUMMARY_FOR_NON_SPECIALISTS,
   H12_SCOPE_AND_NON_CLAIMS,
   H11_TWELVE_COMPONENTS_AUDIT,
   COMPARISON_4D_VS_5D_IGRT,
@@ -37,10 +39,10 @@ import {
   FIVE_D_OBSERVATIONAL_BOUNDS,
   WHAT_IS_NOT_DERIVED_LEDGER,
   H12_ALL_PROTOCOLS,
-  P7_TO_P10_TIMELINE_TABLE,
-  P7_TO_P10_FALSIFICATION_TABLE,
-  P7_TO_P10_CONFIRMATION_TABLE,
-  P7_TO_P10_DECISION_MATRIX,
+  P7_TO_P13_TIMELINE_TABLE,
+  P7_TO_P13_FALSIFICATION_TABLE,
+  P7_TO_P13_CONFIRMATION_TABLE,
+  P7_TO_P13_DECISION_MATRIX,
   H11_VS_H12_PROTOCOLS_COMPARISON,
   H12_FALSIFICATION_CHECKLIST,
   H12_CONFIRMATION_CHECKLIST,
@@ -58,7 +60,12 @@ import {
   H11_665_ASSERTIONS_CATALOG,
   REGULATOR_SENSITIVITY_TABLE,
   MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE,
-  P7_TO_P10_NOISE_BUDGET_TABLE,
+  P7_TO_P13_NOISE_BUDGET_TABLE,
+  P13_SYSTEMATIC_ERROR_BUDGET,
+  P13_STATISTICAL_ERROR_BUDGET,
+  P7_TO_P13_COMBINED_BOUNDS_TABLE,
+  P7_TO_P13_SENSITIVITY_PROJECTION_TABLE,
+  P13_SUMMARY_OF_BOUNDS_TABLE,
   H12_PROTOCOL_ANALYSIS_SECTIONS,
   type H12Equation
 } from '../types/igrtH12Apparatus';
@@ -247,12 +254,15 @@ const SERIF_USE_SANS = new Set([
   '\u2194', // ↔
   '\u21A6', // ↦
   '\u21D2', // ⇒
+  '\u2200', // ∀
   '\u2202', // ∂
+  '\u2203', // ∃
   '\u2207', // ∇
   '\u2208', // ∈
   '\u2211', // ∑
   '\u2212', // −
   '\u221A', // √
+  '\u221D', // ∝
   '\u221E', // ∞
   '\u222A', // ∪
   '\u222B', // ∫
@@ -734,6 +744,32 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     y += boxH + 5;
   };
 
+  const drawCalloutBox = (label: string | null, rawBody: string, fontSize = 10.6, lineGap = 5.1) => {
+    const cleanBody = safeStr(flattenSegmentsToPlainText(parseMathSegments(rawBody)));
+    const bodyLines = wrapMixedLines(cleanBody, contentW - 10, false, fontSize, 'serif');
+    const hasLabel = Boolean(label && label.trim().length > 0);
+    const boxH = (hasLabel ? 5.2 : 0) + bodyLines.length * lineGap + 8.5;
+    ensureSpace(boxH + 4);
+    doc.setFillColor(...EARTH_PARCHMENT);
+    doc.setDrawColor(...EARTH_STONE);
+    doc.setLineWidth(0.35);
+    doc.roundedRect(marginX, y, contentW, boxH, 2, 2, 'FD');
+
+    let cy = y + 5.5;
+    if (hasLabel && label) {
+      setFontSafe('mono', 'normal', 8.2);
+      doc.setTextColor(...EARTH_TERRACOTTA);
+      doc.text(clipMixedLine(safeStr(label), contentW - 10, false, 8.2, 'mono'), marginX + 5, cy);
+      cy += 5.2;
+    }
+    doc.setTextColor(...EARTH_UMBER);
+    for (const line of bodyLines) {
+      drawMixedRun(line, marginX + 5, cy, false, fontSize, 'serif', 'normal');
+      cy += lineGap;
+    }
+    y += boxH + 4.5;
+  };
+
   return {
     pageW,
     marginX,
@@ -757,7 +793,8 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     drawMathInlineText,
     drawHeading,
     drawCategoryTag,
-    drawEquationBox
+    drawEquationBox,
+    drawCalloutBox
   };
 }
 
@@ -804,7 +841,8 @@ export async function generateIgrtH12Pdf(): Promise<void> {
         'Appendices L–N house portal mechanisms, laboratory devices A–F, and the adversarial stress-test scorecard',
         'Appendices L–M house portal mechanisms and laboratory devices A–F'
       )
-      .replace('followed by Appendices L, M, and N.', 'followed by Appendices L and M.')
+      .replace('Extended Appendices L–N and Technical Appendices A–K.', 'Extended Appendices L–M and Technical Appendices A–K.')
+      .replace('followed by Appendices L, M, and N.', 'followed by Appendices L–M and Technical Appendices A–K.')
       .replace('Scorecard to Appendix N, and ', 'and ');
 
   // -------------------------------------------------------------------------
@@ -817,7 +855,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   ctx.addY(6);
 
   ctx.drawMathInlineText(
-    `${H12_META.monographId} · ${H12_META.edition.replace('Appendices L–N', 'Appendices L–M')} · ${H12_META.date}`,
+    `${H12_META.monographId} · Complete Research Monograph (Chapters 1–13 & Technical Appendices A–M) · ${H12_META.date}`,
     marginX,
     contentW,
     8.5,
@@ -897,16 +935,16 @@ export async function generateIgrtH12Pdf(): Promise<void> {
     'mono'
   );
 
-  // Page 2: Abstract + Summary for Non-Specialists (Strict Dedicated Page Start)
+  // Page 2: Portal Definition Box + Unified Layman & Scholar Abstract (Strict Dedicated Page Start)
   doc.addPage();
   ctx.setY(topY);
+  ctx.drawCalloutBox('PORTAL DEFINITION BOX', H12_PORTAL_DEFINITION_BOX, 10.6, 5.1);
   ctx.drawHeading('Abstract', 1, true, 0, false);
   for (const p of H12_ABSTRACT_PARAGRAPHS) {
     ctx.drawMathInlineText(p, marginX, contentW, 12, 6.35, EARTH_UMBER, false, true);
     ctx.addY(2.0);
   }
-  ctx.drawMathInlineText(H12_NON_SPECIALIST_SUMMARY, marginX + 2, contentW - 4, 11.5, 6.05, EARTH_SAGE, false, true);
-  ctx.addY(2.0);
+  ctx.drawCalloutBox('SUMMARY FOR NON-SPECIALISTS', H12_SUMMARY_FOR_NON_SPECIALISTS, 10.6, 5.1);
   ctx.drawMathInlineText(`Keywords: ${H12_META.keywords.join(' · ')}`, marginX, contentW, 9.6, 4.7, EARTH_STONE, false, true);
 
   // Reserve 2 pages right after Abstract for Computed Table of Contents
@@ -945,6 +983,8 @@ export async function generateIgrtH12Pdf(): Promise<void> {
 
   // Foundational Five-Dimensional Equations & Scope
   ctx.drawHeading('Foundational Five-Dimensional Equations (Category C) & Scope', 1, true, 0, true);
+  ctx.drawMathInlineText(H12_FOUNDATIONAL_EQUATIONS_NOTE, marginX, contentW, 11.2, 5.8, EARTH_TERRACOTTA, true, true);
+  ctx.addY(2.0);
   for (const eq of H12_MASTER_EQUATIONS) {
     ctx.drawEquationBox(eq);
   }
@@ -959,6 +999,16 @@ export async function generateIgrtH12Pdf(): Promise<void> {
     ctx.drawHeading(`Chapter ${ch.number}. ${ch.title}`, 1, true, 0, true);
     ctx.drawMathInlineText(ch.leadSummary, marginX, contentW, 11.5, 6.05, EARTH_STONE, false, true, 'serif', 'italic');
     ctx.addY(4);
+
+    if (ch.number === 1) {
+      ctx.drawCalloutBox('METRIC SIGNATURE BOX', H12_METRIC_SIGNATURE_BOX, 10.4, 5.0);
+      ctx.drawHeading('Table 1.3 · Category B/C Boundary Rubric Box', 3, false, 1);
+      for (const g of EPISTEMIC_BC_GREY_AREA_RUBRIC) {
+        ctx.drawMathInlineText(`${g.boundaryCase} [${g.assignedCategory}]: Derived: ${g.derivedAspect} Conjectural: ${g.conjecturalAspect} — ${g.ruleApplied}`, marginX + 2, contentW - 2, 10, 5.0);
+        ctx.addY(1.1);
+      }
+      ctx.addY(2);
+    }
 
     if (ch.number === 2) {
       ctx.drawHeading('Timeline of Five-Dimensional Physics (1921–2026)', 3, false, 1);
@@ -1014,13 +1064,8 @@ export async function generateIgrtH12Pdf(): Promise<void> {
       }
       ctx.drawHeading('Table 1.2 · Comparison: 4D IGRT-H11 vs. 5D IGRT-H12', 3, false, 1);
       for (const c of COMPARISON_4D_VS_5D_IGRT) {
-        ctx.drawMathInlineText(`${c.dimension}: 4D=${c.h11FourD} | 5D=${c.h12FiveD} (${c.epistemicDelta})`, marginX + 2, contentW - 2, 10, 5.0);
+        ctx.drawMathInlineText(`${c.dimension}: 4D=${c.h11FourD} | 5D=${c.h12FiveD} (${c.epistemicDelta}; Testable Now=${c.testableNow})`, marginX + 2, contentW - 2, 10, 5.0);
         ctx.addY(1.0);
-      }
-      ctx.drawHeading('Table 1.3 · Epistemic Boundary Rubric Resolving Category B vs. Category C Grey Areas', 3, false, 1);
-      for (const g of EPISTEMIC_BC_GREY_AREA_RUBRIC) {
-        ctx.drawMathInlineText(`${g.boundaryCase} [${g.assignedCategory}]: Derived: ${g.derivedAspect} Conjectural: ${g.conjecturalAspect} — ${g.ruleApplied}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
       }
       ctx.drawHeading('Glossary of Five-Dimensional Terms', 3, false, 1);
       for (const g of GLOSSARY_5D_TERMS) {
@@ -1108,41 +1153,67 @@ export async function generateIgrtH12Pdf(): Promise<void> {
     }
 
     if (ch.number === 12) {
-      ctx.drawHeading('Table 12.1 · Empirical & Conceptual Protocols (P7–P12)', 3, false, 1);
+      ctx.drawHeading('Table 12.1 · Empirical & Conceptual Protocols (P7–P13)', 3, false, 1);
       for (const p of H12_ALL_PROTOCOLS) {
         ctx.drawMathInlineText(`${p.id} · ${p.name} [${p.category} | ${p.timeline}]: ${p.numericalSensitivity} | Falsification: ${p.falsificationCriterion}`, marginX + 2, contentW - 2, 9.8, 4.9);
         ctx.addY(1.1);
       }
-      ctx.drawHeading('Table 12.2 · Timeline Table (P7–P10)', 3, false, 1);
-      for (const t of P7_TO_P10_TIMELINE_TABLE) {
+      ctx.drawHeading('Table 12.2 · Timeline Table (P7–P13)', 3, false, 1);
+      for (const t of P7_TO_P13_TIMELINE_TABLE) {
         ctx.drawMathInlineText(`${t.protocol}: ${t.currentState} -> ${t.requiredSensitivity} (${t.expectedYear})`, marginX + 2, contentW - 2, 9.8, 4.9);
       }
-      ctx.drawHeading('Table 12.3 & 12.4 · Falsification vs. Confirmation Thresholds', 3, false, 1);
-      for (const f of P7_TO_P10_FALSIFICATION_TABLE) {
+      ctx.drawHeading('Table 12.3 · Falsification Thresholds (P7–P13)', 3, false, 1);
+      for (const f of P7_TO_P13_FALSIFICATION_TABLE) {
         ctx.drawMathInlineText(`Falsify ${f.protocol}: ${f.nullBound} => ${f.whatItRulesOut}`, marginX + 2, contentW - 2, 9.8, 4.9);
       }
-      for (const c of P7_TO_P10_CONFIRMATION_TABLE) {
+      ctx.drawHeading('Table 12.4 · Confirmation Thresholds (P7–P13)', 3, false, 1);
+      for (const c of P7_TO_P13_CONFIRMATION_TABLE) {
         ctx.drawMathInlineText(`Confirm ${c.protocol}: ${c.signalSignature} (Control: ${c.requiredControl})`, marginX + 2, contentW - 2, 9.8, 4.9);
       }
-      ctx.drawHeading('Table 12.5 & 12.6 · Decision Matrix & H11 vs. H12 Protocols Comparison', 3, false, 1);
-      for (const d of P7_TO_P10_DECISION_MATRIX) {
+      ctx.drawHeading('Table 12.5 · Empirical Decision Matrix (P7–P13)', 3, false, 1);
+      for (const d of P7_TO_P13_DECISION_MATRIX) {
         ctx.drawMathInlineText(`Outcome [${d.outcome}] -> ${d.posteriorStatus}. Action: ${d.mandatoryAction}`, marginX + 2, contentW - 2, 9.8, 4.9);
       }
+      ctx.drawHeading('Table 12.6 · H11 (P1–P6) vs. H12 (P7–P13) Protocols Comparison', 3, false, 1);
       for (const cmp of H11_VS_H12_PROTOCOLS_COMPARISON) {
         ctx.drawMathInlineText(`${cmp.aspect}: H11=${cmp.h11Protocols} | H12=${cmp.h12Protocols}`, marginX + 2, contentW - 2, 9.8, 4.9);
       }
-      ctx.drawHeading('Table 12.7 · Quantitative Noise Budgets & Systematic Mitigation (P7–P10)', 3, false, 1);
-      for (const nb of P7_TO_P10_NOISE_BUDGET_TABLE) {
+      ctx.drawHeading('Table 12.7 · Quantitative Noise Budgets & Systematic Mitigation (P7–P13)', 3, false, 1);
+      for (const nb of P7_TO_P13_NOISE_BUDGET_TABLE) {
         ctx.drawMathInlineText(`${nb.protocol}: Sources: ${nb.primaryNoiseSources} | Floor: ${nb.quantitativeBudget} | Mitigation: ${nb.mitigationArchitecture}`, marginX + 2, contentW - 2, 9.8, 4.9);
         ctx.addY(1.0);
+      }
+      ctx.drawHeading('Table 12.8 · P13 Systematic Error Budget', 3, false, 1);
+      for (const s of P13_SYSTEMATIC_ERROR_BUDGET) {
+        ctx.drawMathInlineText(`${s.source}: ${s.magnitudeOrUncertainty} | Impact: ${s.impactOnEtaFold} | Mitigation: ${s.mitigationStrategy}`, marginX + 2, contentW - 2, 9.8, 4.9);
+        ctx.addY(1.0);
+      }
+      ctx.drawHeading('Table 12.9 · P13 Statistical Error Budget', 3, false, 1);
+      for (const st of P13_STATISTICAL_ERROR_BUDGET) {
+        ctx.drawMathInlineText(`${st.channel}: ${st.measurementPrecision} -> ${st.propagatedEtaFoldError} (${st.sampleScalingNote})`, marginX + 2, contentW - 2, 9.8, 4.9);
+        ctx.addY(1.0);
+      }
+      ctx.drawHeading('Table 12.10 · Combined Protocol Bounds (P7–P13 Joint Likelihood)', 3, false, 1);
+      for (const cb of P7_TO_P13_COMBINED_BOUNDS_TABLE) {
+        ctx.drawMathInlineText(`${cb.protocolPairOrCluster} (${cb.constrainedParameters}): ${cb.combinedJointLikelihoodRole} — ${cb.orthogonalExclusionPower}`, marginX + 2, contentW - 2, 9.8, 4.9);
+        ctx.addY(1.0);
+      }
+      ctx.drawHeading('Table 12.11 · Protocol Sensitivity Projections (2026–2035+)', 3, false, 1);
+      for (const pr of P7_TO_P13_SENSITIVITY_PROJECTION_TABLE) {
+        ctx.drawMathInlineText(`${pr.protocol}: 2026=${pr.currentBaseline2026} | 2027–2032=${pr.nearTerm2027_2032} | 2035+=${pr.longTerm3G2035Plus}`, marginX + 2, contentW - 2, 9.8, 4.9);
+      }
+      ctx.drawHeading('Table 12.12 · Summary of P13 Multi-Messenger Bounds', 3, false, 1);
+      for (const pb of P13_SUMMARY_OF_BOUNDS_TABLE) {
+        ctx.drawMathInlineText(`${pb.datasetOrRegime} (${pb.baselineDistance}): ${pb.arrivalBoundOrPrecision} => ${pb.etaFoldLimit} [${pb.epistemicNote}]`, marginX + 2, contentW - 2, 9.8, 4.9);
       }
       ctx.drawHeading('Protocol Statistical Framework, Joint Likelihood & Bayesian Occam Penalty', 3, false, 1);
       for (const sec of H12_PROTOCOL_ANALYSIS_SECTIONS) {
         ctx.drawMathInlineText(`${sec.title}: ${sec.content}`, marginX + 2, contentW - 2, 10, 5.0, EARTH_UMBER, false, true);
         ctx.addY(1.1);
       }
-      ctx.drawHeading('Falsification & Confirmation Checklists', 3, false, 1);
+      ctx.drawHeading('Falsification Checklist', 3, false, 1);
       for (const f of H12_FALSIFICATION_CHECKLIST) ctx.drawMathInlineText(`• [Falsify] ${f}`, marginX + 2, contentW - 2, 10, 5.0);
+      ctx.drawHeading('Confirmation Checklist', 3, false, 1);
       for (const c of H12_CONFIRMATION_CHECKLIST) ctx.drawMathInlineText(`• [Confirm] ${c}`, marginX + 2, contentW - 2, 10, 5.0);
       ctx.addY(1.5);
       ctx.drawMathInlineText(H12_FUNDING_AGENCY_SUMMARY, marginX, contentW, 11, 5.8, EARTH_UMBER, false, true);
@@ -1158,7 +1229,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
       for (const op of H12_OPEN_PROBLEMS_LIST) {
         ctx.drawMathInlineText(`${op.id}: ${op.problem} — ${op.statusNote}`, marginX + 2, contentW - 2, 10, 5.0);
       }
-      ctx.drawHeading('Response to Prior & 40-Expert Audits', 3, false, 1);
+      ctx.drawHeading('Response to Prior Methodological Audits', 3, false, 1);
       for (const r of H12_PRIOR_AUDIT_RESPONSES) {
         ctx.drawMathInlineText(
           cleanPdfText(`${r.auditScope}: ${r.panelCritique} -> ${r.harmonizedResolution}`),
@@ -1227,6 +1298,33 @@ export async function generateIgrtH12Pdf(): Promise<void> {
     ctx.addY(1.5);
   }
 
+  // Unified Technical Appendices A–K (previously separate Supplementary Vol. II)
+  ctx.drawHeading('Technical Appendices (A–K)', 1, true, 0, true);
+  ctx.drawMathInlineText(
+    `Detailed Mathematical Proofs, Variational Derivations & Numerical Solver Audits for "${H12_META.title}" — ${H12_META.authors}.`,
+    marginX,
+    contentW,
+    11.4,
+    5.6,
+    EARTH_STONE,
+    false,
+    true,
+    'serif',
+    'italic'
+  );
+  ctx.addY(3);
+  for (const app of H12_APPENDICES) {
+    ctx.drawHeading(`Appendix ${app.letter}: ${app.title}`, 2, true, 1);
+    ctx.drawCategoryTag(app.category);
+    ctx.drawMathInlineText(app.summary, marginX, contentW, 11, 5.5, EARTH_STONE, false, true, 'serif', 'italic');
+    ctx.addY(2);
+    for (const eq of app.equations) ctx.drawEquationBox(eq);
+    for (const p of app.bodyParagraphs) {
+      ctx.drawMathInlineText(p, marginX, contentW, 11.5, 6.05, EARTH_UMBER, false, true);
+      ctx.addY(2);
+    }
+  }
+
   // Populate Reserved TOC Pages (Playfair Display Regular 26.25pt = 35px heading)
   let currentTocPage = tocPage1;
   doc.setPage(currentTocPage);
@@ -1241,7 +1339,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   ty += 12;
 
   for (const entry of tocEntries) {
-    const step = entry.indent ? 4.8 : 5.9;
+    const step = entry.indent ? 4.35 : 5.35;
     if (ty + step > bottomLimit) {
       if (currentTocPage === tocPage1) {
         currentTocPage = tocPage2;
@@ -1297,105 +1395,4 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   }
 
   doc.save('IGRT_H12_Monograph.pdf');
-}
-
-// ---------------------------------------------------------------------------
-// 5. Supplementary Volume II PDF Builder (Technical Appendices A–K)
-// ---------------------------------------------------------------------------
-
-export async function generateIgrtH12SupplementaryPdf(): Promise<void> {
-  const fonts = await loadH12Fonts();
-  const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
-  const hasUnicodeFonts = registerAllFontsOnDoc(doc, fonts);
-  const ctx = createPdfContext(doc, hasUnicodeFonts);
-  const { marginX, contentW, pageW, topY } = ctx;
-
-  // Dedicated Cover Page for Supplementary Volume II
-  ctx.setY(44);
-  doc.setDrawColor(...EARTH_STONE);
-  doc.setLineWidth(0.35);
-  doc.line(marginX, ctx.getY(), marginX + contentW, ctx.getY());
-  ctx.addY(6);
-
-  ctx.drawMathInlineText(
-    `${H12_META.monographId} · Supplementary Volume II (Technical Appendices A–K) · ${H12_META.date}`,
-    marginX,
-    contentW,
-    8.5,
-    4.2,
-    EARTH_TERRACOTTA,
-    false,
-    false,
-    'mono'
-  );
-  ctx.addY(10);
-  ctx.drawMathInlineText(
-    'Supplementary Volume II: Technical Appendices (A–K)',
-    marginX,
-    contentW,
-    26.25,
-    11.0,
-    EARTH_UMBER,
-    false,
-    false,
-    'playfair',
-    'normal'
-  );
-  ctx.addY(6);
-  doc.setDrawColor(...EARTH_TERRACOTTA);
-  doc.setLineWidth(0.8);
-  doc.line(marginX, ctx.getY(), marginX + 40, ctx.getY());
-  ctx.addY(8);
-  ctx.drawMathInlineText(
-    `Companion Mathematical Proofs & Numerical Solver Derivations for "${H12_META.title}" — ${H12_META.authors}.`,
-    marginX,
-    contentW,
-    11.4,
-    5.6,
-    EARTH_STONE,
-    false,
-    true,
-    'serif',
-    'italic'
-  );
-
-  doc.addPage();
-  ctx.setY(topY);
-
-  for (const app of H12_APPENDICES) {
-    ctx.drawHeading(`Appendix ${app.letter}: ${app.title}`, 2, false, 0);
-    ctx.drawCategoryTag(app.category);
-    ctx.drawMathInlineText(app.summary, marginX, contentW, 11, 5.5, EARTH_STONE, false, true, 'serif', 'italic');
-    ctx.addY(2);
-    for (const eq of app.equations) ctx.drawEquationBox(eq);
-    for (const p of app.bodyParagraphs) {
-      ctx.drawMathInlineText(p, marginX, contentW, 11.5, 6.05, EARTH_UMBER, false, true);
-      ctx.addY(2);
-    }
-  }
-
-  const totalPages = doc.getNumberOfPages();
-  const runningHeader = ctx.clipMixedLine(
-    ctx.safeStr('IGRT-2026-H12 · Supplementary Volume II (Appendices A–K) · Tassan, Bulaqueña & Lauret'),
-    contentW,
-    false,
-    7.6,
-    'mono'
-  );
-  for (let p = 1; p <= totalPages; p++) {
-    doc.setPage(p);
-    if (p > 1) {
-      ctx.setFontSafe('mono', 'normal', 7.6);
-      doc.setTextColor(...EARTH_STONE);
-      doc.text(runningHeader, marginX, 14);
-      doc.setDrawColor(...EARTH_STONE);
-      doc.setLineWidth(0.2);
-      doc.line(marginX, 17, marginX + contentW, 17);
-      ctx.setFontSafe('mono', 'normal', 8);
-      doc.setTextColor(...EARTH_STONE);
-      doc.text(`Page ${p} of ${totalPages}`, pageW / 2, 285, { align: 'center' });
-    }
-  }
-
-  doc.save('IGRT_H12_Supplementary_Appendices_A_K.pdf');
 }

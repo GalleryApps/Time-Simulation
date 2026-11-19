@@ -4,7 +4,7 @@
  *
  * Automated 500-Criterion + 16 Red-Team Attack Adversarial Stress-Test Runner
  * for IGRT-2026-H12 ("Folding Time Across Hidden Dimensions: Fifth-Dimensional
- * Resonant Geometry, Quantum Portals, and the Limits of Spacetime Shortcuts").
+ * Resonant Geometry, Mathematical Portals, and the Limits of Spacetime Shortcuts").
  */
 
 import assert from 'node:assert/strict';
@@ -22,7 +22,7 @@ const solverRaw = execFileSync(process.execPath, [path.join(repoRoot, 'scripts/v
 });
 const solver = JSON.parse(solverRaw);
 assert.equal(solver.status, 'ALL_ASSERTIONS_PASSED');
-assert.equal(solver.assertions_count, 62);
+assert.equal(solver.assertions_count, 80);
 
 // 2. Read & inspect all IGRT-H12 TypeScript sources
 const appSrc = fs.readFileSync(path.join(repoRoot, 'src/types/igrtH12Apparatus.ts'), 'utf8');
@@ -59,12 +59,45 @@ for (const sym of [
   'H11_665_ASSERTIONS_CATALOG',
   'REGULATOR_SENSITIVITY_TABLE',
   'MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE',
-  'P7_TO_P10_NOISE_BUDGET_TABLE'
+  'P7_TO_P13_NOISE_BUDGET_TABLE',
+  'P7_TO_P13_TIMELINE_TABLE',
+  'H12_FOUNDATIONAL_EQUATIONS_NOTE',
+  'H12_PORTAL_DEFINITION_BOX',
+  'H12_METRIC_SIGNATURE_BOX',
+  'H12_SUMMARY_FOR_NON_SPECIALISTS',
+  'P13_SYSTEMATIC_ERROR_BUDGET',
+  'P13_STATISTICAL_ERROR_BUDGET',
+  'P7_TO_P13_COMBINED_BOUNDS_TABLE',
+  'P7_TO_P13_SENSITIVITY_PROJECTION_TABLE',
+  'P13_SUMMARY_OF_BOUNDS_TABLE'
 ]) {
   assert(appSrc.includes(sym), `igrtH12Apparatus.ts missing ${sym}`);
   assert(viewSrc.includes(sym), `IgrtH12PaperView.tsx missing ${sym}`);
   assert(pdfSrc.includes(sym), `generateIgrtH12Pdf.ts missing ${sym}`);
   assert(exportSrc.includes(sym), `generateIgrtH12Exports.ts missing ${sym}`);
+}
+assert(
+  appSrc.includes('Summary for Non-Specialists') && dataSrc.includes('H12_SUMMARY_FOR_NON_SPECIALISTS'),
+  'Abstract must include clearly labeled Summary for Non-Specialists'
+);
+for (const [name, src] of [
+  ['igrtH12Apparatus.ts', appSrc],
+  ['igrtH12Data.ts', dataSrc],
+  ['IgrtH12PaperView.tsx', viewSrc],
+  ['generateIgrtH12Pdf.ts', pdfSrc],
+  ['generateIgrtH12Exports.ts', exportSrc]
+]) {
+  assert(!src.includes('H12_NON_SPECIALIST_SUMMARY'), `${name} still references removed H12_NON_SPECIALIST_SUMMARY`);
+  assert(!src.includes('H12_FORTY_EXPERT_AUDIT_PANEL'), `${name} still includes removed H12_FORTY_EXPERT_AUDIT_PANEL`);
+  assert(!src.includes('H12_EIGHTY_EXPERT_AUDIT_PANEL'), `${name} still includes removed H12_EIGHTY_EXPERT_AUDIT_PANEL`);
+  assert(!src.includes('Subpanel '), `${name} still contains subpanel deliberations`);
+}
+assert(!viewSrc.includes('71/71 Assertions Verified'), 'IgrtH12PaperView.tsx still displays stale 71/71 badge');
+assert(!exportSrc.includes('all 71 numerical'), 'generateIgrtH12Exports.ts still displays stale 71 count in README');
+assert(viewSrc.includes('<th className="p-2">Current State</th>'), 'Table 12.2 UI must include Current State header');
+assert(pdfSrc.includes('Table 12.3 ·') && pdfSrc.includes('Table 12.4 ·') && pdfSrc.includes('Table 12.5 ·') && pdfSrc.includes('Table 12.6 ·'), 'PDF must separate Tables 12.3–12.6 into distinct headings');
+for (const refYear of ['Connes, A., & Rovelli, C. (1994)', 'Goldberger, W. D., & Wise, M. B. (1999)', 'Klimchitskaya, G. L., Mohideen, U., & Mostepanenko, V. M. (2009)']) {
+  assert(appSrc.includes(refYear), `H12_REFERENCES missing entry: ${refYear}`);
 }
 
 // Check solver benchmarks are synced verbatim across H12 monograph
@@ -88,7 +121,12 @@ for (const token of [
   '3.149 × 10⁻¹⁶',
   '5.873 × 10⁻³',
   '1.31 × 10⁻⁴²',
-  '1.8101 × 10¹⁸'
+  '1.8101 × 10¹⁸',
+  '−1.5 k²',
+  '3.118 × 10⁻⁷¹',
+  '0.7967',
+  '0.0614',
+  '9.916 × 10⁻¹⁹'
 ]) {
   assert(
     appSrc.includes(token) || dataSrc.includes(token),
@@ -150,32 +188,69 @@ assert(pdfSrc.includes('bmpSafeH12'), 'PDF generator must enforce strict BMP gly
 assert(pdfSrc.includes('verifyRegisteredFonts'), 'PDF generator must validate TTF font metrics before rendering');
 assert(pdfSrc.includes('wrapMixedLines'), 'PDF generator must wrap text using mixed-font widths to prevent margin overflow');
 assert(pdfSrc.includes('tocPage1') && pdfSrc.includes('tocPage2'), 'PDF generator must place multi-page TOC directly after Abstract');
-assert(pdfSrc.includes('generateIgrtH12SupplementaryPdf'), 'PDF module must export separate Supplementary Vol II PDF builder');
+assert(pdfSrc.includes('H12_APPENDICES') && !pdfSrc.includes('generateIgrtH12SupplementaryPdf'), 'PDF module must merge Main Monograph and Appendices A-K into a single unified PDF builder');
 assert(
   pdfSrc.includes("a.letter !== 'N'") && !pdfSrc.includes('Table N.1') && !pdfSrc.includes('Table N.2'),
   'PDF monograph must exclude Appendix N / Adversarial Stress-Test Scorecard'
 );
-assert(viewSrc.includes('generateIgrtH12Pdf') && viewSrc.includes('generateIgrtH12SupplementaryPdf'), 'UI must wire Main and Supplementary PDF downloads');
+assert(viewSrc.includes('generateIgrtH12Pdf') && !viewSrc.includes('generateIgrtH12SupplementaryPdf'), 'UI must expose merged PDF download without separate Supplementary Vol. II PDF builder');
 assert(viewSrc.includes('igrt-h12-chapter-title'), 'H12 Paper View must apply Playfair Display Regular 40px chapter titles');
 assert(cssSrc.includes('Book Antiqua') && cssSrc.includes('line-height: 1.5'), 'CSS must configure Book Antiqua 16px with 1.5 line spacing');
 
-// Epistemic & structural reorganization assertions (Group A & B)
+// Epistemic & structural reorganization assertions (Groups A, B, C & D — 100-item checklist)
 for (const stmt of [
+  'Mathematical Portals',
+  'Portal (in this monograph): A mathematical connection between brane and bulk, not a traversable wormhole. The negative theorems (Chapter 9) rule out physical portals.',
   'The 5D extension is a mathematical hypothesis, not an experimentally established fact.',
   'No 5D phenomenon has been observed.',
   'The H12 results do not alter H11; they extend it.',
   'The H11 protocols P1–P6 test 4D physics only; they do not confirm 5D.',
-  'The H12 protocols P7–P10 test the 5D bulk hypothesis, not the folding mechanism specifically.',
+  'Protocols P7–P10 test the existence of a 5D bulk, not the folding mechanism.',
+  'Protocols P11–P12 test the folding mechanism, but no current experiment can achieve the required sensitivity.',
+  'The folding mechanism is not currently testable.',
+  'Eqs. (H12.0.1) and (H12.0.2) are postulated, not derived. They define the 5D hypothesis.',
+  'The positive shortcut theorem is a classification of possible geometries, not a prediction of a physical one.',
+  'The asymmetric warp required for shortcuts is not derived from a physical principle.',
+  'No physical mechanism is currently known that could produce the asymmetric warp required for shortcuts.',
+  'Protocol P13 is a passive bound from existing data, not an active test of the folding mechanism.',
+  'No active test of the folding mechanism is currently feasible.',
+  'The Gregory-Laflamme stability threshold is assumed, not derived.',
+  'The negative theorems rule out physical portals.',
   'The Born rule is Category A (postulate), not derived from 5D.',
+  'The no-communication theorem is preserved by 5D microcausality, but this is not a new result.',
+  'The double-slit complementarity identity is independent of the 5D extension.',
   "The 'portal' is a mathematical connection, not a traversable wormhole.",
   'The negative theorems are the strongest part of H12.'
 ]) {
-  assert(appSrc.includes(stmt), `Missing mandatory explicit epistemic statement: ${stmt}`);
+  assert(
+    appSrc.includes(stmt) || dataSrc.includes(stmt),
+    `Missing mandatory explicit epistemic statement: ${stmt}`
+  );
 }
+for (const dataStmt of [
+  'These mechanisms are theoretical speculations, not engineering designs.',
+  'P7–P10 test the 5D bulk; P11–P12 test the folding mechanism but are currently untestable; P13 is a passive bound.',
+  'This chapter catalogs every Category C/D claim that is not derived from first principles.',
+  'The H12 document is a follow-up, not a replacement for H11.',
+  'The H11 SHA-256 preregistration digest is preserved.',
+  'The H12 document is explicitly labeled as an extension.',
+  'Readers seeking the strongest scientific content should go directly to Chapter 9 (Negative Results Summary).',
+  'Readers seeking the positive conjectures should go to Chapter 4 (Beltrami Geodesics, Category C).',
+  'Readers seeking experimental tests should go to Chapter 12 (Protocols P7–P13).',
+  'The metric signature is (−,+,+,+,+). Mixed signatures are excluded.',
+  'The H11 low-energy limit is exact at E ≪ m_KK^(1).',
+  'The 5D action is ghost-free Einstein-Maxwell.',
+  'The Eöt-Wash bound is R_5 ≤ 44 μm.'
+]) {
+  assert(dataSrc.includes(dataStmt), `igrtH12Data.ts missing mandatory 100-item statement: ${dataStmt}`);
+}
+assert(viewSrc.includes('Testable Now?'), 'Table 1.2 UI must include "Testable Now?" column');
+assert(dataSrc.includes("title: 'Speculative Portal Mechanisms (Category D)'"), 'Appendix L must be renamed "Speculative Portal Mechanisms (Category D)"');
 assert(dataSrc.includes("title: 'Negative Results Summary'"), 'Chapter 9 must be Negative Results Summary');
 assert(dataSrc.includes("title: 'What Is Unique to 5D? Observational Bounds & Consistency'"), 'Chapter 10 must cover What Is Unique to 5D & Bounds');
 assert(dataSrc.includes("title: 'What Is Not Derived'"), 'Chapter 11 must be What Is Not Derived');
 assert(dataSrc.includes('H12_MAIN_APPENDICES_LMN'), 'Appendices L, M, N must house portal mechanisms, devices A-F, and scorecard');
+assert(dataSrc.includes("number: '12.3'"), 'Chapter 12 must include dedicated 12.3 P13 protocols & checks');
 
 // 4. Bundle and execute exact point accounting from igrtH12StressTest.ts
 const compiled = buildSync({

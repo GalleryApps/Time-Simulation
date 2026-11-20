@@ -1,0 +1,35 @@
+             IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+             Chapter 2. Five-Dimensional
+             Information-Geometric Architecture
+             Introduces compact and warped extra-dimensional geometry, traces the 1921–2026
+             timeline, proves principal bundle orthogonality G                   = 0, executes explicit 5D action
+                                                                              Ai
+             variation, and derives Eöt-Wash and regulator bounds.
+               Timeline of 5D Physics (1921–2026)
+               Year & Milestone            Contribution to IGRT-H12
+               1921 · Kaluza (1921) [15]   Introduced a fifth metric coordinate extending 4D General Relativity to unify
+                                           gravity and electromagnetism under the cylinder condition.
+                                                                                            1
+               1926 · Klein (1926) [16]    Compactified the fifth dimension onto a circle y ∈ S  of microscopic radius R ,
+                                                                                                                    5
+                                           introducing the quantized Kaluza–Klein momentum ladder.
+                                                                                −2k|y|       1
+               1999 · Randall–Sundrum      Introduced exponential AdS  warping e      across S /ℤ  orbifold branes,
+                                                                     5                          2
+               (1999) [2]                  demonstrating hierarchy suppression and conformal horizon bounds.
+               2026 · IGRT-H12 (2026)      Synthesizes 5D warped/compact geometry with the H11 SLD-QFI bundle, isolates
+               [1]                         strict negative theorems vs. Category C conjectures, and defines protocols
+                                           P7–P13.
+             2.0 Introduction
+             [CATEGORY A — ESTABLISHED]
+             Picture a garden hose stretched across a backyard. Seen from a second-story
+             window, the hose looks like a thin one-dimensional line—an ant crawling
+             along it appears restricted solely to moving forward or backward. Step closer
+             with a magnifying glass, however, and you see that an ant tiny enough can
+             also walk all the way around the tight circular thickness of the hose.
+             Beginning with Theodor Kaluza in 1921 and Oskar Klein in 1926, theoretical
+             physicists have used that intuitive geometry to ask a profound structural
+             question: could our familiar four-dimensional universe hide an ultra-small
+             circular fifth direction at every point, or sit as a suspended four-dimensional
+             membrane inside a warped higher-dimensional space?
+                                                            Page 30 of 214

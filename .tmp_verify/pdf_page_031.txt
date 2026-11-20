@@ -1,0 +1,44 @@
+              IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+              As the 1921–2026 timeline below illustrates, modern physics explores two
+              main geometric mechanisms by which an extra spatial dimension (y) could
+              evade daily detection. In compactification (Kaluza–Klein theory), the extra
+              direction loops back on itself with microscopic radius R : only wavelengths
+                                                                                                   5
+              smaller than R notice it. In warped braneworld geometry (Randall–Sundrum
+                                    5
+              1999), an exponential gravitational warp factor confines atoms, light, and
+              electromagnetic forces strictly onto the four-dimensional sheet at y = 0,
+              leaving only gravity free to sample the surrounding five-dimensional bulk.
+              Why Does Everyday Physics Not Break?: Ultra-sensitive laboratory torsion
+              pendulums built              by     the     Washington           Eöt-Wash         group       [5]     measure
+              inverse-square gravity down to 52 micrometers, proving that any flat circular
+              fifth dimension must be thinner than R ≤ 44 micrometers—smaller than half
+                                                                       5
+              the width of a human hair. Translating that spatial wall into quantum energy
+              via Heisenberg uncertainty sets a strict floor of 4.485 millielectronvolts for
+              the lightest extra-dimensional graviton. Below that floor, Chapter 2 proves
+              across six independent renormalization regulators that interference with
+              optical atomic clocks drops below five parts in one hundred trillion (4.972 ×
+                  −14
+              10      ),  keeping all known four-dimensional chemistry, biology, and H11
+              predictions completely invariant.
+              Why Geometry Must Never Be Confused With Quantum State Space: A subtle
+              conceptual trap has misled many earlier discussions of higher-dimensional
+              quantum gravity. In IGRT-2026-H11, every spacetime event already carries an
+              attached internal space—the projective Hilbert fiber PU(H) parameterized by
+              coordinates θ—whose Bures metric determines clock duration dτ. Extending
+              base spacetime to include a fifth spatial direction y raises an urgent question:
+              could moving along y accidentally tilt or contaminate quantum state space θ?
+              Section 2.1 resolves that question directly from a gauge-invariant 5D
+              Yang–Mills–Araki action, proving identically that G                           =0: the internal Hilbert
+                                                                                         Ai
+              fiber remains mathematically perpendicular to the spatial bulk coordinate.
+              Roadmap of Chapter 2: Following the historical timeline of five-dimensional
+              physics (1921–2026), Section 2.1 separates four distinct physical
+              interpretations of y and proves bundle orthogonality cleanly. Section 2.2
+                                                                                  AB
+              executes the full Palatini variation δS                       / δG      = 0 on the ℤ orbifold bulk,
+                                                                      total                               2
+              derives Eqs. (H12.0.1)–(H12.0.2), isolates exactly which warp parameters
+              satisfy ghost-free 5D Einstein–Maxwell equations versus which remain
+                                                               Page 31 of 214

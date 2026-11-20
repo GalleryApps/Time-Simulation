@@ -1,0 +1,28 @@
+          IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+          Safeguard 6. Protocols P11–P12 test the folding mechanism, but no current
+          experiment can achieve the required sensitivity.
+          Safeguard 7. The folding mechanism is not currently testable.
+          Safeguard 8. Eqs. (H12.0.1) and (H12.0.2) are postulated, not derived. They
+          define the 5D hypothesis.
+          Safeguard 9. The positive shortcut theorem is a classification of possible
+          geometries, not a prediction of a physical one.
+          Safeguard 10. The asymmetric warp required for shortcuts is not derived from
+          a physical principle.
+          Safeguard 11. No physical mechanism is currently known that could produce
+          the asymmetric warp required for shortcuts.
+          Safeguard 12. The Born rule is Category A (postulate), not derived from 5D.
+          Safeguard 13. The no-communication theorem is preserved by 5D
+          microcausality, but this is not a new result.
+          Safeguard 14. The double-slit complementarity identity is independent of the
+          5D extension; it is a property of the Fisher–Rao metric on the fiber.
+          Safeguard 15. The 'portal' is a mathematical connection, not a traversable
+          wormhole.
+          Safeguard 16. The negative theorems rule out physical portals.
+          Safeguard 17. The negative theorems are the strongest part of H12.
+          Safeguard 18. The Gregory-Laflamme stability threshold is assumed, not
+          derived.
+          Safeguard 19. The Casimir deficit bound is a correct application of the
+          Morris-Thorne energy condition; it is not a new result.
+          Safeguard 20. This extension preserves the four-tier epistemic discipline
+          (A/B/C/D) and the H11 SHA-256 preregistration digest unchanged.
+                                              Page 23 of 214

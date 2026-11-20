@@ -11,9 +11,9 @@
  * - Pure Playfair Display Regular (40px, non-bold) chapter titles + Book Antiqua 16px justified prose
  * - Includes Unified Abstract (Layman + Scholar), 5 Front-Matter Lists, Chapters 1–13 (with Ch. 13.5
  *   Seven Solved Physics Problems & 13.6 Comprehensive Conclusion), References, and strictly
- *   alphabetical Consolidated Appendices (A–L) featuring Portal Mechanisms (App. I), Proposed Devices
- *   A–K with Cutaway Plates & Vector Schematics (App. J), Physics Breakthroughs (App. K), and
- *   Claim–Evidence & Structural Scorecard (App. L).
+ *   alphabetical Consolidated Appendices (A–L) featuring Claim–Evidence & Structural Scorecard (App. I),
+ *   Proposed Devices A–K with Cutaway Plates & Vector Schematics (App. J), Physics Breakthroughs
+ *   (App. K), and Speculative Portal Concepts (App. L).
  */
 
 import React, { useMemo, useState } from 'react';
@@ -107,18 +107,18 @@ interface IgrtH12PaperViewProps {
 }
 
 const H12EquationBox: React.FC<{ eq: H12Equation }> = ({ eq }) => (
-  <div className="my-7 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 sm:p-6">
-    <div className="flex flex-wrap items-center justify-between gap-2 pb-2 mb-2 border-b border-[#EAE2D2] dark:border-[#1E293B] text-[11px] font-mono">
+  <div className="my-9 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-6 sm:p-8">
+    <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-3 border-b border-[#EAE2D2] dark:border-[#1E293B] text-[11px] font-mono">
       <span className="text-[#64748B] dark:text-[#94A3B8] tracking-wide">
         {eq.category}
       </span>
       <span className="text-[#8B4513] dark:text-[#FB923C] tabular-nums">{eq.label}</span>
     </div>
     <div
-      className="text-center text-[#0F172A] dark:text-[#FDFBF7] py-2.5 overflow-x-auto leading-relaxed"
+      className="text-center text-[#0F172A] dark:text-[#FDFBF7] py-3.5 overflow-x-auto text-[17px] leading-[1.75]"
       dangerouslySetInnerHTML={{ __html: eq.unicodeHtml }}
     />
-    <div className="mt-2.5 pt-2.5 border-t border-[#EAE2D2] dark:border-[#1E293B] text-center text-[13px] italic text-[#475569] dark:text-[#94A3B8]">
+    <div className="mt-3.5 pt-3.5 border-t border-[#EAE2D2] dark:border-[#1E293B] text-center text-[13.5px] leading-[1.65] italic text-[#475569] dark:text-[#94A3B8]">
       <MathText text={eq.caption} />
     </div>
   </div>
@@ -274,10 +274,10 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             <span className="text-[#166534] dark:text-[#86EFAC]">102/102 Assertions Verified</span>
             <span aria-hidden="true">·</span>
             <button
-              onClick={() => scrollToAnchor('h12-app-l')}
+              onClick={() => scrollToAnchor('h12-app-i')}
               className="text-[#1E40AF] dark:text-[#93C5FD] hover:underline whitespace-nowrap shrink-0 tabular-nums"
             >
-              Structural Score (App. L): {H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints}/{H12_STRESS_TEST_SUMMARY.grandMaxPoints} ({H12_STRESS_TEST_SUMMARY.selfContainedScorePct}%)
+              Structural Score (App. I): {H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints}/{H12_STRESS_TEST_SUMMARY.grandMaxPoints} ({H12_STRESS_TEST_SUMMARY.selfContainedScorePct}%)
             </button>
           </div>
 
@@ -501,11 +501,11 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
           </nav>
         </aside>
 
-        <div className="lg:col-span-9 space-y-10">
+        <div className="lg:col-span-9 space-y-12">
           {/* Unified Layman & Scholar Abstract */}
           <section
             id="h12-abstract"
-            className="rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-6 shadow-xs"
+            className="scroll-mt-32 rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-7 shadow-xs"
           >
             <h2
               className="igrt-h12-chapter-title border-b border-[#D6CABE] dark:border-[#1E293B] pb-5 text-[#0C1836] dark:text-white mb-10"
@@ -529,7 +529,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
           {/* Five Front-Matter Reference Lists */}
           <section
             id="h12-lists"
-            className="rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-7 shadow-xs"
+            className="scroll-mt-32 rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-7 shadow-xs"
           >
             <h2
               className="igrt-h12-chapter-title border-b border-[#D6CABE] dark:border-[#1E293B] pb-5 text-[#0C1836] dark:text-white mb-10"
@@ -597,7 +597,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
           {/* Foundational 5D Equations & Epistemic Boundaries */}
           <section
             id="h12-frontmatter"
-            className="rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-7 shadow-xs"
+            className="scroll-mt-32 rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-7 shadow-xs"
           >
             <h2
               className="igrt-h12-chapter-title border-b border-[#D6CABE] dark:border-[#1E293B] pb-5 text-[#0C1836] dark:text-white mb-10"
@@ -641,7 +641,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
               <article
                 key={ch.anchorId}
                 id={ch.anchorId}
-                className="rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-8 shadow-xs"
+                className="scroll-mt-32 rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-10 shadow-xs"
               >
                 <div className="border-b border-[#D6CABE] dark:border-[#1E293B] pb-8 mb-4">
                   <div className="font-mono text-xs uppercase tracking-[0.18em] text-[#9A3412] dark:text-[#FDBA74] mb-3">
@@ -676,7 +676,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                           <tr>
                             <th className="p-2.5">Boundary Case</th>
                             <th className="p-2.5">Derived Core vs. Conjectural Premise</th>
-                            <th className="p-2.5">Category &amp; Decision Rule</th>
+                            <th className="p-2.5">Category &amp; Boundary Rule</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
@@ -703,7 +703,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 {ch.number === 2 && (
                   <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 space-y-3">
                     <div className="font-mono text-xs font-semibold text-[#9A3412] dark:text-[#FDBA74] uppercase tracking-wide">
-                      Timeline of Five-Dimensional Physics (1921–2026)
+                      Timeline of 5D Physics (1921–2026)
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                       {TIMELINE_5D_PHYSICS.map((tm) => (
@@ -717,8 +717,8 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 )}
 
                 {visibleSubs.map((sub, subIdx) => (
-                  <section key={sub.anchorId} id={sub.anchorId} className="space-y-5 pt-2">
-                    <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[#EAE2D2]/80 dark:border-[#1E293B] pb-2">
+                  <section key={sub.anchorId} id={sub.anchorId} className="scroll-mt-32 space-y-6 pt-4">
+                    <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[#EAE2D2]/80 dark:border-[#1E293B] pb-3">
                       <h3
                         className="text-[22px] font-normal text-[#0C1836] dark:text-[#FDFBF7]"
                         style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}
@@ -733,7 +733,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                     {sub.paragraphs.map((p, idx) => (
                       <p
                         key={idx}
-                        className={`text-[16px] leading-[1.5] text-[#1E293B] dark:text-[#E2E8F0] text-justify [hyphens:auto] ${
+                        className={`text-[16px] leading-[1.55] text-[#1E293B] dark:text-[#E2E8F0] text-justify [hyphens:auto] ${
                           (ch.number === 1 || ch.number === 13) && subIdx === 0 && idx === 0
                             ? "first-letter:text-5xl first-letter:font-['Playfair_Display'] first-letter:font-normal first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:leading-none first-letter:text-[#9A3412] dark:first-letter:text-[#FDBA74]"
                             : ''
@@ -746,7 +746,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                     {sub.equation && <H12EquationBox eq={sub.equation} />}
 
                     {sub.bulletPoints && sub.bulletPoints.length > 0 && (
-                      <ul className="text-[14.5px] leading-[1.6] text-[#1E293B] dark:text-[#E2E8F0] list-disc pl-6 space-y-1.5 text-justify">
+                      <ul className="text-[14.5px] leading-[1.68] text-[#1E293B] dark:text-[#E2E8F0] list-disc pl-6 space-y-2.5 text-justify">
                         {sub.bulletPoints.map((bp, bpi) => (
                           <li key={bpi}>
                             <strong>{bp.label}:</strong> <MathText text={bp.text} />
@@ -756,8 +756,8 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                     )}
 
                     {sub.theoremBox && (
-                      <div className="my-6 rounded-xl border border-[#15803D]/35 bg-[#F4FAF6] dark:bg-[#052E16]/45 p-6 space-y-3">
-                        <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#15803D]/20">
+                      <div className="my-8 rounded-xl border border-[#15803D]/35 bg-[#F4FAF6] dark:bg-[#052E16]/45 p-6 sm:p-7 space-y-4">
+                        <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[#15803D]/20">
                           <span
                             className="text-[17px] font-normal text-[#166534] dark:text-[#86EFAC]"
                             style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}
@@ -768,31 +768,31 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                             {sub.theoremBox.category}
                           </span>
                         </div>
-                        <ul className="text-[14px] leading-[1.65] text-[#14532D] dark:text-[#BBF7D0] list-disc pl-5 space-y-1.5 text-justify">
+                        <ul className="text-[14px] leading-[1.68] text-[#14532D] dark:text-[#BBF7D0] list-disc pl-5 space-y-2 text-justify">
                           {sub.theoremBox.hypotheses.map((h, hi) => (
                             <li key={hi}>
                               <MathText text={h} />
                             </li>
                           ))}
                         </ul>
-                        <p className="text-[15.5px] leading-[1.68] text-[#0F172A] dark:text-[#ECFDF5] pt-1 text-justify [hyphens:auto]">
+                        <p className="text-[15.5px] leading-[1.7] text-[#0F172A] dark:text-[#ECFDF5] pt-1 text-justify [hyphens:auto]">
                           <MathText text={sub.theoremBox.statement} />
                         </p>
                       </div>
                     )}
 
                     {sub.workedExample && (
-                      <div className="my-5 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 sm:p-6 space-y-3">
+                      <div className="my-7 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-6 sm:p-7 space-y-4">
                         <div
                           className="text-[17px] text-[#0C1836] dark:text-[#FDBA74]"
                           style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}
                         >
                           <MathText text={sub.workedExample.title} />
                         </div>
-                        <p className="text-[14px] text-[#475569] dark:text-[#CBD5E1] text-justify">
+                        <p className="text-[14px] leading-[1.6] text-[#475569] dark:text-[#CBD5E1] text-justify">
                           <MathText text={sub.workedExample.setup} />
                         </p>
-                        <ol className="text-[14px] leading-[1.65] space-y-1.5 list-decimal pl-5 text-[#1E293B] dark:text-[#E2E8F0] text-justify tabular-nums">
+                        <ol className="text-[14px] leading-[1.68] space-y-2 list-decimal pl-5 text-[#1E293B] dark:text-[#E2E8F0] text-justify tabular-nums">
                           {sub.workedExample.steps.map((st, si) => (
                             <li key={si}>
                               <MathText text={st} />
@@ -870,7 +870,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
 
                     <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 space-y-2.5">
                       <div className="font-mono text-xs font-semibold text-[#9A3412] dark:text-[#FDBA74] uppercase">
-                        Glossary of Five-Dimensional Terms
+                        Glossary of 5D Terms
                       </div>
                       <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                         {GLOSSARY_5D_TERMS.map((g) => (
@@ -1749,7 +1749,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
           {/* References */}
           <section
             id="h12-references"
-            className="rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-6 shadow-xs"
+            className="scroll-mt-32 rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-6 shadow-xs"
           >
             <h2
               className="igrt-h12-chapter-title border-b border-[#D6CABE] dark:border-[#1E293B] pb-5 text-[#081026] dark:text-white mb-8"
@@ -1757,7 +1757,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             >
               References
             </h2>
-            <ol className="list-decimal pl-5 space-y-2.5 text-[14.5px] leading-[1.6] text-[#334155] dark:text-[#CBD5E1] text-justify">
+            <ol className="list-decimal pl-5 space-y-3 text-[14.5px] leading-[1.65] text-[#334155] dark:text-[#CBD5E1] text-justify">
               {H12_REFERENCES.map((r) => <li key={r.id}><MathText text={r.citation} /></li>)}
             </ol>
           </section>
@@ -1765,7 +1765,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
           {/* Consolidated Appendices (Strictly Ordered A–L) */}
           <section
             id="h12-appendices"
-            className="rounded-2xl border-2 border-[#1E40AF]/40 bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-8 shadow-xs"
+            className="scroll-mt-32 rounded-2xl border-2 border-[#1E40AF]/40 bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-10 shadow-xs"
           >
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#D6CABE] dark:border-[#1E293B] pb-6">
               <div>
@@ -1792,7 +1792,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
               <div
                 key={app.anchorId}
                 id={app.anchorId}
-                className="rounded-xl border border-[#D6CABE] dark:border-[#334155] p-6 space-y-5 bg-[#FAF8F3] dark:bg-[#081026]"
+                className="scroll-mt-32 rounded-xl border border-[#D6CABE] dark:border-[#334155] p-6 sm:p-8 space-y-6 bg-[#FAF8F3] dark:bg-[#081026]"
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-2 pb-2 border-b border-[#EAE2D2] dark:border-[#1E293B]">
                   <h3 className="text-[22px] font-normal text-[#0C1836] dark:text-[#FDFBF7]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
@@ -1811,25 +1811,94 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 ))}
 
                 {app.letter === 'I' && (
-                  <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
-                    <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
-                      Table I.1 · Five-Tier Assessment of Eleven Candidate Portal &amp; Analog Mechanisms
+                  <div className="space-y-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 tabular-nums">
+                      <div className="rounded-xl border border-[#15803D]/35 bg-[#F4FAF6] dark:bg-[#052E16]/50 p-4">
+                        <div className="text-[11px] font-mono text-[#166534] dark:text-[#86EFAC] uppercase">Self-Contained Closure</div>
+                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                          {H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.grandMaxPoints}
+                        </div>
+                        <div className="text-xs font-mono text-[#15803D] dark:text-[#4ADE80] mt-0.5">{H12_STRESS_TEST_SUMMARY.selfContainedScorePct}% Verified</div>
+                      </div>
+                      <div className="rounded-xl border border-[#1E40AF]/35 bg-[#F4F8FF] dark:bg-[#172554]/50 p-4">
+                        <div className="text-[11px] font-mono text-[#1E40AF] dark:text-[#93C5FD] uppercase">Epistemic Applicable Score</div>
+                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                          {H12_STRESS_TEST_SUMMARY.grandApplicablePoints} / {H12_STRESS_TEST_SUMMARY.grandMaxPoints}
+                        </div>
+                        <div className="text-xs font-mono text-[#1E40AF] dark:text-[#93C5FD] mt-0.5">{H12_STRESS_TEST_SUMMARY.overallEpistemicScorePct}% (Cat. C/D Bounded)</div>
+                      </div>
+                      <div className="rounded-xl border border-[#EA580C]/35 bg-[#FFF9F2] dark:bg-[#431407]/40 p-4">
+                        <div className="text-[11px] font-mono text-[#9A3412] dark:text-[#FDBA74] uppercase">500-Criterion Domains</div>
+                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                          {H12_STRESS_TEST_SUMMARY.domainSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.domainMaxPoints}
+                        </div>
+                        <div className="text-xs font-mono text-[#9A3412] dark:text-[#FDBA74] mt-0.5">100.0% Math &amp; Negative Theorems</div>
+                      </div>
+                      <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4">
+                        <div className="text-[11px] font-mono text-[#475569] dark:text-[#94A3B8] uppercase">16 Red-Team Attacks</div>
+                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                          {H12_STRESS_TEST_SUMMARY.attackSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.attackMaxPoints}
+                        </div>
+                        <div className="text-xs font-mono text-[#475569] dark:text-[#CBD5E1] mt-0.5">14 Survived · 2 Contained Frontiers</div>
+                      </div>
                     </div>
-                    <table className="w-full text-xs text-left tabular-nums">
-                      <thead className="border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                        <tr><th className="p-2.5">Mechanism</th><th className="p-2.5">Feasibility Tier</th><th className="p-2.5">Physical Action</th><th className="p-2.5">Quantitative Obstacle / Limit</th></tr>
-                      </thead>
-                      <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
-                        {ELEVEN_PORTAL_MECHANISMS.map((m) => (
-                          <tr key={m.id}>
-                            <td className="p-2.5 font-medium"><MathText text={m.mechanism} /></td>
-                            <td className="p-2.5"><div>{m.tier}</div><div className="text-[10.5px] font-mono text-[#64748B]">{m.category}</div></td>
-                            <td className="p-2.5"><MathText text={m.physicalAction} /></td>
-                            <td className="p-2.5"><MathText text={m.quantitativeObstacleOrLimit} /></td>
-                          </tr>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
+                        Table I.1 · Ten-Domain 500-Criterion Breakdown
+                      </div>
+                      <table className="w-full text-xs text-left tabular-nums">
+                        <thead className="border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr><th className="p-2.5">Domain (50 Criteria Each)</th><th className="p-2.5">Self-Contained</th><th className="p-2.5">Applicable</th><th className="p-2.5">Verdict &amp; Key Verification</th></tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {H12_TEN_DOMAIN_AUDITS.map((d) => (
+                            <tr key={d.domainNumber}>
+                              <td className="p-2.5 font-medium"><div><MathText text={`${d.domainNumber}: ${d.domainName}`} /></div><div className="mt-1 text-[10.5px] font-mono text-[#64748B]">{d.category}</div></td>
+                              <td className="p-2.5 font-mono text-[#15803D]">{d.selfContainedPoints}/{d.maxPoints}</td>
+                              <td className="p-2.5 font-mono">{d.applicablePoints}/{d.maxPoints}</td>
+                              <td className="p-2.5"><div className="font-semibold text-[11px]">{d.verdict}</div><div><MathText text={d.openFrontierNotes} /></div></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <h4 className="text-[18px] font-normal" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                          Table I.2 · Sixteen Direct Red-Team Attacks (H12-ATK-01 .. H12-ATK-16)
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5 text-[11px] font-mono">
+                          {['ALL', 'Wave I: 5D Geometry & Causality', 'Wave II: Black Holes & Wormholes', 'Wave III: Quantum & Information', 'Wave IV: Engineering & Falsification'].map((w) => (
+                            <button
+                              key={w}
+                              onClick={() => setAttackWaveFilter(w)}
+                              className={`px-2.5 py-1 rounded border whitespace-nowrap shrink-0 ${
+                                attackWaveFilter === w ? 'bg-[#0C1836] dark:bg-[#EA580C] text-white border-transparent' : 'bg-white dark:bg-[#0B1530] border-[#D6CABE] dark:border-[#334155]'
+                              }`}
+                            >
+                              {w === 'ALL' ? 'All 16 Attacks' : w.split(':')[0]}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 gap-3">
+                        {H12_SIXTEEN_REDTEAM_ATTACKS.filter((a) => attackWaveFilter === 'ALL' || a.wave === attackWaveFilter).map((atk) => (
+                          <div key={atk.id} className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4 text-xs space-y-1.5">
+                            <div className="flex flex-wrap items-center justify-between gap-2 pb-1 border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                              <span className="font-mono text-[#9A3412] dark:text-[#FDBA74]">{atk.id} · {atk.wave} · {atk.category}</span>
+                              <span className="font-mono text-[#166534] dark:text-[#86EFAC] tabular-nums">{atk.pointsAwarded}/{atk.maxPoints} · {atk.technicalStatus}</span>
+                            </div>
+                            <div className="text-[15px] text-[#0C1836] dark:text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                              <MathText text={atk.attackTitle} />
+                            </div>
+                            <p className="text-[13px] leading-[1.55] text-[#475569] dark:text-[#94A3B8] text-justify"><strong>Challenge:</strong> <MathText text={atk.adversarialChallenge} /></p>
+                            <p className="text-[13px] leading-[1.55] text-[#1E293B] dark:text-[#E2E8F0] text-justify"><strong>H12 Resolution:</strong> <MathText text={atk.h12ResolutionAndCitation} /></p>
+                          </div>
                         ))}
-                      </tbody>
-                    </table>
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -1903,39 +1972,53 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                             </div>
 
                             {mfig && (
-                              <figure className="rounded-xl border border-[#D8CFC2] dark:border-[#3A2E26] bg-[#FAF8F3] dark:bg-[#1C1714] p-4 sm:p-5 space-y-4">
-                                <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#EAE2D6] dark:border-[#3A2E26] text-[11px] font-mono">
-                                  <span className="uppercase tracking-[0.14em] text-[#64705B] dark:text-[#A3B19B]">
-                                    {mfig.figureNumber} · Appendix J ({mfig.deviceId})
-                                  </span>
-                                  <span className="text-[#8E7F6B] dark:text-[#A89A86]">{mfig.category}</span>
-                                </div>
-                                <div className="text-[17px] text-[#3A2E26] dark:text-[#F6F2EA]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                                  <MathText text={mfig.title} />
-                                </div>
+                              <div className="my-8 space-y-6">
                                 {mfig.illustrationPath && (
-                                  <div className="rounded-lg overflow-hidden border border-[#D8CFC2] dark:border-[#3A2E26] bg-[#FFFFFF]">
-                                    <img
-                                      src={mfig.illustrationPath}
-                                      alt={mfig.illustrationTitle || mfig.title}
-                                      referrerPolicy="no-referrer"
-                                      className="w-full h-auto max-h-[420px] object-contain mx-auto block"
-                                    />
-                                    {mfig.illustrationTitle && (
-                                      <div className="px-3 py-1.5 bg-[#F4EFE6] dark:bg-[#261E19] text-[11.5px] font-mono text-[#5B4D40] dark:text-[#D8CFC2] border-t border-[#EAE2D6] dark:border-[#3A2E26]">
-                                        Hardware Cutaway Illustration: {mfig.illustrationTitle}
-                                      </div>
-                                    )}
-                                  </div>
+                                  <figure className="rounded-xl border border-[#3A2E26]/25 dark:border-[#8E7F6B]/40 bg-[#FFFFFF] p-5 sm:p-7 space-y-4 shadow-sm">
+                                    <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#EAE2D6] text-[11px] font-mono">
+                                      <span className="uppercase tracking-[0.14em] text-[#64705B]">
+                                        Cutaway Plate · Appendix J ({mfig.deviceId})
+                                      </span>
+                                      <span className="text-[#8E7F6B]">{mfig.category}</span>
+                                    </div>
+                                    <div className="text-[17px] text-[#0F0D0B]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                                      <MathText text={mfig.illustrationTitle || mfig.title} />
+                                    </div>
+                                    <div className="rounded-lg overflow-hidden border border-[#EAE2D6] bg-[#FFFFFF] p-2">
+                                      <img
+                                        src={mfig.illustrationPath}
+                                        alt={mfig.illustrationTitle || mfig.title}
+                                        referrerPolicy="no-referrer"
+                                        className="w-full h-auto max-h-[540px] object-contain mx-auto block"
+                                      />
+                                    </div>
+                                    <figcaption className="pt-2 text-[13.5px] leading-[1.68] text-[#3A2E26] text-justify [hyphens:auto]">
+                                      <strong className="font-mono text-[11.5px] uppercase tracking-wider text-[#64705B] mr-1.5">
+                                        {mfig.deviceId} Hardware Cutaway:
+                                      </strong>
+                                      <MathText text={mfig.illustrationTitle || mfig.title} /> — Full labeled apparatus cutaway on archival white ground.
+                                    </figcaption>
+                                  </figure>
                                 )}
-                                <div
-                                  className="w-full overflow-x-auto rounded-lg border border-[#D8CFC2] dark:border-[#3A2E26] bg-[#F6F2EA] p-2.5"
-                                  dangerouslySetInnerHTML={{ __html: mfig.svgMarkup }}
-                                />
-                                <figcaption className="pt-2 text-[13.5px] leading-[1.6] text-[#3A2E26] dark:text-[#D8CFC2] text-justify [hyphens:auto]">
-                                  <MathText text={mfig.caption} />
-                                </figcaption>
-                              </figure>
+                                <figure className="rounded-xl border border-[#3A2E26]/25 dark:border-[#8E7F6B]/40 bg-[#FFFFFF] p-5 sm:p-7 space-y-4 shadow-sm">
+                                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#EAE2D6] text-[11px] font-mono">
+                                    <span className="uppercase tracking-[0.14em] text-[#64705B]">
+                                      {mfig.figureNumber} · Appendix J Schematic ({mfig.deviceId})
+                                    </span>
+                                    <span className="text-[#8E7F6B]">{mfig.category}</span>
+                                  </div>
+                                  <div className="text-[17px] text-[#0F0D0B]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                                    <MathText text={mfig.title} />
+                                  </div>
+                                  <div
+                                    className="w-full overflow-hidden rounded-lg border border-[#EAE2D6] bg-[#FFFFFF] p-3 [&>svg]:w-full [&>svg]:h-auto [&>svg]:block"
+                                    dangerouslySetInnerHTML={{ __html: mfig.svgMarkup }}
+                                  />
+                                  <figcaption className="pt-2 text-[13.5px] leading-[1.68] text-[#3A2E26] text-justify [hyphens:auto]">
+                                    <MathText text={mfig.caption} />
+                                  </figcaption>
+                                </figure>
+                              </div>
                             )}
 
                             <div className="space-y-3">
@@ -2040,94 +2123,25 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 )}
 
                 {app.letter === 'L' && (
-                  <div className="space-y-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 tabular-nums">
-                      <div className="rounded-xl border border-[#15803D]/35 bg-[#F4FAF6] dark:bg-[#052E16]/50 p-4">
-                        <div className="text-[11px] font-mono text-[#166534] dark:text-[#86EFAC] uppercase">Self-Contained Closure</div>
-                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                          {H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.grandMaxPoints}
-                        </div>
-                        <div className="text-xs font-mono text-[#15803D] dark:text-[#4ADE80] mt-0.5">{H12_STRESS_TEST_SUMMARY.selfContainedScorePct}% Verified</div>
-                      </div>
-                      <div className="rounded-xl border border-[#1E40AF]/35 bg-[#F4F8FF] dark:bg-[#172554]/50 p-4">
-                        <div className="text-[11px] font-mono text-[#1E40AF] dark:text-[#93C5FD] uppercase">Epistemic Applicable Score</div>
-                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                          {H12_STRESS_TEST_SUMMARY.grandApplicablePoints} / {H12_STRESS_TEST_SUMMARY.grandMaxPoints}
-                        </div>
-                        <div className="text-xs font-mono text-[#1E40AF] dark:text-[#93C5FD] mt-0.5">{H12_STRESS_TEST_SUMMARY.overallEpistemicScorePct}% (Cat. C/D Bounded)</div>
-                      </div>
-                      <div className="rounded-xl border border-[#EA580C]/35 bg-[#FFF9F2] dark:bg-[#431407]/40 p-4">
-                        <div className="text-[11px] font-mono text-[#9A3412] dark:text-[#FDBA74] uppercase">500-Criterion Domains</div>
-                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                          {H12_STRESS_TEST_SUMMARY.domainSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.domainMaxPoints}
-                        </div>
-                        <div className="text-xs font-mono text-[#9A3412] dark:text-[#FDBA74] mt-0.5">100.0% Math &amp; Negative Theorems</div>
-                      </div>
-                      <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4">
-                        <div className="text-[11px] font-mono text-[#475569] dark:text-[#94A3B8] uppercase">16 Red-Team Attacks</div>
-                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                          {H12_STRESS_TEST_SUMMARY.attackSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.attackMaxPoints}
-                        </div>
-                        <div className="text-xs font-mono text-[#475569] dark:text-[#CBD5E1] mt-0.5">14 Survived · 2 Contained Frontiers</div>
-                      </div>
+                  <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
+                    <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
+                      Table L.1 · Five-Tier Assessment of Eleven Candidate Speculative Portal Concepts
                     </div>
-
-                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
-                      <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
-                        Table L.1 · Ten-Domain 500-Criterion Breakdown
-                      </div>
-                      <table className="w-full text-xs text-left tabular-nums">
-                        <thead className="border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                          <tr><th className="p-2.5">Domain (50 Criteria Each)</th><th className="p-2.5">Self-Contained</th><th className="p-2.5">Applicable</th><th className="p-2.5">Verdict &amp; Key Verification</th></tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
-                          {H12_TEN_DOMAIN_AUDITS.map((d) => (
-                            <tr key={d.domainNumber}>
-                              <td className="p-2.5 font-medium"><div><MathText text={`${d.domainNumber}: ${d.domainName}`} /></div><div className="mt-1 text-[10.5px] font-mono text-[#64748B]">{d.category}</div></td>
-                              <td className="p-2.5 font-mono text-[#15803D]">{d.selfContainedPoints}/{d.maxPoints}</td>
-                              <td className="p-2.5 font-mono">{d.applicablePoints}/{d.maxPoints}</td>
-                              <td className="p-2.5"><div className="font-semibold text-[11px]">{d.verdict}</div><div><MathText text={d.openFrontierNotes} /></div></td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <h4 className="text-[18px] font-normal" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                          Table L.2 · Sixteen Direct Red-Team Attacks (H12-ATK-01 .. H12-ATK-16)
-                        </h4>
-                        <div className="flex flex-wrap gap-1.5 text-[11px] font-mono">
-                          {['ALL', 'Wave I: 5D Geometry & Causality', 'Wave II: Black Holes & Wormholes', 'Wave III: Quantum & Information', 'Wave IV: Engineering & Falsification'].map((w) => (
-                            <button
-                              key={w}
-                              onClick={() => setAttackWaveFilter(w)}
-                              className={`px-2.5 py-1 rounded border whitespace-nowrap shrink-0 ${
-                                attackWaveFilter === w ? 'bg-[#0C1836] dark:bg-[#EA580C] text-white border-transparent' : 'bg-white dark:bg-[#0B1530] border-[#D6CABE] dark:border-[#334155]'
-                              }`}
-                            >
-                              {w === 'ALL' ? 'All 16 Attacks' : w.split(':')[0]}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-1 gap-3">
-                        {H12_SIXTEEN_REDTEAM_ATTACKS.filter((a) => attackWaveFilter === 'ALL' || a.wave === attackWaveFilter).map((atk) => (
-                          <div key={atk.id} className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4 text-xs space-y-1.5">
-                            <div className="flex flex-wrap items-center justify-between gap-2 pb-1 border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                              <span className="font-mono text-[#9A3412] dark:text-[#FDBA74]">{atk.id} · {atk.wave} · {atk.category}</span>
-                              <span className="font-mono text-[#166534] dark:text-[#86EFAC] tabular-nums">{atk.pointsAwarded}/{atk.maxPoints} · {atk.technicalStatus}</span>
-                            </div>
-                            <div className="text-[15px] text-[#0C1836] dark:text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                              <MathText text={atk.attackTitle} />
-                            </div>
-                            <p className="text-[13px] leading-[1.55] text-[#475569] dark:text-[#94A3B8] text-justify"><strong>Challenge:</strong> <MathText text={atk.adversarialChallenge} /></p>
-                            <p className="text-[13px] leading-[1.55] text-[#1E293B] dark:text-[#E2E8F0] text-justify"><strong>H12 Resolution:</strong> <MathText text={atk.h12ResolutionAndCitation} /></p>
-                          </div>
+                    <table className="w-full text-xs text-left tabular-nums">
+                      <thead className="border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                        <tr><th className="p-2.5">Concept</th><th className="p-2.5">Feasibility Tier</th><th className="p-2.5">Physical Action</th><th className="p-2.5">Quantitative Obstacle / Limit</th></tr>
+                      </thead>
+                      <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                        {ELEVEN_PORTAL_MECHANISMS.map((m) => (
+                          <tr key={m.id}>
+                            <td className="p-2.5 font-medium"><MathText text={m.mechanism} /></td>
+                            <td className="p-2.5"><div>{m.tier}</div><div className="text-[10.5px] font-mono text-[#64748B]">{m.category}</div></td>
+                            <td className="p-2.5"><MathText text={m.physicalAction} /></td>
+                            <td className="p-2.5"><MathText text={m.quantitativeObstacleOrLimit} /></td>
+                          </tr>
                         ))}
-                      </div>
-                    </div>
+                      </tbody>
+                    </table>
                   </div>
                 )}
               </div>

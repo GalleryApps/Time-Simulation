@@ -1,0 +1,12 @@
+           IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+           FIGURE H12-1 · CHAPTER 1                                                [CATEGORY B — DERIVED]
+           Minimalist Bundle Geometry: 4D Brane M , Bulk Coordinate y &
+                                                               4
+           Orthogonal Fiber PU(H)
+            Geometric decoupling theorem proved in §2.1: extending the 4D spacetime base (M , g )
+                                                                                                 4  μν
+            along a physical fifth dimension y does not tilt or twist the internal projective-Hilbert fiber
+            PU(H). Cross-metric components vanish identically (G   =0for A ∈ {0..4}), keeping the H11
+                                                                 Ai
+            SLD Fisher metric independent of bulk position y.
+                                                   Page 28 of 214

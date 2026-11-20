@@ -1,0 +1,63 @@
+             IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+               Table 1.1 · Audit of Twelve Core H11 Components & H12 Embedding Status (continued)
+               Component             H11 Value / Role     H12 Status            Category & Modification
+               9.                    d  = 0.0142;         Extended to 5D        CATEGORY C — CONJECTURAL: 5D
+                                      GH
+               Buchholz–Wichman      Wetterich g  =                             non-renormalizable EFT below M  (≥
+                                                *                                                               5
+                                                                                           8                     18
+               n & BFV–BRST UV       1.3105                                     2.985 × 10  GeV flat / 1.8101 × 10  GeV
+               Closure                                                          warped); full 5D BFV–BRST constraint
+                                                                                              (5)    (5)
+                                                                                algebra {Ω      , Ω    } is not explicitly
+                                                                                           BFV    BFV
+                                                                                computed in H12.
+                                                 eq
+               10. Ekpyrotic–L       r < 0.03; |f  | < 5  Extended to 5D        CATEGORY C — CONJECTURAL:
+                             UV                NL
+                                                                                                         1
+               Bounce Cosmology                                                 Brane-collision / orbifold S /ℤ  geometric
+                                                                                                            2
+                                                                                realization of the ekpyrotic bounce
+                                                                                (Category C).
+               11. H11 Protocols     SHA-256:             Preserved             CATEGORY A — ESTABLISHED: The H11
+               P1–P6                 57cf3f1c...048d      Unchanged             protocols P1–P6 test 4D physics only; they
+                                                                                do not confirm 5D. H12 adds distinct 5D
+                                                                                protocols P7–P13.
+               12. Diffeomorphism    [φ(x), φ(y)] = 0 for Extended to 5D        CATEGORY A — ESTABLISHED: Follows
+                                                    2
+               & Microcausality      spacelike (x − y)  >                       directly from standard Lorentzian
+               Discipline            0                                          (−,+,+,+,+) metric signature in globally
+                                                                                hyperbolic charts; preserves 5D null
+                                                                                              2
+                                                                                lightcones ds  ≤ 0 and quantum
+                                                                                             5
+                                                                                no-communication [O , O ] = 0.
+                                                                                                     A  B
+               Table 1.2 · Direct Comparison: 4D IGRT-H11 vs. 5D IGRT-H12
+               Dimension          4D IGRT-H11             5D IGRT-H12                Epistemic Delta         Testable
+                                                                                                             Now?
+               Spacetime Base     4D Lorentzian (M ,      5D Extended Bulk M  =      Category C assumed      No
+                                                   4                          5
+                                  g )                     M × K                      lift
+                                   μν                       4    1
+               Quantum State      Projective Hilbert      PU(H) ⊥ ∂/∂y strictly      Fiber independent of    Yes
+               Fiber              PU(H)                   separated                  y
+                                              −21    −1
+               Araki Coupling     2.1727 × 10    GeV      Unchanged on y = 0         Category B exact        Yes
+                                                                      −14
+               κ                                          (4.972 × 10    KK shift    recovery
+                ψ
+                                                          at 1 neV)
+               Black-Hole Core    4D Hayward ξ  =         Proved NEC-satisfying      NEC Category B; 5D      No
+                                               0
+                                   −1/4
+                                  2   , K    = 0.184      (non-portal); optional     string Cat. C
+                                         echo
+                                                          q     / GL
+                                                            tidal
+                                                                   2       2
+               Double-Slit        Fisher–Rao arc in       Explicit V  + D    = 1     Category B fiber        Yes
+                                                                         QFI
+               Identity           PU(H)                   (independent of 5D)        property
+                                                            Page 25 of 214

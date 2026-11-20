@@ -103,29 +103,38 @@ function toLatex(raw: string): string {
     .replace(/ℱ/g, '$\\mathcal{F}$')
     .replace(/ℒ/g, '$\\mathcal{L}$')
     .replace(/𝒪/g, '$\\mathcal{O}$')
+    .replace(/ℝ/g, '$\\mathbb{R}$')
     .replace(/ℤ/g, '$\\mathbb{Z}$')
     .replace(/□/g, '$\\Box$')
     .replace(/‖/g, '$\\|$')
     .replace(/⟨/g, '$\\langle$')
     .replace(/⟩/g, '$\\rangle$')
     .replace(/⊥/g, '$\\perp$')
+    .replace(/⊕/g, '$\\oplus$')
+    .replace(/⊗/g, '$\\otimes$')
     .replace(/⊙/g, '$\\odot$')
+    .replace(/⋅/g, '$\\cdot$')
     .replace(/×/g, '$\\times$')
     .replace(/±/g, '$\\pm$')
     .replace(/≤/g, '$\\le$')
     .replace(/≥/g, '$\\ge$')
+    .replace(/≲/g, '$\\lesssim$')
+    .replace(/≳/g, '$\\gtrsim$')
     .replace(/≪/g, '$\\ll$')
     .replace(/≫/g, '$\\gg$')
     .replace(/≠/g, '$\\neq$')
+    .replace(/≃/g, '$\\simeq$')
     .replace(/≈/g, '$\\approx$')
     .replace(/≡/g, '$\\equiv$')
     .replace(/∮/g, '$\\oint$')
     .replace(/≅/g, '$\\cong$')
     .replace(/⊂/g, '$\\subset$')
     .replace(/∪/g, '$\\cup$')
-    .replace(/⊗/g, '$\\otimes$')
+    .replace(/∉/g, '$\\notin$')
     .replace(/↦/g, '$\\mapsto$')
+    .replace(/←/g, '$\\leftarrow$')
     .replace(/↔/g, '$\\leftrightarrow$')
+    .replace(/↗/g, '$\\nearrow$')
     .replace(/∂/g, '$\\partial$')
     .replace(/∇/g, '$\\nabla$')
     .replace(/∀/g, '$\\forall$')
@@ -134,6 +143,13 @@ function toLatex(raw: string): string {
     .replace(/∈/g, '$\\in$')
     .replace(/⇒/g, '$\\Rightarrow$')
     .replace(/→/g, '$\\to$')
+    .replace(/é/g, "\\'{e}")
+    .replace(/É/g, "\\'{E}")
+    .replace(/è/g, '\\`{e}')
+    .replace(/á/g, "\\'{a}")
+    .replace(/í/g, "\\'{i}")
+    .replace(/ó/g, "\\'{o}")
+    .replace(/ú/g, "\\'{u}")
     .replace(/ñ/g, '\\~{n}')
     .replace(/Ñ/g, '\\~{N}')
     .replace(/−/g, '-')
@@ -148,15 +164,22 @@ function toEqLatex(unicodeHtml: string, label: string, caption?: string): string
     .replace(/𝒪/g, '\\mathcal{O}')
     .replace(/ℋ/g, '\\mathcal{H}')
     .replace(/ℒ/g, '\\mathcal{L}')
+    .replace(/ℝ/g, '\\mathbb{R}')
     .replace(/ℤ/g, '\\mathbb{Z}')
     .replace(/∮/g, '\\oint ')
     .replace(/≅/g, '\\cong ')
+    .replace(/≃/g, '\\simeq ')
     .replace(/⊂/g, '\\subset ')
     .replace(/∪/g, '\\cup ')
+    .replace(/∉/g, '\\notin ')
+    .replace(/⊕/g, '\\oplus ')
     .replace(/⊗/g, '\\otimes ')
     .replace(/⊙/g, '\\odot ')
+    .replace(/⋅/g, '\\cdot ')
     .replace(/↦/g, '\\mapsto ')
+    .replace(/←/g, '\\leftarrow ')
     .replace(/↔/g, '\\leftrightarrow ')
+    .replace(/↗/g, '\\nearrow ')
     .replace(/∂/g, '\\partial ')
     .replace(/∇/g, '\\nabla ')
     .replace(/∀/g, '\\forall ')
@@ -172,6 +195,8 @@ function toEqLatex(unicodeHtml: string, label: string, caption?: string): string
     .replace(/±/g, '\\pm ')
     .replace(/≤/g, '\\le ')
     .replace(/≥/g, '\\ge ')
+    .replace(/≲/g, '\\lesssim ')
+    .replace(/≳/g, '\\gtrsim ')
     .replace(/≪/g, '\\ll ')
     .replace(/≫/g, '\\gg ')
     .replace(/≠/g, '\\ne ')
@@ -240,6 +265,11 @@ function buildH12Preamble(): string {
   \\usepackage{fontspec}
 \\fi
 \\usepackage{amsmath,amssymb,amsthm,mathtools}
+\\linespread{1.28}
+\\setlength{\\parskip}{0.6em}
+\\setlength{\\jot}{6pt}
+\\setlength{\\abovedisplayskip}{11pt plus 3pt minus 2pt}
+\\setlength{\\belowdisplayskip}{11pt plus 3pt minus 2pt}
 \\usepackage{geometry}
 \\geometry{a4paper,margin=24mm,top=26mm,bottom=26mm}
 \\usepackage{booktabs,array,longtable}
@@ -324,7 +354,7 @@ function buildH12ChaptersTex(standalone: boolean): string {
       out.push(
         toLatexLongTable(
           'Table 1.3: Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas)',
-          ['Boundary Case', 'Derived Core (Cat. B)', 'Conjectural Premise (Cat. C)', 'Assigned Category & Rule'],
+          ['Boundary Case', 'Derived Core (Cat. B)', 'Conjectural Premise (Cat. C)', 'Assigned Category & Boundary Rule'],
           [0.21, 0.28, 0.28, 0.23],
           EPISTEMIC_BC_GREY_AREA_RUBRIC.map((g) => [
             g.boundaryCase,
@@ -338,7 +368,7 @@ function buildH12ChaptersTex(standalone: boolean): string {
     if (ch.number === 2) {
       out.push(
         toLatexLongTable(
-          'Timeline of Five-Dimensional Physics (1921--2026)',
+          'Timeline of 5D Physics (1921--2026)',
           ['Year & Milestone', 'Contribution to IGRT-H12'],
           [0.26, 0.74],
           TIMELINE_5D_PHYSICS.map((tm) => [`${tm.year} -- ${tm.milestone}`, tm.contributionToH12])
@@ -417,7 +447,7 @@ function buildH12ChaptersTex(standalone: boolean): string {
       );
       out.push(
         toLatexLongTable(
-          'Glossary of Five-Dimensional Terms',
+          'Glossary of 5D Terms',
           ['Term', 'Formal Definition in IGRT-H12'],
           [0.24, 0.76],
           GLOSSARY_5D_TERMS.map((g) => [g.term, g.definition])
@@ -777,20 +807,24 @@ function buildH12ChaptersTex(standalone: boolean): string {
 
     if (!standalone) {
       for (const fig of H12_FIGURES.filter((f) => f.anchorChapter === ch.number)) {
-        out.push(`\\begin{figure}[htbp]`);
+        out.push(`\\clearpage`);
+        out.push(`\\begin{figure}[p]`);
         out.push(`\\centering`);
-        out.push(`\\IfFileExists{figures/${fig.id}.png}{\\includegraphics[width=0.92\\textwidth]{figures/${fig.id}.png}}{\\fbox{\\parbox{0.85\\textwidth}{\\centering Figure raster missing; inspect figures/${fig.id}.svg}}}`);
-        out.push(`\\vspace{6pt}`);
+        out.push(`\\IfFileExists{figures/${fig.id}.png}{\\includegraphics[width=0.96\\textwidth,height=0.72\\textheight,keepaspectratio]{figures/${fig.id}.png}}{\\fbox{\\parbox{0.85\\textwidth}{\\centering Figure raster missing; inspect figures/${fig.id}.svg}}}`);
+        out.push(`\\vspace{10pt}`);
         out.push(`\\caption{\\textbf{${toLatex(fig.figureNumber)} [${toLatex(fig.category)}]:} ${toLatex(fig.title)}. ${toLatex(fig.caption)}}`);
         out.push(`\\end{figure}`);
+        out.push(`\\clearpage`);
       }
       for (const pl of H12_ARCHIVAL_PLATES.filter((p) => p.anchorChapter === ch.number)) {
-        out.push(`\\begin{figure}[htbp]`);
+        out.push(`\\clearpage`);
+        out.push(`\\begin{figure}[p]`);
         out.push(`\\centering`);
-        out.push(`\\IfFileExists{illustrations/${pl.bundleFilename}}{\\includegraphics[width=0.92\\textwidth]{illustrations/${pl.bundleFilename}}}{\\fbox{\\parbox{0.85\\textwidth}{\\centering Archival plate missing: illustrations/${pl.bundleFilename}}}}`);
-        out.push(`\\vspace{8pt}`);
+        out.push(`\\IfFileExists{illustrations/${pl.bundleFilename}}{\\includegraphics[width=0.96\\textwidth,height=0.72\\textheight,keepaspectratio]{illustrations/${pl.bundleFilename}}}{\\fbox{\\parbox{0.85\\textwidth}{\\centering Archival plate missing: illustrations/${pl.bundleFilename}}}}`);
+        out.push(`\\vspace{10pt}`);
         out.push(`\\caption{\\textbf{${toLatex(pl.figureNumber)} [${toLatex(pl.category)}]:} ${toLatex(pl.title)}. ${toLatex(pl.description)}}`);
         out.push(`\\end{figure}`);
+        out.push(`\\clearpage`);
       }
     }
     out.push('');
@@ -823,15 +857,27 @@ function buildH12ConsolidatedAppendicesALTex(standalone: boolean): string {
     if (app.letter === 'I') {
       out.push(
         toLatexLongTable(
-          'Table I.1: Evaluation of Eleven Candidate Portal Mechanisms',
-          ['Mechanism', 'Feasibility Tier', 'Physical Action', 'Category', 'Quantitative Obstacle / Limit'],
-          [0.18, 0.16, 0.24, 0.14, 0.28],
-          ELEVEN_PORTAL_MECHANISMS.map((m) => [
-            m.mechanism,
-            m.tier,
-            m.physicalAction,
-            m.category,
-            m.quantitativeObstacleOrLimit
+          'Table I.1: Ten-Domain Structural Audit (500 Criteria)',
+          ['Domain', 'Self-Contained', 'Applicable', 'Verdict & Frontier Notes'],
+          [0.24, 0.14, 0.14, 0.48],
+          H12_TEN_DOMAIN_AUDITS.map((row) => [
+            `${row.domainNumber} -- ${row.domainName} [${row.category}]`,
+            `${row.selfContainedPoints}/${row.maxPoints}`,
+            `${row.applicablePoints}/${row.maxPoints}`,
+            `${row.verdict}: ${row.openFrontierNotes}`
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table I.2: Sixteen Direct Stress-Test Evaluations (H12-ATK-01 to H12-ATK-16)',
+          ['ID & Score', 'Challenge', 'Status & Category', 'H12 Resolution'],
+          [0.15, 0.24, 0.20, 0.41],
+          H12_SIXTEEN_REDTEAM_ATTACKS.map((atk) => [
+            `${atk.id} (${atk.pointsAwarded}/${atk.maxPoints})`,
+            atk.attackTitle,
+            `${atk.technicalStatus} | ${atk.category}`,
+            atk.h12ResolutionAndCitation
           ])
         )
       );
@@ -864,19 +910,23 @@ function buildH12ConsolidatedAppendicesALTex(standalone: boolean): string {
         if (mfig) {
           if (!standalone) {
             if (mfig.illustrationFilename) {
-              out.push(`\\begin{figure}[htbp]`);
+              out.push(`\\clearpage`);
+              out.push(`\\begin{figure}[p]`);
               out.push(`\\centering`);
-              out.push(`\\IfFileExists{illustrations/${mfig.illustrationFilename}}{\\includegraphics[width=0.90\\textwidth]{illustrations/${mfig.illustrationFilename}}}{\\fbox{\\parbox{0.85\\textwidth}{\\centering Cutaway illustration missing: illustrations/${mfig.illustrationFilename}}}}`);
-              out.push(`\\vspace{6pt}`);
+              out.push(`\\IfFileExists{illustrations/${mfig.illustrationFilename}}{\\includegraphics[width=0.96\\textwidth,height=0.72\\textheight,keepaspectratio]{illustrations/${mfig.illustrationFilename}}}{\\fbox{\\parbox{0.85\\textwidth}{\\centering Cutaway illustration missing: illustrations/${mfig.illustrationFilename}}}}`);
+              out.push(`\\vspace{10pt}`);
               out.push(`\\caption{\\textbf{Cutaway Plate (${toLatex(mfig.deviceId)}):} ${toLatex(mfig.illustrationTitle || mfig.title)}}`);
               out.push(`\\end{figure}`);
+              out.push(`\\clearpage`);
             }
-            out.push(`\\begin{figure}[htbp]`);
+            out.push(`\\clearpage`);
+            out.push(`\\begin{figure}[p]`);
             out.push(`\\centering`);
-            out.push(`\\IfFileExists{figures/${mfig.id}.png}{\\includegraphics[width=0.92\\textwidth]{figures/${mfig.id}.png}}{\\fbox{\\parbox{0.85\\textwidth}{\\centering Schematic raster missing; inspect figures/${mfig.id}.svg}}}`);
-            out.push(`\\vspace{6pt}`);
+            out.push(`\\IfFileExists{figures/${mfig.id}.png}{\\includegraphics[width=0.96\\textwidth,height=0.72\\textheight,keepaspectratio]{figures/${mfig.id}.png}}{\\fbox{\\parbox{0.85\\textwidth}{\\centering Schematic raster missing; inspect figures/${mfig.id}.svg}}}`);
+            out.push(`\\vspace{10pt}`);
             out.push(`\\caption{\\textbf{${toLatex(mfig.figureNumber)} [${toLatex(mfig.category)}]:} ${toLatex(mfig.title)}. ${toLatex(mfig.caption)}}`);
             out.push(`\\end{figure}`);
+            out.push(`\\clearpage`);
           } else {
             out.push(`\\begin{quote}\\textbf{${toLatex(mfig.figureNumber)}:} ${toLatex(mfig.title)} --- ${toLatex(mfig.caption)}\\end{quote}`);
           }
@@ -946,27 +996,15 @@ function buildH12ConsolidatedAppendicesALTex(standalone: boolean): string {
     if (app.letter === 'L') {
       out.push(
         toLatexLongTable(
-          'Table L.1: Ten-Domain Structural Audit (500 Criteria)',
-          ['Domain', 'Self-Contained', 'Applicable', 'Verdict & Frontier Notes'],
-          [0.24, 0.14, 0.14, 0.48],
-          H12_TEN_DOMAIN_AUDITS.map((row) => [
-            `${row.domainNumber} -- ${row.domainName} [${row.category}]`,
-            `${row.selfContainedPoints}/${row.maxPoints}`,
-            `${row.applicablePoints}/${row.maxPoints}`,
-            `${row.verdict}: ${row.openFrontierNotes}`
-          ])
-        )
-      );
-      out.push(
-        toLatexLongTable(
-          'Table L.2: Sixteen Direct Stress-Test Evaluations (H12-ATK-01 to H12-ATK-16)',
-          ['ID & Score', 'Challenge', 'Status & Category', 'H12 Resolution'],
-          [0.15, 0.24, 0.20, 0.41],
-          H12_SIXTEEN_REDTEAM_ATTACKS.map((atk) => [
-            `${atk.id} (${atk.pointsAwarded}/${atk.maxPoints})`,
-            atk.attackTitle,
-            `${atk.technicalStatus} | ${atk.category}`,
-            atk.h12ResolutionAndCitation
+          'Table L.1: Evaluation of Eleven Candidate Speculative Portal Concepts',
+          ['Concept', 'Feasibility Tier', 'Physical Action', 'Category', 'Quantitative Obstacle / Limit'],
+          [0.18, 0.16, 0.24, 0.14, 0.28],
+          ELEVEN_PORTAL_MECHANISMS.map((m) => [
+            m.mechanism,
+            m.tier,
+            m.physicalAction,
+            m.category,
+            m.quantitativeObstacleOrLimit
           ])
         )
       );
@@ -1213,13 +1251,13 @@ export function buildH12SelfContainedHtml(): string {
     let chapterExtras = '';
     if (ch.number === 1) {
       chapterIntro += `<div class="thm-box"><strong>Metric Signature Box:</strong> ${mathHtml(H12_METRIC_SIGNATURE_BOX)}</div>`;
-      chapterIntro += `<h4>Table 1.3 · Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas)</h4><table><thead><tr><th>Boundary Case</th><th>Derived Core vs. Conjectural Premise</th><th>Category &amp; Rule</th></tr></thead><tbody>${EPISTEMIC_BC_GREY_AREA_RUBRIC.map((g) => `<tr><td>${mathHtml(g.boundaryCase)}</td><td><strong>Derived:</strong> ${mathHtml(g.derivedAspect)}<br/><strong>Conjectural:</strong> ${mathHtml(g.conjecturalAspect)}</td><td>${escHtml(g.assignedCategory)} — ${mathHtml(g.ruleApplied)}</td></tr>`).join('')}</tbody></table>`;
+      chapterIntro += `<h4>Table 1.3 · Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas)</h4><table><thead><tr><th>Boundary Case</th><th>Derived Core vs. Conjectural Premise</th><th>Category &amp; Boundary Rule</th></tr></thead><tbody>${EPISTEMIC_BC_GREY_AREA_RUBRIC.map((g) => `<tr><td>${mathHtml(g.boundaryCase)}</td><td><strong>Derived:</strong> ${mathHtml(g.derivedAspect)}<br/><strong>Conjectural:</strong> ${mathHtml(g.conjecturalAspect)}</td><td>${escHtml(g.assignedCategory)} — ${mathHtml(g.ruleApplied)}</td></tr>`).join('')}</tbody></table>`;
       chapterExtras += `<h4>Table 1.1 · Audit of All 12 Core IGRT-H11 Components &amp; H12 Embedding Status</h4><table><thead><tr><th>Component</th><th>H11 Value / Role</th><th>H12 Status</th><th>Category &amp; Modification</th></tr></thead><tbody>${H11_TWELVE_COMPONENTS_AUDIT.map((r) => `<tr><td>${mathHtml(r.component)}</td><td>${mathHtml(r.h11EquationOrValue)}</td><td>${mathHtml(r.h12Status)}</td><td><strong>${escHtml(r.category)}:</strong> ${mathHtml(r.h12Modification)}</td></tr>`).join('')}</tbody></table>`;
       chapterExtras += `<h4>Table 1.2 · Direct Comparison: 4D IGRT-H11 vs. 5D IGRT-H12</h4><table><thead><tr><th>Dimension</th><th>4D IGRT-H11</th><th>5D IGRT-H12</th><th>Epistemic Delta</th><th>Testable Now?</th></tr></thead><tbody>${COMPARISON_4D_VS_5D_IGRT.map((c) => `<tr><td>${mathHtml(c.dimension)}</td><td>${mathHtml(c.h11FourD)}</td><td>${mathHtml(c.h12FiveD)}</td><td>${mathHtml(c.epistemicDelta)}</td><td>${escHtml(c.testableNow)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Glossary of Five-Dimensional Terms</h4><dl>${GLOSSARY_5D_TERMS.map((g) => `<dt><strong>${mathHtml(g.term)}</strong></dt><dd>${mathHtml(g.definition)}</dd>`).join('')}</dl>`;
+      chapterExtras += `<h4>Glossary of 5D Terms</h4><dl>${GLOSSARY_5D_TERMS.map((g) => `<dt><strong>${mathHtml(g.term)}</strong></dt><dd>${mathHtml(g.definition)}</dd>`).join('')}</dl>`;
       chapterExtras += `<div class="thm-box">${mathHtml(SUMMARY_FOR_PHYSICISTS)}</div>`;
     } else if (ch.number === 2) {
-      chapterIntro += `<h4>Timeline of Five-Dimensional Physics (1921–2026)</h4><ul>${TIMELINE_5D_PHYSICS.map((tm) => `<li><strong>${escHtml(tm.year)} · ${mathHtml(tm.milestone)}:</strong> ${mathHtml(tm.contributionToH12)}</li>`).join('')}</ul>`;
+      chapterIntro += `<h4>Timeline of 5D Physics (1921–2026)</h4><ul>${TIMELINE_5D_PHYSICS.map((tm) => `<li><strong>${escHtml(tm.year)} · ${mathHtml(tm.milestone)}:</strong> ${mathHtml(tm.contributionToH12)}</li>`).join('')}</ul>`;
       chapterExtras += `<h4>Table 2.1 · Structured Catalog of 665 Verified H11 Assertions</h4><table><thead><tr><th>Group</th><th>Assertions</th><th>Scope</th></tr></thead><tbody>${H11_665_ASSERTIONS_CATALOG.map((c) => `<tr><td>${escHtml(c.moduleGroup)}</td><td>${c.assertionCount}</td><td>${mathHtml(c.verifiedPhysicalScope)}</td></tr>`).join('')}</tbody></table>`;
       chapterExtras += `<h4>Table 2.2 · Eöt-Wash Uncertainty, UV Regulators &amp; Clock Energy Sweep</h4><table><thead><tr><th>Regime / Regulator</th><th>Scale</th><th>Output</th><th>Interpretation</th></tr></thead><tbody>${REGULATOR_SENSITIVITY_TABLE.map((r) => `<tr><td>${mathHtml(r.regimeOrRegulator)}</td><td>${mathHtml(r.energyOrRadius)}</td><td>${mathHtml(r.computedOutput)}</td><td>${mathHtml(r.physicalInterpretation)}</td></tr>`).join('')}</tbody></table>`;
     } else if (ch.number === 3) {
@@ -1298,24 +1336,27 @@ export function buildH12SelfContainedHtml(): string {
   const consolidatedAppendicesHtml = H12_APPENDICES.map((a) => {
     let extras = '';
     if (a.letter === 'I') {
-      extras += `<h4>Table I.1 · Five-Tier Assessment of Eleven Candidate Portal Mechanisms</h4><table><thead><tr><th>Mechanism</th><th>Feasibility Tier</th><th>Physical Action</th><th>Category</th><th>Quantitative Obstacle / Limit</th></tr></thead><tbody>${ELEVEN_PORTAL_MECHANISMS.map((m) => `<tr><td>${mathHtml(m.mechanism)}</td><td>${mathHtml(m.tier)}</td><td>${mathHtml(m.physicalAction)}</td><td>${escHtml(m.category)}</td><td>${mathHtml(m.quantitativeObstacleOrLimit)}</td></tr>`).join('')}</tbody></table>`;
+      extras += `<p><strong>Self-Contained Closure:</strong> ${H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints}/${H12_STRESS_TEST_SUMMARY.grandMaxPoints} (${H12_STRESS_TEST_SUMMARY.selfContainedScorePct}%) · <strong>Math/Negative-Theorem Closure:</strong> ${H12_STRESS_TEST_SUMMARY.mathematicalClosurePct.toFixed(1)}% · <strong>Epistemic Applicable Score:</strong> ${H12_STRESS_TEST_SUMMARY.grandApplicablePoints}/${H12_STRESS_TEST_SUMMARY.grandMaxPoints} (${H12_STRESS_TEST_SUMMARY.overallEpistemicScorePct}%)</p>`;
+      extras += `<h4>Table I.1 · Ten-Domain Structural Audit (500 Criteria)</h4><table><thead><tr><th>Domain</th><th>Criteria</th><th>Self-Contained</th><th>Applicable</th><th>Verdict</th></tr></thead><tbody>${domainRowsHtml}</tbody></table>`;
+      extras += `<h4>Table I.2 · Sixteen Direct Stress-Test Evaluations (H12-ATK-01 to H12-ATK-16)</h4><table><thead><tr><th>ID</th><th>Challenge</th><th>Status</th><th>Score</th><th>Resolution</th></tr></thead><tbody>${attackRowsHtml}</tbody></table>`;
     } else if (a.letter === 'J') {
       extras += `<h4>Table J.1 · Devices A–K Master Ten-Field Technical Specifications</h4><table><thead><tr><th>Device</th><th>Principle &amp; Equations</th><th>Signal &amp; Floor</th><th>Actually Tests vs. Non-Claim</th></tr></thead><tbody>${H12_PROPOSED_DEVICES.map((d) => `<tr><td><strong>${escHtml(d.deviceId)}: ${mathHtml(d.name)}</strong><br/>${escHtml(d.category)}</td><td>${mathHtml(d.physicalPrinciple)}<br/><code>${mathHtml(d.governingEquations)}</code></td><td>${mathHtml(d.predictedSignal)}<br/><em>Floor:</em> ${mathHtml(d.noiseFloor)}</td><td><strong>Tests:</strong> ${mathHtml(d.whatItActuallyTests)}<br/><strong>Does NOT do:</strong> ${mathHtml(d.whatItDoesNotDo)}</td></tr>`).join('')}</tbody></table>`;
       extras += APPENDIX_J_DEVICE_DOSSIERS.map((dos) => {
         const mfig = H12_DEVICE_FIGURES.find((f) => f.id === dos.figureId);
         const spec = H12_PROPOSED_DEVICES.find((d) => d.deviceId === dos.deviceId);
-        const imgTag = mfig?.illustrationPath
-          ? `<div style="margin:12px 0;text-align:center;"><img src="${escHtml(mfig.illustrationPath)}" alt="${escHtml(mfig.illustrationTitle || mfig.title)}" referrerPolicy="no-referrer" style="max-width:100%;max-height:420px;border-radius:8px;border:1px solid #D6CABE;"/>${mfig.illustrationTitle ? `<div class="fig-meta" style="margin-top:6px;">Cutaway Plate: ${escHtml(mfig.illustrationTitle)}</div>` : ''}</div>`
+        const cutawayFig = mfig?.illustrationPath
+          ? `<figure><div class="fig-meta">Cutaway Plate · Appendix J (${escHtml(mfig.deviceId)}) · ${escHtml(mfig.category)}</div><h4>${mathHtml(mfig.illustrationTitle || mfig.title)}</h4><div style="margin:12px 0;text-align:center;background:#FFFFFF;"><img src="${escHtml(mfig.illustrationPath)}" alt="${escHtml(mfig.illustrationTitle || mfig.title)}" referrerPolicy="no-referrer" style="max-width:100%;max-height:540px;border-radius:8px;border:1px solid #EAE2D6;"/></div><figcaption><strong>${escHtml(mfig.deviceId)} Hardware Cutaway:</strong> ${escHtml(mfig.illustrationTitle || mfig.title)}</figcaption></figure>`
           : '';
-        return `<section><h4>${mathHtml(dos.title)} <span class="cat-label">${escHtml(dos.category)}</span></h4><p class="lead">${mathHtml(dos.tagline)}</p><h5>How It Works (Plain-Language Guide)</h5>${dos.laymanParagraphs.map((p) => `<p>${mathHtml(p)}</p>`).join('')}${mfig ? `<figure><div class="fig-meta">${escHtml(mfig.figureNumber)} · ${escHtml(mfig.category)}</div><h4>${mathHtml(mfig.title)}</h4>${imgTag}${formatSvgMathMarkup(pdfBmpSafeUnicode(mfig.svgMarkup))}<figcaption>${mathHtml(mfig.caption)}</figcaption></figure>` : ''}<h5>Laboratory Architecture, Governing Equations &amp; Metrology</h5>${dos.engineeringParagraphs.map((p) => `<p>${mathHtml(p)}</p>`).join('')}<div class="thm-box"><strong>Significance &amp; Epistemic Boundary:</strong> ${mathHtml(dos.impactParagraph)}</div>${spec ? `<table><thead><tr><th>Specification Field</th><th>Quantitative Value &amp; Boundary</th></tr></thead><tbody><tr><td><strong>1. Principle</strong></td><td>${mathHtml(spec.physicalPrinciple)}</td></tr><tr><td><strong>2. Equations</strong></td><td><code>${mathHtml(spec.governingEquations)}</code></td></tr><tr><td><strong>3. Architecture</strong></td><td>${mathHtml(spec.architecture)}</td></tr><tr><td><strong>4. Operating Regime</strong></td><td>${mathHtml(spec.operatingRegime)}</td></tr><tr><td><strong>5. Predicted Signal</strong></td><td>${mathHtml(spec.predictedSignal)}</td></tr><tr><td><strong>6. Noise Floor</strong></td><td>${mathHtml(spec.noiseFloor)}</td></tr><tr><td><strong>7. Feasibility</strong></td><td>${mathHtml(spec.engineeringFeasibility)}</td></tr><tr><td><strong>8. Actually Tests</strong></td><td>${mathHtml(spec.whatItActuallyTests)}</td></tr><tr><td><strong>9. Explicitly Does NOT Do</strong></td><td>${mathHtml(spec.whatItDoesNotDo)}</td></tr><tr><td><strong>10. Failure Criteria</strong></td><td>${mathHtml(spec.failureCriteria)}</td></tr></tbody></table>` : ''}</section>`;
+        const schematicFig = mfig
+          ? `<figure><div class="fig-meta">${escHtml(mfig.figureNumber)} · Appendix J Schematic · ${escHtml(mfig.category)}</div><h4>${mathHtml(mfig.title)}</h4>${formatSvgMathMarkup(pdfBmpSafeUnicode(mfig.svgMarkup))}<figcaption>${mathHtml(mfig.caption)}</figcaption></figure>`
+          : '';
+        return `<section><h4>${mathHtml(dos.title)} <span class="cat-label">${escHtml(dos.category)}</span></h4><p class="lead">${mathHtml(dos.tagline)}</p><h5>How It Works (Plain-Language Guide)</h5>${dos.laymanParagraphs.map((p) => `<p>${mathHtml(p)}</p>`).join('')}${cutawayFig}${schematicFig}<h5>Laboratory Architecture, Governing Equations &amp; Metrology</h5>${dos.engineeringParagraphs.map((p) => `<p>${mathHtml(p)}</p>`).join('')}<div class="thm-box"><strong>Significance &amp; Epistemic Boundary:</strong> ${mathHtml(dos.impactParagraph)}</div>${spec ? `<table><thead><tr><th>Specification Field</th><th>Quantitative Value &amp; Boundary</th></tr></thead><tbody><tr><td><strong>1. Principle</strong></td><td>${mathHtml(spec.physicalPrinciple)}</td></tr><tr><td><strong>2. Equations</strong></td><td><code>${mathHtml(spec.governingEquations)}</code></td></tr><tr><td><strong>3. Architecture</strong></td><td>${mathHtml(spec.architecture)}</td></tr><tr><td><strong>4. Operating Regime</strong></td><td>${mathHtml(spec.operatingRegime)}</td></tr><tr><td><strong>5. Predicted Signal</strong></td><td>${mathHtml(spec.predictedSignal)}</td></tr><tr><td><strong>6. Noise Floor</strong></td><td>${mathHtml(spec.noiseFloor)}</td></tr><tr><td><strong>7. Feasibility</strong></td><td>${mathHtml(spec.engineeringFeasibility)}</td></tr><tr><td><strong>8. Actually Tests</strong></td><td>${mathHtml(spec.whatItActuallyTests)}</td></tr><tr><td><strong>9. Explicitly Does NOT Do</strong></td><td>${mathHtml(spec.whatItDoesNotDo)}</td></tr><tr><td><strong>10. Failure Criteria</strong></td><td>${mathHtml(spec.failureCriteria)}</td></tr></tbody></table>` : ''}</section>`;
       }).join('');
       extras += `<h4>Table J.2 · Cross-Device Sensitivity, Readiness &amp; Discovery Horizon Matrix (Devices A–K)</h4><table><thead><tr><th>Device</th><th>Target Physics</th><th>Primary Observable</th><th>TRL &amp; Window</th><th>Breakthrough vs. Non-Claim</th></tr></thead><tbody>${APPENDIX_J_SYNTHESIS_TABLE.map((r) => `<tr><td><strong>${mathHtml(r.device)}</strong></td><td>${mathHtml(r.targetPhysics)}</td><td><code>${mathHtml(r.primaryObservable)}</code></td><td>${mathHtml(r.readinessAndWindow)}</td><td><strong>Detection:</strong> ${mathHtml(r.breakthroughIfDetected)}<br/><strong>Non-Claim:</strong> ${mathHtml(r.strictNonClaim)}</td></tr>`).join('')}</tbody></table>`;
     } else if (a.letter === 'K') {
       extras += `<h4>Table K.1 · Unified Solutions to Seven Open Problems in Physics</h4><table><thead><tr><th>Open Problem</th><th>Governing Equations</th><th>Resolution &amp; Category</th><th>Plain-Language Explanation</th></tr></thead><tbody>${SEVEN_SOLVED_PHYSICS_PROBLEMS.map((sp) => `<tr><td><strong>${mathHtml(sp.openProblem)}</strong></td><td><code>${mathHtml(sp.governingH11H12Equations)}</code></td><td><strong>${escHtml(sp.category)}:</strong> ${mathHtml(sp.coreResolutionAndPrediction)}</td><td>${mathHtml(sp.laymanTakeaway)}</td></tr>`).join('')}</tbody></table>`;
     } else if (a.letter === 'L') {
-      extras += `<p><strong>Self-Contained Closure:</strong> ${H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints}/${H12_STRESS_TEST_SUMMARY.grandMaxPoints} (${H12_STRESS_TEST_SUMMARY.selfContainedScorePct}%) · <strong>Math/Negative-Theorem Closure:</strong> ${H12_STRESS_TEST_SUMMARY.mathematicalClosurePct.toFixed(1)}% · <strong>Epistemic Applicable Score:</strong> ${H12_STRESS_TEST_SUMMARY.grandApplicablePoints}/${H12_STRESS_TEST_SUMMARY.grandMaxPoints} (${H12_STRESS_TEST_SUMMARY.overallEpistemicScorePct}%)</p>`;
-      extras += `<h4>Table L.1 · Ten-Domain Structural Audit (500 Criteria)</h4><table><thead><tr><th>Domain</th><th>Criteria</th><th>Self-Contained</th><th>Applicable</th><th>Verdict</th></tr></thead><tbody>${domainRowsHtml}</tbody></table>`;
-      extras += `<h4>Table L.2 · Sixteen Direct Stress-Test Evaluations (H12-ATK-01 to H12-ATK-16)</h4><table><thead><tr><th>ID</th><th>Challenge</th><th>Status</th><th>Score</th><th>Resolution</th></tr></thead><tbody>${attackRowsHtml}</tbody></table>`;
+      extras += `<h4>Table L.1 · Five-Tier Assessment of Eleven Candidate Speculative Portal Concepts</h4><table><thead><tr><th>Concept</th><th>Feasibility Tier</th><th>Physical Action</th><th>Category</th><th>Quantitative Obstacle / Limit</th></tr></thead><tbody>${ELEVEN_PORTAL_MECHANISMS.map((m) => `<tr><td>${mathHtml(m.mechanism)}</td><td>${mathHtml(m.tier)}</td><td>${mathHtml(m.physicalAction)}</td><td>${escHtml(m.category)}</td><td>${mathHtml(m.quantitativeObstacleOrLimit)}</td></tr>`).join('')}</tbody></table>`;
     }
     return `<article><h3>Appendix ${escHtml(a.letter)}: ${mathHtml(a.title)} <span class="cat-label">${escHtml(a.category)}</span></h3><p class="lead">${mathHtml(a.summary)}</p>${a.equations.map((eq) => `<div class="eq-box"><div class="eq-main">${eq.unicodeHtml}</div><div class="eq-cap">${mathHtml(eq.label)} — ${mathHtml(eq.caption)}</div></div>`).join('')}${a.bodyParagraphs.map((p) => `<p>${mathHtml(p)}</p>`).join('')}${extras}</article>`;
   }).join('');
@@ -1336,29 +1377,30 @@ export function buildH12SelfContainedHtml(): string {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap" rel="stylesheet"/>
 <style>
-  body{font-family:'Book Antiqua','Palatino Linotype',Palatino,'URW Palladio L','Source Serif 4',Georgia,serif;background:#F7F4EC;color:#0F172A;max-width:940px;margin:0 auto;padding:44px 28px;line-height:1.5;font-size:16px;}
+  body{font-family:'Book Antiqua','Palatino Linotype',Palatino,'URW Palladio L','Source Serif 4',Georgia,serif;background:#F7F4EC;color:#0F172A;max-width:940px;margin:0 auto;padding:48px 30px;line-height:1.58;font-size:16px;}
   h1,h2,h3,h4{font-family:'Playfair Display',Georgia,serif;color:#081026;font-weight:400;}
-  h1{font-size:44px;line-height:1.15;margin:12px 0 18px 0;font-weight:400;}
-  h2.chapter-title{font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:40px;line-height:1.18;margin-top:44px;margin-bottom:44px;padding-bottom:18px;border-bottom:1px solid #D6CABE;}
-  p{font-family:'Book Antiqua','Palatino Linotype',Palatino,'URW Palladio L','Source Serif 4',Georgia,serif;font-size:16px;line-height:1.5;text-align:justify;text-justify:inter-word;hyphens:auto;}
-  .meta{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#9A3412;margin-bottom:16px;}
-  .authors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 28px 0;}
-  .author-card{background:#FFFFFF;border:1px solid #D6CABE;border-radius:10px;padding:14px 16px;}
+  h1{font-size:44px;line-height:1.15;margin:14px 0 22px 0;font-weight:400;}
+  h2.chapter-title{font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:40px;line-height:1.18;margin-top:52px;margin-bottom:44px;padding-bottom:18px;border-bottom:1px solid #D6CABE;}
+  p{font-family:'Book Antiqua','Palatino Linotype',Palatino,'URW Palladio L','Source Serif 4',Georgia,serif;font-size:16px;line-height:1.58;margin-bottom:1.3em;text-align:justify;text-justify:inter-word;hyphens:auto;}
+  .meta{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#9A3412;margin-bottom:18px;}
+  .authors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0 32px 0;}
+  .author-card{background:#FFFFFF;border:1px solid #D6CABE;border-radius:10px;padding:16px 18px;}
   .author-name{font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:20px;color:#081026;}
   .author-orcid{font-family:'IBM Plex Mono',monospace;font-size:11px;margin-top:5px;word-break:break-all;}
   .author-orcid a{color:#15803D;text-decoration:none;}
   .author-affil{font-size:12.5px;color:#0F172A;margin-top:6px;font-weight:500;}
   .author-role{font-size:11.5px;color:#9A3412;margin-top:4px;}
   .cat-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#64748B;margin-left:8px;letter-spacing:0.04em;}
-  .lead{font-style:italic;color:#475569;margin-bottom:24px;}
-  .eq-box{background:#FFFFFF;border:1px solid #D6CABE;border-radius:10px;padding:18px;margin:20px 0;text-align:center;}
-  .eq-main{font-size:16px;margin-bottom:8px;}
-  .eq-cap{font-size:12.5px;color:#64748B;font-style:italic;}
-  .thm-box{background:#F4FAF6;border:1px solid #86EFAC;padding:16px 20px;margin:18px 0;border-radius:10px;}
-  figure{background:#FFFFFF;border:1px solid #D6CABE;border-radius:12px;padding:22px;margin:28px 0;}
-  figcaption{margin-top:26px;padding-top:16px;border-top:1px solid #EAE2D2;font-size:14.5px;color:#334155;text-align:justify;hyphens:auto;}
-  table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13.5px;background:#FFFFFF;}
-  th,td{border:1px solid #D6CABE;padding:9px 11px;text-align:left;vertical-align:top;}
+  .lead{font-style:italic;color:#475569;margin-bottom:28px;}
+  .eq-box{background:#FFFFFF;border:1px solid #D6CABE;border-radius:10px;padding:22px 24px;margin:28px 0;text-align:center;}
+  .eq-main{font-size:17px;line-height:1.7;margin-bottom:12px;}
+  .eq-cap{font-size:12.5px;color:#64748B;font-style:italic;line-height:1.55;}
+  .thm-box{background:#F4FAF6;border:1px solid #86EFAC;padding:20px 24px;margin:24px 0;border-radius:10px;}
+  figure{background:#FFFFFF;border:1px solid #D6CABE;border-radius:12px;padding:26px;margin:34px 0;}
+  figure svg{width:100%;max-width:100%;height:auto;display:block;}
+  figcaption{margin-top:26px;padding-top:18px;border-top:1px solid #EAE2D2;font-size:14.5px;line-height:1.68;color:#334155;text-align:justify;hyphens:auto;}
+  table{width:100%;border-collapse:collapse;margin:26px 0;font-size:13.5px;background:#FFFFFF;}
+  th,td{border:1px solid #D6CABE;padding:10px 12px;text-align:left;vertical-align:top;line-height:1.48;}
   th{background:#F4EFE6;color:#0C1836;font-weight:500;}
 </style>
 </head>

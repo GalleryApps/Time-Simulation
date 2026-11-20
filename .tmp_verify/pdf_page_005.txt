@@ -1,0 +1,35 @@
+            IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+            Table of Contents (continued)
+               13.2 Rotating 5D Kerr–Hayward Cores, Planck-Foam Wormholes & Horndeski Bridges (E…             126
+               13.3 Bulk GW Echo Dispersion, 50-Ion Modular Speed Limits & Holographic Complexity (…          127
+               13.4 Primordial 5D GW Relics, Sub-Micron Torsion Upgrades & 100-m Matter-Wave Inter…           127
+               13.5 Seven Fundamental Problems in Physics Solved or Revolutionized by the IGRT–H12…           128
+               13.6 Comprehensive Conclusion: Established Limits, Epistemic Verdict & Open Horizons           129
+            References                                                                                        139
+            Consolidated Appendices (A–L)                                                                     141
+               Appendix A: Complete 5D Tensor Derivations: Christoffel Symbols, Riemann & Extrinsic…          141
+               Appendix B: Five-Dimensional Einstein–Araki Field Equations, Quantum Backreaction &…           142
+                                                              1           1
+               Appendix C: Dimensional Reduction: Flat M  × S , Orbifold S /ℤ  & Warped AdS  Effectiv…        143
+                                                          4                  2               5
+               Appendix D: Exact Geodesic & Beltrami Variational Integrals (Models 1, 2A, 2B, 3)              144
+               Appendix E: Black-Hole Interior, Exact Hayward NEC Theorem & Gregory–Laflamme Inst…            145
+               Appendix F: Morris–Thorne Wormhole Energy Conditions, Tidal Forces, Ford–Roman Bou…            146
+               Appendix G: Double-Slit SLD Quantum Fisher Information & Wave–Particle Complementa…            147
+               Appendix H: Executable Simulation Suite (102 Assertions), Dimensional Audits & Consoli…        147
+               Appendix I: Complete Epistemic Claim–Evidence Ledger & Structural Verification Scorec…         149
+               Appendix J: Proposed Devices and Laboratory Analog Systems A–K                                 150
+               Device A · Modular Resonance Detector (Dual Optical-Lattice & Ion QFI Clock)                   155
+               Device B · 5D Geometric Resonator (CANNEX-Class Sub-10 μm Casimir–Yukawa Force Ba…             160
+               Device C · Temporal Folding Simulator (Graded-Index Photonic Beltrami Waveguide Slab)          165
+               Device D · Quantum Interference Modulator (Precision Double-Slit SLD Fisher Interferom…        170
+               Device E · Higher-Dimensional Connectivity Probe (3G Gravitational-Wave Network & 50-…         174
+               Device F · Black-Hole Horizon & Hayward Echo Simulator (Ultracold Rb-87 Sonic Waterfall)       179
+               Device G · Coupled Si N  Twin-Brane Evanescent Portal Cavity (Photonic Tunneling Analog)       183
+                                    3 4
+               Device H · Tabletop Pockels–Ring Deutsch–Lloyd Time-Loop Emulator (Chronology-Protec…          188
+               Device I · Parametric Casimir–Modular Zero-Point Harvester (Thermodynamically Provabl…         193
+               Device J · Unruh–DeWitt Ion-Trap KMS Clockwork Engine (Accelerated Vacuum-Thermod…             198
+               Device K · TaAs Weyl-Semimetal Gravitational–Gauge Brane Interferometer (Solid-State E…        203
+               J.12 Cross-Device Synthesis & Coordinated Discovery Roadmap (Devices A–K)                      208
+                                                        Page 5 of 214

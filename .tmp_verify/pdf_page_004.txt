@@ -1,0 +1,32 @@
+            IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+            Table of Contents (continued)
+               6.2 Casimir–Quantum Inequality Deficit Across 35 Orders of Magnitude                          68
+            Chapter 7. Quantum Wave–Particle Duality and Information Geometry                                74
+               7.0 Introduction                                                                              74
+               7.1 Explicit 2×2 SLD Operator Matrix Derivation & Complementarity Identity                    75
+               7.2 Epistemic Safeguards: Born Rule Status & Independence from 5D                             76
+            Chapter 8. Quantum Entanglement, Nonlocality and Higher-Dimensional Connecti…                    80
+               8.0 Introduction                                                                              80
+               8.1 Haag–Kastler Axioms, Buchholz–Wichmann Nuclearity & No-Communication Preserva…            81
+               8.2 Ryu–Takayanagi Bulk Connectivity, ER=EPR Status & Chronology Protection                   82
+            Chapter 9. Negative Results Summary                                                              86
+               9.0 Introduction                                                                              86
+               9.1 Why the Negative Theorems Constitute the Strongest Core of H12                            87
+               9.2 Boundary Between Closed No-Go Proofs and Residual Parameter Windows                       88
+            Chapter 10. What Is Unique to 5D? Observational Bounds & Consistency                             93
+               10.0 Introduction                                                                             93
+               10.1 Isolating Genuinely Five-Dimensional Signatures from 4D H11 Physics                      94
+               10.2 Multi-Probe Observational Consistency Audit (Eöt-Wash, BBN, GW170817, Cassini, L…        95
+            Chapter 11. What Is Not Derived                                                                 101
+               11.0 Introduction                                                                            101
+               11.1 Exhaustive Ledger of Category C/D Assumptions & Unproven Lifts                          102
+            Chapter 12. Experimental Protocols and Falsification                                            107
+               12.0 Introduction                                                                            107
+               12.1 Scope Distinction: H11 (P1–P6), Bulk Probes (P7–P10), Active Folding (P11–P12) & P…     108
+               12.2 Systematics, Statistical Thresholds, Multi-Messenger Joint Likelihood, Null Baseline…   109
+               12.3 Dedicated Protocol P13 Methodology: Falsification, Confirmation, Systematics & 3G…      111
+            Chapter 13. Extrapolations, Frontiers, and Final Synthesis                                      125
+               13.0 Introduction                                                                            125
+               13.1 UV Completion Above M , Goldberger–Wise Radion Stabilization & Chronology Prote…        126
+                                           5
+                                                       Page 4 of 214

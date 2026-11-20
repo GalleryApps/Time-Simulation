@@ -1,0 +1,77 @@
+            IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+                                                                        A
+                          π  : P  → M  = M  × K , G  = 0 ⇒ Fiber(X ) = PU(ℋ) ⊥ Span{∂/∂y}
+                           5    5     5     4     1   Ai
+                  (2.1) [CATEGORY B — DERIVED] — 5D Principal Information Bundle derived via PU(H)-gauge-invariant
+                                                                                                       i
+                      5D Yang–Mills–Araki action, separating bulk coordinate y (Cat. C physically) from state fiber θ.
+            2.2 5D Semiclassical Action Variation, Ghost-Free
+            Einstein–Maxwell Bulk & Eöt-Wash Reduction
+            [CATEGORY B — DERIVED]
+                                                                                     AB
+            Complete 5D Semiclassical Action Variation δS                       / δG     = 0, Explicit ODE
+                                                                          total
+            System for Eq. (H12.0.1) & Worldline Variation for Eq. (H12.0.2): On the ℤ
+                                                                                                                2
+            orbifold bulk M with brane boundary ∂M = {y = 0}, the full semiclassical
+                                 5                                 5
+                                   5               5                               (5)                        −1
+            action S        = ∫ d X √(−G) [ ( R − 2Λ )/(16π G ) + ℒ                   + ℒ       ] + (8π G )
+                       total                                 5           5       ψ         EM               5
+                     4                                                        4
+            ∫      d x √(−g) [K] + Γ -loop[g, Φ                ] − ∫         d x √(−g) σ            pairs the
+              ∂M                             1              rad        y=0                   brane
+                5
+            Gibbons–Hawking–York surface term S                    with 1-loop brane vacuum effective
+                                                              GHY
+                                                                                                AB
+            action Γ -loop. Executing explicit Palatini variation δS                      / δG      = 0 (with
+                       1                                                             total
+                     5               5         AB           C
+            δ(√−G R) = √−G [ G             δG +∇ W ])cancelsnormalderivatives δG                           on y
+                                        AB             C                                              AB,y
+                                                    5 A              A                 A                A (5)
+            = 0 against δS            and yields G          + Λ δ        = 8π G (T ^(EM) + I                   +
+                                GHY                      B       5    B           5      B               B
+                                   vac     μ     ν
+            [σ        g    + ⟨τ       ⟩] δ     δ     δ(y)) plus Shiromizu–Maeda–Sasaki [4] brane
+               brane   μν        μν         A     B
+                                                                                                    2      2
+            gravity. For general static separable warped line element G                      =−A(y) c , G
+                                                                                          00                    ij
+                  2
+            = B (y) δ , G         = 1 with logarithmic derivatives u ≡ A'/A and u ≡ B'/B,
+                         ij    yy                                                t                   x
+                                                                      0                   2
+            varying S         produces three radial ODEs: G              =3(u ' + 2u ) = −Λ + 8π G
+                         total                                         0        x        x          5           5
+              0     i                      2                    2                       i         y
+            T , G = u' + 2u ' + u + 2u u + 3u                     =−Λ +8πG T ,andG =3(u u
+               0     i     t       x      t        t   x       x         5          5   i          y        t   x
+                  2                        y
+            +u )=−Λ +8πG T .Integrating with constant rates u = α k sgn(y), u
+                 x          5          5    y                                             t     t               x
+            = −α k sgn(y) recovers Eq. (H12.0.1): it is uniquely solved in vacuum (T=0,
+                   x
+                         2
+            Λ = −6k ) by Randall–Sundrum (α = −1, α = +1) and in Einstein–Maxwell
+              5                                           t           x
+            bulk flux by (1.0, 0.0), whereas phenomenological Model 2B (0.5, 0.5) has
+                                         0       x         2
+            nonzero mismatch −G             +G =−k <0andremainspostulated rather than
+                                          0       x
+            action-derived. For Eq. (H12.0.2), varying the 5D Polyakov/einbein clock
+                                                        −1          A   B         2   2
+            worldline action S [X, e] = ½ ∫ (e              G Ẋ Ẋ −em c)dλwithrespect to
+                                    e                         AB
+                          A                                      2              −2         A   B
+            e(λ) and X (λ) yields gauge constraint e = −(m c)                       G Ẋ Ẋ and the 5D
+                                                                                      AB
+                                      2 A     2      A      B   C
+            geodesic equation d X /dλ + Γ                 Ẋ Ẋ =0, from which the invariant clock
+                                                       BC
+                                 −1                A   B
+            integral Δτ = c         ∫ √(−G       Ẋ Ẋ ) dλ and folding ratio η             ≡Δτ /Δτ follow
+                          5                  AB                                       fold      5      4
+            directly.
+                                                        Page 33 of 214

@@ -131,8 +131,8 @@ assert(figSrc.includes('2.22e70 x Casimir (~10^71 gap)'), 'Figure H12-6 must sho
 assert(exportSrc.includes('\\\\item \\\\textbf{[Falsify]}') && exportSrc.includes('\\\\item \\\\textbf{[Confirm]}'), 'LaTeX checklists must bold [Falsify]/[Confirm] safely');
 assert(!dataSrc.includes('in Appendix N'), 'Ch 13.6 prose must not leak Appendix N label');
 assert(!dataSrc.includes('H12_MAIN_APPENDICES_LMN'), 'igrtH12Data.ts must consolidate L–N cleanly into A–L without separate H12_MAIN_APPENDICES_LMN block');
-assert(viewSrc.includes('Physical Action') && viewSrc.includes('m.physicalAction'), 'Table I.1 UI must include Physical Action column');
-assert(exportSrc.includes('mathHtml(m.physicalAction)') && pdfSrc.includes('m.physicalAction'), 'Exports and PDF must include Table I.1 Physical Action column');
+assert(viewSrc.includes('Physical Action') && viewSrc.includes('m.physicalAction'), 'Table L.1 UI must include Physical Action column');
+assert(exportSrc.includes('mathHtml(m.physicalAction)') && pdfSrc.includes('m.physicalAction'), 'Exports and PDF must include Table L.1 Physical Action column');
 assert(viewSrc.includes('<th className="p-2">Current State</th>'), 'Table 12.2 UI must include Current State header');
 assert(viewSrc.includes('<th className="p-2">Expected Year</th>'), 'Table 12.2 UI must include Expected Year header');
 assert(pdfSrc.includes('Table 12.3 ·') && pdfSrc.includes('Table 12.4 ·') && pdfSrc.includes('Table 12.5 ·') && pdfSrc.includes('Table 12.6 ·'), 'PDF must separate Tables 12.3–12.6 into distinct headings');
@@ -173,7 +173,7 @@ assert(
 assert(viewSrc.includes('H12_DEVICE_FIGURES') && pdfSrc.includes('H12_DEVICE_FIGURES') && exportSrc.includes('H12_DEVICE_FIGURES'), 'UI, PDF, and LaTeX/HTML exports must integrate H12_DEVICE_FIGURES');
 assert(viewSrc.includes('referrerPolicy="no-referrer"') && exportSrc.includes('referrerPolicy="no-referrer"'), 'All generated device illustration <img> tags must set referrerPolicy="no-referrer"');
 assert(pdfSrc.includes('const drawTable ='), 'PDF generator must implement drawTable bordered table renderer');
-for (const tbl of ['Table 1.3', 'Table 1.1', 'Table 1.2', 'Table 10.3', 'Table 12.1', 'Table 12.12', 'Table 13.2', 'Table I.1', 'Table J.1', 'Table J.2', 'Table K.1']) {
+for (const tbl of ['Table 1.3', 'Table 1.1', 'Table 1.2', 'Table 10.3', 'Table 12.1', 'Table 12.12', 'Table 13.2', 'Table J.1', 'Table J.2', 'Table K.1', 'Table L.1']) {
   assert(pdfSrc.includes('ctx.drawTable(') && pdfSrc.includes(tbl), `PDF generator must render ${tbl} via ctx.drawTable`);
 }
 assert(exportSrc.includes('function toLatexLongTable') && exportSrc.includes('\\\\begin{longtable}'), 'LaTeX export must use longtable via toLatexLongTable');
@@ -280,12 +280,24 @@ assert(pdfSrc.includes('segmentsToSpans') && !pdfSrc.includes('flattenSegmentsTo
 assert(pdfSrc.includes('tocPage1') && pdfSrc.includes('tocPage2') && pdfSrc.includes('tocPage3') && pdfSrc.includes('tocPage4'), 'PDF generator must place 4-page TOC directly after Abstract');
 assert(pdfSrc.includes('H12_APPENDICES') && !pdfSrc.includes('generateIgrtH12SupplementaryPdf'), 'PDF module must merge Main Monograph and Consolidated Appendices A-L into a single unified PDF builder');
 assert(
-  !pdfSrc.includes('H12_TEN_DOMAIN_AUDITS') && !pdfSrc.includes('H12_SIXTEEN_REDTEAM_ATTACKS') && !pdfSrc.includes('Table L.1') && !pdfSrc.includes('Table L.2'),
-  'PDF monograph must omit internal domain/red-team scorecard tables and render Appendix L Claim-Evidence Ledger cleanly'
+  !pdfSrc.includes('H12_TEN_DOMAIN_AUDITS') && !pdfSrc.includes('H12_SIXTEEN_REDTEAM_ATTACKS') && !pdfSrc.includes('Table I.1') && !pdfSrc.includes('Table I.2'),
+  'PDF monograph must omit internal domain/red-team scorecard tables and render Appendix I Claim-Evidence Ledger cleanly'
 );
 assert(viewSrc.includes('generateIgrtH12Pdf') && !viewSrc.includes('generateIgrtH12SupplementaryPdf'), 'UI must expose merged PDF download without separate Supplementary Vol. II PDF builder');
 assert(viewSrc.includes('igrt-h12-chapter-title'), 'H12 Paper View must apply Playfair Display Regular 40px chapter titles');
 assert(cssSrc.includes('Book Antiqua') && cssSrc.includes('line-height: 1.5'), 'CSS must configure Book Antiqua 16px with 1.5 line spacing');
+for (const forbidden of ['360 experts', '360-expert', '360 reviewers', 'panel of 360']) {
+  for (const [label, src] of [
+    ['igrtH12Apparatus.ts', appSrc],
+    ['igrtH12Data.ts', dataSrc],
+    ['IgrtH12PaperView.tsx', viewSrc],
+    ['IgrtH12Figures.tsx', figSrc],
+    ['generateIgrtH12Pdf.ts', pdfSrc],
+    ['generateIgrtH12Exports.ts', exportSrc]
+  ]) {
+    assert(!src.toLowerCase().includes(forbidden), `${label} must NOT contain "${forbidden}"`);
+  }
+}
 
 // Epistemic & structural reorganization assertions (Groups A, B, C & D — 100-item checklist)
 for (const stmt of [
@@ -318,7 +330,7 @@ for (const stmt of [
   );
 }
 for (const dataStmt of [
-  'These mechanisms are theoretical speculations, not engineering designs.',
+  'These concepts are theoretical speculations, not engineering designs.',
   'Safeguard ${idx + 1}. ${stmt}',
   'P7–P10 test the 5D bulk; P11–P12 test the folding mechanism but are currently untestable; P13 is a passive bound.',
   'This chapter catalogs every Category C/D claim that is not derived from first principles.',
@@ -339,7 +351,12 @@ for (const dataStmt of [
   );
 }
 assert(viewSrc.includes('Testable Now?'), 'Table 1.2 UI must include "Testable Now?" column');
-assert(appSrc.includes("letter: 'I'") && appSrc.includes("title: 'Portal Mechanisms (Category D)'"), 'Appendix I must be titled "Portal Mechanisms (Category D)"');
+assert(appSrc.includes("letter: 'I'") && appSrc.includes("title: 'Complete Epistemic Claim–Evidence Ledger & Structural Verification Scorecard'"), 'Appendix I must be titled "Complete Epistemic Claim–Evidence Ledger & Structural Verification Scorecard"');
+assert(appSrc.includes("letter: 'L'") && appSrc.includes("title: 'Speculative Portal Concepts (Category D)'"), 'Appendix L must be titled "Speculative Portal Concepts (Category D)"');
+assert(viewSrc.includes('Glossary of 5D Terms') && exportSrc.includes('Glossary of 5D Terms') && pdfSrc.includes('Glossary of 5D Terms'), 'UI, Exports, and PDF must title Chapter 1 glossary "Glossary of 5D Terms"');
+assert(viewSrc.includes('Glossary of Negative Theorems') && exportSrc.includes('Glossary of Negative Theorems') && pdfSrc.includes('Glossary of Negative Theorems'), 'UI, Exports, and PDF must include "Glossary of Negative Theorems"');
+assert(viewSrc.includes('Timeline of 5D Physics (1921–2026)') && exportSrc.includes('Timeline of 5D Physics (1921--2026)') && exportSrc.includes('Timeline of 5D Physics (1921–2026)') && pdfSrc.includes('Timeline of 5D Physics (1921–2026)'), 'UI, Exports, and PDF must title Chapter 2 timeline "Timeline of 5D Physics"');
+assert(viewSrc.includes('Category &amp; Boundary Rule') && exportSrc.includes('Assigned Category & Boundary Rule') && exportSrc.includes('Category &amp; Boundary Rule') && pdfSrc.includes('Assigned Category & Boundary Rule'), 'Table 1.3 must explicitly label Boundary Rule');
 assert(
   appSrc.includes("letter: 'J'") && appSrc.includes("title: 'Proposed Devices and Laboratory Analog Systems A–K'"),
   'Appendix J must be titled "Proposed Devices and Laboratory Analog Systems A–K"'
@@ -381,6 +398,23 @@ assert.deepEqual(
 assert.equal(modApp.exports.H12_PROPOSED_DEVICES.length, 11, 'Must define all 11 laboratory devices A–K');
 assert.equal(modApp.exports.APPENDIX_J_DEVICE_DOSSIERS.length, 11, 'Must define all 11 Appendix J device dossiers A–K');
 assert.equal(modApp.exports.SEVEN_SOLVED_PHYSICS_PROBLEMS.length, 7, 'Must define all 7 solved physics problems');
+assert.equal(modApp.exports.EPISTEMIC_BC_GREY_AREA_RUBRIC.length, 5, 'Table 1.3 must define 5 boundary cases');
+for (const row of modApp.exports.EPISTEMIC_BC_GREY_AREA_RUBRIC) {
+  assert(row.ruleApplied.includes('Why it applies:'), `Table 1.3 row "${row.boundaryCase}" must explain why the boundary rule applies`);
+}
+assert(modApp.exports.FIVE_D_SIGNATURES_TEST_MATRIX.length >= 11, 'Table 10.3 must contain at least 11 comprehensive 5D signatures');
+assert(modApp.exports.WHAT_IS_NOT_DERIVED_LEDGER.length >= 14, 'Chapter 11 What Is Not Derived ledger must contain at least 14 entries');
+for (const entry of modApp.exports.WHAT_IS_NOT_DERIVED_LEDGER) {
+  assert(entry.whyNotDerived.trim().length > 30, `Ch. 11 entry "${entry.claim}" must explain why it is not derived`);
+}
+const termSet = new Set(modApp.exports.GLOSSARY_5D_TERMS.map((g) => g.term.toLowerCase()));
+for (const reqTerm of ['brane', 'bulk', 'warp factor', 'kk tower', 'radion', 'beltrami']) {
+  assert([...termSet].some((t) => t.includes(reqTerm)), `Glossary of 5D Terms missing required term: ${reqTerm}`);
+}
+const timelineYears = modApp.exports.TIMELINE_5D_PHYSICS.map((t) => t.year);
+for (const yr of ['1921', '1926', '1999', '2026']) {
+  assert(timelineYears.includes(yr), `Timeline of 5D Physics missing milestone year: ${yr}`);
+}
 
 // 4. Bundle and execute exact point accounting from igrtH12StressTest.ts
 const compiled = buildSync({

@@ -1,0 +1,59 @@
+          IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+          phenomenological Category C ansätze, and anchors Tables 2.1–2.2 verifying
+          every H11 closure and regulator sensitivity bound.
+          2.1 Four Physical Realizations of y & Bundle Orthogonality
+          Proof (G  = 0)
+                     Ai
+          [CATEGORY C — CONJECTURAL]
+                                                             A      0   1   2    3
+          In lifting M    → M with local coordinates X         = (x , x , x , x , y), four
+                       4       5
+          mathematically distinct interpretations of the fifth coordinate y must be
+          cleanly separated before writing field equations: (i) Flat compact Kaluza–Klein
+                      1                             1
+          circle y ∈ S of radius R ; (ii) Warped S /ℤ Randall–Sundrum bulk coordinate
+                                   5                   2
+          y ∈ [0, π R ] with warp scale k; (iii) Dynamically accessible bulk embedding
+                      5
+          coordinate coupled to 5D Weyl projection E ; and (iv) Modular-state
+                                                              μν
+          resonance parameter θ ∈ PU(H)—which MUST NOT be confused with a
+          spatial coordinate.
+          Variational Derivation of P & Bundle Orthogonality Proof (G         = 0): Rather
+                                       5                                    Ai
+          than postulating principal bundle P (M , PU(H)) purely by analogy, consider
+                                                5   5
+          the gauge-invariant 5D Einstein–Hilbert–Araki–Yang–Mills action S             = ∫
+                                                                                 5,bundle
+           5              5                                   PU   AB,PU       (5)
+          d X √(−G) [ ( R − 2Λ )/(16π G ) − ¼ Tr(ℱ               ℱ      ) + ℒ      ], where
+                                   5         5             AB                 ψ
+                                             i
+          Ehresmann gauge connection A (X) takes values in Lie algebra u(ℋ) on local
+                                           A
+          section σ: U ⊂ M → P . Requiring gauge invariance under local vertical
+                              5      5
+          PU(H) transformations fixes unique torsionless Kaluza–Klein bundle metric
+                2              A   B        2   QFI      i   j         i     i    i       A
+          dS      =G (X) dX dX + α            g    (θ) Dθ Dθ with Dθ = dθ + A (X) dX .
+             total    AB                 QFI   ij                                  A
+          Varying S          with respect to the connection yields the 5D Yang–Mills
+                     5,bundle
+                                  i                BA        A
+          equation δS         /δA   = 0 ⇒ ∇ ℱ            = J    . Because quantum state
+                       5,bundle  A             B     PU       PU
+                                                                                 y
+          preparation on the 4D brane carries zero bulk Hilbert current (J           = 0 ⇒
+                                                                                  PU
+              PU                                 i
+          ℱ      =0⇒flat-connection gauge A = 0), off-diagonal cross-terms between
+            yμ                                   y
+                                                                 i
+          the fifth spatial coordinate y and fiber coordinates θ vanish identically (G    =
+                                                                                        yi
+              2   QFI  j
+          α     g     A =0andG =0⇒∂/∂y⊥PU(H)).Thusbundleseparation y ≠ θ
+           QFI   ij     y           Ai
+          is strictly consistent with the 5D action, while whether a physical fifth spatial
+          coordinate y exists in nature remains Category C.
+                                             Page 32 of 214

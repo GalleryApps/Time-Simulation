@@ -1,0 +1,78 @@
+               IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+                 Table 1.1 · Audit of Twelve Core H11 Components & H12 Embedding Status
+                 Component               H11 Value / Role         H12 Status               Category & Modification
+                 1. Principal Bundle     π: P → M ; fiber         Extended to 5D           CATEGORY C — CONJECTURAL:
+                                                   4
+                 P(M , PU(H))            PU(H)                                             Postulated lift to 5D bulk bundle P (M ,
+                     4                                                                                                          5   5
+                                                                                           PU(H)), where y ∈ K  is a physical
+                                                                                                                 1
+                                                                                           spacetime coordinate strictly distinct from
+                                                                                           internal fiber θ ∈ PU(H); lift is assumed
+                                                                                           rather than derived from a 5D action.
+                 2. Master QFI           dτ = [ℏ/(E               Extended to 5D           CATEGORY B — DERIVED: Defined on 5D
+                                                    mod
+                                                       QFI i
+                 Clock Identification    σ (K ))] √(g     θ̇                               bulk arc length Eq. (H12.0.2); introduces
+                                           1  ξ       ij
+                                           j
+                                         θ̇ ) dλ                                           coordinate-invariant temporal folding ratio
+                                                                                           η    ≡ Δτ  / Δτ  as a definition on the
+                                                                                            fold     5     4
+                                                                                           assumed 5D lift.
+                 3. Araki Coupling       κ  = ℏc ℓ /(12π) =       Preserved                CATEGORY B — DERIVED: Recovered
+                                           ψ       Pl
+                                                      −62
+                 Constant κ              1.3554 × 10              Unchanged                identically on the y = 0 brane for E ≪
+                            ψ
+                                             2                                                 (1)
+                                         J·m  = 2.1727 ×                                   m     ; KK correction at 1 neV is 4.972 ×
+                                                                                             KK
+                                            −21     −1                                        −14
+                                         10     GeV                                        10    .
+                 4. Horndeski /          Λ     = 4.67 μeV;        Extended to 5D           CATEGORY C — CONJECTURAL: 5D
+                                           local
+                                                          −5
+                 Vainshtein              |γ     − 1| ≪ 10                                  radion Φ    (x) is assumed to inherit
+                                           PPN                                                      rad
+                 Screening                                                                 Vainshtein/Goldberger–Wise screening so
+                                                                                           Eöt-Wash R  ≤ 44 μm (m  ≥ 4.485 meV)
+                                                                                                       5              KK
+                                                                                           and Cassini PPN bounds remain satisfied
+                                                                                           (full 5D field-equation screening not
+                                                                                           explicitly derived).
+                 5. Regular              f(r) = 1 −               Extended to 5D           CATEGORY C — CONJECTURAL: 4D
+                                                2  3
+                 Black-Hole              2GMr /(r  +                                       Hayward NEC satisfaction (ρ + p  = 0) is
+                                                                                                                              r
+                                                2
+                 Hayward Core            2GMℓ )                                            strictly Category B derived; however, 5D
+                                               0
+                                                                                           brane-world black-string embedding with
+                                                                                           Weyl tidal charge and Gregory–Laflamme
+                                                                                           threshold r /R     = 0.876 is an assumed
+                                                                                                       + AdS
+                                                                                           Category C extension.
+                 6. WKB Echo             K      = 0.184; M        Preserved                CATEGORY B — DERIVED: Preserved in
+                                           echo            rem
+                 Amplitude & QES         = 1.09236 M              Unchanged                4D ringdown channel (P4); extended in
+                                                       Pl
+                 Island                                                                    P10 to search for scalar/KK leakage modes
+                                                                                                       −3
+                                                                                           |h /h | < 10   at ET/CE.
+                                                                                             s  t
+                 7. Early-Braiding       H  = 70.77 ± 0.72;       Preserved                CATEGORY B — DERIVED: Untouched by
+                                           0
+                 Hubble Closure          w  = −0.831, w  =        Unchanged                heavy KK tower (m  ≥ 4.485 meV ≫
+                                           0              a                                                    KK
+                                         −0.542                                            T    ); bulk radion drift constrained by
+                                                                                            CMB
+                                                                                           BBN & GW170817.
+                 8. Spectral             M  = 2.44 meV;           Extended to 5D           CATEGORY C — CONJECTURAL:
+                                           Ch
+                                  H11           2
+                 Compression A           Ω  h  = 0.1194                                    KK/radion excitations constrained to < 1%
+                                 F         DM
+                                                                                           subdominant fraction alongside H11
+                                                                                           remnant + ULDM budget.
+                                                                    Page 24 of 214

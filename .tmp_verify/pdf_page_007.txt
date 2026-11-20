@@ -1,0 +1,41 @@
+           IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+           Lists of Figures, Tables, Equations,
+           Theorems & Definitions
+           List of Figures & Archival Plates
+             Plate H12-I (Ch.2): Conceptual Synthesis: Layered 4D Brane, Projective Hilbert Fiber &
+             Resonant Coupling [CATEGORY C — CONJECTURAL]
+             Plate H12-II (Ch.5): Conceptual Atlas: Compactified Bulk M  = M  × K , Compact Fiber &
+                                                                       5     4    1
+             Resonance Portals [CATEGORY D — SPECULATIVE ENGINEERING]
+             Figure H12-1 (Ch.1): Minimalist Bundle Geometry: 4D Brane M , Bulk Coordinate y &
+                                                                           4
+             Orthogonal Fiber PU(H) [CATEGORY B — DERIVED]
+             Figure H12-1B (Ch.1): Epistemic Firewall Architecture: Safeguards 1–20 & Category A–D
+             Embedding Flow [CATEGORY B — DERIVED]
+             Figure H12-2 (Ch.2): Low-Energy KK Form-Factor Decoupling & Eot-Wash 44 um Floor
+             [CATEGORY B — DERIVED]
+             Figure H12-2B (Ch.2): Kaluza–Klein Mode Tower (n = 0,1,2,3) & Warped AdS  Hierarchy
+                                                                                         5
+             Geometry [CATEGORY B — DERIVED]
+             Figure H12-3 (Ch.3): Temporal Folding Architecture: Brane Time tau , Bulk Path tau  &
+                                                                                 4              5
+             Modular Law d tau  = alpha     ds    [CATEGORY C — CONJECTURAL]
+                               5        mod   QFI
+             Figure H12-3B (Ch.3): Tomita–Takesaki Modular KMS Analytic Strip & Seven Temporal
+             Notions Hierarchy [CATEGORY B — DERIVED]
+             Figure H12-4 (Ch.4): Beltrami Geodesic Profile: Symmetric No-Go (y=0) vs. Asymmetric Bulk
+             Dip y(x) [CATEGORY C — CONJECTURAL]
+             Figure H12-5 (Ch.4): 5D Geodesic Arrival Ratio eta   = dt  / dt  Across Metric Classes
+                                                               fold   5    4
+             [CATEGORY C — CONJECTURAL]
+             Figure H12-4B (Ch.4): 5D Light-Cone Tilt, Euler–Lagrange Turning Condition & Finite EM
+             Horizon (k dx < pi) [CATEGORY B — DERIVED]
+             Figure H12-6 (Ch.5): Closed Hayward Regular Core vs. Flared Morris–Thorne Wormhole
+             Throat [CATEGORY B — DERIVED]
+             Figure H12-5B (Ch.5): Hayward Regular Soliton Critical Mass (23.7744 ug) &
+             Gregory–Laflamme Threshold (0.876) [CATEGORY B — DERIVED]
+             Figure H12-7 (Ch.6): Morris–Thorne Exotic Mass & Casimir Energy Deficit Across Throat
+             Scales [CATEGORY B — DERIVED]
+             Figure H12-6B (Ch.6): Ford–Roman Quantum Inequality Envelope (tau^-4) & Orthonormal
+             Tetrad Transverse Tide [CATEGORY B — DERIVED]
+                                                    Page 7 of 214

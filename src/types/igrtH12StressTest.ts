@@ -126,12 +126,12 @@ export const H12_TEN_DOMAIN_AUDITS: H12DomainAuditRow[] = [
   },
   {
     domainNumber: 'Domain IX',
-    domainName: 'Portal Mechanisms & Proposed Devices A–K (Appendices I & J)',
+    domainName: 'Speculative Portal Concepts & Proposed Devices A–K (Appendices L & J)',
     criteriaCount: 50,
     maxPoints: 150,
     selfContainedPoints: 150,
     applicablePoints: 144,
-    openFrontierNotes: '11 mechanisms audited across Tiers 1–5 (App. I); Devices A–K (App. J) explicitly scoped as precision sensors, thermodynamically valid harvesters, or analog simulators.',
+    openFrontierNotes: '11 speculative portal concepts audited across Tiers 1–5 (App. L); Devices A–K (App. J) explicitly scoped as precision sensors, thermodynamically valid harvesters, or analog simulators.',
     verdict: 'CONJECTURAL FRONTIER (Bounded)',
     category: 'CATEGORY D — SPECULATIVE ENGINEERING'
   },

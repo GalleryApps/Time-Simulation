@@ -1,0 +1,60 @@
+                IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+                  Concepts
+                List of Principal Equations
+                  Eq. (H12.0.1) (Frontmatter, CATEGORY C — CONJECTURAL): Assumed Generalized 5D
+                  Warped Bulk Metric Ansatz
+                  Eq. (H12.0.2) (Frontmatter, CATEGORY C — CONJECTURAL): 5D QFI Clock Lift & Folding
+                  Ratio Definition η           ≡ Δτ  / Δτ
+                                          fold        5      4
+                  Eq. (1.1) (Ch. 1 (§1.1), CATEGORY B — DERIVED): Preserved H11 Araki Coupling κ  &
+                                                                                                                                       ψ
+                                                −1/4
+                  Hayward Ratio ξ  = 2
+                                         0
+                  Eq. (2.1) (Ch. 2 (§2.1), CATEGORY B — DERIVED): 5D Principal Bundle Orthogonality G  =
+                                                                                                                                             Ai
+                  0 (PU(H) ⊥ ∂/∂y)
+                  Eq. (2.2) (Ch. 2 (§2.2), CATEGORY B — DERIVED): Low-Energy KK Form-Factor Shift δ (1
+                                                                                                                                            KK
+                                            −14
+                  neV) = 4.972 × 10
+                  Eq. (3.1) (Ch. 3 (§3.1), CATEGORY B — DERIVED): 5D Modular Proper-Time Law &
+                  Temporal Folding Tensor ℱ
+                                                        AB
+                  Eq. (4.1) (Ch. 4 (§4.2), CATEGORY C — CONJECTURAL): Conserved Beltrami Integral &
+                  Category C Shortcut Ratios
+                  Eq. (5.1) (Ch. 5 (§5.1), CATEGORY B — DERIVED): Exact Hayward Radial (ρ+p  = 0) &
+                                                                                                                                 r
+                  Transverse NEC Satisfaction
+                  Eq. (6.1) (Ch. 6 (§6.1), CATEGORY B — DERIVED): Morris–Thorne Exotic Negative-Energy
+                  Integral E          (r )
+                                exotic  0
+                  Eq. (6.2) (Ch. 6 (§6.2), CATEGORY B — DERIVED): Casimir-to-Wormhole Energy Ratio (4.50
+                        −71
+                  × 10        at 1 m vs 0.2436 at ℓ )
+                                                          0
+                                                                                                                                                2
+                  Eq. (7.1) (Ch. 7 (§7.1), CATEGORY B — DERIVED): Double-Slit SLD Fisher Identity F  = V
+                                                                                                                                         Q
+                       2          2
+                  ⇒ V  + D          = 1
+                              QFI
+                  Eq. (12.1) (Ch. 12 (§12.2), CATEGORY B — DERIVED): Multi-Messenger Joint Likelihood ln
+                  ℒ      & Bayes Occam Δ ln B
+                    joint                               12/11
+                List of Theorems
+                  Boundary Theorem 1.1 (Ch. 1 (§1.2), CATEGORY B — DERIVED): Low-Energy Decoupling &
+                                                                    −14
+                  H11 Equivalence (δ  = 4.972 × 10                       at 1 neV)
+                                             KK
+                  Theorem 3.1 (Ch. 3 (§3.2), CATEGORY B — DERIVED): Gauge-Invariant Temporal Folding
+                  Criterion (η         < 1 vs Coordinate Gauge)
+                                  fold
+                  No-Go Theorem 4.1 (Ch. 4 (§4.1), CATEGORY B — DERIVED): Absence of Null Arrival
+                                            1
+                  Shortcuts in Flat S  & Conformal RS AdS
+                                                                            5
+                  NEC Theorem 5.1 (Ch. 5 (§5.1), CATEGORY B — DERIVED): 4D Hayward Regular Black-Hole
+                  Non-Portal Proof (ρ + p  = 0, ρ + p_⊥ > 0)
+                                                   r
+                                                                         Page 11 of 214

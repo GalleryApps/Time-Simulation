@@ -1,0 +1,96 @@
+            IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+            Exact Tensor Evaluation, Finite-Difference Bianchi Check & Ghost-Free
+                                                                                         α k|y|          −α  k|y|
+                                                                                          t                x
+            Einstein–Maxwell Bulk: Substituting Eq. (H12.0.1) (A = e                          , B = e           ,
+                                                                                 5              2
+            Φ =1)intothe u, u ODEs gives scalar curvature R = −(2 α − 6 α α +
+              rad                    t   x                                                     t         t   x
+                   2    2                                      0           2   2    i        2
+            12 α ) k and mixed Einstein tensor G                   = 6 α     k , G = (α        − 2 α α + 3
+                  x                                             0         x          i      t         t   x
+               2     2     y             2                    2
+            α ) k , G           = 3(α        − α α) k —independently verified via central
+              x             y           x          t    x
+                                                                                                             −6
+            finite-difference metric differentiation (Christoffel → Ricci → Einstein < 10                       ,
+                                                            A          −7
+            contracted Bianchi divergence ∇ G                   < 10 ; Assertion 72). Thus δS                   /
+                                                        A     y                                           total
+                AB                                                   5 A            2  A              A   5
+            δG      = 0 recovers isotropic vacuum AdS ( G                   = 6 k δ        = −Λ δ , R =
+                                                                  5       B              B        5    B
+                    2
+            −20k ) only for conformal RS (α = −1, α = +1) [2]. By contrast, asymmetric
+                                                      t           x
+                                                                                                        AB
+            Model 2B warping (α + α > 0) is NOT a vacuum solution of δS                            / δG    =0:
+                                       t     x                                                total
+            the phenomenological (α = 0.5, α = 0.5) parameters are assumed rather
+                                             t            x
+            than derived from a physical field source and strictly violate the 5D Null
+                                                             2                      2
+            Energy Condition along both x (−k ) and y (−1.5 k ). For the realizable
+            asymmetric branch (α = 1.0, α = 0.0), The 5D action is ghost-free
+                                           t              x
+            Einstein-Maxwell. Specifically, choosing canonical Maxwell term ℒ                            = −¼
+                                                                                                    EM
+                    AB                                           k|y|                         0y
+            F     F     with electric flux F           = E e          obeying ∂ (√−G F ) = 0 gives
+              AB                                   0y        0                     y
+                                                     0               2    i               2    y               2
+            NEC-satisfying stress tensor T               = −½ E , T = +½ E , T = −½ E ,
+                                                      0             0      i            0       y             0
+                        A           A               A                                  2                 2      2
+            solving G       +Λ δ =8πG T identicallyatΛ =−½k and8πG E =k
+                         B      5    B          5    B                     5                        5   0
+                               −14
+            (residual < 10         ); because no macroscopic bulk electric flux F                    has been
+                                                                                                 0y
+            observed, even this branch remains Category C.
+                                                                                1
+            Dynamic Radion Planck Matching [21], Orbifold S /ℤ , Eöt-Wash Bound &
+                                                                                    2
+            Thermal/Regulator Sweeps: Integrating dynamic radion fluctuations Φ                           (x, y)
+                                                                                                       rad
+                                                                                                     2
+            = 1 + φ (x) across mixed compact-warped geometry yields M̄ (φ                                   ) =
+                         rad                                                                       Pl    rad
+                 3            π R      −2k|y|                          3             −2kπR
+                                 5                                                         5
+            (M /k) ∫               k e         Φ (x,y) dy = (M /k)(1 − e                    )(1 + φ      ) plus
+                5       −π R                     rad                  5                               rad
+                             5
+                                                                           2               2
+            canonical 4D Brans–Dicke kinetic term −(3 M̄                      / 2)(∂φ     ) /(1 + φ      ). The
+                                                                          Pl           rad            rad
+            Eöt-Wash bound is R ≤ 44 μm. Specifically, Ref. [5] establishes a 95% CL
+                                        5
+                                                                                                           (1)
+            single-Yukawa exclusion λ             (|α| = 1) = 38.6 μm (corresponding to m                      ≥
+                                               EW                                                       KK
+                                                                             −14
+            5.112 meV and δ (1 neV) = 3.826 × 10                                 ;  Assertion 84), while
+                                       KK
+                                         1
+            compactification on S (α             = 2) yields R = 44 ± 2 μm [5]. Using CODATA
+                                             KK                    5
+                                    18
+            M̄    =2.4353 × 10         GeVandR =44±2μmyieldsKKladderm ^(1,2,3)=
+               Pl                                    5                                           KK
+                                                                                                        1
+            4.485 / 8.969 / 13.454 meV (n=1 error +0.214/−0.195 meV), flat S floor
+                   1                                  8           1                              1            1/3
+            M(S ) = 2.985 (±0.045) × 10 GeV, S /ℤ orbifold floor M (S /ℤ ) = 2
+               5                                                      2                      5       2
+                   1                   8                                                             18
+            M(S )=3.761×10 GeV,andwarpedAdS scaleM =1.8101×10 GeV(k
+               5                                                     5          5
+                   18
+            = 10       GeV, kπR = 35). At 1 neV, non-perturbative Heat-Kernel (4.972 ×
+                                   5
+               −14                                          −16
+            10     ) and FRG Litim (3.149 × 10                  ) cutoffs confirm full stability, while
+                                                                                                −3
+            thermal background sweeps show cryogenic 4 K (δ = 5.873 × 10 ) lies safely
+                                                        Page 34 of 214

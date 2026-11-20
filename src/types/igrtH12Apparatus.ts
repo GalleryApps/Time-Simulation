@@ -100,7 +100,7 @@ export const H12_MASTER_EQUATIONS: H12Equation[] = [
     label: '(H12.0.1)',
     category: 'CATEGORY C — CONJECTURAL',
     unicodeHtml:
-      '<i>d</i><i>s</i><sub>5</sub><sup>2</sup> = <i>e</i><sup>2α<sub><i>t</i></sub><i>k</i>|<i>y</i>|</sup> (−<i>c</i><sup>2</sup> <i>dt</i><sup>2</sup>) + <i>e</i><sup>−2α<sub><i>x</i></sub><i>k</i>|<i>y</i>|</sup> <i>g</i><sub><i>ij</i></sub><sup>(3)</sup> <i>dx</i><sup><i>i</i></sup> <i>dx</i><sup><i>j</i></sup> + Φ<sub>rad</sub><sup>2</sup>(<i>x</i>) <i>dy</i><sup>2</sup>, &nbsp;&nbsp; <i>c</i><sub>eff</sub>(<i>y</i>) = <i>c</i> · <i>e</i><sup>(α<sub><i>t</i></sub> + α<sub><i>x</i></sub>)<i>k</i>|<i>y</i>|</sup>',
+      '<i>ds</i><sub>5</sub><sup>2</sup> = <i>e</i><sup>2α<sub><i>t</i></sub><i>k</i>|<i>y</i>|</sup> (−<i>c</i><sup>2</sup> <i>dt</i><sup>2</sup>) + <i>e</i><sup>−2α<sub><i>x</i></sub><i>k</i>|<i>y</i>|</sup> <i>g</i><sub><i>ij</i></sub><sup>(3)</sup> <i>dx</i><sup><i>i</i></sup> <i>dx</i><sup><i>j</i></sup> + Φ<sub>rad</sub><sup>2</sup>(<i>x</i>) <i>dy</i><sup>2</sup>, &nbsp;&nbsp;&nbsp; <i>c</i><sub>eff</sub>(<i>y</i>) = <i>c</i> · <i>e</i><sup>(α<sub><i>t</i></sub> + α<sub><i>x</i></sub>)<i>k</i>|<i>y</i>|</sup>',
     plainText:
       'ds_5^2 = e^{2 alpha_t k |y|} (-c^2 dt^2) + e^{-2 alpha_x k |y|} g_{ij}^{(3)} dx^i dx^j + Phi_rad^2(x) dy^2,  c_eff(y) = c e^{(alpha_t + alpha_x) k |y|}',
     caption:
@@ -110,7 +110,7 @@ export const H12_MASTER_EQUATIONS: H12Equation[] = [
     label: '(H12.0.2)',
     category: 'CATEGORY C — CONJECTURAL',
     unicodeHtml:
-      '<i>d</i>τ<sub>obs</sub> = [ ℏ / (<i>E</i><sub>mod</sub> · σ<sub>1</sub>(<i>K</i><sub>ξ</sub>)) ] √(<i>g</i><sub><i>ij</i></sub><sup>QFI</sup> θ̇<sup><i>i</i></sup> θ̇<sup><i>j</i></sup>) <i>d</i>λ &nbsp;=&nbsp; <i>c</i><sup>−1</sup> √(−<i>G</i><sub><i>AB</i></sub> <i>Ẋ</i><sup><i>A</i></sup> <i>Ẋ</i><sup><i>B</i></sup>) <i>d</i>λ, &nbsp;&nbsp; η<sub>fold</sub> ≡ Δτ<sub>5</sub> / Δτ<sub>4</sub>',
+      '<i>d</i>τ<sub>obs</sub> = [ ℏ / (<i>E</i><sub>mod</sub> · σ<sub>1</sub>(<i>K</i><sub>ξ</sub>)) ] √(<i>g</i><sub><i>ij</i></sub><sup>QFI</sup> θ̇<sup><i>i</i></sup> θ̇<sup><i>j</i></sup>) <i>d</i>λ &nbsp;=&nbsp; <i>c</i><sup>−1</sup> √(−<i>G</i><sub><i>AB</i></sub> <i>Ẋ</i><sup><i>A</i></sup> <i>Ẋ</i><sup><i>B</i></sup>) <i>d</i>λ, &nbsp;&nbsp;&nbsp; η<sub>fold</sub> ≡ Δτ<sub>5</sub> / Δτ<sub>4</sub>',
     plainText:
       'd tau_obs = [ hbar / (E_mod * sigma_1(K_xi)) ] sqrt(g_ij^QFI theta_dot^i theta_dot^j) d lambda = c^{-1} sqrt(-G_AB X_dot^A X_dot^B) d lambda,  eta_fold = Delta tau_5 / Delta tau_4',
     caption:
@@ -122,7 +122,7 @@ export const H12_METRIC_SIGNATURE_BOX =
   'Metric Signature Convention: Four-dimensional spacetime M_4 carries (−,+,+,+) and five-dimensional M_5 = M_4 × K_1 carries (−,+,+,+,+). The metric signature is (−,+,+,+,+). Mixed signatures are excluded.';
 
 export const H12_FOUNDATIONAL_EQUATIONS_NOTE =
-  'Eqs. (H12.0.1) and (H12.0.2) are postulated, not derived. They define the 5D hypothesis.';
+  'Eqs. (H12.0.1) and (H12.0.2) are postulated, not derived. They define the 5D hypothesis. No physical mechanism is currently known that could produce the asymmetric warp required for shortcuts.';
 
 export const H12_ABSTRACT_PARAGRAPHS: string[] = [
   'Picture our everyday universe—three directions of space plus time—as a thin four-dimensional sheet floating inside a possible hidden fifth dimension. In our companion work IGRT-2026-H11, clocks and quantum measurements follow precise mathematical laws strictly on that four-dimensional sheet. Here, IGRT-2026-H12 asks whether stepping off our sheet into an unseen fifth spatial coordinate y could ever fold proper time, shorten cosmic travel, or turn black holes and entangled particles into "portals"—defined rigorously throughout this work as mathematical connections, never macroscopic traversable wormholes.',
@@ -604,8 +604,8 @@ export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
     name: 'Coupled Si₃N₄ Twin-Brane Evanescent Portal Cavity (Photonic Tunneling Analog)',
     category: 'CATEGORY D — SPECULATIVE ENGINEERING',
     physicalPrinciple: 'Implements two spatially separated high-Q optical microring "branes" linked exclusively by an evanescent bulk tunnel bridge mimicking mathematical AdS₅ / Einstein–Maxwell connectivity.',
-    governingEquations: 'κ/2π = ω₀/(4π Q₀) = 16.118 MHz,  C = 4 g²/(κ γ) = 2.716 × 10⁵,  η_EM = sin(1) = 0.84147',
-    architecture: 'Monolithic Si₃N₄ bilayer photonic chip (1550 nm, n_eff = 1.78 ⇒ v_g = 0.5618c, Q₀ = 2 × 10⁶, coupling g/2π = 4.2 GHz, drop-port γ/2π = 4.0 MHz).',
+    governingEquations: 'κ/2π = ω₀/(2π Q₀) = 16.118 MHz,  C = (2 J / κ)² = 2.716 × 10⁵,  η_EM = sin(1) = 0.84147',
+    architecture: 'Monolithic Si₃N₄ bilayer photonic chip (1550 nm, n_eff = 1.78 ⇒ v_g = 0.5618c, Q₀ = 1.2 × 10⁷, tunnel splitting J/2π = g/2π = 4.2 GHz, auxiliary drop-port γ/2π = 4.0 MHz).',
     operatingRegime: 'Room-temperature / cryogenic 4 K photonic integrated circuit; sub-micron inter-layer SiO₂ tunnel gap.',
     predictedSignal: 'Coherent Rabi/bridge state transfer across forbidden gap at cooperativity C = 2.716 × 10⁵ with curved bridge delay η_EM = 0.84147 relative to slow upper track.',
     noiseFloor: 'Thermorefractive + detector dark-count floor (< 0.05 dB/cm propagation loss).',
@@ -957,21 +957,16 @@ export const H12_APPENDICES: H12AppendixItem[] = [
   {
     letter: 'I',
     anchorId: 'h12-app-i',
-    title: 'Portal Mechanisms (Category D)',
-    category: 'CATEGORY D — SPECULATIVE ENGINEERING',
-    summary: 'Organized in strictly alphabetical sequence alongside the technical apparatus so mechanism engineering concepts never obscure core negative proofs; evaluates 11 candidate portal mechanisms across five quantitative feasibility tiers (Table I.1).',
-    equations: [
-      {
-        label: '(I.1)',
-        category: 'CATEGORY D — SPECULATIVE ENGINEERING',
-        unicodeHtml: '<i>E</i><sub>S</sub> = <i>m</i><sub>e</sub><sup>2</sup> <i>c</i><sup>3</sup> / (<i>e</i> ℏ) = 1.32 × 10<sup>18</sup> V/m (NEC ≥ 0), &nbsp;&nbsp; σ<sub>KK</sub> ~ <i>G</i><sup>2</sup> <i>E</i><sup>2</sup> / <i>c</i><sup>8</sup> (~10<sup>−60</sup> suppression)',
-        plainText: 'E_S = 1.32e18 V/m (NEC >= 0), sigma_KK ~ G^2 E^2 / c^8 (~1e-60 suppression)',
-        caption: 'Quantitative boundary preventing classical electromagnetic fields or coherent laboratory KK beaming from generating macroscopic traversable portals.'
-      }
-    ],
+    title: 'Complete Epistemic Claim–Evidence Ledger & Structural Verification Scorecard',
+    category: 'CATEGORY A — ESTABLISHED',
+    summary: 'Consolidates the full Category A–D Claim–Evidence Ledger alongside the 500-criterion 10-domain verification audit and 16 red-team stress-test evaluations (Tables I.1–I.2; node scripts/stress-test-h12.mjs).',
+    equations: [],
     bodyParagraphs: [
-      'Table I.1 systematically classifies eleven frequently proposed mechanisms—ranging from classical gravitational focusing and intense electromagnetic fields to Casimir cavities, squeezed quantum states, superconductors, colliders, entanglement, optical cavities, modular clocks, and 5D KK excitations. These mechanisms are theoretical speculations, not engineering designs.',
-      'Three mechanisms belong to Tier 1 (Zero Portal: classical gravity focuses via Raychaudhuri; Maxwell EM satisfies NEC even at Schwinger limit 1.32 × 10¹⁸ V/m). Four belong to Tier 2 (Benchtop Metric Analogs: optical cavities, GRIN slabs, superconducting circuits, and optical-lattice clocks probe effective metrics cleanly without curving G_μν). Mechanisms 3 and 5 sit in Tier 3 (marginal perturbative effects constrained by Ford–Roman quantum inequalities or terrestrial Vainshtein Z_ψ = 7.05 × 10¹⁴). Casimir engineering (Mechanism 4) and HL-LHC collisions (Mechanism 7) are Planck/micro-scale only (Tier 4), while direct macro KK beaming (Mechanism 11) sits in Tier 5 (~10⁻⁶⁰ suppression). These mechanisms are theoretical speculations, not engineering designs.'
+      'CATEGORY A — ESTABLISHED: 4D GR & Schwarzschild/Kerr causal structure; Tomita–Takesaki modular theory & SLD Fisher geometry; Born rule P = |ψ|²; quantum no-communication theorem [O_A, O_B] = 0; Eöt-Wash R_5 ≤ 44 μm and GW170817 |c_GW/c − 1| ≤ 10⁻¹⁵ bounds; negative Casimir plate energy P_C(100 nm) = −13.001 Pa and thermodynamic passivity.',
+      'CATEGORY B — DERIVED (Conditional on IGRT-H11/H12 Postulates): Exact 4D H11 recovery to 4.972 × 10⁻¹⁴ at 1 neV; Model 1 & Model 2A no-shortcut Horizon Theorems; exact Hayward NEC satisfaction (ρ + p_r = 0) proving regular BHs are not portals; Morris–Thorne exotic energy & 10⁷¹ Casimir shortfall at 1 m; exact double-slit identity V² + D_QFI² = 1; optical-lattice, CANNEX, Casimir MEMS, Unruh KMS, and interferometer P7–P9/P13 bounds.',
+      'CATEGORY C — CONJECTURAL: Existence of an actual physical fifth spacetime dimension y; asymmetric bulk warping α_t + α_x > 0 and Model 2B Beltrami ratios in nature; TaAs Weyl-bulk mapping; ER=EPR quantum connectivity in flat 4D; 5D ekpyrotic bounce geometry and bulk radion dark-sector fractions; 3G GW scalar/KK leakage (P10).',
+      'CATEGORY D — SPECULATIVE ENGINEERING: Analog GRIN photonic temporal folding slab (Device C), Si₃N₄ coupled portal cavity (Device G), Pockels–ring Deutsch–Lloyd time-loop circuit (Device H), and macroscopic wormhole stabilization concepts—explicitly tagged as benchtop metric/unitary analogs or physically obstructed by >70 orders of magnitude in exotic stress-energy.',
+      'Composite Structural Verification Score: 1734/1740 (99.66% Self-Contained Closure; 100.0% Mathematical/Negative-Theorem Closure across 500 Criteria; Epistemic Applicable Score 1709/1740 = 98.22% explicitly bounding unresolved Category C/D frontiers). Tables I.1 and I.2 itemize all ten domain evaluations and sixteen red-team challenges (H12-ATK-01 through H12-ATK-16).'
     ]
   },
   {
@@ -1025,16 +1020,21 @@ export const H12_APPENDICES: H12AppendixItem[] = [
   {
     letter: 'L',
     anchorId: 'h12-app-l',
-    title: 'Complete Epistemic Claim–Evidence Ledger & Structural Verification Scorecard',
-    category: 'CATEGORY A — ESTABLISHED',
-    summary: 'Consolidates the full Category A–D Claim–Evidence Ledger alongside the 500-criterion 10-domain verification audit and 16 red-team stress-test evaluations (Tables L.1–L.2; node scripts/stress-test-h12.mjs).',
-    equations: [],
+    title: 'Speculative Portal Concepts (Category D)',
+    category: 'CATEGORY D — SPECULATIVE ENGINEERING',
+    summary: 'Quarantined at the closing boundary of Consolidated Appendices A–L so speculative concepts never obscure core negative proofs; evaluates 11 candidate portal concepts across five quantitative feasibility tiers (Table L.1).',
+    equations: [
+      {
+        label: '(L.1)',
+        category: 'CATEGORY D — SPECULATIVE ENGINEERING',
+        unicodeHtml: '<i>E</i><sub>S</sub> = <i>m</i><sub>e</sub><sup>2</sup> <i>c</i><sup>3</sup> / (<i>e</i> ℏ) = 1.32 × 10<sup>18</sup> V/m (NEC ≥ 0), &nbsp;&nbsp; σ<sub>KK</sub> ~ <i>G</i><sup>2</sup> <i>E</i><sup>2</sup> / <i>c</i><sup>8</sup> (~10<sup>−60</sup> suppression)',
+        plainText: 'E_S = 1.32e18 V/m (NEC >= 0), sigma_KK ~ G^2 E^2 / c^8 (~1e-60 suppression)',
+        caption: 'Quantitative boundary preventing classical electromagnetic fields or coherent laboratory KK beaming from generating macroscopic traversable portals.'
+      }
+    ],
     bodyParagraphs: [
-      'CATEGORY A — ESTABLISHED: 4D GR & Schwarzschild/Kerr causal structure; Tomita–Takesaki modular theory & SLD Fisher geometry; Born rule P = |ψ|²; quantum no-communication theorem [O_A, O_B] = 0; Eöt-Wash R_5 ≤ 44 μm and GW170817 |c_GW/c − 1| ≤ 10⁻¹⁵ bounds; negative Casimir plate energy P_C(100 nm) = −13.001 Pa and thermodynamic passivity.',
-      'CATEGORY B — DERIVED (Conditional on IGRT-H11/H12 Postulates): Exact 4D H11 recovery to 4.972 × 10⁻¹⁴ at 1 neV; Model 1 & Model 2A no-shortcut Horizon Theorems; exact Hayward NEC satisfaction (ρ + p_r = 0) proving regular BHs are not portals; Morris–Thorne exotic energy & 10⁷¹ Casimir shortfall at 1 m; exact double-slit identity V² + D_QFI² = 1; optical-lattice, CANNEX, Casimir MEMS, Unruh KMS, and interferometer P7–P9/P13 bounds.',
-      'CATEGORY C — CONJECTURAL: Existence of an actual physical fifth spacetime dimension y; asymmetric bulk warping α_t + α_x > 0 and Model 2B Beltrami ratios in nature; TaAs Weyl-bulk mapping; ER=EPR quantum connectivity in flat 4D; 5D ekpyrotic bounce geometry and bulk radion dark-sector fractions; 3G GW scalar/KK leakage (P10).',
-      'CATEGORY D — SPECULATIVE ENGINEERING: Analog GRIN photonic temporal folding slab (Device C), Si₃N₄ coupled portal cavity (Device G), Pockels–ring Deutsch–Lloyd time-loop circuit (Device H), and macroscopic wormhole stabilization concepts—explicitly tagged as benchtop metric/unitary analogs or physically obstructed by >70 orders of magnitude in exotic stress-energy.',
-      'Composite Structural Verification Score: 1734/1740 (99.66% Self-Contained Closure; 100.0% Mathematical/Negative-Theorem Closure across 500 Criteria; Epistemic Applicable Score 1709/1740 = 98.22% explicitly bounding unresolved Category C/D frontiers). Tables L.1 and L.2 itemize all ten domain evaluations and sixteen red-team challenges (H12-ATK-01 through H12-ATK-16).'
+      'Table L.1 systematically classifies eleven frequently proposed concepts—ranging from classical gravitational focusing and intense electromagnetic fields to Casimir cavities, squeezed quantum states, superconductors, colliders, entanglement, optical cavities, modular clocks, and 5D KK excitations. These concepts are theoretical speculations, not engineering designs.',
+      'Three concepts belong to Tier 1 (Zero Portal: classical gravity focuses via Raychaudhuri; Maxwell EM satisfies NEC even at Schwinger limit 1.32 × 10¹⁸ V/m). Four belong to Tier 2 (Benchtop Metric Analogs: optical cavities, GRIN slabs, superconducting circuits, and optical-lattice clocks probe effective metrics cleanly without curving G_μν). Concepts 3 and 5 sit in Tier 3 (marginal perturbative effects constrained by Ford–Roman quantum inequalities or terrestrial Vainshtein Z_ψ = 7.05 × 10¹⁴). Casimir engineering (Concept 4) and HL-LHC collisions (Concept 7) are Planck/micro-scale only (Tier 4), while direct macro KK beaming (Concept 11) sits in Tier 5 (~10⁻⁶⁰ suppression). These concepts are theoretical speculations, not engineering designs.'
     ]
   }
 ];
@@ -1360,6 +1360,21 @@ export const FIVE_D_SIGNATURES_TEST_MATRIX: Array<{
     signature: '5D radion scalar fifth-force PPN shift & primordial Weyl dark radiation (Φ_rad, ΔN_eff)',
     experimentToTestIt: 'Cassini Shapiro radio ranging, Lunar Laser Ranging, CMB Stage-4 & BBN light-element abundances',
     currentConstraint: '|γ_PPN − 1| < 2.3 × 10⁻⁵ (Cassini); ΔN_eff < 0.28 at BBN (1% Weyl assumption gives 0.0614)'
+  },
+  {
+    signature: '5D brane Weyl tidal charge (q_tidal) & Gregory–Laflamme black-string ringdown deviation (r_+/R_AdS < 0.876)',
+    experimentToTestIt: 'Event Horizon Telescope (ngEHT) shadow-radius bounds & LVK/ET black-hole QNM ringdown spectroscopy',
+    currentConstraint: 'Shadow diameters match 4D Kerr within ~10% (EHT); no localized Gregory–Laflamme pinch or Weyl charge detected'
+  },
+  {
+    signature: 'Primordial 5D KK blue-tilted stochastic GW background (n_T > 0 from S¹/ℤ_2 orbifold bounce)',
+    experimentToTestIt: 'IPTA/NANOGrav pulsar timing arrays, LISA/DECIGO space interferometers & CMB Stage-4 B-mode polarization',
+    currentConstraint: 'High-frequency GW energy bounded by BBN/Planck Ω_GW h² < 1.2 × 10⁻⁶ (ΔN_eff < 0.28); Tensor r < 0.03'
+  },
+  {
+    signature: 'Macroscopic bulk-vacuum or Casimir-stabilized traversable wormhole throat lensing signature',
+    experimentToTestIt: 'Device I cryogenic Casimir force metrology & optical/gravitational microlensing wormhole-echo surveys',
+    currentConstraint: '10⁷¹ negative-energy deficit at r_0 = 1 m (4.50 × 10⁻⁷¹ Casimir ratio; Negative Theorem closure); zero astrophysical throats observed'
   }
 ];
 
@@ -1376,11 +1391,12 @@ export const WHAT_IS_NOT_DERIVED_LEDGER: Array<{
   { claim: 'Goldberger–Wise Radion Stabilization', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'The radion mass mechanism needed to hold Φ_rad above meV torsion bounds is invoked from external literature rather than derived dynamically here.' },
   { claim: '5D Hayward Black-String & Gregory–Laflamme Threshold', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'The instability threshold r_+/R_AdS = 0.876 is imported from linearized vacuum AdS_5 black strings rather than solved numerically for coupled Hayward–Araki matter.' },
   { claim: '5D BFV–BRST Algebra & UV Completion Above M_5', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Five-dimensional gravity loses perturbative renormalizability above M_5 while the full 5D constraint algebra and UV fixed point are omitted.' },
+  { claim: '5D Orbifold Ekpyrotic Bounce Embedding', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Mapping the H11 non-singular bounce onto an S¹/ℤ_2 orbifold brane collision is extrapolated geometrically rather than derived from a UV-complete 5D action.' },
   { claim: 'Holographic ER=EPR in Flat 4D & Chronology Protection', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Holographic dual wormholes and Δσ⁻⁵ Cauchy-horizon backreaction remain unproved outside idealized asymptotic AdS_5 spacetimes.' },
   { claim: 'Cosmological BBN / GW170817 / Dark Radiation Quenching', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'Compatibility with BBN, tensor speed, and dark energy relies on un-derived reheating cutoffs that assume bulk Weyl dark radiation stays below one percent.' },
   { claim: 'Born Rule P = |ψ|² Origin', category: 'CATEGORY A — ESTABLISHED', whyNotDerived: 'Quantum measurement probabilities are retained verbatim as an established Category A postulate rather than derived from five-dimensional geometry.' },
   { claim: 'Asymmetric Warp Parameters (α_t + α_x > 0)', category: 'CATEGORY C — CONJECTURAL', whyNotDerived: 'No physical principle derives the asymmetric metric exponents (α_t + α_x > 0) required for sustained bulk geodesic shortcuts.' },
-  { claim: 'Analog Simulators (Devices C, F) & Protocols P11–P13', category: 'CATEGORY D — SPECULATIVE ENGINEERING', whyNotDerived: 'Photonic/acoustic analogs do not curve real spacetime G_AB, active bulk emitters for P11–P12 remain physically unbuilt, and P13 measures only passive astrophysical bounds.' }
+  { claim: 'Analog Simulators (Devices C, F, G, H, K) & Protocols P11–P13', category: 'CATEGORY D — SPECULATIVE ENGINEERING', whyNotDerived: 'Optical/acoustic/solid-state analogs do not curve real spacetime G_AB, active bulk emitters for P11–P12 remain physically unbuilt, and P13 measures only passive astrophysical bounds.' }
 ];
 
 export const P7_TO_P13_TIMELINE_TABLE: Array<{
@@ -1541,7 +1557,7 @@ export const H12_PRIOR_AUDIT_RESPONSES: Array<{ auditScope: string; panelCritiqu
   {
     auditScope: 'H12 Structural Revision (4): Consolidated Alphabetical Appendices A–L & Unified Integration',
     panelCritique: 'Technical review noted earlier mechanism chapters and out-of-order appendices obscured H12’s strongest contribution (exact negative theorems) and hardware scope.',
-    harmonizedResolution: 'Consolidated all appendices strictly alphabetically A–L after References: merging simulation/dimensional/parameter references into Appendix H, ordering Portal Mechanisms as Appendix I, Devices A–K as Appendix J, Unified Solutions to Seven Open Physics Problems as Appendix K, and Epistemic Claim–Evidence + Scorecard as Appendix L alongside Chapters 1–13.'
+    harmonizedResolution: 'Consolidated all appendices strictly alphabetically A–L after References: merging simulation/dimensional/parameter references into Appendix H, ordering the Epistemic Claim–Evidence Ledger + Structural Scorecard as Appendix I, Devices A–K as Appendix J, Unified Solutions to Seven Open Physics Problems as Appendix K, and Speculative Portal Concepts (Category D) as Appendix L alongside Chapters 1–13.'
   },
   {
     auditScope: 'IGRT-H12 Final 40-Reviewer Audit (5): Unified Abstract, ODE/Geodesic Closure & Protocol Polish',
@@ -1562,35 +1578,35 @@ export const EPISTEMIC_BC_GREY_AREA_RUBRIC: Array<{
     derivedAspect: 'Variational Euler–Lagrange integration, N800/N1600 convergence (< 2.2 × 10⁻⁷), and ds_5² ≡ 0 hold to < 10⁻¹⁴.',
     conjecturalAspect: 'Requires assumed anisotropic bulk ansatz (H12.0.1) with α_t + α_x > 0 not derived from vacuum Einstein equations.',
     assignedCategory: 'CATEGORY C — CONJECTURAL',
-    ruleApplied: 'Boundary Rule: Any numerical output whose physical metric premises lack vacuum action derivation defaults strictly to Category C.'
+    ruleApplied: 'Boundary Rule: Any numerical output whose physical metric premises lack vacuum action derivation defaults strictly to Category C. Why it applies: High-precision Euler–Lagrange convergence verifies the internal consistency of an assumed metric rather than proving that physical stress-energy realizes it in nature.'
   },
   {
     boundaryCase: '2. Eq. (H12.0.2) Temporal Folding Ratio η_fold ≡ Δτ_5 / Δτ_4',
     derivedAspect: 'Coordinate-invariant ratio of line-element arc lengths well defined on any Lorentzian manifold.',
     conjecturalAspect: 'Elevates the lift onto an unobserved fifth dimension into a candidate clock law without dynamical 5D action derivation.',
     assignedCategory: 'CATEGORY C — CONJECTURAL',
-    ruleApplied: 'Boundary Rule: Axiomatic definitions referencing unproven extra coordinates carry Category C classification.'
+    ruleApplied: 'Boundary Rule: Axiomatic definitions referencing unproven extra coordinates carry Category C classification. Why it applies: Naming an invariant proper-time ratio stays empirically hypothetical until both the fifth coordinate y and the 5D clock coupling are independently established.'
   },
   {
     boundaryCase: '3. 5D Hayward Black Strings & Gregory–Laflamme Threshold (0.876)',
     derivedAspect: 'GL instability at r_+/R_AdS = 0.876 is rigorously derived for linearized 5D Schwarzschild–AdS strings.',
     conjecturalAspect: 'Direct transfer to coupled Hayward–Araki stress-energy with Weyl charge q_tidal is assumed without numerical 5D PDE evolution.',
     assignedCategory: 'CATEGORY C — CONJECTURAL',
-    ruleApplied: 'Boundary Rule: External literature thresholds applied to coupled matter sectors without fresh variation remain Category C.'
+    ruleApplied: 'Boundary Rule: External literature thresholds applied to coupled matter sectors without fresh variation remain Category C. Why it applies: Importing a linearized vacuum black-string eigenvalue cannot substitute for solving the full non-linear coupled Hayward–Araki–Weyl pinching equations.'
   },
   {
     boundaryCase: '4. 5D Radion Vainshtein / Goldberger–Wise Screening',
     derivedAspect: '4D H11 Galileon Z_ψ = 7.05 × 10¹⁴ and Cassini bounds are derived cleanly inside 4D Horndeski EFT.',
     conjecturalAspect: '5D radion Φ_rad is assumed to acquire an analogous potential avoiding sub-44 μm fifth-force bounds.',
     assignedCategory: 'CATEGORY C — CONJECTURAL',
-    ruleApplied: 'Boundary Rule: Screening mechanisms imported by analogy rather than integrated from 5D scalar–tensor equations stay Category C.'
+    ruleApplied: 'Boundary Rule: Screening mechanisms imported by analogy rather than integrated from 5D scalar–tensor equations stay Category C. Why it applies: Demonstrating Vainshtein suppression strictly on the y = 0 brane does not automatically prove dynamical radion stability throughout the bulk.'
   },
   {
     boundaryCase: '5. Negative Theorems (Flat S¹, Conformal AdS_5, 4D Hayward NEC, Casimir Deficit)',
     derivedAspect: 'Every premise lies strictly inside established GR, Poincaré geometry, or QFT inequalities with zero unverified exotic ansatz.',
     conjecturalAspect: 'None: negative obstructions remain valid even if no fifth dimension exists or even if bulk matter fails anisotropy.',
     assignedCategory: 'CATEGORY B — DERIVED',
-    ruleApplied: 'Boundary Rule: Obstruction theorems proven unconditionally from Category A metrics receive full Category B status.'
+    ruleApplied: 'Boundary Rule: Obstruction theorems proven unconditionally from Category A metrics receive full Category B status. Why it applies: No-go and Casimir energy-deficit proofs rely solely on established relativity, quantum inequalities, and algebraic identities that hold regardless of speculative 5D mechanisms.'
   }
 ];
 
@@ -2141,7 +2157,7 @@ export const APPENDIX_J_DEVICE_DOSSIERS: AppendixJDeviceDossier[] = [
       'Because the optical fields have faint evanescent tails reaching across the thin insulating wall, single photons fed into the upper "brane" racetrack tunnel smoothly down into the lower bridge at high cooperativity (C = 2.716 × 10⁵) and re-emerge downstream faster than surface dispersion delays (η_EM = 0.84147). It is an authentic solid-state bridge—without claiming warp drives or faster-than-vacuum-light travel (v_g = 0.5618c).'
     ],
     engineeringParagraphs: [
-      'Stacked Si₃N₄ Micro-Resonator Foundry Stack: Fabricated at standard CMOS wafer scale with 400 nm stoichiometric Si₃N₄ cores separated by a 280 nm low-loss SiO₂ tunnel barrier. At λ = 1550 nm (n_eff = 1.78, group speed v_g = 0.5618c), intrinsic quality factor Q₀ = 2.0 × 10⁶ gives cavity decay rate κ/2π = ω₀/(4π Q₀) = 16.118 MHz, symmetric inter-brane mode splitting g/2π = 4.2 GHz, and drop-port rate γ/2π = 4.0 MHz—achieving dimensionless bridge cooperativity C = 4 g²/(κ γ) = 2.716 × 10⁵ (verified Assertion 87).',
+      'Stacked Si₃N₄ Micro-Resonator Foundry Stack: Fabricated at standard CMOS wafer scale with 400 nm stoichiometric Si₃N₄ cores separated by a 280 nm low-loss SiO₂ tunnel barrier. At λ = 1550 nm (n_eff = 1.78, group speed v_g = 0.5618c), intrinsic quality factor Q₀ = 1.2 × 10⁷ gives cavity linewidth κ/2π = ω₀/(2π Q₀) = 16.118 MHz, symmetric inter-brane mode splitting J/2π = g/2π = 4.2 GHz, and auxiliary drop-port rate γ/2π = 4.0 MHz—achieving symmetric bridge cooperativity C = (2 J / κ)² = 2.716 × 10⁵ (verified Assertion 95).',
       'Finite-Span Einstein–Maxwell Horizon Verification: Programming lateral phase profile along the lower bridge maps directly to the Chapter 4 ghost-free Einstein–Maxwell analytic trajectory (α_t = 1, α_x = 0, η_EM = sin(1) = 0.84147 at kΔx = 2 < π), allowing heterodyne time-domain tomography of coherent cross-brane photon tunneling.'
     ],
     impactParagraph:
@@ -2159,8 +2175,8 @@ export const APPENDIX_J_DEVICE_DOSSIERS: AppendixJDeviceDossier[] = [
       'Device H builds an exact photonic simulation of that Deutsch self-consistency loop on an optical breadboard. Single photons circulate around a two-meter optical fiber ring (loop delay τ_loop = 10.0 nanoseconds) steered by an ultra-fast Pockels electro-optic crystal beam splitter. Instead of generating paradoxes or transmitting backward messages, the circuit relaxes identically to the unique maximally mixed fixed point ρ_CTC = diag(0.5, 0.5)—showing general readers in plain sight why nature’s quantum bookkeeping protects causality.'
     ],
     engineeringParagraphs: [
-      'Pockels-Locked Optical Loop Architecture: Heralded 1550 nm SPDC signal photons enter a 2.0 m polarization-maintaining lithium niobate / silica storage ring (n_eff = 1.50, round-trip delay τ_loop = n_eff L_loop / c = 10.0 ns; Assertion 88) coupled to an ancilla chronology-register mode through a programmable unitary beam-splitter/CNOT gate U.',
-      'Fixed-Point Consistency & Zero FTL Messaging: Iterating the nonlinear Deutsch fixed-point map ρ_CTC = Tr_S[U (ρ_in ⊗ ρ_CTC) U†] for balanced entanglement/CNOT coupling converges numerically and algebraically to ρ_CTC = diag(0.5, 0.5) with Frobenius norm residual ‖Φ(ρ_CTC) − ρ_CTC‖_F = 0 < 10⁻¹⁴ (Assertions 88–89), preserving global unitary probability and strictly forbidding unheralded backward signaling.'
+      'Pockels-Locked Optical Loop Architecture: Heralded 1550 nm SPDC signal photons enter a 2.0 m polarization-maintaining lithium niobate / silica storage ring (n_eff = 1.50, round-trip delay τ_loop = n_eff L_loop / c = 10.0 ns; Assertion 96) coupled to an ancilla chronology-register mode through a programmable unitary beam-splitter/CNOT gate U.',
+      'Fixed-Point Consistency & Zero FTL Messaging: Iterating the nonlinear Deutsch fixed-point map ρ_CTC = Tr_S[U (ρ_in ⊗ ρ_CTC) U†] for balanced entanglement/CNOT coupling converges numerically and algebraically to ρ_CTC = diag(0.5, 0.5) with Frobenius norm residual ‖Φ(ρ_CTC) − ρ_CTC‖_F = 0 < 10⁻¹⁴ (Assertion 96), preserving global unitary probability and strictly forbidding unheralded backward signaling.'
     ],
     impactParagraph:
       'Demystifying Time-Loop Physics on a Bench: Gives researchers and students an exact, runnable optical testbed for Deutsch–Lloyd chronology-protection circuits without misrepresenting post-selected emulation as literal time travel.'
@@ -2177,8 +2193,8 @@ export const APPENDIX_J_DEVICE_DOSSIERS: AppendixJDeviceDossier[] = [
       'Device I puts that verified vacuum force to clean engineering use inside a cryogenic silicon-nitride MEMS transducer. A tiny piezo actuator nudges the nanoscale mirror gap smoothly, letting the Casimir vacuum spring perform real, repeatable mechanical work cycles. Crucially, the exact equations verified in our codebase prove passivity ΔW_out ≤ ΔF_mod: because opening the plates back up costs slightly more energy than pulling them shut returns, you get a rock-solid quantum vacuum battery/transducer—NOT illegal over-unity magic.'
     ],
     engineeringParagraphs: [
-      'Nanoscale MEMS Casimir Cavity & Zeta Calibration: Two optically flat 1 cm² (A = 10⁻⁴ m²) Au-coated Si₃N₄ plates are held in parallel via three-axis piezo nanopositioners inside a 4 K UHV cryostat at baseline spacing d = 100 nm. Zeta-regularized electromagnetic zero-point pressure evaluates to P_C(100 nm) = −π² ℏc / (240 d⁴) = −13.001 Pa, yielding directly measurable attractive plate force F_C = P_C · A = 1.3001 mN (Assertions 91 & 97).',
-      'Passivity, Sub-Relativistic Regime & Energy Conservation: Operating at parametric stroke frequency f ~ 10 kHz across Δd = 50 nm keeps mirror speeds strictly non-relativistic (v/c = 1.048 × 10⁻⁸ ⇒ (v/c)² = 1.098 × 10⁻¹⁶ ≪ 1; Assertion 92), isolating clean adiabatic Casimir spring work from dynamical Casimir photon losses while enforcing the Pusz–Woronowicz thermodynamic passivity bound ΔW_out ≤ ΔF_mod.'
+      'Nanoscale MEMS Casimir Cavity & Zeta Calibration: Two optically flat 1 cm² (A = 10⁻⁴ m²) Au-coated SiC / Si₃N₄ plates are held in parallel via three-axis piezo nanopositioners inside a 4 K UHV cryostat at baseline spacing d = 100 nm. Zeta-regularized electromagnetic zero-point pressure evaluates to P_C(100 nm) = −π² ℏc / (240 d⁴) = −13.001 Pa, yielding directly measurable attractive plate force F_C = P_C · A = 1.3001 mN (Assertion 97).',
+      'Passivity, Sub-Relativistic Regime & Energy Conservation: Operating at parametric stroke frequency f ~ 50 MHz across Δd = 10 nm keeps peak mirror speed v_m = 2π f Δd = 3.1416 m/s strictly non-relativistic (v/c = 1.048 × 10⁻⁸ ⇒ (v/c)² = 1.098 × 10⁻¹⁶ ≪ 1; Assertion 97), isolating clean adiabatic Casimir spring work from dynamical Casimir photon losses while enforcing the Pusz–Woronowicz thermodynamic passivity bound ΔW_out ≤ ΔF_mod.'
     ],
     impactParagraph:
       'Separating Real Vacuum Power From Perpetual-Motion Myths: Demonstrates genuine millinewton-scale quantum-vacuum actuation on a silicon chip while establishing an unassailable mathematical barrier against over-unity free-energy claims.'
@@ -2195,7 +2211,7 @@ export const APPENDIX_J_DEVICE_DOSSIERS: AppendixJDeviceDossier[] = [
       'Device J uses a cryogenic chain of laser-trapped calcium or ytterbium ions to simulate huge accelerations (a = 10¹⁶ m/s², matching T_U = 40.55 μK; and laser-wakefield acceleration benchmarks a = 10²² m/s² reaching 40.55 K). Watching how the ions’ quantum energy levels populate measures the modular KMS heartbeat β_U ℏ = 1.88365 × 10⁻⁷ s cleanly and proves that acceleration heat engines still obey Carnot’s ironclad thermodynamic efficiency limits.'
     ],
     engineeringParagraphs: [
-      'Cryogenic Surface-Electrode Paul Trap & Modular KMS Bath: A linear string of ⁴⁰Ca⁺ / ¹⁷¹Yb⁺ ions inside a 4 K Nb shield experiences programmable Floquet–Raman time-dependent detuning replicating Rindler proper acceleration gradients. At a = 10¹⁶ m/s², the Unruh temperature T_U = ℏa/(2π c k_B) = 40.55 μK (4.055 × 10⁻⁵ K) fixes modular inverse-temperature time scale β_U ℏ = 2π c / a = 1.88365 × 10⁻⁷ s (matched dynamically to < 10⁻¹⁴ in Assertion 93); scaling to LWFA plasma wakefields (10²² m/s²) reaches T_U = 40.55 K (Assertion 98).',
+      'Cryogenic Surface-Electrode Paul Trap & Modular KMS Bath: A linear string of ⁴⁰Ca⁺ / ¹⁷¹Yb⁺ ions inside a 4 K Nb shield experiences programmable Floquet–Raman time-dependent detuning replicating Rindler proper acceleration gradients. At a = 10¹⁶ m/s², the Unruh temperature T_U = ℏa/(2π c k_B) = 40.55 μK (4.055 × 10⁻⁵ K) fixes modular inverse-temperature time scale β_U ℏ = 2π c / a = 1.88365 × 10⁻⁷ s (matched dynamically to < 10⁻¹⁴ in Assertion 98; cf. Assertion 93); scaling to LWFA plasma wakefields (10²² m/s²) reaches T_U = 40.55 K (Assertion 98).',
       'Detailed-Balance Sideband Thermometry & Carnot Ceiling: Resolved red/blue motional sideband ratios verify Planckian KMS thermality R_sb = e^{−β_U ℏω}, confirming cyclic extraction efficiency never exceeds the reversible Carnot limit η_Carnot = 1 − T_cold/T_hot.'
     ],
     impactParagraph:
@@ -2213,7 +2229,7 @@ export const APPENDIX_J_DEVICE_DOSSIERS: AppendixJDeviceDossier[] = [
       'Device K strains a wafer of TaAs crystal onto a piezoelectric actuator inside a magnetic cryostat, directly recreating the exact mathematics of our ghost-free 5D Einstein–Maxwell bulk solution (α_t = 1, α_x = 0). Unlike speculative negative-energy wormholes, every component inside this crystal model stays strictly positive along the null energy condition (+1.0 along x, 0 along y) while demonstrating finite-span chiral phase shortcuts.'
     ],
     engineeringParagraphs: [
-      'Piezo-Strained Epitaxial TaAs Interferometer: A 200 nm TaAs thin-film Hall/Aharonov–Bohm ring grown on BaTiO₃ operates at 1.8 K under 0–14 T fields with measured relativistic Dirac–Weyl Fermi speed v_F = 4.0 × 10⁵ m/s ≈ 0.001334c (Assertion 94).',
+      'Piezo-Strained Epitaxial TaAs Interferometer: A 200 nm TaAs thin-film Hall/Aharonov–Bohm ring grown on BaTiO₃ operates at 1.8 K under 0–14 T fields with measured relativistic Dirac–Weyl Fermi speed v_F = 4.0 × 10⁵ m/s ≈ 0.001334c (Assertion 99).',
       'Ghost-Free 5D Einstein–Maxwell Bulk Mapping: Piezo strain gradients ∂_y u_x induce chiral gauge flux F_{0y}^(eff) mirroring the unique ghost-free asymmetric bulk solution of Appendix B (α_t = 1, α_x = 0 ⇒ NEC_x = +1.0 k², NEC_y = 0, finite horizon k Δx < π, closed-form transit ratio η_fold^EM = sin(kΔx/2)/(kΔx/2)).'
     ],
     impactParagraph:

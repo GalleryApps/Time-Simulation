@@ -1,0 +1,34 @@
+            IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+            Table of Contents
+            Abstract                                                                                            2
+            Lists of Figures, Tables, Equations, Theorems & Definitions                                         7
+            Foundational Five-Dimensional Equations (Category C) & Scope                                      13
+            Chapter 1. From Four-Dimensional IGRT-H11 to Higher-Dimensional Geometry                          15
+               1.0 Introduction                                                                               17
+               1.1 Audit & Reconstruction of IGRT-H11 Core Architecture (665 Assertions Preserved)            19
+               1.2 EFT Transition Thresholds, Perturbative Axiom Preservation Proof & SHA-256 Locking         20
+               1.3 Twenty Explicit Epistemic Boundaries & Foundational Non-Claims                             22
+            Chapter 2. Five-Dimensional Information-Geometric Architecture                                    30
+               2.0 Introduction                                                                               30
+               2.1 Four Physical Realizations of y & Bundle Orthogonality Proof (G  = 0)                      32
+                                                                                Ai
+               2.2 5D Semiclassical Action Variation, Ghost-Free Einstein–Maxwell Bulk & Eöt-Wash Red…        33
+            Chapter 3. Modular Time and Temporal Folding                                                      41
+               3.0 Introduction                                                                               41
+               3.1 Taxonomy of Seven Temporal Notions, Component-Wise ℱ  & Tomita–Takesaki Modu…              43
+                                                                           AB
+               3.2 Formal Diffeomorphism Proof of Invariant Clock Folding & Reconnection Homotopy C…          44
+            Chapter 4. Higher-Dimensional Geodesics and Spacetime Shortcuts                                   49
+               4.0 Introduction                                                                               49
+                                                            1
+               4.1 Negative Theorems: Multi-Baseline M  × S  & Generalized Conformal Horizon Theorem          50
+                                                       4
+               4.2 Model 2B Asymmetrically Warped Beltrami Geodesics, Exact 5D NEC Obstruction & P…           52
+            Chapter 5. Black-Hole Connectivity and Portal Geometry                                            58
+               5.0 Introduction                                                                               58
+               5.1 Explicit Proof That 4D H11 Hayward Black Holes Are NOT Portals                             59
+               5.2 5D Brane-World Hayward Weyl Charge, Gregory–Laflamme Threshold & 6-Class Taxo…             60
+            Chapter 6. Traversable Wormholes, Energy Conditions and Stability                                 66
+               6.0 Introduction                                                                               66
+               6.1 Orthonormal Tetrad Derivation & Complete 10-Point Morris–Thorne Theorem                    67
+                                                        Page 3 of 214

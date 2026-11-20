@@ -12,8 +12,8 @@
  * - Consolidated Appendices (Strictly Alphabetical A–L after References):
  *   A–G (5D Differential Geometry, Field Equations, KK Reduction, Geodesics, Hayward/GL, Wormholes, SLD QFI),
  *   H (Executable Suite 102 Assertions, SI Dimensional Audits & Parameter Ledger),
- *   I (Portal Mechanisms, Category D), J (Proposed Devices & Analog Systems A–K),
- *   K (Unified Solutions to Seven Open Problems in Physics), L (Claim–Evidence Ledger & Structural Verification Scorecard)
+ *   I (Claim–Evidence Ledger & Structural Verification Scorecard), J (Proposed Devices & Analog Systems A–K),
+ *   K (Unified Solutions to Seven Open Problems in Physics), L (Speculative Portal Concepts, Category D)
  *
  * Strictly adheres to:
  * - Zero LaTeX syntax anywhere in UI/HTML strings
@@ -426,7 +426,7 @@ export const H12_CHAPTERS: H12Chapter[] = [
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
           'A persistent misconception conflates non-singular regular black holes (such as the H11 Hayward (2006) [6] metric f(r) = 1 − 2GMr² / (r³ + 2GMℓ_0²) with derived UV ratio ξ_0 ≡ ℓ_0 / ℓ_Pl = 2⁻¹/⁴ ≈ 0.840896, denoted σ_0 in pre-harmonized drafts [1]) with traversable wormholes [8]. Exact null-vector Einstein-tensor contractions prove this mathematically false — establishing unconditionally that 4D Hayward regular black holes are NOT traversable portals, because the negative theorems rule out physical portals.',
-          'Explicit Null Contraction k^μ k^ν G_μν & Core Arithmetic: For static metric ds² = −f(r) c² dt² + f(r)⁻¹ dr² + r² dΩ², contracting any radial null vector k^μ = (f⁻¹/², ±f¹/², 0, 0) yields k^μ k^ν G_μν = G^r_r − G^t_t = 0 identically for every f(r) (since G^t_t = G^r_r = (r f\' + f − 1)/r² ⇒ p_r = −ρ c² ⇒ ρ c² + p_r = 0, zero radial flare-out). Contracting a transverse null vector k^μ_⊥ = (f⁻¹/², 0, r⁻¹, 0) yields k^μ_⊥ k^ν_⊥ G_μν = G^θ_θ − G^t_t = 8πG(ρ + p_⊥)/c²; differentiating f(r) = 1 − r_s r²/(r³ + a³) (a³ ≡ r_s ℓ_0²) gives f\'(r) = r_s r(r³ − 2a³)/(r³ + a³)² and G^θ_θ = (r f\'\' + 2f\')/(2r) = 3 r_s a³ (2 r³ − a³)/(r³ + a³)³, producing strictly positive transverse null contraction G^θ_θ − G^t_t = 9 r_s a³ r³ / (r³ + a³)³ > 0 for every r > 0 (verified numerically in Assertion 69; Raychaudhuri null focusing dθ/dλ < 0 in Assertion 75). Across mass M, extremal critical mass M_crit = (3√3/4) c² ℓ_0 / G = 2.3774 × 10⁻⁸ kg (23.7744 μg; Assertion 85) separates horizonless de Sitter solitons (M < M_crit, min f(r) > 0) from regular two-horizon black holes (M > M_crit); both satisfy ρ + p_r = 0 without portal formation. For a M = 30 M_⊙ remnant (r_s = 8.8599 × 10⁴ m, ℓ_0 = 1.3591 × 10⁻³⁵ m, r_core = 2.5389 × 10⁻²² m), WKB echo amplitude K_echo = 0.184 remains strictly tied to exterior ringdown reflections without interior wormhole transit.'
+          'Explicit Null Contraction k^μ k^ν G_μν & Core Arithmetic: For static metric ds² = −f(r) c² dt² + f(r)⁻¹ dr² + r² dΩ², contracting any radial null vector k^μ = (f⁻¹/², ±f¹/², 0, 0) yields k^μ k^ν G_μν = G^r_r − G^t_t = 0 identically for every f(r) (since G^t_t = G^r_r = (r f\' + f − 1)/r² ⇒ p_r = −ρ c² ⇒ ρ c² + p_r = 0, zero radial flare-out). Contracting a transverse null vector k^μ_⊥ = (f⁻¹/², 0, r⁻¹, 0) yields k^μ_⊥ k^ν_⊥ G_μν = G^θ_θ − G^t_t = 8πG(ρ + p_⊥)/c²; differentiating f(r) = 1 − r_s r²/(r³ + a³) (a³ ≡ r_s ℓ_0²) gives f\'(r) = r_s r(r³ − 2a³)/(r³ + a³)² and G^θ_θ = (r f\'\' + 2f\')/(2r) = 3 r_s a³ (2 r³ − a³)/(r³ + a³)³, producing strictly positive transverse null contraction G^θ_θ − G^t_t = 9 r_s a³ r³ / (r³ + a³)³ > 0 for every r > 0 (verified numerically in Assertion 69; Raychaudhuri null focusing dθ/dλ < 0 in Assertion 75), while the core Kretschmann invariant K_Hay(0) = 24 / ℓ_0⁴ = 7.0340 × 10¹⁴⁰ m⁻⁴ remains strictly finite (Assertion 87). Across mass M, extremal critical mass M_crit = (3√3/4) c² ℓ_0 / G = 2.3774 × 10⁻⁸ kg (23.7744 μg; Assertion 85) separates horizonless de Sitter solitons (M < M_crit, min f(r) > 0) from regular two-horizon black holes (M > M_crit); both satisfy ρ + p_r = 0 without portal formation. For a M = 30 M_⊙ remnant (r_s = 8.8599 × 10⁴ m, ℓ_0 = 1.3591 × 10⁻³⁵ m, r_core = 2.5389 × 10⁻²² m), WKB echo amplitude K_echo = 0.184 remains strictly tied to exterior ringdown reflections without interior wormhole transit.'
         ],
         equation: {
           label: '(5.1)',
@@ -477,13 +477,13 @@ export const H12_CHAPTERS: H12Chapter[] = [
         category: 'CATEGORY B — DERIVED',
         paragraphs: [
           'Working in the static orthonormal frame e^t̂ = c dt, e^r̂ = (1 − b(r)/r)⁻¹/² dr, e^θ̂ = r dθ, e^φ̂ = r sinθ dφ for zero-tidal-force metric with Ellis–Bronnikov shape b(r) = r_0² / r, Einstein equations yield (8πG/c⁴)(ρ c²) = b\'/r² = −r_0²/r⁴, (8πG/c⁴) p_r = −b/r³ = −r_0²/r⁴, and (8πG/c⁴) p_⊥ = ½(b/r³ − b\'/r²) = +r_0²/r⁴. Summing radial stress gives strict NEC violation everywhere: ρ c² + p_r = (c⁴/8πG)(r b\' − b)/r³ = −(c⁴/4πG)(r_0²/r⁴) < 0.',
-          'Executing all 10 Morris–Thorne conditions (linked directly to the throat embedding in Figure H12-6): (1) Horizonless zero redshift (Φ = 0); (2) Minimal-radius flare-out b(r_0) = r_0, b\'(r_0) = −1 < 1; (3) Smooth proper radial coordinate l(r) = ±√(r² − r_0²); (4) Throat NEC deficit (ρc² + p_r)|_{r_0} = −c⁴/(4πG r_0²); (5) Radial tension τ(r) = −p_r = ρc²; (6) Exact spatial exotic-energy integral via trigonometric substitution r = r_0 sec(u), √(1 − r_0²/r²) = sin(u), dr = r_0 (sin u / cos²u) du: substituting (ρc² + p_r) = −(c⁴/4πG) cos⁴(u)/r_0², proper spherical shell factor 4π r² / √(1 − b/r) = 4π r_0² / (cos²u sin u), and dr multiplies to integrand (−c⁴ r_0 / G) du identically across u ∈ [0, π/2], integrating cleanly to E_exotic(r_0) = −(π/2)(c⁴/G) r_0 (verified to < 10⁻⁴ by 1,000-step trapezoidal quadrature in verify-igrt-h12.mjs). Conditions (7)–(10) fix stiffness ∂p_r/∂ρ > 1, zero radial tide, transverse traveler tide Δa_⊥ = γ² v² |R_{\hat\theta\hat r\hat\theta\hat r}(r_0)| Δξ = γ² v² (1 − b\'(r_0)) Δξ / (2 r_0²) = γ² v² Δξ / r_0² (where |R_{\hat\theta\hat r\hat\theta\hat r}| = |r b\' − b|/(2 r³) = 1/r_0² at b\'(r_0) = −1, Assertion 81 [8]), and traversal duration τ_trav = 20 r_0 / (γ v).'
+          'Executing all 10 Morris–Thorne conditions (linked directly to the throat embedding in Figure H12-6): (1) Horizonless zero redshift (Φ = 0); (2) Minimal-radius flare-out b(r_0) = r_0, b\'(r_0) = −1 < 1; (3) Smooth proper radial coordinate l(r) = ±√(r² − r_0²); (4) Throat NEC deficit (ρc² + p_r)|_{r_0} = −c⁴/(4πG r_0²); (5) Radial tension τ(r) = −p_r = ρc²; (6) Exact spatial exotic-energy integral via trigonometric substitution r = r_0 sec(u), √(1 − r_0²/r²) = sin(u), dr = r_0 (sin u / cos²u) du: substituting (ρc² + p_r) = −(c⁴/4πG) cos⁴(u)/r_0², proper spherical shell factor 4π r² / √(1 − b/r) = 4π r_0² / (cos²u sin u), and dr multiplies to integrand (−c⁴ r_0 / G) du identically across u ∈ [0, π/2], integrating cleanly to E_exotic(r_0) = −(π/2)(c⁴/G) r_0 (verified to < 10⁻⁴ by 1,000-step trapezoidal quadrature in verify-igrt-h12.mjs). Conditions (7)–(10) fix stiffness ∂p_r/∂ρ > 1, zero radial tide, transverse traveler tide Δa_⊥ = γ² v² |R_{θrθr}(r_0)| Δξ = γ² v² (1 − b\'(r_0)) Δξ / (2 r_0²) = γ² v² Δξ / r_0² in the orthonormal tetrad (where |R_{θrθr}| = |r b\' − b|/(2 r³) = 1/r_0² at b\'(r_0) = −1, Assertion 81 [8]), and traversal duration τ_trav = 20 r_0 / (γ v).'
         ],
         equation: {
           label: '(6.1)',
           category: 'CATEGORY B — DERIVED',
           unicodeHtml:
-            '<i>E</i><sub>exotic</sub>(<i>r</i><sub>0</sub>) = −(π/2) (<i>c</i><sup>4</sup> / <i>G</i>) <i>r</i><sub>0</sub>, &nbsp;&nbsp; Δ<i>a</i><sub>⊥</sub> = γ<sup>2</sup> <i>v</i><sup>2</sup> (1 − <i>b</i>′(<i>r</i><sub>0</sub>)) Δξ / (2 <i>r</i><sub>0</sub><sup>2</sup>) = γ<sup>2</sup> <i>v</i><sup>2</sup> Δξ / <i>r</i><sub>0</sub><sup>2</sup>',
+            '<i>E</i><sub>exotic</sub>(<i>r</i><sub>0</sub>) = −(π/2) (<i>c</i><sup>4</sup> / <i>G</i>) <i>r</i><sub>0</sub>, &nbsp;&nbsp;&nbsp; Δ<i>a</i><sub>⊥</sub> = γ<sup>2</sup> <i>v</i><sup>2</sup> (1 − <i>b</i>′(<i>r</i><sub>0</sub>)) Δξ / (2 <i>r</i><sub>0</sub><sup>2</sup>) = γ<sup>2</sup> <i>v</i><sup>2</sup> Δξ / <i>r</i><sub>0</sub><sup>2</sup>',
           plainText: 'E_exotic = -(pi/2)(c^4/G) r_0, Delta a_perp = gamma^2 v^2 (1 - b\'(r_0)) Delta xi / (2 r_0^2) = gamma^2 v^2 Delta xi / r_0^2',
           caption: 'Exact Morris–Thorne exotic negative-energy budget and orthonormal-Riemann transverse traveler tidal stress at b\'(r_0) = −1.'
         }
@@ -927,11 +927,11 @@ export const H12_FRONTMATTER_TABLES_LIST: Array<{ id: string; title: string; loc
   { id: 'Table 12.12', title: 'Summary of Passive Folding Bounds for Protocol P13', location: 'Ch. 12 (§12.3)' },
   { id: 'Table 13.1', title: 'Twelve Research Extrapolations & Open Obstacles', location: 'Ch. 13 (§13.4)' },
   { id: 'Table 13.2', title: 'Seven Fundamental Problems in Physics Solved or Revolutionized by IGRT–H12', location: 'Ch. 13 (§13.5)' },
-  { id: 'Table I.1', title: 'Five-Tier Assessment of Eleven Candidate Portal Mechanisms', location: 'Appendix I' },
+  { id: 'Table I.1–I.2', title: 'Structural Verification Scorecard (10 Domains + 16 Red-Team Attacks)', location: 'Appendix I' },
   { id: 'Table J.1', title: 'Proposed Devices & Analog Systems A–K Master Ten-Field Specifications', location: 'Appendix J' },
   { id: 'Table J.2', title: 'Cross-Device Sensitivity, Readiness & Discovery Horizon Matrix (Devices A–K)', location: 'Appendix J' },
   { id: 'Table K.1', title: 'Unified Solutions to Seven Open Problems in Physics (Category B/C Closures)', location: 'Appendix K' },
-  { id: 'Table L.1–L.2', title: 'Structural Verification Scorecard (10 Domains + 16 Red-Team Attacks)', location: 'Appendix L' }
+  { id: 'Table L.1', title: 'Five-Tier Assessment of Eleven Candidate Speculative Portal Concepts', location: 'Appendix L' }
 ];
 
 export const H12_FRONTMATTER_EQUATIONS_LIST: Array<{
@@ -1017,7 +1017,7 @@ export function buildH12FullMarkdown(): string {
       lines.push('#### Table 1.3 · Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas)');
       lines.push(
         toMdTable(
-          ['Boundary Case', 'Derived Core', 'Conjectural Premise', 'Assigned Category & Rule'],
+          ['Boundary Case', 'Derived Core', 'Conjectural Premise', 'Assigned Category & Boundary Rule'],
           EPISTEMIC_BC_GREY_AREA_RUBRIC.map((r) => [
             r.boundaryCase,
             r.derivedAspect,
@@ -1029,7 +1029,7 @@ export function buildH12FullMarkdown(): string {
       lines.push('');
     }
     if (ch.number === 2) {
-      lines.push('### Timeline of 5D Physics');
+      lines.push('### Timeline of 5D Physics (1921–2026)');
       lines.push(
         toMdTable(
           ['Year', 'Milestone', 'Contribution to IGRT-H12'],
@@ -1402,11 +1402,29 @@ export function buildH12FullMarkdown(): string {
       lines.push('');
     });
     if (app.letter === 'I') {
-      lines.push('#### Table I.1 · Eleven Portal Mechanisms');
+      lines.push('#### Table I.1 · Ten-Domain Structural Verification Audit');
       lines.push(
         toMdTable(
-          ['Mechanism', 'Feasibility Tier', 'Physical Action', 'Category', 'Quantitative Obstacle / Limit'],
-          ELEVEN_PORTAL_MECHANISMS.map((m) => [m.mechanism, m.tier, m.physicalAction, m.category, m.quantitativeObstacleOrLimit])
+          ['Domain', 'Self-Contained', 'Applicable', 'Verdict'],
+          H12_TEN_DOMAIN_AUDITS.map((d) => [
+            `${d.domainNumber}: ${d.domainName}`,
+            `${d.selfContainedPoints}/${d.maxPoints}`,
+            `${d.applicablePoints}/${d.maxPoints}`,
+            d.verdict
+          ])
+        )
+      );
+      lines.push('');
+      lines.push('#### Table I.2 · Sixteen Stress-Test Evaluations');
+      lines.push(
+        toMdTable(
+          ['ID', 'Challenge', 'Score', 'Resolution'],
+          H12_SIXTEEN_REDTEAM_ATTACKS.map((a) => [
+            a.id,
+            a.attackTitle,
+            `${a.pointsAwarded}/${a.maxPoints}`,
+            a.h12ResolutionAndCitation
+          ])
         )
       );
       lines.push('');
@@ -1477,29 +1495,11 @@ export function buildH12FullMarkdown(): string {
       lines.push('');
     }
     if (app.letter === 'L') {
-      lines.push('#### Table L.1 · Ten-Domain Structural Verification Audit');
+      lines.push('#### Table L.1 · Eleven Speculative Portal Concepts');
       lines.push(
         toMdTable(
-          ['Domain', 'Self-Contained', 'Applicable', 'Verdict'],
-          H12_TEN_DOMAIN_AUDITS.map((d) => [
-            `${d.domainNumber}: ${d.domainName}`,
-            `${d.selfContainedPoints}/${d.maxPoints}`,
-            `${d.applicablePoints}/${d.maxPoints}`,
-            d.verdict
-          ])
-        )
-      );
-      lines.push('');
-      lines.push('#### Table L.2 · Sixteen Stress-Test Evaluations');
-      lines.push(
-        toMdTable(
-          ['ID', 'Challenge', 'Score', 'Resolution'],
-          H12_SIXTEEN_REDTEAM_ATTACKS.map((a) => [
-            a.id,
-            a.attackTitle,
-            `${a.pointsAwarded}/${a.maxPoints}`,
-            a.h12ResolutionAndCitation
-          ])
+          ['Concept', 'Feasibility Tier', 'Physical Action', 'Category', 'Quantitative Obstacle / Limit'],
+          ELEVEN_PORTAL_MECHANISMS.map((m) => [m.mechanism, m.tier, m.physicalAction, m.category, m.quantitativeObstacleOrLimit])
         )
       );
       lines.push('');

@@ -1,0 +1,24 @@
+        IGRT-2026-H12 · Complete Research Monograph (Chapters 1–13 & Consolidated Appendices A–L) ·
+        November 2026
+        Folding Time Across Hidden
+        Dimensions: Fifth-Dimensional
+        Resonant Geometry, Mathematical
+        Portals, and the Limits of Spacetime
+        Shortcuts
+        From Cosmic Wormholes and Black-Hole Cores to Everyday Double-Slit Interference —
+        A Rigorous Follow-Up Monograph Extending Information-Geometric Resonant Time
+        (IGRT-2026-H11)
+        AUTHORS
+        Jean-Charles Tassan
+         Laboratory of Resonant Epistemology & Open Quantum Systems
+         ORCID: https://orcid.org/0009-0000-8566-0486
+        Marlon D. Bulaqueña
+         Department of Theoretical Physics, Extended Gravity Research Program
+         ORCID: https://orcid.org/0009-0007-3966-0494
+        Wilson John Sterking Lauret
+         Extended Gravity & Quantum Information Metrology Consortium
+         ORCID: https://orcid.org/0009-0004-7889-6641
+          Predecessor Preserved: IGRT-2026-H11 (Harmonized 4D Research Monograph)
+          Verification Solver: node scripts/verify-igrt-h12.mjs
+          Epistemic Discipline: Category A (Established) · B (Derived) · C (Conjectural) · D
+          (Speculative)

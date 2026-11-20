@@ -1,0 +1,35 @@
+              IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+              Foundational Five-Dimensional
+              Equations (Category C) & Scope
+              Eqs. (H12.0.1) and (H12.0.2) are postulated, not derived. They define the
+              5D hypothesis. No physical mechanism is currently known that could
+              produce the asymmetric warp required for shortcuts.
+                          2     2αk|y|      2   2      −2α k|y|    (3)   i   j         2       2                  (α + α )k|y|
+                                   t                       x                                                        t   x
+                      ds  = e          (−c  dt ) + e            g     dx dx + Φ         (x) dy , c    (y) = c · e
+                         5                                        ij                rad            eff
+                        (H12.0.1) [CATEGORY C — CONJECTURAL] — Assumed generalized 5D warped bulk metric ansatz
+                    (Category C: postulated geometry, not unconditionally derived from a vacuum action) reducing smoothly
+                        to H11 4D geometry on y = 0; conformal RS case α  = −1, α  = +1 yields c (y) = c identically, while
+                                                                           t       x             eff
+                                       asymmetric bulk α  + α  > 0 requires bulk anisotropic stress-energy.
+                                                          t    x
+                                                              QFI  i  j         −1            A B
+                       dτ     = [ ℏ / (E     · σ (K )) ] √(g      θ̇  θ̇ ) dλ = c   √(−G  Ẋ  Ẋ ) dλ, η       ≡ Δτ  / Δτ
+                          obs           mod     1   ξ        ij                           AB               fold     5      4
+                     (H12.0.2) [CATEGORY C — CONJECTURAL] — Five-dimensional lift of the H11 clock relation defining the
+                    folding ratio η   ≡ Δτ  / Δτ  (Category C: η   is a mathematical definition built on the postulated 5D bulk
+                                  fold     5    4              fold
+                                                   extension, not an unconditional derivation).
+              Epistemic Boundaries, Preserved H11 Foundations & Explicit
+              Non-Claims
+                • H11 Integrity Preserved: Nothing in H12 alters, retracts, or invalidates the 4D
+                predictions of IGRT-2026-H11 (verified by 665 assertions in
+                scripts/verify-igrt-monograph.mjs). H11 remains the exact effective 4D low-energy
+                limit (E ≪ 4.485 meV) of H12.
+                • Fifth Dimension Status (Category C): H12 treats the physical fifth dimension y as a
+                mathematically consistent, conditionally falsifiable theoretical extension—NOT an
+                established experimental fact.
+                • No Free Wormholes, Perpetual Free Energy, or Warp Drives (Category B Negative
+                Theorems): Ordinary 4D Hayward regular black holes do NOT violate NEC and are
+                                                                 Page 13 of 214

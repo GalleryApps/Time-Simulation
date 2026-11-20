@@ -1,0 +1,43 @@
+              IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+                                                                                                                        71
+               Theorem 6.1 (Ch. 6 (§6.2), CATEGORY B — DERIVED): Morris–Thorne Exotic Mass & 10
+               Casimir Energy Deficit Theorem
+               Theorem 7.1 (Ch. 7 (§7.1), CATEGORY B — DERIVED): SLD Fisher–Englert Complementarity
+                            2        2
+               Identity (V  + D        = 1 Independent of y)
+                                  QFI
+               No-Signaling Theorem 8.1 (Ch. 8 (§8.1), CATEGORY A — ESTABLISHED): AQFT 5D
+               Microcausality Preservation of Quantum No-Communication
+              List of Formal Definitions
+               Def 1.1 (5D Principal Bundle P ): Bundle π : P  → M  = M  × K  with fiber PU(H) orthogonal
+                                                   5              5   5      5      4     1
+               to ∂/∂y.
+               Def 3.1 (Temporal Folding Ratio η           ): Coordinate-invariant comparison η            ≡ Δτ  / Δτ
+                                                        fold                                           fold     5     4
+               between bulk trajectory τ  and brane reference τ  connecting shared events A, B ∈ M .
+                                             5                            4                                          4
+                                                                                               2α k |y|           (4)
+                                                                                                 t
+               Def 3.2 (Temporal Folding Tensor ℱ ): Tensorial measure ℱ  ≡ e                         G  − g         of
+                                                          AB                           AB               AB     AB
+               warped proper-time departure from the brane.
+               Def 4.1 (Effective Bulk Coordinate Speed c (y)): Coordinate propagation rate c (y) = c ·
+                                                                  eff                                         eff
+                (α  + α ) k |y|               2
+                  t   x
+               e             preserving ds  = 0 locally.
+                                             5
+               Def 6.1 (Morris–Thorne Flare-Out Condition): Throat boundary b(r ) = r , b'(r ) < 1 forcing
+                                                                                              0     0      0
+                                                  2
+               negative radial null stress (ρc  + p )|  < 0.
+                                                        r  r
+                                                            0
+               Def 7.1 (Helstrom QFI Path Distinguishability): Trace-distance path measure D                     = √(1 −
+                                                                                                             QFI
+                        2
+               |⟨d |d ⟩| ) paired with visibility V = |⟨d |d ⟩|.
+                  1   2                                     1   2
+               Def 1.2 (Four-Tier Epistemic Taxonomy (A–D)): Classification separating Established (A),
+               Derived (B), Conjectural (C), and Speculative Engineering (D) claims.
+                                                              Page 12 of 214

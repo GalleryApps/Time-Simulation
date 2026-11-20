@@ -1,0 +1,63 @@
+             IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+                                                                                                 (1)
+             inside the 44 μm EFT whereas 77 K and 300 K exceed m                                    by factors 1.48
+                                                                                              KK
+             and 5.76 (Table 2.2).
+                                                                                    1
+               Worked Example 2.1 — Exact Eöt-Wash Floor, S /ℤ  Orbifold,
+                                                                                        2
+               Non-Perturbative Regulators & Thermal Sweep
+                                                 1            1
+               Compute m ^(1..3), M (S ) & M (S /ℤ ), M                         , and δ      across UV regulators
+                             KK              5            5       2     5warped          KK
+               and 4 K / 77 K / 300 K.
+                                                                   (1)                                             (2)
+                1. KK ladder & ±2 μm propagation: m                   =4.485 (+0.214/−0.195) meV; m                   =
+                                                                KK                                              KK
+                                    (3)
+                8.969 meV; m           = 13.454 meV.
+                                 KK
+                                                                           1                                    8
+                2. Compactification & orbifold floors: M (S ) = 2.985 (±0.045) × 10                               GeV;
+                                                                       5
+                      1           1/3       1                   8                            18
+                M(S /ℤ ) = 2         M(S ) = 3.761 × 10 GeV; warped (k = 10                     GeV, kπR = 35) ⇒
+                  5       2             5                                                                   5
+                               18
+                1.8101 × 10  GeV.
+                                                                             −14                                   −14
+                3. UV regulators at E = 1 neV: Tree (4.972 × 10                  ), Pauli–Villars (4.972 × 10          ),
+                                               −14                                 −16                             −15
+                Heat-Kernel (4.972 × 10            ), FRG Litim (3.149 × 10            ), MS-bar (9.645 × 10           ),
+                                               −14
+                KK ζ(2) sum (8.179 × 10            ).
+                                                                                   −3
+                4. Thermal & clock sweep: δ(4 K LHe) = 5.873 × 10                      (safe); 77 K (1.48×) & 300
+                                                   (1)
+                K (5.76×) probe above m              ; warped 1 TeV suppresses 1 eV / Th-229 to 1.000 ×
+                                                KK
+                   −24                 −23
+                10      / 6.981 × 10       .
+                                                 −14                        −16       1                      8
+                   δ (1 neV) = 4.972 × 10           , δ     = 3.149 × 10       , M (S /ℤ ) = 3.761 × 10  GeV
+                     KK                                FRG                         5      2
+                    (2.2) [CATEGORY B — DERIVED] — Multi-regulator & orbifold verification output of verify-igrt-h12.mjs
+                                             confirming complete invariance of H11 closures.
+               Takeaway: Every verified H11 cosmological, optical-clock, and Araki
+               coupling closure remains invariant across perturbative and
+               non-perturbative UV frameworks.
+               Table 2.1 · Structured Catalog of All 665 Verified IGRT-H11 Assertions
+               Verification Group            Count       Verified Physical & Mathematical Scope
+                                                                                    −21    −1
+               A. CODATA 2022 Constants,     18          ℓ , τ , M , κ  = 2.1727 × 10   GeV , and H  ∈ [67.4, 73.0] km
+                                                         Pl  0   Pl  ψ                              0
+                                                          −1    −1
+               Araki Coupling κ  &                       s   Mpc  solar/terrestrial Z  & PPN checks.
+                              ψ                                                     ψ
+               Vainshtein Screening
+               B. Klein–Gordon PNGB Dark     24          RK4 integration of (w , w ) = (−0.831, −0.542), n  = 0.9637, r <
+                                                                             0  a                      s
+               Energy, Bounce Cosmology                  0.03, R  = 1.028 μm SiO  collapse, and ULDM λ .
+                                                               0                2                     dB
+               & ULDM / Nano-Sphere DP
+                                                            Page 35 of 214

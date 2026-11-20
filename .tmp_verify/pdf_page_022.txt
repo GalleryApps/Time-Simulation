@@ -1,0 +1,44 @@
+           IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+           [CATEGORY B — DERIVED]
+            Boundary Theorem 1.1: Low-Energy Decoupling, Non-Perturbative UV
+            Regulators & H11 Equivalence
+             • Fifth coordinate compactification or AdS       warp scale satisfies Eöt-Wash
+                                                            5
+                                                           (1)
+             torsion-balance constraint R  ≤ 44 ± 2 μm (m     ≥ 4.485 meV).
+                                        5                KK
+             • Radion Φ        is  stabilized above meV scales via Goldberger–Wise or
+                          rad
+             Chameleon/Vainshtein potential with spectral gap m  ≥ 4.485 meV.
+                                                               1
+                                                                           2 −1          (1)2
+            By the exact Sturm–Liouville resolvent bound ‖(−□ + m ) ‖ ≤ (m                   −
+                                                                   4      1            KK
+             2 −1                                                                           (1)
+            E )  , all laboratory and astrophysical processes within H11 domain E ≪ m
+                                                                                          KK
+            suppress Kaluza–Klein graviton and Araki-scalar form-factor corrections
+                                           −14                                            −14
+            uniformly below 8.179 × 10         at 1 neV across tree-level (4.972 × 10        ),
+                                      −14                                       −15
+            Heat-Kernel (4.972 × 10      ), Pauli–Villars, MS-bar (9.645 × 10      ), and FRG
+                                 −16
+            Litim (3.149 × 10       ) UV regulators, preserving all 665 H11 assertions
+            unaltered.
+           1.3 Twenty Explicit Epistemic Boundaries & Foundational
+           Non-Claims
+           [CATEGORY A — ESTABLISHED]
+           To eliminate any ambiguity regarding 5D bulk observability—distinguishing
+           invariant physical temporal folding from coordinate gauge choices—the
+           following twenty numbered safeguards (Safeguard 1 through Safeguard 20)
+           govern every theorem, protocol, and appendix in IGRT-2026-H12 and may be
+           cited by safeguard number throughout Chapters 2–13:
+           Safeguard 1. The 5D extension is a mathematical hypothesis, not an
+           experimentally established fact.
+           Safeguard 2. No 5D phenomenon has been observed.
+           Safeguard 3. The H12 results do not alter H11; they extend it.
+           Safeguard 4. The H11 protocols P1–P6 test 4D physics only; they do not
+           confirm 5D.
+           Safeguard 5. Protocols P7–P10 test the existence of a 5D bulk, not the folding
+           mechanism.
+                                               Page 22 of 214

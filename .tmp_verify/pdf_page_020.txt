@@ -1,0 +1,53 @@
+          IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+          1.2 EFT Transition Thresholds, Perturbative Axiom
+          Preservation Proof & SHA-256 Locking
+          [CATEGORY B — DERIVED]
+          Why Heavy Extra Dimensions Cannot Disturb Low-Energy Experiments:
+          Before exploring five-dimensional geometry, a critical consistency check must
+          succeed: adding a hypothetical fifth dimension cannot break any established
+          four-dimensional triumph already proven in IGRT-2026-H11 [1]. Think of a
+          massive bell requiring a sharp 4.485 millielectronvolt hammer strike to emit
+          its lowest note; a gentle 1 nanoelectronvolt atomic-clock tap carries less than
+          one-millionth of the energy needed to ring that bell. In quantum field theory,
+          this intuitive barrier is formalized by the Appelquist–Carazzone decoupling
+                                                                               (1)
+          theorem: any Kaluza–Klein excitation whose mass threshold m             = ℏc/R
+                                                                             KK          5
+          lies above the experimental probe energy E freezes out of real production and
+                                                                 (1) 2
+          leaves only tiny virtual corrections scaling as (E / m   ) .
+                                                              KK
+          Exact Dimensional Reduction Scale Hierarchy & SHA-256 Preregistration
+          Lock: H11 [1] excludes extra spatial dimensions from its scope and carries a
+          preregistration SHA-256 digest
+          (57cf3f1cef74a45cd936663f1b017212e2f64b1bee05f55cdff9068a2b05048d)
+          locked prior to 2026–2036 empirical runs P1–P6. To guarantee permanent
+          immutability against software updates, scripts/verify-igrt-h12.mjs
+          automatically reads src/types/harmonizedPaperApparatus.ts on every
+          execution and asserts verbatim match with that 64-character hex digest.
+                                                                  2              3
+          Matching the 5D Einstein–Hilbert Planck integral M        = 2π R M (on flat
+                                                                 Pl         5   5
+           1        3
+          S ) or M /k (on warped AdS ) sets the Lorentz-invariant effective-field-theory
+                   5                    5
+                                                                     (1)                (1)
+          hierarchy: The H11 low-energy limit is exact at E ≪ m        . Below E ≪ m
+                                                                  KK                  KK
+          ≡ ℏc/R ≥ 4.485 meV (Eöt-Wash limit R ≤ 44 μm [5]), bulk KK modes stay
+                 5                                  5
+                                     (1)
+          strictly virtual; above m    , discrete KK gravitons propagate until 5D gravity
+                                  KK
+                                                                    8           1
+          encounters its perturbative UV cutoff M (≥ 2.985 × 10 GeV flat S , 3.761 ×
+                                                   5
+            8                 1                     18
+          10 GeV orbifold S /ℤ , or 1.8101 × 10        GeV warped AdS [2]), stabilized
+                                 2                                       5
+          dynamically by a Goldberger–Wise radion mass [21].
+          Non-Perturbative Resolvent, Explicit KK Correction Summation & Axiom
+          Stability Proof: Spectral decomposition of the positive self-adjoint bulk
+          Laplacian on M × K under Dirichlet/Neumann orbifold boundary conditions
+                          4     1
+                                            Page 20 of 214

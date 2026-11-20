@@ -1,0 +1,52 @@
+           IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+           Abstract
+           Picture our everyday universe—three directions of space plus time—as a thin
+           four-dimensional sheet floating inside a possible hidden fifth dimension. In our companion
+           work IGRT-2026-H11, clocks and quantum measurements follow precise mathematical
+           laws strictly on that four-dimensional sheet. Here, IGRT-2026-H12 asks whether stepping
+           off our sheet into an unseen fifth spatial coordinate y could ever fold proper time, shorten
+           cosmic travel, or turn black holes and entangled particles into "portals"—defined
+           rigorously throughout this work as mathematical connections, never macroscopic
+           traversable wormholes.
+           Across 13 chapters and Consolidated Appendices A–L, our headline conclusion for both
+           general readers and physicists is clear: no 5D phenomenon has been observed, everyday
+           four-dimensional H11 physics stays completely unchanged below 4.485 meV (R ≤ 44 μm),
+                                                                                          5
+           and our strongest results are Category B negative proofs that rule out popular
+                                                                            1
+           extra-dimensional myths. Ordinary flat extra dimensions (M × S ) strictly slow light down
+                                                                      4
+           (L /L = 1.001249), standard symmetric Randall–Sundrum warped bulks keep light speed
+             5  4
+           unchanged everywhere (c (y) = c; Horizon Theorem Δt /Δt            = 1.010321), regular
+                                      eff                               5   4
+           Hayward black holes are sealed objects rather than portals, and holding open a
+                                               71
+           macroscopic wormhole requires 10      times more negative energy than physical vacuum
+           fluctuations can supply.
+           Faster bulk paths through a fifth dimension (Beltrami ratios η    =0.86634..0.07770 and
+                                                                         fold
+           finite-span Einstein–Maxwell 0.84147, horizon limit 2/π = 0.63662) appear strictly as
+           Category C (Conjectural) geometric classifications assuming an unobserved asymmetric
+           warp; no physical mechanism is currently known that could produce the asymmetric warp
+                                                                                  2       2
+           required for shortcuts. Meanwhile, double-slit wave–particle duality (V + D     =1)lives
+                                                                                       QFI
+           inside quantum state space independently of 5D, the Born rule remains a Category A
+           postulate,  and entanglement still      forbids  faster-than-light  communication.    Real
+           experiments separate cleanly into bulk searches (P7–P10), presently unattainable active
+           folding tests (P11–P12), and a passive neutron-star merger arrival bound (Protocol P13,
+                GW−EM                    −16
+           |η         −1| ≤ 4.129 × 10      ). Eleven laboratory devices and analog systems (Devices
+             fold
+           A–K, Appendix J)—spanning atomic QFI clocks, Casimir vacuum harvesters, photonic
+           portal cavities, Deutsch closed-time-loop emulators, and Unruh thermal engines—pair
+           exact equations with strict non-overclaiming boundaries, while §13.5 and Appendix K
+           summarize how Eqs. (H12.0.1)–(H12.0.2) unify seven core open problems in modern
+           physics. Protocol P13 is a passive bound from existing data, not an active test of the
+           folding mechanism. No active test of the folding mechanism is currently feasible.
+           Keywords: Information-Geometric Resonant Time (IGRT) · 5D Warped Kaluza–Klein & Brane Geometry ·
+           Modular Time & Temporal Folding · Beltrami Geodesic Shortcuts (Category C) · Hayward Regular Black
+           Holes & Gregory–Laflamme Instability · Morris–Thorne Traversable Wormholes & Null Energy Condition ·
+           SLD Quantum Fisher Information & Wave–Particle Duality · Falsification Protocols P7–P13
+                                                  Page 2 of 214

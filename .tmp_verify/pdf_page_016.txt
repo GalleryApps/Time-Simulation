@@ -1,0 +1,44 @@
+              IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+                Table 1.3 · Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas) (continued)
+                Boundary Case            Derived Core (Cat. B)            Conjectural Premise (Cat.        Assigned Category
+                                                                          C)                               & Boundary Rule
+                2. Eq. (H12.0.2)         Coordinate-invariant ratio of    Elevates the lift onto an        CATEGORY C —
+                Temporal Folding         line-element arc lengths well    unobserved fifth dimension       CONJECTURAL —
+                Ratio η    ≡ Δτ  /       defined on any Lorentzian        into a candidate clock law       Boundary Rule:
+                       fold    5
+                Δτ                       manifold.                        without dynamical 5D action      Axiomatic definitions
+                  4
+                                                                          derivation.                      referencing unproven
+                                                                                                           extra coordinates
+                                                                                                           carry Category C
+                                                                                                           classification. Why it
+                                                                                                           applies: Naming an
+                                                                                                           invariant proper-time
+                                                                                                           ratio stays empirically
+                                                                                                           hypothetical until both
+                                                                                                           the fifth coordinate y
+                                                                                                           and the 5D clock
+                                                                                                           coupling are
+                                                                                                           independently
+                                                                                                           established.
+                3. 5D Hayward Black      GL instability at r /R   =       Direct transfer to coupled       CATEGORY C —
+                                                          + AdS
+                Strings &                0.876 is rigorously derived      Hayward–Araki stress-energy      CONJECTURAL —
+                Gregory–Laflamme         for linearized 5D                with Weyl charge q      is       Boundary Rule:
+                                                                                             tidal
+                Threshold (0.876)        Schwarzschild–AdS strings.       assumed without numerical        External literature
+                                                                          5D PDE evolution.                thresholds applied to
+                                                                                                           coupled matter
+                                                                                                           sectors without fresh
+                                                                                                           variation remain
+                                                                                                           Category C. Why it
+                                                                                                           applies: Importing a
+                                                                                                           linearized vacuum
+                                                                                                           black-string
+                                                                                                           eigenvalue cannot
+                                                                                                           substitute for solving
+                                                                                                           the full non-linear
+                                                                                                           coupled
+                                                                                                           Hayward–Araki–Weyl
+                                                                                                           pinching equations.
+                                                                 Page 16 of 214

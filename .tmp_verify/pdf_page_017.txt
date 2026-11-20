@@ -1,0 +1,50 @@
+               IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+                 Table 1.3 · Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas) (continued)
+                Boundary Case             Derived Core (Cat. B)             Conjectural Premise (Cat.          Assigned Category
+                                                                            C)                                 & Boundary Rule
+                4. 5D Radion              4D H11 Galileon Z  = 7.05 ×       5D radion Φ      is assumed to     CATEGORY C —
+                                                             ψ                           rad
+                                             14
+                Vainshtein /              10  and Cassini bounds are        acquire an analogous               CONJECTURAL —
+                Goldberger–Wise           derived cleanly inside 4D         potential avoiding sub-44 μm       Boundary Rule:
+                Screening                 Horndeski EFT.                    fifth-force bounds.                Screening
+                                                                                                               mechanisms imported
+                                                                                                               by analogy rather
+                                                                                                               than integrated from
+                                                                                                               5D scalar–tensor
+                                                                                                               equations stay
+                                                                                                               Category C. Why it
+                                                                                                               applies:
+                                                                                                               Demonstrating
+                                                                                                               Vainshtein
+                                                                                                               suppression strictly on
+                                                                                                               the y = 0 brane does
+                                                                                                               not automatically
+                                                                                                               prove dynamical
+                                                                                                               radion stability
+                                                                                                               throughout the bulk.
+                5. Negative               Every premise lies strictly       None: negative obstructions        CATEGORY B —
+                                  1
+                Theorems (Flat S ,        inside established GR,            remain valid even if no fifth      DERIVED — Boundary
+                Conformal AdS , 4D        Poincaré geometry, or QFT         dimension exists or even if        Rule: Obstruction
+                                5
+                Hayward NEC,              inequalities with zero            bulk matter fails anisotropy.      theorems proven
+                Casimir Deficit)          unverified exotic ansatz.                                            unconditionally from
+                                                                                                               Category A metrics
+                                                                                                               receive full Category
+                                                                                                               B status. Why it
+                                                                                                               applies: No-go and
+                                                                                                               Casimir energy-deficit
+                                                                                                               proofs rely solely on
+                                                                                                               established relativity,
+                                                                                                               quantum inequalities,
+                                                                                                               and algebraic
+                                                                                                               identities that hold
+                                                                                                               regardless of
+                                                                                                               speculative 5D
+                                                                                                               mechanisms.
+               1.0 Introduction
+               [CATEGORY A — ESTABLISHED]
+               Imagine walking across a vast, flat sheet of paper. Everything you can see,
+               measure, and touch—left–right, forward–backward, up–down, plus the ticking
+                                                                   Page 17 of 214

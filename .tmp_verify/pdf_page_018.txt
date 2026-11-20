@@ -1,0 +1,43 @@
+           IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+           flow of time—lives on that four-dimensional sheet (known in physics as a 4D
+           brane). Our companion monograph, IGRT-2026-H11, showed how physical
+           time itself emerges smoothly on that four-dimensional sheet from quantum
+           information geometry. This second work, IGRT-2026-H12, asks a simple,
+           natural "what if": could our universe actually sit inside a five-dimensional
+           room (an unseen bulk with one extra spatial direction y), and if so, could
+           anything ever take a shortcut through it?
+           Why Intellectual Honesty Matters First: Ideas about extra dimensions often
+           inspire dramatic science-fiction claims about wormholes, instant travel, or
+           faster-than-light quantum messaging. Before chasing such possibilities,
+           Chapter 1 draws an unmistakable line between proven mathematics,
+           unproven conjectures, and real experiments. Throughout this monograph, the
+           word "portal" strictly denotes a mathematical geometric or state-space
+           connection—never a sci-fi traversable tunnel—and Chapter 9 summarizes
+           exact negative theorems showing why ordinary black holes, flat extra circles,
+           and tabletop vacuum cavities cannot act as shortcuts.
+           How This Monograph Is Organized: This follow-up work intentionally
+           separates established negative proofs from conjectural five-dimensional
+           possibilities and laboratory analog systems. Readers seeking the strongest
+           scientific  content should go directly to Chapter 9 (Negative Results
+           Summary). Readers seeking the positive conjectures should go to Chapter 4
+           (Beltrami Geodesics, Category C). Readers seeking experimental tests should
+           go to Chapter 12 (Protocols P7–P13). Readers seeking non-technical
+           orientation alongside structured comparisons should consult this introduction
+           together with Chapter 2’s opening overview, Tables 1.1–1.3, and the Glossary
+           of 5D Terms at the end of Chapter 1, while technical auditors should inspect
+                                                           AB
+           Chapter 2 (5D action variation δS           /δG    = 0, regulators, and Eöt-Wash
+                                                   total
+           bounds), Chapters 4–6, and Chapter 7.
+           Standardized Metric Signature & Grey-Area Discipline: Throughout
+           IGRT-H12,     four-dimensional      spacetime     M carries strict mostly-plus
+                                                               4
+           Lorentzian signature (−, +, +, +), and its five-dimensional extension M = M
+                                                                                           5     4
+                                                                                                2
+           ×K carries (−, +, +, +, +) where the fifth coordinate y is spacelike (+dy ).
+               1
+           The metric signature is (−,+,+,+,+). Mixed signatures are excluded.
+           Foundational equations declaration: Eqs. (H12.0.1) and (H12.0.2) are
+           postulated, not derived. They define the 5D hypothesis. To resolve grey-area
+                                                Page 18 of 214

@@ -1,0 +1,73 @@
+               IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+               separates the exact 5D Green resolvent into zero-mode plus Sturm–Liouville
+                                                                   −1                        −1                          2                   2
+               gapped KK spectrum (−□ + iε)                             =(−□ +iε) +∑                          |ψ (0)| (−□ + m
+                                                         5                         4                   n ≥ 1      n               4         n
+                        −1                                                                     (1)
+               + iε) . At four-momentum transfer E ≪ m                                            ,  expanding each massive
+                                                                                            KK
+                                         2            2 −1             −2               2      2                     4
+               propagator (−q + m )                           = m           [1 + E /m             + O((E/m ) )] yields exact
+                                                    n                n                       n                    n
+                                                                                                  ∞             2                (1) 2
+               dimensionless relative KK correction δ                             (E) = ∑             (E/m ) = (E/m                  )  ζ(2)
+                                                                              KK              n=1            n                KK
+                       2                (1) 2                 1                                                              (1) 2
+               = (π /6)(E/m                )   for flat S (and single-mode form factor (E/m                                      )   / [1 +
+                                    KK                                                                                    KK
+                          (1) 2                                                                                       2 −1                (1)2
+               (E/m           ) ]), bounded strictly in operator norm by ‖(−□ + m ) ‖ ≤ (m
+                       KK                                                                                  4        1                  KK
+                     2 −1
+               − E ) .
+               Regulator Invariance & Protocol-by-Protocol Suppression Audit: Evaluating
+               δ (1 neV) across five independent ultraviolet regularization schemes
+                 KK
+               confirms that H11 preservation is not a renormalization artifact: Tree-level
+                                               −14                                                                                      −14
+               cutoff (4.972 × 10                   ), Heat-Kernel exponential regulator (4.972 × 10                                        ),
+                                                                            −14
+               Pauli–Villars subtraction (4.972 × 10                             ), Dimensional Regularization MS-bar
+                                     −15
+               (9.645 × 10               ), Functional Renormalization Group Litim cutoff (3.149 ×
+                   −16                                                                       −14
+               10       ), and full KK ζ(2) summation (8.179 × 10                                 ) all keep 1 neV corrections
+                                 −13
+               below 10                  (Table        2.2).      Consequently,             across        every        H11 physical
+                                                                              −15                                    −25
+               regime—from pulsar timing arrays (10                                 eV, suppression ~10                   ) and atomic
+                                                         −14
+               clocks (1 neV, 4.972 × 10                      ) to cosmic microwave background recombination
+                                                          −11
+               (0.3 eV at decoupling, 10                        in warped AdS )—all 12 H11 axioms, canonical
+                                                                                         5
+               constants (κ , ξ , K                      ,  M , H ), and 665 verified assertions remain
+                                     ψ      0      echo        rem        0
+               completely invariant.
+                                                                                                                  −15
+                 • Regime I — Nanohertz Cosmology & PTA (H11 P1/P3, E ~ 10                                              eV): KK virtual
+                                         (1)            −12                                                  −24
+                 ratio E / m                   ~ 10         ;   virtual 5D distortion < 10                        ,  preserving H11
+                                      KK
+                 cosmological parameters H  = 70.77 ± 0.72 and n  = 0.9637 verbatim.
+                                                          0                                  s
+                 • Regime II — Laboratory Optical & Modular Clocks (E = 1 neV): Suppression δ
+                                                                                                                                           KK
+                                      −14                                                      −16
+                 =4.972 × 10               (Tree/PV/HK) down to 3.149 × 10                           (FRG Litim); verified stable
+                 across ±2 μm Eöt-Wash experimental uncertainty.
+                 • Regime III — Cryogenic vs. Ambient Thermal Threshold (4 K → 300 K): Liquid
+                                                                            −3
+                 helium at 4.2 K yields δ = 5.873 × 10                          inside the 44 μm flat EFT, whereas 77 K
+                 (1.48× m ) and 300 K (5.76× m ) require warped TeV–Planck AdS  screening.
+                               KK                                 KK                                                    5
+                 • Regime IV — 5D Effective Gravity Breakdown (M Cutoff): Perturbative 5D
+                                                                                                     5
+                                                                                                    8            1                    8
+                 graviton loops hit unitarity ceiling at M = 2.985 × 10 GeV (S ), 3.761 × 10 GeV
+                                                                             5
+                    1                                 18                                            18
+                 (S /ℤ ), or 1.8101 × 10                  GeV (warped AdS , k = 10                       GeV), bounded safely by
+                         2                                                            5
+                 SHA-256 lock.
+                                                                      Page 21 of 214

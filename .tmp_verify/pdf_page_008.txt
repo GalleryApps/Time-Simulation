@@ -1,0 +1,47 @@
+           IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+                                                                                    2       2
+            Figure H12-8 (Ch.7): Double-Slit Wave–Particle Complementarity Circle: V  + D     = 1
+                                                                                          QFI
+            [CATEGORY B — DERIVED]
+            Figure H12-7B (Ch.7): Projective Fiber PU(H) Unbalanced Double-Slit Envelope & Born-Rule
+            Independence [CATEGORY A — ESTABLISHED]
+            Figure H12-8A (Ch.8): 5D Microcausality Commutator [O , O ] = 0 & No-Communication
+                                                                    A  B
+            Lock [CATEGORY B — DERIVED]
+            Figure H12-8B (Ch.8): ER = EPR Geometric Wormhole vs. Pure 4D Entanglement &
+            Classical Channel Lock [CATEGORY C — CONJECTURAL]
+            Figure H12-9A (Ch.9): Structural Architecture of Negative No-Go Theorems Across 5D
+            Metric, NEC & Quantum Sectors [CATEGORY B — DERIVED]
+            Figure H12-9B (Ch.9): Quantitative Impossibility Gap Spectrum Across 71 Orders of
+            Magnitude [CATEGORY B — DERIVED]
+            Figure H12-9 (Ch.10): Multi-Probe 5D Consistency Audit: Empirical Bounds Across Six
+            Domains [CATEGORY A — ESTABLISHED]
+            Figure H12-10A (Ch.10): Multi-Regulator Convergence Audit (Tree / PV / HK / DimReg /
+            FRG) & 5D Uniqueness [CATEGORY B — DERIVED]
+            Figure H12-11A (Ch.11): Epistemic Derivation Boundary Map: Derived Proofs (Cat. A/B) vs.
+            Assumed Axioms (Cat. C/D) [CATEGORY B — DERIVED]
+            Figure H12-11B (Ch.11): Missing Dynamic Mechanism Flow: Einstein Tensor G  Source
+                                                                                         AB
+            Deficit for Asymmetric Warp [CATEGORY C — CONJECTURAL]
+            Figure H12-10 (Ch.12): Experimental Falsification Architecture: H11 (P1–P6) vs. Bulk
+            (P7–P10) vs. Folding (P11–P13) [CATEGORY B — DERIVED]
+            Figure H12-12B (Ch.12): Protocol P7–P13 Sensitivity Horizon (2026–2035+), Joint Likelihood
+            & P13 Error Budget [CATEGORY B — DERIVED]
+            Figure H12-13A (Ch.13): Unified Resolution Matrix: Seven Fundamental Open Physics
+            Problems (IGRT-H11 + H12) [CATEGORY B — DERIVED]
+            Figure H12-13B (Ch.13): UV Completion Frontier: Flat M  Floor, Goldberger–Wise
+                                                                    5
+            Stabilization & Open Problems OP-1..OP-6 [CATEGORY C — CONJECTURAL]
+            Device A Cutaway Plate · Dual Sr-87 / Yb-171 Cryogenic Optical Lattice Clock & QFI Cavity
+            [CATEGORY B — DERIVED]
+            Figure H12-J1 (Appendix J · Device A): Device A Schematic: Dual Sr-87 / Yb-171 Optical
+            Lattice Clock & Floquet QFI Readout [CATEGORY B — DERIVED]
+            Device B Cutaway Plate · CANNEX-Class 4.2 K Parallel-Plate 5D Yukawa Force Balance
+            [CATEGORY B — DERIVED]
+            Figure H12-J2 (Appendix J · Device B): Device B Schematic: CANNEX-Class 4.2 K Shielded
+            Parallel-Plate 5D Force Balance [CATEGORY B — DERIVED]
+            Device C Cutaway Plate · Graded-Index Dielectric Slab Waveguide Beltrami Analog
+            [CATEGORY D — SPECULATIVE ENGINEERING]
+            Figure H12-J3 (Appendix J · Device C): Device C Schematic: Graded-Index (GRIN) Photonic
+            Beltrami Shortcut Analog Slab [CATEGORY D — SPECULATIVE ENGINEERING]
+                                                   Page 8 of 214

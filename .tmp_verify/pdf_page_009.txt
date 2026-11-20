@@ -1,0 +1,39 @@
+          IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret
+           Device D Cutaway Plate · UHV Phase-Locked SLD Quantum Fisher Double-Slit Bench
+           [CATEGORY B — DERIVED]
+           Figure H12-J4 (Appendix J · Device D): Device D Schematic: Phase-Locked SLD Quantum
+           Fisher Double-Slit Interferometer [CATEGORY B — DERIVED]
+           Device E Cutaway Plate · Dual-Track 3G ET/CE Gravitational Observatory & 50-Qubit
+           Scrambler [CATEGORY C — CONJECTURAL]
+           Figure H12-J5 (Appendix J · Device E): Device E Schematic: Dual 3G Gravitational-Wave
+           Network (P10/P13) & 50-Qubit Scrambler [CATEGORY C — CONJECTURAL]
+           Device F Cutaway Plate · 50 nK Rb-87 Sonic Waterfall BEC & Hayward Core Echo Cell
+           [CATEGORY B — DERIVED]
+           Figure H12-J6 (Appendix J · Device F): Device F Schematic: 50 nK Rb-87 Sonic Waterfall
+           Horizon & Hayward Core Echo Simulator [CATEGORY B — DERIVED]
+           Device G Cutaway Plate · Evanescent Silicon-Nitride Dual-Brane Optical Portal Cavity
+           [CATEGORY D — SPECULATIVE ENGINEERING]
+           Figure H12-J7 (Appendix J · Device G): Device G Schematic: Twin-Brane Evanescent Portal
+           Simulator (Si3N4 Microring Pair) [CATEGORY D — SPECULATIVE ENGINEERING]
+           Device H Cutaway Plate · Optical Fiber Polarization Loop & Deutsch–Lloyd CTC Simulator
+           [CATEGORY D — SPECULATIVE ENGINEERING]
+           Figure H12-J8 (Appendix J · Device H): Device H Schematic: Tabletop Pockels–Ring
+           Deutsch–Lloyd Time-Loop Simulator [CATEGORY D — SPECULATIVE ENGINEERING]
+           Device I Cutaway Plate · Au/SiC MEMS 100 nm Casimir Cavity & Superconducting NIS
+           Calorimeter [CATEGORY B — DERIVED]
+           Figure H12-J9 (Appendix J · Device I): Device I Schematic: Parametric Casimir–Modular
+           Vacuum Harvester & Second-Law Calorimeter [CATEGORY B — DERIVED]
+           Device J Cutaway Plate · Cryogenic Paul-Trap Rindler Accelerometer & KMS Thermal Clock
+           [CATEGORY C — CONJECTURAL]
+           Figure H12-J10 (Appendix J · Device J): Device J Schematic: Unruh–DeWitt Accelerated
+           Ion-Trap Clock & KMS Engine [CATEGORY C — CONJECTURAL]
+           Device K Cutaway Plate · TaAs Weyl-Semimetal Chiral Anomaly & 5D Gauge-Stress
+           Interferometer [CATEGORY C — CONJECTURAL]
+           Figure H12-J11 (Appendix J · Device K): Device K Schematic: Topological Weyl-Semimetal
+           Gravitational–Gauge Brane Interferometer [CATEGORY C — CONJECTURAL]
+          List of Tables
+           Table 1.1 (Ch. 1 (§1.1)): Audit of Twelve Core IGRT-H11 Components & 5D Status
+           Table 1.2 (Ch. 1 (§1.3)): Direct Comparison: 4D IGRT-H11 vs. 5D IGRT-H12
+           Table 1.3 (Ch. 1 (Opening Box)): Category B vs. Category C Grey-Area Boundary Rubric
+           Table 2.1 (Ch. 2 (§2.2)): Catalog of 665 Verified IGRT-H11 Monograph Assertions
+                                              Page 9 of 214

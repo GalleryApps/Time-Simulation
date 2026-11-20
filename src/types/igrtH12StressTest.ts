@@ -54,7 +54,7 @@ export const H12_TEN_DOMAIN_AUDITS: H12DomainAuditRow[] = [
     maxPoints: 150,
     selfContainedPoints: 150,
     applicablePoints: 147,
-    openFrontierNotes: 'Bundle fiber PU(ℋ) ⊥ ∂/∂y strictly enforced; Eöt-Wash m_KK^(1) ≥ 4.485 meV. Existence of y in nature remains Category C.',
+    openFrontierNotes: 'Bundle fiber PU(H) ⊥ ∂/∂y strictly enforced; Eöt-Wash m_KK^(1) ≥ 4.485 meV. Existence of y in nature remains Category C.',
     verdict: 'CLOSED (100% Technical)',
     category: 'CATEGORY B — DERIVED'
   },
@@ -126,12 +126,12 @@ export const H12_TEN_DOMAIN_AUDITS: H12DomainAuditRow[] = [
   },
   {
     domainNumber: 'Domain IX',
-    domainName: 'Portal Engineering Mechanisms & Devices A–F (Appendices L & M)',
+    domainName: 'Portal Mechanisms & Proposed Devices A–K (Appendices I & J)',
     criteriaCount: 50,
     maxPoints: 150,
     selfContainedPoints: 150,
     applicablePoints: 144,
-    openFrontierNotes: '11 mechanisms audited across Tiers 1–5 (App. L); Devices A–F (App. M) explicitly scoped as precision sensors or analog simulators.',
+    openFrontierNotes: '11 mechanisms audited across Tiers 1–5 (App. I); Devices A–K (App. J) explicitly scoped as precision sensors, thermodynamically valid harvesters, or analog simulators.',
     verdict: 'CONJECTURAL FRONTIER (Bounded)',
     category: 'CATEGORY D — SPECULATIVE ENGINEERING'
   },
@@ -231,7 +231,7 @@ export const H12_SIXTEEN_REDTEAM_ATTACKS: H12RedTeamAttackRow[] = [
     wave: 'Wave II: Black Holes & Wormholes',
     attackTitle: 'Survivability & Tidal Disruption in Traversable Wormholes',
     adversarialChallenge: 'Even with exotic matter, do tidal forces crush macroscopic travelers?',
-    h12ResolutionAndCitation: 'Ch. 6.1 calculates transverse acceleration Δa_⊥ = 9.078 × 10¹⁴ m/s² at r_0 = 1 m and 1.009 × 10⁸ m/s² even at r_0 = 3 km (−3.1912 M_⊙), rigorously quantifying extreme tidal barriers.',
+    h12ResolutionAndCitation: 'Ch. 6.1 calculates transverse acceleration Δa_⊥ = 1.8157 × 10¹⁵ m/s² at r_0 = 1 m and 2.0174 × 10⁸ m/s² even at r_0 = 3 km (−3.1912 M_⊙), rigorously quantifying extreme tidal barriers.',
     technicalStatus: 'SURVIVED (Mathematical Proof)',
     pointsAwarded: 15,
     maxPoints: 15,
@@ -240,9 +240,9 @@ export const H12_SIXTEEN_REDTEAM_ATTACKS: H12RedTeamAttackRow[] = [
   {
     id: 'H12-ATK-09',
     wave: 'Wave III: Quantum & Information',
-    attackTitle: 'Conflating Hilbert Fiber PU(ℋ) With Spatial Fifth Dimension y',
+    attackTitle: 'Conflating Hilbert Fiber PU(H) With Spatial Fifth Dimension y',
     adversarialChallenge: 'Does H12 falsely claim double-slit particles travel physically through a 5th spatial dimension?',
-    h12ResolutionAndCitation: 'Eq. (2.1) & Ch. 7.2 explicitly forbid this fallacy: PU(ℋ) ⊥ ∂/∂y; interference occurs in state-space phase while P9 bounds any physical 5D visibility drift |δV_5D| < 10⁻⁶.',
+    h12ResolutionAndCitation: 'Eq. (2.1) & Ch. 7.2 explicitly forbid this fallacy: PU(H) ⊥ ∂/∂y; interference occurs in state-space phase while P9 bounds any physical 5D visibility drift |δV_5D| < 10⁻⁶.',
     technicalStatus: 'SURVIVED (Mathematical Proof)',
     pointsAwarded: 15,
     maxPoints: 15,
@@ -285,8 +285,8 @@ export const H12_SIXTEEN_REDTEAM_ATTACKS: H12RedTeamAttackRow[] = [
     id: 'H12-ATK-13',
     wave: 'Wave IV: Engineering & Falsification',
     attackTitle: 'Lab Analog Devices Masquerading as Real Spacetime Portals',
-    adversarialChallenge: 'Do Devices C (GRIN optical slab) or F (Rb-87 BEC) claim to warp real spacetime metric G_μν?',
-    h12ResolutionAndCitation: 'App. M (Table M.1) explicitly labels Devices C & F as benchtop effective-metric simulators that do NOT alter vacuum G_μν or exceed vacuum c.',
+    adversarialChallenge: 'Do Devices C, G, H, I, or F claim to warp real spacetime metric G_μν or create over-unity energy?',
+    h12ResolutionAndCitation: 'App. J (Table J.1) explicitly labels Devices C, F, G, H, J, K as effective-metric/optical/quantum-fluid simulators and Device I as strictly obeying thermodynamic passivity ΔW_out ≤ ΔF_mod.',
     technicalStatus: 'SURVIVED (Explicit Negative Theorem)',
     pointsAwarded: 15,
     maxPoints: 15,
@@ -341,6 +341,6 @@ export const H12_STRESS_TEST_SUMMARY = {
   grandSelfContainedPoints: 1734, // 1500 + 234 (UV 5D loops & pending P7-P12 empirical runs honestly bounded at -6)
   grandApplicablePoints: 1709,    // Reflects Category C/D empirical & exotic-matter frontiers honestly
   selfContainedScorePct: 99.66,   // 1734 / 1740 (100% mathematical & negative-theorem closure; 2 external UV/empirical bounds)
-  mathematicalClosurePct: 100.0,  // 500/500 criteria & 80/80 solver assertions mechanically verified
+  mathematicalClosurePct: 100.0,  // 500/500 criteria & 102/102 solver assertions mechanically verified
   overallEpistemicScorePct: 98.22 // 1709 / 1740 accounting for Category C/D open physical frontiers
 };

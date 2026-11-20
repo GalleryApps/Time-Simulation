@@ -3,22 +3,20 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * IGRT-H12 Exporters:
- * - Self-Contained Archival HTML (Complete Monograph Ch. 1–13 + Appendices L–N + Technical Appendices A–K)
+ * - Self-Contained Archival HTML (Complete Monograph Ch. 1–13 + References + Consolidated Appendices A–L)
  * - Standalone ASCII-Safe LaTeX Monograph (IGRT_H12_Monograph.tex)
  * - Modular LaTeX + Verification Script ZIP Bundle:
  *   main.tex, preamble.tex, sections/00_frontmatter.tex, sections/01_chapters.tex,
- *   sections/02_appendices_LMN.tex, sections/03_appendices_AK.tex,
- *   illustrations/*.png, figures/*.svg/.png, scripts/verify-igrt-h12.mjs, Makefile, README.md
+ *   sections/02_references.tex, sections/03_appendices_AL.tex,
+ *   illustrations/*.png/.jpg, figures/*.svg/.png, scripts/verify-igrt-h12.mjs, Makefile, README.md
  */
 
 import {
   H12_META,
   H12_MASTER_EQUATIONS,
-  H12_PORTAL_DEFINITION_BOX,
   H12_METRIC_SIGNATURE_BOX,
   H12_FOUNDATIONAL_EQUATIONS_NOTE,
   H12_ABSTRACT_PARAGRAPHS,
-  H12_SUMMARY_FOR_NON_SPECIALISTS,
   H12_SCOPE_AND_NON_CLAIMS,
   H11_TWELVE_COMPONENTS_AUDIT,
   COMPARISON_4D_VS_5D_IGRT,
@@ -32,6 +30,7 @@ import {
   GLOSSARY_NEGATIVE_THEOREMS,
   WHAT_IS_UNIQUE_TO_5D,
   FIVE_D_OBSERVATIONAL_BOUNDS,
+  FIVE_D_SIGNATURES_TEST_MATRIX,
   WHAT_IS_NOT_DERIVED_LEDGER,
   H12_ALL_PROTOCOLS,
   P7_TO_P13_TIMELINE_TABLE,
@@ -43,7 +42,8 @@ import {
   H12_CONFIRMATION_CHECKLIST,
   H12_FUNDING_AGENCY_SUMMARY,
   ELEVEN_PORTAL_MECHANISMS,
-  SIX_PROPOSED_DEVICES,
+  H12_PROPOSED_DEVICES,
+  SEVEN_SOLVED_PHYSICS_PROBLEMS,
   TWELVE_EXTRAPOLATIONS,
   H12_DEFINITIONS_LIST,
   H12_THEOREMS_LIST,
@@ -61,11 +61,12 @@ import {
   P7_TO_P13_COMBINED_BOUNDS_TABLE,
   P7_TO_P13_SENSITIVITY_PROJECTION_TABLE,
   P13_SUMMARY_OF_BOUNDS_TABLE,
-  H12_PROTOCOL_ANALYSIS_SECTIONS
+  H12_PROTOCOL_ANALYSIS_SECTIONS,
+  APPENDIX_J_DEVICE_DOSSIERS,
+  APPENDIX_J_SYNTHESIS_TABLE
 } from '../types/igrtH12Apparatus';
 import {
   H12_CHAPTERS,
-  H12_MAIN_APPENDICES_LMN,
   H12_FRONTMATTER_TABLES_LIST,
   H12_FRONTMATTER_EQUATIONS_LIST
 } from '../types/igrtH12Data';
@@ -74,14 +75,18 @@ import {
   H12_SIXTEEN_REDTEAM_ATTACKS,
   H12_STRESS_TEST_SUMMARY
 } from '../types/igrtH12StressTest';
-import { H12_ARCHIVAL_PLATES, H12_FIGURES } from '../components/IgrtH12Figures';
+import {
+  H12_ARCHIVAL_PLATES,
+  H12_FIGURES,
+  H12_DEVICE_FIGURES
+} from '../components/IgrtH12Figures';
 import {
   proseToLatex,
   equationToLatex,
   buildZipArchive,
   type ZipEntryInput
 } from './generateHarmonizedPaperLatex';
-import { formatSvgMathMarkup, pdfBmpSafeUnicode } from './formatMathUnicode';
+import { formatMathToHtml, formatSvgMathMarkup, pdfBmpSafeUnicode } from './formatMathUnicode';
 import verifyH12ScriptSource from '../../scripts/verify-igrt-h12.mjs?raw';
 
 // ---------------------------------------------------------------------------
@@ -158,10 +163,70 @@ function toEqLatex(unicodeHtml: string, label: string, caption?: string): string
     .replace(/∃/g, '\\exists ')
     .replace(/∝/g, '\\propto ')
     .replace(/∈/g, '\\in ')
+    .replace(/ℓ/g, '\\ell ')
+    .replace(/ℏ/g, '\\hbar ')
+    .replace(/□/g, '\\Box ')
+    .replace(/⟨/g, '\\langle ')
+    .replace(/⟩/g, '\\rangle ')
+    .replace(/×/g, '\\times ')
+    .replace(/±/g, '\\pm ')
+    .replace(/≤/g, '\\le ')
+    .replace(/≥/g, '\\ge ')
+    .replace(/≪/g, '\\ll ')
+    .replace(/≫/g, '\\gg ')
+    .replace(/≠/g, '\\ne ')
+    .replace(/≈/g, '\\approx ')
+    .replace(/≡/g, '\\equiv ')
+    .replace(/⇒/g, '\\Rightarrow ')
+    .replace(/→/g, '\\to ')
     .replace(/⊥/g, '\\perp ')
     .replace(/−/g, '-')
     .replace(/–|—/g, '-')
     .replace(/[^\x00-\x7F]/g, '');
+}
+
+function toLatexLongTable(
+  caption: string,
+  headers: string[],
+  colWidthsFraction: number[],
+  rows: string[][]
+): string {
+  const sum = colWidthsFraction.reduce((a, b) => a + b, 0) || 1;
+  const colSpec =
+    '@{}' +
+    colWidthsFraction
+      .map((w) => `>{\\raggedright\\arraybackslash}p{${((w / sum) * 0.94).toFixed(3)}\\textwidth}`)
+      .join(' ') +
+    '@{}';
+  const cleanCell = (raw: string) => toLatex(raw).replace(/\r?\n/g, ' ');
+  const headerLine = headers.map((h) => `\\textbf{${cleanCell(h)}}`).join(' & ') + ' \\\\';
+  const bodyLines = rows
+    .map((r) => r.map((c) => cleanCell(c ?? '')).join(' & ') + ' \\\\')
+    .join('\n\\midrule\n');
+  const ncols = headers.length;
+  return `
+{\\footnotesize
+\\setlength{\\LTleft}{0pt}\\setlength{\\LTright}{0pt}
+\\begin{longtable}{${colSpec}}
+\\multicolumn{${ncols}}{@{}p{0.96\\textwidth}@{}}{\\textbf{${cleanCell(caption)}}} \\\\[4pt]
+\\toprule
+${headerLine}
+\\midrule
+\\endfirsthead
+\\multicolumn{${ncols}}{@{}p{0.96\\textwidth}@{}}{\\textit{${cleanCell(caption)} (continued)}} \\\\[4pt]
+\\toprule
+${headerLine}
+\\midrule
+\\endhead
+\\midrule
+\\multicolumn{${ncols}}{@{}r@{}}{\\textit{Continued on next page}} \\\\
+\\endfoot
+\\bottomrule
+\\endlastfoot
+${bodyLines}
+\\end{longtable}
+}
+`;
 }
 
 function buildH12Preamble(): string {
@@ -203,14 +268,11 @@ function buildH12Preamble(): string {
 
 function buildH12FrontmatterTex(): string {
   const lines: string[] = [];
-  lines.push(`\\begin{quote}\\textbf{Portal Definition Box:} ${toLatex(H12_PORTAL_DEFINITION_BOX)}\\end{quote}`);
-  lines.push('');
   lines.push(`\\begin{abstract}`);
   for (const p of H12_ABSTRACT_PARAGRAPHS) {
     lines.push(toLatex(p));
     lines.push('');
   }
-  lines.push(toLatex(H12_SUMMARY_FOR_NON_SPECIALISTS));
   lines.push(`\\end{abstract}`);
   lines.push('');
   lines.push(`\\section*{Lists of Figures, Tables, Equations, Theorems \\& Definitions}`);
@@ -218,6 +280,7 @@ function buildH12FrontmatterTex(): string {
   lines.push(`\\begin{itemize}[leftmargin=1.4em]`);
   for (const pl of H12_ARCHIVAL_PLATES) lines.push(`  \\item \\textbf{${toLatex(pl.figureNumber)}} (Ch.${pl.anchorChapter}): ${toLatex(pl.title)} [${toLatex(pl.category)}]`);
   for (const fg of H12_FIGURES) lines.push(`  \\item \\textbf{${toLatex(fg.figureNumber)}} (Ch.${fg.anchorChapter}): ${toLatex(fg.title)} [${toLatex(fg.category)}]`);
+  for (const mfg of H12_DEVICE_FIGURES) lines.push(`  \\item \\textbf{${toLatex(mfg.figureNumber)}} (Appendix J -- ${toLatex(mfg.deviceId)}): ${toLatex(mfg.title)} [${toLatex(mfg.category)}]`);
   lines.push(`\\end{itemize}`);
   lines.push(`\\subsection*{List of Tables}`);
   lines.push(`\\begin{itemize}[leftmargin=1.4em]`);
@@ -258,18 +321,29 @@ function buildH12ChaptersTex(standalone: boolean): string {
     out.push('');
     if (ch.number === 1) {
       out.push(`\\begin{quote}\\textbf{Metric Signature Box:} ${toLatex(H12_METRIC_SIGNATURE_BOX)}\\end{quote}`);
-      out.push(`\\subsubsection*{Table 1.3: Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas)}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const g of EPISTEMIC_BC_GREY_AREA_RUBRIC) out.push(`  \\item \\textbf{${toLatex(g.boundaryCase)}} [${toLatex(g.assignedCategory)}]: Derived: ${toLatex(g.derivedAspect)} Conjectural: ${toLatex(g.conjecturalAspect)} --- ${toLatex(g.ruleApplied)}`);
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          'Table 1.3: Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas)',
+          ['Boundary Case', 'Derived Core (Cat. B)', 'Conjectural Premise (Cat. C)', 'Assigned Category & Rule'],
+          [0.21, 0.28, 0.28, 0.23],
+          EPISTEMIC_BC_GREY_AREA_RUBRIC.map((g) => [
+            g.boundaryCase,
+            g.derivedAspect,
+            g.conjecturalAspect,
+            `${g.assignedCategory} -- ${g.ruleApplied}`
+          ])
+        )
+      );
     }
     if (ch.number === 2) {
-      out.push(`\\subsubsection*{Timeline of Five-Dimensional Physics (1921--2026)}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const tm of TIMELINE_5D_PHYSICS) {
-        out.push(`  \\item \\textbf{${toLatex(tm.year)} -- ${toLatex(tm.milestone)}}: ${toLatex(tm.contributionToH12)}`);
-      }
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          'Timeline of Five-Dimensional Physics (1921--2026)',
+          ['Year & Milestone', 'Contribution to IGRT-H12'],
+          [0.26, 0.74],
+          TIMELINE_5D_PHYSICS.map((tm) => [`${tm.year} -- ${tm.milestone}`, tm.contributionToH12])
+        )
+      );
     }
     for (const sub of ch.subsections) {
       out.push(`\\subsection{${toLatex(sub.title)} \\hfill [\\texttt{${toLatex(sub.category)}}]}`);
@@ -314,134 +388,383 @@ function buildH12ChaptersTex(standalone: boolean): string {
     }
 
     if (ch.number === 1) {
-      out.push(`\\subsubsection*{Table 1.1: Audit of the Twelve Core IGRT-H11 Components}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const r of H11_TWELVE_COMPONENTS_AUDIT) out.push(`  \\item \\textbf{${toLatex(r.component)}} (${toLatex(r.h12Status)}, ${toLatex(r.category)}): ${toLatex(r.h12Modification)}`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Table 1.2: Direct Comparison 4D IGRT-H11 vs 5D IGRT-H12}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const c of COMPARISON_4D_VS_5D_IGRT) out.push(`  \\item \\textbf{${toLatex(c.dimension)}}: 4D=${toLatex(c.h11FourD)} | 5D=${toLatex(c.h12FiveD)} (${toLatex(c.epistemicDelta)}; Testable Now: ${toLatex(c.testableNow)})`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Glossary of Five-Dimensional Terms}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const g of GLOSSARY_5D_TERMS) out.push(`  \\item \\textbf{${toLatex(g.term)}}: ${toLatex(g.definition)}`);
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          'Table 1.1: Audit of the Twelve Core IGRT-H11 Components & H12 Status',
+          ['Component', 'H11 Value / Role', 'H12 Status', 'Category & Modification'],
+          [0.20, 0.20, 0.20, 0.40],
+          H11_TWELVE_COMPONENTS_AUDIT.map((r) => [
+            r.component,
+            r.h11EquationOrValue,
+            r.h12Status,
+            `${r.category}: ${r.h12Modification}`
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 1.2: Direct Comparison 4D IGRT-H11 vs 5D IGRT-H12',
+          ['Dimension', '4D IGRT-H11', '5D IGRT-H12', 'Epistemic Delta', 'Testable Now?'],
+          [0.18, 0.22, 0.24, 0.22, 0.14],
+          COMPARISON_4D_VS_5D_IGRT.map((c) => [
+            c.dimension,
+            c.h11FourD,
+            c.h12FiveD,
+            c.epistemicDelta,
+            c.testableNow
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Glossary of Five-Dimensional Terms',
+          ['Term', 'Formal Definition in IGRT-H12'],
+          [0.24, 0.76],
+          GLOSSARY_5D_TERMS.map((g) => [g.term, g.definition])
+        )
+      );
       out.push(`\\begin{quote}${toLatex(SUMMARY_FOR_PHYSICISTS)}\\end{quote}`);
     }
     if (ch.number === 2) {
-      out.push(`\\subsubsection*{Table 2.1: Structured Catalog of All 665 Verified IGRT-H11 Assertions}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const row of H11_665_ASSERTIONS_CATALOG) out.push(`  \\item \\textbf{${toLatex(row.moduleGroup)}} (${row.assertionCount} assertions): ${toLatex(row.verifiedPhysicalScope)}`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Table 2.2: E\\\"{o}t-Wash Uncertainty, Multi-Regulator Stability \\& Clock Energy Sweep}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const row of REGULATOR_SENSITIVITY_TABLE) out.push(`  \\item \\textbf{${toLatex(row.regimeOrRegulator)}} (${toLatex(row.energyOrRadius)}): ${toLatex(row.computedOutput)} --- ${toLatex(row.physicalInterpretation)}`);
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          'Table 2.1: Structured Catalog of All 665 Verified IGRT-H11 Assertions',
+          ['Verification Group', 'Assertions', 'Verified Physical Scope'],
+          [0.28, 0.12, 0.60],
+          H11_665_ASSERTIONS_CATALOG.map((row) => [
+            row.moduleGroup,
+            String(row.assertionCount),
+            row.verifiedPhysicalScope
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 2.2: Eot-Wash Uncertainty, Multi-Regulator Stability & Clock Energy Sweep',
+          ['Regime / Regulator', 'Scale / Ratio', 'Computed Output', 'Physical Interpretation'],
+          [0.23, 0.18, 0.23, 0.36],
+          REGULATOR_SENSITIVITY_TABLE.map((row) => [
+            row.regimeOrRegulator,
+            row.energyOrRadius,
+            row.computedOutput,
+            row.physicalInterpretation
+          ])
+        )
+      );
     }
     if (ch.number === 3) {
-      out.push(`\\subsubsection*{Table 3.1: Seven Temporal Notions in IGRT-H12 \\& Standard Literature Correspondence}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const t of SEVEN_TEMPORAL_NOTIONS) out.push(`  \\item \\textbf{${toLatex(t.notion)}} (${toLatex(t.symbol)}): ${toLatex(t.mathematicalDefinition)} --- ${toLatex(t.foldsInH12)} | Literature: ${toLatex(t.literatureComparison)}`);
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          'Table 3.1: Seven Temporal Notions in IGRT-H12 & Standard Literature Correspondence',
+          ['Notion', 'Symbol', 'Mathematical Definition', 'Folding Role & Literature'],
+          [0.18, 0.13, 0.33, 0.36],
+          SEVEN_TEMPORAL_NOTIONS.map((t) => [
+            t.notion,
+            t.symbol,
+            t.mathematicalDefinition,
+            `${t.foldsInH12} | Lit.: ${t.literatureComparison}`
+          ])
+        )
+      );
     }
     if (ch.number === 4) {
-      out.push(`\\subsubsection*{Table 4.1: Positive Conjectures Summary Table (Category C)}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const p of POSITIVE_CONJECTURES_SUMMARY) out.push(`  \\item \\textbf{${toLatex(p.conjecture)}} [${toLatex(p.category)}]: ${toLatex(p.statement)} (Test: ${toLatex(p.test)})`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Table 4.2: Model 2B Quadrature Convergence, Euler--Lagrange \\& ds\\_5\\^{}2 = 0 Audit}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const row of MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE) out.push(`  \\item \\textbf{${toLatex(row.benchmarkSpan)}} (${toLatex(row.turningPeak)}): ${toLatex(row.etaFoldAndSpeed)} | ${toLatex(row.elAndNullResidual)}`);
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          'Table 4.1: Positive Conjectures Summary Table (Category C)',
+          ['Conjecture', 'Conditional Statement', 'Category & Target Protocol'],
+          [0.24, 0.44, 0.32],
+          POSITIVE_CONJECTURES_SUMMARY.map((p) => [
+            p.conjecture,
+            p.statement,
+            `${p.category}: ${p.test}`
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 4.2: Model 2B Quadrature Convergence, Euler-Lagrange & ds_5^2 = 0 Audit',
+          ['Benchmark Span', 'Peak Depth', 'Folding & Speed', 'Convergence & Null Residual'],
+          [0.21, 0.18, 0.28, 0.33],
+          MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE.map((row) => [
+            row.benchmarkSpan,
+            row.turningPeak,
+            row.etaFoldAndSpeed,
+            row.elAndNullResidual
+          ])
+        )
+      );
     }
     if (ch.number === 5) {
-      out.push(`\\subsubsection*{Table 5.1: Six-Class Black-Hole \\& Portal Taxonomy (Classes A--F)}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const b of SIX_BLACK_HOLE_CLASSES) out.push(`  \\item \\textbf{${toLatex(b.classId)} --- ${toLatex(b.label)}} [${toLatex(b.category)}]: ${toLatex(b.portalViability)} (${toLatex(b.necStatus)})`);
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          'Table 5.1: Six-Class Black-Hole & Portal Taxonomy (Classes A--F)',
+          ['Class', 'Metric / NEC Status', 'Portal Viability', 'Stability & Category'],
+          [0.19, 0.28, 0.26, 0.27],
+          SIX_BLACK_HOLE_CLASSES.map((b) => [
+            `${b.classId} -- ${b.label}`,
+            `${b.metricSignatureAndForm} | ${b.necStatus}`,
+            b.portalViability,
+            `${b.category}: ${b.stabilityAndConstraints}`
+          ])
+        )
+      );
     }
     if (ch.number === 6 || ch.number === 9) {
-      out.push(`\\subsubsection*{Table ${ch.number}.1: Negative Results Summary}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const n of NEGATIVE_RESULTS_SUMMARY) out.push(`  \\item \\textbf{${toLatex(n.theorem)}} [${toLatex(n.category)}]: ${toLatex(n.statement)} --- ${toLatex(n.implication)}`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Glossary of Negative Theorems}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const g of GLOSSARY_NEGATIVE_THEOREMS) out.push(`  \\item \\textbf{${toLatex(g.term)}}: ${toLatex(g.definition)}`);
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          `Table ${ch.number}.1: Negative Results Summary`,
+          ['Negative Theorem', 'Category', 'Derived Statement', 'Physical Implication'],
+          [0.21, 0.15, 0.34, 0.30],
+          NEGATIVE_RESULTS_SUMMARY.map((n) => [
+            n.theorem,
+            n.category,
+            n.statement,
+            n.implication
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Glossary of Negative Theorems',
+          ['Term', 'Formal Definition'],
+          [0.27, 0.73],
+          GLOSSARY_NEGATIVE_THEOREMS.map((g) => [g.term, g.definition])
+        )
+      );
     }
     if (ch.number === 10) {
-      out.push(`\\subsubsection*{Table 10.1: What Is Unique to 5D vs Reproduced in 4D H11}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const u of WHAT_IS_UNIQUE_TO_5D) out.push(`  \\item \\textbf{${toLatex(u.observable)}}: 4D=${toLatex(u.reproducedIn4DH11)} | 5D=${toLatex(u.uniqueTo5DH12)} [${toLatex(u.empiricalStatus)}]`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Table 10.2: Observational Bounds Consistency Audit}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const b of FIVE_D_OBSERVATIONAL_BOUNDS) out.push(`  \\item \\textbf{${toLatex(b.probe)}} (${toLatex(b.bound)}) [${toLatex(b.h12Status)}]: ${toLatex(b.derivationOrAssumption)}`);
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          'Table 10.1: What Is Unique to 5D vs Reproduced in 4D H11',
+          ['Observable', '4D IGRT-H11', 'Unique to 5D IGRT-H12', 'Empirical Status'],
+          [0.20, 0.26, 0.30, 0.24],
+          WHAT_IS_UNIQUE_TO_5D.map((u) => [
+            u.observable,
+            u.reproducedIn4DH11,
+            u.uniqueTo5DH12,
+            u.empiricalStatus
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 10.2: Observational Bounds Consistency Audit',
+          ['Probe', 'Quantitative Bound', 'H12 Status', 'Derived vs Assumed'],
+          [0.20, 0.25, 0.20, 0.35],
+          FIVE_D_OBSERVATIONAL_BOUNDS.map((b) => [
+            b.probe,
+            b.bound,
+            b.h12Status,
+            b.derivationOrAssumption
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 10.3: Five-Dimensional Signatures, Experimental Tests & Current Observational Constraints',
+          ['5D Signature', 'Experiment That Tests It', 'Current Observational Constraint'],
+          [0.31, 0.34, 0.35],
+          FIVE_D_SIGNATURES_TEST_MATRIX.map((sig) => [
+            sig.signature,
+            sig.experimentToTestIt,
+            sig.currentConstraint
+          ])
+        )
+      );
     }
     if (ch.number === 11) {
-      out.push(`\\subsubsection*{Table 11.1: What Is Not Derived Ledger}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const w of WHAT_IS_NOT_DERIVED_LEDGER) out.push(`  \\item \\textbf{${toLatex(w.claim)}} [${toLatex(w.category)}]: ${toLatex(w.whyNotDerived)}`);
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          'Table 11.1: What Is Not Derived Ledger (Categories A, C & D)',
+          ['Claim / Ansatz / Postulate', 'Category', 'Why Not Derived in H12'],
+          [0.26, 0.20, 0.54],
+          WHAT_IS_NOT_DERIVED_LEDGER.map((w) => [w.claim, w.category, w.whyNotDerived])
+        )
+      );
     }
     if (ch.number === 12) {
-      out.push(`\\subsubsection*{Table 12.1: H12 Experimental \\& Conceptual Protocols P7--P13}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const p of H12_ALL_PROTOCOLS) out.push(`  \\item \\textbf{${toLatex(p.id)} --- ${toLatex(p.name)}} [${toLatex(p.category)}]: ${toLatex(p.numericalSensitivity)}. Falsification: ${toLatex(p.falsificationCriterion)}`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Tables 12.2--12.6: Timeline, Thresholds, Decision Matrix \\& H11 vs H12 (P7--P13)}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const t of P7_TO_P13_TIMELINE_TABLE) out.push(`  \\item ${toLatex(t.protocol)}: ${toLatex(t.currentState)} -> ${toLatex(t.requiredSensitivity)} (${toLatex(t.expectedYear)})`);
-      for (const f of P7_TO_P13_FALSIFICATION_TABLE) out.push(`  \\item Falsify ${toLatex(f.protocol)}: ${toLatex(f.nullBound)} --- ${toLatex(f.whatItRulesOut)}`);
-      for (const c of P7_TO_P13_CONFIRMATION_TABLE) out.push(`  \\item Confirm ${toLatex(c.protocol)}: ${toLatex(c.signalSignature)} (Control: ${toLatex(c.requiredControl)})`);
-      for (const d of P7_TO_P13_DECISION_MATRIX) out.push(`  \\item Outcome [${toLatex(d.outcome)}] -> ${toLatex(d.posteriorStatus)}. Action: ${toLatex(d.mandatoryAction)}`);
-      for (const cmp of H11_VS_H12_PROTOCOLS_COMPARISON) out.push(`  \\item ${toLatex(cmp.aspect)}: H11=${toLatex(cmp.h11Protocols)} | H12=${toLatex(cmp.h12Protocols)}`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Table 12.7: Quantitative Noise Budgets \\& Systematic Mitigation (P7--P13)}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const nb of P7_TO_P13_NOISE_BUDGET_TABLE) out.push(`  \\item \\textbf{${toLatex(nb.protocol)}}: Sources: ${toLatex(nb.primaryNoiseSources)} | Floor: ${toLatex(nb.quantitativeBudget)} --- ${toLatex(nb.mitigationArchitecture)}`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Table 12.8: P13 Systematic Error Budget}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const s of P13_SYSTEMATIC_ERROR_BUDGET) out.push(`  \\item \\textbf{${toLatex(s.source)}}: ${toLatex(s.magnitudeOrUncertainty)} | Impact: ${toLatex(s.impactOnEtaFold)} --- ${toLatex(s.mitigationStrategy)}`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Table 12.9: P13 Statistical Error Budget}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const st of P13_STATISTICAL_ERROR_BUDGET) out.push(`  \\item \\textbf{${toLatex(st.channel)}}: ${toLatex(st.measurementPrecision)} -> ${toLatex(st.propagatedEtaFoldError)} (${toLatex(st.sampleScalingNote)})`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Table 12.10: Combined Protocol Bounds (P7--P13 Joint Likelihood)}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const cb of P7_TO_P13_COMBINED_BOUNDS_TABLE) out.push(`  \\item \\textbf{${toLatex(cb.protocolPairOrCluster)}} (${toLatex(cb.constrainedParameters)}): ${toLatex(cb.combinedJointLikelihoodRole)} --- ${toLatex(cb.orthogonalExclusionPower)}`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Table 12.11: Protocol Sensitivity Projections (2026--2035+)}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const pr of P7_TO_P13_SENSITIVITY_PROJECTION_TABLE) out.push(`  \\item \\textbf{${toLatex(pr.protocol)}}: 2026=${toLatex(pr.currentBaseline2026)} | 2027--2032=${toLatex(pr.nearTerm2027_2032)} | 2035+=${toLatex(pr.longTerm3G2035Plus)}`);
-      out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Table 12.12: Summary of P13 Multi-Messenger Bounds}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const pb of P13_SUMMARY_OF_BOUNDS_TABLE) out.push(`  \\item \\textbf{${toLatex(pb.datasetOrRegime)}} (${toLatex(pb.baselineDistance)}): ${toLatex(pb.arrivalBoundOrPrecision)} => ${toLatex(pb.etaFoldLimit)} [${toLatex(pb.epistemicNote)}]`);
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          'Table 12.1: H12 Experimental & Conceptual Protocols P7--P13',
+          ['Protocol & Category', 'Relation to H11', 'Quantitative Sensitivity', 'Falsification Criterion'],
+          [0.22, 0.26, 0.24, 0.28],
+          H12_ALL_PROTOCOLS.map((p) => [
+            `${p.id} -- ${p.name} [${p.category}]`,
+            p.relationToH11,
+            p.numericalSensitivity,
+            p.falsificationCriterion
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 12.2: P7--P13 Experimental Timeline',
+          ['Protocol', 'Current State', 'Required Sensitivity', 'Expected Year'],
+          [0.21, 0.27, 0.30, 0.22],
+          P7_TO_P13_TIMELINE_TABLE.map((t) => [
+            t.protocol,
+            t.currentState,
+            t.requiredSensitivity,
+            t.expectedYear
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 12.3: Falsification Thresholds (P7--P13)',
+          ['Protocol', 'Null Falsification Bound', 'What It Rules Out'],
+          [0.16, 0.39, 0.45],
+          P7_TO_P13_FALSIFICATION_TABLE.map((f) => [f.protocol, f.nullBound, f.whatItRulesOut])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 12.4: Confirmation Thresholds (P7--P13)',
+          ['Protocol', 'Positive Signal Signature', 'Required Systematic Control'],
+          [0.16, 0.42, 0.42],
+          P7_TO_P13_CONFIRMATION_TABLE.map((c) => [c.protocol, c.signalSignature, c.requiredControl])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 12.5: Empirical Decision Matrix (P7--P13)',
+          ['Experimental Outcome', 'Posterior Status', 'Mandatory Action'],
+          [0.28, 0.31, 0.41],
+          P7_TO_P13_DECISION_MATRIX.map((d) => [d.outcome, d.posteriorStatus, d.mandatoryAction])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 12.6: H11 Protocols (P1--P6) vs H12 Protocols (P7--P13)',
+          ['Comparison Aspect', 'H11 (P1--P6)', 'H12 (P7--P13)'],
+          [0.22, 0.39, 0.39],
+          H11_VS_H12_PROTOCOLS_COMPARISON.map((cmp) => [
+            cmp.aspect,
+            cmp.h11Protocols,
+            cmp.h12Protocols
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 12.7: Quantitative Noise Budgets & Systematic Mitigation (P7--P13)',
+          ['Protocol', 'Noise Sources', 'Quantitative Floor', 'Mitigation Architecture'],
+          [0.18, 0.26, 0.26, 0.30],
+          P7_TO_P13_NOISE_BUDGET_TABLE.map((nb) => [
+            nb.protocol,
+            nb.primaryNoiseSources,
+            nb.quantitativeBudget,
+            nb.mitigationArchitecture
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 12.8: P13 Systematic Error Budget',
+          ['Source', 'Magnitude / Uncertainty', 'Impact on eta_fold', 'Mitigation Strategy'],
+          [0.21, 0.22, 0.25, 0.32],
+          P13_SYSTEMATIC_ERROR_BUDGET.map((s) => [
+            s.source,
+            s.magnitudeOrUncertainty,
+            s.impactOnEtaFold,
+            s.mitigationStrategy
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 12.9: P13 Statistical Error Budget',
+          ['Measurement Channel', 'Timing Precision', 'Propagated eta_fold Error', 'Scaling Note'],
+          [0.22, 0.24, 0.26, 0.28],
+          P13_STATISTICAL_ERROR_BUDGET.map((st) => [
+            st.channel,
+            st.measurementPrecision,
+            st.propagatedEtaFoldError,
+            st.sampleScalingNote
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 12.10: Combined Protocol Bounds (P7--P13 Joint Likelihood)',
+          ['Protocol Cluster', 'Parameters', 'Joint Likelihood Role', 'Orthogonal Exclusion Power'],
+          [0.21, 0.22, 0.27, 0.30],
+          P7_TO_P13_COMBINED_BOUNDS_TABLE.map((cb) => [
+            cb.protocolPairOrCluster,
+            cb.constrainedParameters,
+            cb.combinedJointLikelihoodRole,
+            cb.orthogonalExclusionPower
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 12.11: Protocol Sensitivity Projections (2026--2035+)',
+          ['Protocol', '2026 Baseline', '2027--2032 Window', '2035+ (3G Era)'],
+          [0.19, 0.26, 0.27, 0.28],
+          P7_TO_P13_SENSITIVITY_PROJECTION_TABLE.map((pr) => [
+            pr.protocol,
+            pr.currentBaseline2026,
+            pr.nearTerm2027_2032,
+            pr.longTerm3G2035Plus
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 12.12: Summary of P13 Multi-Messenger Bounds',
+          ['Dataset / Regime', 'Distance', 'Arrival Precision', 'eta_fold Limit', 'Status'],
+          [0.20, 0.15, 0.21, 0.22, 0.22],
+          P13_SUMMARY_OF_BOUNDS_TABLE.map((pb) => [
+            pb.datasetOrRegime,
+            pb.baselineDistance,
+            pb.arrivalBoundOrPrecision,
+            pb.etaFoldLimit,
+            pb.epistemicNote
+          ])
+        )
+      );
       out.push(`\\subsubsection*{Protocol Statistical Framework, Joint Likelihood \\& Bayesian Occam Penalty}`);
       out.push(`\\begin{itemize}[leftmargin=1.4em]`);
       for (const sec of H12_PROTOCOL_ANALYSIS_SECTIONS) out.push(`  \\item \\textbf{${toLatex(sec.title)}}: ${toLatex(sec.content)}`);
       out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Falsification Checklist}`);
+      out.push(`\\subsubsection*{Falsification Checklist: What Would Prove H12 Wrong?}`);
       out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const f of H12_FALSIFICATION_CHECKLIST) out.push(`  \\item [Falsify] ${toLatex(f)}`);
+      for (const f of H12_FALSIFICATION_CHECKLIST) out.push(`  \\item \\textbf{[Falsify]} ${toLatex(f)}`);
       out.push(`\\end{itemize}`);
-      out.push(`\\subsubsection*{Confirmation Checklist}`);
+      out.push(`\\subsubsection*{Confirmation Checklist: What Would Confirm H12?}`);
       out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const c of H12_CONFIRMATION_CHECKLIST) out.push(`  \\item [Confirm] ${toLatex(c)}`);
+      for (const c of H12_CONFIRMATION_CHECKLIST) out.push(`  \\item \\textbf{[Confirm]} ${toLatex(c)}`);
       out.push(`\\end{itemize}`);
       out.push(`\\begin{quote}${toLatex(H12_FUNDING_AGENCY_SUMMARY)}\\end{quote}`);
     }
     if (ch.number === 13) {
-      out.push(`\\subsubsection*{Table 13.1: Twelve Open Research Extrapolations}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const ex of TWELVE_EXTRAPOLATIONS) out.push(`  \\item \\textbf{${ex.id}. ${toLatex(ex.topic)}} [${toLatex(ex.category)}]: ${toLatex(ex.extension)} Obstacle: ${toLatex(ex.keyObstacleOrFalsifier)}`);
-      out.push(`\\end{itemize}`);
+      out.push(
+        toLatexLongTable(
+          'Table 13.1: Twelve Open Research Extrapolations & Obstacles',
+          ['Topic', 'Category', 'Extension', 'Key Obstacle / Falsifier'],
+          [0.21, 0.18, 0.33, 0.28],
+          TWELVE_EXTRAPOLATIONS.map((ex) => [
+            `${ex.id}. ${ex.topic}`,
+            ex.category,
+            ex.extension,
+            ex.keyObstacleOrFalsifier
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table 13.2: Seven Fundamental Problems in Physics Solved or Revolutionized by IGRT-H12',
+          ['Open Problem', 'Governing Equations', 'Resolution & Category', 'Plain-Language Takeaway'],
+          [0.22, 0.24, 0.31, 0.23],
+          SEVEN_SOLVED_PHYSICS_PROBLEMS.map((sp) => [
+            sp.openProblem,
+            sp.governingH11H12Equations,
+            `${sp.category}: ${sp.coreResolutionAndPrediction}`,
+            sp.laymanTakeaway
+          ])
+        )
+      );
       out.push(`\\subsubsection*{List of Open Problems (OP-1 to OP-6)}`);
       out.push(`\\begin{itemize}[leftmargin=1.4em]`);
       for (const op of H12_OPEN_PROBLEMS_LIST) out.push(`  \\item \\textbf{${toLatex(op.id)}: ${toLatex(op.problem)}} --- ${toLatex(op.statusNote)}`);
@@ -475,52 +798,9 @@ function buildH12ChaptersTex(standalone: boolean): string {
   return out.join('\n');
 }
 
-function buildH12MainAppendicesLMNTex(): string {
-  const out: string[] = ['\\appendix'];
-  for (const app of H12_MAIN_APPENDICES_LMN) {
-    out.push(`\\section{${toLatex(app.title)} [${toLatex(app.category)}]}`);
-    out.push(`\\noindent\\textit{${toLatex(app.leadSummary)}}`);
-    out.push('');
-    for (const p of app.paragraphs) {
-      out.push(toLatex(p));
-      out.push('');
-    }
-    if (app.letter === 'L') {
-      out.push(`\\subsection*{Table L.1: Evaluation of Eleven Candidate Portal Mechanisms}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const m of ELEVEN_PORTAL_MECHANISMS) out.push(`  \\item \\textbf{${toLatex(m.mechanism)}} [${toLatex(m.tier)}, ${toLatex(m.category)}]: ${toLatex(m.quantitativeObstacleOrLimit)}`);
-      out.push(`\\end{itemize}`);
-    }
-    if (app.letter === 'M') {
-      out.push(`\\subsection*{Table M.1: Devices A--F Ten-Field Technical Specifications}`);
-      for (const d of SIX_PROPOSED_DEVICES) {
-        out.push(`\\paragraph{${toLatex(d.deviceId)}: ${toLatex(d.name)} [${toLatex(d.category)}]}`);
-        out.push(`Principle: ${toLatex(d.physicalPrinciple)} Signal: ${toLatex(d.predictedSignal)} Tests: ${toLatex(d.whatItActuallyTests)} Non-Claim: ${toLatex(d.whatItDoesNotDo)}`);
-      }
-    }
-    if (app.letter === 'N') {
-      out.push(`\\subsection*{Table N.1: Ten-Domain Structural Audit (500 Criteria)}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const row of H12_TEN_DOMAIN_AUDITS) {
-        out.push(
-          `  \\item \\textbf{${toLatex(row.domainNumber)} --- ${toLatex(row.domainName)}} [${toLatex(row.verdict)} | ${toLatex(row.category)}]: ` +
-            `Self-Contained ${row.selfContainedPoints}/${row.maxPoints}, Applicable ${row.applicablePoints}/${row.maxPoints}. ${toLatex(row.openFrontierNotes)}`
-        );
-      }
-      out.push(`\\end{itemize}`);
-      out.push('');
-      out.push(`\\subsection*{Table N.2: Sixteen Direct Red-Team Attacks (H12-ATK-01 to H12-ATK-16)}`);
-      out.push(`\\begin{itemize}[leftmargin=1.4em]`);
-      for (const atk of H12_SIXTEEN_REDTEAM_ATTACKS) {
-        out.push(
-          `  \\item \\textbf{${toLatex(atk.id)} (${atk.pointsAwarded}/${atk.maxPoints}) --- ${toLatex(atk.attackTitle)}} [${toLatex(atk.technicalStatus)} | ${toLatex(atk.category)}]: ` +
-            `${toLatex(atk.h12ResolutionAndCitation)}`
-        );
-      }
-      out.push(`\\end{itemize}`);
-    }
-  }
-  out.push('');
+function buildH12ReferencesTex(): string {
+  const out: string[] = [];
+  out.push('\\clearpage');
   out.push('\\section*{References}');
   out.push('\\begin{enumerate}');
   for (const ref of H12_REFERENCES) out.push(`  \\item ${toLatex(ref.citation)}`);
@@ -528,18 +808,168 @@ function buildH12MainAppendicesLMNTex(): string {
   return out.join('\n');
 }
 
-function buildH12TechnicalAppendicesAKTex(): string {
-  const out: string[] = [];
-  out.push('\\clearpage');
-  out.push('\\section*{Technical Appendices (A--K)}');
+function buildH12ConsolidatedAppendicesALTex(standalone: boolean): string {
+  const out: string[] = ['\\clearpage', '\\appendix'];
   for (const app of H12_APPENDICES) {
-    out.push(`\\subsection*{Appendix ${toLatex(app.letter)}: ${toLatex(app.title)} [${toLatex(app.category)}]}`);
+    out.push(`\\section{${toLatex(app.title)} [${toLatex(app.category)}]}`);
     out.push(`\\noindent\\textit{${toLatex(app.summary)}}`);
     out.push('');
     for (const eq of app.equations) out.push(toEqLatex(eq.unicodeHtml, eq.label, eq.caption));
     for (const p of app.bodyParagraphs) {
       out.push(toLatex(p));
       out.push('');
+    }
+
+    if (app.letter === 'I') {
+      out.push(
+        toLatexLongTable(
+          'Table I.1: Evaluation of Eleven Candidate Portal Mechanisms',
+          ['Mechanism', 'Feasibility Tier', 'Physical Action', 'Category', 'Quantitative Obstacle / Limit'],
+          [0.18, 0.16, 0.24, 0.14, 0.28],
+          ELEVEN_PORTAL_MECHANISMS.map((m) => [
+            m.mechanism,
+            m.tier,
+            m.physicalAction,
+            m.category,
+            m.quantitativeObstacleOrLimit
+          ])
+        )
+      );
+    }
+
+    if (app.letter === 'J') {
+      out.push(
+        toLatexLongTable(
+          'Table J.1: Devices A--K Master Ten-Field Technical Specifications',
+          ['Device', 'Principle & Equations', 'Signal & Floor', 'Actually Tests vs Non-Claim'],
+          [0.20, 0.28, 0.24, 0.28],
+          H12_PROPOSED_DEVICES.map((d) => [
+            `${d.deviceId}: ${d.name} [${d.category}]`,
+            `${d.physicalPrinciple} (${d.governingEquations})`,
+            `${d.predictedSignal} | Floor: ${d.noiseFloor}`,
+            `Tests: ${d.whatItActuallyTests} | Non-claim: ${d.whatItDoesNotDo}`
+          ])
+        )
+      );
+      for (const dos of APPENDIX_J_DEVICE_DOSSIERS) {
+        out.push(`\\subsection{${toLatex(dos.title)} [\\texttt{${toLatex(dos.category)}}]}`);
+        out.push(`\\noindent\\textit{${toLatex(dos.tagline)}}`);
+        out.push('');
+        out.push(`\\subsubsection*{How It Works (Plain-Language Guide)}`);
+        for (const lp of dos.laymanParagraphs) {
+          out.push(toLatex(lp));
+          out.push('');
+        }
+        const mfig = H12_DEVICE_FIGURES.find((f) => f.id === dos.figureId);
+        if (mfig) {
+          if (!standalone) {
+            if (mfig.illustrationFilename) {
+              out.push(`\\begin{figure}[htbp]`);
+              out.push(`\\centering`);
+              out.push(`\\IfFileExists{illustrations/${mfig.illustrationFilename}}{\\includegraphics[width=0.90\\textwidth]{illustrations/${mfig.illustrationFilename}}}{\\fbox{\\parbox{0.85\\textwidth}{\\centering Cutaway illustration missing: illustrations/${mfig.illustrationFilename}}}}`);
+              out.push(`\\vspace{6pt}`);
+              out.push(`\\caption{\\textbf{Cutaway Plate (${toLatex(mfig.deviceId)}):} ${toLatex(mfig.illustrationTitle || mfig.title)}}`);
+              out.push(`\\end{figure}`);
+            }
+            out.push(`\\begin{figure}[htbp]`);
+            out.push(`\\centering`);
+            out.push(`\\IfFileExists{figures/${mfig.id}.png}{\\includegraphics[width=0.92\\textwidth]{figures/${mfig.id}.png}}{\\fbox{\\parbox{0.85\\textwidth}{\\centering Schematic raster missing; inspect figures/${mfig.id}.svg}}}`);
+            out.push(`\\vspace{6pt}`);
+            out.push(`\\caption{\\textbf{${toLatex(mfig.figureNumber)} [${toLatex(mfig.category)}]:} ${toLatex(mfig.title)}. ${toLatex(mfig.caption)}}`);
+            out.push(`\\end{figure}`);
+          } else {
+            out.push(`\\begin{quote}\\textbf{${toLatex(mfig.figureNumber)}:} ${toLatex(mfig.title)} --- ${toLatex(mfig.caption)}\\end{quote}`);
+          }
+        }
+        out.push(`\\subsubsection*{Laboratory Architecture, Equations \\& Metrology}`);
+        for (const ep of dos.engineeringParagraphs) {
+          out.push(toLatex(ep));
+          out.push('');
+        }
+        out.push(`\\begin{quote}\\textbf{Significance \\& Epistemic Boundary:} ${toLatex(dos.impactParagraph)}\\end{quote}`);
+        const spec = H12_PROPOSED_DEVICES.find((d) => d.deviceId === dos.deviceId);
+        if (spec) {
+          out.push(
+            toLatexLongTable(
+              `${dos.deviceId}: Ten-Field Specification Matrix`,
+              ['Specification Field', 'Quantitative Value & Boundary'],
+              [0.26, 0.74],
+              [
+                ['1. Physical Principle', spec.physicalPrinciple],
+                ['2. Governing Equations', spec.governingEquations],
+                ['3. Architecture', spec.architecture],
+                ['4. Operating Regime', spec.operatingRegime],
+                ['5. Predicted Signal', spec.predictedSignal],
+                ['6. Noise Floor', spec.noiseFloor],
+                ['7. Feasibility', `${spec.engineeringFeasibility} (${spec.category})`],
+                ['8. Actually Tests', spec.whatItActuallyTests],
+                ['9. Does NOT Do', spec.whatItDoesNotDo],
+                ['10. Failure Criteria', spec.failureCriteria]
+              ]
+            )
+          );
+        }
+      }
+      out.push(`\\subsection{Cross-Device Synthesis \\& Coordinated Discovery Horizon}`);
+      out.push(
+        toLatexLongTable(
+          'Table J.2: Cross-Device Sensitivity, Readiness & Discovery Horizon Matrix (Devices A--K)',
+          ['Device', 'Target Physics', 'Primary Observable', 'Readiness', 'Breakthrough vs Non-Claim'],
+          [0.17, 0.20, 0.20, 0.14, 0.29],
+          APPENDIX_J_SYNTHESIS_TABLE.map((row) => [
+            row.device,
+            row.targetPhysics,
+            row.primaryObservable,
+            row.readinessAndWindow,
+            `${row.breakthroughIfDetected} | Non-claim: ${row.strictNonClaim}`
+          ])
+        )
+      );
+    }
+
+    if (app.letter === 'K') {
+      out.push(
+        toLatexLongTable(
+          'Table K.1: Unified Solutions to Seven Open Problems in Physics',
+          ['Open Problem', 'Governing H11/H12 Equations', 'Resolution & Category', 'Plain-Language Takeaway'],
+          [0.22, 0.24, 0.31, 0.23],
+          SEVEN_SOLVED_PHYSICS_PROBLEMS.map((sp) => [
+            sp.openProblem,
+            sp.governingH11H12Equations,
+            `${sp.category}: ${sp.coreResolutionAndPrediction}`,
+            sp.laymanTakeaway
+          ])
+        )
+      );
+    }
+
+    if (app.letter === 'L') {
+      out.push(
+        toLatexLongTable(
+          'Table L.1: Ten-Domain Structural Audit (500 Criteria)',
+          ['Domain', 'Self-Contained', 'Applicable', 'Verdict & Frontier Notes'],
+          [0.24, 0.14, 0.14, 0.48],
+          H12_TEN_DOMAIN_AUDITS.map((row) => [
+            `${row.domainNumber} -- ${row.domainName} [${row.category}]`,
+            `${row.selfContainedPoints}/${row.maxPoints}`,
+            `${row.applicablePoints}/${row.maxPoints}`,
+            `${row.verdict}: ${row.openFrontierNotes}`
+          ])
+        )
+      );
+      out.push(
+        toLatexLongTable(
+          'Table L.2: Sixteen Direct Stress-Test Evaluations (H12-ATK-01 to H12-ATK-16)',
+          ['ID & Score', 'Challenge', 'Status & Category', 'H12 Resolution'],
+          [0.15, 0.24, 0.20, 0.41],
+          H12_SIXTEEN_REDTEAM_ATTACKS.map((atk) => [
+            `${atk.id} (${atk.pointsAwarded}/${atk.maxPoints})`,
+            atk.attackTitle,
+            `${atk.technicalStatus} | ${atk.category}`,
+            atk.h12ResolutionAndCitation
+          ])
+        )
+      );
     }
   }
   return out.join('\n');
@@ -566,8 +996,8 @@ ${buildH12FrontmatterTex()}
 \\tableofcontents
 \\newpage
 ${buildH12ChaptersTex(true)}
-${buildH12MainAppendicesLMNTex()}
-${buildH12TechnicalAppendicesAKTex()}
+${buildH12ReferencesTex()}
+${buildH12ConsolidatedAppendicesALTex(true)}
 \\end{document}
 `;
 }
@@ -593,8 +1023,8 @@ export function buildH12LatexFilesMap(): Record<string, string> {
 \\tableofcontents
 \\newpage
 \\input{sections/01_chapters}
-\\input{sections/02_appendices_LMN}
-\\input{sections/03_appendices_AK}
+\\input{sections/02_references}
+\\input{sections/03_appendices_AL}
 \\end{document}
 `;
 
@@ -608,10 +1038,10 @@ verify:
 
   const readme = `# IGRT-H12 LaTeX & Numerical Verification Bundle
 
-Compile Complete Monograph (main.tex, Chapters 1-13 + Appendices A-N):
+Compile Complete Monograph (main.tex, Chapters 1-13 + References + Consolidated Appendices A-L):
   make        (or upload entire ZIP directly to Overleaf)
 
-Verify all 80 numerical and symbolic physics assertions:
+Verify all 102 numerical and symbolic physics assertions:
   node scripts/verify-igrt-h12.mjs
 `;
 
@@ -620,14 +1050,14 @@ Verify all 80 numerical and symbolic physics assertions:
     'preamble.tex': buildH12Preamble(),
     'sections/00_frontmatter.tex': buildH12FrontmatterTex(),
     'sections/01_chapters.tex': buildH12ChaptersTex(false),
-    'sections/02_appendices_LMN.tex': buildH12MainAppendicesLMNTex(),
-    'sections/03_appendices_AK.tex': buildH12TechnicalAppendicesAKTex(),
+    'sections/02_references.tex': buildH12ReferencesTex(),
+    'sections/03_appendices_AL.tex': buildH12ConsolidatedAppendicesALTex(false),
     'scripts/verify-igrt-h12.mjs': verifyH12ScriptSource,
     Makefile: makefile,
     'README.md': readme
   };
 
-  for (const fig of H12_FIGURES) {
+  for (const fig of [...H12_FIGURES, ...H12_DEVICE_FIGURES]) {
     const formatted = formatSvgMathMarkup(pdfBmpSafeUnicode(fig.svgMarkup));
     files[`figures/${fig.id}.svg`] = formatted.startsWith('<?xml')
       ? formatted
@@ -715,16 +1145,22 @@ export async function buildH12LatexBundleZipBlob(): Promise<Blob> {
     data: encoder.encode(content)
   }));
 
-  await Promise.all(
-    H12_ARCHIVAL_PLATES.map(async (pl) => {
+  await Promise.all([
+    ...H12_ARCHIVAL_PLATES.map(async (pl) => {
       const bytes = await fetchImageBytes(pl.imagePath);
       if (bytes) {
         entries.push({ name: `illustrations/${pl.bundleFilename}`, data: bytes });
       }
+    }),
+    ...H12_DEVICE_FIGURES.filter((f) => f.illustrationPath && f.illustrationFilename).map(async (f) => {
+      const bytes = await fetchImageBytes(f.illustrationPath!);
+      if (bytes) {
+        entries.push({ name: `illustrations/${f.illustrationFilename}`, data: bytes });
+      }
     })
-  );
+  ]);
 
-  for (const fig of H12_FIGURES) {
+  for (const fig of [...H12_FIGURES, ...H12_DEVICE_FIGURES]) {
     const pngBytes = await rasterizeH12Svg(fig.svgMarkup);
     if (pngBytes) {
       entries.push({ name: `figures/${fig.id}.png`, data: pngBytes });
@@ -750,113 +1186,139 @@ function escHtml(s?: string | null): string {
     .replace(/>/g, '&gt;');
 }
 
+function mathHtml(s?: string | null): string {
+  return formatMathToHtml(String(s ?? ''));
+}
+
 export function buildH12SelfContainedHtml(): string {
   const chapterHtml = H12_CHAPTERS.map((ch) => {
     const subs = ch.subsections
       .map((s) => {
         const eqBlock = s.equation
-          ? `<div class="eq-box"><div class="eq-main">${s.equation.unicodeHtml}</div><div class="eq-cap">${escHtml(s.equation.label)} [${escHtml(s.equation.category)}] — ${escHtml(s.equation.caption)}</div></div>`
+          ? `<div class="eq-box"><div class="eq-main">${s.equation.unicodeHtml}</div><div class="eq-cap">${mathHtml(s.equation.label)} [${escHtml(s.equation.category)}] — ${mathHtml(s.equation.caption)}</div></div>`
           : '';
         const bulletsBlock = s.bulletPoints && s.bulletPoints.length > 0
-          ? `<ul>${s.bulletPoints.map((bp) => `<li><strong>${escHtml(bp.label)}:</strong> ${escHtml(bp.text)}</li>`).join('')}</ul>`
+          ? `<ul>${s.bulletPoints.map((bp) => `<li><strong>${mathHtml(bp.label)}:</strong> ${mathHtml(bp.text)}</li>`).join('')}</ul>`
           : '';
         const thmBlock = s.theoremBox
-          ? `<div class="thm-box"><strong>${escHtml(s.theoremBox.number)} — ${escHtml(s.theoremBox.title)}</strong> <code>${escHtml(s.theoremBox.category)}</code><ul>${s.theoremBox.hypotheses.map((h) => `<li>${escHtml(h)}</li>`).join('')}</ul><p>${escHtml(s.theoremBox.statement)}</p></div>`
+          ? `<div class="thm-box"><strong>${mathHtml(s.theoremBox.number)} — ${mathHtml(s.theoremBox.title)}</strong> <code>${escHtml(s.theoremBox.category)}</code><ul>${s.theoremBox.hypotheses.map((h) => `<li>${mathHtml(h)}</li>`).join('')}</ul><p>${mathHtml(s.theoremBox.statement)}</p></div>`
           : '';
         const exBlock = s.workedExample
-          ? `<div class="thm-box"><strong>${escHtml(s.workedExample.title)}</strong><p>${escHtml(s.workedExample.setup)}</p><ol>${s.workedExample.steps.map((st) => `<li>${escHtml(st)}</li>`).join('')}</ol><div class="eq-box"><div class="eq-main">${s.workedExample.resultEquation.unicodeHtml}</div><div class="eq-cap">${escHtml(s.workedExample.resultEquation.label)} — ${escHtml(s.workedExample.resultEquation.caption)}</div></div><p><strong>Takeaway:</strong> ${escHtml(s.workedExample.takeaway)}</p></div>`
+          ? `<div class="thm-box"><strong>${mathHtml(s.workedExample.title)}</strong><p>${mathHtml(s.workedExample.setup)}</p><ol>${s.workedExample.steps.map((st) => `<li>${mathHtml(st)}</li>`).join('')}</ol><div class="eq-box"><div class="eq-main">${s.workedExample.resultEquation.unicodeHtml}</div><div class="eq-cap">${mathHtml(s.workedExample.resultEquation.label)} — ${mathHtml(s.workedExample.resultEquation.caption)}</div></div><p><strong>Takeaway:</strong> ${mathHtml(s.workedExample.takeaway)}</p></div>`
           : '';
-        return `<section><h3>${escHtml(s.number)} ${escHtml(s.title)} <span class="cat-label">${escHtml(s.category)}</span></h3>${s.paragraphs.map((p) => `<p>${escHtml(p)}</p>`).join('')}${eqBlock}${bulletsBlock}${thmBlock}${exBlock}</section>`;
+        return `<section><h3>${escHtml(s.number)} ${mathHtml(s.title)} <span class="cat-label">${escHtml(s.category)}</span></h3>${s.paragraphs.map((p) => `<p>${mathHtml(p)}</p>`).join('')}${eqBlock}${bulletsBlock}${thmBlock}${exBlock}</section>`;
       })
       .join('');
     let chapterIntro = '';
     let chapterExtras = '';
     if (ch.number === 1) {
-      chapterIntro += `<div class="thm-box"><strong>Metric Signature Box:</strong> ${escHtml(H12_METRIC_SIGNATURE_BOX)}</div>`;
-      chapterIntro += `<h4>Table 1.3 · Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas)</h4><table><thead><tr><th>Boundary Case</th><th>Derived Core vs. Conjectural Premise</th><th>Category &amp; Rule</th></tr></thead><tbody>${EPISTEMIC_BC_GREY_AREA_RUBRIC.map((g) => `<tr><td>${escHtml(g.boundaryCase)}</td><td><strong>Derived:</strong> ${escHtml(g.derivedAspect)}<br/><strong>Conjectural:</strong> ${escHtml(g.conjecturalAspect)}</td><td>${escHtml(g.assignedCategory)} — ${escHtml(g.ruleApplied)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 1.1 · Audit of All 12 Core IGRT-H11 Components &amp; H12 Embedding Status</h4><table><thead><tr><th>Component</th><th>H11 Value / Role</th><th>H12 Status</th><th>Category &amp; Modification</th></tr></thead><tbody>${H11_TWELVE_COMPONENTS_AUDIT.map((r) => `<tr><td>${escHtml(r.component)}</td><td>${escHtml(r.h11EquationOrValue)}</td><td>${escHtml(r.h12Status)}</td><td><strong>${escHtml(r.category)}:</strong> ${escHtml(r.h12Modification)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 1.2 · Direct Comparison: 4D IGRT-H11 vs. 5D IGRT-H12</h4><table><thead><tr><th>Dimension</th><th>4D IGRT-H11</th><th>5D IGRT-H12</th><th>Epistemic Delta</th><th>Testable Now?</th></tr></thead><tbody>${COMPARISON_4D_VS_5D_IGRT.map((c) => `<tr><td>${escHtml(c.dimension)}</td><td>${escHtml(c.h11FourD)}</td><td>${escHtml(c.h12FiveD)}</td><td>${escHtml(c.epistemicDelta)}</td><td>${escHtml(c.testableNow)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Glossary of Five-Dimensional Terms</h4><dl>${GLOSSARY_5D_TERMS.map((g) => `<dt><strong>${escHtml(g.term)}</strong></dt><dd>${escHtml(g.definition)}</dd>`).join('')}</dl>`;
-      chapterExtras += `<div class="thm-box">${escHtml(SUMMARY_FOR_PHYSICISTS)}</div>`;
+      chapterIntro += `<div class="thm-box"><strong>Metric Signature Box:</strong> ${mathHtml(H12_METRIC_SIGNATURE_BOX)}</div>`;
+      chapterIntro += `<h4>Table 1.3 · Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas)</h4><table><thead><tr><th>Boundary Case</th><th>Derived Core vs. Conjectural Premise</th><th>Category &amp; Rule</th></tr></thead><tbody>${EPISTEMIC_BC_GREY_AREA_RUBRIC.map((g) => `<tr><td>${mathHtml(g.boundaryCase)}</td><td><strong>Derived:</strong> ${mathHtml(g.derivedAspect)}<br/><strong>Conjectural:</strong> ${mathHtml(g.conjecturalAspect)}</td><td>${escHtml(g.assignedCategory)} — ${mathHtml(g.ruleApplied)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 1.1 · Audit of All 12 Core IGRT-H11 Components &amp; H12 Embedding Status</h4><table><thead><tr><th>Component</th><th>H11 Value / Role</th><th>H12 Status</th><th>Category &amp; Modification</th></tr></thead><tbody>${H11_TWELVE_COMPONENTS_AUDIT.map((r) => `<tr><td>${mathHtml(r.component)}</td><td>${mathHtml(r.h11EquationOrValue)}</td><td>${mathHtml(r.h12Status)}</td><td><strong>${escHtml(r.category)}:</strong> ${mathHtml(r.h12Modification)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 1.2 · Direct Comparison: 4D IGRT-H11 vs. 5D IGRT-H12</h4><table><thead><tr><th>Dimension</th><th>4D IGRT-H11</th><th>5D IGRT-H12</th><th>Epistemic Delta</th><th>Testable Now?</th></tr></thead><tbody>${COMPARISON_4D_VS_5D_IGRT.map((c) => `<tr><td>${mathHtml(c.dimension)}</td><td>${mathHtml(c.h11FourD)}</td><td>${mathHtml(c.h12FiveD)}</td><td>${mathHtml(c.epistemicDelta)}</td><td>${escHtml(c.testableNow)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Glossary of Five-Dimensional Terms</h4><dl>${GLOSSARY_5D_TERMS.map((g) => `<dt><strong>${mathHtml(g.term)}</strong></dt><dd>${mathHtml(g.definition)}</dd>`).join('')}</dl>`;
+      chapterExtras += `<div class="thm-box">${mathHtml(SUMMARY_FOR_PHYSICISTS)}</div>`;
     } else if (ch.number === 2) {
-      chapterIntro += `<h4>Timeline of Five-Dimensional Physics (1921–2026)</h4><ul>${TIMELINE_5D_PHYSICS.map((tm) => `<li><strong>${escHtml(tm.year)} · ${escHtml(tm.milestone)}:</strong> ${escHtml(tm.contributionToH12)}</li>`).join('')}</ul>`;
-      chapterExtras += `<h4>Table 2.1 · Structured Catalog of 665 Verified H11 Assertions</h4><table><thead><tr><th>Group</th><th>Assertions</th><th>Scope</th></tr></thead><tbody>${H11_665_ASSERTIONS_CATALOG.map((c) => `<tr><td>${escHtml(c.moduleGroup)}</td><td>${c.assertionCount}</td><td>${escHtml(c.verifiedPhysicalScope)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 2.2 · Eöt-Wash Uncertainty, UV Regulators &amp; Clock Energy Sweep</h4><table><thead><tr><th>Regime / Regulator</th><th>Scale</th><th>Output</th><th>Interpretation</th></tr></thead><tbody>${REGULATOR_SENSITIVITY_TABLE.map((r) => `<tr><td>${escHtml(r.regimeOrRegulator)}</td><td>${escHtml(r.energyOrRadius)}</td><td>${escHtml(r.computedOutput)}</td><td>${escHtml(r.physicalInterpretation)}</td></tr>`).join('')}</tbody></table>`;
+      chapterIntro += `<h4>Timeline of Five-Dimensional Physics (1921–2026)</h4><ul>${TIMELINE_5D_PHYSICS.map((tm) => `<li><strong>${escHtml(tm.year)} · ${mathHtml(tm.milestone)}:</strong> ${mathHtml(tm.contributionToH12)}</li>`).join('')}</ul>`;
+      chapterExtras += `<h4>Table 2.1 · Structured Catalog of 665 Verified H11 Assertions</h4><table><thead><tr><th>Group</th><th>Assertions</th><th>Scope</th></tr></thead><tbody>${H11_665_ASSERTIONS_CATALOG.map((c) => `<tr><td>${escHtml(c.moduleGroup)}</td><td>${c.assertionCount}</td><td>${mathHtml(c.verifiedPhysicalScope)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 2.2 · Eöt-Wash Uncertainty, UV Regulators &amp; Clock Energy Sweep</h4><table><thead><tr><th>Regime / Regulator</th><th>Scale</th><th>Output</th><th>Interpretation</th></tr></thead><tbody>${REGULATOR_SENSITIVITY_TABLE.map((r) => `<tr><td>${mathHtml(r.regimeOrRegulator)}</td><td>${mathHtml(r.energyOrRadius)}</td><td>${mathHtml(r.computedOutput)}</td><td>${mathHtml(r.physicalInterpretation)}</td></tr>`).join('')}</tbody></table>`;
     } else if (ch.number === 3) {
-      chapterExtras += `<h4>Table 3.1 · Seven Orthogonal Temporal Notions &amp; Literature Correspondence</h4><table><thead><tr><th>Notion</th><th>Symbol</th><th>Definition</th><th>Folding &amp; Literature</th></tr></thead><tbody>${SEVEN_TEMPORAL_NOTIONS.map((t) => `<tr><td>${escHtml(t.notion)}</td><td>${escHtml(t.symbol)}</td><td>${escHtml(t.mathematicalDefinition)}</td><td>${escHtml(t.foldsInH12)}<br/><em>Literature:</em> ${escHtml(t.literatureComparison)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 3.1 · Seven Orthogonal Temporal Notions &amp; Literature Correspondence</h4><table><thead><tr><th>Notion</th><th>Symbol</th><th>Definition</th><th>Folding &amp; Literature</th></tr></thead><tbody>${SEVEN_TEMPORAL_NOTIONS.map((t) => `<tr><td>${escHtml(t.notion)}</td><td>${mathHtml(t.symbol)}</td><td>${mathHtml(t.mathematicalDefinition)}</td><td>${mathHtml(t.foldsInH12)}<br/><em>Literature:</em> ${mathHtml(t.literatureComparison)}</td></tr>`).join('')}</tbody></table>`;
     } else if (ch.number === 4) {
-      chapterExtras += `<h4>Table 4.1 · Positive Conjectures Summary Table (Strictly Category C)</h4><table><thead><tr><th>Conjecture</th><th>Conditional Mathematical Statement</th><th>Target Protocol &amp; Status</th></tr></thead><tbody>${POSITIVE_CONJECTURES_SUMMARY.map((p) => `<tr><td>${escHtml(p.conjecture)}</td><td>${escHtml(p.statement)}</td><td><strong>${escHtml(p.category)}:</strong> ${escHtml(p.test)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 4.2 · Model 2B Quadrature Convergence &amp; ds_5² ≡ 0 Verification</h4><table><thead><tr><th>Span</th><th>Peak Depth</th><th>Folding &amp; Speed</th><th>Residuals</th></tr></thead><tbody>${MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE.map((m) => `<tr><td>${escHtml(m.benchmarkSpan)}</td><td>${escHtml(m.turningPeak)}</td><td>${escHtml(m.etaFoldAndSpeed)}</td><td>${escHtml(m.elAndNullResidual)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 4.1 · Positive Conjectures Summary Table (Strictly Category C)</h4><table><thead><tr><th>Conjecture</th><th>Conditional Mathematical Statement</th><th>Target Protocol &amp; Status</th></tr></thead><tbody>${POSITIVE_CONJECTURES_SUMMARY.map((p) => `<tr><td>${mathHtml(p.conjecture)}</td><td>${mathHtml(p.statement)}</td><td><strong>${escHtml(p.category)}:</strong> ${mathHtml(p.test)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 4.2 · Model 2B Quadrature Convergence &amp; ds<sub>5</sub><sup>2</sup> ≡ 0 Verification</h4><table><thead><tr><th>Span</th><th>Peak Depth</th><th>Folding &amp; Speed</th><th>Residuals</th></tr></thead><tbody>${MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE.map((m) => `<tr><td>${mathHtml(m.benchmarkSpan)}</td><td>${mathHtml(m.turningPeak)}</td><td>${mathHtml(m.etaFoldAndSpeed)}</td><td>${mathHtml(m.elAndNullResidual)}</td></tr>`).join('')}</tbody></table>`;
     } else if (ch.number === 5) {
-      chapterExtras += `<h4>Table 5.1 · Six-Class Black-Hole &amp; Portal Geometry Taxonomy (Classes A–F)</h4><table><thead><tr><th>Class</th><th>Metric / NEC Status</th><th>Portal Viability</th><th>Stability &amp; Category</th></tr></thead><tbody>${SIX_BLACK_HOLE_CLASSES.map((b) => `<tr><td><strong>${escHtml(b.classId)}</strong> (${escHtml(b.label)})</td><td>${escHtml(b.metricSignatureAndForm)}<br/>${escHtml(b.necStatus)}</td><td>${escHtml(b.portalViability)}</td><td><strong>${escHtml(b.category)}:</strong> ${escHtml(b.stabilityAndConstraints)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 5.1 · Six-Class Black-Hole &amp; Portal Geometry Taxonomy (Classes A–F)</h4><table><thead><tr><th>Class</th><th>Metric / NEC Status</th><th>Portal Viability</th><th>Stability &amp; Category</th></tr></thead><tbody>${SIX_BLACK_HOLE_CLASSES.map((b) => `<tr><td><strong>${escHtml(b.classId)}</strong> (${escHtml(b.label)})</td><td>${mathHtml(b.metricSignatureAndForm)}<br/>${mathHtml(b.necStatus)}</td><td>${mathHtml(b.portalViability)}</td><td><strong>${escHtml(b.category)}:</strong> ${mathHtml(b.stabilityAndConstraints)}</td></tr>`).join('')}</tbody></table>`;
     } else if (ch.number === 6 || ch.number === 9) {
-      chapterExtras += `<h4>Table ${ch.number}.1 · ${ch.number === 6 ? 'Negative Results Summary' : 'Consolidated Negative Results Summary Table (Category A/B)'}</h4><table><thead><tr><th>Negative Theorem</th><th>Category</th><th>Statement</th><th>Physical Implication</th></tr></thead><tbody>${NEGATIVE_RESULTS_SUMMARY.map((n) => `<tr><td>${escHtml(n.theorem)}</td><td>${escHtml(n.category)}</td><td>${escHtml(n.statement)}</td><td>${escHtml(n.implication)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Glossary of Negative Theorems</h4><dl>${GLOSSARY_NEGATIVE_THEOREMS.map((g) => `<dt><strong>${escHtml(g.term)}</strong></dt><dd>${escHtml(g.definition)}</dd>`).join('')}</dl>`;
+      chapterExtras += `<h4>Table ${ch.number}.1 · ${ch.number === 6 ? 'Negative Results Summary' : 'Consolidated Negative Results Summary Table (Category A/B)'}</h4><table><thead><tr><th>Negative Theorem</th><th>Category</th><th>Statement</th><th>Physical Implication</th></tr></thead><tbody>${NEGATIVE_RESULTS_SUMMARY.map((n) => `<tr><td>${mathHtml(n.theorem)}</td><td>${escHtml(n.category)}</td><td>${mathHtml(n.statement)}</td><td>${mathHtml(n.implication)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Glossary of Negative Theorems</h4><dl>${GLOSSARY_NEGATIVE_THEOREMS.map((g) => `<dt><strong>${mathHtml(g.term)}</strong></dt><dd>${mathHtml(g.definition)}</dd>`).join('')}</dl>`;
     } else if (ch.number === 10) {
-      chapterExtras += `<h4>Table 10.1 · What Is Unique to 5D vs. Already Resolved in 4D IGRT-H11</h4><table><thead><tr><th>Observable</th><th>4D IGRT-H11</th><th>Unique to 5D IGRT-H12</th><th>Empirical Status</th></tr></thead><tbody>${WHAT_IS_UNIQUE_TO_5D.map((u) => `<tr><td>${escHtml(u.observable)}</td><td>${escHtml(u.reproducedIn4DH11)}</td><td>${escHtml(u.uniqueTo5DH12)}</td><td>${escHtml(u.empiricalStatus)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 10.2 · Observational Bounds Consistency Audit</h4><table><thead><tr><th>Probe</th><th>Quantitative Bound</th><th>H12 Status</th><th>Derived vs. Assumed</th></tr></thead><tbody>${FIVE_D_OBSERVATIONAL_BOUNDS.map((b) => `<tr><td>${escHtml(b.probe)}</td><td>${escHtml(b.bound)}</td><td>${escHtml(b.h12Status)}</td><td>${escHtml(b.derivationOrAssumption)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 10.1 · What Is Unique to 5D vs. Already Resolved in 4D IGRT-H11</h4><table><thead><tr><th>Observable</th><th>4D IGRT-H11</th><th>Unique to 5D IGRT-H12</th><th>Empirical Status</th></tr></thead><tbody>${WHAT_IS_UNIQUE_TO_5D.map((u) => `<tr><td>${mathHtml(u.observable)}</td><td>${mathHtml(u.reproducedIn4DH11)}</td><td>${mathHtml(u.uniqueTo5DH12)}</td><td>${mathHtml(u.empiricalStatus)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 10.2 · Observational Bounds Consistency Audit</h4><table><thead><tr><th>Probe</th><th>Quantitative Bound</th><th>H12 Status</th><th>Derived vs. Assumed</th></tr></thead><tbody>${FIVE_D_OBSERVATIONAL_BOUNDS.map((b) => `<tr><td>${mathHtml(b.probe)}</td><td>${mathHtml(b.bound)}</td><td>${mathHtml(b.h12Status)}</td><td>${mathHtml(b.derivationOrAssumption)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 10.3 · Five-Dimensional Signatures, Experimental Tests &amp; Current Observational Constraints</h4><table><thead><tr><th>5D Signature</th><th>Experiment That Tests It</th><th>Current Observational Constraint</th></tr></thead><tbody>${FIVE_D_SIGNATURES_TEST_MATRIX.map((sig) => `<tr><td>${mathHtml(sig.signature)}</td><td>${mathHtml(sig.experimentToTestIt)}</td><td>${mathHtml(sig.currentConstraint)}</td></tr>`).join('')}</tbody></table>`;
     } else if (ch.number === 11) {
-      chapterExtras += `<h4>Table 11.1 · Exhaustive Ledger of Non-Derived Claims (Categories A, C &amp; D)</h4><table><thead><tr><th>Claim / Ansatz / Postulate</th><th>Category</th><th>Exact Reason Why Not Derived in H12</th></tr></thead><tbody>${WHAT_IS_NOT_DERIVED_LEDGER.map((w) => `<tr><td>${escHtml(w.claim)}</td><td>${escHtml(w.category)}</td><td>${escHtml(w.whyNotDerived)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 11.1 · Exhaustive Ledger of Non-Derived Claims (Categories A, C &amp; D)</h4><table><thead><tr><th>Claim / Ansatz / Postulate</th><th>Category</th><th>Exact Reason Why Not Derived in H12</th></tr></thead><tbody>${WHAT_IS_NOT_DERIVED_LEDGER.map((w) => `<tr><td>${mathHtml(w.claim)}</td><td>${escHtml(w.category)}</td><td>${mathHtml(w.whyNotDerived)}</td></tr>`).join('')}</tbody></table>`;
     } else if (ch.number === 12) {
-      chapterExtras += `<h4>Table 12.1 · Dedicated IGRT-H12 Experimental &amp; Conceptual Protocols (P7–P13)</h4><table><thead><tr><th>Protocol</th><th>Relation to H11</th><th>Sensitivity</th><th>Falsification Criterion</th></tr></thead><tbody>${H12_ALL_PROTOCOLS.map((p) => `<tr><td><strong>${escHtml(p.id)} · ${escHtml(p.name)}</strong><br/>${escHtml(p.category)} (${escHtml(p.timeline)})</td><td>${escHtml(p.relationToH11)}</td><td>${escHtml(p.numericalSensitivity)}</td><td>${escHtml(p.falsificationCriterion)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 12.2 · P7–P13 Experimental Timeline</h4><table><thead><tr><th>Protocol</th><th>Current State</th><th>Required Sensitivity</th><th>Expected Window</th></tr></thead><tbody>${P7_TO_P13_TIMELINE_TABLE.map((t) => `<tr><td>${escHtml(t.protocol)}</td><td>${escHtml(t.currentState)}</td><td>${escHtml(t.requiredSensitivity)}</td><td>${escHtml(t.expectedYear)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 12.3 · Falsification Thresholds &amp; Table 12.4 · Confirmation Thresholds (P7–P13)</h4><table><thead><tr><th>Protocol</th><th>Null Falsification Bound</th><th>Rules Out</th><th>Positive Signal &amp; Control</th></tr></thead><tbody>${P7_TO_P13_FALSIFICATION_TABLE.map((f, idx) => { const c = P7_TO_P13_CONFIRMATION_TABLE[idx]; return `<tr><td>${escHtml(f.protocol)}</td><td>${escHtml(f.nullBound)}</td><td>${escHtml(f.whatItRulesOut)}</td><td>${c ? `${escHtml(c.signalSignature)} (Control: ${escHtml(c.requiredControl)})` : ''}</td></tr>`; }).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 12.5 · Empirical Decision Matrix (P7–P13)</h4><table><thead><tr><th>Experimental Outcome</th><th>Posterior Status</th><th>Mandatory Action</th></tr></thead><tbody>${P7_TO_P13_DECISION_MATRIX.map((d) => `<tr><td>${escHtml(d.outcome)}</td><td>${escHtml(d.posteriorStatus)}</td><td>${escHtml(d.mandatoryAction)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 12.6 · H11 Protocols (P1–P6) vs. H12 Protocols (P7–P13)</h4><table><thead><tr><th>Aspect</th><th>H11 (P1–P6)</th><th>H12 (P7–P13)</th></tr></thead><tbody>${H11_VS_H12_PROTOCOLS_COMPARISON.map((cmp) => `<tr><td>${escHtml(cmp.aspect)}</td><td>${escHtml(cmp.h11Protocols)}</td><td>${escHtml(cmp.h12Protocols)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 12.7 · Quantitative Noise Budgets &amp; Mitigation (P7–P13)</h4><table><thead><tr><th>Protocol</th><th>Noise Sources</th><th>Floor</th><th>Mitigation</th></tr></thead><tbody>${P7_TO_P13_NOISE_BUDGET_TABLE.map((nb) => `<tr><td>${escHtml(nb.protocol)}</td><td>${escHtml(nb.primaryNoiseSources)}</td><td>${escHtml(nb.quantitativeBudget)}</td><td>${escHtml(nb.mitigationArchitecture)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 12.8 · P13 Systematic Error Budget</h4><table><thead><tr><th>Source</th><th>Magnitude / Uncertainty</th><th>Impact on η_fold</th><th>Mitigation Strategy</th></tr></thead><tbody>${P13_SYSTEMATIC_ERROR_BUDGET.map((s) => `<tr><td>${escHtml(s.source)}</td><td>${escHtml(s.magnitudeOrUncertainty)}</td><td>${escHtml(s.impactOnEtaFold)}</td><td>${escHtml(s.mitigationStrategy)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 12.9 · P13 Statistical Error Budget</h4><table><thead><tr><th>Channel</th><th>Timing Precision</th><th>Propagated η_fold Error</th><th>Scaling Note</th></tr></thead><tbody>${P13_STATISTICAL_ERROR_BUDGET.map((st) => `<tr><td>${escHtml(st.channel)}</td><td>${escHtml(st.measurementPrecision)}</td><td>${escHtml(st.propagatedEtaFoldError)}</td><td>${escHtml(st.sampleScalingNote)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 12.10 · Combined Protocol Bounds (P7–P13)</h4><table><thead><tr><th>Cluster</th><th>Parameters</th><th>Joint Likelihood Role</th><th>Exclusion Power</th></tr></thead><tbody>${P7_TO_P13_COMBINED_BOUNDS_TABLE.map((cb) => `<tr><td>${escHtml(cb.protocolPairOrCluster)}</td><td>${escHtml(cb.constrainedParameters)}</td><td>${escHtml(cb.combinedJointLikelihoodRole)}</td><td>${escHtml(cb.orthogonalExclusionPower)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 12.11 · Protocol Sensitivity Projections (2026–2035+)</h4><table><thead><tr><th>Protocol</th><th>2026 Baseline</th><th>2027–2032</th><th>2035+ (3G)</th></tr></thead><tbody>${P7_TO_P13_SENSITIVITY_PROJECTION_TABLE.map((pr) => `<tr><td>${escHtml(pr.protocol)}</td><td>${escHtml(pr.currentBaseline2026)}</td><td>${escHtml(pr.nearTerm2027_2032)}</td><td>${escHtml(pr.longTerm3G2035Plus)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Table 12.12 · Summary of P13 Multi-Messenger Bounds</h4><table><thead><tr><th>Dataset / Regime</th><th>Distance</th><th>Arrival Bound</th><th>η_fold Limit</th><th>Status</th></tr></thead><tbody>${P13_SUMMARY_OF_BOUNDS_TABLE.map((pb) => `<tr><td>${escHtml(pb.datasetOrRegime)}</td><td>${escHtml(pb.baselineDistance)}</td><td>${escHtml(pb.arrivalBoundOrPrecision)}</td><td>${escHtml(pb.etaFoldLimit)}</td><td>${escHtml(pb.epistemicNote)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>Statistical Significance, Joint Likelihood &amp; Bayesian Occam Penalty</h4><ul>${H12_PROTOCOL_ANALYSIS_SECTIONS.map((sec) => `<li><strong>${escHtml(sec.title)}:</strong> ${escHtml(sec.content)}</li>`).join('')}</ul>`;
-      chapterExtras += `<h4>Falsification Checklist</h4><ul>${H12_FALSIFICATION_CHECKLIST.map((f) => `<li><strong>[Falsify]</strong> ${escHtml(f)}</li>`).join('')}</ul>`;
-      chapterExtras += `<h4>Confirmation Checklist</h4><ul>${H12_CONFIRMATION_CHECKLIST.map((c) => `<li><strong>[Confirm]</strong> ${escHtml(c)}</li>`).join('')}</ul>`;
-      chapterExtras += `<div class="thm-box">${escHtml(H12_FUNDING_AGENCY_SUMMARY)}</div>`;
+      chapterExtras += `<h4>Table 12.1 · Dedicated IGRT-H12 Experimental &amp; Conceptual Protocols (P7–P13)</h4><table><thead><tr><th>Protocol</th><th>Relation to H11</th><th>Sensitivity</th><th>Falsification Criterion</th></tr></thead><tbody>${H12_ALL_PROTOCOLS.map((p) => `<tr><td><strong>${escHtml(p.id)} · ${mathHtml(p.name)}</strong><br/>${escHtml(p.category)} (${mathHtml(p.timeline)})</td><td>${mathHtml(p.relationToH11)}</td><td>${mathHtml(p.numericalSensitivity)}</td><td>${mathHtml(p.falsificationCriterion)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 12.2 · P7–P13 Experimental Timeline</h4><table><thead><tr><th>Protocol</th><th>Current State</th><th>Required Sensitivity</th><th>Expected Year</th></tr></thead><tbody>${P7_TO_P13_TIMELINE_TABLE.map((t) => `<tr><td>${mathHtml(t.protocol)}</td><td>${mathHtml(t.currentState)}</td><td>${mathHtml(t.requiredSensitivity)}</td><td>${mathHtml(t.expectedYear)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 12.3 · Falsification Thresholds &amp; Table 12.4 · Confirmation Thresholds (P7–P13)</h4><table><thead><tr><th>Protocol</th><th>Null Falsification Bound</th><th>Rules Out</th><th>Positive Signal &amp; Control</th></tr></thead><tbody>${P7_TO_P13_FALSIFICATION_TABLE.map((f, idx) => { const c = P7_TO_P13_CONFIRMATION_TABLE[idx]; return `<tr><td>${mathHtml(f.protocol)}</td><td>${mathHtml(f.nullBound)}</td><td>${mathHtml(f.whatItRulesOut)}</td><td>${c ? `${mathHtml(c.signalSignature)} (Control: ${mathHtml(c.requiredControl)})` : ''}</td></tr>`; }).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 12.5 · Empirical Decision Matrix (P7–P13)</h4><table><thead><tr><th>Experimental Outcome</th><th>Posterior Status</th><th>Mandatory Action</th></tr></thead><tbody>${P7_TO_P13_DECISION_MATRIX.map((d) => `<tr><td>${mathHtml(d.outcome)}</td><td>${mathHtml(d.posteriorStatus)}</td><td>${mathHtml(d.mandatoryAction)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 12.6 · H11 Protocols (P1–P6) vs. H12 Protocols (P7–P13)</h4><table><thead><tr><th>Aspect</th><th>H11 (P1–P6)</th><th>H12 (P7–P13)</th></tr></thead><tbody>${H11_VS_H12_PROTOCOLS_COMPARISON.map((cmp) => `<tr><td>${mathHtml(cmp.aspect)}</td><td>${mathHtml(cmp.h11Protocols)}</td><td>${mathHtml(cmp.h12Protocols)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 12.7 · Quantitative Noise Budgets &amp; Mitigation (P7–P13)</h4><table><thead><tr><th>Protocol</th><th>Noise Sources</th><th>Floor</th><th>Mitigation</th></tr></thead><tbody>${P7_TO_P13_NOISE_BUDGET_TABLE.map((nb) => `<tr><td>${mathHtml(nb.protocol)}</td><td>${mathHtml(nb.primaryNoiseSources)}</td><td>${mathHtml(nb.quantitativeBudget)}</td><td>${mathHtml(nb.mitigationArchitecture)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 12.8 · P13 Systematic Error Budget</h4><table><thead><tr><th>Source</th><th>Magnitude / Uncertainty</th><th>Impact on &eta;<sub>fold</sub></th><th>Mitigation Strategy</th></tr></thead><tbody>${P13_SYSTEMATIC_ERROR_BUDGET.map((s) => `<tr><td>${mathHtml(s.source)}</td><td>${mathHtml(s.magnitudeOrUncertainty)}</td><td>${mathHtml(s.impactOnEtaFold)}</td><td>${mathHtml(s.mitigationStrategy)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 12.9 · P13 Statistical Error Budget</h4><table><thead><tr><th>Channel</th><th>Timing Precision</th><th>Propagated &eta;<sub>fold</sub> Error</th><th>Scaling Note</th></tr></thead><tbody>${P13_STATISTICAL_ERROR_BUDGET.map((st) => `<tr><td>${mathHtml(st.channel)}</td><td>${mathHtml(st.measurementPrecision)}</td><td>${mathHtml(st.propagatedEtaFoldError)}</td><td>${mathHtml(st.sampleScalingNote)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 12.10 · Combined Protocol Bounds (P7–P13)</h4><table><thead><tr><th>Cluster</th><th>Parameters</th><th>Joint Likelihood Role</th><th>Exclusion Power</th></tr></thead><tbody>${P7_TO_P13_COMBINED_BOUNDS_TABLE.map((cb) => `<tr><td>${mathHtml(cb.protocolPairOrCluster)}</td><td>${mathHtml(cb.constrainedParameters)}</td><td>${mathHtml(cb.combinedJointLikelihoodRole)}</td><td>${mathHtml(cb.orthogonalExclusionPower)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 12.11 · Protocol Sensitivity Projections (2026–2035+)</h4><table><thead><tr><th>Protocol</th><th>2026 Baseline</th><th>2027–2032</th><th>2035+ (3G)</th></tr></thead><tbody>${P7_TO_P13_SENSITIVITY_PROJECTION_TABLE.map((pr) => `<tr><td>${mathHtml(pr.protocol)}</td><td>${mathHtml(pr.currentBaseline2026)}</td><td>${mathHtml(pr.nearTerm2027_2032)}</td><td>${mathHtml(pr.longTerm3G2035Plus)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 12.12 · Summary of P13 Multi-Messenger Bounds</h4><table><thead><tr><th>Dataset / Regime</th><th>Distance</th><th>Arrival Bound</th><th>&eta;<sub>fold</sub> Limit</th><th>Status</th></tr></thead><tbody>${P13_SUMMARY_OF_BOUNDS_TABLE.map((pb) => `<tr><td>${mathHtml(pb.datasetOrRegime)}</td><td>${mathHtml(pb.baselineDistance)}</td><td>${mathHtml(pb.arrivalBoundOrPrecision)}</td><td>${mathHtml(pb.etaFoldLimit)}</td><td>${mathHtml(pb.epistemicNote)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Systematics, Statistical Significance, Joint Likelihood &amp; Bayesian Occam Penalty</h4><ul>${H12_PROTOCOL_ANALYSIS_SECTIONS.map((sec) => `<li><strong>${mathHtml(sec.title)}:</strong> ${mathHtml(sec.content)}</li>`).join('')}</ul>`;
+      chapterExtras += `<h4>Falsification Checklist: What Would Prove H12 Wrong?</h4><ul>${H12_FALSIFICATION_CHECKLIST.map((f) => `<li><strong>[Falsify]</strong> ${mathHtml(f)}</li>`).join('')}</ul>`;
+      chapterExtras += `<h4>Confirmation Checklist: What Would Confirm H12?</h4><ul>${H12_CONFIRMATION_CHECKLIST.map((c) => `<li><strong>[Confirm]</strong> ${mathHtml(c)}</li>`).join('')}</ul>`;
+      chapterExtras += `<div class="thm-box">${mathHtml(H12_FUNDING_AGENCY_SUMMARY)}</div>`;
     } else if (ch.number === 13) {
-      chapterExtras += `<h4>Table 13.1 · Twelve Open Research Extrapolations</h4><table><thead><tr><th>Topic</th><th>Category</th><th>Extension</th><th>Obstacle / Falsifier</th></tr></thead><tbody>${TWELVE_EXTRAPOLATIONS.map((ex) => `<tr><td>${ex.id}. ${escHtml(ex.topic)}</td><td>${escHtml(ex.category)}</td><td>${escHtml(ex.extension)}</td><td>${escHtml(ex.keyObstacleOrFalsifier)}</td></tr>`).join('')}</tbody></table>`;
-      chapterExtras += `<h4>List of Open Problems (OP-1 to OP-6)</h4><ul>${H12_OPEN_PROBLEMS_LIST.map((op) => `<li><strong>${escHtml(op.id)}: ${escHtml(op.problem)}</strong> — ${escHtml(op.statusNote)}</li>`).join('')}</ul>`;
-      chapterExtras += `<h4>Response to Prior Methodological Audits</h4><ul>${H12_PRIOR_AUDIT_RESPONSES.map((r) => `<li><strong>${escHtml(r.auditScope)}:</strong> ${escHtml(r.panelCritique)} — <em>Harmonized Resolution:</em> ${escHtml(r.harmonizedResolution)}</li>`).join('')}</ul>`;
+      chapterExtras += `<h4>Table 13.1 · Twelve Open Research Extrapolations</h4><table><thead><tr><th>Topic</th><th>Category</th><th>Extension</th><th>Obstacle / Falsifier</th></tr></thead><tbody>${TWELVE_EXTRAPOLATIONS.map((ex) => `<tr><td>${ex.id}. ${mathHtml(ex.topic)}</td><td>${escHtml(ex.category)}</td><td>${mathHtml(ex.extension)}</td><td>${mathHtml(ex.keyObstacleOrFalsifier)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>Table 13.2 · Seven Fundamental Problems in Physics Solved or Revolutionized by IGRT–H12</h4><table><thead><tr><th>Open Problem</th><th>Governing H11 / H12 Equations</th><th>Resolution &amp; Category</th><th>Plain-Language Takeaway</th></tr></thead><tbody>${SEVEN_SOLVED_PHYSICS_PROBLEMS.map((sp) => `<tr><td>${mathHtml(sp.openProblem)}</td><td><code>${mathHtml(sp.governingH11H12Equations)}</code></td><td><strong>${escHtml(sp.category)}:</strong> ${mathHtml(sp.coreResolutionAndPrediction)}</td><td>${mathHtml(sp.laymanTakeaway)}</td></tr>`).join('')}</tbody></table>`;
+      chapterExtras += `<h4>List of Open Problems (OP-1 to OP-6)</h4><ul>${H12_OPEN_PROBLEMS_LIST.map((op) => `<li><strong>${escHtml(op.id)}: ${mathHtml(op.problem)}</strong> — ${mathHtml(op.statusNote)}</li>`).join('')}</ul>`;
+      chapterExtras += `<h4>Response to Prior Methodological Audits</h4><ul>${H12_PRIOR_AUDIT_RESPONSES.map((r) => `<li><strong>${mathHtml(r.auditScope)}:</strong> ${mathHtml(r.panelCritique)} — <em>Harmonized Resolution:</em> ${mathHtml(r.harmonizedResolution)}</li>`).join('')}</ul>`;
     }
     const figs = H12_FIGURES.filter((f) => f.anchorChapter === ch.number)
       .map(
         (f) =>
-          `<figure><div class="fig-meta">${escHtml(f.figureNumber)} · ${escHtml(f.category)}</div><h4>${escHtml(f.title)}</h4>${f.svgMarkup}<figcaption>${escHtml(f.caption)}</figcaption></figure>`
+          `<figure><div class="fig-meta">${escHtml(f.figureNumber)} · ${escHtml(f.category)}</div><h4>${mathHtml(f.title)}</h4>${formatSvgMathMarkup(pdfBmpSafeUnicode(f.svgMarkup))}<figcaption>${mathHtml(f.caption)}</figcaption></figure>`
       )
       .join('');
     const plates = H12_ARCHIVAL_PLATES.filter((pl) => pl.anchorChapter === ch.number)
       .map(
         (pl) =>
-          `<figure><div class="fig-meta">${escHtml(pl.figureNumber)} · ${escHtml(pl.category)}</div><h4>${escHtml(pl.title)}</h4><p class="lead">${escHtml(pl.description)}</p><figcaption><strong>Archival Plate Asset:</strong> <code>${escHtml(pl.imagePath)}</code> (${escHtml(pl.bundleFilename)})</figcaption></figure>`
+          `<figure><div class="fig-meta">${escHtml(pl.figureNumber)} · ${escHtml(pl.category)}</div><h4>${mathHtml(pl.title)}</h4><p class="lead">${mathHtml(pl.description)}</p><figcaption><strong>Archival Plate Asset:</strong> <code>${escHtml(pl.imagePath)}</code> (${escHtml(pl.bundleFilename)})</figcaption></figure>`
       )
       .join('');
-    return `<article><h2 class="chapter-title">Chapter ${ch.number}. ${escHtml(ch.title)}</h2><p class="lead">${escHtml(ch.leadSummary)}</p>${chapterIntro}${subs}${chapterExtras}${figs}${plates}</article>`;
+    return `<article><h2 class="chapter-title">Chapter ${ch.number}. ${mathHtml(ch.title)}</h2><p class="lead">${mathHtml(ch.leadSummary)}</p>${chapterIntro}${subs}${chapterExtras}${figs}${plates}</article>`;
   }).join('');
 
   const frontMatterListsHtml = `
     <h3>List of Figures &amp; Archival Plates</h3>
-    <ul>${H12_ARCHIVAL_PLATES.map((pl) => `<li><strong>${escHtml(pl.figureNumber)}</strong> (Ch.${pl.anchorChapter}): ${escHtml(pl.title)} [${escHtml(pl.category)}]</li>`).join('')}${H12_FIGURES.map((fg) => `<li><strong>${escHtml(fg.figureNumber)}</strong> (Ch.${fg.anchorChapter}): ${escHtml(fg.title)} [${escHtml(fg.category)}]</li>`).join('')}</ul>
+    <ul>${H12_ARCHIVAL_PLATES.map((pl) => `<li><strong>${escHtml(pl.figureNumber)}</strong> (Ch.${pl.anchorChapter}): ${mathHtml(pl.title)} [${escHtml(pl.category)}]</li>`).join('')}${H12_FIGURES.map((fg) => `<li><strong>${escHtml(fg.figureNumber)}</strong> (Ch.${fg.anchorChapter}): ${mathHtml(fg.title)} [${escHtml(fg.category)}]</li>`).join('')}${H12_DEVICE_FIGURES.map((mfg) => `<li><strong>${escHtml(mfg.figureNumber)}</strong> (Appendix J · ${escHtml(mfg.deviceId)}): ${mathHtml(mfg.title)} [${escHtml(mfg.category)}]</li>`).join('')}</ul>
     <h3>List of Tables</h3>
-    <ul>${H12_FRONTMATTER_TABLES_LIST.map((tb) => `<li><strong>${escHtml(tb.id)}</strong> (${escHtml(tb.location)}): ${escHtml(tb.title)}</li>`).join('')}</ul>
+    <ul>${H12_FRONTMATTER_TABLES_LIST.map((tb) => `<li><strong>${escHtml(tb.id)}</strong> (${escHtml(tb.location)}): ${mathHtml(tb.title)}</li>`).join('')}</ul>
     <h3>List of Principal Equations</h3>
-    <ul>${H12_FRONTMATTER_EQUATIONS_LIST.map((eq) => `<li><strong>${escHtml(eq.label)}</strong> (${escHtml(eq.location)}, ${escHtml(eq.category)}): ${escHtml(eq.title)}</li>`).join('')}</ul>
+    <ul>${H12_FRONTMATTER_EQUATIONS_LIST.map((eq) => `<li><strong>${mathHtml(eq.label)}</strong> (${escHtml(eq.location)}, ${escHtml(eq.category)}): ${mathHtml(eq.title)}</li>`).join('')}</ul>
     <h3>List of Theorems &amp; Formal Definitions</h3>
-    <ul>${H12_THEOREMS_LIST.map((th) => `<li><strong>${escHtml(th.id)}</strong> (${escHtml(th.location)}, ${escHtml(th.category)}): ${escHtml(th.title)}</li>`).join('')}${H12_DEFINITIONS_LIST.map((df) => `<li><strong>${escHtml(df.id)} (${escHtml(df.term)}):</strong> ${escHtml(df.formalDefinition)}</li>`).join('')}</ul>
+    <ul>${H12_THEOREMS_LIST.map((th) => `<li><strong>${escHtml(th.id)}</strong> (${escHtml(th.location)}, ${escHtml(th.category)}): ${mathHtml(th.title)}</li>`).join('')}${H12_DEFINITIONS_LIST.map((df) => `<li><strong>${escHtml(df.id)} (${mathHtml(df.term)}):</strong> ${mathHtml(df.formalDefinition)}</li>`).join('')}</ul>
   `;
-
-  const suppAppHtml = H12_APPENDICES.map(
-    (a) =>
-      `<article><h3>Appendix ${escHtml(a.letter)}: ${escHtml(a.title)} <span class="cat-label">${escHtml(a.category)}</span></h3><p class="lead">${escHtml(a.summary)}</p>${a.equations.map((eq) => `<div class="eq-box"><div class="eq-main">${eq.unicodeHtml}</div><div class="eq-cap">${escHtml(eq.label)} — ${escHtml(eq.caption)}</div></div>`).join('')}${a.bodyParagraphs.map((p) => `<p>${escHtml(p)}</p>`).join('')}</article>`
-  ).join('');
 
   const domainRowsHtml = H12_TEN_DOMAIN_AUDITS.map(
     (d) =>
-      `<tr><td><strong>${escHtml(d.domainNumber)}</strong>: ${escHtml(d.domainName)}</td><td>${d.criteriaCount}</td><td>${d.selfContainedPoints}/${d.maxPoints}</td><td>${d.applicablePoints}/${d.maxPoints}</td><td>${escHtml(d.verdict)}</td></tr>`
+      `<tr><td><strong>${escHtml(d.domainNumber)}</strong>: ${mathHtml(d.domainName)}</td><td>${d.criteriaCount}</td><td>${d.selfContainedPoints}/${d.maxPoints}</td><td>${d.applicablePoints}/${d.maxPoints}</td><td>${mathHtml(d.verdict)}</td></tr>`
   ).join('');
   const attackRowsHtml = H12_SIXTEEN_REDTEAM_ATTACKS.map(
     (a) =>
-      `<tr><td><strong>${escHtml(a.id)}</strong></td><td>${escHtml(a.attackTitle)}</td><td>${escHtml(a.technicalStatus)}</td><td>${a.pointsAwarded}/${a.maxPoints}</td><td>${escHtml(a.h12ResolutionAndCitation)}</td></tr>`
+      `<tr><td><strong>${escHtml(a.id)}</strong></td><td>${mathHtml(a.attackTitle)}</td><td>${escHtml(a.technicalStatus)}</td><td>${a.pointsAwarded}/${a.maxPoints}</td><td>${mathHtml(a.h12ResolutionAndCitation)}</td></tr>`
   ).join('');
+
+  const consolidatedAppendicesHtml = H12_APPENDICES.map((a) => {
+    let extras = '';
+    if (a.letter === 'I') {
+      extras += `<h4>Table I.1 · Five-Tier Assessment of Eleven Candidate Portal Mechanisms</h4><table><thead><tr><th>Mechanism</th><th>Feasibility Tier</th><th>Physical Action</th><th>Category</th><th>Quantitative Obstacle / Limit</th></tr></thead><tbody>${ELEVEN_PORTAL_MECHANISMS.map((m) => `<tr><td>${mathHtml(m.mechanism)}</td><td>${mathHtml(m.tier)}</td><td>${mathHtml(m.physicalAction)}</td><td>${escHtml(m.category)}</td><td>${mathHtml(m.quantitativeObstacleOrLimit)}</td></tr>`).join('')}</tbody></table>`;
+    } else if (a.letter === 'J') {
+      extras += `<h4>Table J.1 · Devices A–K Master Ten-Field Technical Specifications</h4><table><thead><tr><th>Device</th><th>Principle &amp; Equations</th><th>Signal &amp; Floor</th><th>Actually Tests vs. Non-Claim</th></tr></thead><tbody>${H12_PROPOSED_DEVICES.map((d) => `<tr><td><strong>${escHtml(d.deviceId)}: ${mathHtml(d.name)}</strong><br/>${escHtml(d.category)}</td><td>${mathHtml(d.physicalPrinciple)}<br/><code>${mathHtml(d.governingEquations)}</code></td><td>${mathHtml(d.predictedSignal)}<br/><em>Floor:</em> ${mathHtml(d.noiseFloor)}</td><td><strong>Tests:</strong> ${mathHtml(d.whatItActuallyTests)}<br/><strong>Does NOT do:</strong> ${mathHtml(d.whatItDoesNotDo)}</td></tr>`).join('')}</tbody></table>`;
+      extras += APPENDIX_J_DEVICE_DOSSIERS.map((dos) => {
+        const mfig = H12_DEVICE_FIGURES.find((f) => f.id === dos.figureId);
+        const spec = H12_PROPOSED_DEVICES.find((d) => d.deviceId === dos.deviceId);
+        const imgTag = mfig?.illustrationPath
+          ? `<div style="margin:12px 0;text-align:center;"><img src="${escHtml(mfig.illustrationPath)}" alt="${escHtml(mfig.illustrationTitle || mfig.title)}" referrerPolicy="no-referrer" style="max-width:100%;max-height:420px;border-radius:8px;border:1px solid #D6CABE;"/>${mfig.illustrationTitle ? `<div class="fig-meta" style="margin-top:6px;">Cutaway Plate: ${escHtml(mfig.illustrationTitle)}</div>` : ''}</div>`
+          : '';
+        return `<section><h4>${mathHtml(dos.title)} <span class="cat-label">${escHtml(dos.category)}</span></h4><p class="lead">${mathHtml(dos.tagline)}</p><h5>How It Works (Plain-Language Guide)</h5>${dos.laymanParagraphs.map((p) => `<p>${mathHtml(p)}</p>`).join('')}${mfig ? `<figure><div class="fig-meta">${escHtml(mfig.figureNumber)} · ${escHtml(mfig.category)}</div><h4>${mathHtml(mfig.title)}</h4>${imgTag}${formatSvgMathMarkup(pdfBmpSafeUnicode(mfig.svgMarkup))}<figcaption>${mathHtml(mfig.caption)}</figcaption></figure>` : ''}<h5>Laboratory Architecture, Governing Equations &amp; Metrology</h5>${dos.engineeringParagraphs.map((p) => `<p>${mathHtml(p)}</p>`).join('')}<div class="thm-box"><strong>Significance &amp; Epistemic Boundary:</strong> ${mathHtml(dos.impactParagraph)}</div>${spec ? `<table><thead><tr><th>Specification Field</th><th>Quantitative Value &amp; Boundary</th></tr></thead><tbody><tr><td><strong>1. Principle</strong></td><td>${mathHtml(spec.physicalPrinciple)}</td></tr><tr><td><strong>2. Equations</strong></td><td><code>${mathHtml(spec.governingEquations)}</code></td></tr><tr><td><strong>3. Architecture</strong></td><td>${mathHtml(spec.architecture)}</td></tr><tr><td><strong>4. Operating Regime</strong></td><td>${mathHtml(spec.operatingRegime)}</td></tr><tr><td><strong>5. Predicted Signal</strong></td><td>${mathHtml(spec.predictedSignal)}</td></tr><tr><td><strong>6. Noise Floor</strong></td><td>${mathHtml(spec.noiseFloor)}</td></tr><tr><td><strong>7. Feasibility</strong></td><td>${mathHtml(spec.engineeringFeasibility)}</td></tr><tr><td><strong>8. Actually Tests</strong></td><td>${mathHtml(spec.whatItActuallyTests)}</td></tr><tr><td><strong>9. Explicitly Does NOT Do</strong></td><td>${mathHtml(spec.whatItDoesNotDo)}</td></tr><tr><td><strong>10. Failure Criteria</strong></td><td>${mathHtml(spec.failureCriteria)}</td></tr></tbody></table>` : ''}</section>`;
+      }).join('');
+      extras += `<h4>Table J.2 · Cross-Device Sensitivity, Readiness &amp; Discovery Horizon Matrix (Devices A–K)</h4><table><thead><tr><th>Device</th><th>Target Physics</th><th>Primary Observable</th><th>TRL &amp; Window</th><th>Breakthrough vs. Non-Claim</th></tr></thead><tbody>${APPENDIX_J_SYNTHESIS_TABLE.map((r) => `<tr><td><strong>${mathHtml(r.device)}</strong></td><td>${mathHtml(r.targetPhysics)}</td><td><code>${mathHtml(r.primaryObservable)}</code></td><td>${mathHtml(r.readinessAndWindow)}</td><td><strong>Detection:</strong> ${mathHtml(r.breakthroughIfDetected)}<br/><strong>Non-Claim:</strong> ${mathHtml(r.strictNonClaim)}</td></tr>`).join('')}</tbody></table>`;
+    } else if (a.letter === 'K') {
+      extras += `<h4>Table K.1 · Unified Solutions to Seven Open Problems in Physics</h4><table><thead><tr><th>Open Problem</th><th>Governing Equations</th><th>Resolution &amp; Category</th><th>Plain-Language Explanation</th></tr></thead><tbody>${SEVEN_SOLVED_PHYSICS_PROBLEMS.map((sp) => `<tr><td><strong>${mathHtml(sp.openProblem)}</strong></td><td><code>${mathHtml(sp.governingH11H12Equations)}</code></td><td><strong>${escHtml(sp.category)}:</strong> ${mathHtml(sp.coreResolutionAndPrediction)}</td><td>${mathHtml(sp.laymanTakeaway)}</td></tr>`).join('')}</tbody></table>`;
+    } else if (a.letter === 'L') {
+      extras += `<p><strong>Self-Contained Closure:</strong> ${H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints}/${H12_STRESS_TEST_SUMMARY.grandMaxPoints} (${H12_STRESS_TEST_SUMMARY.selfContainedScorePct}%) · <strong>Math/Negative-Theorem Closure:</strong> ${H12_STRESS_TEST_SUMMARY.mathematicalClosurePct.toFixed(1)}% · <strong>Epistemic Applicable Score:</strong> ${H12_STRESS_TEST_SUMMARY.grandApplicablePoints}/${H12_STRESS_TEST_SUMMARY.grandMaxPoints} (${H12_STRESS_TEST_SUMMARY.overallEpistemicScorePct}%)</p>`;
+      extras += `<h4>Table L.1 · Ten-Domain Structural Audit (500 Criteria)</h4><table><thead><tr><th>Domain</th><th>Criteria</th><th>Self-Contained</th><th>Applicable</th><th>Verdict</th></tr></thead><tbody>${domainRowsHtml}</tbody></table>`;
+      extras += `<h4>Table L.2 · Sixteen Direct Stress-Test Evaluations (H12-ATK-01 to H12-ATK-16)</h4><table><thead><tr><th>ID</th><th>Challenge</th><th>Status</th><th>Score</th><th>Resolution</th></tr></thead><tbody>${attackRowsHtml}</tbody></table>`;
+    }
+    return `<article><h3>Appendix ${escHtml(a.letter)}: ${mathHtml(a.title)} <span class="cat-label">${escHtml(a.category)}</span></h3><p class="lead">${mathHtml(a.summary)}</p>${a.equations.map((eq) => `<div class="eq-box"><div class="eq-main">${eq.unicodeHtml}</div><div class="eq-cap">${mathHtml(eq.label)} — ${mathHtml(eq.caption)}</div></div>`).join('')}${a.bodyParagraphs.map((p) => `<p>${mathHtml(p)}</p>`).join('')}${extras}</article>`;
+  }).join('');
 
   const authorsHtml = H12_META.authorRoster
     .map(
@@ -905,40 +1367,20 @@ export function buildH12SelfContainedHtml(): string {
   <h1>${escHtml(H12_META.title)}</h1>
   <p class="lead">${escHtml(H12_META.subtitle)}</p>
   <div class="authors-grid">${authorsHtml}</div>
-  <div class="thm-box"><strong>Portal Definition Box:</strong> ${escHtml(H12_PORTAL_DEFINITION_BOX)}</div>
   <h2 class="chapter-title">Abstract</h2>
-  ${H12_ABSTRACT_PARAGRAPHS.map((p) => `<p>${escHtml(p)}</p>`).join('')}
-  <div class="thm-box">${escHtml(H12_SUMMARY_FOR_NON_SPECIALISTS)}</div>
-  <p><strong>Keywords:</strong> ${escHtml(H12_META.keywords.join(' · '))}</p>
+  ${H12_ABSTRACT_PARAGRAPHS.map((p) => `<p>${mathHtml(p)}</p>`).join('')}
+  <p><strong>Keywords:</strong> ${mathHtml(H12_META.keywords.join(' · '))}</p>
   <h2 class="chapter-title">Lists of Figures, Tables, Equations, Theorems &amp; Definitions</h2>
   ${frontMatterListsHtml}
   <h2 class="chapter-title">Foundational Five-Dimensional Equations (Category C)</h2>
-  <div class="thm-box"><strong>Epistemic Note:</strong> ${escHtml(H12_FOUNDATIONAL_EQUATIONS_NOTE)}</div>
-  ${H12_MASTER_EQUATIONS.map((eq) => `<div class="eq-box"><div class="eq-main">${eq.unicodeHtml}</div><div class="eq-cap">${escHtml(eq.label)} [${escHtml(eq.category)}] — ${escHtml(eq.caption)}</div></div>`).join('')}
-  <div class="thm-box"><h3>${escHtml(H12_SCOPE_AND_NON_CLAIMS.title)}</h3><ul>${H12_SCOPE_AND_NON_CLAIMS.points.map((pt) => `<li>${escHtml(pt)}</li>`).join('')}</ul></div>
+  <div class="thm-box"><strong>Epistemic Note:</strong> ${mathHtml(H12_FOUNDATIONAL_EQUATIONS_NOTE)}</div>
+  ${H12_MASTER_EQUATIONS.map((eq) => `<div class="eq-box"><div class="eq-main">${eq.unicodeHtml}</div><div class="eq-cap">${mathHtml(eq.label)} [${escHtml(eq.category)}] — ${mathHtml(eq.caption)}</div></div>`).join('')}
+  <div class="thm-box"><h3>${mathHtml(H12_SCOPE_AND_NON_CLAIMS.title)}</h3><ul>${H12_SCOPE_AND_NON_CLAIMS.points.map((pt) => `<li>${mathHtml(pt)}</li>`).join('')}</ul></div>
   ${chapterHtml}
-  <h2 class="chapter-title">Appendix L: ${escHtml(H12_MAIN_APPENDICES_LMN[0].title)}</h2>
-  <p class="lead">${escHtml(H12_MAIN_APPENDICES_LMN[0].leadSummary)}</p>
-  ${H12_MAIN_APPENDICES_LMN[0].paragraphs.map((p) => `<p>${escHtml(p)}</p>`).join('')}
-  <h4>Table L.1 · Five-Tier Assessment of Eleven Candidate Portal Mechanisms</h4>
-  <table><thead><tr><th>Mechanism</th><th>Feasibility Tier</th><th>Category</th><th>Quantitative Obstacle / Limit</th></tr></thead><tbody>${ELEVEN_PORTAL_MECHANISMS.map((m) => `<tr><td>${escHtml(m.mechanism)}</td><td>${escHtml(m.tier)}</td><td>${escHtml(m.category)}</td><td>${escHtml(m.quantitativeObstacleOrLimit)}</td></tr>`).join('')}</tbody></table>
-  <h2 class="chapter-title">Appendix M: ${escHtml(H12_MAIN_APPENDICES_LMN[1].title)}</h2>
-  <p class="lead">${escHtml(H12_MAIN_APPENDICES_LMN[1].leadSummary)}</p>
-  ${H12_MAIN_APPENDICES_LMN[1].paragraphs.map((p) => `<p>${escHtml(p)}</p>`).join('')}
-  <h4>Table M.1 · Devices A–F Ten-Field Technical Specifications</h4>
-  <table><thead><tr><th>Device</th><th>Principle &amp; Equations</th><th>Signal &amp; Floor</th><th>Actually Tests vs. Non-Claim</th></tr></thead><tbody>${SIX_PROPOSED_DEVICES.map((d) => `<tr><td><strong>${escHtml(d.deviceId)}: ${escHtml(d.name)}</strong><br/>${escHtml(d.category)}</td><td>${escHtml(d.physicalPrinciple)}<br/><code>${escHtml(d.governingEquations)}</code></td><td>${escHtml(d.predictedSignal)}<br/><em>Floor:</em> ${escHtml(d.noiseFloor)}</td><td><strong>Tests:</strong> ${escHtml(d.whatItActuallyTests)}<br/><strong>Does NOT do:</strong> ${escHtml(d.whatItDoesNotDo)}</td></tr>`).join('')}</tbody></table>
-  <h2 class="chapter-title">Appendix N: ${escHtml(H12_MAIN_APPENDICES_LMN[2].title)}</h2>
-  <p class="lead">${escHtml(H12_MAIN_APPENDICES_LMN[2].leadSummary)}</p>
-  ${H12_MAIN_APPENDICES_LMN[2].paragraphs.map((p) => `<p>${escHtml(p)}</p>`).join('')}
-  <p><strong>Self-Contained Closure:</strong> ${H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints}/${H12_STRESS_TEST_SUMMARY.grandMaxPoints} (${H12_STRESS_TEST_SUMMARY.selfContainedScorePct}%) · <strong>Math/Negative-Theorem Closure:</strong> ${H12_STRESS_TEST_SUMMARY.mathematicalClosurePct.toFixed(1)}% · <strong>Epistemic Applicable Score:</strong> ${H12_STRESS_TEST_SUMMARY.grandApplicablePoints}/${H12_STRESS_TEST_SUMMARY.grandMaxPoints} (${H12_STRESS_TEST_SUMMARY.overallEpistemicScorePct}%)</p>
-  <h4>Table N.1 · Ten-Domain Structural Audit (500 Criteria)</h4>
-  <table><thead><tr><th>Domain</th><th>Criteria</th><th>Self-Contained</th><th>Applicable</th><th>Verdict</th></tr></thead><tbody>${domainRowsHtml}</tbody></table>
-  <h4>Table N.2 · Sixteen Direct Red-Team Attacks (H12-ATK-01 to H12-ATK-16)</h4>
-  <table><thead><tr><th>ID</th><th>Challenge</th><th>Status</th><th>Score</th><th>Resolution</th></tr></thead><tbody>${attackRowsHtml}</tbody></table>
   <h2 class="chapter-title">References</h2>
-  <ol>${H12_REFERENCES.map((r) => `<li>${escHtml(r.citation)}</li>`).join('')}</ol>
-  <h2 class="chapter-title">Technical Appendices (A–K)</h2>
-  ${suppAppHtml}
+  <ol>${H12_REFERENCES.map((r) => `<li>${mathHtml(r.citation)}</li>`).join('')}</ol>
+  <h2 class="chapter-title">Consolidated Appendices (A–L)</h2>
+  ${consolidatedAppendicesHtml}
 </body>
 </html>`;
 }

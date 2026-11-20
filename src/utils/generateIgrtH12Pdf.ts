@@ -10,20 +10,19 @@
  * - Dedicated Title/Cover Page (Page 1), ample 30mm top margin, strict 4-color muted earth scheme.
  * - Preserves U+2113 (ℓ_Pl) cleanly (removed .replace(/ℓ/g, 'l') typo).
  * - Exports generateIgrtH12Pdf(): Complete Unified Monograph (Cover Page, Unified Abstract,
- *   Computed TOC, 5 Front-Matter Lists, Foundational 5D Equations & Scope, Chapters 1–13,
- *   Extended Appendices L & M, References, and Technical Appendices A–K;
- *   excludes Adversarial Stress-Test Scorecard Appendix N).
+ *   Computed 4-Page TOC, 5 Front-Matter Lists, Foundational 5D Equations & Scope, Chapters 1–13
+ *   incl. Ch. 13.5 Physics Problems & 13.6 Comprehensive Conclusion, References, and strictly
+ *   alphabetical Consolidated Appendices A–L, with Appendix L rendering the Claim–Evidence Ledger
+ *   cleanly without internal multi-domain or red-team scorecard tables).
  */
 
 import { jsPDF } from 'jspdf';
 import {
   H12_META,
   H12_MASTER_EQUATIONS,
-  H12_PORTAL_DEFINITION_BOX,
   H12_METRIC_SIGNATURE_BOX,
   H12_FOUNDATIONAL_EQUATIONS_NOTE,
   H12_ABSTRACT_PARAGRAPHS,
-  H12_SUMMARY_FOR_NON_SPECIALISTS,
   H12_SCOPE_AND_NON_CLAIMS,
   H11_TWELVE_COMPONENTS_AUDIT,
   COMPARISON_4D_VS_5D_IGRT,
@@ -37,6 +36,7 @@ import {
   GLOSSARY_NEGATIVE_THEOREMS,
   WHAT_IS_UNIQUE_TO_5D,
   FIVE_D_OBSERVATIONAL_BOUNDS,
+  FIVE_D_SIGNATURES_TEST_MATRIX,
   WHAT_IS_NOT_DERIVED_LEDGER,
   H12_ALL_PROTOCOLS,
   P7_TO_P13_TIMELINE_TABLE,
@@ -48,7 +48,8 @@ import {
   H12_CONFIRMATION_CHECKLIST,
   H12_FUNDING_AGENCY_SUMMARY,
   ELEVEN_PORTAL_MECHANISMS,
-  SIX_PROPOSED_DEVICES,
+  H12_PROPOSED_DEVICES,
+  SEVEN_SOLVED_PHYSICS_PROBLEMS,
   TWELVE_EXTRAPOLATIONS,
   H12_DEFINITIONS_LIST,
   H12_THEOREMS_LIST,
@@ -67,15 +68,20 @@ import {
   P7_TO_P13_SENSITIVITY_PROJECTION_TABLE,
   P13_SUMMARY_OF_BOUNDS_TABLE,
   H12_PROTOCOL_ANALYSIS_SECTIONS,
+  APPENDIX_J_DEVICE_DOSSIERS,
+  APPENDIX_J_SYNTHESIS_TABLE,
   type H12Equation
 } from '../types/igrtH12Apparatus';
 import {
   H12_CHAPTERS,
-  H12_MAIN_APPENDICES_LMN,
   H12_FRONTMATTER_TABLES_LIST,
   H12_FRONTMATTER_EQUATIONS_LIST
 } from '../types/igrtH12Data';
-import { H12_ARCHIVAL_PLATES, H12_FIGURES } from '../components/IgrtH12Figures';
+import {
+  H12_ARCHIVAL_PLATES,
+  H12_FIGURES,
+  H12_DEVICE_FIGURES
+} from '../components/IgrtH12Figures';
 import {
   parseMathSegments,
   parseHtmlMathSegments,
@@ -216,6 +222,7 @@ function verifyRegisteredFonts(doc: jsPDF): boolean {
 function bmpSafeH12(raw: string): string {
   const step1 = pdfBmpSafeUnicode(raw)
     .replace(/𝒜/g, 'A')
+    .replace(/ℋ/g, 'H')
     .replace(/𝒪/g, 'O');
   let out = '';
   for (const ch of step1) {
@@ -286,13 +293,19 @@ const SERIF_USE_SANS = new Set([
   '\u2032'  // ′
 ]);
 
-function flattenSegmentsToPlainText(segs: MathSegment[]): string {
-  return segs
-    .map((seg) => {
-      if (seg.type === 'text') return seg.text;
-      return flattenSegmentsToPlainText(seg.children);
-    })
-    .join('');
+const PT_TO_MM = 25.4 / 72;
+
+interface PdfStyledSpan {
+  text: string;
+  size: number;
+  yOffsetMm: number;
+  italic: boolean;
+}
+
+interface PdfStyledLine {
+  words: PdfStyledSpan[][];
+  spans: PdfStyledSpan[];
+  isHardEnd: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -540,60 +553,208 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     flush();
   };
 
+  const segmentsToSpans = (
+    segs: MathSegment[],
+    baseSize: number,
+    curScale = 1,
+    curYOffsetMm = 0,
+    curItalic = false
+  ): PdfStyledSpan[] => {
+    const out: PdfStyledSpan[] = [];
+    for (const seg of segs) {
+      if (seg.type === 'text') {
+        const cleaned = safeStr(seg.text);
+        if (cleaned) {
+          out.push({
+            text: cleaned,
+            size: baseSize * curScale,
+            yOffsetMm: curYOffsetMm,
+            italic: curItalic
+          });
+        }
+      } else if (seg.type === 'sub') {
+        const childScale = curScale * 0.72;
+        const deltaY = 0.24 * (baseSize * curScale) * PT_TO_MM;
+        out.push(...segmentsToSpans(seg.children, baseSize, childScale, curYOffsetMm + deltaY, curItalic));
+      } else if (seg.type === 'sup') {
+        const childScale = curScale * 0.72;
+        const deltaY = -0.34 * (baseSize * curScale) * PT_TO_MM;
+        out.push(...segmentsToSpans(seg.children, baseSize, childScale, curYOffsetMm + deltaY, curItalic));
+      } else {
+        out.push(...segmentsToSpans(seg.children, baseSize, curScale, curYOffsetMm, true));
+      }
+    }
+    return out;
+  };
+
+  const measureSpansWidth = (
+    spans: PdfStyledSpan[],
+    boldBase: boolean,
+    baseFamily: PdfFontFamily = 'serif',
+    baseStyle?: PdfFontStyle
+  ): number => {
+    let total = 0;
+    for (const sp of spans) {
+      const style: PdfFontStyle | undefined = sp.italic && baseFamily === 'serif' ? 'italic' : baseStyle;
+      total += measureTokenWidth(sp.text, boldBase, sp.size, baseFamily, style);
+    }
+    return total;
+  };
+
+  const drawStyledSpans = (
+    spans: PdfStyledSpan[],
+    startX: number,
+    yPos: number,
+    boldBase: boolean,
+    baseFamily: PdfFontFamily = 'serif',
+    baseStyle?: PdfFontStyle
+  ): void => {
+    let cx = startX;
+    for (const sp of spans) {
+      const style: PdfFontStyle | undefined = sp.italic && baseFamily === 'serif' ? 'italic' : baseStyle;
+      drawMixedRun(sp.text, cx, yPos + sp.yOffsetMm, boldBase, sp.size, baseFamily, style);
+      cx += measureTokenWidth(sp.text, boldBase, sp.size, baseFamily, style);
+    }
+  };
+
+  const splitSpansByNewlines = (spans: PdfStyledSpan[]): PdfStyledSpan[][] => {
+    const lines: PdfStyledSpan[][] = [[]];
+    for (const sp of spans) {
+      if (!sp.text.includes('\n')) {
+        lines[lines.length - 1].push(sp);
+        continue;
+      }
+      const parts = sp.text.split(/\r?\n/);
+      for (let i = 0; i < parts.length; i++) {
+        if (parts[i]) {
+          lines[lines.length - 1].push({ ...sp, text: parts[i] });
+        }
+        if (i < parts.length - 1) {
+          lines.push([]);
+        }
+      }
+    }
+    return lines;
+  };
+
+  const tokenizeSpansIntoWords = (lineSpans: PdfStyledSpan[]): PdfStyledSpan[][] => {
+    const words: PdfStyledSpan[][] = [];
+    let currentWord: PdfStyledSpan[] = [];
+    const pushCurrent = () => {
+      if (currentWord.length > 0) {
+        words.push(currentWord);
+        currentWord = [];
+      }
+    };
+    for (const sp of lineSpans) {
+      if (sp.yOffsetMm !== 0) {
+        currentWord.push(sp);
+        continue;
+      }
+      const chunks = sp.text.split(/( +)/);
+      for (const chunk of chunks) {
+        if (!chunk) continue;
+        if (/^ +$/.test(chunk)) {
+          pushCurrent();
+        } else {
+          currentWord.push({ ...sp, text: chunk });
+        }
+      }
+    }
+    pushCurrent();
+    return words;
+  };
+
+  const joinWordsToSpans = (words: PdfStyledSpan[][], spaceSize: number): PdfStyledSpan[] => {
+    const out: PdfStyledSpan[] = [];
+    for (let wi = 0; wi < words.length; wi++) {
+      if (wi > 0) out.push({ text: ' ', size: spaceSize, yOffsetMm: 0, italic: false });
+      out.push(...words[wi]);
+    }
+    return out;
+  };
+
   const wrapMixedLines = (
-    cleanText: string,
+    rawText: string,
     maxW: number,
     boldBase: boolean,
     fontSize: number,
     baseFamily: PdfFontFamily = 'serif',
-    baseStyle?: PdfFontStyle
-  ): string[] => {
+    baseStyle?: PdfFontStyle,
+    isHtml = false
+  ): PdfStyledLine[] => {
     const safeMaxW = Math.max(12, maxW - 0.5);
     const spaceW = measureTokenWidth(' ', boldBase, fontSize, baseFamily, baseStyle);
-    const outLines: string[] = [];
+    const parsedSegs = isHtml ? parseHtmlMathSegments(rawText) : parseMathSegments(rawText);
+    const allSpans = segmentsToSpans(parsedSegs, fontSize);
+    const hardLines = splitSpansByNewlines(allSpans);
+    const outLines: PdfStyledLine[] = [];
 
-    const paragraphs = cleanText.split(/\r?\n/);
-    for (const para of paragraphs) {
-      const rawTokens = para.trim().split(/\s+/).filter(Boolean);
-      if (rawTokens.length === 0) {
-        outLines.push('');
+    for (const hardLine of hardLines) {
+      const rawWords = tokenizeSpansIntoWords(hardLine);
+      if (rawWords.length === 0) {
+        outLines.push({ words: [], spans: [], isHardEnd: true });
         continue;
       }
-      const tokens: string[] = [];
-      for (const tok of rawTokens) {
-        if (measureTokenWidth(tok, boldBase, fontSize, baseFamily, baseStyle) <= safeMaxW) {
-          tokens.push(tok);
+      const tokens: PdfStyledSpan[][] = [];
+      for (const wd of rawWords) {
+        if (measureSpansWidth(wd, boldBase, baseFamily, baseStyle) <= safeMaxW) {
+          tokens.push(wd);
         } else {
-          let cur = '';
-          for (const ch of tok) {
-            const candidate = cur + ch;
-            if (cur && measureTokenWidth(candidate, boldBase, fontSize, baseFamily, baseStyle) > safeMaxW) {
-              tokens.push(cur);
-              cur = ch;
-            } else {
-              cur = candidate;
+          let piece: PdfStyledSpan[] = [];
+          for (const sp of wd) {
+            let charBuf = '';
+            for (const ch of sp.text) {
+              const testSpans = [
+                ...piece,
+                ...(charBuf ? [{ ...sp, text: charBuf }] : []),
+                { ...sp, text: ch }
+              ];
+              if (
+                (piece.length > 0 || charBuf) &&
+                measureSpansWidth(testSpans, boldBase, baseFamily, baseStyle) > safeMaxW
+              ) {
+                if (charBuf) piece.push({ ...sp, text: charBuf });
+                if (piece.length > 0) tokens.push(piece);
+                piece = [];
+                charBuf = ch;
+              } else {
+                charBuf += ch;
+              }
             }
+            if (charBuf) piece.push({ ...sp, text: charBuf });
           }
-          if (cur) tokens.push(cur);
+          if (piece.length > 0) tokens.push(piece);
         }
       }
-      let currentLine = tokens[0];
-      let currentW = measureTokenWidth(currentLine, boldBase, fontSize, baseFamily, baseStyle);
+
+      let currentWords: PdfStyledSpan[][] = [tokens[0]];
+      let currentW = measureSpansWidth(tokens[0], boldBase, baseFamily, baseStyle);
       for (let i = 1; i < tokens.length; i++) {
         const tok = tokens[i];
-        const tokW = measureTokenWidth(tok, boldBase, fontSize, baseFamily, baseStyle);
+        const tokW = measureSpansWidth(tok, boldBase, baseFamily, baseStyle);
         if (currentW + spaceW + tokW <= safeMaxW) {
-          currentLine += ' ' + tok;
+          currentWords.push(tok);
           currentW += spaceW + tokW;
         } else {
-          outLines.push(currentLine);
-          currentLine = tok;
+          outLines.push({
+            words: currentWords,
+            spans: joinWordsToSpans(currentWords, fontSize),
+            isHardEnd: false
+          });
+          currentWords = [tok];
           currentW = tokW;
         }
       }
-      if (currentLine) outLines.push(currentLine);
+      if (currentWords.length > 0) {
+        outLines.push({
+          words: currentWords,
+          spans: joinWordsToSpans(currentWords, fontSize),
+          isHardEnd: true
+        });
+      }
     }
-    return outLines.length > 0 ? outLines : [''];
+    return outLines.length > 0 ? outLines : [{ words: [], spans: [], isHardEnd: true }];
   };
 
   const clipMixedLine = (
@@ -615,6 +776,42 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     return out.trimEnd() + ellipsis;
   };
 
+  const clipStyledSpans = (
+    rawText: string,
+    maxW: number,
+    boldBase: boolean,
+    fontSize: number,
+    baseFamily: PdfFontFamily = 'serif',
+    baseStyle?: PdfFontStyle
+  ): PdfStyledSpan[] => {
+    const spans = segmentsToSpans(parseMathSegments(rawText), fontSize);
+    if (measureSpansWidth(spans, boldBase, baseFamily, baseStyle) <= maxW) return spans;
+    const ellipsisSpan: PdfStyledSpan = { text: '…', size: fontSize, yOffsetMm: 0, italic: false };
+    const ellipsisW = measureTokenWidth('…', boldBase, fontSize, baseFamily, baseStyle);
+    const budget = Math.max(4, maxW - ellipsisW);
+    const clipped: PdfStyledSpan[] = [];
+    let usedW = 0;
+    for (const sp of spans) {
+      const style: PdfFontStyle | undefined = sp.italic && baseFamily === 'serif' ? 'italic' : baseStyle;
+      const w = measureTokenWidth(sp.text, boldBase, sp.size, baseFamily, style);
+      if (usedW + w <= budget) {
+        clipped.push(sp);
+        usedW += w;
+      } else {
+        let partial = '';
+        for (const ch of sp.text) {
+          const cw = measureTokenWidth(partial + ch, boldBase, sp.size, baseFamily, style);
+          if (usedW + cw > budget) break;
+          partial += ch;
+        }
+        if (partial.trimEnd()) clipped.push({ ...sp, text: partial.trimEnd() });
+        break;
+      }
+    }
+    clipped.push(ellipsisSpan);
+    return clipped;
+  };
+
   const drawMathInlineText = (
     rawText: string,
     xStart: number,
@@ -627,35 +824,31 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     baseFamily: PdfFontFamily = 'serif',
     baseStyle?: PdfFontStyle
   ) => {
-    const clean = safeStr(flattenSegmentsToPlainText(parseMathSegments(rawText)));
     doc.setTextColor(...color);
-    const lines = wrapMixedLines(clean, maxW, boldBase, fontSize, baseFamily, baseStyle);
+    const lines = wrapMixedLines(rawText, maxW, boldBase, fontSize, baseFamily, baseStyle);
     for (let lineIdx = 0; lineIdx < lines.length; lineIdx++) {
       const line = lines[lineIdx];
       ensureSpace(lineGap + 1);
-      const isLastLine = lineIdx === lines.length - 1;
-      const trimmed = line.trim();
-      const words = justify && !isLastLine && trimmed.length > 0 ? trimmed.split(/\s+/) : null;
-      if (words && words.length > 1) {
+      if (justify && !line.isHardEnd && line.words.length > 1) {
         let wordsWidth = 0;
-        const wWidths = words.map((wd) => {
-          const ww = measureTokenWidth(wd, boldBase, fontSize, baseFamily, baseStyle);
+        const wWidths = line.words.map((wd) => {
+          const ww = measureSpansWidth(wd, boldBase, baseFamily, baseStyle);
           wordsWidth += ww;
           return ww;
         });
-        const rawGap = (maxW - wordsWidth) / (words.length - 1);
+        const rawGap = (maxW - wordsWidth) / (line.words.length - 1);
         const spaceW = measureTokenWidth(' ', boldBase, fontSize, baseFamily, baseStyle);
         if (rawGap >= spaceW * 0.55 && rawGap <= spaceW * 4.0) {
           let cx = xStart;
-          for (let wi = 0; wi < words.length; wi++) {
-            drawMixedRun(words[wi], cx, y, boldBase, fontSize, baseFamily, baseStyle);
+          for (let wi = 0; wi < line.words.length; wi++) {
+            drawStyledSpans(line.words[wi], cx, y, boldBase, baseFamily, baseStyle);
             cx += wWidths[wi] + rawGap;
           }
           y += lineGap;
           continue;
         }
       }
-      drawMixedRun(line, xStart, y, boldBase, fontSize, baseFamily, baseStyle);
+      drawStyledSpans(line.spans, xStart, y, boldBase, baseFamily, baseStyle);
       y += lineGap;
     }
   };
@@ -681,7 +874,7 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     ensureSpace(level === 1 ? 42 : 18);
     y += gapBefore;
     if (recordToc) {
-      tocEntries.push({ label: safeStr(text), page: doc.getNumberOfPages(), indent: tocIndent });
+      tocEntries.push({ label: text, page: doc.getNumberOfPages(), indent: tocIndent });
     }
     drawMathInlineText(
       text,
@@ -713,11 +906,10 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
   };
 
   const drawEquationBox = (eq: H12Equation) => {
-    const plain = safeStr(flattenSegmentsToPlainText(parseHtmlMathSegments(eq.unicodeHtml)));
-    const cap = safeStr(`${eq.label} [${eq.category}] — ${eq.caption}`);
-    const eqLines = wrapMixedLines(plain, contentW - 14, false, 9.5, 'sans');
+    const cap = `${eq.label} [${eq.category}] — ${eq.caption}`;
+    const eqLines = wrapMixedLines(eq.unicodeHtml, contentW - 14, false, 9.5, 'sans', 'normal', true);
     const capLines = wrapMixedLines(cap, contentW - 12, false, 8.6, 'serif', 'italic');
-    const boxH = eqLines.length * 4.8 + capLines.length * 4.1 + 10;
+    const boxH = eqLines.length * 5.1 + capLines.length * 4.2 + 10.5;
 
     ensureSpace(boxH + 5);
     doc.setFillColor(...EARTH_PARCHMENT);
@@ -725,28 +917,27 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     doc.setLineWidth(0.3);
     doc.roundedRect(marginX, y, contentW, boxH, 2, 2, 'FD');
 
-    let cy = y + 6;
+    let cy = y + 6.2;
     doc.setTextColor(...EARTH_UMBER);
     for (const l of eqLines) {
-      const lw = measureTokenWidth(l, false, 9.5, 'sans', 'normal');
+      const lw = measureSpansWidth(l.spans, false, 'sans', 'normal');
       const cx = marginX + Math.max(4, (contentW - lw) / 2);
-      drawMixedRun(l, cx, cy, false, 9.5, 'sans', 'normal');
-      cy += 4.8;
+      drawStyledSpans(l.spans, cx, cy, false, 'sans', 'normal');
+      cy += 5.1;
     }
     cy += 1.2;
     doc.setTextColor(...EARTH_STONE);
     for (const cl of capLines) {
-      const clw = measureTokenWidth(cl, false, 8.6, 'serif', 'italic');
+      const clw = measureSpansWidth(cl.spans, false, 'serif', 'italic');
       const cx = marginX + Math.max(4, (contentW - clw) / 2);
-      drawMixedRun(cl, cx, cy, false, 8.6, 'serif', 'italic');
-      cy += 4.1;
+      drawStyledSpans(cl.spans, cx, cy, false, 'serif', 'italic');
+      cy += 4.2;
     }
     y += boxH + 5;
   };
 
   const drawCalloutBox = (label: string | null, rawBody: string, fontSize = 10.6, lineGap = 5.1) => {
-    const cleanBody = safeStr(flattenSegmentsToPlainText(parseMathSegments(rawBody)));
-    const bodyLines = wrapMixedLines(cleanBody, contentW - 10, false, fontSize, 'serif');
+    const bodyLines = wrapMixedLines(rawBody, contentW - 10, false, fontSize, 'serif');
     const hasLabel = Boolean(label && label.trim().length > 0);
     const boxH = (hasLabel ? 5.2 : 0) + bodyLines.length * lineGap + 8.5;
     ensureSpace(boxH + 4);
@@ -764,10 +955,119 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     }
     doc.setTextColor(...EARTH_UMBER);
     for (const line of bodyLines) {
-      drawMixedRun(line, marginX + 5, cy, false, fontSize, 'serif', 'normal');
+      drawStyledSpans(line.spans, marginX + 5, cy, false, 'serif', 'normal');
       cy += lineGap;
     }
     y += boxH + 4.5;
+  };
+
+  const drawTable = (
+    tableTitle: string,
+    headers: string[],
+    rawColWidths: number[],
+    rows: string[][],
+    fontSize = 8.1,
+    lineGap = 3.85
+  ) => {
+    const rawSum = rawColWidths.reduce((acc, v) => acc + v, 0) || contentW;
+    const colWidths = rawColWidths.map((w) => (w / rawSum) * contentW);
+    const padX = 1.6;
+    const padY = 1.65;
+
+    const capLines = wrapMixedLines(tableTitle, contentW - 5, true, 8.6, 'serif');
+    const contLines = wrapMixedLines(`${tableTitle} (continued)`, contentW - 5, true, 8.6, 'serif');
+    const capH = capLines.length * 4.2 + 3.4;
+    const contH = contLines.length * 4.2 + 3.4;
+
+    const wrappedHeaders = headers.map((h, ci) =>
+      wrapMixedLines(h, Math.max(8, colWidths[ci] - 2 * padX), true, fontSize, 'serif')
+    );
+    const headerMaxLines = Math.max(1, ...wrappedHeaders.map((l) => l.length));
+    const headerH = headerMaxLines * lineGap + 2 * padY;
+
+    const wrappedRows = rows.map((row) =>
+      headers.map((_, ci) =>
+        wrapMixedLines(row[ci] ?? '', Math.max(8, colWidths[ci] - 2 * padX), false, fontSize, 'serif')
+      )
+    );
+    const rowHeights = wrappedRows.map(
+      (cells) => Math.max(1, ...cells.map((l) => l.length)) * lineGap + 2 * padY
+    );
+
+    const drawBannerAndHeader = (isContinuation: boolean) => {
+      const bLines = isContinuation ? contLines : capLines;
+      const bH = isContinuation ? contH : capH;
+      doc.setFillColor(...EARTH_PARCHMENT);
+      doc.setDrawColor(...EARTH_STONE);
+      doc.setLineWidth(0.3);
+      doc.rect(marginX, y, contentW, bH, 'FD');
+      doc.setTextColor(...EARTH_TERRACOTTA);
+      let by = y + 3.9;
+      for (const bl of bLines) {
+        drawStyledSpans(bl.spans, marginX + 2.5, by, true, 'serif', 'bold');
+        by += 4.2;
+      }
+      y += bH;
+
+      doc.setFillColor(235, 227, 214);
+      doc.setDrawColor(...EARTH_STONE);
+      doc.setLineWidth(0.3);
+      doc.rect(marginX, y, contentW, headerH, 'FD');
+      let cx = marginX;
+      doc.setTextColor(...EARTH_UMBER);
+      for (let ci = 0; ci < headers.length; ci++) {
+        if (ci > 0) {
+          doc.line(cx, y, cx, y + headerH);
+        }
+        let hy = y + padY + 2.65;
+        for (const hl of wrappedHeaders[ci]) {
+          drawStyledSpans(hl.spans, cx + padX, hy, true, 'serif', 'bold');
+          hy += lineGap;
+        }
+        cx += colWidths[ci];
+      }
+      y += headerH;
+    };
+
+    const firstRowH = rowHeights[0] ?? 8;
+    if (y + capH + headerH + Math.min(firstRowH, 45) > bottomLimit) {
+      doc.addPage();
+      y = topY;
+    }
+    drawBannerAndHeader(false);
+
+    for (let ri = 0; ri < wrappedRows.length; ri++) {
+      const rH = rowHeights[ri];
+      if (y + rH > bottomLimit && y > topY + 2) {
+        doc.addPage();
+        y = topY;
+        drawBannerAndHeader(true);
+      }
+      if (ri % 2 === 1) {
+        doc.setFillColor(250, 248, 243);
+      } else {
+        doc.setFillColor(255, 255, 255);
+      }
+      doc.setDrawColor(...EARTH_STONE);
+      doc.setLineWidth(0.24);
+      doc.rect(marginX, y, contentW, rH, 'FD');
+
+      let cx = marginX;
+      doc.setTextColor(...EARTH_UMBER);
+      for (let ci = 0; ci < headers.length; ci++) {
+        if (ci > 0) {
+          doc.line(cx, y, cx, y + rH);
+        }
+        let cy = y + padY + 2.65;
+        for (const line of wrappedRows[ri][ci]) {
+          drawStyledSpans(line.spans, cx + padX, cy, false, 'serif', 'normal');
+          cy += lineGap;
+        }
+        cx += colWidths[ci];
+      }
+      y += rH;
+    }
+    y += 5;
   };
 
   return {
@@ -789,12 +1089,15 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     ensureSpace,
     measureTokenWidth,
     drawMixedRun,
+    drawStyledSpans,
     clipMixedLine,
+    clipStyledSpans,
     drawMathInlineText,
     drawHeading,
     drawCategoryTag,
     drawEquationBox,
-    drawCalloutBox
+    drawCalloutBox,
+    drawTable
   };
 }
 
@@ -830,20 +1133,20 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   const ctx = createPdfContext(doc, hasUnicodeFonts);
   const { marginX, contentW, topY, bottomLimit, pageW, tocEntries } = ctx;
 
-  const [svgAssets, plateAssets] = await Promise.all([
+  const [svgAssets, deviceAssets, plateAssets] = await Promise.all([
     Promise.all(H12_FIGURES.map(async (f) => ({ fig: f, raster: await rasterizeSvgDataUrl(f.svgMarkup) }))),
+    Promise.all(
+      H12_DEVICE_FIGURES.map(async (f) => ({
+        fig: f,
+        raster: await rasterizeSvgDataUrl(f.svgMarkup),
+        cutaway: f.illustrationPath ? await fetchImageDataUrl(f.illustrationPath) : null
+      }))
+    ),
     Promise.all(H12_ARCHIVAL_PLATES.map(async (p) => ({ plate: p, raster: await fetchImageDataUrl(p.imagePath) })))
   ]);
 
   const cleanPdfText = (s: string): string =>
-    s
-      .replace(
-        'Appendices L–N house portal mechanisms, laboratory devices A–F, and the adversarial stress-test scorecard',
-        'Appendices L–M house portal mechanisms and laboratory devices A–F'
-      )
-      .replace('Extended Appendices L–N and Technical Appendices A–K.', 'Extended Appendices L–M and Technical Appendices A–K.')
-      .replace('followed by Appendices L, M, and N.', 'followed by Appendices L–M and Technical Appendices A–K.')
-      .replace('Scorecard to Appendix N, and ', 'and ');
+    s.replace('Consolidated Appendices A–L', 'Consolidated Appendices A–L');
 
   // -------------------------------------------------------------------------
   // Dedicated Cover Page (Page 1 Only — Muted 4-Color Earth Scheme)
@@ -855,7 +1158,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   ctx.addY(6);
 
   ctx.drawMathInlineText(
-    `${H12_META.monographId} · Complete Research Monograph (Chapters 1–13 & Technical Appendices A–M) · ${H12_META.date}`,
+    `${H12_META.monographId} · Complete Research Monograph (Chapters 1–13 & Consolidated Appendices A–L) · ${H12_META.date}`,
     marginX,
     contentW,
     8.5,
@@ -935,23 +1238,25 @@ export async function generateIgrtH12Pdf(): Promise<void> {
     'mono'
   );
 
-  // Page 2: Portal Definition Box + Unified Layman & Scholar Abstract (Strict Dedicated Page Start)
+  // Page 2: Short Unified Layman & Scholar Abstract (Strict Dedicated Page Start)
   doc.addPage();
   ctx.setY(topY);
-  ctx.drawCalloutBox('PORTAL DEFINITION BOX', H12_PORTAL_DEFINITION_BOX, 10.6, 5.1);
   ctx.drawHeading('Abstract', 1, true, 0, false);
   for (const p of H12_ABSTRACT_PARAGRAPHS) {
-    ctx.drawMathInlineText(p, marginX, contentW, 12, 6.35, EARTH_UMBER, false, true);
-    ctx.addY(2.0);
+    ctx.drawMathInlineText(cleanPdfText(p), marginX, contentW, 10.75, 5.25, EARTH_UMBER, false, true);
+    ctx.addY(1.4);
   }
-  ctx.drawCalloutBox('SUMMARY FOR NON-SPECIALISTS', H12_SUMMARY_FOR_NON_SPECIALISTS, 10.6, 5.1);
-  ctx.drawMathInlineText(`Keywords: ${H12_META.keywords.join(' · ')}`, marginX, contentW, 9.6, 4.7, EARTH_STONE, false, true);
+  ctx.drawMathInlineText(`Keywords: ${H12_META.keywords.join(' · ')}`, marginX, contentW, 9.2, 4.4, EARTH_STONE, false, true);
 
-  // Reserve 2 pages right after Abstract for Computed Table of Contents
+  // Reserve 4 pages right after Abstract for Computed Table of Contents (Ch. 1–13 + References + App. A–L + Devices A–K)
   doc.addPage();
   const tocPage1 = doc.getNumberOfPages();
   doc.addPage();
   const tocPage2 = doc.getNumberOfPages();
+  doc.addPage();
+  const tocPage3 = doc.getNumberOfPages();
+  doc.addPage();
+  const tocPage4 = doc.getNumberOfPages();
   doc.addPage();
   ctx.setY(topY);
 
@@ -964,8 +1269,11 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   for (const fg of H12_FIGURES) {
     ctx.drawMathInlineText(`${fg.figureNumber} (Ch.${fg.anchorChapter}): ${fg.title} [${fg.category}]`, marginX + 2, contentW - 2, 10, 4.9);
   }
+  for (const mfg of H12_DEVICE_FIGURES) {
+    ctx.drawMathInlineText(`${mfg.figureNumber} (Appendix J · ${mfg.deviceId}): ${mfg.title} [${mfg.category}]`, marginX + 2, contentW - 2, 10, 4.9);
+  }
   ctx.drawHeading('List of Tables', 2, false, 1);
-  for (const tb of H12_FRONTMATTER_TABLES_LIST.filter((t) => t.location !== 'Appendix N')) {
+  for (const tb of H12_FRONTMATTER_TABLES_LIST.filter((t) => t.location !== 'Appendix L')) {
     ctx.drawMathInlineText(`${tb.id} (${tb.location}): ${tb.title}`, marginX + 2, contentW - 2, 10, 4.9);
   }
   ctx.drawHeading('List of Principal Equations', 2, false, 1);
@@ -997,25 +1305,31 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   // Chapters 1 to 13
   for (const ch of H12_CHAPTERS) {
     ctx.drawHeading(`Chapter ${ch.number}. ${ch.title}`, 1, true, 0, true);
-    ctx.drawMathInlineText(ch.leadSummary, marginX, contentW, 11.5, 6.05, EARTH_STONE, false, true, 'serif', 'italic');
+    ctx.drawMathInlineText(cleanPdfText(ch.leadSummary), marginX, contentW, 11.5, 6.05, EARTH_STONE, false, true, 'serif', 'italic');
     ctx.addY(4);
 
     if (ch.number === 1) {
       ctx.drawCalloutBox('METRIC SIGNATURE BOX', H12_METRIC_SIGNATURE_BOX, 10.4, 5.0);
-      ctx.drawHeading('Table 1.3 · Category B/C Boundary Rubric Box', 3, false, 1);
-      for (const g of EPISTEMIC_BC_GREY_AREA_RUBRIC) {
-        ctx.drawMathInlineText(`${g.boundaryCase} [${g.assignedCategory}]: Derived: ${g.derivedAspect} Conjectural: ${g.conjecturalAspect} — ${g.ruleApplied}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
-      ctx.addY(2);
+      ctx.drawTable(
+        'Table 1.3 · Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas)',
+        ['Boundary Case', 'Derived Core (Cat. B)', 'Conjectural Premise (Cat. C)', 'Assigned Category & Rule'],
+        [36, 48, 48, 38],
+        EPISTEMIC_BC_GREY_AREA_RUBRIC.map((g) => [
+          g.boundaryCase,
+          g.derivedAspect,
+          g.conjecturalAspect,
+          `${g.assignedCategory} — ${g.ruleApplied}`
+        ])
+      );
     }
 
     if (ch.number === 2) {
-      ctx.drawHeading('Timeline of Five-Dimensional Physics (1921–2026)', 3, false, 1);
-      for (const tm of TIMELINE_5D_PHYSICS) {
-        ctx.drawMathInlineText(`${tm.year} · ${tm.milestone}: ${tm.contributionToH12}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.0);
-      }
+      ctx.drawTable(
+        'Timeline of Five-Dimensional Physics (1921–2026)',
+        ['Year & Milestone', 'Contribution to IGRT-H12'],
+        [44, 126],
+        TIMELINE_5D_PHYSICS.map((tm) => [`${tm.year} · ${tm.milestone}`, tm.contributionToH12])
+      );
     }
 
     for (const sub of ch.subsections) {
@@ -1057,174 +1371,345 @@ export async function generateIgrtH12Pdf(): Promise<void> {
     }
 
     if (ch.number === 1) {
-      ctx.drawHeading('Table 1.1 · Audit of Twelve Core H11 Components', 3, false, 1);
-      for (const r of H11_TWELVE_COMPONENTS_AUDIT) {
-        ctx.drawMathInlineText(`${r.component} [${r.h12Status} | ${r.category}]: ${r.h12Modification}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
-      ctx.drawHeading('Table 1.2 · Comparison: 4D IGRT-H11 vs. 5D IGRT-H12', 3, false, 1);
-      for (const c of COMPARISON_4D_VS_5D_IGRT) {
-        ctx.drawMathInlineText(`${c.dimension}: 4D=${c.h11FourD} | 5D=${c.h12FiveD} (${c.epistemicDelta}; Testable Now=${c.testableNow})`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.0);
-      }
-      ctx.drawHeading('Glossary of Five-Dimensional Terms', 3, false, 1);
-      for (const g of GLOSSARY_5D_TERMS) {
-        ctx.drawMathInlineText(`${g.term}: ${g.definition}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.0);
-      }
+      ctx.drawTable(
+        'Table 1.1 · Audit of Twelve Core H11 Components & H12 Embedding Status',
+        ['Component', 'H11 Value / Role', 'H12 Status', 'Category & Modification'],
+        [34, 34, 34, 68],
+        H11_TWELVE_COMPONENTS_AUDIT.map((r) => [
+          r.component,
+          r.h11EquationOrValue,
+          r.h12Status,
+          `${r.category}: ${r.h12Modification}`
+        ])
+      );
+      ctx.drawTable(
+        'Table 1.2 · Direct Comparison: 4D IGRT-H11 vs. 5D IGRT-H12',
+        ['Dimension', '4D IGRT-H11', '5D IGRT-H12', 'Epistemic Delta', 'Testable Now?'],
+        [30, 38, 42, 36, 24],
+        COMPARISON_4D_VS_5D_IGRT.map((c) => [
+          c.dimension,
+          c.h11FourD,
+          c.h12FiveD,
+          c.epistemicDelta,
+          c.testableNow
+        ])
+      );
+      ctx.drawTable(
+        'Glossary of Five-Dimensional Terms',
+        ['Term', 'Formal Meaning in IGRT-H12'],
+        [42, 128],
+        GLOSSARY_5D_TERMS.map((g) => [g.term, g.definition])
+      );
       ctx.drawMathInlineText(SUMMARY_FOR_PHYSICISTS, marginX, contentW, 11.5, 6.05, EARTH_SAGE, false, true);
       ctx.addY(2);
     }
 
     if (ch.number === 2) {
-      ctx.drawHeading('Table 2.1 · Structured Catalog of All 665 Verified IGRT-H11 Assertions', 3, false, 1);
-      for (const row of H11_665_ASSERTIONS_CATALOG) {
-        ctx.drawMathInlineText(`${row.moduleGroup} (${row.assertionCount} assertions): ${row.verifiedPhysicalScope}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.0);
-      }
-      ctx.drawHeading('Table 2.2 · Eöt-Wash ±2 μm Error Propagation, Multi-Regulator Stability & Clock Energy Sweep', 3, false, 1);
-      for (const row of REGULATOR_SENSITIVITY_TABLE) {
-        ctx.drawMathInlineText(`${row.regimeOrRegulator} (${row.energyOrRadius}): ${row.computedOutput} — ${row.physicalInterpretation}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.0);
-      }
+      ctx.drawTable(
+        'Table 2.1 · Structured Catalog of All 665 Verified IGRT-H11 Assertions',
+        ['Verification Group', 'Count', 'Verified Physical & Mathematical Scope'],
+        [48, 18, 104],
+        H11_665_ASSERTIONS_CATALOG.map((row) => [
+          row.moduleGroup,
+          String(row.assertionCount),
+          row.verifiedPhysicalScope
+        ])
+      );
+      ctx.drawTable(
+        'Table 2.2 · Eöt-Wash ±2 μm Error Propagation, Multi-Regulator Stability & Clock Energy Sweep',
+        ['Regime / Regulator', 'Scale / Ratio', 'Computed Output', 'Physical Significance'],
+        [40, 30, 40, 60],
+        REGULATOR_SENSITIVITY_TABLE.map((row) => [
+          row.regimeOrRegulator,
+          row.energyOrRadius,
+          row.computedOutput,
+          row.physicalInterpretation
+        ])
+      );
     }
 
     if (ch.number === 3) {
-      ctx.drawHeading('Table 3.1 · Seven Orthogonal Temporal Notions & Standard Literature Correspondence', 3, false, 1);
-      for (const t of SEVEN_TEMPORAL_NOTIONS) {
-        ctx.drawMathInlineText(`${t.notion} (${t.symbol}): ${t.mathematicalDefinition} — ${t.foldsInH12} | Literature: ${t.literatureComparison}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
+      ctx.drawTable(
+        'Table 3.1 · Seven Orthogonal Temporal Notions & Standard Literature Correspondence',
+        ['Notion', 'Symbol', 'Mathematical Definition', 'Folding Role & Literature'],
+        [30, 22, 56, 62],
+        SEVEN_TEMPORAL_NOTIONS.map((t) => [
+          t.notion,
+          t.symbol,
+          t.mathematicalDefinition,
+          `${t.foldsInH12} | Lit.: ${t.literatureComparison}`
+        ])
+      );
     }
 
     if (ch.number === 4) {
-      ctx.drawHeading('Table 4.1 · Positive Conjectures Summary Table (Category C)', 3, false, 1);
-      for (const p of POSITIVE_CONJECTURES_SUMMARY) {
-        ctx.drawMathInlineText(`${p.conjecture} [${p.category}]: ${p.statement} (Test: ${p.test})`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
-      ctx.drawHeading('Table 4.2 · Model 2B Quadrature Convergence, Euler–Lagrange & ds_5² ≡ 0 Audit', 3, false, 1);
-      for (const row of MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE) {
-        ctx.drawMathInlineText(`${row.benchmarkSpan} (${row.turningPeak}): ${row.etaFoldAndSpeed} | ${row.elAndNullResidual}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
+      ctx.drawTable(
+        'Table 4.1 · Positive Conjectures Summary Table (Strictly Category C)',
+        ['Conjecture (Cat. C)', 'Conditional Statement', 'Target Protocol & Testability'],
+        [40, 74, 56],
+        POSITIVE_CONJECTURES_SUMMARY.map((p) => [
+          p.conjecture,
+          p.statement,
+          `${p.category}: ${p.test}`
+        ])
+      );
+      ctx.drawTable(
+        'Table 4.2 · Model 2B Quadrature Convergence, Euler–Lagrange & ds_5² ≡ 0 Audit',
+        ['Benchmark Span', 'Turning Peak', 'Folding Ratio & Speed', 'Convergence & Null Residual'],
+        [36, 30, 48, 56],
+        MODEL2B_CONVERGENCE_AND_MICROCAUSALITY_TABLE.map((row) => [
+          row.benchmarkSpan,
+          row.turningPeak,
+          row.etaFoldAndSpeed,
+          row.elAndNullResidual
+        ])
+      );
     }
 
     if (ch.number === 5) {
-      ctx.drawHeading('Table 5.1 · Six-Class Black-Hole & Portal Taxonomy', 3, false, 1);
-      for (const b of SIX_BLACK_HOLE_CLASSES) {
-        ctx.drawMathInlineText(`${b.classId} (${b.label}) [${b.category}]: ${b.portalViability} | ${b.necStatus}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
+      ctx.drawTable(
+        'Table 5.1 · Six-Class Black-Hole & Portal Taxonomy (Classes A–F)',
+        ['Class', 'Metric / NEC Status', 'Portal Viability', 'Stability & Category'],
+        [32, 48, 44, 46],
+        SIX_BLACK_HOLE_CLASSES.map((b) => [
+          `${b.classId} (${b.label})`,
+          `${b.metricSignatureAndForm} | ${b.necStatus}`,
+          b.portalViability,
+          `${b.category}: ${b.stabilityAndConstraints}`
+        ])
+      );
     }
 
     if (ch.number === 6 || ch.number === 9) {
-      ctx.drawHeading(`Table ${ch.number}.1 · Negative Results Summary`, 3, false, 1);
-      for (const n of NEGATIVE_RESULTS_SUMMARY) {
-        ctx.drawMathInlineText(`${n.theorem} [${n.category}]: ${n.statement} -> ${n.implication}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
-      ctx.drawHeading('Glossary of Negative Theorems', 3, false, 1);
-      for (const g of GLOSSARY_NEGATIVE_THEOREMS) {
-        ctx.drawMathInlineText(`${g.term}: ${g.definition}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.0);
-      }
+      ctx.drawTable(
+        `Table ${ch.number}.1 · Negative Results Summary`,
+        ['Theorem', 'Category', 'Derived Proof Statement', 'Physical Implication'],
+        [36, 26, 56, 52],
+        NEGATIVE_RESULTS_SUMMARY.map((n) => [
+          n.theorem,
+          n.category,
+          n.statement,
+          n.implication
+        ])
+      );
+      ctx.drawTable(
+        'Glossary of Negative Theorems',
+        ['Term', 'Formal Definition'],
+        [46, 124],
+        GLOSSARY_NEGATIVE_THEOREMS.map((g) => [g.term, g.definition])
+      );
     }
 
     if (ch.number === 10) {
-      ctx.drawHeading('Table 10.1 · What Is Unique to 5D vs. Reproduced in 4D H11', 3, false, 1);
-      for (const u of WHAT_IS_UNIQUE_TO_5D) {
-        ctx.drawMathInlineText(`${u.observable} [${u.empiricalStatus}]: 4D=${u.reproducedIn4DH11} | 5D=${u.uniqueTo5DH12}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
-      ctx.drawHeading('Table 10.2 · Multi-Probe Observational Consistency Audit', 3, false, 1);
-      for (const b of FIVE_D_OBSERVATIONAL_BOUNDS) {
-        ctx.drawMathInlineText(`${b.probe} (${b.bound}) [${b.h12Status}]: ${b.derivationOrAssumption}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
+      ctx.drawTable(
+        'Table 10.1 · What Is Unique to 5D vs. Reproduced in 4D H11',
+        ['Observable', 'Status in 4D H11', 'Unique to 5D H12', 'Empirical Status'],
+        [34, 44, 52, 40],
+        WHAT_IS_UNIQUE_TO_5D.map((u) => [
+          u.observable,
+          u.reproducedIn4DH11,
+          u.uniqueTo5DH12,
+          u.empiricalStatus
+        ])
+      );
+      ctx.drawTable(
+        'Table 10.2 · Multi-Probe Observational Consistency Audit',
+        ['Probe', 'Quantitative Bound', 'H12 Status', 'Derived vs. Assumed'],
+        [34, 42, 34, 60],
+        FIVE_D_OBSERVATIONAL_BOUNDS.map((b) => [
+          b.probe,
+          b.bound,
+          b.h12Status,
+          b.derivationOrAssumption
+        ])
+      );
+      ctx.drawTable(
+        'Table 10.3 · Five-Dimensional Signatures, Experimental Tests & Current Observational Constraints',
+        ['5D Signature', 'Experiment That Tests It', 'Current Observational Constraint'],
+        [52, 58, 60],
+        FIVE_D_SIGNATURES_TEST_MATRIX.map((sig) => [
+          sig.signature,
+          sig.experimentToTestIt,
+          sig.currentConstraint
+        ])
+      );
     }
 
     if (ch.number === 11) {
-      ctx.drawHeading('Table 11.1 · Exhaustive Ledger of Non-Derived Claims', 3, false, 1);
-      for (const w of WHAT_IS_NOT_DERIVED_LEDGER) {
-        ctx.drawMathInlineText(`${w.claim} [${w.category}]: ${w.whyNotDerived}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
+      ctx.drawTable(
+        'Table 11.1 · Exhaustive Ledger of Non-Derived Claims (Categories A, C & D)',
+        ['Claim / Ansatz / Postulate', 'Category', 'Exact Reason Why Not Derived in H12'],
+        [44, 34, 92],
+        WHAT_IS_NOT_DERIVED_LEDGER.map((w) => [w.claim, w.category, w.whyNotDerived])
+      );
     }
 
     if (ch.number === 12) {
-      ctx.drawHeading('Table 12.1 · Empirical & Conceptual Protocols (P7–P13)', 3, false, 1);
-      for (const p of H12_ALL_PROTOCOLS) {
-        ctx.drawMathInlineText(`${p.id} · ${p.name} [${p.category} | ${p.timeline}]: ${p.numericalSensitivity} | Falsification: ${p.falsificationCriterion}`, marginX + 2, contentW - 2, 9.8, 4.9);
-        ctx.addY(1.1);
-      }
-      ctx.drawHeading('Table 12.2 · Timeline Table (P7–P13)', 3, false, 1);
-      for (const t of P7_TO_P13_TIMELINE_TABLE) {
-        ctx.drawMathInlineText(`${t.protocol}: ${t.currentState} -> ${t.requiredSensitivity} (${t.expectedYear})`, marginX + 2, contentW - 2, 9.8, 4.9);
-      }
-      ctx.drawHeading('Table 12.3 · Falsification Thresholds (P7–P13)', 3, false, 1);
-      for (const f of P7_TO_P13_FALSIFICATION_TABLE) {
-        ctx.drawMathInlineText(`Falsify ${f.protocol}: ${f.nullBound} => ${f.whatItRulesOut}`, marginX + 2, contentW - 2, 9.8, 4.9);
-      }
-      ctx.drawHeading('Table 12.4 · Confirmation Thresholds (P7–P13)', 3, false, 1);
-      for (const c of P7_TO_P13_CONFIRMATION_TABLE) {
-        ctx.drawMathInlineText(`Confirm ${c.protocol}: ${c.signalSignature} (Control: ${c.requiredControl})`, marginX + 2, contentW - 2, 9.8, 4.9);
-      }
-      ctx.drawHeading('Table 12.5 · Empirical Decision Matrix (P7–P13)', 3, false, 1);
-      for (const d of P7_TO_P13_DECISION_MATRIX) {
-        ctx.drawMathInlineText(`Outcome [${d.outcome}] -> ${d.posteriorStatus}. Action: ${d.mandatoryAction}`, marginX + 2, contentW - 2, 9.8, 4.9);
-      }
-      ctx.drawHeading('Table 12.6 · H11 (P1–P6) vs. H12 (P7–P13) Protocols Comparison', 3, false, 1);
-      for (const cmp of H11_VS_H12_PROTOCOLS_COMPARISON) {
-        ctx.drawMathInlineText(`${cmp.aspect}: H11=${cmp.h11Protocols} | H12=${cmp.h12Protocols}`, marginX + 2, contentW - 2, 9.8, 4.9);
-      }
-      ctx.drawHeading('Table 12.7 · Quantitative Noise Budgets & Systematic Mitigation (P7–P13)', 3, false, 1);
-      for (const nb of P7_TO_P13_NOISE_BUDGET_TABLE) {
-        ctx.drawMathInlineText(`${nb.protocol}: Sources: ${nb.primaryNoiseSources} | Floor: ${nb.quantitativeBudget} | Mitigation: ${nb.mitigationArchitecture}`, marginX + 2, contentW - 2, 9.8, 4.9);
-        ctx.addY(1.0);
-      }
-      ctx.drawHeading('Table 12.8 · P13 Systematic Error Budget', 3, false, 1);
-      for (const s of P13_SYSTEMATIC_ERROR_BUDGET) {
-        ctx.drawMathInlineText(`${s.source}: ${s.magnitudeOrUncertainty} | Impact: ${s.impactOnEtaFold} | Mitigation: ${s.mitigationStrategy}`, marginX + 2, contentW - 2, 9.8, 4.9);
-        ctx.addY(1.0);
-      }
-      ctx.drawHeading('Table 12.9 · P13 Statistical Error Budget', 3, false, 1);
-      for (const st of P13_STATISTICAL_ERROR_BUDGET) {
-        ctx.drawMathInlineText(`${st.channel}: ${st.measurementPrecision} -> ${st.propagatedEtaFoldError} (${st.sampleScalingNote})`, marginX + 2, contentW - 2, 9.8, 4.9);
-        ctx.addY(1.0);
-      }
-      ctx.drawHeading('Table 12.10 · Combined Protocol Bounds (P7–P13 Joint Likelihood)', 3, false, 1);
-      for (const cb of P7_TO_P13_COMBINED_BOUNDS_TABLE) {
-        ctx.drawMathInlineText(`${cb.protocolPairOrCluster} (${cb.constrainedParameters}): ${cb.combinedJointLikelihoodRole} — ${cb.orthogonalExclusionPower}`, marginX + 2, contentW - 2, 9.8, 4.9);
-        ctx.addY(1.0);
-      }
-      ctx.drawHeading('Table 12.11 · Protocol Sensitivity Projections (2026–2035+)', 3, false, 1);
-      for (const pr of P7_TO_P13_SENSITIVITY_PROJECTION_TABLE) {
-        ctx.drawMathInlineText(`${pr.protocol}: 2026=${pr.currentBaseline2026} | 2027–2032=${pr.nearTerm2027_2032} | 2035+=${pr.longTerm3G2035Plus}`, marginX + 2, contentW - 2, 9.8, 4.9);
-      }
-      ctx.drawHeading('Table 12.12 · Summary of P13 Multi-Messenger Bounds', 3, false, 1);
-      for (const pb of P13_SUMMARY_OF_BOUNDS_TABLE) {
-        ctx.drawMathInlineText(`${pb.datasetOrRegime} (${pb.baselineDistance}): ${pb.arrivalBoundOrPrecision} => ${pb.etaFoldLimit} [${pb.epistemicNote}]`, marginX + 2, contentW - 2, 9.8, 4.9);
-      }
+      ctx.drawTable(
+        'Table 12.1 · Dedicated IGRT-H12 Empirical & Conceptual Protocols (P7–P13)',
+        ['Protocol & Category', 'Relation to H11', 'Numerical Sensitivity', 'Falsification Criterion'],
+        [38, 44, 40, 48],
+        H12_ALL_PROTOCOLS.map((p) => [
+          `${p.id} · ${p.name} [${p.category} | ${p.timeline}]`,
+          p.relationToH11,
+          p.numericalSensitivity,
+          p.falsificationCriterion
+        ])
+      );
+      ctx.drawTable(
+        'Table 12.2 · Timeline Table (P7–P13)',
+        ['Protocol', 'Current State', 'Required Sensitivity', 'Expected Year'],
+        [36, 46, 50, 38],
+        P7_TO_P13_TIMELINE_TABLE.map((t) => [
+          t.protocol,
+          t.currentState,
+          t.requiredSensitivity,
+          t.expectedYear
+        ])
+      );
+      ctx.drawTable(
+        'Table 12.3 · Falsification Thresholds (P7–P13)',
+        ['Protocol', 'Null Falsification Bound', 'What It Rules Out'],
+        [28, 66, 76],
+        P7_TO_P13_FALSIFICATION_TABLE.map((f) => [
+          f.protocol,
+          f.nullBound,
+          f.whatItRulesOut
+        ])
+      );
+      ctx.drawTable(
+        'Table 12.4 · Confirmation Thresholds (P7–P13)',
+        ['Protocol', 'Positive Signal Signature', 'Required Systematic Control'],
+        [28, 72, 70],
+        P7_TO_P13_CONFIRMATION_TABLE.map((c) => [
+          c.protocol,
+          c.signalSignature,
+          c.requiredControl
+        ])
+      );
+      ctx.drawTable(
+        'Table 12.5 · Empirical Decision Matrix (P7–P13)',
+        ['Experimental Outcome', 'Posterior Status', 'Mandatory Action'],
+        [48, 52, 70],
+        P7_TO_P13_DECISION_MATRIX.map((d) => [
+          d.outcome,
+          d.posteriorStatus,
+          d.mandatoryAction
+        ])
+      );
+      ctx.drawTable(
+        'Table 12.6 · H11 (P1–P6) vs. H12 (P7–P13) Protocols Comparison',
+        ['Comparison Aspect', 'H11 Protocols (P1–P6)', 'H12 Protocols (P7–P13)'],
+        [38, 66, 66],
+        H11_VS_H12_PROTOCOLS_COMPARISON.map((cmp) => [
+          cmp.aspect,
+          cmp.h11Protocols,
+          cmp.h12Protocols
+        ])
+      );
+      ctx.drawTable(
+        'Table 12.7 · Quantitative Noise Budgets & Systematic Mitigation (P7–P13)',
+        ['Protocol', 'Dominant Noise Sources', 'Quantitative Floor', 'Mitigation Architecture'],
+        [30, 44, 44, 52],
+        P7_TO_P13_NOISE_BUDGET_TABLE.map((nb) => [
+          nb.protocol,
+          nb.primaryNoiseSources,
+          nb.quantitativeBudget,
+          nb.mitigationArchitecture
+        ])
+      );
+      ctx.drawTable(
+        'Table 12.8 · P13 Systematic Error Budget',
+        ['Systematic Source', 'Magnitude / Uncertainty', 'Impact on η_fold', 'Mitigation Strategy'],
+        [36, 38, 42, 54],
+        P13_SYSTEMATIC_ERROR_BUDGET.map((s) => [
+          s.source,
+          s.magnitudeOrUncertainty,
+          s.impactOnEtaFold,
+          s.mitigationStrategy
+        ])
+      );
+      ctx.drawTable(
+        'Table 12.9 · P13 Statistical Error Budget',
+        ['Measurement Channel', 'Timing Precision', 'Propagated η_fold Error', 'Sample Scaling Note'],
+        [38, 40, 44, 48],
+        P13_STATISTICAL_ERROR_BUDGET.map((st) => [
+          st.channel,
+          st.measurementPrecision,
+          st.propagatedEtaFoldError,
+          st.sampleScalingNote
+        ])
+      );
+      ctx.drawTable(
+        'Table 12.10 · Combined Protocol Bounds (P7–P13 Joint Likelihood)',
+        ['Protocol Cluster', 'Constrained Parameters', 'Joint Likelihood Role', 'Orthogonal Exclusion Power'],
+        [36, 38, 46, 50],
+        P7_TO_P13_COMBINED_BOUNDS_TABLE.map((cb) => [
+          cb.protocolPairOrCluster,
+          cb.constrainedParameters,
+          cb.combinedJointLikelihoodRole,
+          cb.orthogonalExclusionPower
+        ])
+      );
+      ctx.drawTable(
+        'Table 12.11 · Protocol Sensitivity Projections (2026–2035+)',
+        ['Protocol', '2026 Baseline', '2027–2032 Window', '2035+ (3G Era)'],
+        [32, 44, 46, 48],
+        P7_TO_P13_SENSITIVITY_PROJECTION_TABLE.map((pr) => [
+          pr.protocol,
+          pr.currentBaseline2026,
+          pr.nearTerm2027_2032,
+          pr.longTerm3G2035Plus
+        ])
+      );
+      ctx.drawTable(
+        'Table 12.12 · Summary of P13 Multi-Messenger Bounds',
+        ['Dataset / Regime', 'Distance', 'Arrival Precision', 'η_fold Limit', 'Epistemic Status'],
+        [34, 26, 36, 38, 36],
+        P13_SUMMARY_OF_BOUNDS_TABLE.map((pb) => [
+          pb.datasetOrRegime,
+          pb.baselineDistance,
+          pb.arrivalBoundOrPrecision,
+          pb.etaFoldLimit,
+          pb.epistemicNote
+        ])
+      );
       ctx.drawHeading('Protocol Statistical Framework, Joint Likelihood & Bayesian Occam Penalty', 3, false, 1);
       for (const sec of H12_PROTOCOL_ANALYSIS_SECTIONS) {
         ctx.drawMathInlineText(`${sec.title}: ${sec.content}`, marginX + 2, contentW - 2, 10, 5.0, EARTH_UMBER, false, true);
         ctx.addY(1.1);
       }
-      ctx.drawHeading('Falsification Checklist', 3, false, 1);
+      ctx.drawHeading('Falsification Checklist: What Would Prove H12 Wrong?', 3, false, 1);
       for (const f of H12_FALSIFICATION_CHECKLIST) ctx.drawMathInlineText(`• [Falsify] ${f}`, marginX + 2, contentW - 2, 10, 5.0);
-      ctx.drawHeading('Confirmation Checklist', 3, false, 1);
+      ctx.drawHeading('Confirmation Checklist: What Would Confirm H12?', 3, false, 1);
       for (const c of H12_CONFIRMATION_CHECKLIST) ctx.drawMathInlineText(`• [Confirm] ${c}`, marginX + 2, contentW - 2, 10, 5.0);
       ctx.addY(1.5);
       ctx.drawMathInlineText(H12_FUNDING_AGENCY_SUMMARY, marginX, contentW, 11, 5.8, EARTH_UMBER, false, true);
     }
 
     if (ch.number === 13) {
-      ctx.drawHeading('Table 13.1 · Twelve Research Extrapolations & Open Obstacles', 3, false, 1);
-      for (const ex of TWELVE_EXTRAPOLATIONS) {
-        ctx.drawMathInlineText(`${ex.id}. ${ex.topic} [${ex.category}]: ${ex.extension} Obstacle: ${ex.keyObstacleOrFalsifier}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
+      ctx.drawTable(
+        'Table 13.1 · Twelve Research Extrapolations & Open Obstacles',
+        ['Topic', 'Category', 'Extension', 'Key Obstacle / Falsifier'],
+        [36, 30, 56, 48],
+        TWELVE_EXTRAPOLATIONS.map((ex) => [
+          `${ex.id}. ${ex.topic}`,
+          ex.category,
+          ex.extension,
+          ex.keyObstacleOrFalsifier
+        ])
+      );
+      ctx.drawTable(
+        'Table 13.2 · Seven Fundamental Problems in Physics Solved or Revolutionized by IGRT–H12',
+        ['Open Physics Problem', 'Governing Equations', 'Resolution & Category', 'Plain-Language Takeaway'],
+        [38, 40, 52, 40],
+        SEVEN_SOLVED_PHYSICS_PROBLEMS.map((sp) => [
+          sp.openProblem,
+          sp.governingH11H12Equations,
+          `${sp.category}: ${sp.coreResolutionAndPrediction}`,
+          sp.laymanTakeaway
+        ])
+      );
       ctx.drawHeading('List of Open Problems (OP-1 to OP-6)', 3, false, 1);
       for (const op of H12_OPEN_PROBLEMS_LIST) {
         ctx.drawMathInlineText(`${op.id}: ${op.problem} — ${op.statusNote}`, marginX + 2, contentW - 2, 10, 5.0);
@@ -1266,42 +1751,16 @@ export async function generateIgrtH12Pdf(): Promise<void> {
     }
   }
 
-  // Main Monograph Appendices L & M (Appendix N Adversarial Stress-Test Scorecard excluded from PDF)
-  for (const app of H12_MAIN_APPENDICES_LMN.filter((a) => a.letter !== 'N')) {
-    ctx.drawHeading(`Appendix ${app.letter}: ${app.title}`, 1, true, 0, true);
-    ctx.drawCategoryTag(app.category);
-    ctx.drawMathInlineText(app.leadSummary, marginX, contentW, 11.5, 6.05, EARTH_STONE, false, true, 'serif', 'italic');
-    ctx.addY(3);
-    for (const p of app.paragraphs) {
-      ctx.drawMathInlineText(p, marginX, contentW, 12, 6.35, EARTH_UMBER, false, true);
-      ctx.addY(2.2);
-    }
-    if (app.letter === 'L') {
-      ctx.drawHeading('Table L.1 · Eleven Portal & Analog Mechanisms', 3, false, 1);
-      for (const m of ELEVEN_PORTAL_MECHANISMS) {
-        ctx.drawMathInlineText(`${m.mechanism} [${m.tier} | ${m.category}]: ${m.quantitativeObstacleOrLimit}`, marginX + 2, contentW - 2, 10, 5.0);
-        ctx.addY(1.1);
-      }
-    }
-    if (app.letter === 'M') {
-      ctx.drawHeading('Table M.1 · Devices A–F Ten-Field Technical Specifications', 3, false, 1);
-      for (const d of SIX_PROPOSED_DEVICES) {
-        ctx.drawMathInlineText(`${d.deviceId}: ${d.name} [${d.category}] — Principle: ${d.physicalPrinciple} Signal: ${d.predictedSignal} Tests: ${d.whatItActuallyTests} Non-Claim: ${d.whatItDoesNotDo}`, marginX + 2, contentW - 2, 9.8, 4.9);
-        ctx.addY(1.4);
-      }
-    }
-  }
-
   ctx.drawHeading('References', 1, true, 0, true);
   for (const ref of H12_REFERENCES) {
     ctx.drawMathInlineText(`[${ref.id}] ${ref.citation}`, marginX, contentW, 10.5, 5.2, EARTH_UMBER, false, true);
     ctx.addY(1.5);
   }
 
-  // Unified Technical Appendices A–K (previously separate Supplementary Vol. II)
-  ctx.drawHeading('Technical Appendices (A–K)', 1, true, 0, true);
+  // Strictly Alphabetical Consolidated Appendices (A–L)
+  ctx.drawHeading('Consolidated Appendices (A–L)', 1, true, 0, true);
   ctx.drawMathInlineText(
-    `Detailed Mathematical Proofs, Variational Derivations & Numerical Solver Audits for "${H12_META.title}" — ${H12_META.authors}.`,
+    `Complete Mathematical Proofs, Portal Taxonomy (App. I), Laboratory Devices A–K (App. J), Physics Breakthroughs (App. K) & Epistemic Claim–Evidence Ledger (App. L) for "${H12_META.title}" — ${H12_META.authors}.`,
     marginX,
     contentW,
     11.4,
@@ -1313,6 +1772,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
     'italic'
   );
   ctx.addY(3);
+
   for (const app of H12_APPENDICES) {
     ctx.drawHeading(`Appendix ${app.letter}: ${app.title}`, 2, true, 1);
     ctx.drawCategoryTag(app.category);
@@ -1323,6 +1783,159 @@ export async function generateIgrtH12Pdf(): Promise<void> {
       ctx.drawMathInlineText(p, marginX, contentW, 11.5, 6.05, EARTH_UMBER, false, true);
       ctx.addY(2);
     }
+
+    if (app.letter === 'I') {
+      ctx.drawTable(
+        'Table I.1 · Eleven Portal & Analog Mechanisms',
+        ['Candidate Mechanism', 'Feasibility Tier', 'Physical Action', 'Category', 'Quantitative Obstacle / Limit'],
+        [30, 26, 44, 24, 46],
+        ELEVEN_PORTAL_MECHANISMS.map((m) => [
+          m.mechanism,
+          m.tier,
+          m.physicalAction,
+          m.category,
+          m.quantitativeObstacleOrLimit
+        ])
+      );
+    }
+
+    if (app.letter === 'J') {
+      ctx.drawTable(
+        'Table J.1 · Devices A–K Master Ten-Field Technical Specifications',
+        ['Device & Category', 'Principle & Governing Eqs', 'Predicted Signal & Floor', 'Actually Tests vs. Explicit Non-Claim'],
+        [34, 48, 42, 46],
+        H12_PROPOSED_DEVICES.map((d) => [
+          `${d.deviceId}: ${d.name} [${d.category}]`,
+          `${d.physicalPrinciple} (${d.governingEquations})`,
+          `${d.predictedSignal} | Floor: ${d.noiseFloor}`,
+          `Tests: ${d.whatItActuallyTests} | Does NOT do: ${d.whatItDoesNotDo}`
+        ])
+      );
+
+      for (const dos of APPENDIX_J_DEVICE_DOSSIERS) {
+        doc.addPage();
+        ctx.setY(topY);
+        ctx.drawHeading(dos.title, 2, true, 1);
+        ctx.drawCategoryTag(dos.category);
+        ctx.drawMathInlineText(dos.tagline, marginX, contentW, 11.2, 5.6, EARTH_STONE, false, true, 'serif', 'italic');
+        ctx.addY(2.5);
+
+        ctx.drawHeading('How It Works (Plain-Language Guide)', 3, false, 1);
+        for (const lp of dos.laymanParagraphs) {
+          ctx.drawMathInlineText(lp, marginX, contentW, 12, 6.35, EARTH_UMBER, false, true);
+          ctx.addY(2.2);
+        }
+
+        const matchedAsset = deviceAssets.find((x) => x.fig.id === dos.figureId);
+        if (matchedAsset?.cutaway) {
+          const cutW = contentW;
+          const cutH = Math.min(84, cutW * matchedAsset.cutaway.aspect);
+          ctx.ensureSpace(cutH + 18);
+          ctx.drawMathInlineText(
+            `Hardware Cutaway Illustration (${matchedAsset.fig.deviceId}): ${matchedAsset.fig.illustrationTitle || matchedAsset.fig.title}`,
+            marginX,
+            contentW,
+            10.2,
+            4.6,
+            EARTH_TERRACOTTA,
+            true,
+            false
+          );
+          doc.addImage(matchedAsset.cutaway.dataUrl, 'JPEG', marginX, ctx.getY(), cutW, cutH);
+          ctx.addY(cutH + 6.5);
+        }
+        if (matchedAsset?.raster) {
+          const imgW = contentW;
+          const imgH = Math.min(82, imgW * matchedAsset.raster.aspect);
+          ctx.ensureSpace(imgH + 34);
+          ctx.drawMathInlineText(
+            `${matchedAsset.fig.figureNumber}: ${matchedAsset.fig.title} [${matchedAsset.fig.category}]`,
+            marginX,
+            contentW,
+            10.2,
+            4.6,
+            EARTH_SAGE,
+            true,
+            false
+          );
+          doc.addImage(matchedAsset.raster.dataUrl, 'PNG', marginX, ctx.getY(), imgW, imgH);
+          ctx.addY(imgH + 6.5);
+          ctx.drawMathInlineText(matchedAsset.fig.caption, marginX, contentW, 9.4, 4.5, EARTH_STONE, false, true);
+          ctx.addY(4);
+        }
+
+        ctx.drawHeading('Laboratory Architecture, Governing Physics & Metrology', 3, false, 1);
+        for (const ep of dos.engineeringParagraphs) {
+          ctx.drawMathInlineText(ep, marginX, contentW, 12, 6.35, EARTH_UMBER, false, true);
+          ctx.addY(2.2);
+        }
+
+        ctx.drawCalloutBox(`${dos.deviceId} SIGNIFICANCE & EPISTEMIC BOUNDARY`, dos.impactParagraph, 10.6, 5.2);
+
+        const spec = H12_PROPOSED_DEVICES.find((d) => d.deviceId === dos.deviceId);
+        if (spec) {
+          ctx.drawTable(
+            `${dos.deviceId} Complete Ten-Field Engineering Specification Sheet`,
+            ['Specification Field', 'Quantitative Value & Boundary'],
+            [44, 126],
+            [
+              ['1. Physical Principle', spec.physicalPrinciple],
+              ['2. Governing Equations', spec.governingEquations],
+              ['3. Laboratory Architecture', spec.architecture],
+              ['4. Operating Regime', spec.operatingRegime],
+              ['5. Predicted Signal', spec.predictedSignal],
+              ['6. Noise Floor & Limits', spec.noiseFloor],
+              ['7. Engineering Feasibility', `${spec.engineeringFeasibility} (${spec.category})`],
+              ['8. What It Actually Tests', spec.whatItActuallyTests],
+              ['9. Explicitly Does NOT Do', spec.whatItDoesNotDo],
+              ['10. Falsification / Failure', spec.failureCriteria]
+            ]
+          );
+        }
+      }
+
+      doc.addPage();
+      ctx.setY(topY);
+      ctx.drawHeading('J.12 Cross-Device Synthesis & Coordinated Discovery Roadmap (Devices A–K)', 2, true, 1);
+      ctx.drawTable(
+        'Table J.2 · Cross-Device Sensitivity, Readiness & Discovery Horizon Matrix (Devices A–K)',
+        ['Device', 'Target Physics', 'Primary Observable', 'TRL & Window', 'Breakthrough vs. Non-Claim'],
+        [28, 34, 34, 24, 50],
+        APPENDIX_J_SYNTHESIS_TABLE.map((row) => [
+          row.device,
+          row.targetPhysics,
+          row.primaryObservable,
+          row.readinessAndWindow,
+          `${row.breakthroughIfDetected} | Non-claim: ${row.strictNonClaim}`
+        ])
+      );
+      ctx.drawMathInlineText(
+        'Coordinated Portfolio Verdict (2026–2035+): Taken together, Devices A–K demonstrate how extra-dimensional, modular-time, vacuum-thermodynamic, and quantum-causal physics can be tested cleanly on optical, MEMS, ion-trap, photonic, and quantum-materials benches without science-fiction wormholes or perpetual-motion fallacies. Devices A, B, C, D, F, G, H, I, J, and K operate inside established cryogenic, interferometric, CMOS-foundry, and solid-state infrastructures while explicitly honoring the Second Law of Thermodynamics, microcausality, and Category A–D epistemic accountability.',
+        marginX,
+        contentW,
+        12,
+        6.35,
+        EARTH_UMBER,
+        false,
+        true
+      );
+      ctx.addY(3);
+    }
+
+    if (app.letter === 'K') {
+      ctx.drawTable(
+        'Table K.1 · Unified Solutions to Seven Open Problems in Physics',
+        ['Open Problem', 'Governing H11/H12 Equations', 'Resolution & Category', 'Plain-Language Meaning'],
+        [38, 40, 52, 40],
+        SEVEN_SOLVED_PHYSICS_PROBLEMS.map((sp) => [
+          sp.openProblem,
+          sp.governingH11H12Equations,
+          `${sp.category}: ${sp.coreResolutionAndPrediction}`,
+          sp.laymanTakeaway
+        ])
+      );
+    }
+    // Appendix L renders the Complete Epistemic Claim–Evidence Ledger prose cleanly (no internal scorecard tables in PDF).
   }
 
   // Populate Reserved TOC Pages (Playfair Display Regular 26.25pt = 35px heading)
@@ -1339,31 +1952,31 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   ty += 12;
 
   for (const entry of tocEntries) {
-    const step = entry.indent ? 4.35 : 5.35;
+    const step = entry.indent ? 5.95 : 7.4;
     if (ty + step > bottomLimit) {
-      if (currentTocPage === tocPage1) {
-        currentTocPage = tocPage2;
-        doc.setPage(currentTocPage);
-        ty = topY;
-        ctx.setFontSafe(hasUnicodeFonts ? 'playfair' : 'serif', 'normal', 18);
-        doc.setTextColor(...EARTH_UMBER);
-        doc.text('Table of Contents (continued)', marginX, ty);
-        ty += 5;
-        doc.setDrawColor(...EARTH_STONE);
-        doc.setLineWidth(0.3);
-        doc.line(marginX, ty, marginX + contentW, ty);
-        ty += 8;
-      } else {
-        break;
-      }
+      if (currentTocPage === tocPage1) currentTocPage = tocPage2;
+      else if (currentTocPage === tocPage2) currentTocPage = tocPage3;
+      else if (currentTocPage === tocPage3) currentTocPage = tocPage4;
+      else break;
+
+      doc.setPage(currentTocPage);
+      ty = topY;
+      ctx.setFontSafe(hasUnicodeFonts ? 'playfair' : 'serif', 'normal', 18);
+      doc.setTextColor(...EARTH_UMBER);
+      doc.text('Table of Contents (continued)', marginX, ty);
+      ty += 5;
+      doc.setDrawColor(...EARTH_STONE);
+      doc.setLineWidth(0.3);
+      doc.line(marginX, ty, marginX + contentW, ty);
+      ty += 8;
     }
     const indentPx = (entry.indent ?? 0) * 5.0;
     const fSize = entry.indent ? 9.0 : 10.1;
     ctx.setFontSafe('serif', 'normal', fSize);
     doc.setTextColor(...(entry.indent ? EARTH_STONE : EARTH_UMBER));
     const maxLabelW = contentW - indentPx - 16;
-    const clipped = ctx.clipMixedLine(entry.label, maxLabelW, false, fSize, 'serif');
-    ctx.drawMixedRun(clipped, marginX + indentPx, ty, false, fSize, 'serif', 'normal');
+    const clippedSpans = ctx.clipStyledSpans(entry.label, maxLabelW, false, fSize, 'serif');
+    ctx.drawStyledSpans(clippedSpans, marginX + indentPx, ty, false, 'serif', 'normal');
     ctx.setFontSafe('mono', 'normal', 9.0);
     doc.setTextColor(...EARTH_TERRACOTTA);
     doc.text(String(entry.page), marginX + contentW, ty, { align: 'right' });

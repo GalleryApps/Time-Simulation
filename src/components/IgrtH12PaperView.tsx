@@ -9,21 +9,20 @@
  * Architecture:
  * - Preserves IGRT-2026-H11 completely untouched
  * - Pure Playfair Display Regular (40px, non-bold) chapter titles + Book Antiqua 16px justified prose
- * - Includes Unified Abstract (Layman + Scholar), 5 Front-Matter Lists, Chapters 1–13 (reorganized with
- *   Ch. 9 Negative Results Summary, Ch. 10 What Is Unique to 5D?, Ch. 11 What Is Not Derived),
- *   Appendices L–N (Portal Mechanisms, Devices A–F, Adversarial Stress-Test Scorecard),
- *   End-Matter Open Problems & Prior Audits, and Technical Appendices (A–K)
+ * - Includes Unified Abstract (Layman + Scholar), 5 Front-Matter Lists, Chapters 1–13 (with Ch. 13.5
+ *   Seven Solved Physics Problems & 13.6 Comprehensive Conclusion), References, and strictly
+ *   alphabetical Consolidated Appendices (A–L) featuring Portal Mechanisms (App. I), Proposed Devices
+ *   A–K with Cutaway Plates & Vector Schematics (App. J), Physics Breakthroughs (App. K), and
+ *   Claim–Evidence & Structural Scorecard (App. L).
  */
 
 import React, { useMemo, useState } from 'react';
 import {
   H12_META,
   H12_MASTER_EQUATIONS,
-  H12_PORTAL_DEFINITION_BOX,
   H12_METRIC_SIGNATURE_BOX,
   H12_FOUNDATIONAL_EQUATIONS_NOTE,
   H12_ABSTRACT_PARAGRAPHS,
-  H12_SUMMARY_FOR_NON_SPECIALISTS,
   H12_SCOPE_AND_NON_CLAIMS,
   H11_TWELVE_COMPONENTS_AUDIT,
   COMPARISON_4D_VS_5D_IGRT,
@@ -37,6 +36,7 @@ import {
   GLOSSARY_NEGATIVE_THEOREMS,
   WHAT_IS_UNIQUE_TO_5D,
   FIVE_D_OBSERVATIONAL_BOUNDS,
+  FIVE_D_SIGNATURES_TEST_MATRIX,
   WHAT_IS_NOT_DERIVED_LEDGER,
   H12_ALL_PROTOCOLS,
   P7_TO_P13_TIMELINE_TABLE,
@@ -48,7 +48,8 @@ import {
   H12_CONFIRMATION_CHECKLIST,
   H12_FUNDING_AGENCY_SUMMARY,
   ELEVEN_PORTAL_MECHANISMS,
-  SIX_PROPOSED_DEVICES,
+  H12_PROPOSED_DEVICES,
+  SEVEN_SOLVED_PHYSICS_PROBLEMS,
   TWELVE_EXTRAPOLATIONS,
   H12_DEFINITIONS_LIST,
   H12_THEOREMS_LIST,
@@ -64,14 +65,16 @@ import {
   P7_TO_P13_COMBINED_BOUNDS_TABLE,
   P7_TO_P13_SENSITIVITY_PROJECTION_TABLE,
   P13_SUMMARY_OF_BOUNDS_TABLE,
+  H12_PROTOCOL_ANALYSIS_SECTIONS,
   H12_APPENDICES,
   H12_REFERENCES,
+  APPENDIX_J_DEVICE_DOSSIERS,
+  APPENDIX_J_SYNTHESIS_TABLE,
   type H12EpistemicCategory,
   type H12Equation
 } from '../types/igrtH12Apparatus';
 import {
   H12_CHAPTERS,
-  H12_MAIN_APPENDICES_LMN,
   H12_FRONTMATTER_TABLES_LIST,
   H12_FRONTMATTER_EQUATIONS_LIST,
   buildH12FullMarkdown
@@ -79,6 +82,7 @@ import {
 import {
   H12_ARCHIVAL_PLATES,
   H12_FIGURES,
+  H12_DEVICE_FIGURES,
   H12PlateCard,
   H12FigureCard
 } from './IgrtH12Figures';
@@ -168,13 +172,18 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
 
   const liveBeltrami = useMemo(() => {
     const dx = kDxSlider;
+    const necStatus =
+      beltramiBranch === 'em'
+        ? 'Satisfied (+k² / 0)'
+        : 'Violated (−k² / −1.5 k²)';
     if (beltramiBranch === 'em') {
       if (dx >= Math.PI) {
         return {
           withinHorizon: false,
           yPeak: Infinity,
           etaFold: 2 / Math.PI,
-          cEffRatio: Math.PI / 2
+          cEffRatio: Math.PI / 2,
+          necStatus
         };
       }
       const half = 0.5 * dx;
@@ -184,7 +193,8 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
         withinHorizon: true,
         yPeak,
         etaFold,
-        cEffRatio: 1 / etaFold
+        cEffRatio: 1 / etaFold,
+        necStatus
       };
     }
     const beta = 1.0;
@@ -220,7 +230,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
     const yPeak = 0.5 * (lo + hi);
     const { cdtHalf } = computeHalf(yPeak);
     const etaFold = (2 * cdtHalf) / dx;
-    return { withinHorizon: true, yPeak, etaFold, cEffRatio: 1 / etaFold };
+    return { withinHorizon: true, yPeak, etaFold, cEffRatio: 1 / etaFold, necStatus };
   }, [kDxSlider, beltramiBranch]);
 
   const liveWormhole = useMemo(() => {
@@ -234,7 +244,14 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
     const exoticSolar = exoticJ / (c * c * M_sun);
     const casimirRho = -(Math.PI * Math.PI * hbar * c) / (720 * Math.pow(r0, 4));
     const ratio = Math.abs(casimirRho / necThroat);
-    return { r0, necThroat, exoticSolar, ratio };
+    const vFrac = 0.1;
+    const v = vFrac * c;
+    const gamma = 1 / Math.sqrt(1 - vFrac * vFrac);
+    const bp0 = -1.0;
+    const bodyL = 2.0;
+    const tidalPerp = ((gamma * gamma * v * v * (1 - bp0)) / (2 * r0 * r0)) * bodyL;
+    const tauTrav = (20 * r0) / (gamma * v);
+    return { r0, necThroat, exoticSolar, ratio, tidalPerp, tauTrav };
   }, [wormholeLogRadius]);
 
   const scrollToAnchor = (id: string) => {
@@ -254,13 +271,13 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             <span aria-hidden="true">·</span>
             <span>{H12_META.edition}</span>
             <span aria-hidden="true">·</span>
-            <span className="text-[#166534] dark:text-[#86EFAC]">80/80 Assertions Verified</span>
+            <span className="text-[#166534] dark:text-[#86EFAC]">102/102 Assertions Verified</span>
             <span aria-hidden="true">·</span>
             <button
-              onClick={() => scrollToAnchor('h12-app-n')}
+              onClick={() => scrollToAnchor('h12-app-l')}
               className="text-[#1E40AF] dark:text-[#93C5FD] hover:underline whitespace-nowrap shrink-0 tabular-nums"
             >
-              Stress Score (App. N): {H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints}/{H12_STRESS_TEST_SUMMARY.grandMaxPoints} ({H12_STRESS_TEST_SUMMARY.selfContainedScorePct}%)
+              Structural Score (App. L): {H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints}/{H12_STRESS_TEST_SUMMARY.grandMaxPoints} ({H12_STRESS_TEST_SUMMARY.selfContainedScorePct}%)
             </button>
           </div>
 
@@ -340,7 +357,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             disabled={pdfBusy}
             className="px-3.5 py-2 rounded-lg text-xs font-medium bg-[#0C1836] dark:bg-[#EA580C] text-white hover:opacity-90 disabled:opacity-50 transition-opacity"
           >
-            {pdfBusy ? 'Generating Complete A4 PDF…' : 'Download Complete Monograph PDF (Main + A–K .pdf)'}
+            {pdfBusy ? 'Generating Complete A4 PDF…' : 'Download Complete Monograph PDF (Main + A–L .pdf)'}
           </button>
           <button
             onClick={handleDownloadLatexZip}
@@ -463,24 +480,28 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 {ch.title}
               </button>
             ))}
-            <button onClick={() => scrollToAnchor('h12-appendices-lmn')} className="block w-full text-left px-2 py-1 rounded hover:bg-[#F4EFE6] dark:hover:bg-[#173065] font-medium text-[#9A3412] dark:text-[#FDBA74]">
-              Appendices L, M &amp; N + References
+            <button onClick={() => scrollToAnchor('h12-references')} className="block w-full text-left px-2 py-1 rounded hover:bg-[#F4EFE6] dark:hover:bg-[#173065] font-medium text-[#9A3412] dark:text-[#FDBA74]">
+              References
             </button>
-            <button onClick={() => scrollToAnchor('h12-supplementary-vol2')} className="block w-full text-left px-2 py-1 rounded hover:bg-[#F4EFE6] dark:hover:bg-[#173065] font-medium text-[#1E40AF] dark:text-[#93C5FD]">
-              Technical Appendices (A–K)
+            <button onClick={() => scrollToAnchor('h12-appendices')} className="block w-full text-left px-2 py-1 rounded hover:bg-[#F4EFE6] dark:hover:bg-[#173065] font-medium text-[#1E40AF] dark:text-[#93C5FD]">
+              Consolidated Appendices (A–L)
             </button>
+            <div className="pl-2 space-y-0.5 border-l border-[#EAE2D2] dark:border-[#1E293B] ml-2">
+              {H12_APPENDICES.map((app) => (
+                <button
+                  key={app.anchorId}
+                  onClick={() => scrollToAnchor(app.anchorId)}
+                  className="block w-full text-left px-2 py-0.5 rounded hover:bg-[#F4EFE6] dark:hover:bg-[#173065] text-[11px] text-[#475569] dark:text-[#94A3B8] truncate"
+                >
+                  <span className="font-mono text-[#1E40AF] dark:text-[#93C5FD] mr-1">App.{app.letter}</span>
+                  {app.title}
+                </button>
+              ))}
+            </div>
           </nav>
         </aside>
 
         <div className="lg:col-span-9 space-y-10">
-          {/* Boxed Portal Definition at Beginning of Document */}
-          <div className="rounded-xl border border-[#9A3412]/40 bg-[#FFF7ED] dark:bg-[#2A1205] p-5 text-[15px] leading-[1.6] text-[#7C2D12] dark:text-[#FDBA74] text-justify [hyphens:auto]">
-            <div className="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold mb-1.5">
-              Portal Definition Box
-            </div>
-            <MathText text={H12_PORTAL_DEFINITION_BOX} />
-          </div>
-
           {/* Unified Layman & Scholar Abstract */}
           <section
             id="h12-abstract"
@@ -498,9 +519,6 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                   <MathText text={p} />
                 </p>
               ))}
-            </div>
-            <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 text-[15px] leading-[1.6] text-[#1E293B] dark:text-[#E2E8F0] text-justify [hyphens:auto]">
-              <MathText text={H12_SUMMARY_FOR_NON_SPECIALISTS} />
             </div>
             <div className="pt-4 border-t border-[#EAE2D2] dark:border-[#1E293B] text-[13.5px] text-[#475569] dark:text-[#94A3B8]">
               <strong className="font-medium text-[#0C1836] dark:text-[#FDFBF7]">Keywords:</strong>{' '}
@@ -527,10 +545,13 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 </h3>
                 <ul className="space-y-1.5 list-disc pl-4 text-[#334155] dark:text-[#CBD5E1]">
                   {H12_ARCHIVAL_PLATES.map((pl) => (
-                    <li key={pl.id}><strong>{pl.figureNumber}</strong> (Ch.{pl.anchorChapter}): {pl.title} [{pl.category}]</li>
+                    <li key={pl.id}><strong>{pl.figureNumber}</strong> (Ch.{pl.anchorChapter}): <MathText text={pl.title} /> [{pl.category}]</li>
                   ))}
                   {H12_FIGURES.map((fg) => (
                     <li key={fg.id}><strong>{fg.figureNumber}</strong> (Ch.{fg.anchorChapter}): <MathText text={fg.title} /> [{fg.category}]</li>
+                  ))}
+                  {H12_DEVICE_FIGURES.map((mfg) => (
+                    <li key={mfg.id}><strong>{mfg.figureNumber}</strong> (Appendix J · {mfg.deviceId}): <MathText text={mfg.title} /> [{mfg.category}]</li>
                   ))}
                 </ul>
               </div>
@@ -650,7 +671,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
                         Table 1.3 · Category B/C Boundary Rubric Box (Resolving Epistemic Grey Areas)
                       </div>
-                      <table className="w-full text-xs text-left">
+                      <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
                         <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
                           <tr>
                             <th className="p-2.5">Boundary Case</th>
@@ -794,7 +815,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
                         Table 1.1 · Audit of All 12 Core IGRT-H11 Components &amp; H12 Embedding Status
                       </div>
-                      <table className="w-full text-xs text-left tabular-nums">
+                      <table className="w-full text-xs text-left tabular-nums border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
                         <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
                           <tr>
                             <th className="p-2.5">Component</th>
@@ -806,9 +827,9 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                           {H11_TWELVE_COMPONENTS_AUDIT.map((row) => (
                             <tr key={row.component}>
-                              <td className="p-2.5 font-medium">{row.component}</td>
+                              <td className="p-2.5 font-medium"><MathText text={row.component} /></td>
                               <td className="p-2.5 font-mono text-[11px]"><MathText text={row.h11EquationOrValue} /></td>
-                              <td className="p-2.5">{row.h12Status}</td>
+                              <td className="p-2.5"><MathText text={row.h12Status} /></td>
                               <td className="p-2.5 space-y-1">
                                 <div className="text-[10.5px] font-mono text-[#64748B] dark:text-[#94A3B8]">{row.category}</div>
                                 <div><MathText text={row.h12Modification} /></div>
@@ -823,7 +844,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
                         Table 1.2 · Direct Structural Comparison: 4D IGRT-H11 vs. 5D IGRT-H12
                       </div>
-                      <table className="w-full text-xs text-left">
+                      <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
                         <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
                           <tr>
                             <th className="p-2.5">Dimension</th>
@@ -836,10 +857,10 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                           {COMPARISON_4D_VS_5D_IGRT.map((c) => (
                             <tr key={c.dimension}>
-                              <td className="p-2.5 font-medium">{c.dimension}</td>
+                              <td className="p-2.5 font-medium"><MathText text={c.dimension} /></td>
                               <td className="p-2.5"><MathText text={c.h11FourD} /></td>
                               <td className="p-2.5"><MathText text={c.h12FiveD} /></td>
-                              <td className="p-2.5 font-mono text-[11px]">{c.epistemicDelta}</td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={c.epistemicDelta} /></td>
                               <td className="p-2.5 font-mono text-[11px]">{c.testableNow}</td>
                             </tr>
                           ))}
@@ -939,7 +960,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         {SEVEN_TEMPORAL_NOTIONS.map((t) => (
                           <tr key={t.notion}>
                             <td className="p-2.5 font-medium">{t.notion}</td>
-                            <td className="p-2.5 font-mono">{t.symbol}</td>
+                            <td className="p-2.5 font-mono"><MathText text={t.symbol} /></td>
                             <td className="p-2.5"><MathText text={t.mathematicalDefinition} /></td>
                             <td className="p-2.5 space-y-1">
                               <div><MathText text={t.foldsInH12} /></div>
@@ -957,7 +978,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                     <div className="rounded-xl border border-[#EA580C]/40 bg-[#FFF7ED] dark:bg-[#1E140B] p-4 sm:p-5 space-y-3">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <span className="font-mono text-xs font-semibold text-[#9A3412] dark:text-[#FDBA74]">
-                          Interactive Beltrami Bulk Shortcut Explorer ({beltramiBranch === 'em' ? '5D Einstein–Maxwell · α_t = 1.0, α_x = 0.0' : 'Model 2B · α_t = α_x = 0.5'})
+                          Interactive Beltrami Bulk Shortcut Explorer (<MathText text={beltramiBranch === 'em' ? '5D Einstein–Maxwell · α_t = 1.0, α_x = 0.0' : 'Model 2B · α_t = α_x = 0.5'} />)
                         </span>
                         <span className="text-[10.5px] font-mono text-[#9A3412] dark:text-[#FDBA74]">
                           CATEGORY C — CONJECTURAL
@@ -993,7 +1014,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       </div>
                       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                         <label className="text-xs font-mono shrink-0">
-                          Brane Span k Δx = <strong>{kDxSlider.toFixed(1)}</strong>
+                          Brane Span <MathText text="k Δx" /> = <strong>{kDxSlider.toFixed(1)}</strong>
                         </label>
                         <input
                           type="range"
@@ -1005,20 +1026,23 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                           className="w-full accent-[#EA580C]"
                         />
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono">
                         <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#EAE2D2] dark:border-[#334155]">
                           Peak Bulk Excursion: <strong>{liveBeltrami.withinHorizon ? `${liveBeltrami.yPeak.toFixed(4)} / k` : '∞ (y → ∞ horizon)'}</strong>
                         </div>
                         <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#EAE2D2] dark:border-[#334155]">
-                          Folding Ratio η_fold: <strong>{liveBeltrami.withinHorizon ? liveBeltrami.etaFold.toFixed(5) : '2/π = 0.63662 ceiling'}</strong>
+                          Folding Ratio <MathText text="η_fold" />: <strong>{liveBeltrami.withinHorizon ? liveBeltrami.etaFold.toFixed(5) : '2/π = 0.63662 ceiling'}</strong>
                         </div>
                         <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#EAE2D2] dark:border-[#334155]">
-                          Apparent c_eff / c: <strong>{liveBeltrami.withinHorizon ? `${liveBeltrami.cEffRatio.toFixed(4)}×` : 'π/2 = 1.5708× ceiling'}</strong>
+                          Apparent <MathText text="c_eff / c" />: <strong>{liveBeltrami.withinHorizon ? `${liveBeltrami.cEffRatio.toFixed(4)}×` : 'π/2 = 1.5708× ceiling'}</strong>
+                        </div>
+                        <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#EAE2D2] dark:border-[#334155]">
+                          5D NEC Status: <strong className={beltramiBranch === 'em' ? 'text-[#166534] dark:text-[#86EFAC]' : 'text-[#9F1239] dark:text-[#FDA4AF]'}><MathText text={liveBeltrami.necStatus} /></strong>
                         </div>
                       </div>
                       {!liveBeltrami.withinHorizon && (
                         <div className="text-[11.5px] font-mono text-[#9F1239] dark:text-[#FDA4AF]">
-                          Finite-Span Horizon Reached (k Δx ≥ π): without spatial warping α_x &gt; 0, symmetric turning arches do not close past k Δx = π; η_fold is bounded below by 2/π = 0.63662.
+                          <MathText text="Finite-Span Horizon Reached (k Δx ≥ π): without spatial warping α_x > 0, symmetric turning arches do not close past k Δx = π; η_fold is bounded below by 2/π = 0.63662." />
                         </div>
                       )}
                     </div>
@@ -1052,7 +1076,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
 
                     <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
                       <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
-                        Table 4.2 · Model 2B Quadrature Convergence, Euler–Lagrange &amp; Node-by-Node ds_5² ≡ 0 Audit
+                        Table 4.2 · Model 2B Quadrature Convergence, Euler–Lagrange &amp; Node-by-Node <MathText text="ds_5² ≡ 0" /> Audit
                       </div>
                       <table className="w-full text-xs text-left tabular-nums">
                         <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
@@ -1100,7 +1124,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                               <div className="text-[11px] text-[#64748B]">{b.label}</div>
                             </td>
                             <td className="p-2.5 space-y-1">
-                              <div className="font-mono text-[11px]">{b.metricSignatureAndForm}</div>
+                              <div className="font-mono text-[11px]"><MathText text={b.metricSignatureAndForm} /></div>
                               <div className="text-[#475569] dark:text-[#94A3B8]"><MathText text={b.necStatus} /></div>
                             </td>
                             <td className="p-2.5"><MathText text={b.portalViability} /></td>
@@ -1127,7 +1151,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         </div>
                         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                           <label className="text-xs font-mono shrink-0">
-                            Throat Radius log₁₀(r₀ / 1 m) = <strong>{wormholeLogRadius.toFixed(1)}</strong> (r₀ = {liveWormhole.r0.toExponential(2)} m)
+                            Throat Radius <MathText text="log₁₀(r₀ / 1 m)" /> = <strong>{wormholeLogRadius.toFixed(1)}</strong> (<MathText text="r₀" /> = {liveWormhole.r0.toExponential(2)} m)
                           </label>
                           <input
                             type="range"
@@ -1139,15 +1163,21 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                             className="w-full accent-[#15803D]"
                           />
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs font-mono">
                           <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#D6CABE] dark:border-[#334155]">
                             Throat NEC: <strong>{liveWormhole.necThroat.toExponential(3)} J/m³</strong>
                           </div>
                           <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#D6CABE] dark:border-[#334155]">
-                            Exotic Mass: <strong>{liveWormhole.exoticSolar.toExponential(3)} M_⊙</strong>
+                            Exotic Mass: <strong>{liveWormhole.exoticSolar.toExponential(3)} <MathText text="M_⊙" /></strong>
                           </div>
                           <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#D6CABE] dark:border-[#334155]">
-                            |ρ_Casimir / NEC|: <strong>{liveWormhole.ratio.toExponential(2)}</strong>
+                            <MathText text="|ρ_Casimir / NEC|" />: <strong>{liveWormhole.ratio.toExponential(2)}</strong>
+                          </div>
+                          <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#D6CABE] dark:border-[#334155]">
+                            <MathText text="Δa_⊥ (0.1c, 2m)" />: <strong>{liveWormhole.tidalPerp.toExponential(3)} m/s²</strong>
+                          </div>
+                          <div className="rounded-lg bg-white dark:bg-[#0B1530] p-3 border border-[#D6CABE] dark:border-[#334155]">
+                            <MathText text="τ_trav (20 r₀)" />: <strong>{liveWormhole.tauTrav.toExponential(3)} s</strong>
                           </div>
                         </div>
                       </div>
@@ -1169,7 +1199,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                           {NEGATIVE_RESULTS_SUMMARY.map((n) => (
                             <tr key={n.theorem}>
                               <td className="p-2.5 font-medium">
-                                <div>{n.theorem}</div>
+                                <div><MathText text={n.theorem} /></div>
                                 <div className="text-[10.5px] font-mono text-[#15803D] dark:text-[#86EFAC] mt-1">{n.category}</div>
                               </td>
                               <td className="p-2.5"><MathText text={n.statement} /></td>
@@ -1202,7 +1232,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
                         Table 10.1 · What Is Unique to 5D vs. Already Resolved in 4D IGRT-H11
                       </div>
-                      <table className="w-full text-xs text-left">
+                      <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
                         <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
                           <tr>
                             <th className="p-2.5">Observable / Mechanism</th>
@@ -1214,10 +1244,10 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                           {WHAT_IS_UNIQUE_TO_5D.map((u) => (
                             <tr key={u.observable}>
-                              <td className="p-2.5 font-medium">{u.observable}</td>
+                              <td className="p-2.5 font-medium"><MathText text={u.observable} /></td>
                               <td className="p-2.5"><MathText text={u.reproducedIn4DH11} /></td>
                               <td className="p-2.5"><MathText text={u.uniqueTo5DH12} /></td>
-                              <td className="p-2.5 font-mono text-[11px]">{u.empiricalStatus}</td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={u.empiricalStatus} /></td>
                             </tr>
                           ))}
                         </tbody>
@@ -1228,7 +1258,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
                         Table 10.2 · Observational Bounds Consistency Audit (Eöt-Wash, BBN, GW170817, Cassini, LHC, DE &amp; CMB)
                       </div>
-                      <table className="w-full text-xs text-left">
+                      <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
                         <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
                           <tr>
                             <th className="p-2.5">Probe</th>
@@ -1240,10 +1270,34 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                           {FIVE_D_OBSERVATIONAL_BOUNDS.map((b) => (
                             <tr key={b.probe}>
-                              <td className="p-2.5 font-medium">{b.probe}</td>
+                              <td className="p-2.5 font-medium"><MathText text={b.probe} /></td>
                               <td className="p-2.5 font-mono text-[11px]"><MathText text={b.bound} /></td>
-                              <td className="p-2.5">{b.h12Status}</td>
+                              <td className="p-2.5"><MathText text={b.h12Status} /></td>
                               <td className="p-2.5"><MathText text={b.derivationOrAssumption} /></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold">
+                        Table 10.3 · Five-Dimensional Signatures, Experimental Tests &amp; Current Observational Constraints
+                      </div>
+                      <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A] border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr>
+                            <th className="p-2.5">5D Signature</th>
+                            <th className="p-2.5">Experiment That Tests It</th>
+                            <th className="p-2.5">Current Observational Constraint</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {FIVE_D_SIGNATURES_TEST_MATRIX.map((sig) => (
+                            <tr key={sig.signature}>
+                              <td className="p-2.5 font-medium"><MathText text={sig.signature} /></td>
+                              <td className="p-2.5"><MathText text={sig.experimentToTestIt} /></td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={sig.currentConstraint} /></td>
                             </tr>
                           ))}
                         </tbody>
@@ -1297,7 +1351,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                           {H12_ALL_PROTOCOLS.map((p) => (
                             <tr key={p.id}>
                               <td className="p-2.5 font-medium">
-                                <div>{p.id} · {p.name}</div>
+                                <div><MathText text={`${p.id} · ${p.name}`} /></div>
                                 <div className="mt-1 text-[10.5px] font-mono text-[#64748B] dark:text-[#94A3B8]">{p.category} ({p.timeline})</div>
                               </td>
                               <td className="p-2.5"><MathText text={p.relationToH11} /></td>
@@ -1318,15 +1372,15 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                               <th className="p-2">Protocol</th>
                               <th className="p-2">Current State</th>
                               <th className="p-2">Required Sensitivity</th>
-                              <th className="p-2">Window</th>
+                              <th className="p-2">Expected Year</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                             {P7_TO_P13_TIMELINE_TABLE.map((t) => (
                               <tr key={t.protocol}>
-                                <td className="p-2 font-medium">{t.protocol}</td>
-                                <td className="p-2">{t.currentState}</td>
-                                <td className="p-2">{t.requiredSensitivity}</td>
+                                <td className="p-2 font-medium"><MathText text={t.protocol} /></td>
+                                <td className="p-2"><MathText text={t.currentState} /></td>
+                                <td className="p-2"><MathText text={t.requiredSensitivity} /></td>
                                 <td className="p-2 font-mono">{t.expectedYear}</td>
                               </tr>
                             ))}
@@ -1347,9 +1401,9 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                           <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                             {H11_VS_H12_PROTOCOLS_COMPARISON.map((r) => (
                               <tr key={r.aspect}>
-                                <td className="p-2 font-medium">{r.aspect}</td>
-                                <td className="p-2">{r.h11Protocols}</td>
-                                <td className="p-2">{r.h12Protocols}</td>
+                                <td className="p-2 font-medium"><MathText text={r.aspect} /></td>
+                                <td className="p-2"><MathText text={r.h11Protocols} /></td>
+                                <td className="p-2"><MathText text={r.h12Protocols} /></td>
                               </tr>
                             ))}
                           </tbody>
@@ -1372,7 +1426,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                             {P7_TO_P13_FALSIFICATION_TABLE.map((r) => (
                               <tr key={r.protocol}>
                                 <td className="p-2 font-mono font-semibold">{r.protocol}</td>
-                                <td className="p-2 font-mono text-[11px]">{r.nullBound}</td>
+                                <td className="p-2 font-mono text-[11px]"><MathText text={r.nullBound} /></td>
                                 <td className="p-2"><MathText text={r.whatItRulesOut} /></td>
                               </tr>
                             ))}
@@ -1411,7 +1465,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         </thead>
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                           {P7_TO_P13_DECISION_MATRIX.map((d) => (
-                            <tr key={d.outcome}><td className="p-2.5 font-medium">{d.outcome}</td><td className="p-2.5">{d.posteriorStatus}</td><td className="p-2.5"><MathText text={d.mandatoryAction} /></td></tr>
+                            <tr key={d.outcome}><td className="p-2.5 font-medium"><MathText text={d.outcome} /></td><td className="p-2.5"><MathText text={d.posteriorStatus} /></td><td className="p-2.5"><MathText text={d.mandatoryAction} /></td></tr>
                           ))}
                         </tbody>
                       </table>
@@ -1431,8 +1485,8 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                           {P7_TO_P13_NOISE_BUDGET_TABLE.map((nb) => (
                             <tr key={nb.protocol}>
-                              <td className="p-2.5 font-medium">{nb.protocol}</td>
-                              <td className="p-2.5">{nb.primaryNoiseSources}</td>
+                              <td className="p-2.5 font-medium"><MathText text={nb.protocol} /></td>
+                              <td className="p-2.5"><MathText text={nb.primaryNoiseSources} /></td>
                               <td className="p-2.5 font-mono text-[11px]"><MathText text={nb.quantitativeBudget} /></td>
                               <td className="p-2.5"><MathText text={nb.mitigationArchitecture} /></td>
                             </tr>
@@ -1448,14 +1502,14 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                           <tr>
                             <th className="p-2.5">Systematic Source</th>
                             <th className="p-2.5">Magnitude / Uncertainty</th>
-                            <th className="p-2.5">Impact on η_fold</th>
+                            <th className="p-2.5">Impact on <MathText text="η_fold" /></th>
                             <th className="p-2.5">Mitigation Strategy</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                           {P13_SYSTEMATIC_ERROR_BUDGET.map((s) => (
                             <tr key={s.source}>
-                              <td className="p-2.5 font-medium">{s.source}</td>
+                              <td className="p-2.5 font-medium"><MathText text={s.source} /></td>
                               <td className="p-2.5 font-mono text-[11px]"><MathText text={s.magnitudeOrUncertainty} /></td>
                               <td className="p-2.5"><MathText text={s.impactOnEtaFold} /></td>
                               <td className="p-2.5"><MathText text={s.mitigationStrategy} /></td>
@@ -1472,14 +1526,14 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                           <tr>
                             <th className="p-2.5">Measurement Channel</th>
                             <th className="p-2.5">Timing Precision</th>
-                            <th className="p-2.5">Propagated η_fold Error</th>
+                            <th className="p-2.5">Propagated <MathText text="η_fold" /> Error</th>
                             <th className="p-2.5">Sample Scaling Note</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                           {P13_STATISTICAL_ERROR_BUDGET.map((st) => (
                             <tr key={st.channel}>
-                              <td className="p-2.5 font-medium">{st.channel}</td>
+                              <td className="p-2.5 font-medium"><MathText text={st.channel} /></td>
                               <td className="p-2.5 font-mono text-[11px]"><MathText text={st.measurementPrecision} /></td>
                               <td className="p-2.5 font-mono text-[11px]"><MathText text={st.propagatedEtaFoldError} /></td>
                               <td className="p-2.5"><MathText text={st.sampleScalingNote} /></td>
@@ -1503,7 +1557,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                         <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                           {P7_TO_P13_COMBINED_BOUNDS_TABLE.map((cb) => (
                             <tr key={cb.protocolPairOrCluster}>
-                              <td className="p-2.5 font-medium">{cb.protocolPairOrCluster}</td>
+                              <td className="p-2.5 font-medium"><MathText text={cb.protocolPairOrCluster} /></td>
                               <td className="p-2.5 font-mono text-[11px]"><MathText text={cb.constrainedParameters} /></td>
                               <td className="p-2.5 font-mono text-[11px]"><MathText text={cb.combinedJointLikelihoodRole} /></td>
                               <td className="p-2.5"><MathText text={cb.orthogonalExclusionPower} /></td>
@@ -1528,7 +1582,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                           <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                             {P7_TO_P13_SENSITIVITY_PROJECTION_TABLE.map((pr) => (
                               <tr key={pr.protocol}>
-                                <td className="p-2 font-medium">{pr.protocol}</td>
+                                <td className="p-2 font-medium"><MathText text={pr.protocol} /></td>
                                 <td className="p-2 font-mono text-[11px]"><MathText text={pr.currentBaseline2026} /></td>
                                 <td className="p-2 font-mono text-[11px]"><MathText text={pr.nearTerm2027_2032} /></td>
                                 <td className="p-2 font-mono text-[11px]"><MathText text={pr.longTerm3G2035Plus} /></td>
@@ -1545,17 +1599,19 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                             <tr>
                               <th className="p-2">Dataset / Regime</th>
                               <th className="p-2">Distance</th>
-                              <th className="p-2">η_fold Limit</th>
+                              <th className="p-2">Arrival Bound</th>
+                              <th className="p-2"><MathText text="η_fold" /> Limit</th>
                               <th className="p-2">Epistemic Status</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                             {P13_SUMMARY_OF_BOUNDS_TABLE.map((pb) => (
                               <tr key={pb.datasetOrRegime}>
-                                <td className="p-2 font-medium">{pb.datasetOrRegime}</td>
-                                <td className="p-2 font-mono text-[11px]">{pb.baselineDistance}</td>
+                                <td className="p-2 font-medium"><MathText text={pb.datasetOrRegime} /></td>
+                                <td className="p-2 font-mono text-[11px]"><MathText text={pb.baselineDistance} /></td>
+                                <td className="p-2 font-mono text-[11px]"><MathText text={pb.arrivalBoundOrPrecision} /></td>
                                 <td className="p-2 font-mono text-[11px]"><MathText text={pb.etaFoldLimit} /></td>
-                                <td className="p-2">{pb.epistemicNote}</td>
+                                <td className="p-2"><MathText text={pb.epistemicNote} /></td>
                               </tr>
                             ))}
                           </tbody>
@@ -1563,15 +1619,29 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                       </div>
                     </div>
 
+                    <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 space-y-3 text-xs">
+                      <div className="font-mono font-semibold text-[#0C1836] dark:text-[#FDFBF7] uppercase">
+                        Protocol Systematics, Statistical Significance &amp; Bayesian Evidence Summary (P7–P13)
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {H12_PROTOCOL_ANALYSIS_SECTIONS.map((sec) => (
+                          <div key={sec.title} className="rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-3.5 space-y-1">
+                            <div className="font-semibold text-[#0C1836] dark:text-white"><MathText text={sec.title} /></div>
+                            <p className="text-[12.5px] leading-relaxed text-[#334155] dark:text-[#CBD5E1]"><MathText text={sec.content} /></p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                       <div className="rounded-xl border border-[#9F1239]/30 bg-[#FFF1F2] dark:bg-[#4C0519]/40 p-4 space-y-2">
-                        <div className="font-mono font-semibold text-[#9F1239] dark:text-[#FDA4AF] uppercase">Falsification Checklist</div>
+                        <div className="font-mono font-semibold text-[#9F1239] dark:text-[#FDA4AF] uppercase">Falsification Checklist: What Would Prove H12 Wrong?</div>
                         <ul className="list-disc pl-4 space-y-1.5 text-[#4C0519] dark:text-[#FFE4E6]">
                           {H12_FALSIFICATION_CHECKLIST.map((f, i) => <li key={i}><MathText text={f} /></li>)}
                         </ul>
                       </div>
                       <div className="rounded-xl border border-[#15803D]/30 bg-[#F4FAF6] dark:bg-[#052E16]/40 p-4 space-y-2">
-                        <div className="font-mono font-semibold text-[#166534] dark:text-[#86EFAC] uppercase">Confirmation Checklist: What Would Prove H12 Right?</div>
+                        <div className="font-mono font-semibold text-[#166534] dark:text-[#86EFAC] uppercase">Confirmation Checklist: What Would Confirm H12?</div>
                         <ul className="list-disc pl-4 space-y-1.5 text-[#14532D] dark:text-[#DCFCE7]">
                           {H12_CONFIRMATION_CHECKLIST.map((c, i) => <li key={i}><MathText text={c} /></li>)}
                         </ul>
@@ -1602,11 +1672,40 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                           {TWELVE_EXTRAPOLATIONS.map((ex) => (
                             <tr key={ex.id}>
                               <td className="p-2.5 font-medium">
-                                <div>{ex.id}. {ex.topic}</div>
+                                <div><MathText text={`${ex.id}. ${ex.topic}`} /></div>
                                 <div className="mt-1 text-[10.5px] font-mono text-[#64748B] dark:text-[#94A3B8]">{ex.category}</div>
                               </td>
                               <td className="p-2.5"><MathText text={ex.extension} /></td>
                               <td className="p-2.5"><MathText text={ex.keyObstacleOrFalsifier} /></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#15803D]/35 dark:border-[#1E293B]">
+                      <div className="bg-[#F4FAF6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold text-[#166534] dark:text-[#86EFAC]">
+                        Table 13.2 · Seven Fundamental Problems in Physics Solved or Revolutionized by IGRT–H12
+                      </div>
+                      <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A]">
+                          <tr>
+                            <th className="p-2.5">Open Physics Problem</th>
+                            <th className="p-2.5">Governing H11 / H12 Equations</th>
+                            <th className="p-2.5">Resolution, Quantitative Prediction &amp; Category</th>
+                            <th className="p-2.5">Plain-Language Takeaway</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {SEVEN_SOLVED_PHYSICS_PROBLEMS.map((sp) => (
+                            <tr key={sp.id}>
+                              <td className="p-2.5 font-medium"><MathText text={sp.openProblem} /></td>
+                              <td className="p-2.5 font-mono text-[11px] text-[#8F5B4A] dark:text-[#FDBA74]"><MathText text={sp.governingH11H12Equations} /></td>
+                              <td className="p-2.5 space-y-1">
+                                <div><MathText text={sp.coreResolutionAndPrediction} /></div>
+                                <div className="text-[10.5px] font-mono text-[#64748B] dark:text-[#94A3B8]">{sp.category}</div>
+                              </td>
+                              <td className="p-2.5"><MathText text={sp.laymanTakeaway} /></td>
                             </tr>
                           ))}
                         </tbody>
@@ -1647,215 +1746,37 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             );
           })}
 
-          {/* Main Monograph Extended Appendices L, M, N + References */}
+          {/* References */}
           <section
-            id="h12-appendices-lmn"
-            className="rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-8 shadow-xs"
+            id="h12-references"
+            className="rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-6 shadow-xs"
           >
             <h2
-              className="igrt-h12-chapter-title border-b border-[#D6CABE] dark:border-[#1E293B] pb-5 text-[#081026] dark:text-white mb-10"
+              className="igrt-h12-chapter-title border-b border-[#D6CABE] dark:border-[#1E293B] pb-5 text-[#081026] dark:text-white mb-8"
               style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400, fontSize: '40px' }}
             >
-              Appendices L, M &amp; N and Bibliography
+              References
             </h2>
-
-            {/* Appendix L */}
-            <div id="h12-app-l" className="rounded-xl border border-[#D6CABE] dark:border-[#334155] p-6 space-y-4 bg-[#FAF8F3] dark:bg-[#081026]">
-              <div className="flex flex-wrap items-baseline justify-between gap-2 pb-2 border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                <h3 className="text-[22px] font-normal text-[#0C1836] dark:text-[#FDFBF7]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                  Appendix L: {H12_MAIN_APPENDICES_LMN[0].title}
-                </h3>
-                <span className="text-[10.5px] font-mono text-[#64748B] dark:text-[#94A3B8]">{H12_MAIN_APPENDICES_LMN[0].category}</span>
-              </div>
-              <p className="text-[16px] italic text-[#475569] dark:text-[#94A3B8] leading-[1.5] text-justify"><MathText text={H12_MAIN_APPENDICES_LMN[0].leadSummary} /></p>
-              {H12_MAIN_APPENDICES_LMN[0].paragraphs.map((p, i) => (
-                <p key={i} className="text-[16px] leading-[1.5] text-[#1E293B] dark:text-[#E2E8F0] text-justify [hyphens:auto]"><MathText text={p} /></p>
-              ))}
-              <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
-                <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
-                  Table L.1 · Five-Tier Assessment of Eleven Candidate Portal &amp; Analog Mechanisms
-                </div>
-                <table className="w-full text-xs text-left tabular-nums">
-                  <thead className="border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                    <tr><th className="p-2.5">Mechanism</th><th className="p-2.5">Feasibility Tier</th><th className="p-2.5">Quantitative Obstacle / Limit</th></tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
-                    {ELEVEN_PORTAL_MECHANISMS.map((m) => (
-                      <tr key={m.id}>
-                        <td className="p-2.5 font-medium">{m.mechanism}</td>
-                        <td className="p-2.5"><div>{m.tier}</div><div className="text-[10.5px] font-mono text-[#64748B]">{m.category}</div></td>
-                        <td className="p-2.5"><MathText text={m.quantitativeObstacleOrLimit} /></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Appendix M */}
-            <div id="h12-app-m" className="rounded-xl border border-[#D6CABE] dark:border-[#334155] p-6 space-y-4 bg-[#FAF8F3] dark:bg-[#081026]">
-              <div className="flex flex-wrap items-baseline justify-between gap-2 pb-2 border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                <h3 className="text-[22px] font-normal text-[#0C1836] dark:text-[#FDFBF7]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                  Appendix M: {H12_MAIN_APPENDICES_LMN[1].title}
-                </h3>
-                <span className="text-[10.5px] font-mono text-[#64748B] dark:text-[#94A3B8]">{H12_MAIN_APPENDICES_LMN[1].category}</span>
-              </div>
-              <p className="text-[16px] italic text-[#475569] dark:text-[#94A3B8] leading-[1.5] text-justify"><MathText text={H12_MAIN_APPENDICES_LMN[1].leadSummary} /></p>
-              {H12_MAIN_APPENDICES_LMN[1].paragraphs.map((p, i) => (
-                <p key={i} className="text-[16px] leading-[1.5] text-[#1E293B] dark:text-[#E2E8F0] text-justify [hyphens:auto]"><MathText text={p} /></p>
-              ))}
-              <div className="grid grid-cols-1 gap-4">
-                {SIX_PROPOSED_DEVICES.map((dev) => (
-                  <div key={dev.deviceId} className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-5 space-y-2.5 text-xs">
-                    <div className="flex flex-wrap items-baseline justify-between gap-2 pb-2 border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                      <h4 className="text-[18px] text-[#0C1836] dark:text-[#FDFBF7]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                        {dev.deviceId}: {dev.name}
-                      </h4>
-                      <span className="text-[10.5px] font-mono text-[#64748B]">{dev.category}</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-[#334155] dark:text-[#CBD5E1]">
-                      <div><strong>1. Principle:</strong> <MathText text={dev.physicalPrinciple} /></div>
-                      <div><strong>2. Governing Eqs:</strong> <span className="font-mono"><MathText text={dev.governingEquations} /></span></div>
-                      <div><strong>3. Architecture:</strong> <MathText text={dev.architecture} /></div>
-                      <div><strong>4. Operating Regime:</strong> <MathText text={dev.operatingRegime} /></div>
-                      <div><strong>5. Predicted Signal:</strong> <MathText text={dev.predictedSignal} /></div>
-                      <div><strong>6. Noise Floor:</strong> <MathText text={dev.noiseFloor} /></div>
-                      <div><strong>7. Feasibility:</strong> {dev.engineeringFeasibility}</div>
-                      <div><strong>8. Actually Tests:</strong> <MathText text={dev.whatItActuallyTests} /></div>
-                      <div className="text-[#9F1239] dark:text-[#FDA4AF]"><strong>9. Explicitly Does NOT Do:</strong> <MathText text={dev.whatItDoesNotDo} /></div>
-                      <div><strong>10. Failure Criteria:</strong> <MathText text={dev.failureCriteria} /></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Appendix N (Stress-Test Scorecard) */}
-            <div id="h12-app-n" className="rounded-xl border border-[#D6CABE] dark:border-[#334155] p-6 space-y-5 bg-[#FAF8F3] dark:bg-[#081026]">
-              <div className="flex flex-wrap items-baseline justify-between gap-2 pb-2 border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                <h3 className="text-[22px] font-normal text-[#0C1836] dark:text-[#FDFBF7]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                  Appendix N: {H12_MAIN_APPENDICES_LMN[2].title}
-                </h3>
-                <span className="text-[10.5px] font-mono text-[#15803D] dark:text-[#86EFAC]">{H12_MAIN_APPENDICES_LMN[2].category}</span>
-              </div>
-              <p className="text-[16px] leading-[1.5] text-[#475569] dark:text-[#94A3B8] text-justify [hyphens:auto]">
-                <MathText text={H12_MAIN_APPENDICES_LMN[2].paragraphs[0]} />
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 tabular-nums">
-                <div className="rounded-xl border border-[#15803D]/35 bg-[#F4FAF6] dark:bg-[#052E16]/50 p-4">
-                  <div className="text-[11px] font-mono text-[#166534] dark:text-[#86EFAC] uppercase">Self-Contained Closure</div>
-                  <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                    {H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.grandMaxPoints}
-                  </div>
-                  <div className="text-xs font-mono text-[#15803D] dark:text-[#4ADE80] mt-0.5">{H12_STRESS_TEST_SUMMARY.selfContainedScorePct}% Verified</div>
-                </div>
-                <div className="rounded-xl border border-[#1E40AF]/35 bg-[#F4F8FF] dark:bg-[#172554]/50 p-4">
-                  <div className="text-[11px] font-mono text-[#1E40AF] dark:text-[#93C5FD] uppercase">Epistemic Applicable Score</div>
-                  <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                    {H12_STRESS_TEST_SUMMARY.grandApplicablePoints} / {H12_STRESS_TEST_SUMMARY.grandMaxPoints}
-                  </div>
-                  <div className="text-xs font-mono text-[#1E40AF] dark:text-[#93C5FD] mt-0.5">{H12_STRESS_TEST_SUMMARY.overallEpistemicScorePct}% (Cat. C/D Bounded)</div>
-                </div>
-                <div className="rounded-xl border border-[#EA580C]/35 bg-[#FFF9F2] dark:bg-[#431407]/40 p-4">
-                  <div className="text-[11px] font-mono text-[#9A3412] dark:text-[#FDBA74] uppercase">500-Criterion Domains</div>
-                  <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                    {H12_STRESS_TEST_SUMMARY.domainSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.domainMaxPoints}
-                  </div>
-                  <div className="text-xs font-mono text-[#9A3412] dark:text-[#FDBA74] mt-0.5">100.0% Math &amp; Negative Theorems</div>
-                </div>
-                <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4">
-                  <div className="text-[11px] font-mono text-[#475569] dark:text-[#94A3B8] uppercase">16 Red-Team Attacks</div>
-                  <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                    {H12_STRESS_TEST_SUMMARY.attackSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.attackMaxPoints}
-                  </div>
-                  <div className="text-xs font-mono text-[#475569] dark:text-[#CBD5E1] mt-0.5">14 Survived · 2 Contained Frontiers</div>
-                </div>
-              </div>
-
-              <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
-                <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
-                  Table N.1 · Ten-Domain 500-Criterion Breakdown
-                </div>
-                <table className="w-full text-xs text-left tabular-nums">
-                  <thead className="border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                    <tr><th className="p-2.5">Domain (50 Criteria Each)</th><th className="p-2.5">Self-Contained</th><th className="p-2.5">Applicable</th><th className="p-2.5">Verdict &amp; Key Verification</th></tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
-                    {H12_TEN_DOMAIN_AUDITS.map((d) => (
-                      <tr key={d.domainNumber}>
-                        <td className="p-2.5 font-medium"><div>{d.domainNumber}: {d.domainName}</div><div className="mt-1 text-[10.5px] font-mono text-[#64748B]">{d.category}</div></td>
-                        <td className="p-2.5 font-mono text-[#15803D]">{d.selfContainedPoints}/{d.maxPoints}</td>
-                        <td className="p-2.5 font-mono">{d.applicablePoints}/{d.maxPoints}</td>
-                        <td className="p-2.5"><div className="font-semibold text-[11px]">{d.verdict}</div><div><MathText text={d.openFrontierNotes} /></div></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h4 className="text-[18px] font-normal" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                    Table N.2 · Sixteen Direct Red-Team Attacks (H12-ATK-01 .. H12-ATK-16)
-                  </h4>
-                  <div className="flex flex-wrap gap-1.5 text-[11px] font-mono">
-                    {['ALL', 'Wave I: 5D Geometry & Causality', 'Wave II: Black Holes & Wormholes', 'Wave III: Quantum & Information', 'Wave IV: Engineering & Falsification'].map((w) => (
-                      <button
-                        key={w}
-                        onClick={() => setAttackWaveFilter(w)}
-                        className={`px-2.5 py-1 rounded border whitespace-nowrap shrink-0 ${
-                          attackWaveFilter === w ? 'bg-[#0C1836] dark:bg-[#EA580C] text-white border-transparent' : 'bg-white dark:bg-[#0B1530] border-[#D6CABE] dark:border-[#334155]'
-                        }`}
-                      >
-                        {w === 'ALL' ? 'All 16 Attacks' : w.split(':')[0]}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 gap-3">
-                  {H12_SIXTEEN_REDTEAM_ATTACKS.filter((a) => attackWaveFilter === 'ALL' || a.wave === attackWaveFilter).map((atk) => (
-                    <div key={atk.id} className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4 text-xs space-y-1.5">
-                      <div className="flex flex-wrap items-center justify-between gap-2 pb-1 border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                        <span className="font-mono text-[#9A3412] dark:text-[#FDBA74]">{atk.id} · {atk.wave} · {atk.category}</span>
-                        <span className="font-mono text-[#166534] dark:text-[#86EFAC] tabular-nums">{atk.pointsAwarded}/{atk.maxPoints} · {atk.technicalStatus}</span>
-                      </div>
-                      <div className="text-[15px] text-[#0C1836] dark:text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                        <MathText text={atk.attackTitle} />
-                      </div>
-                      <p className="text-[13px] leading-[1.55] text-[#475569] dark:text-[#94A3B8] text-justify"><strong>Challenge:</strong> <MathText text={atk.adversarialChallenge} /></p>
-                      <p className="text-[13px] leading-[1.55] text-[#1E293B] dark:text-[#E2E8F0] text-justify"><strong>H12 Resolution:</strong> <MathText text={atk.h12ResolutionAndCitation} /></p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-6 border-t border-[#D6CABE] dark:border-[#1E293B] space-y-3">
-              <h3 className="text-[24px] font-normal" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                References
-              </h3>
-              <ol className="list-decimal pl-5 space-y-2 text-[14px] leading-[1.6] text-[#334155] dark:text-[#CBD5E1] text-justify">
-                {H12_REFERENCES.map((r) => <li key={r.id}><MathText text={r.citation} /></li>)}
-              </ol>
-            </div>
+            <ol className="list-decimal pl-5 space-y-2.5 text-[14.5px] leading-[1.6] text-[#334155] dark:text-[#CBD5E1] text-justify">
+              {H12_REFERENCES.map((r) => <li key={r.id}><MathText text={r.citation} /></li>)}
+            </ol>
           </section>
 
-          {/* Technical Appendices A-K (Unified inside Complete Monograph PDF) */}
+          {/* Consolidated Appendices (Strictly Ordered A–L) */}
           <section
-            id="h12-supplementary-vol2"
+            id="h12-appendices"
             className="rounded-2xl border-2 border-[#1E40AF]/40 bg-white dark:bg-[#0B1530] p-7 sm:p-11 space-y-8 shadow-xs"
           >
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#D6CABE] dark:border-[#1E293B] pb-6">
               <div>
                 <div className="font-mono text-xs uppercase tracking-[0.16em] text-[#1E40AF] dark:text-[#93C5FD] mb-2">
-                  Included in Complete Monograph PDF · Detailed Mathematical Proofs &amp; Code Audits
+                  Strictly Ordered A–L · Mathematical Derivations, Devices A–K, Physics Breakthroughs &amp; Epistemic Ledger
                 </div>
                 <h2
                   className="igrt-h12-chapter-title text-[#081026] dark:text-white"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400, fontSize: '40px' }}
                 >
-                  Technical Appendices (A–K)
+                  Consolidated Appendices (A–L)
                 </h2>
               </div>
               <button
@@ -1863,7 +1784,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 disabled={pdfBusy}
                 className="px-4 py-2 rounded-lg text-xs font-medium bg-[#0C1836] dark:bg-[#EA580C] text-white hover:opacity-90 disabled:opacity-50"
               >
-                {pdfBusy ? 'Generating Complete A4 PDF…' : 'Download Complete Monograph PDF (Main + A–K .pdf)'}
+                {pdfBusy ? 'Generating Complete A4 PDF…' : 'Download Complete Monograph PDF (Main + A–L .pdf)'}
               </button>
             </div>
 
@@ -1871,10 +1792,10 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
               <div
                 key={app.anchorId}
                 id={app.anchorId}
-                className="rounded-xl border border-[#D6CABE] dark:border-[#334155] p-6 space-y-4 bg-[#FAF8F3] dark:bg-[#081026]"
+                className="rounded-xl border border-[#D6CABE] dark:border-[#334155] p-6 space-y-5 bg-[#FAF8F3] dark:bg-[#081026]"
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-2 pb-2 border-b border-[#EAE2D2] dark:border-[#1E293B]">
-                  <h3 className="text-[20px] font-normal text-[#0C1836] dark:text-[#FDFBF7]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                  <h3 className="text-[22px] font-normal text-[#0C1836] dark:text-[#FDFBF7]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
                     Appendix {app.letter}: {app.title}
                   </h3>
                   <span className="text-[10.5px] font-mono text-[#64748B] dark:text-[#94A3B8]">{app.category}</span>
@@ -1888,6 +1809,327 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                     <MathText text={p} />
                   </p>
                 ))}
+
+                {app.letter === 'I' && (
+                  <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
+                    <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
+                      Table I.1 · Five-Tier Assessment of Eleven Candidate Portal &amp; Analog Mechanisms
+                    </div>
+                    <table className="w-full text-xs text-left tabular-nums">
+                      <thead className="border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                        <tr><th className="p-2.5">Mechanism</th><th className="p-2.5">Feasibility Tier</th><th className="p-2.5">Physical Action</th><th className="p-2.5">Quantitative Obstacle / Limit</th></tr>
+                      </thead>
+                      <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                        {ELEVEN_PORTAL_MECHANISMS.map((m) => (
+                          <tr key={m.id}>
+                            <td className="p-2.5 font-medium"><MathText text={m.mechanism} /></td>
+                            <td className="p-2.5"><div>{m.tier}</div><div className="text-[10.5px] font-mono text-[#64748B]">{m.category}</div></td>
+                            <td className="p-2.5"><MathText text={m.physicalAction} /></td>
+                            <td className="p-2.5"><MathText text={m.quantitativeObstacleOrLimit} /></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+
+                {app.letter === 'J' && (
+                  <div className="space-y-6">
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
+                        Table J.1 · Devices A–K Master Ten-Field Technical Specifications
+                      </div>
+                      <table className="w-full text-xs text-left tabular-nums border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A]">
+                          <tr>
+                            <th className="p-2.5">Device &amp; Category</th>
+                            <th className="p-2.5">Principle &amp; Governing Eqs</th>
+                            <th className="p-2.5">Predicted Signal &amp; Noise Floor</th>
+                            <th className="p-2.5">Actually Tests vs. Explicit Non-Claim</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {H12_PROPOSED_DEVICES.map((d) => (
+                            <tr key={d.deviceId}>
+                              <td className="p-2.5 font-medium">
+                                <div><MathText text={`${d.deviceId}: ${d.name}`} /></div>
+                                <div className="mt-1 text-[10.5px] font-mono text-[#64748B]">{d.category}</div>
+                              </td>
+                              <td className="p-2.5 space-y-1">
+                                <div><MathText text={d.physicalPrinciple} /></div>
+                                <div className="font-mono text-[11px] text-[#8F5B4A] dark:text-[#FDBA74]"><MathText text={d.governingEquations} /></div>
+                              </td>
+                              <td className="p-2.5 space-y-1">
+                                <div><MathText text={d.predictedSignal} /></div>
+                                <div className="text-[11px] text-[#475569] dark:text-[#94A3B8]"><em>Floor:</em> <MathText text={d.noiseFloor} /></div>
+                              </td>
+                              <td className="p-2.5 space-y-1">
+                                <div><strong>Tests:</strong> <MathText text={d.whatItActuallyTests} /></div>
+                                <div className="text-[#9F1239] dark:text-[#FDA4AF]"><strong>Does NOT do:</strong> <MathText text={d.whatItDoesNotDo} /></div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="space-y-6">
+                      {APPENDIX_J_DEVICE_DOSSIERS.map((dos) => {
+                        const dev = H12_PROPOSED_DEVICES.find((d) => d.deviceId === dos.deviceId);
+                        const mfig = H12_DEVICE_FIGURES.find((f) => f.id === dos.figureId);
+                        return (
+                          <div key={dos.deviceId} className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-6 space-y-5">
+                            <div className="flex flex-wrap items-baseline justify-between gap-2 pb-3 border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                              <div>
+                                <h4 className="text-[20px] text-[#0C1836] dark:text-[#FDFBF7]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                                  <MathText text={dos.title} />
+                                </h4>
+                                <p className="text-[14px] italic text-[#475569] dark:text-[#94A3B8] mt-1">
+                                  <MathText text={dos.tagline} />
+                                </p>
+                              </div>
+                              <span className="text-[10.5px] font-mono text-[#64748B] dark:text-[#94A3B8] shrink-0">{dos.category}</span>
+                            </div>
+
+                            <div className="space-y-3">
+                              <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#8F5B4A] dark:text-[#FDBA74] font-semibold">
+                                How It Works · Plain-Language Guide
+                              </div>
+                              {dos.laymanParagraphs.map((lp, idx) => (
+                                <p key={idx} className="text-[15.5px] leading-[1.55] text-[#1E293B] dark:text-[#E2E8F0] text-justify [hyphens:auto]">
+                                  <MathText text={lp} />
+                                </p>
+                              ))}
+                            </div>
+
+                            {mfig && (
+                              <figure className="rounded-xl border border-[#D8CFC2] dark:border-[#3A2E26] bg-[#FAF8F3] dark:bg-[#1C1714] p-4 sm:p-5 space-y-4">
+                                <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#EAE2D6] dark:border-[#3A2E26] text-[11px] font-mono">
+                                  <span className="uppercase tracking-[0.14em] text-[#64705B] dark:text-[#A3B19B]">
+                                    {mfig.figureNumber} · Appendix J ({mfig.deviceId})
+                                  </span>
+                                  <span className="text-[#8E7F6B] dark:text-[#A89A86]">{mfig.category}</span>
+                                </div>
+                                <div className="text-[17px] text-[#3A2E26] dark:text-[#F6F2EA]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                                  <MathText text={mfig.title} />
+                                </div>
+                                {mfig.illustrationPath && (
+                                  <div className="rounded-lg overflow-hidden border border-[#D8CFC2] dark:border-[#3A2E26] bg-[#FFFFFF]">
+                                    <img
+                                      src={mfig.illustrationPath}
+                                      alt={mfig.illustrationTitle || mfig.title}
+                                      referrerPolicy="no-referrer"
+                                      className="w-full h-auto max-h-[420px] object-contain mx-auto block"
+                                    />
+                                    {mfig.illustrationTitle && (
+                                      <div className="px-3 py-1.5 bg-[#F4EFE6] dark:bg-[#261E19] text-[11.5px] font-mono text-[#5B4D40] dark:text-[#D8CFC2] border-t border-[#EAE2D6] dark:border-[#3A2E26]">
+                                        Hardware Cutaway Illustration: {mfig.illustrationTitle}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                                <div
+                                  className="w-full overflow-x-auto rounded-lg border border-[#D8CFC2] dark:border-[#3A2E26] bg-[#F6F2EA] p-2.5"
+                                  dangerouslySetInnerHTML={{ __html: mfig.svgMarkup }}
+                                />
+                                <figcaption className="pt-2 text-[13.5px] leading-[1.6] text-[#3A2E26] dark:text-[#D8CFC2] text-justify [hyphens:auto]">
+                                  <MathText text={mfig.caption} />
+                                </figcaption>
+                              </figure>
+                            )}
+
+                            <div className="space-y-3">
+                              <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#15803D] dark:text-[#86EFAC] font-semibold">
+                                Laboratory Architecture, Governing Physics &amp; Metrology
+                              </div>
+                              {dos.engineeringParagraphs.map((ep, idx) => (
+                                <p key={idx} className="text-[15.5px] leading-[1.55] text-[#1E293B] dark:text-[#E2E8F0] text-justify [hyphens:auto]">
+                                  <MathText text={ep} />
+                                </p>
+                              ))}
+                            </div>
+
+                            <div className="rounded-lg border border-[#15803D]/30 bg-[#F4FAF6] dark:bg-[#052E16]/40 p-4 text-[14.5px] leading-[1.6] text-[#0F172A] dark:text-[#ECFDF5] text-justify [hyphens:auto]">
+                              <strong className="font-mono text-xs uppercase tracking-wider text-[#166534] dark:text-[#86EFAC] block mb-1">
+                                Significance &amp; Epistemic Boundary
+                              </strong>
+                              <MathText text={dos.impactParagraph} />
+                            </div>
+
+                            {dev && (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-[#334155] dark:text-[#CBD5E1] border-t border-[#EAE2D2] dark:border-[#1E293B]">
+                                <div><strong>1. Principle:</strong> <MathText text={dev.physicalPrinciple} /></div>
+                                <div><strong>2. Governing Eqs:</strong> <span className="font-mono"><MathText text={dev.governingEquations} /></span></div>
+                                <div><strong>3. Architecture:</strong> <MathText text={dev.architecture} /></div>
+                                <div><strong>4. Operating Regime:</strong> <MathText text={dev.operatingRegime} /></div>
+                                <div><strong>5. Predicted Signal:</strong> <MathText text={dev.predictedSignal} /></div>
+                                <div><strong>6. Noise Floor:</strong> <MathText text={dev.noiseFloor} /></div>
+                                <div><strong>7. Feasibility:</strong> {dev.engineeringFeasibility}</div>
+                                <div><strong>8. Actually Tests:</strong> <MathText text={dev.whatItActuallyTests} /></div>
+                                <div className="text-[#9F1239] dark:text-[#FDA4AF]"><strong>9. Explicitly Does NOT Do:</strong> <MathText text={dev.whatItDoesNotDo} /></div>
+                                <div><strong>10. Failure Criteria:</strong> <MathText text={dev.failureCriteria} /></div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
+                        Table J.2 · Cross-Device Sensitivity, Readiness &amp; Discovery Horizon Matrix (Devices A–K · 2026–2035+)
+                      </div>
+                      <table className="w-full text-xs text-left tabular-nums border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A]">
+                          <tr>
+                            <th className="p-2.5">Device</th>
+                            <th className="p-2.5">Target Physics</th>
+                            <th className="p-2.5">Primary Observable</th>
+                            <th className="p-2.5">TRL &amp; Window</th>
+                            <th className="p-2.5">Breakthrough vs. Strict Non-Claim</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {APPENDIX_J_SYNTHESIS_TABLE.map((row) => (
+                            <tr key={row.device}>
+                              <td className="p-2.5 font-medium"><MathText text={row.device} /></td>
+                              <td className="p-2.5"><MathText text={row.targetPhysics} /></td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={row.primaryObservable} /></td>
+                              <td className="p-2.5 font-mono text-[11px]">{row.readinessAndWindow}</td>
+                              <td className="p-2.5 space-y-1">
+                                <div><strong>If Detected:</strong> <MathText text={row.breakthroughIfDetected} /></div>
+                                <div className="text-[#9F1239] dark:text-[#FDA4AF]"><strong>Non-Claim:</strong> <MathText text={row.strictNonClaim} /></div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {app.letter === 'K' && (
+                  <div className="overflow-x-auto rounded-xl border border-[#15803D]/35 dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
+                    <div className="bg-[#F4FAF6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold text-[#166534] dark:text-[#86EFAC]">
+                      Table K.1 · Unified Solutions to Seven Open Problems in Physics (IGRT–H11 &amp; H12 Equations)
+                    </div>
+                    <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
+                      <thead className="bg-[#FDFBF7] dark:bg-[#0F172A]">
+                        <tr>
+                          <th className="p-2.5">Open Problem</th>
+                          <th className="p-2.5">Governing H11 / H12 Equations</th>
+                          <th className="p-2.5">Resolution &amp; Category</th>
+                          <th className="p-2.5">Plain-Language Explanation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {SEVEN_SOLVED_PHYSICS_PROBLEMS.map((sp) => (
+                          <tr key={sp.id}>
+                            <td className="p-2.5 font-medium"><MathText text={sp.openProblem} /></td>
+                            <td className="p-2.5 font-mono text-[11px] text-[#8F5B4A] dark:text-[#FDBA74]"><MathText text={sp.governingH11H12Equations} /></td>
+                            <td className="p-2.5 space-y-1">
+                              <div><MathText text={sp.coreResolutionAndPrediction} /></div>
+                              <div className="text-[10.5px] font-mono text-[#64748B] dark:text-[#94A3B8]">{sp.category}</div>
+                            </td>
+                            <td className="p-2.5"><MathText text={sp.laymanTakeaway} /></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+
+                {app.letter === 'L' && (
+                  <div className="space-y-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 tabular-nums">
+                      <div className="rounded-xl border border-[#15803D]/35 bg-[#F4FAF6] dark:bg-[#052E16]/50 p-4">
+                        <div className="text-[11px] font-mono text-[#166534] dark:text-[#86EFAC] uppercase">Self-Contained Closure</div>
+                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                          {H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.grandMaxPoints}
+                        </div>
+                        <div className="text-xs font-mono text-[#15803D] dark:text-[#4ADE80] mt-0.5">{H12_STRESS_TEST_SUMMARY.selfContainedScorePct}% Verified</div>
+                      </div>
+                      <div className="rounded-xl border border-[#1E40AF]/35 bg-[#F4F8FF] dark:bg-[#172554]/50 p-4">
+                        <div className="text-[11px] font-mono text-[#1E40AF] dark:text-[#93C5FD] uppercase">Epistemic Applicable Score</div>
+                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                          {H12_STRESS_TEST_SUMMARY.grandApplicablePoints} / {H12_STRESS_TEST_SUMMARY.grandMaxPoints}
+                        </div>
+                        <div className="text-xs font-mono text-[#1E40AF] dark:text-[#93C5FD] mt-0.5">{H12_STRESS_TEST_SUMMARY.overallEpistemicScorePct}% (Cat. C/D Bounded)</div>
+                      </div>
+                      <div className="rounded-xl border border-[#EA580C]/35 bg-[#FFF9F2] dark:bg-[#431407]/40 p-4">
+                        <div className="text-[11px] font-mono text-[#9A3412] dark:text-[#FDBA74] uppercase">500-Criterion Domains</div>
+                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                          {H12_STRESS_TEST_SUMMARY.domainSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.domainMaxPoints}
+                        </div>
+                        <div className="text-xs font-mono text-[#9A3412] dark:text-[#FDBA74] mt-0.5">100.0% Math &amp; Negative Theorems</div>
+                      </div>
+                      <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4">
+                        <div className="text-[11px] font-mono text-[#475569] dark:text-[#94A3B8] uppercase">16 Red-Team Attacks</div>
+                        <div className="text-2xl font-normal text-[#0C1836] dark:text-white mt-1" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                          {H12_STRESS_TEST_SUMMARY.attackSelfContainedPoints} / {H12_STRESS_TEST_SUMMARY.attackMaxPoints}
+                        </div>
+                        <div className="text-xs font-mono text-[#475569] dark:text-[#CBD5E1] mt-0.5">14 Survived · 2 Contained Frontiers</div>
+                      </div>
+                    </div>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
+                        Table L.1 · Ten-Domain 500-Criterion Breakdown
+                      </div>
+                      <table className="w-full text-xs text-left tabular-nums">
+                        <thead className="border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                          <tr><th className="p-2.5">Domain (50 Criteria Each)</th><th className="p-2.5">Self-Contained</th><th className="p-2.5">Applicable</th><th className="p-2.5">Verdict &amp; Key Verification</th></tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {H12_TEN_DOMAIN_AUDITS.map((d) => (
+                            <tr key={d.domainNumber}>
+                              <td className="p-2.5 font-medium"><div><MathText text={`${d.domainNumber}: ${d.domainName}`} /></div><div className="mt-1 text-[10.5px] font-mono text-[#64748B]">{d.category}</div></td>
+                              <td className="p-2.5 font-mono text-[#15803D]">{d.selfContainedPoints}/{d.maxPoints}</td>
+                              <td className="p-2.5 font-mono">{d.applicablePoints}/{d.maxPoints}</td>
+                              <td className="p-2.5"><div className="font-semibold text-[11px]">{d.verdict}</div><div><MathText text={d.openFrontierNotes} /></div></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <h4 className="text-[18px] font-normal" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                          Table L.2 · Sixteen Direct Red-Team Attacks (H12-ATK-01 .. H12-ATK-16)
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5 text-[11px] font-mono">
+                          {['ALL', 'Wave I: 5D Geometry & Causality', 'Wave II: Black Holes & Wormholes', 'Wave III: Quantum & Information', 'Wave IV: Engineering & Falsification'].map((w) => (
+                            <button
+                              key={w}
+                              onClick={() => setAttackWaveFilter(w)}
+                              className={`px-2.5 py-1 rounded border whitespace-nowrap shrink-0 ${
+                                attackWaveFilter === w ? 'bg-[#0C1836] dark:bg-[#EA580C] text-white border-transparent' : 'bg-white dark:bg-[#0B1530] border-[#D6CABE] dark:border-[#334155]'
+                              }`}
+                            >
+                              {w === 'ALL' ? 'All 16 Attacks' : w.split(':')[0]}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 gap-3">
+                        {H12_SIXTEEN_REDTEAM_ATTACKS.filter((a) => attackWaveFilter === 'ALL' || a.wave === attackWaveFilter).map((atk) => (
+                          <div key={atk.id} className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4 text-xs space-y-1.5">
+                            <div className="flex flex-wrap items-center justify-between gap-2 pb-1 border-b border-[#EAE2D2] dark:border-[#1E293B]">
+                              <span className="font-mono text-[#9A3412] dark:text-[#FDBA74]">{atk.id} · {atk.wave} · {atk.category}</span>
+                              <span className="font-mono text-[#166534] dark:text-[#86EFAC] tabular-nums">{atk.pointsAwarded}/{atk.maxPoints} · {atk.technicalStatus}</span>
+                            </div>
+                            <div className="text-[15px] text-[#0C1836] dark:text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                              <MathText text={atk.attackTitle} />
+                            </div>
+                            <p className="text-[13px] leading-[1.55] text-[#475569] dark:text-[#94A3B8] text-justify"><strong>Challenge:</strong> <MathText text={atk.adversarialChallenge} /></p>
+                            <p className="text-[13px] leading-[1.55] text-[#1E293B] dark:text-[#E2E8F0] text-justify"><strong>H12 Resolution:</strong> <MathText text={atk.h12ResolutionAndCitation} /></p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </section>

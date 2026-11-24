@@ -573,24 +573,33 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
             </h1>
 
             {/* Research Team Masthead (ORCIDs reside strictly on Author Masthead, never in References) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
               {PAPER_META.authors.map((author) => (
                 <div
-                  key={author.orcid}
+                  key={author.name}
                   className="p-4 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] space-y-1.5"
                 >
                   <div style={{ fontSize: '18px', lineHeight: 1.3 }} className="text-[#0F172A] dark:text-white">
                     {author.name}
                   </div>
                   <div>
-                    <a
-                      href={`https://orcid.org/${author.orcid}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="font-mono text-[12px] text-[#15803D] dark:text-[#4ADE80] hover:underline break-all"
-                    >
-                      https://orcid.org/{author.orcid} ↗
-                    </a>
+                    {author.orcid ? (
+                      <a
+                        href={`https://orcid.org/${author.orcid}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-mono text-[12px] text-[#15803D] dark:text-[#4ADE80] hover:underline break-all"
+                      >
+                        https://orcid.org/{author.orcid} ↗
+                      </a>
+                    ) : author.email ? (
+                      <a
+                        href={`mailto:${author.email}`}
+                        className="font-mono text-[12px] text-[#15803D] dark:text-[#4ADE80] hover:underline break-all"
+                      >
+                        Email: {author.email}
+                      </a>
+                    ) : null}
                   </div>
                   <div className="text-[13px] text-[#64748B] dark:text-[#94A3B8] leading-[1.4]">
                     {author.affiliation}
@@ -676,7 +685,7 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                   </div>
                 </div>
 
-              {/* List of Illustrations (Plates I–IX) */}
+              {/* List of Illustrations (Plates I–XIV) */}
               <div className="p-5 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] space-y-3">
                 <h3 style={{ fontSize: 'var(--igrt-h3-size)' }}>List of Illustrations</h3>
                 <ul className="space-y-2 list-disc pl-6" style={{ fontSize: '16px', lineHeight: 1.5 }}>

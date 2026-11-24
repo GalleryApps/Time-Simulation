@@ -14,6 +14,12 @@ import React from 'react';
 import type { H12EpistemicCategory } from '../types/igrtH12Apparatus';
 import { MathText } from './MathText';
 import { H12_EXPANDED_CHAPTER_FIGURES } from './igrtH12ExpandedDiagrams';
+export {
+  H12_THEORY_ILLUSTRATIONS,
+  H12_SUPPLEMENTAL_PLATES,
+  type H12TheoryIllustrationSpec
+} from './igrtH12TheoryIllustrations';
+import type { H12TheoryIllustrationSpec } from './igrtH12TheoryIllustrations';
 import deviceAImg from '../assets/images/device_a_qfi_clock_1795148324549.jpg';
 import deviceBImg from '../assets/images/device_b_cannex_balance_1795148324240.jpg';
 import deviceCImg from '../assets/images/device_c_grin_slab_1795148326060.jpg';
@@ -253,7 +259,7 @@ const CORE_H12_FIGURES: H12FigureSpec[] = [
 
   <!-- Brane Top Boundary -->
   <line x1="78" y1="120" x2="682" y2="120" stroke="#0F0D0B" stroke-width="2.4" stroke-dasharray="8,5"/>
-  <text x="380" y="102" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F0D0B">4D Brane Light Path (y = 0): Model 1 &amp; Model 2A Minimum (dt_5 &gt;= dt_4)</text>
+  <text x="380" y="102" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F0D0B">4D Brane Light Path (y = 0): Model 1 &amp; Model 2A Minimum (Δt₅ ≥ Δt₄)</text>
 
   <!-- Bulk Gradient Layers -->
   <rect x="88" y="122" width="584" height="232" fill="#FAF8F4" stroke="#EAE2D2" stroke-width="1"/>
@@ -277,25 +283,25 @@ const CORE_H12_FIGURES: H12FigureSpec[] = [
     id: 'h12-fig-5',
     figureNumber: 'Figure H12-5',
     anchorChapter: 4,
-    title: '5D Geodesic Arrival Ratio eta_fold = dt_5 / dt_4 Across Metric Classes',
+    title: '5D Geodesic Arrival Ratio η_fold = Δt_5 / Δt_4 Across Metric Classes',
     category: 'CATEGORY C — CONJECTURAL',
     caption:
       'Direct Beltrami variational solver output (scripts/verify-igrt-h12.mjs). Flat compact M_4 × S¹ (1.001249) and conformally flat Randall–Sundrum AdS_5 excursions (1.010321) strictly satisfy Δt_5 ≥ Δt_4 (Category B Negative No-Go Theorems). Ghost-free 5D Einstein–Maxwell (α_t = 1.0, α_x = 0.0) admits exact closed-form shortcuts η_fold = sin(kΔx/2)/(kΔx/2) = 0.84147 at kΔx = 2 inside its finite horizon span kΔx < π (limit 2/π = 0.63662). Extending to unbounded spans requires phenomenological Model 2B (α_t = α_x = 0.5): 0.86634 (k Δx = 2), 0.34279 (10), and 0.07770 (50) while preserving ds_5² = 0 (Category C).',
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 440" width="760" height="440" style="background:#FFFFFF;font-family:'DejaVu Sans','DejaVu Serif',Georgia,sans-serif">
   <rect x="0" y="0" width="760" height="440" fill="#FFFFFF"/>
   <rect x="14" y="14" width="732" height="412" fill="#FFFFFF" stroke="#0F0D0B" stroke-width="1.2"/>
-  <text x="380" y="42" text-anchor="middle" font-size="14" font-weight="bold" fill="#0F0D0B">5D NULL GEODESIC ARRIVAL RATIO eta_fold = dt_5 / dt_4 BY METRIC CLASS</text>
+  <text x="380" y="42" text-anchor="middle" font-size="14" font-weight="bold" fill="#0F0D0B">5D NULL GEODESIC ARRIVAL RATIO η_fold = Δt₅ / Δt₄ BY METRIC CLASS</text>
   <line x1="36" y1="54" x2="724" y2="54" stroke="#8E7F6B" stroke-width="0.9"/>
 
   <line x1="86" y1="336" x2="704" y2="336" stroke="#0F0D0B" stroke-width="1.6"/>
   <line x1="86" y1="84" x2="86" y2="336" stroke="#0F0D0B" stroke-width="1.6"/>
   <line x1="86" y1="130" x2="704" y2="130" stroke="#8F5B4A" stroke-width="1.6" stroke-dasharray="6,4"/>
-  <text x="698" y="116" text-anchor="end" font-size="10.5" font-weight="bold" fill="#8F5B4A">Brane Speed-of-Light Floor: eta_fold = 1.000 (No Shortcut Boundary)</text>
+  <text x="698" y="116" text-anchor="end" font-size="10.5" font-weight="bold" fill="#8F5B4A">Brane Speed-of-Light Floor: η_fold = 1.000 (No Shortcut Boundary)</text>
 
   <!-- Bars (scale: 1.000 -> height 206px from y=336 to y=130) -->
   <rect x="108" y="128" width="58" height="208" fill="#8E7F6B"/>
   <text x="137" y="118" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F0D0B">1.00125</text>
-  <text x="137" y="356" text-anchor="middle" font-size="10" fill="#0F0D0B">Model 1: S1</text>
+  <text x="137" y="356" text-anchor="middle" font-size="10" fill="#0F0D0B">Model 1: M₄ × S¹</text>
   <text x="137" y="372" text-anchor="middle" font-size="9.5" fill="#64705B">No-Go (Cat. B)</text>
 
   <rect x="206" y="124" width="58" height="212" fill="#3A2E26"/>
@@ -393,19 +399,19 @@ const CORE_H12_FIGURES: H12FigureSpec[] = [
   <line x1="205" y1="92" x2="205" y2="102" stroke="#64705B" stroke-width="10"/>
   <circle cx="205" cy="102" r="6" fill="#64705B"/>
   <text x="205" y="128" text-anchor="middle" font-size="11" font-weight="bold" fill="#64705B">0.2436 (-0.61)</text>
-  <text x="205" y="362" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F0D0B">r0 = l0 (1.36e-35 m)</text>
+  <text x="205" y="362" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F0D0B">r₀ = ℓ₀ (1.36e-35 m)</text>
   <text x="205" y="380" text-anchor="middle" font-size="9.5" fill="#64705B">Planck Foam Parity</text>
 
   <line x1="404" y1="92" x2="404" y2="278" stroke="#8E7F6B" stroke-width="10"/>
   <circle cx="404" cy="278" r="6" fill="#8E7F6B"/>
   <text x="404" y="302" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F0D0B">4.50e-59 (-58.35)</text>
-  <text x="404" y="362" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F0D0B">r0 = 1 um</text>
+  <text x="404" y="362" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F0D0B">r₀ = 1 um</text>
   <text x="404" y="380" text-anchor="middle" font-size="9.5" fill="#3A2E26">M_exotic = -2.12e21 kg</text>
 
   <line x1="598" y1="92" x2="598" y2="316" stroke="#8F5B4A" stroke-width="10"/>
   <circle cx="598" cy="316" r="6" fill="#8F5B4A"/>
   <text x="598" y="302" text-anchor="end" font-size="11" font-weight="bold" fill="#8F5B4A">4.50e-71 (-70.35)</text>
-  <text x="598" y="362" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F0D0B">r0 = 1 m</text>
+  <text x="598" y="362" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F0D0B">r₀ = 1 m</text>
   <text x="598" y="380" text-anchor="middle" font-size="9.5" fill="#8F5B4A">M_exotic = -1.0637e-3 M_sun</text>
 </svg>`
   },
@@ -1127,3 +1133,50 @@ export const H12FigureCard: React.FC<{ fig: H12FigureSpec }> = ({ fig }) => (
     </figcaption>
   </figure>
 );
+
+export const H12TheoryIllustrationCard: React.FC<{ illustration: H12TheoryIllustrationSpec }> = ({
+  illustration
+}) => {
+  const [imgFailed, setImgFailed] = React.useState(false);
+
+  return (
+    <figure className="my-12 rounded-2xl border border-[#3A2E26]/25 dark:border-[#8E7F6B]/40 bg-[#FFFFFF] p-6 sm:p-8 shadow-sm space-y-5">
+      <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[#EAE2D6] text-[11px] font-mono">
+        <span className="uppercase tracking-[0.14em] text-[#64705B]">
+          {illustration.illustrationNumber} · Theory &amp; Dimension Plate (Chapter {illustration.anchorChapter})
+        </span>
+        <span className="text-[#8E7F6B]">{illustration.category}</span>
+      </div>
+      <h4
+        className="font-normal text-[20px] leading-[1.32] text-[#0F0D0B]"
+        style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}
+      >
+        <MathText text={illustration.title} />
+      </h4>
+      <div className="rounded-xl overflow-hidden border border-[#EAE2D6] bg-[#FFFFFF] p-2">
+        {imgFailed ? (
+          <div className="aspect-[4/3] w-full flex flex-col items-center justify-center p-8 text-center text-[#0F0D0B] bg-[#FAF8F4]">
+            <span className="font-mono text-xs uppercase tracking-[0.18em] text-[#8F5B4A] mb-2">
+              {illustration.illustrationNumber}
+            </span>
+            <p className="text-sm max-w-md">{illustration.title}</p>
+          </div>
+        ) : (
+          <img
+            src={illustration.imagePath}
+            alt={illustration.title}
+            referrerPolicy="no-referrer"
+            onError={() => setImgFailed(true)}
+            className="w-full h-auto max-h-[540px] object-contain mx-auto block"
+          />
+        )}
+      </div>
+      <figcaption className="pt-2 border-t border-[#EAE2D6] text-[13.5px] leading-[1.68] text-[#3A2E26] text-justify [hyphens:auto]">
+        <strong className="font-mono text-[11.5px] uppercase tracking-wider text-[#64705B] mr-1.5">
+          {illustration.illustrationNumber} Architectural Plate:
+        </strong>
+        <MathText text={illustration.description} />
+      </figcaption>
+    </figure>
+  );
+};

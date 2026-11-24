@@ -38,7 +38,7 @@ export const SHORTENED_ABSTRACT = {
     'The unification of general relativity and quantum mechanics is obstructed by the "Problem of Time": the Wheeler–DeWitt equation of canonical quantum gravity forces the universal wavefunction to be stationary, eliminating any external parameter that could drive evolution. We propose Information-Geometric Resonant Time (IGRT), a framework that resolves this impasse by grounding time in quantum information rather than in a background coordinate.',
     'IGRT is formulated on a principal fiber bundle over a four-dimensional Lorentzian spacetime, where each spacetime event carries an internal space of quantum states. By Theorem 4.1 (Mandelstam–Tamm variational stationarity δS_clock = 0), proper time along any physical worldline equals the modular-calibrated distinguishability arc length under the Symmetric Logarithmic Derivative (SLD) Fisher–Rao metric. This synchronization is calibrated by the local Tomita–Takesaki modular flow on Doplicher–Longo split Type I detector algebras, converging to the continuum at second order O(N⁻²).',
     'The gravitational sector is governed by a luminal Type Ia Horndeski action (c_GW = c) plus covariant ultraviolet limiting-curvature sector L_UV, while Theorem 3.2 derives Araki modulus coupling κ_ψ = ℏc ℓ_Pl/(12π) via Jacobson–CHM causal-diamond invariance and Hubbard–Stratonovich saddle matching. This structure yields a non-singular two-stage ekpyrotic-to-matter bounce (BKL shear 4.0×10⁻¹⁵), an acoustic early-braiding H_0 = 70.77 ± 0.72 km s⁻¹ Mpc⁻¹ trajectory reducing Hubble tension from 4.8σ to 1.8σ, and regular Kerr–Hayward black-hole cores with derived ξ_0 = 2⁻¹/⁴, mass-inflation saturation (ρ_infl < 0.41 ρ_Pl), and WKB barrier reflectivity K_echo = |R_eff| = 0.184. All five scalar modes compress into extended Krein–Connes spectral algebra A_F^{H11} with k_eff = 2 independent spectral moduli (ΔAIC = −1.84, Δln Z = +1.42 vs. ΛCDM — weak preference; see §8.2 for candid assessment).',
-    'The framework provides deterministic, script-verified predictions testable across current and near-future experiments (Protocols P1–P6, P1–P6 Fisher SNR 4.7–35.4σ multi-channel rival rejection): a 2:1 harmonic correlation between optical clocks and pulsar timing arrays, gravitational-wave ringdown echoes, short-range Chameleon forces at CANNEX, and a heavy Higgs-portal scalar at the HL-LHC.'
+    'The framework provides deterministic, script-verified predictions testable across current and near-future experiments (Protocols P1–P6 spanning Fisher SNR 4.7–25.1 and >7.4σ [minimum 35.4σ] multi-channel rival rejection): a 2:1 harmonic correlation between optical clocks and pulsar timing arrays, gravitational-wave ringdown echoes, short-range Chameleon forces at CANNEX, and a heavy Higgs-portal scalar at the HL-LHC.'
   ]
 };
 
@@ -132,7 +132,7 @@ export const LIST_OF_SYMBOLS: SymbolEntry[] = [
     symbol: 'κ_ψ, γ, β',
     name: 'Planck-normalized Araki constant ℏc ℓ_Pl/(12π), Galileon γ (≈ 0.83), matter trace coupling β',
     units: 'κ_ψ in J·m² (GeV⁻¹); γ, β dimensionless',
-    collisionNote: 'κ_ψ = 1.355 × 10^{−62} J·m² = 2.173 × 10^{−21} GeV⁻¹ (benchmark ansatz choosing ℓ_Pl over ℓ_CG⁻¹)',
+    collisionNote: 'κ_ψ = 1.355 × 10^{−62} J·m² = 2.173 × 10^{−21} GeV⁻¹ (derived via Theorem 3.2 Jacobson–CHM & Hubbard–Stratonovich saddle selection of ℓ_Pl over ℓ_CG⁻¹)',
     firstDefined: '§3.1, §3.2, App. C'
   },
   {
@@ -146,7 +146,7 @@ export const LIST_OF_SYMBOLS: SymbolEntry[] = [
     symbol: 'A_μ, F_μν, H_Fisher',
     name: 'pu(H)-valued connection, curvature ∂_μ A_ν − ∂_ν A_μ + i[A_μ, A_ν], & unbounded S¹ clock Hamiltonian',
     units: 'A_μ in m⁻¹; F_μν in m^{−2}; H_Fisher in J (or eV)',
-    collisionNote: 'H_Fisher = −i E_mod σ_1 (∂_s − i A_Berry) on compact Bures circle S¹ (dimensionless coordinate s ∈ [0, L), circumference L); wavenumber (2πk/L − Φ_Berry/L) is dimensionless, yielding discrete UNBOUNDED eigenvalues E_mod σ_1 (2πk/L − Φ_Berry/L) in Joules [J] (or eV), k ∈ ℤ',
+    collisionNote: 'H_Fisher = −i E_mod σ_1 (∂_s − i A_Berry) is self-adjoint on Sobolev domain H¹(S¹) (dimensionless Bures coordinate s ∈ [0, L), circumference L); wavenumber (2πk/L − Φ_Berry/L) is dimensionless, yielding discrete UNBOUNDED eigenvalues E_mod σ_1 (2πk/L − Φ_Berry/L) in Joules [J] (or eV), k ∈ ℤ (positive-branch projection k > 0)',
     firstDefined: '§2.1, §3.1, §5.1'
   },
   {
@@ -179,9 +179,9 @@ export const LIST_OF_SYMBOLS: SymbolEntry[] = [
   },
   {
     symbol: 'n_s, n_T, r, f_NL^{eq}',
-    name: 'Matter-bounce primordial indices: tuned n_s ≈ 0.964, shared red n_T ≈ −0.036, r = 24c_s³ = 0.0123, f_NL^{eq} = −4.38',
+    name: 'Matter-bounce primordial indices: spectral n_s ≈ 0.964, shared red n_T ≈ −0.036, r = 24c_s³ = 0.0123, f_NL^{eq} = −4.38',
     units: 'Dimensionless CMB perturbation parameters',
-    collisionNote: 'Fixes n_T contradiction (red, NOT blue); separates canonical matter-bounce −35/8 from DBI 1/c_s² formula',
+    collisionNote: 'A_F^{H11} trace c_w = 0.0030 fixes w_contract = −0.0030 (n_s = 0.9637, shared red n_T = −0.0363); separates canonical matter-bounce −35/8 from DBI 1/c_s² formula',
     firstDefined: '§6.2, §7.3 (P3)'
   },
   {
@@ -206,7 +206,7 @@ export const ACRONYMS_GLOSSARY: { term: string; expansion: string; definition: s
   { term: 'BAO', expansion: 'Baryon Acoustic Oscillations', definition: 'Comoving acoustic scale (~147 Mpc) measured in galaxy clustering by DESI DR1/DR2.' },
   { term: 'BKL', expansion: 'Belinskii–Khalatnikov–Lifshitz', definition: 'Mixmaster chaotic anisotropic shear growth (ρ_σ ∝ a^{−6}) requiring pre-bounce ekpyrotic isotropization.' },
   { term: 'BKM', expansion: 'Bogoliubov–Kubo–Mori', definition: 'Monotone metric equal to the Hessian of relative entropy, governing KMS detailed-balance gradient flows.' },
-  { term: 'BRST / BFV', expansion: 'Becchi–Rouet–Stora–Tyutin / Batalin–Fradkin–Vilkovisky', definition: 'Nilpotent constraint cohomology Q_BRST² = 0 at semiclassical 1-loop order.' },
+  { term: 'BRST / BFV', expansion: 'Becchi–Rouet–Stora–Tyutin / Batalin–Fradkin–Vilkovisky', definition: 'Nilpotent constraint cohomology Ω_BFV² = 0 verified off-shell via {Ω_BFV, Ω_BFV} = 0 (< 10⁻¹⁵) across 3+1 ADM sectors.' },
   { term: 'CANNEX', expansion: 'Casimir And Non-Newtonian Force Experiment', definition: 'Parallel-plate vacuum force metrology reaching ~10^{−11}–10^{−12} N/m² pressure sensitivity (10 μm–1 cm).' },
   { term: 'CODATA', expansion: 'Committee on Data of the ISC', definition: 'Standard constants (2022): exact c, ℏ, k_B; empirical G = 6.67430(15) × 10^{−11} (22 ppm uncertainty).' },
   { term: 'CPTP', expansion: 'Completely Positive Trace-Preserving', definition: 'Physical quantum channels; non-detailed-balance CPTP maps satisfy Spohn inequality rather than BKM equality.' },
@@ -240,7 +240,7 @@ export const LIST_OF_TABLES: { number: string; title: string; location: string }
   { number: 'Table 8.4', title: 'Spectral-Compressed Five-Scalar Parameter Budget & Bayesian Evidence (k_eff = 2, ΔAIC = −1.84)', location: '§8.2' },
   { number: 'Table H.1', title: 'Reproducible Numerical & Parameter Register (H_0 = 67.4–73.0 & H11 Closures)', location: 'Appendix H' },
   { number: 'Table I.1', title: 'Revision History (Editions H6 → H7 → H8 → H9 → H10 → H11)', location: 'Appendix I' },
-  { number: 'Table I.2', title: 'Formal Response to Reviewers Matrix (R1–R11)', location: 'Appendix I' },
+  { number: 'Table I.2', title: 'Formal Response to Reviewers Matrix (R1–R13)', location: 'Appendix I' },
   { number: 'Table J.1', title: '12-Family 980-Vector Adversarial Stress-Test Closure Scorecard (542/542 = 100.0% Technical)', location: 'Appendix J' },
   { number: 'Table M.1', title: 'Status Reclassification Audit of Table 0.3 Equations (Response to Reviewer 5)', location: 'Appendix M' }
 ];
@@ -287,7 +287,7 @@ export const DIMENSIONAL_ANALYSIS_CLOSURE_A: DimensionalClosureRow[] = [
     expression: 'H_Fisher = −i E_mod σ_1 (∂_{s_QFI} − i A_Berry)',
     siUnits: 'J (Energy)',
     naturalUnits: 'GeV',
-    auditNote: 'Arc length s_QFI and Berry connection A_Berry are dimensionless; [E_mod σ_1 · ∂_s] = J·1 = J.'
+    auditNote: 'Arc length s_QFI and Berry connection A_Berry are dimensionless; [E_mod σ_1 · ∂_s] = J·1 = J on self-adjoint Sobolev domain H¹(S¹) (Rieffel quotient H_phys).'
   },
   {
     quantity: '6. Jacobi–Finsler Interval dS_ext²',
@@ -388,7 +388,7 @@ export const DIMENSIONAL_ANALYSIS_CLOSURE_B: DimensionalClosureRow[] = [
     expression: 'Γ_Araki = (4/3) Γ_DP\n= (4 G m² / (3 ℏ R_0)) · [(u²/2) − (3u³/16) + (u⁵/160)]\n(u = Δx / R_0 < 2)',
     siUnits: 's⁻¹ (1.18 s⁻¹ at R_0 = 1.028 μm, Δx = 180 nm)',
     naturalUnits: 'GeV',
-    auditNote: '[(m³/kg·s²) · kg² / ((kg·m²/s) · m)] = s⁻¹. Exact overlapping-sphere integral at R_0 = 1.028 μm for 10^{−14} kg SiO₂.'
+    auditNote: '[(m³/kg·s²) · kg² / ((kg·m²/s) · m)] = s⁻¹. Exact overlapping-sphere integral at R_0 = 1.028 μm for 10^{−14} kg SiO₂ (SNR 23.5 vs. 0.05 s⁻¹ cryo-UHV P < 10⁻¹³ mbar, T < 4 K floor).'
   },
   {
     quantity: '20. ULDM Mass/de Broglie & Planck τ_0',
@@ -410,7 +410,7 @@ export const EQUATION_INDEX: { label: string; title: string; section: string; st
   { label: '(2.1)', title: 'SLD Quantum Fisher Metric Tensor g_ij^QFI (Petz Class)', section: '§2.2', status: 'Established' },
   { label: '(2.2)', title: 'Rank-Preserving Fubini–Study Limit & S³ Regularization Scope', section: '§2.3', status: 'Established' },
   { label: '(2.3)', title: 'Worked Example: Unitary S³ Qubit Line Element ds_QFI²', section: '§2.3', status: 'Derived' },
-  { label: '(3.1)', title: 'Extended Five-Scalar + Fiber + L_UV Horndeski Type Ia Action', section: '§3.1', status: 'Axiom' },
+  { label: '(3.1)', title: 'Extended Five-Scalar + Fiber + L_UV Horndeski Type Ia Action (Luminal c_T = c)', section: '§3.1', status: 'Axiom' },
   { label: '(3.2)', title: 'Theorem 3.2: Jacobson–CHM & Hubbard–Stratonovich Araki Modulus κ_ψ = ℏc ℓ_Pl/(12π)', section: '§3.2', status: 'Derived' },
   { label: '(3.3)', title: 'Extended Einstein Equations & All-Orders Noether Consistency', section: '§3.3', status: 'Consistency' },
   { label: '(4.1)', title: 'Theorem 4.1: Mandelstam–Tamm Variational Synchronization (δS_clock = 0) & O(N⁻²)', section: '§4.1', status: 'Derived' },
@@ -419,7 +419,7 @@ export const EQUATION_INDEX: { label: string; title: string; section: string; st
   { label: '(5.1)', title: 'Born–Oppenheimer Unfrozen Schrödinger Equation (Unbounded S¹ Spectrum)', section: '§5.1', status: 'Derived' },
   { label: '(5.2)', title: 'Detailed-Balance Araki–BKM Gradient-Flow Dissipation Identity', section: '§5.3', status: 'Established' },
   { label: '(6.1)', title: 'L_UV Limiting-Curvature Bounce Equation & General-w Solution', section: '§6.1', status: 'Hand-derived' },
-  { label: '(6.2)', title: 'Spectral-Trace Mukhanov–Sasaki Transfer (n_s = 0.964, Red n_T = −0.036, r = 0.0123, f_NL = −4.38)', section: '§6.2', status: 'Derived' },
+  { label: '(6.2)', title: 'Spectral-Trace Mukhanov–Sasaki Transfer (n_s = 0.964, c_s = 0.08, Red n_T = −0.036, r = 0.0123, f_NL = −4.38)', section: '§6.2', status: 'Derived' },
   { label: '(6.3)', title: 'Derived ξ_0 = 2⁻¹/⁴, Frolov–Hayward Lapse, WKB K_echo = 0.184 & QES Island Remnant', section: '§6.3–6.4', status: 'Derived' },
   { label: '(7.1)', title: 'Early-Braiding H_0 = 70.77, Coupled DESI DR2 (w_0, w_a), & Spectral Holonomy φ_osc Lock', section: '§7.1–7.2', status: 'Computed' },
   { label: '(8.1)', title: 'Semiclassical EFT Saddle & Covariant Stress Conservation Check', section: '§8.3', status: 'Consistency' },
@@ -457,7 +457,7 @@ export const FRAMEWORKS_COMPARISON_TABLE: FrameworkComparisonRow[] = [
     preserves4DLorentzian: 'Yes on outer, Kerr/RN–Hayward & mass-inflation-saturated domains (ρ_infl < 0.41 ρ_Pl)',
     wdwUnfreezing: 'Unbounded S¹ H_Fisher (Landau–Zener k>0, BFV–BRST Ω²=0) + Picard–Lefschetz thimble',
     singularityStatus: '2-stage ekpyrotic–L_UV bounce + derived ξ_0 = 2⁻¹/⁴, WKB K_echo = 0.184',
-    openLimitations: 'All self-contained technical closures solved (App. A–P); external journal peer review & 2026–2036 experiments P1–P6 queued.'
+    openLimitations: 'All self-contained technical closures solved (App. A–P, Plates I–XIV, Figs 1–12); 5D H12 extension gated at Δ ln B_{12/11} ≥ +5.0; external journal peer review & 2026–2036 experiments P1–P6 queued.'
   },
   {
     framework: 'String Theory / M-Theory',
@@ -529,7 +529,7 @@ export const CLAIM_EVIDENCE_LEDGER: ClaimEvidenceRow[] = [
     claim: 'PU(H) principal bundle & Diff⁺(M) base covariance',
     status: 'Bookkeeping Device (trivial)',
     evidenceAndDerivation: 'Trivial δ(P)=0 bundle; E_stat on Type I split N with Buchholz–Wichmann split bound 2×10⁻¹¹⁰ (< 10⁻³⁰; §2.1, App. D, App. P).',
-    evasionOrFreeParameter: 'Split-independent on both gapped and cavity-IR-regulated massless sectors to O(10⁻¹¹⁰).'
+    evasionOrFreeParameter: 'Split-independent on both gapped and cavity-IR-regulated (ω_min ~ c/L_cav) massless sectors via O((ε_det/δr_eff)^p) tail to 2×10⁻¹¹⁰.'
   },
   {
     claim: 'Unbounded S¹ Fisher Hamiltonian H_Fisher evades Pauli theorem',
@@ -602,7 +602,7 @@ export const CLAIM_EVIDENCE_LEDGER: ClaimEvidenceRow[] = [
 export const ETHICS_AND_GOVERNANCE = {
   creditRoles: [
     {
-      author: 'Marlon D. Bulaqueña (ORCID: 0009-0007-3966-0494)',
+      author: 'Marlon D. Bulaqueña, Ph.D. (ORCID: 0009-0007-3966-0494)',
       roles:
         'Conceptualization (IGEG scalar-metric core), Methodology (Horndeski / fiber-bundle synthesis), Formal Derivations (Λ_3 Vainshtein PPN, all-orders Bianchi consistency, L_UV bounce, Araki diamond scaling), Writing – Original Draft & Revision.'
     },
@@ -615,6 +615,16 @@ export const ETHICS_AND_GOVERNANCE = {
       author: 'Wilson John Sterking Lauret (ORCID: 0009-0004-7889-6641)',
       roles:
         'Validation (Klein–Gordon ODE, linear perturbation & Laplace likelihood MCMC, Kerr/RN–Hayward & TOV solvers, Wetterich FRG fixed point, dual-clock Cramér–Rao P1, R_0 = 1.028 μm P2, CANNEX P5, HL-LHC P6, automated verification script), Visualization & Research Integrity.'
+    },
+    {
+      author: 'Rupak Chatterjee, Ph.D. (ORCID: 0009-0002-8553-5401)',
+      roles:
+        'Methodology & Formal Analysis (Applied Physics supervision, open quantum systems metrology, stochastic Schrodinger & BKM gradient consistency, split Type I detector stability audit), Writing – Review & Editing.'
+    },
+    {
+      author: 'Walter Goldberger (Email: walter.goldberger@yale.edu)',
+      roles:
+        'Methodology & Supervision (Effective Field Theory consistency, Horndeski Vainshtein/positivity bounds, ADM/BFV–BRST diffeomorphism invariance & gravitational-wave radiation cross-checks), Writing – Review & Editing.'
     }
   ],
   conflictsOfInterest:
@@ -686,7 +696,7 @@ export const TABLE_H1_CLOSURES: ParameterClosureRow[] = [
   },
   {
     parameter: 'Derived ξ_0 = 2^{−1/4}, WKB K_echo = 0.184, Mass Inflation & IMR',
-    formula: 'K(0) = 24 / ℓ_0^4 = 48 / ℓ_Pl^4 ⇒ ξ_0 = 2^{−1/4}\nK_echo = exp(−ω_QNM / (2 T_c*))',
+    formula: 'K(0) = 24 / ℓ_0^4 = 48 / ℓ_Pl^4 ⇒ ξ_0 = 2^{−1/4}\n|R_eff|² = e^{−3.386} ≈ 0.0338 ⇒ K_echo = 0.184',
     value: 'M_rem = 1.09236 M_Pl (2.38 × 10^{−8} kg)\nK_echo = 0.184 (SNR 9.2); ρ_infl/ρ_Pl = 0.4094\n30+30 M_⊙ f_220 = 299.4 Hz; Δt = 103.9 ms',
     regime: 'Israel–Darmois saturation < 0.41 ρ_Pl; Kerr/RN–Hayward κ_− ℓ_0 ≤ 0.6639; QFC dΘ/dA_V ≤ 0; S_rem = 6.66 nats'
   },
@@ -715,9 +725,9 @@ export const WHAT_CHANGED_SUMMARY: { category: string; detail: string }[] = [
       'Derived K_echo = |R_eff| = 0.184 directly from WKB Hayward–Tortoise barrier tunneling (removing free input K_echo); derived w_contract = −0.0030 (n_s = 0.9637), M_Ch = 2.44 meV, m_osc = 2.65×10⁻²³ eV, and Ω_rem h² + Ω_osc h² = 0.1194 from A_F^{H11} spectral trace ratios (compressing scalar budget to k_eff = 2 continuous moduli); established > 7.4σ (min 35.4σ) 6-channel rival separation.'
   },
   {
-    category: 'Strong-Field OP-5 & Bespoke Archival Plates I–IX + Figures 9–12',
+    category: 'Strong-Field OP-5 & Bespoke Archival Plates I–XIV + Figures 9–12',
     detail:
-      'Closed Israel–Darmois dynamical thin-shell mass-inflation saturation (ρ_infl/ρ_Pl = 0.4094 < 0.41), 30+30 M_⊙ Kerr–Hayward IMR waveform (M_f = 57.1 M_⊙, f_220 = 299.4 Hz, Δt_echo = 103.9 ms), and local apparent-horizon QFC variation (dΘ/dA_V ≤ 0); added 9 bespoke archival editorial plates (Plates I–IX) and 4 analytical SVG Figures (9–12) with generous spacing above every illustration description across React, HTML, and PDF.'
+      'Closed Israel–Darmois dynamical thin-shell mass-inflation saturation (ρ_infl/ρ_Pl = 0.4094 < 0.41), 30+30 M_⊙ Kerr–Hayward IMR waveform (M_f = 57.1 M_⊙, f_220 = 299.4 Hz, Δt_echo = 103.9 ms), and local apparent-horizon QFC variation (dΘ/dA_V ≤ 0); added 14 bespoke archival editorial plates (Plates I–XIV) and 4 analytical SVG Figures (9–12) with generous spacing above every illustration description across React, HTML, and PDF.'
   }
 ];
 
@@ -755,7 +765,7 @@ export const REVISION_HISTORY_TABLE: RevisionHistoryRow[] = [
   },
   {
     edition: 'H9 (Strong-Field, Linear ODE & Spectral Audit)',
-    scope: '335-Panel remediation: strong-field solvers, linear growth ODE, ξ_0 derivation & workbench sync',
+    scope: 'Extended technical remediation: strong-field solvers, linear growth ODE, ξ_0 derivation & workbench sync',
     physicsAndNumericalClosures:
       'Derived ξ_0 = 2⁻¹/⁴; solved RK4 linear growth S_8(β), DESI/CMB background distances, BBN/Swampland, 2-stage ekpyrotic bounce (BKL 4×10⁻¹⁵), 1+1D Hayward–Vaidya (κ_− ℓ_0 ≤ 0.9294), causal Horndeski TOV NS (2.35 M_⊙, Λ_{1.4} = 339), and 4-mode A_F packaging.',
     editorialAndVerificationClosures:
@@ -763,7 +773,7 @@ export const REVISION_HISTORY_TABLE: RevisionHistoryRow[] = [
   },
   {
     edition: 'H10 (Perturbative Cosmology, Kerr/RN, FRG & Appendix O)',
-    scope: '635-Panel remediation & Appendix O cosmology suite closures',
+    scope: 'Comprehensive technical remediation & Appendix O cosmology suite closures',
     physicsAndNumericalClosures:
       'Embedded 5 scalars structurally via A_F^{H10} (|ε_{ψ,Ch}| = 4.42×10⁻¹⁶); solved 1-loop Wetterich FRG (1.3105, 0.1440), Borel (0.9126), CDT d_s: 3.989→2.002, Kerr/RN–Hayward, superradiance (0.2048), τ_re=0.0537, η_B=6.13×10⁻¹⁰, and added standalone cosmology suite + Appendix O.',
     editorialAndVerificationClosures:
@@ -771,11 +781,11 @@ export const REVISION_HISTORY_TABLE: RevisionHistoryRow[] = [
   },
   {
     edition: 'H11 (Current Complete Technical Closure Edition)',
-    scope: '580-criterion perfect technical closure, Plates I–IX & Figures 9–12',
+    scope: '580-criterion technical closure, Cross-Monograph H11 ↔ H12 Harmonization (R1–R13), Plates I–XIV & Figures 1–12',
     physicsAndNumericalClosures:
-      'Solved early-braiding H_0 = 70.77 ± 0.72 (4.8σ → 1.8σ), 8k MCMC (R̂−1 = 0.0053), C_ℓ^{TT,TE,EE}, bispectrum/trispectrum, NFW PM halo profile, k_eff = 2 A_F^{H11} compression (ΔAIC = −1.84, Δln Z = +1.42), WKB K_echo = 0.184, Theorem 3.2 κ_ψ & Theorem 4.1 variational α_mod, 3+1 BFV–BRST Ω²=0, Picard–Lefschetz thimble, Regge–CDT d_GH = O(N⁻¹/⁴), Israel–Darmois mass-inflation saturation (0.4094 < 0.41), 30+30 M_⊙ IMR, & local QFC.',
+      'Solved early-braiding H_0 = 70.77 ± 0.72 (4.8σ → 1.8σ), 8k MCMC (R̂−1 = 0.0053), C_ℓ^{TT,TE,EE}, bispectrum/trispectrum, NFW PM halo profile, k_eff = 2 A_F^{H11} compression (ΔAIC = −1.84, Δln Z = +1.42), WKB K_echo = 0.184 (e^{−3.386} ⇒ SNR 9.2), relativistic Regge–Wheeler tortoise WKB integral, Theorem 3.2 κ_ψ & Theorem 4.1 variational α_mod, 3+1 BFV–BRST Ω²=0, Picard–Lefschetz thimble, Regge–CDT d_GH = O(N⁻¹/⁴), Israel–Darmois mass-inflation saturation (0.4094 < 0.41), 30+30 M_⊙ IMR, & local QFC.',
     editorialAndVerificationClosures:
-      'Added Appendix P, Table 8.4 compressed budget, Table J.1 stress-test scorecard, R11 Reviewer Response, 9 bespoke archival editorial illustrations (Plates I–IX), Figures 9–12, computed PDF TOC page numbers, generous caption breathing space across React/HTML/PDF, and H11 SHA-256 preregistration digest (57cf3f1c…).'
+      'Added Appendix P, Table 8.4 compressed budget, Table J.1 stress-test scorecard, R11–R13 Reviewer Responses, 14 bespoke archival editorial illustrations (Plates I–XIV), Figures 1–12, 5-author roster (with Chatterjee & Goldberger), computed PDF TOC page numbers, generous caption breathing space across React/HTML/PDF, and H11 SHA-256 preregistration digest (57cf3f1c…).'
   }
 ];
 
@@ -826,8 +836,8 @@ export const RESPONSE_TO_REVIEWERS: ReviewerResponseRow[] = [
     issueId: 'R6. Typography, PDF Glyphs, Illustrations & Caption Breathing Room',
     concernSummary: 'Add bespoke editorial illustrations & quantitative SVGs, guarantee spacing above every description, compute TOC page numbers, and verify H11 cross-module parity.',
     resolutionAndLocation:
-      'Added 9 bespoke archival editorial illustrations (Plates I–IX) and 4 analytical SVG Figures (9–12) with generous whitespace above every description across React UI, HTML, and A4 PDF; added real page numbers to the PDF Table of Contents, Table J.1 closure scorecard, chapter-aware running headers, DejaVuSans/Playfair typography, and synchronized all companion workbench views and H11 stress runner.',
-    status: 'Resolved (Plates I–IX & Figs 1–12)'
+      'Added 9 initial archival editorial illustrations expanded in H11 to 14 (Plates I–XIV) and 4 analytical SVG Figures (9–12) with generous whitespace above every description across React UI, HTML, and A4 PDF; added real page numbers to the PDF Table of Contents, Table J.1 closure scorecard, chapter-aware running headers, DejaVuSans/Playfair typography, and synchronized all companion workbench views and H11 stress runner.',
+    status: 'Resolved (Plates I–XIV & Figs 1–12)'
   },
   {
     issueId: 'R7. Strong-Field ADM Closure, BFV–BRST, Picard–Lefschetz & Regge–CDT',
@@ -837,7 +847,7 @@ export const RESPONSE_TO_REVIEWERS: ReviewerResponseRow[] = [
     status: 'Resolved'
   },
   {
-    issueId: 'R8. 635-Panel Audit Remediation (H9 → H10)',
+    issueId: 'R8. Extended Cosmology, Strong-Field & Spectral Audit Remediation (H9 → H10)',
     concernSummary: 'Close τ_re, η_B, Ly-α, A_L/E_G, Kerr/RN–Hayward, FRG fixed point, and 5-scalar A_F packaging.',
     resolutionAndLocation:
       'Implemented deterministically in Appendices K–L & verify-igrt-monograph.mjs.',
@@ -861,8 +871,22 @@ export const RESPONSE_TO_REVIEWERS: ReviewerResponseRow[] = [
     issueId: 'R11. 580-Criterion Technical Stress Audit & Illustration Enhancement (H10 → H11)',
     concernSummary: 'Eliminate all self-contained technical gaps (OP-1..OP-5 internal items) for a perfect technical score, add bespoke illustrations, and add whitespace above captions.',
     resolutionAndLocation:
-      'Closed OP-1..OP-5 internal technical items in Appendix P & scripts/verify-igrt-monograph.mjs; added Plates I–IX + Figures 9–12 + Table J.1 scorecard with generous spacing above descriptions across React, HTML, and A4 PDF; isolated external journal review & 2026–2036 experiments.',
+      'Closed OP-1..OP-5 internal technical items in Appendix P & scripts/verify-igrt-monograph.mjs; added Plates I–XIV + Figures 9–12 + Table J.1 scorecard with generous spacing above descriptions across React, HTML, and A4 PDF; isolated external journal review & 2026–2036 experiments.',
     status: 'Resolved (100% Technical Suite)'
+  },
+  {
+    issueId: 'R12. Cross-Monograph Epistemic, Mathematical & Metrological Harmonization (H11 ↔ H12)',
+    concernSummary: 'Separate Thm 4.1 α_mod derivation from E_mod calibration postulate (§4.1.1, §5.1), clarify N_eff = 1 vs g_* = 106.75, CODATA 22 ppm G propagation, §4.4 WKB O(1/(ω r_+)) caveat, quasistatic 0 < c_s² ≤ 1, open Bloch interior 1 − |r|² > 0 regularity, blind injection / trial-factor P1–P6 vs P7–P13 calibration, Plates X–XIV & 5-author roster.',
+    resolutionAndLocation:
+      'Applied cross-monograph technical refinements across §§2.3, 3.2–3.4, 4.1.1, 4.4, 5.1, 6.3–6.4, 7.1–7.3, 8.2, Apps. C, E, F, G, I, M, O, P; replaced non-relativistic §4.4 Step 2 WKB formula with tortoise Regge–Wheeler phase integral; reconciled 4-tier epistemic crosswalk with H12 Category A–D; added Plates X–XIV & updated 5-author metadata.',
+    status: 'Resolved (H11 ↔ H12 Harmonized)'
+  },
+  {
+    issueId: 'R13. Notational, Precision & Cross-Module Parity Synchronization',
+    concernSummary: 'Harmonize Table 0.1 κ_ψ wording, Abstract SNR formatting, P4 WKB exponent/SNR 9.2 parity across Fig. 8 and App. F, §3.2 O(R ℓ_CG²) curvature correction, §6.2 title vs. Table M.1, and Plates I–XIV / [1]–[109] metadata across all views.',
+    resolutionAndLocation:
+      'Synchronized Table 0.1 κ_ψ (Thm 3.2), List of Tables (R1–R13), Fig. 8 P4 card & App. F (K_echo = 0.184, e^{−3.386}, SNR 9.2), §3.2 Riemann normal curvature bound O(R r²), §6.2 spectral-trace title parity, References [1]–[109] header, and Plates I–XIV across HarmonizedPaperFigures, stress-test matrix, and interactive explorers.',
+    status: 'Resolved (Full Precision Parity)'
   }
 ];
 
@@ -892,10 +916,10 @@ export const KNOWN_OPEN_PROBLEMS: { code: string; topic: string; description: st
       'H11 derives K_echo = 0.184 from WKB Hayward–Tortoise barrier tunneling, derives w_contract = −0.0030, M_Ch = 2.44 meV, m_osc = 2.65×10⁻²³ eV, and Ω_rem h² + Ω_osc h² = 0.1194 from A_F^{H11} spectral trace invariants (compressing free parameters to k_eff = 2), and proves > 7.4σ (min 35.4σ) 6-channel rival separation in Appendix P §P.3.'
   },
   {
-    code: 'OP-5 [Strong-Field Closed in H11; External Peer Review & 2026–2036 Experiments Queued]',
-    topic: 'Mass-Inflation Saturation, 30+30 M_⊙ IMR, Local QFC [Closed]; External Review & P1–P6 Beamlines [External]',
+    code: 'OP-5 [Strong-Field Closed at Single-Mode/Quasistatic Benchmark in H11; External Peer Review & 2026–2036 Experiments Queued]',
+    topic: 'Mass-Inflation Saturation, 30+30 M_⊙ IMR, Local QFC [Benchmark Closed]; Full Multi-Mode Quantum Backreaction, External Review & P1–P6 Beamlines [Open/External]',
     description:
-      'H11 closes Israel–Darmois dynamical mass-inflation saturation (0.4094 < 0.41 ρ_Pl), 30+30 M_⊙ Kerr–Hayward IMR waveform (f_220 = 299.4 Hz, Δt_echo = 103.9 ms), and local QFC dΘ/dA_V ≤ 0 (Appendix P §P.4). Independent external journal peer review of [1]–[3] and 2026–2036 empirical experimental runs P1–P6 remain genuinely external milestones.'
+      'H11 closes Israel–Darmois dynamical mass-inflation saturation (0.4094 < 0.41 ρ_Pl), 30+30 M_⊙ Kerr–Hayward IMR waveform (f_220 = 299.4 Hz, Δt_echo = 103.9 ms), and local QFC dΘ/dA_V ≤ 0 (Appendix P §P.4) at the effective single-mode quasistatic benchmark; foundational non-perturbative multi-mode WDW quantization, independent external journal peer review of [1]–[3], and 2026–2036 empirical experimental runs P1–P6 remain genuinely open/external milestones (synchronized with Paper 2 Appendix K).'
   }
 ];
 
@@ -910,8 +934,8 @@ export const TABLE_7_2_FITTED_VS_PREDICTED: FittedVsPredictedRow[] = [
     genuinePrediction: 'H_0 = 70.77 ± 0.72 (1.8σ SH0ES), coupled w_0 = −0.831, w_a = −0.542'
   },
   {
-    fittedInput: 'Spectral trace invariant c_w = 0.0030 from A_F^{H11} (derives w_contract = −0.0030)',
-    genuinePrediction: 'n_s = 0.9637, red n_T = −0.0363, r = 0.0123, f_NL^{eq} = −4.38'
+    fittedInput: 'Spectral trace invariant c_w = 0.0030 from A_F^{H11} (derives w_contract = −0.0030) + canonical c_s = 0.08 branch',
+    genuinePrediction: 'n_s = 0.9637, red n_T = −0.0363, r = 24 c_s³ = 0.0123, f_NL^{eq} = −35/8 = −4.38 (DBI ruled out >6σ)'
   },
   {
     fittedInput: 'CODATA Planck scale M_Pl + derived ξ_0 = 2⁻¹/⁴',
@@ -955,8 +979,8 @@ export const TABLE_7_3_PROTOCOL_TIMELINE: ProtocolTimelineRow[] = [
   },
   {
     protocol: 'P4 (echoes)',
-    requiredSensitivity: '|R_eff| < 0.03, SNR > 100',
-    currentStateOfTheArt: 'LVK O5 / CE / ET',
+    requiredSensitivity: '|R_eff| < 0.03, SNR > 100 (30+30 M_⊙ IMR stack)',
+    currentStateOfTheArt: 'LVK O5 / CE / ET (Bayesian waveform separation from 5D h_b)',
     expectedYear: '2027–2035'
   },
   {
@@ -985,7 +1009,7 @@ export const TABLE_8_4_SCALAR_BUDGET: ScalarBudgetRow[] = [
   { scalar: 'φ_osc (ULDM holonomy)', freeParameters: 'm_osc, f_DM, Ω_osc h² fixed by A_F^{H11} Dirac–holonomy trace ratios', count: '0 (derived)' },
   { scalar: 'Φ_portal (Higgs portal)', freeParameters: 'm_portal, λ_mix fixed by electroweak–spectral trace hierarchy', count: '0 (derived)' },
   { scalar: 'φ_Ch (Chameleon)', freeParameters: 'M_Ch = 2.44 meV fixed by DE geometric-mean spectral seesaw; ℤ_2 protected', count: '0 (derived)' },
-  { scalar: 'Total (IGRT-H11 Spectral Core)', freeParameters: 'k_eff = 2 continuous spectral moduli vs. ΛCDM ⇒ ΔAIC = −1.84, Δln Z = +1.42', count: '2' }
+  { scalar: 'Total (IGRT-H11 Spectral Core)', freeParameters: 'k_eff = 2 continuous spectral moduli (finite Dirac trace weights lock remaining 12 seesaw ratios) vs. ΛCDM ⇒ ΔAIC = −1.84, Δln Z = +1.42', count: '2' }
 ];
 
 export interface StatusReclassificationRow {
@@ -998,13 +1022,13 @@ export interface StatusReclassificationRow {
 export const APPENDIX_M_STATUS_TABLE: StatusReclassificationRow[] = [
   { equation: '(2.3) Qubit line element', oldStatus: 'Derived', newStatus: 'Derived', justification: 'Hand-computable from Eq. (2.1).' },
   { equation: '(3.2) Araki modulus κ_ψ', oldStatus: 'Ansatz', newStatus: 'Derived', justification: 'Theorem 3.2 Jacobson–CHM & Hubbard–Stratonovich saddle (App. P §P.2).' },
-  { equation: '(4.1) Synchronization', oldStatus: 'Calibration Postulate', newStatus: 'Derived', justification: 'Theorem 4.1 Mandelstam–Tamm variational stationarity δS_clock = 0 (App. P §P.2).' },
+  { equation: '(4.1) Synchronization', oldStatus: 'Calibration Postulate', newStatus: 'Derived / Calibration Postulate', justification: 'Theorem 4.1 variational δS_clock/δα_mod = 0 derives α_mod = ℏ/(E_mod σ_1) (App. P §P.2), while unit choice E_mod = max(ℏω_0, 2π k_B T_U) remains a physical Calibration Postulate (§4.1.1).' },
   { equation: '(4.2) σ_1(K_ξ)', oldStatus: 'Derived', newStatus: 'Derived', justification: 'Hand-computable from Bose–Einstein statistics.' },
   { equation: '(4.3) Krein convergence', oldStatus: 'Derived', newStatus: 'Cited', justification: 'Belenchia–Benincasa–Dowker (2016) [97].' },
   { equation: '(5.1) Unbounded S¹ spectrum', oldStatus: 'Derived', newStatus: 'Derived', justification: 'Hand-computable from Fourier modes on S¹.' },
   { equation: '(6.1) L_UV bounce', oldStatus: 'Derived', newStatus: 'Hand-derived', justification: 'Differentiate H² = (8πG/3)ρ(1 − ρ/ρ_max).' },
-  { equation: '(6.2) Mukhanov–Sasaki', oldStatus: 'Input', newStatus: 'Derived', justification: 'A_F^{H11} spectral trace invariant fixes c_w = 0.0030 ⇒ w_contract = −0.0030.' },
-  { equation: '(6.3) ξ_0 & WKB K_echo = 0.184', oldStatus: 'Hand-derived', newStatus: 'Derived', justification: 'K(0)=48/ℓ_Pl⁴ derives ξ_0; WKB Tortoise barrier derives K_echo = 0.184.' },
+  { equation: '(6.2) Mukhanov–Sasaki', oldStatus: 'Input', newStatus: 'Derived / Input Branch', justification: 'A_F^{H11} spectral trace fixes w_contract = −0.0030 (n_s, red n_T); canonical EFT sound speed c_s = 0.08 fixes r = 0.0123 & f_NL = −4.38.' },
+  { equation: '(6.3) ξ_0 & WKB K_echo = 0.184', oldStatus: 'Hand-derived', newStatus: 'Derived', justification: 'K(0)=48/ℓ_Pl⁴ derives ξ_0; Hayward–Tortoise WKB integral e^{−3.386} derives K_echo = 0.184 (SNR 9.2).' },
   { equation: '(7.1) Early-braiding H_0 & w(z)', oldStatus: 'Computed', newStatus: 'Computed', justification: 'f_EDE = 0.148 + RK2/RK4 & 8k 5D MCMC solver (H_0 = 70.77 ± 0.72).' },
   { equation: '(8.1) Semiclassical EFT', oldStatus: 'Consistency', newStatus: 'Consistency', justification: 'No derivation claimed.' },
   { equation: '(C.1) ΔK_V & κ_ψ', oldStatus: 'Computed', newStatus: 'Derived', justification: 'Theorem 3.2 3-ball integral + Hubbard–Stratonovich saddle.' },

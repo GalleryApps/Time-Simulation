@@ -10,10 +10,10 @@
  * - Preserves IGRT-2026-H11 completely untouched
  * - Pure Playfair Display Regular (40px, non-bold) chapter titles + Book Antiqua 16px justified prose
  * - Includes Unified Abstract (Layman + Scholar), 5 Front-Matter Lists, Chapters 1–13 (with Ch. 13.5
- *   Seven Solved Physics Problems & 13.6 Comprehensive Conclusion), References, and strictly
+ *   Seven Open Problems Constraints & 13.6 Comprehensive Conclusion), References, and strictly
  *   alphabetical Consolidated Appendices (A–L) featuring Claim–Evidence & Structural Scorecard (App. I),
- *   Proposed Devices A–K with Cutaway Plates & Vector Schematics (App. J), Physics Breakthroughs
- *   (App. K), and Speculative Portal Concepts (App. L).
+ *   Proposed Devices A–K with Cutaway Plates & Vector Schematics (App. J), Seven Open Problems Constraints
+ *   (App. K, Category C), and Speculative Portal Concepts (App. L).
  */
 
 import React, { useMemo, useState } from 'react';
@@ -70,6 +70,9 @@ import {
   H12_REFERENCES,
   APPENDIX_J_DEVICE_DOSSIERS,
   APPENDIX_J_SYNTHESIS_TABLE,
+  APPENDIX_J_SYNERGY,
+  APPENDIX_J_RISK_ASSESSMENT,
+  APPENDIX_J_RESOURCE_REQUIREMENTS,
   type H12EpistemicCategory,
   type H12Equation
 } from '../types/igrtH12Apparatus';
@@ -81,9 +84,12 @@ import {
 } from '../types/igrtH12Data';
 import {
   H12_ARCHIVAL_PLATES,
+  H12_THEORY_ILLUSTRATIONS,
+  H12_SUPPLEMENTAL_PLATES,
   H12_FIGURES,
   H12_DEVICE_FIGURES,
   H12PlateCard,
+  H12TheoryIllustrationCard,
   H12FigureCard
 } from './IgrtH12Figures';
 import { MathText } from './MathText';
@@ -104,6 +110,7 @@ import stressH12ScriptSource from '../../scripts/stress-test-h12.mjs?raw';
 interface IgrtH12PaperViewProps {
   onNavigateToH11Paper?: () => void;
   onNavigateToH11Model?: () => void;
+  onNavigateToH13Paper?: () => void;
 }
 
 const H12EquationBox: React.FC<{ eq: H12Equation }> = ({ eq }) => (
@@ -126,7 +133,8 @@ const H12EquationBox: React.FC<{ eq: H12Equation }> = ({ eq }) => (
 
 export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
   onNavigateToH11Paper,
-  onNavigateToH11Model
+  onNavigateToH11Model,
+  onNavigateToH13Paper
 }) => {
   const [categoryFilter, setCategoryFilter] = useState<'ALL' | H12EpistemicCategory>('ALL');
   const [attackWaveFilter, setAttackWaveFilter] = useState<string>('ALL');
@@ -298,6 +306,14 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 H11 Reference Model
               </button>
             )}
+            {onNavigateToH13Paper && (
+              <button
+                onClick={onNavigateToH13Paper}
+                className="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-[#8F5B4A] text-white hover:bg-[#7A4B3C] transition-colors whitespace-nowrap shrink-0"
+              >
+                Paper 13 (H13: Code &amp; White Holes) →
+              </button>
+            )}
           </div>
         </div>
 
@@ -313,26 +329,35 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-1">
           {H12_META.authorRoster.map((author) => (
             <div
-              key={author.orcid}
+              key={author.name}
               className="p-4 sm:p-5 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] space-y-1.5"
             >
               <div
-                className="text-[20px] leading-snug text-[#0C1836] dark:text-white"
+                className="text-[19px] leading-snug text-[#0C1836] dark:text-white"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}
               >
                 {author.name}
               </div>
-              <a
-                href={author.orcidUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block font-mono text-[11px] text-[#15803D] dark:text-[#86EFAC] hover:underline break-all"
-              >
-                {author.orcidUrl} ↗
-              </a>
+              {author.orcidUrl ? (
+                <a
+                  href={author.orcidUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block font-mono text-[11px] text-[#15803D] dark:text-[#86EFAC] hover:underline break-all"
+                >
+                  {author.orcidUrl} ↗
+                </a>
+              ) : author.email ? (
+                <a
+                  href={`mailto:${author.email}`}
+                  className="inline-block font-mono text-[11px] text-[#15803D] dark:text-[#86EFAC] hover:underline break-all"
+                >
+                  Email: {author.email}
+                </a>
+              ) : null}
               <div className="text-[12.5px] font-medium text-[#0C1836] dark:text-[#E2E8F0] leading-snug pt-0.5">
                 {author.affiliation}
               </div>
@@ -535,18 +560,35 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
               className="igrt-h12-chapter-title border-b border-[#D6CABE] dark:border-[#1E293B] pb-5 text-[#0C1836] dark:text-white mb-10"
               style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400, fontSize: '40px' }}
             >
-              Lists of Figures, Tables, Equations, Theorems &amp; Definitions
+              Lists of Illustrations, Figures, Tables, Equations, Theorems &amp; Definitions
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
-              <div className="rounded-xl border border-[#EAE2D2] dark:border-[#334155] p-5 space-y-2.5 bg-[#FAF8F3] dark:bg-[#081026]">
+              <div className="md:col-span-2 rounded-xl border border-[#EAE2D2] dark:border-[#334155] p-5 space-y-2.5 bg-[#FAF8F3] dark:bg-[#081026]">
                 <h3 className="text-[18px] text-[#0C1836] dark:text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
-                  List of Figures &amp; Plates
+                  List of Illustrations (Archival Plates, Theory &amp; Dimension Cutaways &amp; Devices A–K)
                 </h3>
                 <ul className="space-y-1.5 list-disc pl-4 text-[#334155] dark:text-[#CBD5E1]">
                   {H12_ARCHIVAL_PLATES.map((pl) => (
                     <li key={pl.id}><strong>{pl.figureNumber}</strong> (Ch.{pl.anchorChapter}): <MathText text={pl.title} /> [{pl.category}]</li>
                   ))}
+                  {H12_THEORY_ILLUSTRATIONS.map((ill) => (
+                    <li key={ill.id}><strong>{ill.illustrationNumber}</strong> (Ch.{ill.anchorChapter} · Theory &amp; Dimensions): <MathText text={ill.title} /> [{ill.category}]</li>
+                  ))}
+                  {H12_SUPPLEMENTAL_PLATES.map((ill) => (
+                    <li key={ill.id}><strong>{ill.illustrationNumber}</strong> (Ch.{ill.anchorChapter} · Joint Audit Supplemental Plate): <MathText text={ill.title} /> [{ill.category}]</li>
+                  ))}
+                  {H12_DEVICE_FIGURES.filter((mfg) => mfg.illustrationPath && mfg.illustrationTitle).map((mfg) => (
+                    <li key={`${mfg.id}-cutaway`}><strong>Cutaway Plate ({mfg.deviceId})</strong> (Appendix J): <MathText text={mfg.illustrationTitle!} /> [{mfg.category}]</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-xl border border-[#EAE2D2] dark:border-[#334155] p-5 space-y-2.5 bg-[#FAF8F3] dark:bg-[#081026]">
+                <h3 className="text-[18px] text-[#0C1836] dark:text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                  List of Figures &amp; Vector Schematics
+                </h3>
+                <ul className="space-y-1.5 list-disc pl-4 text-[#334155] dark:text-[#CBD5E1]">
                   {H12_FIGURES.map((fg) => (
                     <li key={fg.id}><strong>{fg.figureNumber}</strong> (Ch.{fg.anchorChapter}): <MathText text={fg.title} /> [{fg.category}]</li>
                   ))}
@@ -635,6 +677,10 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 ? ch.subsections
                 : ch.subsections.filter((s) => s.category === categoryFilter);
             const chapterFigs = H12_FIGURES.filter((f) => f.anchorChapter === ch.number);
+            const chapterTheoryIllustrations = [
+              ...H12_THEORY_ILLUSTRATIONS.filter((ill) => ill.anchorChapter === ch.number),
+              ...H12_SUPPLEMENTAL_PLATES.filter((ill) => ill.anchorChapter === ch.number)
+            ];
             const chapterPlates = H12_ARCHIVAL_PLATES.filter((p) => p.anchorChapter === ch.number);
 
             return (
@@ -883,6 +929,9 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                     </div>
 
                     <div className="rounded-xl border border-[#15803D]/35 bg-[#F4FAF6] dark:bg-[#052E16]/45 p-5 text-[15px] leading-[1.55] text-[#0F172A] dark:text-[#ECFDF5] text-justify [hyphens:auto]">
+                      <div className="font-mono text-xs font-semibold text-[#166534] dark:text-[#86EFAC] uppercase mb-1.5">
+                        Summary for Physicists
+                      </div>
                       <MathText text={SUMMARY_FOR_PHYSICISTS} />
                     </div>
                   </div>
@@ -1649,6 +1698,9 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                     </div>
 
                     <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 text-[15px] leading-[1.55] text-[#1E293B] dark:text-[#E2E8F0] text-justify [hyphens:auto]">
+                      <div className="font-mono text-xs font-semibold text-[#9A3412] dark:text-[#FDBA74] uppercase mb-1.5">
+                        Summary for Funding Agencies
+                      </div>
                       <MathText text={H12_FUNDING_AGENCY_SUMMARY} />
                     </div>
                   </div>
@@ -1685,14 +1737,14 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
 
                     <div className="overflow-x-auto rounded-xl border border-[#15803D]/35 dark:border-[#1E293B]">
                       <div className="bg-[#F4FAF6] dark:bg-[#081026] px-4 py-2.5 font-mono text-xs font-semibold text-[#166534] dark:text-[#86EFAC]">
-                        Table 13.2 · Seven Fundamental Problems in Physics Solved or Revolutionized by IGRT–H12
+                        Table 13.2 · Seven Open Problems: How H12 Constrains the Solution Space (Category C)
                       </div>
                       <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
                         <thead className="bg-[#FDFBF7] dark:bg-[#0F172A]">
                           <tr>
                             <th className="p-2.5">Open Physics Problem</th>
                             <th className="p-2.5">Governing H11 / H12 Equations</th>
-                            <th className="p-2.5">Resolution, Quantitative Prediction &amp; Category</th>
+                            <th className="p-2.5">Solution-Space Constraint &amp; Category</th>
                             <th className="p-2.5">Plain-Language Takeaway</th>
                           </tr>
                         </thead>
@@ -1740,6 +1792,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                   </div>
                 )}
 
+                {chapterTheoryIllustrations.map((ill) => <H12TheoryIllustrationCard key={ill.id} illustration={ill} />)}
                 {chapterFigs.map((fig) => <H12FigureCard key={fig.id} fig={fig} />)}
                 {chapterPlates.map((plate) => <H12PlateCard key={plate.id} plate={plate} />)}
               </article>
@@ -1770,7 +1823,7 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#D6CABE] dark:border-[#1E293B] pb-6">
               <div>
                 <div className="font-mono text-xs uppercase tracking-[0.16em] text-[#1E40AF] dark:text-[#93C5FD] mb-2">
-                  Strictly Ordered A–L · Mathematical Derivations, Devices A–K, Physics Breakthroughs &amp; Epistemic Ledger
+                  Strictly Ordered A–L · Mathematical Derivations, Devices A–K, Seven Open Problems Constraints &amp; Epistemic Ledger
                 </div>
                 <h2
                   className="igrt-h12-chapter-title text-[#081026] dark:text-white"
@@ -1906,15 +1959,21 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                   <div className="space-y-6">
                     <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
                       <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
-                        Table J.1 · Devices A–K Master Ten-Field Technical Specifications
+                        Table J.1 · Devices A–K Master Technical &amp; Programmatic Specifications (Incl. DRL 1–9, Cost, Timeline, Thresholds &amp; Systematics)
                       </div>
-                      <table className="w-full text-xs text-left tabular-nums border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
+                      <table className="w-full min-w-[1280px] text-xs text-left tabular-nums border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
                         <thead className="bg-[#FDFBF7] dark:bg-[#0F172A]">
                           <tr>
                             <th className="p-2.5">Device &amp; Category</th>
                             <th className="p-2.5">Principle &amp; Governing Eqs</th>
                             <th className="p-2.5">Predicted Signal &amp; Noise Floor</th>
                             <th className="p-2.5">Actually Tests vs. Explicit Non-Claim</th>
+                            <th className="p-2.5">Device Readiness Level</th>
+                            <th className="p-2.5">Cost Estimate</th>
+                            <th className="p-2.5">Timeline</th>
+                            <th className="p-2.5">Falsification Threshold</th>
+                            <th className="p-2.5">Confirmation Threshold</th>
+                            <th className="p-2.5">Systematics</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1936,6 +1995,12 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                                 <div><strong>Tests:</strong> <MathText text={d.whatItActuallyTests} /></div>
                                 <div className="text-[#9F1239] dark:text-[#FDA4AF]"><strong>Does NOT do:</strong> <MathText text={d.whatItDoesNotDo} /></div>
                               </td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={d.deviceReadinessLevel} /></td>
+                              <td className="p-2.5 text-[11px]"><MathText text={d.costEstimate} /></td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={d.timeline} /></td>
+                              <td className="p-2.5 text-[11px]"><MathText text={d.falsificationThreshold} /></td>
+                              <td className="p-2.5 text-[11px]"><MathText text={d.confirmationThreshold} /></td>
+                              <td className="p-2.5 text-[11px]"><MathText text={d.systematics} /></td>
                             </tr>
                           ))}
                         </tbody>
@@ -2051,11 +2116,100 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                                 <div><strong>8. Actually Tests:</strong> <MathText text={dev.whatItActuallyTests} /></div>
                                 <div className="text-[#9F1239] dark:text-[#FDA4AF]"><strong>9. Explicitly Does NOT Do:</strong> <MathText text={dev.whatItDoesNotDo} /></div>
                                 <div><strong>10. Failure Criteria:</strong> <MathText text={dev.failureCriteria} /></div>
+                                <div><strong>11. Device Readiness Level (1–9):</strong> <span className="font-mono"><MathText text={dev.deviceReadinessLevel} /></span></div>
+                                <div><strong>12. Cost Estimate:</strong> <MathText text={dev.costEstimate} /></div>
+                                <div><strong>13. Timeline:</strong> <span className="font-mono"><MathText text={dev.timeline} /></span></div>
+                                <div><strong>14. Falsification Threshold:</strong> <MathText text={dev.falsificationThreshold} /></div>
+                                <div><strong>15. Confirmation Threshold:</strong> <MathText text={dev.confirmationThreshold} /></div>
+                                <div><strong>16. Systematics:</strong> <MathText text={dev.systematics} /></div>
                               </div>
                             )}
                           </div>
                         );
                       })}
+                    </div>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
+                        Risk Assessment (Technical Risks Across Devices A–K)
+                      </div>
+                      <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A]">
+                          <tr>
+                            <th className="p-2.5">Device</th>
+                            <th className="p-2.5">Primary Technical Risk</th>
+                            <th className="p-2.5">Severity</th>
+                            <th className="p-2.5">Engineering Mitigation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {APPENDIX_J_RISK_ASSESSMENT.map((r) => (
+                            <tr key={r.deviceId}>
+                              <td className="p-2.5 font-medium whitespace-nowrap">{r.deviceId}</td>
+                              <td className="p-2.5"><MathText text={r.technicalRisk} /></td>
+                              <td className="p-2.5 font-mono text-[11px]">{r.severity}</td>
+                              <td className="p-2.5"><MathText text={r.mitigation} /></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
+                      <div className="bg-[#F4EFE6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold">
+                        Resource Requirements (Personnel, Equipment &amp; Funding Across Devices A–K)
+                      </div>
+                      <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
+                        <thead className="bg-[#FDFBF7] dark:bg-[#0F172A]">
+                          <tr>
+                            <th className="p-2.5">Device</th>
+                            <th className="p-2.5">Personnel Required</th>
+                            <th className="p-2.5">Major Equipment</th>
+                            <th className="p-2.5">Estimated Funding</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {APPENDIX_J_RESOURCE_REQUIREMENTS.map((req) => (
+                            <tr key={req.deviceId}>
+                              <td className="p-2.5 font-medium whitespace-nowrap">{req.deviceId}</td>
+                              <td className="p-2.5"><MathText text={req.personnel} /></td>
+                              <td className="p-2.5"><MathText text={req.equipment} /></td>
+                              <td className="p-2.5 font-mono text-[11px]"><MathText text={req.funding} /></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="rounded-xl border border-[#15803D]/35 bg-[#F4FAF6] dark:bg-[#052E16]/35 p-5 space-y-4">
+                      <h4 className="text-[19px] text-[#0C1836] dark:text-[#FDFBF7]" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400 }}>
+                        {APPENDIX_J_SYNERGY.title}
+                      </h4>
+                      <p className="text-[14.5px] leading-[1.6] text-[#1E293B] dark:text-[#E2E8F0] text-justify [hyphens:auto]">
+                        <MathText text={APPENDIX_J_SYNERGY.overview} />
+                      </p>
+                      <div className="overflow-x-auto rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
+                        <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
+                          <thead className="bg-[#FDFBF7] dark:bg-[#0F172A]">
+                            <tr>
+                              <th className="p-2.5">Synergy Cluster</th>
+                              <th className="p-2.5">Devices Combined</th>
+                              <th className="p-2.5">Cross-Device Mechanism</th>
+                              <th className="p-2.5">Joint 5D Constraint</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {APPENDIX_J_SYNERGY.clusters.map((cl) => (
+                              <tr key={cl.cluster}>
+                                <td className="p-2.5 font-medium"><MathText text={cl.cluster} /></td>
+                                <td className="p-2.5 font-mono text-[11px]"><MathText text={cl.devices} /></td>
+                                <td className="p-2.5"><MathText text={cl.mechanism} /></td>
+                                <td className="p-2.5"><MathText text={cl.jointConstraint} /></td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
 
                     <div className="overflow-x-auto rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
@@ -2092,17 +2246,17 @@ export const IgrtH12PaperView: React.FC<IgrtH12PaperViewProps> = ({
                 )}
 
                 {app.letter === 'K' && (
-                  <div className="overflow-x-auto rounded-xl border border-[#15803D]/35 dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
-                    <div className="bg-[#F4FAF6] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold text-[#166534] dark:text-[#86EFAC]">
-                      Table K.1 · Unified Solutions to Seven Open Problems in Physics (IGRT–H11 &amp; H12 Equations)
+                  <div className="overflow-x-auto rounded-xl border border-[#EA580C]/35 dark:border-[#1E293B] bg-white dark:bg-[#0B1530]">
+                    <div className="bg-[#FFF7ED] dark:bg-[#0F172A] px-4 py-2 font-mono text-xs font-semibold text-[#9A3412] dark:text-[#FDBA74]">
+                      Table K.1 · Seven Open Problems and How H12 Constrains Them (Category C — Conjectural)
                     </div>
                     <table className="w-full text-xs text-left border-collapse [&_th]:border [&_td]:border [&_th]:border-[#EAE2D2] [&_td]:border-[#EAE2D2] dark:[&_th]:border-[#1E293B] dark:[&_td]:border-[#1E293B]">
                       <thead className="bg-[#FDFBF7] dark:bg-[#0F172A]">
                         <tr>
                           <th className="p-2.5">Open Problem</th>
                           <th className="p-2.5">Governing H11 / H12 Equations</th>
-                          <th className="p-2.5">Resolution &amp; Category</th>
-                          <th className="p-2.5">Plain-Language Explanation</th>
+                          <th className="p-2.5">Solution-Space Constraint &amp; Category</th>
+                          <th className="p-2.5">Plain-Language Meaning</th>
                         </tr>
                       </thead>
                       <tbody>

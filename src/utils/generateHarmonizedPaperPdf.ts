@@ -9,7 +9,7 @@
  *   appendices, governance disclosures, and references
  * - Headlines: Playfair Display Regular (weight 400, strictly never bold) with resolved math sub/superscripts
  * - Equations: High-DPI HTML5 Canvas typesetting parsed from eq.unicodeHtml
- * - Figures & Plates: Rasterizes all 12 inline SVG diagrams + embeds 9 archival illustration plates (Plates I–IX)
+ * - Figures & Plates: Rasterizes all 12 inline SVG diagrams + embeds 14 archival illustration plates (Plates I–XIV)
  * - Apparatus: Real computed TOC page numbers, chapter-aware running headers, and Table J.1 980-vector scorecard
  * - NO ORCIDs inside References
  */
@@ -2373,7 +2373,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     y += totalH + 0.16;
   };
 
-  // Pre-load 9 archival illustration plates & pre-rasterize all 12 SVG diagrams
+  // Pre-load 14 archival illustration plates & pre-rasterize all 12 SVG diagrams
   const plateImages = new Map<
     number,
     { dataUrl: string; format: 'JPEG' | 'PNG'; widthIn: number; heightIn: number }
@@ -2411,13 +2411,19 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   );
 
   for (const a of PAPER_META.authors) {
-    writeRichParagraph(`${a.name} (ORCID: https://orcid.org/${a.orcid}) — ${a.affiliation}`, {
+    const idTag = a.orcid
+      ? `ORCID: https://orcid.org/${a.orcid}`
+      : a.email
+        ? `Email: ${a.email}`
+        : '';
+    const authorLine = idTag ? `${a.name} (${idTag}) — ${a.affiliation}` : `${a.name} — ${a.affiliation}`;
+    writeRichParagraph(authorLine, {
       font: 'serif',
-      size: 8.6,
-      lineHeight: (8.6 * 1.28) / 72,
+      size: 8.1,
+      lineHeight: (8.1 * 1.24) / 72,
       color: [15, 23, 42],
       justify: true,
-      afterSpace: 0.02
+      afterSpace: 0.015
     });
   }
 
@@ -3313,6 +3319,6 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     drawTextMixed(footerTxt, (PAGE_W - fw) / 2, PAGE_H - 0.42, 'mono', 'normal', 8.4);
   }
 
-  doc.save('IGRT_Harmonized_Monograph_Bulaquena_Tassan_Lauret.pdf');
+  doc.save('IGRT_Harmonized_Monograph_H11_FiveAuthors.pdf');
 }
 

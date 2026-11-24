@@ -11,7 +11,7 @@
  * - Preserves U+2113 (ℓ_Pl) cleanly (removed .replace(/ℓ/g, 'l') typo).
  * - Exports generateIgrtH12Pdf(): Complete Unified Monograph (Cover Page, Unified Abstract,
  *   Computed 4-Page TOC, 5 Front-Matter Lists, Foundational 5D Equations & Scope, Chapters 1–13
- *   incl. Ch. 13.5 Physics Problems & 13.6 Comprehensive Conclusion, References, and strictly
+ *   incl. Ch. 13.5 Seven Open Problems Constraints & 13.6 Comprehensive Conclusion, References, and strictly
  *   alphabetical Consolidated Appendices A–L, with Appendix I rendering the Claim–Evidence Ledger
  *   cleanly without internal multi-domain or red-team scorecard tables).
  */
@@ -70,6 +70,9 @@ import {
   H12_PROTOCOL_ANALYSIS_SECTIONS,
   APPENDIX_J_DEVICE_DOSSIERS,
   APPENDIX_J_SYNTHESIS_TABLE,
+  APPENDIX_J_SYNERGY,
+  APPENDIX_J_RISK_ASSESSMENT,
+  APPENDIX_J_RESOURCE_REQUIREMENTS,
   type H12Equation
 } from '../types/igrtH12Apparatus';
 import {
@@ -79,6 +82,8 @@ import {
 } from '../types/igrtH12Data';
 import {
   H12_ARCHIVAL_PLATES,
+  H12_THEORY_ILLUSTRATIONS,
+  H12_SUPPLEMENTAL_PLATES,
   H12_FIGURES,
   H12_DEVICE_FIGURES
 } from '../components/IgrtH12Figures';
@@ -1231,7 +1236,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   const ctx = createPdfContext(doc, hasUnicodeFonts);
   const { marginX, contentW, topY, bottomLimit, pageW, tocEntries } = ctx;
 
-  const [svgAssets, deviceAssets, plateAssets] = await Promise.all([
+  const [svgAssets, deviceAssets, plateAssets, theoryAssets, suppAssets] = await Promise.all([
     Promise.all(H12_FIGURES.map(async (f) => ({ fig: f, raster: await rasterizeSvgDataUrl(f.svgMarkup) }))),
     Promise.all(
       H12_DEVICE_FIGURES.map(async (f) => ({
@@ -1240,7 +1245,9 @@ export async function generateIgrtH12Pdf(): Promise<void> {
         cutaway: f.illustrationPath ? await fetchImageDataUrl(f.illustrationPath) : null
       }))
     ),
-    Promise.all(H12_ARCHIVAL_PLATES.map(async (p) => ({ plate: p, raster: await fetchImageDataUrl(p.imagePath) })))
+    Promise.all(H12_ARCHIVAL_PLATES.map(async (p) => ({ plate: p, raster: await fetchImageDataUrl(p.imagePath) }))),
+    Promise.all(H12_THEORY_ILLUSTRATIONS.map(async (ill) => ({ ill, raster: await fetchImageDataUrl(ill.imagePath) }))),
+    Promise.all(H12_SUPPLEMENTAL_PLATES.map(async (ill) => ({ ill, raster: await fetchImageDataUrl(ill.imagePath) })))
   ]);
 
   const cleanPdfText = (s: string): string =>
@@ -1249,59 +1256,69 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   // -------------------------------------------------------------------------
   // Dedicated Cover Page (Page 1 Only — Muted 4-Color Earth Scheme)
   // -------------------------------------------------------------------------
-  ctx.setY(38);
+  ctx.setY(24);
   doc.setDrawColor(...EARTH_STONE);
   doc.setLineWidth(0.35);
   doc.line(marginX, ctx.getY(), marginX + contentW, ctx.getY());
-  ctx.addY(6);
+  ctx.addY(5);
 
   ctx.drawMathInlineText(
     `${H12_META.monographId} · Complete Research Monograph (Chapters 1–13 & Consolidated Appendices A–L) · ${H12_META.date}`,
     marginX,
     contentW,
-    8.5,
-    4.2,
+    8.2,
+    4.0,
     EARTH_TERRACOTTA,
     false,
     false,
     'mono'
   );
-  ctx.addY(12);
+  ctx.addY(7);
 
   // Main Cover Title: Playfair Display Regular 26.25pt (= 35px), never bold
-  ctx.drawMathInlineText(H12_META.title, marginX, contentW, 26.25, 11.2, EARTH_UMBER, false, false, 'playfair', 'normal');
-  ctx.addY(4);
+  ctx.drawMathInlineText(H12_META.title, marginX, contentW, 26.25, 10.6, EARTH_UMBER, false, false, 'playfair', 'normal');
+  ctx.addY(3);
 
   doc.setDrawColor(...EARTH_TERRACOTTA);
   doc.setLineWidth(0.8);
   doc.line(marginX, ctx.getY(), marginX + 40, ctx.getY());
-  ctx.addY(8);
+  ctx.addY(5);
 
-  ctx.drawMathInlineText(H12_META.subtitle, marginX, contentW, 11.8, 5.8, EARTH_STONE, false, false, 'serif', 'italic');
-  ctx.addY(14);
+  ctx.drawMathInlineText(H12_META.subtitle, marginX, contentW, 10.8, 5.0, EARTH_STONE, false, false, 'serif', 'italic');
+  ctx.addY(6);
 
-  ctx.drawMathInlineText('AUTHORS', marginX, contentW, 8.2, 4.0, EARTH_TERRACOTTA, false, false, 'mono');
-  ctx.addY(2);
+  ctx.drawMathInlineText('AUTHORS', marginX, contentW, 7.8, 3.6, EARTH_TERRACOTTA, false, false, 'mono');
+  ctx.addY(1.5);
   for (const author of H12_META.authorRoster) {
-    ctx.drawMathInlineText(author.name, marginX, contentW, 12.2, 5.4, EARTH_UMBER, true, false);
-    ctx.drawMathInlineText(author.affiliation, marginX + 2, contentW - 2, 10.0, 4.6, EARTH_STONE, false, false);
-    const orcidText = `ORCID: ${author.orcidUrl}`;
-    const orcidY = ctx.getY();
-    ctx.drawMathInlineText(orcidText, marginX + 2, contentW - 2, 8.2, 4.2, EARTH_SAGE, false, false, 'mono');
-    const linkW = Math.min(contentW - 2, ctx.measureTokenWidth(orcidText, false, 8.2, 'mono'));
-    if (typeof (doc as unknown as { link?: unknown }).link === 'function') {
-      doc.link(marginX + 2, orcidY - 3.2, linkW, 4.2, { url: author.orcidUrl });
+    ctx.drawMathInlineText(author.name, marginX, contentW, 10.2, 4.4, EARTH_UMBER, true, false);
+    ctx.drawMathInlineText(author.affiliation, marginX + 2, contentW - 2, 8.6, 3.8, EARTH_STONE, false, false);
+    if (author.orcidUrl) {
+      const orcidText = `ORCID: ${author.orcidUrl}`;
+      const orcidY = ctx.getY();
+      ctx.drawMathInlineText(orcidText, marginX + 2, contentW - 2, 7.4, 3.5, EARTH_SAGE, false, false, 'mono');
+      const linkW = Math.min(contentW - 2, ctx.measureTokenWidth(orcidText, false, 7.4, 'mono'));
+      if (typeof (doc as unknown as { link?: unknown }).link === 'function') {
+        doc.link(marginX + 2, orcidY - 2.8, linkW, 3.5, { url: author.orcidUrl });
+      }
+    } else if (author.email) {
+      const emailText = `Email: ${author.email}`;
+      const emailY = ctx.getY();
+      ctx.drawMathInlineText(emailText, marginX + 2, contentW - 2, 7.4, 3.5, EARTH_SAGE, false, false, 'mono');
+      const linkW = Math.min(contentW - 2, ctx.measureTokenWidth(emailText, false, 7.4, 'mono'));
+      if (typeof (doc as unknown as { link?: unknown }).link === 'function') {
+        doc.link(marginX + 2, emailY - 2.8, linkW, 3.5, { url: `mailto:${author.email}` });
+      }
     }
-    ctx.addY(3.2);
+    ctx.addY(1.8);
   }
 
   // Anchor archival metadata colophon at foot of Cover Page
-  if (ctx.getY() < 224) ctx.setY(224);
+  if (ctx.getY() < 240) ctx.setY(240);
   doc.setFillColor(...EARTH_PARCHMENT);
   doc.setDrawColor(...EARTH_STONE);
   doc.setLineWidth(0.3);
-  doc.roundedRect(marginX, ctx.getY(), contentW, 34, 2, 2, 'FD');
-  ctx.addY(7);
+  doc.roundedRect(marginX, ctx.getY(), contentW, 30, 2, 2, 'FD');
+  ctx.addY(6);
   ctx.drawMathInlineText(
     `Predecessor Preserved: ${H12_META.predecessor}`,
     marginX + 5,
@@ -1360,21 +1377,31 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   ctx.setY(topY);
 
   // Five Front-Matter Lists
-  ctx.drawHeading('Lists of Figures, Tables, Equations, Theorems & Definitions', 1, true, 0, false);
-  ctx.drawHeading('List of Figures & Archival Plates', 2, false, 1);
+  ctx.drawHeading('Lists of Illustrations, Figures, Tables, Equations, Theorems & Definitions', 1, true, 0, false);
+  ctx.drawHeading('List of Illustrations (Archival Plates, Theory & Dimension Cutaways & Devices A–K)', 2, false, 1);
   for (const pl of H12_ARCHIVAL_PLATES) {
     ctx.drawMathInlineText(`${pl.figureNumber} (Ch.${pl.anchorChapter}): ${pl.title} [${pl.category}]`, marginX + 2, contentW - 2, 10, 5.25);
     ctx.addY(1.4);
   }
+  for (const ill of H12_THEORY_ILLUSTRATIONS) {
+    ctx.drawMathInlineText(`${ill.illustrationNumber} (Ch.${ill.anchorChapter}): ${ill.title} [${ill.category}]`, marginX + 2, contentW - 2, 10, 5.25);
+    ctx.addY(1.4);
+  }
+  for (const ill of H12_SUPPLEMENTAL_PLATES) {
+    ctx.drawMathInlineText(`${ill.illustrationNumber} (Ch.${ill.anchorChapter} · Supplemental Plate): ${ill.title} [${ill.category}]`, marginX + 2, contentW - 2, 10, 5.25);
+    ctx.addY(1.4);
+  }
+  for (const mfg of H12_DEVICE_FIGURES.filter((f) => f.illustrationTitle)) {
+    ctx.drawMathInlineText(`Cutaway Plate (${mfg.deviceId} · Appendix J): ${mfg.illustrationTitle} [${mfg.category}]`, marginX + 2, contentW - 2, 10, 5.25);
+    ctx.addY(1.4);
+  }
+  ctx.addY(2.5);
+  ctx.drawHeading('List of Figures & Vector Schematics', 2, false, 1);
   for (const fg of H12_FIGURES) {
     ctx.drawMathInlineText(`${fg.figureNumber} (Ch.${fg.anchorChapter}): ${fg.title} [${fg.category}]`, marginX + 2, contentW - 2, 10, 5.25);
     ctx.addY(1.4);
   }
   for (const mfg of H12_DEVICE_FIGURES) {
-    if (mfg.illustrationTitle) {
-      ctx.drawMathInlineText(`${mfg.illustrationTitle} [${mfg.category}]`, marginX + 2, contentW - 2, 10, 5.25);
-      ctx.addY(1.4);
-    }
     ctx.drawMathInlineText(`${mfg.figureNumber} (Appendix J · ${mfg.deviceId}): ${mfg.title} [${mfg.category}]`, marginX + 2, contentW - 2, 10, 5.25);
     ctx.addY(1.4);
   }
@@ -1523,6 +1550,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
         [42, 128],
         GLOSSARY_5D_TERMS.map((g) => [g.term, g.definition])
       );
+      ctx.drawHeading('Summary for Physicists', 3, false, 1);
       ctx.drawMathInlineText(SUMMARY_FOR_PHYSICISTS, marginX, contentW, 11.5, 6.05, EARTH_SAGE, false, true);
       ctx.addY(2);
     }
@@ -1807,6 +1835,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
       ctx.drawHeading('Confirmation Checklist: What Would Confirm H12?', 3, false, 1);
       for (const c of H12_CONFIRMATION_CHECKLIST) ctx.drawMathInlineText(`• [Confirm] ${c}`, marginX + 2, contentW - 2, 10, 5.0);
       ctx.addY(1.5);
+      ctx.drawHeading('Summary for Funding Agencies', 3, false, 1);
       ctx.drawMathInlineText(H12_FUNDING_AGENCY_SUMMARY, marginX, contentW, 11, 5.8, EARTH_UMBER, false, true);
     }
 
@@ -1823,8 +1852,8 @@ export async function generateIgrtH12Pdf(): Promise<void> {
         ])
       );
       ctx.drawTable(
-        'Table 13.2 · Seven Fundamental Problems in Physics Solved or Revolutionized by IGRT–H12',
-        ['Open Physics Problem', 'Governing Equations', 'Resolution & Category', 'Plain-Language Takeaway'],
+        'Table 13.2 · Seven Open Problems: How H12 Constrains the Solution Space (Category C)',
+        ['Open Physics Problem', 'Governing Equations', 'Solution-Space Constraint & Category', 'Plain-Language Takeaway'],
         [38, 40, 52, 40],
         SEVEN_SOLVED_PHYSICS_PROBLEMS.map((sp) => [
           sp.openProblem,
@@ -1847,6 +1876,19 @@ export async function generateIgrtH12Pdf(): Promise<void> {
           5.0
         );
       }
+    }
+
+    for (const { ill, raster } of [...theoryAssets, ...suppAssets].filter((x) => x.ill.anchorChapter === ch.number)) {
+      if (!raster) continue;
+      ctx.drawFullPageIllustration({
+        tag: `${ill.illustrationNumber.toUpperCase()} · THEORY & DIMENSION PLATE (CHAPTER ${ch.number})`,
+        category: ill.category,
+        title: ill.title,
+        caption: ill.description,
+        asset: raster,
+        format: 'JPEG',
+        accentRgb: EARTH_TERRACOTTA
+      });
     }
 
     for (const { fig, raster } of svgAssets.filter((x) => x.fig.anchorChapter === ch.number)) {
@@ -1885,7 +1927,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   // Strictly Alphabetical Consolidated Appendices (A–L)
   ctx.drawHeading('Consolidated Appendices (A–L)', 1, true, 0, true);
   ctx.drawMathInlineText(
-    `Complete Mathematical Proofs, Epistemic Claim–Evidence Ledger (App. I), Laboratory Devices A–K (App. J), Physics Breakthroughs (App. K) & Speculative Portal Concepts (App. L) for "${H12_META.title}" — ${H12_META.authors}.`,
+    `Complete Mathematical Proofs, Epistemic Claim–Evidence Ledger (App. I), Laboratory Devices A–K (App. J), Seven Open Problems Constraints (App. K) & Speculative Portal Concepts (App. L) for "${H12_META.title}" — ${H12_META.authors}.`,
     marginX,
     contentW,
     11.4,
@@ -1926,7 +1968,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
 
     if (app.letter === 'J') {
       ctx.drawTable(
-        'Table J.1 · Devices A–K Master Ten-Field Technical Specifications',
+        'Table J.1 (Part I) · Devices A–K Master Core Physical Specifications',
         ['Device & Category', 'Principle & Governing Eqs', 'Predicted Signal & Floor', 'Actually Tests vs. Explicit Non-Claim'],
         [34, 48, 42, 46],
         H12_PROPOSED_DEVICES.map((d) => [
@@ -1934,6 +1976,20 @@ export async function generateIgrtH12Pdf(): Promise<void> {
           `${d.physicalPrinciple} (${d.governingEquations})`,
           `${d.predictedSignal} | Floor: ${d.noiseFloor}`,
           `Tests: ${d.whatItActuallyTests} | Does NOT do: ${d.whatItDoesNotDo}`
+        ])
+      );
+      ctx.drawTable(
+        'Table J.1 (Part II) · Device Readiness Level (1–9), Cost Estimate, Timeline, Thresholds & Systematics',
+        ['Device', 'Device Readiness Level', 'Cost Estimate', 'Timeline', 'Falsification Threshold', 'Confirmation Threshold', 'Systematics'],
+        [18, 22, 22, 20, 29, 29, 30],
+        H12_PROPOSED_DEVICES.map((d) => [
+          d.deviceId,
+          d.deviceReadinessLevel,
+          d.costEstimate,
+          d.timeline,
+          d.falsificationThreshold,
+          d.confirmationThreshold,
+          d.systematics
         ])
       );
 
@@ -1990,9 +2046,9 @@ export async function generateIgrtH12Pdf(): Promise<void> {
         const spec = H12_PROPOSED_DEVICES.find((d) => d.deviceId === dos.deviceId);
         if (spec) {
           ctx.drawTable(
-            `${dos.deviceId} Complete Ten-Field Engineering Specification Sheet`,
+            `${dos.deviceId} Complete Engineering & Programmatic Specification Sheet`,
             ['Specification Field', 'Quantitative Value & Boundary'],
-            [44, 126],
+            [46, 124],
             [
               ['1. Physical Principle', spec.physicalPrinciple],
               ['2. Governing Equations', spec.governingEquations],
@@ -2003,7 +2059,13 @@ export async function generateIgrtH12Pdf(): Promise<void> {
               ['7. Engineering Feasibility', `${spec.engineeringFeasibility} (${spec.category})`],
               ['8. What It Actually Tests', spec.whatItActuallyTests],
               ['9. Explicitly Does NOT Do', spec.whatItDoesNotDo],
-              ['10. Falsification / Failure', spec.failureCriteria]
+              ['10. Falsification / Failure', spec.failureCriteria],
+              ['11. Device Readiness Level (1–9)', spec.deviceReadinessLevel],
+              ['12. Cost Estimate', spec.costEstimate],
+              ['13. Timeline', spec.timeline],
+              ['14. Falsification Threshold', spec.falsificationThreshold],
+              ['15. Confirmation Threshold', spec.confirmationThreshold],
+              ['16. Systematics', spec.systematics]
             ]
           );
         }
@@ -2011,7 +2073,30 @@ export async function generateIgrtH12Pdf(): Promise<void> {
 
       doc.addPage();
       ctx.setY(topY);
-      ctx.drawHeading('J.12 Cross-Device Synthesis & Coordinated Discovery Roadmap (Devices A–K)', 2, true, 1);
+      ctx.drawHeading('Risk Assessment (Technical Risks Across Devices A–K)', 2, true, 1);
+      ctx.drawTable(
+        'Technical Risk Assessment Register (Devices A–K)',
+        ['Device', 'Primary Technical Risk', 'Severity', 'Mitigation'],
+        [24, 60, 22, 64],
+        APPENDIX_J_RISK_ASSESSMENT.map((r) => [r.deviceId, r.technicalRisk, r.severity, r.mitigation])
+      );
+      ctx.drawHeading('Resource Requirements (Personnel, Equipment & Funding Across Devices A–K)', 2, true, 1);
+      ctx.drawTable(
+        'Resource Requirements Matrix (Devices A–K)',
+        ['Device', 'Personnel', 'Major Equipment', 'Estimated Funding'],
+        [24, 42, 64, 40],
+        APPENDIX_J_RESOURCE_REQUIREMENTS.map((req) => [req.deviceId, req.personnel, req.equipment, req.funding])
+      );
+      ctx.drawHeading(APPENDIX_J_SYNERGY.title, 2, true, 1);
+      ctx.drawMathInlineText(APPENDIX_J_SYNERGY.overview, marginX, contentW, 11.5, 6.0, EARTH_UMBER, false, true);
+      ctx.addY(2.5);
+      ctx.drawTable(
+        'Cross-Device Synergy Clusters (Devices A–K)',
+        ['Synergy Cluster', 'Devices Combined', 'Coupling Mechanism', 'Joint 5D Constraint'],
+        [36, 36, 54, 44],
+        APPENDIX_J_SYNERGY.clusters.map((c) => [c.cluster, c.devices, c.mechanism, c.jointConstraint])
+      );
+      ctx.drawHeading('J.13 Cross-Device Synthesis & Coordinated Discovery Roadmap (Devices A–K)', 2, true, 1);
       ctx.drawTable(
         'Table J.2 · Cross-Device Sensitivity, Readiness & Discovery Horizon Matrix (Devices A–K)',
         ['Device', 'Target Physics', 'Primary Observable', 'TRL & Window', 'Breakthrough vs. Non-Claim'],
@@ -2039,8 +2124,8 @@ export async function generateIgrtH12Pdf(): Promise<void> {
 
     if (app.letter === 'K') {
       ctx.drawTable(
-        'Table K.1 · Unified Solutions to Seven Open Problems in Physics',
-        ['Open Problem', 'Governing H11/H12 Equations', 'Resolution & Category', 'Plain-Language Meaning'],
+        'Table K.1 · Seven Open Problems and How H12 Constrains Them (Category C)',
+        ['Open Problem', 'Governing H11/H12 Equations', 'Solution-Space Constraint & Category', 'Plain-Language Meaning'],
         [38, 40, 52, 40],
         SEVEN_SOLVED_PHYSICS_PROBLEMS.map((sp) => [
           sp.openProblem,
@@ -2101,7 +2186,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   // Stamp Running Headers & Page Numbers (Page 1 Cover remains clean without running header/footer)
   const totalPages = doc.getNumberOfPages();
   const runningHeader = ctx.clipMixedLine(
-    ctx.safeStr('IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña & Lauret'),
+    ctx.safeStr('IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña, Lauret, Chatterjee & Goldberger'),
     contentW,
     false,
     7.6,

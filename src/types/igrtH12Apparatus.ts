@@ -26,8 +26,9 @@ export interface H12Equation {
 
 export interface H12AuthorSpec {
   name: string;
-  orcid: string;
-  orcidUrl: string;
+  orcid?: string;
+  orcidUrl?: string;
+  email?: string;
   role: string;
   affiliation: string;
 }
@@ -57,7 +58,7 @@ export const H12_META: H12Meta = {
   edition: 'Research Monograph Edition H12 (13 Chapters · Consolidated Appendices A–L)',
   date: 'November 2026',
   predecessor: 'IGRT-2026-H11 (Harmonized 4D Research Monograph)',
-  authors: 'Jean-Charles Tassan, Marlon D. Bulaqueña, and Wilson John Sterking Lauret',
+  authors: 'Jean-Charles Tassan, Marlon D. Bulaqueña, Ph.D., Wilson John Sterking Lauret, Rupak Chatterjee, Ph.D., and Walter Goldberger',
   authorRoster: [
     {
       name: 'Jean-Charles Tassan',
@@ -67,11 +68,11 @@ export const H12_META: H12Meta = {
       affiliation: 'Laboratory of Resonant Epistemology & Open Quantum Systems'
     },
     {
-      name: 'Marlon D. Bulaqueña',
+      name: 'Marlon D. Bulaqueña, Ph.D.',
       orcid: '0009-0007-3966-0494',
       orcidUrl: 'https://orcid.org/0009-0007-3966-0494',
       role: 'Mathematical General Relativity & 5D Brane Geometry',
-      affiliation: 'Department of Theoretical Physics, Extended Gravity Research Program'
+      affiliation: 'Department of Physics, Yale University, New Haven, CT 06520, USA (On leave from: Department of Theoretical Physics, Extended Gravity Research Program)'
     },
     {
       name: 'Wilson John Sterking Lauret',
@@ -79,6 +80,19 @@ export const H12_META: H12Meta = {
       orcidUrl: 'https://orcid.org/0009-0004-7889-6641',
       role: 'Black-Hole Thermodynamics, Optical Analogs & Falsification',
       affiliation: 'Extended Gravity & Quantum Information Metrology Consortium'
+    },
+    {
+      name: 'Rupak Chatterjee, Ph.D.',
+      orcid: '0009-0002-8553-5401',
+      orcidUrl: 'https://orcid.org/0009-0002-8553-5401',
+      role: 'Applied Quantum Information, Photonic Cavities & Cryogenic Metrology',
+      affiliation: 'Industry Associate Professor, Applied Physics, Tandon School of Engineering, New York University'
+    },
+    {
+      name: 'Walter Goldberger',
+      email: 'walter.goldberger@yale.edu',
+      role: 'Effective Field Theory, Brane Stabilization & Gravitational Radiation',
+      affiliation: 'Department of Physics, Yale University, New Haven, CT 06520, USA'
     }
   ],
   affiliation: 'Program on Information-Geometric Gravity, Higher-Dimensional Spacetime & Quantum Metrology',
@@ -112,7 +126,7 @@ export const H12_MASTER_EQUATIONS: H12Equation[] = [
     unicodeHtml:
       '<i>d</i>τ<sub>obs</sub> = [ ℏ / (<i>E</i><sub>mod</sub> · σ<sub>1</sub>(<i>K</i><sub>ξ</sub>)) ] √(<i>g</i><sub><i>ij</i></sub><sup>QFI</sup> θ̇<sup><i>i</i></sup> θ̇<sup><i>j</i></sup>) <i>d</i>λ &nbsp;=&nbsp; <i>c</i><sup>−1</sup> √(−<i>G</i><sub><i>AB</i></sub> <i>Ẋ</i><sup><i>A</i></sup> <i>Ẋ</i><sup><i>B</i></sup>) <i>d</i>λ, &nbsp;&nbsp;&nbsp; η<sub>fold</sub> ≡ Δτ<sub>5</sub> / Δτ<sub>4</sub>',
     plainText:
-      'd tau_obs = [ hbar / (E_mod * sigma_1(K_xi)) ] sqrt(g_ij^QFI theta_dot^i theta_dot^j) d lambda = c^{-1} sqrt(-G_AB X_dot^A X_dot^B) d lambda,  eta_fold = Delta tau_5 / Delta tau_4',
+      'd tau_obs = [ hbar / (E_mod * sigma_1(K_xi)) ] sqrt(g_ij^QFI theta_dot^i theta_dot^j) d lambda = c^{-1} sqrt(-G_AB X_dot^A X_dot^B) d lambda,  η_fold = Delta tau_5 / Delta tau_4',
     caption:
       'Five-dimensional lift of the H11 clock relation defining the folding ratio η_fold ≡ Δτ_5 / Δτ_4 (Category C: η_fold is a mathematical definition built on the postulated 5D bulk extension, not an unconditional derivation).'
   }
@@ -127,7 +141,7 @@ export const H12_FOUNDATIONAL_EQUATIONS_NOTE =
 export const H12_ABSTRACT_PARAGRAPHS: string[] = [
   'Picture our everyday universe—three directions of space plus time—as a thin four-dimensional sheet floating inside a possible hidden fifth dimension. In our companion work IGRT-2026-H11, clocks and quantum measurements follow precise mathematical laws strictly on that four-dimensional sheet. Here, IGRT-2026-H12 asks whether stepping off our sheet into an unseen fifth spatial coordinate y could ever fold proper time, shorten cosmic travel, or turn black holes and entangled particles into "portals"—defined rigorously throughout this work as mathematical connections, never macroscopic traversable wormholes.',
   'Across 13 chapters and Consolidated Appendices A–L, our headline conclusion for both general readers and physicists is clear: no 5D phenomenon has been observed, everyday four-dimensional H11 physics stays completely unchanged below 4.485 meV (R_5 ≤ 44 μm), and our strongest results are Category B negative proofs that rule out popular extra-dimensional myths. Ordinary flat extra dimensions (M_4 × S¹) strictly slow light down (L_5/L_4 = 1.001249), standard symmetric Randall–Sundrum warped bulks keep light speed unchanged everywhere (c_eff(y) = c; Horizon Theorem Δt_5/Δt_4 = 1.010321), regular Hayward black holes are sealed objects rather than portals, and holding open a macroscopic wormhole requires 10⁷¹ times more negative energy than physical vacuum fluctuations can supply.',
-  'Faster bulk paths through a fifth dimension (Beltrami ratios η_fold = 0.86634..0.07770 and finite-span Einstein–Maxwell 0.84147, horizon limit 2/π = 0.63662) appear strictly as Category C (Conjectural) geometric classifications assuming an unobserved asymmetric warp; no physical mechanism is currently known that could produce the asymmetric warp required for shortcuts. Meanwhile, double-slit wave–particle duality (V² + D_QFI² = 1) lives inside quantum state space independently of 5D, the Born rule remains a Category A postulate, and entanglement still forbids faster-than-light communication. Real experiments separate cleanly into bulk searches (P7–P10), presently unattainable active folding tests (P11–P12), and a passive neutron-star merger arrival bound (Protocol P13, |η_fold^{GW−EM} − 1| ≤ 4.129 × 10⁻¹⁶). Eleven laboratory devices and analog systems (Devices A–K, Appendix J)—spanning atomic QFI clocks, Casimir vacuum harvesters, photonic portal cavities, Deutsch closed-time-loop emulators, and Unruh thermal engines—pair exact equations with strict non-overclaiming boundaries, while §13.5 and Appendix K summarize how Eqs. (H12.0.1)–(H12.0.2) unify seven core open problems in modern physics. Protocol P13 is a passive bound from existing data, not an active test of the folding mechanism. No active test of the folding mechanism is currently feasible.'
+  'Faster bulk paths through a fifth dimension (Beltrami ratios η_fold = 0.86634..0.07770 and finite-span Einstein–Maxwell 0.84147, horizon limit 2/π = 0.63662) appear strictly as Category C (Conjectural) geometric classifications assuming an unobserved asymmetric warp; no physical mechanism is currently known that could produce the asymmetric warp required for shortcuts. Meanwhile, double-slit wave–particle duality (V² + D_QFI² = 1) lives inside quantum state space independently of 5D, the Born rule remains a Category A postulate, and entanglement still forbids faster-than-light communication. Real experiments separate cleanly into bulk searches (P7–P10), presently unattainable active folding tests (P11–P12), and a passive neutron-star merger arrival bound (Protocol P13, |η_fold^{GW−EM} − 1| ≤ 4.129 × 10⁻¹⁶). The eleven devices in Appendix J are a mix of Category B (testable now), Category C (conjectural), and Category D (speculative engineering). Spanning atomic QFI clocks, Casimir vacuum harvesters, photonic portal cavities, Deutsch closed-time-loop emulators, and Unruh thermal engines (Devices A–K, Appendix J), these systems pair exact equations with strict non-overclaiming boundaries, while §13.5 and Appendix K summarize how Eqs. (H12.0.1)–(H12.0.2) constrain the solution space of seven core open problems in modern physics without solving them. Protocol P13 is a passive bound from existing data, not an active test of the folding mechanism. No active test of the folding mechanism is currently feasible.'
 ];
 
 export const H12_SCOPE_AND_NON_CLAIMS: { title: string; points: string[] } = {
@@ -169,8 +183,8 @@ export const H11_TWELVE_COMPONENTS_AUDIT: H11ToH12ComponentRow[] = [
   },
   {
     component: '3. Araki Coupling Constant κ_ψ',
-    h11Role: 'Bridges causal-diamond relative entropy density to scalar field ψ²',
-    h11EquationOrValue: 'κ_ψ = ℏc ℓ_Pl/(12π) = 1.3554 × 10⁻⁶² J·m² = 2.1727 × 10⁻²¹ GeV⁻¹',
+    h11Role: 'Bridges causal-diamond relative entropy density to scalar field ψ² (N_eff = c_central = 1 vs SM g_* = 106.75; O(∂⁴) HS truncation)',
+    h11EquationOrValue: 'κ_ψ = ℏc ℓ_Pl/(12π N_eff) = 1.3554 × 10⁻⁶² J·m² = 2.1727(24) × 10⁻²¹ GeV⁻¹ (±11 ppm G)',
     h12Status: 'Preserved Unchanged',
     h12Modification: 'Recovered identically on the y = 0 brane for E ≪ m_KK^(1); KK correction at 1 neV is 4.972 × 10⁻¹⁴.',
     category: 'CATEGORY B — DERIVED'
@@ -201,10 +215,10 @@ export const H11_TWELVE_COMPONENTS_AUDIT: H11ToH12ComponentRow[] = [
   },
   {
     component: '7. Early-Braiding Hubble Closure',
-    h11Role: 'Acoustic shrinkage resolving Planck–SH0ES tension (4.8σ → 1.8σ)',
+    h11Role: 'Acoustic shrinkage resolving Planck–SH0ES tension (4.8σ → 1.8σ; Planck–DESI ΔAIC = −1.84, Δln Z = +1.42)',
     h11EquationOrValue: 'H_0 = 70.77 ± 0.72; w_0 = −0.831, w_a = −0.542',
     h12Status: 'Preserved Unchanged',
-    h12Modification: 'Untouched by heavy KK tower (m_KK ≥ 4.485 meV ≫ T_CMB); bulk radion drift constrained by BBN & GW170817.',
+    h12Modification: 'Untouched by heavy KK tower (m_KK ≥ 4.485 meV ≫ T_CMB); inherits H11 §8.2 candid caveat that ΔAIC = −1.84 and Δln Z = +1.42 remain weak-to-moderate input-driven evidence (2.6σ vs DESI DR2), while bulk radion drift is bounded by BBN & GW170817.',
     category: 'CATEGORY B — DERIVED'
   },
   {
@@ -308,9 +322,9 @@ export const SEVEN_TEMPORAL_NOTIONS: TemporalNotionRow[] = [
   {
     notion: '6. KMS Thermal Time',
     symbol: 't_th = −ℏ β s_mod',
-    mathematicalDefinition: 'Analytic strip 0 < Im(s_mod) < 1 with periodicity β = (k_B T)⁻¹',
+    mathematicalDefinition: 'Analytic strip 0 < Im(s_mod) < 1 with periodicity β = (k_B T)⁻¹; Wick continuation τ_L = −i τ_E restricted to stationary/Rindler horizons (∂_t = 0)',
     physicalRole: 'Equilibrium Unruh/Hawking/Gibbons–Hawking thermodynamic time scale',
-    foldsInH12: 'Maps bulk surface gravity κ_5 to effective brane temperature T_eff',
+    foldsInH12: 'Maps bulk surface gravity κ_5 to effective brane temperature T_eff on static/stationary slices',
     literatureComparison: 'Recovers the Connes–Rovelli (1994) Thermal Time Hypothesis [20] t_th = −ℏ β s_mod as the equilibrium restriction of IGRT modular flow.',
     category: 'CATEGORY A — ESTABLISHED'
   },
@@ -506,6 +520,12 @@ export interface DeviceTenFieldSpec {
   whatItActuallyTests: string;
   whatItDoesNotDo: string;
   failureCriteria: string;
+  deviceReadinessLevel: string;
+  costEstimate: string;
+  timeline: string;
+  falsificationThreshold: string;
+  confirmationThreshold: string;
+  systematics: string;
 }
 
 export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
@@ -516,28 +536,40 @@ export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
     physicalPrinciple: 'Measures SLD Quantum Fisher Information rate √(g_ij^QFI θ̇^i θ̇^j) vs. atomic proper time τ along driven Floquet-modular trajectories.',
     governingEquations: 'dτ = [ℏ/(E_mod σ_1(K_ξ))] √(g_ij^QFI θ̇^i θ̇^j) dλ',
     architecture: 'Dual Sr-87 / Yb-171 optical lattice clocks (10⁻¹⁹ stability) coupled to programmable Raman-driven synthetic gauge fields.',
-    operatingRegime: 'Ultra-high vacuum 10⁻¹¹ Torr, T ~ 1 μK, modulation frequencies 1 Hz–100 kHz.',
+    operatingRegime: 'Ultra-high vacuum 10⁻¹¹ Torr, T_atom ~ 1 μK inside 77 K cryogenic Si shield (BBR < 8 × 10⁻²⁰), modulation 1 Hz–100 kHz.',
     predictedSignal: 'Exact 1:1 scaling between accumulated Bures geodesic arc s_QFI and Ramsey phase uncertainty Δφ_CRB = 1/√(N F_Q); null 5D drift |δν/ν| < 10⁻¹⁹ (P8).',
     noiseFloor: 'Quantum projection noise 2 × 10⁻¹⁹ / √(τ/s); blackbody radiation shift < 10⁻¹⁹.',
     engineeringFeasibility: 'HIGH (Near-Term, 2026–2030): All subsystems exist at JILA / PTB / RIKEN.',
     whatItActuallyTests: 'Tests H11/H12 QFI clock law (Eq. H12.0.2) and bounds unshielded modular/5D drift.',
     whatItDoesNotDo: 'Does NOT alter spacetime metric G_AB or induce backward time travel.',
-    failureCriteria: 'Falsifies modular scaling if measured Δτ deviates from QFI speed limit outside 3σ systematic envelope, or detects anomalous dispersion violating Lorentz invariance.'
+    failureCriteria: 'Falsifies modular scaling if measured Δτ deviates from QFI speed limit outside 3σ systematic envelope, or detects anomalous dispersion violating Lorentz invariance.',
+    deviceReadinessLevel: '8 (Sr/Yb lattice benches operational; cryogenic shield integration at JILA/PTB)',
+    costEstimate: '$3.5M – $6.0M USD (shared metrology facility upgrade)',
+    timeline: '2026–2030 (24–36 months data campaign)',
+    falsificationThreshold: '|δν/ν| < 10⁻¹⁹ null excludes unscreened KK/radion detuning above 10⁻¹⁹ (P8)',
+    confirmationThreshold: '≥ 5σ repeatable |δν/ν| > 5 × 10⁻¹⁹ tracking modulated Φ_rad template',
+    systematics: 'BBR shift (~5 × 10⁻¹⁹ at ΔT = 10 mK), quadratic Zeeman (~2 × 10⁻¹⁹), Dick aliasing (< 5 × 10⁻²⁰)'
   },
   {
     deviceId: 'Device B',
     name: '5D Geometric Resonator (CANNEX-Class Sub-10 μm Casimir–Yukawa Plate)',
     category: 'CATEGORY B — DERIVED',
     physicalPrinciple: 'Searches for non-Newtonian Yukawa deviations V_5D(r) = −(GMm/r)(1 + α_KK e^{−r/R_5}) arising from compact or warped fifth-dimension graviton modes.',
-    governingEquations: 'ΔP_KK(d) = −2π G σ_1 σ_2 α_KK R_5 e^{−d/R_5}  (S¹: α_KK = 2)',
+    governingEquations: 'ΔP_KK(d) = −2π G ρ_1 ρ_2 α_KK R_5² e^{−d/R_5}  (thick-plate limit L ≫ R_5; S¹: α_KK = 2)',
     architecture: 'Electrostatic-shielded cryogenic parallel-plate interferometer (gap d = 3–30 μm) suppressing Casimir background via thin gold-coated dielectric membrane.',
     operatingRegime: 'Cryogenic 4.2 K, seismic isolation < 10⁻¹² m/√Hz at 10 Hz, gap d = 5–20 μm.',
-    predictedSignal: 'If R_5 ∈ [10, 44] μm exists, exponential force residual exceeds 10⁻¹⁰ N/m² threshold (P7 reach m_KK = 19.733 meV); simultaneously probes H11 Chameleon P5.',
+    predictedSignal: 'If R_5 ∈ [10, 44] μm exists, exponential force residual exceeds 10⁻¹¹ N/m² floor (P7 reach m_KK = 19.733 meV, 4.4× past 44 μm S¹ / 3.86× past 38.6 μm |α|=1); simultaneously probes H11 Chameleon P5.',
     noiseFloor: 'Patch-potential electrostatic noise & thermal Brownian cantilever noise ~ 3 × 10⁻¹¹ N/m².',
     engineeringFeasibility: 'HIGH (Near-Term, 2026–2029): Direct upgrade of CANNEX & Washington Eöt-Wash apparatus.',
     whatItActuallyTests: 'Directly constrains compact extra dimension radius R_5 < 10 μm and 5D Yukawa coupling α_KK.',
     whatItDoesNotDo: 'Does NOT excite macroscopic portals or stabilize wormhole throats (Casimir deficit remains 10⁵⁹ at 1 μm).',
-    failureCriteria: 'Null detection down to 10⁻¹¹ N/m² rules out compact flat S¹ extra dimensions down to R_5 < 10 μm (m_KK > 19.733 meV).'
+    failureCriteria: 'Null detection down to 10⁻¹¹ N/m² rules out compact flat S¹ extra dimensions down to R_5 < 10 μm (m_KK > 19.733 meV).',
+    deviceReadinessLevel: '7 (CANNEX planar core demonstrated; 4.2 K seismic isolation commissioning)',
+    costEstimate: '$2.2M – $4.0M USD',
+    timeline: '2026–2029 (18–36 months calibration & sweep)',
+    falsificationThreshold: '|ΔP_KK(10 μm)| < 10⁻¹¹ N/m² excludes R_5 ≥ 10 μm (m_KK < 19.733 meV) (P7)',
+    confirmationThreshold: '≥ 5σ exponential residual α_KK e^{−d/R_5} distinct from Chameleon power law',
+    systematics: 'Kelvin-probe electrostatic patch potentials (~5 pN/m²), Casimir background (−1.30 × 10⁻⁴ N/m²), seismic tilt'
   },
   {
     deviceId: 'Device C',
@@ -552,7 +584,13 @@ export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
     engineeringFeasibility: 'HIGH (Benchtop Photonics Analog): Immediate demonstration of curved-metric geodesic shortcuts.',
     whatItActuallyTests: 'Validates variational Beltrami solver dynamics and differential optical path folding.',
     whatItDoesNotDo: 'Does NOT exceed vacuum speed c (n ≥ 1 strictly) and does NOT warp real spacetime curvature.',
-    failureCriteria: 'Signal loss or failure to match variational Euler–Lagrange arrival profile within ±2% of refractive index calibration.'
+    failureCriteria: 'Signal loss or failure to match variational Euler–Lagrange arrival profile within ±2% of refractive index calibration.',
+    deviceReadinessLevel: '9 (PECVD SiO_x N_y graded-index CMOS foundry fabrication & fs-pulse testbed mature)',
+    costEstimate: '$0.25M – $0.45M USD',
+    timeline: '2026–2027 (6–12 months fabrication & pump-probe readout)',
+    falsificationThreshold: 'Arrival timing deviates > ±2% from Fermat Beltrami trajectory C = n(y)/√(1 + y\'²)',
+    confirmationThreshold: 'Measured optical ratio η_analog = 0.74 ± 0.01 confirming Ch. 4 Beltrami quadrature',
+    systematics: 'Chromatic group-velocity dispersion (±15 fs), sidewall scattering (< 0.2 dB/cm), thermal dn/dT drift'
   },
   {
     deviceId: 'Device D',
@@ -567,7 +605,13 @@ export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
     engineeringFeasibility: 'HIGH (Immediate Laboratory Implementation): Standard quantum-optics testbed.',
     whatItActuallyTests: 'Tests SLD QFI complementarity identity and bounds anomalous bulk-coupling phase errors.',
     whatItDoesNotDo: 'Does NOT route particles through a spatial 5th dimension nor derive Born\'s rule from geometry.',
-    failureCriteria: 'Violation of V² + D_QFI² ≤ 1 (impossible in standard QM) or reproducible unshielded phase anomaly violating Lorentz bounds.'
+    failureCriteria: 'Violation of V² + D_QFI² ≤ 1 (impossible in standard QM) or reproducible unshielded phase anomaly violating Lorentz bounds.',
+    deviceReadinessLevel: '9 (Monolithic ULE optical & Cs-133 Bragg interferometers operational today)',
+    costEstimate: '$0.8M – $1.6M USD',
+    timeline: '2026–2028 (12–24 months high-statistics integration)',
+    falsificationThreshold: 'V² + D_QFI² = 1 within |δV_5D| < 10⁻⁶ bounds 5D Hilbert-to-bulk coupling (P9)',
+    confirmationThreshold: '≥ 5σ non-environmental visibility drop ΔV_5D > 5 × 10⁻⁶ after vacuum/seismic veto',
+    systematics: 'Counting shot noise (10⁻⁷ at N = 10¹⁴), residual gas dephasing (< 3 × 10⁻⁷ at 10⁻¹¹ mbar), phase jitter'
   },
   {
     deviceId: 'Device E',
@@ -582,7 +626,13 @@ export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
     engineeringFeasibility: 'MEDIUM–LONG TERM: Qubit analog now; 3G GW network 2035+.',
     whatItActuallyTests: 'Constraints on extra-dimensional GW energy loss and holographic scrambling dynamics.',
     whatItDoesNotDo: 'Does NOT open macroscopic wormholes or allow superluminal communication.',
-    failureCriteria: 'Absence of scalar/KK ringdown polarization above 10⁻³ excludes TeV-scale bulk leakage scenarios.'
+    failureCriteria: 'Absence of scalar/KK ringdown polarization above 10⁻³ excludes TeV-scale bulk leakage scenarios.',
+    deviceReadinessLevel: '3 for Track E1 (3G ET/CE civil design) / 7 for Track E2 (50-qubit TFD processor active)',
+    costEstimate: '$1.8B – $3.5B USD (3G ET/CE observatory consortium); ~$2M USD (E2 qubit run)',
+    timeline: '2026–2028 (Track E2) · 2035+ (Track E1 3G GW + GRB network)',
+    falsificationThreshold: '|h_scalar/h_tensor| < 10⁻³ & |η_fold^{GW−EM} − 1| < 9.916 × 10⁻¹⁹ across 150 BNS mergers',
+    confirmationThreshold: 'Coincident ≥ 5σ scalar breathing mode h_b ≥ 10⁻³ (P10) or distance-linear GW precedence (P13)',
+    systematics: '1–10 Hz Newtonian gravity gradients, quantum radiation pressure, intrinsic GRB jet breakout lags (0.5–1.7 s)'
   },
   {
     deviceId: 'Device F',
@@ -597,7 +647,13 @@ export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
     engineeringFeasibility: 'HIGH (Demonstrated Platform): Extends Steinhauer-type acoustic horizon experiments.',
     whatItActuallyTests: 'Verifies tortoise-barrier echo dynamics, QES entanglement entropy growth, and wave scattering.',
     whatItDoesNotDo: 'Does NOT test NEC violation in Einstein gravity or construct real spacetime horizons.',
-    failureCriteria: 'Discrepancy between measured acoustic Bogoliubov spectrum and effective metric scattering matrix.'
+    failureCriteria: 'Discrepancy between measured acoustic Bogoliubov spectrum and effective metric scattering matrix.',
+    deviceReadinessLevel: '8 (Steinhauer-class Rb-87 transonic BEC traps operational; DMD core-step upgrade)',
+    costEstimate: '$1.1M – $2.0M USD',
+    timeline: '2026–2029 (18–30 months 4,000-shot G^(2) imaging)',
+    falsificationThreshold: 'Observed acoustic echo reflectivity departs > 3σ from tortoise barrier prediction (|R_eff|² = e^{−3.386} ≈ 0.0338 ⇒ |R_eff| ≠ 0.184)',
+    confirmationThreshold: '≥ 5σ off-diagonal G^(2)(x, x\') Hawking pairs paired with reflected core echo pulses',
+    systematics: 'Thermal phonon depletion (~0.15 quanta/mode), 3-body atom loss (500 ms cap), Bragg Imaging PSF'
   },
   {
     deviceId: 'Device G',
@@ -612,7 +668,13 @@ export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
     engineeringFeasibility: 'HIGH (TRL 8 · Standard Integrated Silicon Nitride Foundry Chip, 2026).',
     whatItActuallyTests: 'Quantifies evanescent coupled-mode bridge transfer and finite-span Einstein–Maxwell horizon analogs.',
     whatItDoesNotDo: 'Does NOT open macroscopic gravitational wormholes or exceed vacuum light speed (v_g = 0.5618c < c).',
-    failureCriteria: 'Fails if measured cooperativity deviates below C > 10⁴ or super-brane transfer contradicts Lorentz-retarded causal cones.'
+    failureCriteria: 'Fails if measured cooperativity deviates below C > 10⁴ or super-brane transfer contradicts Lorentz-retarded causal cones.',
+    deviceReadinessLevel: '8 (Ultra-low-loss Si₃N₄ bilayer CMOS foundry process qualified)',
+    costEstimate: '$0.4M – $0.9M USD (multi-project wafer + heterodyne optical bench)',
+    timeline: '2026–2028 (9–18 months foundry tape-out & tomography)',
+    falsificationThreshold: 'Bridge cooperativity C < 10⁴ or superluminal arrival violating v_g = 0.5618c < c',
+    confirmationThreshold: 'Coherent twin-brane transfer at C = 2.716 × 10⁵ matching η_EM = sin(1) = 0.84147',
+    systematics: 'Inter-layer SiO₂ thickness tolerance (±5 nm), thermorefractive bistability, waveguide sidewall loss'
   },
   {
     deviceId: 'Device H',
@@ -627,7 +689,13 @@ export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
     engineeringFeasibility: 'HIGH (TRL 8 · Extends Ringbauer–Ralph Optical Time-Loop Protocols, 2026).',
     whatItActuallyTests: 'Demonstrates exact Deutsch fixed-point consistency and chronology-protection unitary decoupling in linear/post-selected optics.',
     whatItDoesNotDo: 'Does NOT send macroscopic clocks, energy, or classical information backward in time.',
-    failureCriteria: 'Tomographic reconstruction violating Frobenius consistency ‖Φ(ρ_CTC) − ρ_CTC‖_F < 10⁻² after post-selection calibration.'
+    failureCriteria: 'Tomographic reconstruction violating Frobenius consistency ‖Φ(ρ_CTC) − ρ_CTC‖_F < 10⁻² after post-selection calibration.',
+    deviceReadinessLevel: '8 (Fiber Pockels loop & heralded SPDC tomography demonstrated)',
+    costEstimate: '$0.35M – $0.75M USD',
+    timeline: '2026–2028 (12–18 months fixed-point tomography)',
+    falsificationThreshold: 'Frobenius self-consistency error > 10⁻² or unheralded backward signaling outside shot noise',
+    confirmationThreshold: 'Tomographic convergence to ρ_CTC = diag(0.5, 0.5) with > 99% state fidelity & zero signaling',
+    systematics: 'Round-trip insertion loss (~0.8 dB), Pockels half-wave voltage jitter, SPDC multi-pair emission'
   },
   {
     deviceId: 'Device I',
@@ -636,13 +704,19 @@ export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
     physicalPrinciple: 'Extracts calibrated cyclic micro-mechanical work from genuine electromagnetic vacuum zero-point pressure between mirror plates modulated strictly within thermodynamic free-energy bounds.',
     governingEquations: 'P_C(100 nm) = −π²ℏc/(240 d⁴) = −13.001 Pa,  F_C = 1.3001 mN (A = 1 cm²),  ΔW_out ≤ ΔF_mod',
     architecture: 'MEMS piezo-driven Au-coated Si₃N₄ parallel plates separated by d = 100 nm across A = 1.0 cm² active aperture inside 4 K UHV chamber.',
-    operatingRegime: 'Sub-relativistic stroke v/c = 1.048 × 10⁻⁸ ⇒ (v/c)² = 1.098 × 10⁻¹⁶ ≪ 1; Q_m > 10⁵ parametric readout.',
+    operatingRegime: 'f = 50 MHz, Δd = 10 nm (v_m = 3.1416 m/s ⇒ v/c = 1.048 × 10⁻⁸, (v/c)² = 1.098 × 10⁻¹⁶ ≪ 1); Q_m > 10⁵ parametric readout.',
     predictedSignal: 'Static 13.001 Pa negative vacuum pressure delivering 1.3001 mN force modulation with zero anomalous radiation reaction.',
     noiseFloor: 'Electrostatic Kelvin-probe patch residual < 0.05 Pa after bias compensation.',
     engineeringFeasibility: 'HIGH (TRL 7 · Direct Micro-MEMS Casimir Transducer Calibration, 2026–2028).',
     whatItActuallyTests: 'Directly harvests real vacuum zero-point force gradients while proving strict second-law/passivity saturation ΔW_out ≤ ΔF_mod.',
     whatItDoesNotDo: 'Does NOT produce perpetual over-unity "free energy" from nothing—external parametric modulation work strictly exceeds net electrical output.',
-    failureCriteria: 'Measured Casimir pressure departing from Lifshitz–Zeta scaling d⁻⁴ by > 5% after finite-conductivity correction, or any cycle violating passivity.'
+    failureCriteria: 'Measured Casimir pressure departing from Lifshitz–Zeta scaling d⁻⁴ by > 5% after finite-conductivity correction, or any cycle violating passivity.',
+    deviceReadinessLevel: '7 (Planar 100 nm Au/Si₃N₄ MEMS transducer in 4 K cryostat engineering validation)',
+    costEstimate: '$1.4M – $2.8M USD',
+    timeline: '2026–2029 (18–30 months cyclic work & passivity audit)',
+    falsificationThreshold: 'Pressure deviates > 5% from P_C = −13.001 Pa (d⁻⁴) or cycle violates ΔW_out ≤ ΔF_mod',
+    confirmationThreshold: 'Repeatable 1.3001 mN actuation cycle confirming Lifshitz–Zeta pressure and passivity bound',
+    systematics: 'Kelvin-probe electrostatic patch potential (< 0.05 Pa), plate non-parallelism (< 2 nm/cm), piezo hysteresis'
   },
   {
     deviceId: 'Device J',
@@ -657,7 +731,13 @@ export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
     engineeringFeasibility: 'HIGH (TRL 7–8 · Cryogenic Trapped-Ion Quantum Thermodynamics Rig, 2026–2029).',
     whatItActuallyTests: 'Verifies Tomita–Takesaki KMS thermal-time equivalence t_th = −ℏ β_U s_mod and Carnot efficiency ceilings η ≤ 1 − T_cold/T_hot.',
     whatItDoesNotDo: 'Does NOT generate uncompensated net energy out of flat Minkowski vacuum.',
-    failureCriteria: 'Departure from Bose–Einstein/KMS sideband thermal population ratio outside calibrated heating floor.'
+    failureCriteria: 'Departure from Bose–Einstein/KMS sideband thermal population ratio outside calibrated heating floor.',
+    deviceReadinessLevel: '7 (4 K surface-electrode Paul trap & Raman sideband thermometry validated)',
+    costEstimate: '$2.0M – $3.8M USD',
+    timeline: '2026–2029 (24–36 months KMS sideband cycle runs)',
+    falsificationThreshold: 'Sideband detailed-balance R_sb departs from e^{−β_U ℏω} outside < 5 quanta/s heating floor',
+    confirmationThreshold: '≥ 5σ extraction of T_U = 40.55 μK / β_U ℏ = 1.88365 × 10⁻⁷ s & Carnot ceiling η ≤ η_C',
+    systematics: 'Anomalous surface electric-field heating (< 5 quanta/s), Raman AC-Stark shift, laser intensity noise'
   },
   {
     deviceId: 'Device K',
@@ -672,7 +752,13 @@ export const H12_PROPOSED_DEVICES: DeviceTenFieldSpec[] = [
     engineeringFeasibility: 'HIGH (TRL 7 · Standard Quantum-Materials Magneto-Transport Lab, 2026–2028).',
     whatItActuallyTests: 'Demonstrates NEC-clean chiral emergent metric behavior analogous to the ghost-free 5D Einstein–Maxwell–Λ_5 bulk solution.',
     whatItDoesNotDo: 'Does NOT curve ambient planetary gravity or transmit true gravitational waves.',
-    failureCriteria: 'Absence of axial chiral-anomaly transport modulation scaling with applied strain gradient.'
+    failureCriteria: 'Absence of axial chiral-anomaly transport modulation scaling with applied strain gradient.',
+    deviceReadinessLevel: '6 (MBE TaAs/BaTiO₃ heterostructure growth & 14 T magneto-transport bench active)',
+    costEstimate: '$0.9M – $1.8M USD',
+    timeline: '2026–2028 (18–24 months strain-gradient Aharonov–Bohm sweep)',
+    falsificationThreshold: 'Zero axial strain-gradient chiral modulation exceeding 10 μΩ contact floor at 1.8 K',
+    confirmationThreshold: '≥ 5σ chiral phase scaling reproducing sin(kΔx/2)/(kΔx/2) inside finite span kΔx < π',
+    systematics: 'Johnson–Nyquist noise (< 10 μΩ), trivial bulk-band shunting, BaTiO₃ ferroelectric domain hysteresis'
   }
 ];
 
@@ -693,7 +779,7 @@ export const H12_PROTOCOLS_P7_TO_P10: ProtocolH12Row[] = [
     name: 'Short-Range KK Gravity & Radion Screening (Tests 5D Bulk, NOT Folding)',
     targetObservable: 'Yukawa force residual α_KK e^{−d/R_5} across 5–44 μm',
     relationToH11: 'Tests the compact 5D bulk hypothesis rather than temporal folding; shares CANNEX hardware with H11 P5 via orthogonal exponential vs. power-law pressure template.',
-    numericalSensitivity: 'Reach R_5 = 10 μm ⇒ m_KK^(1) = 19.733 meV (improving 44 μm / 4.485 meV baseline by 4.4×)',
+    numericalSensitivity: 'Reach R_5 = 10 μm ⇒ m_KK^(1) = 19.733 meV (improving 44 μm S¹ limit by 4.4× and 38.6 μm |α|=1 limit [5] by 3.86×)',
     falsificationCriterion: 'Null detection down to 10⁻¹¹ N/m² excludes flat S¹ extra dimensions with R_5 ≥ 10 μm.',
     timeline: '2026–2030',
     category: 'CATEGORY B — DERIVED'
@@ -827,7 +913,7 @@ export const H12_APPENDICES: H12AppendixItem[] = [
       }
     ],
     bodyParagraphs: [
-      'A well-posed semiclassical variational principle on the ℤ_2 orbifold bulk M_5 with brane boundary ∂M_5 = {y = 0} supplements the bulk Einstein–Araki integral S_5 = ∫ d⁵X √(−G)[(⁵R − 2Λ_5)/(16π G_5) + ℒ_ψ^(5) + ℒ_EM] with the 5D Gibbons–Hawking–York surface term S_GHY = (8π G_5)⁻¹ ∫_{∂M_5} d⁴x √(−g) [K] and the 1-loop effective boundary action Γ_1-loop[g, Φ_rad]. Executing the Palatini identity δ(√−G ⁵R) = √−G (⁵G_{AB} δG^{AB} + ∇_C W^C) yields δS_total / δG^{AB} = 0 ⇒ ⁵G^A_B + Λ_5 δ^A_B = 8π G_5 (T^A_B^(EM) + I^A_B^(5) + [σ_brane g_μν + ⟨τ_μν^vac⟩] δ^μ_A δ^ν_B δ(y)), canceling all normal-derivative δG_{AB,y} terms on y = 0 via Israel junction [K_{μν} − g_{μν} K]⁺_− = −8π G_5 (σ_brane g_{μν} + τ_{μν} + ⟨τ_{μν}^vac⟩) and projecting Shiromizu–Maeda–Sasaki [4] brane gravity. In conformal RS (α_t = −1, α_x = +1, Λ_5 = −6k²/(8π G_5) equiv −6k² in ⁵G^A_B + Λ_5 δ^A_B = 0), this vacuum equation holds identically everywhere.',
+      'A well-posed semiclassical variational principle on the ℤ_2 orbifold bulk M_5 with brane boundary ∂M_5 = {y = 0} supplements the bulk Einstein–Araki integral S_5 = ∫ d⁵X √(−G)[(⁵R − 2Λ_5)/(16π G_5) + ℒ_ψ^(5) + ℒ_EM] with the 5D Gibbons–Hawking–York surface term S_GHY = (8π G_5)⁻¹ ∫_{∂M_5} d⁴x √(−g) [K] and the 1-loop effective boundary action Γ_1-loop[g, Φ_rad]. Executing the Palatini identity δ(√−G ⁵R) = √−G (⁵G_{AB} δG^{AB} + ∇_C W^C) yields δS_total / δG^{AB} = 0 ⇒ ⁵G^A_B + Λ_5 δ^A_B = 8π G_5 (T^A_B^(EM) + I^A_B^(5) + [σ_brane g_μν + ⟨τ_{μν}^vac⟩] δ^μ_A δ^ν_B δ(y)), canceling all normal-derivative δG_{AB,y} terms on y = 0 via Israel junction [K_{μν} − g_{μν} K]⁺_− = −8π G_5 (σ_brane g_{μν} + τ_{μν} + ⟨τ_{μν}^vac⟩) and projecting Shiromizu–Maeda–Sasaki [4] brane gravity. In conformal RS (α_t = −1, α_x = +1), bulk cosmological constant Λ_5 = −6k²/(8π G_5) (or −6k² inside ⁵G^A_B + Λ_5 δ^A_B = 0) matches isotropic brane tension tuning σ_brane = 6k/(8π G_5) in [K_{μν} − g_{μν} K]⁺_− = −8π G_5 σ_brane g_{μν}, holding identically everywhere.',
       'Exact Ghost-Free Asymmetric Bulk Solution (5D Einstein–Maxwell–Λ_5) vs. NEC-Violating (0.5, 0.5) Ansatz: Setting canonical Maxwell kinetic term ℒ_EM = −¼ F_{AB} F^{AB} with electric flux F_{0y} = E_0 e^{k|y|} satisfying ∂_y(√−G F^{0y}) = 0 yields strictly NEC-satisfying stress tensor T^0_0 = −½ E_0², T^i_i = +½ E_0², T^y_y = −½ E_0². With α_t = 1, α_x = 0, Λ_5 = −½ k², and 8π G_5 E_0² = k², App. A gives G^0_0 + Λ_5 = −½ k² = 8π G_5 T^0_0, G^i_i + Λ_5 = +½ k² = 8π G_5 T^i_i, and G^y_y + Λ_5 = −½ k² = 8π G_5 T^y_y—proving an exact ghost-free asymmetric bulk solution (verified to 10⁻¹⁴ in verify-igrt-h12.mjs). Conversely, the phenomenological Model 2B parameters (α_t = 0.5, α_x = 0.5) fail both the vacuum condition and the 5D Null Energy Condition (−G^0_0 + G^x_x = −k², −G^0_0 + G^y_y = −1.5 k²), proving unbounded geodesic shortcuts require NEC-violating bulk stress.'
     ]
   },
@@ -841,13 +927,13 @@ export const H12_APPENDICES: H12AppendixItem[] = [
       {
         label: '(C.1)',
         category: 'CATEGORY B — DERIVED',
-        unicodeHtml: '<i>M</i><sub>Pl</sub><sup>2</sup> = 2π <i>R</i><sub>5</sub> <i>M</i><sub>5</sub><sup>3</sup> (<i>S</i><sup>1</sup>), &nbsp; <i>M</i><sub>Pl</sub><sup>2</sup> = π <i>R</i><sub>5</sub> <i>M</i><sub>5</sub><sup>3</sup> (<i>S</i><sup>1</sup>/ℤ<sub>2</sub>), &nbsp; <i>M</i><sub>Pl</sub><sup>2</sup>(φ<sub>rad</sub>) = (<i>M</i><sub>5</sub><sup>3</sup>/<i>k</i>) ∫<sub>0</sub><sup>π<i>R</i><sub>5</sub></sup> 2<i>k</i> <i>e</i><sup>−2<i>k</i>|<i>y</i>|</sup> Φ<sub>rad</sub>(<i>x</i>,<i>y</i>) <i>dy</i>',
-        plainText: 'M_Pl^2 = 2 pi R_5 M_5^3 (S^1), M_Pl^2 = pi R_5 M_5^3 (S^1/Z_2), M_Pl^2(phi_rad) = (M_5^3/k) int 2k e^{-2k|y|} Phi_rad(x,y) dy',
-        caption: 'Matched 4D reduced Planck scale across S¹, S¹/ℤ_2 orbifold, and dynamic radion fluctuation backgrounds.'
+        unicodeHtml: '<i>M̄</i><sub>Pl</sub><sup>2</sup> = <i>R</i><sub>5</sub> <i>M</i><sub>5</sub><sup>3</sup> = 2π <i>R</i><sub>5</sub> <i>M</i><sub>*</sub><sup>3</sup> (<i>S</i><sup>1</sup>), &nbsp; <i>M̄</i><sub>Pl</sub><sup>2</sup> = ½ <i>R</i><sub>5</sub> <i>M</i><sub>5</sub><sup>3</sup> (<i>S</i><sup>1</sup>/ℤ<sub>2</sub>), &nbsp; <i>M̄</i><sub>Pl</sub><sup>2</sup>(φ<sub>rad</sub>) = (<i>M</i><sub>5</sub><sup>3</sup>/<i>k</i>) ∫<sub>0</sub><sup>π<i>R</i><sub>5</sub></sup> 2<i>k</i> <i>e</i><sup>−2<i>k</i>|<i>y</i>|</sup> Φ<sub>rad</sub>(<i>x</i>,<i>y</i>) <i>dy</i>',
+        plainText: 'M_Pl_bar^2 = R_5 M_5^3 = 2 pi R_5 M_*^3 (S^1), M_Pl_bar^2 = 1/2 R_5 M_5^3 (S^1/Z_2), M_Pl_bar^2(phi_rad) = (M_5^3/k) int 2k e^{-2k|y|} Phi_rad(x,y) dy',
+        caption: 'Matched 4D reduced Planck scale across S¹ (circumference convention R_5 = 44 μm), S¹/ℤ_2 orbifold, and dynamic radion fluctuation backgrounds.'
       }
     ],
     bodyParagraphs: [
-      'Integrating out heavy Kaluza–Klein graviton modes m_KK^(n) = n ℏc / R_5 leaves local dimension-6 and dimension-8 operators suppressed by (E / m_KK^(1))². With Eöt-Wash bounding R_5 = 44 ± 2 μm ⇒ m_KK^(1) = 4.485 (+0.214/−0.195) meV, m_KK^(2) = 8.969 meV, and m_KK^(3) = 13.454 meV, the flat S¹ 5D Planck scale floor is M_5(S¹) = 2.985 (±0.045) × 10⁸ GeV, while the S¹/ℤ_2 orbifold half-interval doubles the required bulk gravity scale cube to M_5(S¹/ℤ_2) = 2^{1/3} M_5(S¹) = 3.761 × 10⁸ GeV. Incorporating dynamic radion perturbations Φ_rad(x, y) = 1 + φ_rad(x) yields the 4D Brans–Dicke / kinetic scalar factor (3 M̄_Pl² / 2)(∂φ_rad)² alongside warped scale M_5 = 1.8101 × 10¹⁸ GeV at k = 10¹⁸ GeV, kπR_5 = 35.',
+      'Integrating out heavy Kaluza–Klein graviton modes m_KK^(n) = n ℏc / R_5 leaves local dimension-6 and dimension-8 operators suppressed by (E / m_KK^(1))². The 4D H11 Araki scalar amplitude matches the 5D bulk entanglement trace integral ψ_4(x) = √(∫_{−π R_5}^{π R_5} Φ_rad(x, y) κ_ψ^(5) [S_Araki^(5)/Vol_4] dy) so κ_ψ recovers 2.1727 × 10⁻²¹ GeV⁻¹ identically at y = 0. With Eöt-Wash bounding R_5 = 44 ± 2 μm ⇒ m_KK^(1) = 4.485 (+0.214/−0.195) meV, m_KK^(2) = 8.969 meV, and m_KK^(3) = 13.454 meV, the flat S¹ 5D Planck scale floor is M_5(S¹) = 2.985 (±0.045) × 10⁸ GeV (with reduced-circumference normalization M_* = M_5/(2π)^{1/3} = 1.618 × 10⁸ GeV), while the S¹/ℤ_2 orbifold half-interval doubles the required bulk gravity scale cube to M_5(S¹/ℤ_2) = 2^{1/3} M_5(S¹) = 3.761 × 10⁸ GeV. Incorporating dynamic radion perturbations Φ_rad(x, y) = 1 + φ_rad(x) yields the canonical 4D Brans–Dicke / kinetic scalar factor (3 M̄_Pl² / 2)(∂φ_rad)²/(1 + φ_rad)² (linearized as (3 M̄_Pl² / 2)(∂φ_rad)² for |φ_rad| ≪ 1) alongside warped scale M_5 = 1.8101 × 10¹⁸ GeV at k = 10¹⁸ GeV, kπR_5 = 35.',
       'Evaluating the low-energy decoupling form-factor shift δ_KK(1 neV) across non-perturbative and perturbative UV regulators yields tree-level 4.972 × 10⁻¹⁴, Pauli–Villars 4.972 × 10⁻¹⁴, Heat-Kernel exponential 4.972 × 10⁻¹⁴, FRG Litim cutoff 3.149 × 10⁻¹⁶, MS-bar Dim-Reg 9.645 × 10⁻¹⁵, and full KK ζ(2) sum 8.179 × 10⁻¹⁴. Across thermal environments, 4 K LHe yields δ_KK = 5.873 × 10⁻³, whereas 77 K and 300 K exceed m_KK^(1) (ratios 1.48 and 5.76).'
     ]
   },
@@ -867,7 +953,7 @@ export const H12_APPENDICES: H12AppendixItem[] = [
       }
     ],
     bodyParagraphs: [
-      'Varying the 5D relativistic worldline action S_particle = −mc ∫ √(−G_AB Ẋ^A Ẋ^B) dλ (and its affine null limit via einbein e(λ), δS_null = δ ∫ (2e)⁻¹ G_AB Ẋ^A Ẋ^B dλ = 0) yields the 5D affine geodesic equation d²X^A/dλ² + Γ^A_{BC} Ẋ^B Ẋ^C = 0 together with proper-time folding ratio η_fold = Δτ_5/Δτ_4 of Eq. (H12.0.2). Along Killing coordinates t and x of metric Eq. (H12.0.1), conserved momenta e^{2α_t ky}(c ṫ) = 1 and e^{−2α_x ky} ẋ = C = e^{−(α_t+α_x)k y_peak} enforce ds_5² = 0 identically; Assertion 68 in verify-igrt-h12.mjs directly confirms that both the phenomenological (0.5, 0.5) and Einstein–Maxwell (1.0, 0.0) Beltrami shooting curves solve d²y/dλ² + Γ^y_{00}(c ṫ)² + Γ^y_{xx} ẋ² = 0 to residuals 5.56 × 10⁻¹² and 3.48 × 10⁻¹¹ respectively.',
+      'Varying the 5D relativistic worldline action S_particle = −mc ∫ √(−G_AB Ẋ^A Ẋ^B) dλ (and its affine null limit via einbein e(λ), δS_null = δ ∫ (2e)⁻¹ G_AB Ẋ^A Ẋ^B dλ = 0) yields the 5D affine geodesic equation d²X^A/dλ² + Γ^A_{BC} Ẋ^B Ẋ^C = 0 together with proper-time folding ratio η_fold = Δτ_5/Δτ_4 of Eq. (H12.0.2). Along Killing coordinates t and x of metric Eq. (H12.0.1), conserved momenta e^{2α_t ky}(c ṫ) = 1 and e^{−2α_x ky} ẋ = C = e^{−(α_t+α_x)k y_peak} enforce ds_5² = 0 identically; Assertion 68 in verify-igrt-h12.mjs directly confirms that both the phenomenological (0.5, 0.5) and Einstein–Maxwell (1.0, 0.0) Beltrami shooting curves solve d²y/dλ² + Γ^y_{00}(c ṫ)² + Γ^y_{xx} ẋ² = 0 to residuals 5.56 × 10⁻¹² and 3.48 × 10⁻¹¹ respectively. Linearized turning-point approximation remains strictly valid only while bulk radion backreaction stays perturbative, |δΦ_rad / Φ_rad| ≪ (k y_peak)⁻¹.',
       'In Model 1 (flat M_4 × S¹), ds_5² = −c²dt² + dx² + dy² gives integrand dL_5/dx = √(1 + (y\')²) > 1 identically for any y\' ≠ 0 ⇒ Δt_5 = c⁻¹ √(Δx² + Δy²) ≥ Δx/c = Δt_4 (1.001249 ratio at Δy = 50 m, Δx = 1000 m). In Model 2A (conformal RS AdS_5, α_t = −1, α_x = +1), Poincaré substitution z = k⁻¹ e^{ky} puts ds_5² = (kz)⁻²(−c²dt² + dx² + dz²), proving c_eff(y) = c e^{(−1+1)k|y|} = c identically everywhere and forbidding early arrival (excursion ratio 1.010321 > 1).',
       'Only when α_t + α_x > 0 does the Beltrami arch lower total travel time. For the exact ghost-free 5D Einstein–Maxwell bulk (α_t = 1.0, α_x = 0.0, §2.2), y\'(y) = √(e^{2k(y_peak − y)} − 1) integrates analytically to k Δx / 2 = arccos(e^{−k y_peak}) < π/2, imposing an exact finite-span horizon ceiling k Δx < π (3.141593) with closed-form solution y_peak = −k⁻¹ ln cos(k Δx / 2) and η_fold^EM = sin(k Δx / 2) / (k Δx / 2) (yielding η_fold = 0.84147 at k Δx = 2 and horizon limit 2/π = 0.63662 as y_peak → ∞). Extending shortcuts to arbitrary spans k Δx ∈ {10, 50} requires α_x > 0: solving phenomenological Model 2B (α_t = α_x = 0.5) via singularity-free u-quadrature (y = y_peak(1 − u²)) gives η_fold = 0.86634 (k Δx = 2), 0.34279 (k Δx = 10), and 0.07770 (k Δx = 50).'
     ]
@@ -883,7 +969,7 @@ export const H12_APPENDICES: H12AppendixItem[] = [
         label: '(E.1)',
         category: 'CATEGORY B — DERIVED',
         unicodeHtml: 'ρ + <i>p</i><sub><i>r</i></sub> = 0, &nbsp;&nbsp; 8π<i>G</i>(ρ + <i>p</i><sub>⊥</sub>) = 9 <i>r</i><sub><i>s</i></sub> <i>a</i><sup>3</sup> <i>r</i><sup>3</sup> / (<i>r</i><sup>3</sup> + <i>a</i><sup>3</sup>)<sup>3</sup> &gt; 0 &nbsp;&nbsp; (<i>a</i><sup>3</sup> ≡ <i>r</i><sub><i>s</i></sub> ℓ<sub>0</sub><sup>2</sup>)',
-        plainText: 'rho + p_r = 0, 8 pi G (rho + p_perp) = 9 r_s a^3 r^3 / (r^3 + a^3)^3 > 0 (a^3 = r_s l_0^2)',
+        plainText: 'rho + p_r = 0, 8 pi G (rho + p_perp) = 9 r_s a^3 r^3 / (r^3 + a^3)^3 > 0 (a^3 = r_s ℓ_0^2)',
         caption: 'Exact analytical & finite-difference verified NEC satisfaction of the 4D H11 Hayward metric.'
       }
     ],
@@ -909,7 +995,7 @@ export const H12_APPENDICES: H12AppendixItem[] = [
     ],
     bodyParagraphs: [
       'Trigonometric substitution r = r_0 sec(u) in the Morris–Thorne metric [8] yields exact analytic agreement (verified to < 10⁻⁴ by 1,000-step trapezoidal quadrature in verify-igrt-h12.mjs) for the total negative energy integral. For r_0 = 1 m, E_exotic = −1.9011 × 10⁴⁴ J (−1.0637 × 10⁻³ M_⊙); for r_0 = 3 km, −3.1912 M_⊙. Along radial null geodesics crossing r = r_0, Raychaudhuri expansion strictly defocuses at dθ/dλ = −R_{μν} k^μ k^ν = +2/r_0² > 0 (Assertion 75), directly opposite non-defocusing Hayward cores.',
-      'Summing the electromagnetic zero-point modes between conducting plates separated by d [22], E_0/A = ∑_{n=1}^∞ ∫ d²k_⊥/(2π)² ½ ℏ c √(k_⊥² + (nπ/d)²) via Riemann zeta analytic continuation ζ(−3) = 1/120 removes the UV divergence cleanly to E_Casimir/A = −π²ℏc/(720 d³) and density ρ_Casimir = −π²ℏc/(720 d⁴). Comparing at r_0 = d yields ratio 4.50 × 10⁻⁷¹ at 1 m, 4.50 × 10⁻⁵⁹ at 1 μm, and 0.2436 only at Planck scale ℓ_0 = 1.3591 × 10⁻³⁵ m. Independently, the Ford–Roman Lorentzian quantum inequality [9] ρ_FR(τ_0) ≥ −3ℏc / (32π² (cτ_0)⁴) evaluated at crossing time τ_0 = r_0/c yields −3.003 × 10⁻²⁸ J/m³ at r_0 = 1 m (shortfall ratio 3.118 × 10⁻⁷¹) and reaches O(1) ratio 0.1688 only at Planck length ℓ_0 (Assertion 74).'
+      'Summing the electromagnetic zero-point modes between conducting plates separated by d [22], E_0/A = ∑_{n=1}^∞ ∫ d²k_⊥/(2π)² ½ ℏ c √(k_⊥² + (nπ/d)²) via Riemann zeta analytic continuation ζ(−3) = 1/120 removes the UV divergence cleanly to E_Casimir/A = −π²ℏc/(720 d³) and density ρ_Casimir = −π²ℏc/(720 d⁴). Comparing at r_0 = d yields ratio 4.50 × 10⁻⁷¹ at 1 m, 4.50 × 10⁻⁵⁹ at 1 μm, and 0.2436 only at Planck scale ℓ_0 = 1.3591 × 10⁻³⁵ m; moreover, bending planar Casimir mirrors into a spherical thin shell adds positive structural strut/wall stress that strictly worsens the net energy shortfall rather than easing it. Independently, the Ford–Roman Lorentzian-sampled (w(t) = τ_0/[π(t² + τ_0²)]) quantum inequality [9] ρ_FR(τ_0) ≥ −3ℏc / (32π² (cτ_0)⁴) evaluated at crossing time τ_0 = r_0/c yields −3.003 × 10⁻²⁸ J/m³ at r_0 = 1 m (shortfall ratio 3.118 × 10⁻⁷¹) and reaches O(1) ratio 0.1688 only at Planck length ℓ_0 (Assertion 74).'
     ]
   },
   {
@@ -928,7 +1014,7 @@ export const H12_APPENDICES: H12AppendixItem[] = [
       }
     ],
     bodyParagraphs: [
-      'Diagonalizing ρ(φ) yields eigenvalues λ_± = ½(1 ± γ_coh) and exact SLD Fisher Information F_Q(φ) = 4 (γ_coh²/4)/(λ_+ + λ_−) = γ_coh². Consequently, the Bures-QFI metric velocity ds_QFI/dφ = ½ γ_coh directly equals half the fringe visibility. Generalizing to unbalanced slit weights (p_1 ≠ p_2, p_1 + p_2 = 1, predictability P = |p_1 − p_2|) yields Bloch vector r = (V cos φ, V sin φ, p_1 − p_2) with V = 2√(p_1 p_2) γ_coh and L_φ = (∂_φ r)·σ, verifying ∂_φ ρ = ½(L_φ ρ + ρ L_φ), F_Q = V², Englert bound P² + V² = 1 − 4 p_1 p_2 (1 − γ_coh²) ≤ 1, and V² + D_QFI² = 1 identically (verified at p_1 = 0.7, γ_coh = 0.6 in Assertion 83).',
+      'Diagonalizing ρ(φ) yields eigenvalues λ_± = ½(1 ± γ_coh) and exact SLD Fisher Information F_Q(φ) = 4 (γ_coh²/4)/(λ_+ + λ_−) = γ_coh². Consequently, the Bures-QFI metric velocity ds_QFI/dφ = ½ γ_coh directly equals half the fringe visibility. Generalizing to unbalanced slit weights (p_1 ≠ p_2, p_1 + p_2 = 1, predictability P = |p_1 − p_2|) yields Bloch vector r = (V cos φ, V sin φ, p_1 − p_2) with V = 2√(p_1 p_2) γ_coh and L_φ = (∂_φ r)·σ inside the open mixed-state Bloch ball (1 − |r|² > 0, rank-2 strictly positive ρ(φ), where tangential orthogonality r · ∂_φ r = 0 guarantees F_Q = V² smoothly without encountering the Šafránek pure-state Bures discontinuity at |r| → 1), verifying ∂_φ ρ = ½(L_φ ρ + ρ L_φ), F_Q = V², Englert bound P² + V² = 1 − 4 p_1 p_2 (1 − γ_coh²) ≤ 1, and V² + D_QFI² = 1 identically (verified at p_1 = 0.7, γ_coh = 0.6 in Assertion 83).',
       'Crucially, probability assignment P(x) = Tr(ρ Π_x) = ½(1 + V cos φ) relies on the Born rule (Category A independent quantum postulate). Projective Hilbert fiber coordinates θ ∈ PU(H) describe quantum interference states—NOT physical particle traversal along the spatial fifth coordinate y.'
     ]
   },
@@ -949,8 +1035,8 @@ export const H12_APPENDICES: H12AppendixItem[] = [
     ],
     bodyParagraphs: [
       'Executable Numerical Verification Architecture (102/102 Assertions): Every benchmark cited across Chapters 1–13 and Appendices A–L is computed in IEEE-754 double precision from SI 2019 / CODATA 2022 constants inside scripts/verify-igrt-h12.mjs, verifying: (i) H11 SHA-256 invariance, 665-assertion sum check, and Sturm–Liouville resolvent contraction bounds; (ii) Eöt-Wash 44 ± 2 μm error propagation, orbifold Planck scale M_5(S¹/ℤ_2) = 3.761 × 10⁸ GeV, and Heat-Kernel / FRG Litim / Pauli–Villars / MS-bar / Zeta regulators; (iii) finite-difference 5D metric → Christoffel → Ricci → Einstein & contracted Bianchi ∇_A G^A_y = 0 (< 10⁻⁷), ghost-free 5D Einstein–Maxwell tensor closure, Beltrami N=800 vs N=1600 quadrature convergence, 5D affine geodesic ODE residuals (< 3.5 × 10⁻¹¹), and ds_5² ≡ 0 (< 7 × 10⁻¹⁶); (iv) Hayward NEC satisfaction, Gregory–Laflamme instability threshold, Ford–Roman / Casimir wormhole bounds, and SLD 2×2 complementarity residuals; (v) Protocol P13 GW170817/GRB 170817A bounds (4.129 × 10⁻¹⁶) and 3G BNS stacking (9.916 × 10⁻¹⁹); and (vi) Assertions 87–102 validating all physical parameters of Devices G–K (Si₃N₄ κ/2π = 16.118 MHz, C = 2.716 × 10⁵; Deutsch ring τ_loop = 10.0 ns and Frobenius residual < 10⁻¹⁴; Casimir MEMS P_C(100 nm) = 13.001 Pa and F_C = 1.3001 mN at A = 1 cm²; Unruh KMS T_U = 40.55 μK at 10¹⁶ m/s² / 40.55 K at 10²² m/s², β_U ℏ = 1.88365 × 10⁻⁷ s; TaAs Weyl v_F = 4.0 × 10⁵ m/s ≈ 0.001334c; plus H11 Hubble H_0 = 70.77, warped hierarchy e⁻³⁵ = 6.3051 × 10⁻¹⁶, and Second-Law Carnot passivity limits).',
-      'Dimensional Consistency Audits (SI & Natural Units ℏ = c = 1): In four dimensions, [c³/G_4]·[c dt d³x]·[⁴R] = [ℏ]; adding bulk coordinate y multiplies spacetime volume by L, forcing [G_5] = [G_4]·L = L⁴ M⁻¹ T⁻² (or M_5⁻³ in natural units) matching [M̄_Pl²] = [2π R_5 M_5³] = M². In Eq. (H12.0.1), warp scale k carries dimension L⁻¹ so k Δx and α_t, α_x are dimensionless; in Eq. (6.1), [c⁴/G]·[r_0] = Joules; in Eq. (H12.0.2), [ℏ/E_mod]·[s_QFI] = seconds; and in Device I, Casimir pressure [ℏc / d⁴] = (J·s · m·s⁻¹)/m⁴ = N/m² = Pa.',
-      'Consolidated Parameter Ledger — H11 Baseline & 5D Bounds: ℓ_Pl = 1.616255 × 10⁻³⁵ m; ξ_0 = 0.8408964; ℓ_0 = 1.359103 × 10⁻³⁵ m; κ_ψ = 2.1727 × 10⁻²¹ GeV⁻¹; K_echo = 0.184; M_rem = 1.09236 M_Pl; H_0 = 70.77 ± 0.72 km s⁻¹ Mpc⁻¹. R_5 ≤ 44 μm ⇒ m_KK^(1) ≥ 4.485 meV; M_5(flat) = 2.985 × 10⁸ GeV; M_5(warped, kπR_5 = 35) = 1.8101 × 10¹⁸ GeV; e⁻³⁵ = 6.3051 × 10⁻¹⁶; δ_KK(1 neV) = 4.972 × 10⁻¹⁴; 1% Weyl ΔN_eff = 0.0614 < 0.28.',
+      'Dimensional Consistency Audits (SI & Natural Units ℏ = c = 1): In four dimensions, [c³/G_4]·[c dt d³x]·[⁴R] = [ℏ]; adding bulk coordinate y multiplies spacetime volume by L, forcing [G_5] = [G_4]·L = L⁴ M⁻¹ T⁻² (or M_5⁻³ in natural units) matching [M̄_Pl²] = [R_5 M_5³] = M² (and [2π R_5 M_*³]). In Eq. (H12.0.1), warp scale k carries dimension L⁻¹ so k Δx and α_t, α_x are dimensionless; in Eq. (6.1), [c⁴/G]·[r_0] = Joules; in Eq. (H12.0.2), [ℏ/E_mod]·[s_QFI] = seconds; in Device B, thick-plate Yukawa pressure [G ρ² R_5²] = N/m² = Pa; and in Device I, Casimir pressure [ℏc / d⁴] = (J·s · m·s⁻¹)/m⁴ = N/m² = Pa.',
+      'Consolidated Parameter Ledger — H11 Baseline & 5D Bounds (CODATA 2022 22 ppm G → ±11 ppm Planck uncertainty): ℓ_Pl = 1.616255(18) × 10⁻³⁵ m; ξ_0 = 0.8408964; ℓ_0 = 1.359103(15) × 10⁻³⁵ m; κ_ψ = 2.1727(24) × 10⁻²¹ GeV⁻¹ (at N_eff = 1 vs SM g_* = 106.75); K_echo = 0.184; M_rem = 1.09236(1) M_Pl; H_0 = 70.77 ± 0.72 km s⁻¹ Mpc⁻¹. R_5 = 44 ± 2 μm ⇒ m_KK^(1) = 4.485 (+0.214/−0.195) meV; M_5(flat) = 2.985 (±0.045) × 10⁸ GeV (M_* = 1.618 × 10⁸ GeV); M_5(warped, kπR_5 = 35) = 1.8101 × 10¹⁸ GeV; e⁻³⁵ = 6.3051 × 10⁻¹⁶; tree-level ζ(2) = π²/6 sum converges cleanly below EFT cutoff M_5 with δ_KK(1 neV) = 4.972 × 10⁻¹⁴; 1% Weyl ΔN_eff = 0.0614 < 0.28.',
       'Consolidated Parameter Ledger — Geodesics, Black Holes, Wormholes & Devices A–K: Model 1 L_5/L_4 = 1.001249; Model 2A Δt_5/Δt_4 = 1.010321; Ghost-Free Einstein–Maxwell η_fold = 0.84147 (horizon limit 2/π = 0.63662); Phenomenological Model 2B η_fold = 0.86634 (kΔx=2), 0.34279 (10), 0.07770 (50); 30 M_⊙ Hayward core r_core = 2.5389 × 10⁻²² m (ρ+p_r = 0); GL r_+/R_AdS = 0.876; Morris–Thorne 1 m (−1.0637 × 10⁻³ M_⊙, Casimir 4.50 × 10⁻⁷¹) vs ℓ_0 (Casimir 0.2436, FR 0.1688); Device G κ/2π = 16.118 MHz, C = 2.716 × 10⁵; Device H τ_loop = 10.0 ns, ρ_CTC = diag(0.5, 0.5); Device I P_C(100 nm) = 13.001 Pa, F_C = 1.3001 mN; Device J T_U = 40.55 μK (10¹⁶ m/s²), β_U ℏ = 1.88365 × 10⁻⁷ s; Device K v_F = 4.0 × 10⁵ m/s; Protocol P13 GW170817 |η_fold − 1| ≤ 4.129 × 10⁻¹⁶ (3G reach 9.916 × 10⁻¹⁹).'
     ]
   },
@@ -974,7 +1060,7 @@ export const H12_APPENDICES: H12AppendixItem[] = [
     anchorId: 'h12-app-j',
     title: 'Proposed Devices and Laboratory Analog Systems A–K',
     category: 'CATEGORY B — DERIVED',
-    summary: 'Comprehensive engineering specs (Table J.1), plain-language explanations, cutaway schematic figures (Figures H12-J1..J11), and cross-device synthesis roadmap (Table J.2) spanning precision sensors, evanescent photonic portal cavities, Deutsch optical time-loop circuits, thermodynamically provable Casimir/Unruh vacuum harvesters, and Weyl-semimetal bulk interferometers.',
+    summary: 'Comprehensive engineering specs incl. Device Readiness Level (1–9), Cost Estimate, Timeline, Thresholds & Systematics (Table J.1), plain-language explanations, cutaway plates (Figures H12-J1..J11), Risk Assessment, Resource Requirements, and J.12 Cross-Device Synergy (Table J.2).',
     equations: [
       {
         label: '(J.1)',
@@ -985,36 +1071,37 @@ export const H12_APPENDICES: H12AppendixItem[] = [
       }
     ],
     bodyParagraphs: [
-      'Why Hardware Grounding Matters: Up to this point, IGRT-2026-H12 has drawn strict mathematical lines—proving which higher-dimensional shortcuts fail, quarantining asymmetric bulk conjectures, and ordering cosmological tests P7–P13. Readers rightly ask what real laboratory hardware can build, measure, and prove today. Appendix J answers that challenge with eleven concrete physical instruments—Devices A through K—covering precision fundamental-physics sensors (Devices A, B, D, Track E1, I, J) alongside faithful benchtop analog simulators (Devices C, Track E2, F, G, H, K).',
-      'Plain-Language Summary Across All Eleven Systems (Devices A–K): Devices A–F measure quantum QFI timekeeping (A), weigh vacuum gravity at micrometer gaps (B), film curved optical shortcuts in glass (C), trace the double-slit quarter-circle to 10⁻⁶ (D), listen for cosmic graviton leakage alongside a 50-qubit scrambler (E), and model black-hole core echoes in an ultracold rubidium waterfall (F). Expanding into revolutionary frontier applications, Devices G–K tackle the public’s biggest questions honestly: Device G builds an optical "portal" on a silicon-nitride chip using evanescent light tunneling; Device H implements a tabletop photon ring executing Deutsch–Lloyd self-consistent time-loop quantum gates without paradoxes or backward messaging; Device I addresses "free energy" rigorously by harvesting 13.001 Pa / 1.3001 mN of real quantum vacuum pressure across 100 nm plates while proving over-unity perpetual motion is strictly forbidden (ΔW_out ≤ ΔF_mod); Device J turns accelerated ion traps into KMS Unruh thermal clockwork engines at 40.55 μK; and Device K strains Weyl crystals to simulate the exact NEC-clean Einstein–Maxwell 5D bulk.',
-      'Architectural Discipline & Verifiable Metrology: Table J.1 codifies all eleven instruments across a uniform ten-field metrology specification. Every dossier pairs an intuitive non-specialist walkthrough with complete experimental budgets and vector/cutaway plates (Figures H12-J1 through H12-J11, with high-resolution architectural cutaway illustrations for Devices G–K), followed by the cross-device readiness and breakthrough roadmap in Table J.2.'
+      'Why Hardware Grounding Matters: Up to this point, IGRT-2026-H12 has drawn strict mathematical lines—proving which higher-dimensional shortcuts fail, quarantining asymmetric bulk conjectures, and ordering cosmological tests P7–P13. Readers rightly ask what real laboratory hardware can build, measure, and prove today. Appendix J answers that challenge with eleven concrete physical instruments—Devices A through K, a deliberate mix of Category B (testable now), Category C (conjectural), and Category D (speculative engineering)—spanning fundamental-physics sensors (Devices A, B, D, Track E1, I, J) and benchtop analog systems (Devices C, Track E2, F, G, H, K).',
+      'Plain-Language Summary Across All Eleven Systems (Devices A–K): Devices A–F measure quantum QFI timekeeping (A), weigh vacuum gravity at micrometer gaps (B), film curved optical shortcuts in glass (C), trace the double-slit quarter-circle to 10⁻⁶ (D), listen for cosmic graviton leakage alongside a 50-qubit scrambler (E), and model black-hole core echoes in an ultracold rubidium waterfall (F). Expanding into optical and condensed-matter analogs, Devices G–K tackle the public’s biggest questions honestly: Device G builds an optical "portal" on a silicon-nitride chip using evanescent light tunneling; Device H implements a tabletop photon ring executing Deutsch–Lloyd self-consistent time-loop quantum gates without paradoxes or backward messaging; Device I addresses "free energy" rigorously by harvesting 13.001 Pa / 1.3001 mN of real quantum vacuum pressure across 100 nm plates while proving over-unity perpetual motion is strictly forbidden (ΔW_out ≤ ΔF_mod); Device J turns accelerated ion traps into KMS Unruh thermal clockwork engines at 40.55 μK; and Device K strains Weyl crystals to simulate the exact NEC-clean Einstein–Maxwell 5D bulk.',
+      'Architectural Discipline, Risks, Resources & Synergy: Table J.1 codifies all eleven instruments across a uniform sixteen-field metrology specification adding Device Readiness Level (1–9), Cost Estimate, Timeline, Falsification Threshold, Confirmation Threshold, and Systematics. Following the individual hardware dossiers, Appendix J details the Risk Assessment and Resource Requirements across Devices A–K and closes with Section J.12 (Cross-Device Synergy & Table J.2).'
     ]
   },
   {
     letter: 'K',
     anchorId: 'h12-app-k',
-    title: 'Unified Solutions to Seven Open Problems in Physics',
-    category: 'CATEGORY B — DERIVED',
-    summary: 'Demonstrates how the coupled IGRT-H11 and H12 master framework (Eqs. H12.0.1–H12.0.2) resolves or sharply restructures seven foundational open problems—spanning Hubble/dark-energy tension, black-hole singularity & information paradox, gauge–gravity hierarchy, arrow of time, horizon/BBN bounds, quantum nonlocality vs. causality, and thermodynamic boundaries on portals and vacuum energy.',
+    title: 'Seven Open Problems and How H12 Constrains Them',
+    category: 'CATEGORY C — CONJECTURAL',
+    summary: 'Catalogs how the IGRT-H11 and H12 mathematical hypotheses (Eqs. H12.0.1–H12.0.2) constrain the solution space of seven open problems in modern physics without claiming to solve them.',
     equations: [
       {
         label: '(K.1)',
-        category: 'CATEGORY B — DERIVED',
+        category: 'CATEGORY C — CONJECTURAL',
         unicodeHtml: '<i>H</i><sub>0</sub> = 70.77 ± 0.72, &nbsp; (<i>w</i><sub>0</sub>, <i>w</i><sub><i>a</i></sub>) = (−0.831, −0.542), &nbsp; <i>M</i><sub>rem</sub> = 1.09236 <i>M</i><sub>Pl</sub>, &nbsp; <i>e</i><sup>−<i>k</i>π<i>R</i><sub>5</sub></sup> = <i>e</i><sup>−35</sup> = 6.3051 × 10<sup>−16</sup>',
         plainText: 'H_0 = 70.77 +- 0.72, (w_0, w_a) = (-0.831, -0.542), M_rem = 1.09236 M_Pl, e^{-35} = 6.3051e-16',
-        caption: 'Quantitative invariant anchors resolving cosmic expansion tension, black-hole singularities/Page evaporation, and electroweak scale hierarchy inside one coupled EFT.'
+        caption: 'Quantitative invariant anchors constraining parameter regions across cosmic expansion tension, regular cores, and warped hierarchy hypotheses.'
       },
       {
         label: '(K.2)',
-        category: 'CATEGORY B — DERIVED',
+        category: 'CATEGORY C — CONJECTURAL',
         unicodeHtml: '<i>V</i><sup>2</sup> + <i>D</i><sub>QFI</sub><sup>2</sup> = 1, &nbsp; [<i>O</i><sub><i>A</i></sub>, <i>O</i><sub><i>B</i></sub>] = 0, &nbsp; Δ<i>W</i><sub>out</sub> ≤ Δ<i>F</i><sub>mod</sub>, &nbsp; Δ<i>N</i><sub>eff</sub><sup>Weyl</sup> = 0.0614 &lt; 0.28',
         plainText: 'V^2 + D_QFI^2 = 1, [O_A, O_B] = 0, Delta W_out <= Delta F_mod, Delta N_eff^Weyl = 0.0614 < 0.28',
-        caption: 'Unified quantum-causal, thermodynamic passivity, and BBN radiation closures enforced identically by IGRT-H11/H12.'
+        caption: 'Boundary conditions, thermodynamic passivity, and BBN radiation constraints restricting admissible extensions of IGRT-H11/H12.'
       }
     ],
     bodyParagraphs: [
-      'Physical theories transform into lasting paradigms when their core equations resolve disparate anomalies across scales rather than tuning one isolated curve. Paired directly with §13.5 (Table 13.2), Table K.1 catalogs seven deep problems in contemporary physics where Eqs. (H12.0.1)–(H12.0.2) and the preserved 4D H11 core either supply closed Category B derivations or enforce razor-sharp falsifiable boundaries.',
-      'Crucially, honesty remains non-negotiable: Problems 1, 2, 4, 6, and 7 stand as quantitative Category B derived closures anchored by 665 H11 assertions plus 102 H12 assertions (from H_0 = 70.77 and Hayward core regularity ξ_0 = 2⁻¹/⁴ to quantum no-signaling and thermodynamic Casimir passivity ΔW_out ≤ ΔF_mod), while extra-dimensional hierarchy suppression (Problem 3, e⁻³⁵ = 6.3051 × 10⁻¹⁶) and cosmic ekpyrotic/Weyl bounds (Problem 5, ΔN_eff = 0.0614 < 0.28) remain cleanly classified Category C conditional on empirical Protocols P7–P13.'
+      'Paired directly with §13.5 (Table 13.2), Table K.1 summarizes how Eqs. (H12.0.1)–(H12.0.2) and the preserved 4D H11 framework bound the admissible parameter windows across seven major open problems in contemporary physics. These are not solutions; they are constraints on the solution space. The seven open problems remain open.',
+      'Epistemic Clarity and Scope Boundary: The 5D extension is a constrained hypothesis, not a solution to everything. The 5D extension is a mathematical hypothesis, not an experimentally established fact. No 5D phenomenon has been observed. The negative theorems (Chapter 9) are the strongest part of H12.',
+      'No-Overclaiming Statement: H12 constrains the solution space but does not solve the problems. The reader should not interpret this appendix as a claim of having solved the problems. Whereas 4D H11 mechanisms (Category B conditionals) and Chapter 9 obstruction proofs lock specific bounds cleanly (such as R_5 ≤ 44 μm, 10⁷¹ wormhole deficit, [O_A, O_B] = 0, and ΔW_out ≤ ΔF_mod), the higher-dimensional hierarchy (e⁻³⁵) and cosmological Weyl sector (ΔN_eff = 0.0614) remain strictly conjectural (Category C) pending empirical tests P7–P13.'
     ]
   },
   {
@@ -1034,7 +1121,7 @@ export const H12_APPENDICES: H12AppendixItem[] = [
     ],
     bodyParagraphs: [
       'Table L.1 systematically classifies eleven frequently proposed concepts—ranging from classical gravitational focusing and intense electromagnetic fields to Casimir cavities, squeezed quantum states, superconductors, colliders, entanglement, optical cavities, modular clocks, and 5D KK excitations. These concepts are theoretical speculations, not engineering designs.',
-      'Three concepts belong to Tier 1 (Zero Portal: classical gravity focuses via Raychaudhuri; Maxwell EM satisfies NEC even at Schwinger limit 1.32 × 10¹⁸ V/m). Four belong to Tier 2 (Benchtop Metric Analogs: optical cavities, GRIN slabs, superconducting circuits, and optical-lattice clocks probe effective metrics cleanly without curving G_μν). Concepts 3 and 5 sit in Tier 3 (marginal perturbative effects constrained by Ford–Roman quantum inequalities or terrestrial Vainshtein Z_ψ = 7.05 × 10¹⁴). Casimir engineering (Concept 4) and HL-LHC collisions (Concept 7) are Planck/micro-scale only (Tier 4), while direct macro KK beaming (Concept 11) sits in Tier 5 (~10⁻⁶⁰ suppression). These concepts are theoretical speculations, not engineering designs.'
+      'Three concepts belong to Tier 1 (Zero Portal: classical gravity focuses via Raychaudhuri; Maxwell EM satisfies NEC ρ + p_r ≥ 0 identically and triggers e⁺e⁻ Schwinger pair production at E_S = 1.32 × 10¹⁸ V/m rather than negative-energy throat flare-out). Four belong to Tier 2 (Benchtop Metric Analogs: optical cavities, GRIN slabs, superconducting circuits, and optical-lattice clocks probe effective metrics cleanly without curving G_μν). Concepts 3 and 5 sit in Tier 3 (marginal perturbative effects constrained by Ford–Roman quantum inequalities or terrestrial Vainshtein Z_ψ = 7.05 × 10¹⁴). Casimir engineering (Concept 4) and HL-LHC collisions (Concept 7) are Planck/micro-scale only (Tier 4), while direct macro KK beaming (Concept 11) sits in Tier 5 (~10⁻⁶⁰ suppression). These concepts are theoretical speculations, not engineering designs.'
     ]
   }
 ];
@@ -1063,7 +1150,7 @@ export const TWELVE_EXTRAPOLATIONS: ExtrapolationRow[] = [
 ];
 
 export const H12_REFERENCES = [
-  { id: 1, citation: 'Chronos-QG Consortium (2026). Information-Geometric Resonant Time (IGRT), Harmonized Research Monograph Edition H11. [Predecessor Baseline, SHA-256: 57cf3f1c...048d].' },
+  { id: 1, citation: 'Bulaqueña, M. D., Tassan, J.-C., Lauret, W. J. S., Chatterjee, R., & Goldberger, W. (2026). Information-Geometric Resonant Time (IGRT), Harmonized Research Monograph Edition H11. [Predecessor Baseline, SHA-256: 57cf3f1c...048d].' },
   { id: 2, citation: 'Randall, L., & Sundrum, R. (1999). A Large Mass Hierarchy from a Small Extra Dimension; An Alternative to Compactification. Phys. Rev. Lett. 83, 3370 & 4690.' },
   { id: 3, citation: 'Chung, D. J. H., & Freese, K. (2000). Can Geodesics in Extra Dimensions Solve the Horizon Problem? Phys. Rev. D 62, 063513.' },
   { id: 4, citation: 'Shiromizu, T., Maeda, K., & Sasaki, M. (2000). The Einstein Equations on the 3-Brane World. Phys. Rev. D 62, 024012.' },
@@ -1329,7 +1416,7 @@ export const FIVE_D_SIGNATURES_TEST_MATRIX: Array<{
   {
     signature: 'Brane-world graviton scalar/breathing mode (h_b) & GW dimming (d_L^GW ≠ d_L^EM)',
     experimentToTestIt: 'Protocol P10 · 3G Einstein Telescope + Cosmic Explorer triangular polarization null stream & bright sirens',
-    currentConstraint: '|h_scalar / h_tensor| < 10⁻¹ in LVK O4/O5; ET/CE projects ≤ 10⁻³ at SNR ≥ 100'
+    currentConstraint: '|h_scalar / h_tensor| < 10⁻¹ in LVK GWTC-3/O4; ET/CE projects ≤ 10⁻³ at SNR ≥ 100 and bright-siren d_L^GW/d_L^EM = 1 ± 10⁻⁴'
   },
   {
     signature: 'Passive multi-messenger tensor-vs-photon arrival folding (η_fold^{GW−EM} ≠ 1)',
@@ -1477,7 +1564,7 @@ export const H12_PROTOCOL_ANALYSIS_SECTIONS: Array<{ title: string; content: str
   },
   {
     title: 'Multi-Messenger & Cross-Protocol Joint Likelihood (P7–P13)',
-    content: 'Empirical protocols constrain orthogonal projections of Θ_5D = (R_5, k, α_t + α_x) via explicit joint log-likelihood ln ℒ_joint(Θ_5D) = ln ℒ_P7(R_5, α_KK) + ln ℒ_P8(m_KK^(1), δν/ν) + ln ℒ_P9(δV_5D) + ln ℒ_P10(|h_s/h_t|, d_L^GW/d_L^EM) + ln ℒ_P13(η_fold^{GW−EM}), eliminating sliding-scale degeneracy between bulk leakage and asymmetric metric dispersion.'
+    content: 'Empirical protocols constrain orthogonal projections of Θ_5D = (R_5, k, α_t + α_x) via explicit joint log-likelihood ln ℒ_joint(Θ_5D) = ln ℒ_P7(R_5, α_KK) + ln ℒ_P8(m_KK^(1), δν/ν) + ln ℒ_P9(δV_5D) + ln ℒ_P10(|h_s/h_t|, d_L^GW/d_L^EM) + ln ℒ_P13(η_fold^{GW−EM}), eliminating sliding-scale degeneracy between bulk leakage and asymmetric metric dispersion. Matched-filter template orthogonalization separates H11 P4 outer-photon-sphere reflection echoes (K_echo = 0.184, strictly spin-2 tensor polarization) from H12 P10 scalar breathing polarizations (h_b) plus chirped KK echo trains, and orthogonally separates H11 P5 power-law Chameleon scalar screening from H12 P7 exponential Yukawa pressure residuals e^{−d/R_5} across shared CANNEX hardware.'
   },
   {
     title: 'Null Hypothesis Baseline',
@@ -1557,12 +1644,17 @@ export const H12_PRIOR_AUDIT_RESPONSES: Array<{ auditScope: string; panelCritiqu
   {
     auditScope: 'H12 Structural Revision (4): Consolidated Alphabetical Appendices A–L & Unified Integration',
     panelCritique: 'Technical review noted earlier mechanism chapters and out-of-order appendices obscured H12’s strongest contribution (exact negative theorems) and hardware scope.',
-    harmonizedResolution: 'Consolidated all appendices strictly alphabetically A–L after References: merging simulation/dimensional/parameter references into Appendix H, ordering the Epistemic Claim–Evidence Ledger + Structural Scorecard as Appendix I, Devices A–K as Appendix J, Unified Solutions to Seven Open Physics Problems as Appendix K, and Speculative Portal Concepts (Category D) as Appendix L alongside Chapters 1–13.'
+    harmonizedResolution: 'Consolidated all appendices strictly alphabetically A–L after References: merging simulation/dimensional/parameter references into Appendix H, ordering the Epistemic Claim–Evidence Ledger + Structural Scorecard as Appendix I, Devices A–K as Appendix J, Seven Open Problems and How H12 Constrains Them (Category C) as Appendix K, and Speculative Portal Concepts (Category D) as Appendix L alongside Chapters 1–13.'
   },
   {
-    auditScope: 'IGRT-H12 Final 40-Reviewer Audit (5): Unified Abstract, ODE/Geodesic Closure & Protocol Polish',
-    panelCritique: 'Scored pre-revision draft 16.5/20 across 8 disciplinary review groups (5 reviewers each), flagging the segregated non-specialist summary box, implicit intermediate ODE steps between Eq. (2.2) and Eq. (H12.0.1)–(H12.0.2), S¹ winding non-monotonicity subtlety, and incomplete P7–P13 / Systematics formatting.',
+    auditScope: 'IGRT-H12 Methodological Closure (5): Unified Abstract, ODE/Geodesic Closure & Protocol Polish',
+    panelCritique: 'Methodological audit flagged the segregated non-specialist summary box, implicit intermediate ODE steps between Eq. (2.2) and Eq. (H12.0.1)–(H12.0.2), S¹ winding non-monotonicity subtlety, and incomplete P7–P13 / Systematics formatting.',
     harmonizedResolution: 'Unified Abstract for both layman and scholar while removing the separate non-specialist callout box everywhere; inserted explicit u_t/u_x 5D metric ODE integration, Polyakov/einbein worldline variation, Beltrami affine identity, Yang–Mills y≠θ proof, Cauchy–Schwarz S¹ winding inequality, and full P7–P13 Checklist/Timeline/Systematics alignment.'
+  },
+  {
+    auditScope: 'Cross-Monograph Epistemic, Mathematical & Metrological Harmonization (6): H11 ↔ H12 Continuity, +5 Plates & 5-Author Roster',
+    panelCritique: 'Cross-monograph verification evaluated H11 and H12 jointly for Category A–D consistency, CODATA G 22 ppm uncertainty propagation, N_eff = 1 vs SM g_* = 106.75 normalization, linearized Beltrami/radion validity bounds, mixed-state Bloch regularity, H11 P4/P5 vs. H12 P10/P7 template orthogonalization, astrophysical Δt_intr jet-lag prior dependence in P13, and blind hardware cross-calibration.',
+    harmonizedResolution: 'Aligned four-tier epistemic crosswalk and ΔAIC = −1.84 caveat across H11 and H12; added RS σ_brane = 6k/(8π G_5) matching, 4D Araki integral matching, linearized backreaction limit |δΦ_rad/Φ_rad| ≪ (k y_peak)⁻¹, Casimir spherical-shell strut note, rank-2 Bloch interior 1 − |r|² > 0 regularity, GRB Δt_intr ∈ [0, 1.74] s Category C caveat, P4/P10 and P5/P7 orthogonal templates, J.12 blind-injection calibration & N_trials look-elsewhere thresholds, Supplemental Illustrations H12-S1..S5, and updated 5-author affiliations/ORCIDs.'
   }
 ];
 
@@ -1944,7 +2036,7 @@ export const P13_DEDICATED_PROTOCOLS_AND_CHECKS: Array<{ title: string; content:
   },
   {
     title: 'Systematic Check for P13',
-    content: 'Isolate astrophysical engine/jet breakout lag (+0.5 to +1.74 s) from cosmological propagation via linear regression Δt_{GW−EM}(D_L) = Δt_int + (η_fold^{GW−EM} − 1)(D_L / c), propagating NGC 4993 distance priors (26–48 Mpc 1σ bounds shift limit from 6.353 × 10⁻¹⁶ down to 3.441 × 10⁻¹⁶ around 4.129 × 10⁻¹⁶, with z = 0.0098 comoving correction 4.170 × 10⁻¹⁶), host peculiar velocities (~10⁻³), and LOS Shapiro parity (< 10⁻⁹ s).'
+    content: 'Isolate astrophysical engine/jet breakout lag (+0.5 to +1.74 s; modeled via Category C astrophysical emission-lag prior Δt_intr ∈ [0, 1.74] s calibrated from off-axis relativistic cocoon simulations rather than pure kinematics) from cosmological propagation via linear regression Δt_{GW−EM}(D_L) = Δt_int + (η_fold^{GW−EM} − 1)(D_L / c), propagating NGC 4993 distance priors (26–48 Mpc 1σ bounds shift limit from 6.353 × 10⁻¹⁶ down to 3.441 × 10⁻¹⁶ around 4.129 × 10⁻¹⁶, with z = 0.0098 comoving correction 4.170 × 10⁻¹⁶), host peculiar velocities (~10⁻³), and LOS Shapiro parity (< 10⁻⁹ s).'
   },
   {
     title: 'Multi-Messenger Consistency Check for P13',
@@ -1970,56 +2062,56 @@ export const SEVEN_SOLVED_PHYSICS_PROBLEMS: SolvedPhysicsProblemRow[] = [
     id: 1,
     openProblem: '1. Hubble Expansion Tension & Dynamical Dark Energy Evolution',
     governingH11H12Equations: 'Eq. (1.1), H11 PNGB scalar + Eq. (2.2) δ_KK = 4.972 × 10⁻¹⁴',
-    coreResolutionAndPrediction: 'Reconciles local distance ladders and CMB/BAO via H_0 = 70.77 ± 0.72 km s⁻¹ Mpc⁻¹ and evolving dark energy (w_0, w_a) = (−0.831, −0.542), guaranteed untouched to 10⁻¹⁴ by meV KK decoupling.',
-    laymanTakeaway: 'Explains why galaxies fly apart slightly faster today than early-universe baby pictures predict—without breaking local gravity.',
+    coreResolutionAndPrediction: 'Constrains H12 bulk deviations so H11’s H_0 = 70.77 ± 0.72 km s⁻¹ Mpc⁻¹ and (w_0, w_a) = (−0.831, −0.542) remain protected to 4.972 × 10⁻¹⁴ below m_KK^(1); does not solve the origin of dark energy.',
+    laymanTakeaway: 'Shows any unseen 5th dimension below 44 μm cannot disturb galaxy expansion measurements while leaving cosmic expansion puzzles open.',
     category: 'CATEGORY B — DERIVED'
   },
   {
     id: 2,
     openProblem: '2. Black-Hole Central Singularity & Page Information Paradox',
     governingH11H12Equations: 'Eq. (5.1) Hayward ξ_0 = 2⁻¹/⁴, M_rem = 1.09236 M_Pl, K_echo = 0.184',
-    coreResolutionAndPrediction: 'Replaces infinite-density r = 0 breakdown with a finite de Sitter core satisfying radial/transverse NEC (ρ + p_r = 0), yielding Page unitary remnant mass and testable 0.184 GW echoes.',
-    laymanTakeaway: 'Black holes do not crush physics into an infinite math crash or turn into magical wormhole doors—they bounce smoothly inside and leave faint gravitational-wave echoes.',
+    coreResolutionAndPrediction: 'Constrains regular Hayward black holes via ρ + p_r = 0 (non-portals) alongside 4D Page remnant mass and 0.184 echoes; does not derive unitary evaporation in 5D gravity.',
+    laymanTakeaway: 'Rules out using regular black holes as wormhole doors and bounds echo scales without solving the full 5D information paradox.',
     category: 'CATEGORY B — DERIVED'
   },
   {
     id: 3,
     openProblem: '3. Electroweak–Planck Hierarchy Problem (10¹⁶× Force Gap)',
     governingH11H12Equations: 'Eq. (H12.0.1) warped RS exponent kπR_5 = 35 ⇒ e⁻³⁵ = 6.3051 × 10⁻¹⁶',
-    coreResolutionAndPrediction: 'Maps a tiny O(35) inter-brane separation directly into the 16-order-of-magnitude hierarchy between Planck gravity (1.8101 × 10¹⁸ GeV) and TeV/electroweak physics when Goldberger–Wise radion stabilization holds.',
-    laymanTakeaway: 'Shows why gravity feels trillions of times weaker than a kitchen fridge magnet if gravity’s intensity drops exponentially across a microscopic 5th-dimensional gap.',
+    coreResolutionAndPrediction: 'Constrains the warped bulk separation needed for 16-order hierarchy suppression (kπR_5 = 35) conditional on Goldberger–Wise stabilization; assumes rather than solves stabilization dynamics.',
+    laymanTakeaway: 'Quantifies how wide a warped extra dimension would need to be to weaken gravity, without proving such a dimension exists.',
     category: 'CATEGORY C — CONJECTURAL'
   },
   {
     id: 4,
     openProblem: '4. Origin of Physical Time Flow & Quantum Measurement Limits',
     governingH11H12Equations: 'Eq. (H12.0.2) dτ_obs = [ℏ/(E_mod σ_1)] ds_QFI & Eq. (7.1) V² + D_QFI² = 1',
-    coreResolutionAndPrediction: 'Unifies Tomita–Takesaki thermal modular time, Connes–Rovelli KMS equilibrium, and SLD Quantum Fisher distinguishability into one invariant clock law verified on optical clocks (Device A) and double-slit fringes (Device D).',
-    laymanTakeaway: 'Reveals that ticking time isn’t an invisible background clock—it measures how fast quantum states become observably distinguishable.',
+    coreResolutionAndPrediction: 'Constrains clock trajectories to satisfy SLD Fisher bounds orthogonal to ∂/∂y (PU(H) ⊥ ∂/∂y) while leaving the Born rule P = |ψ|² an external Category A postulate.',
+    laymanTakeaway: 'Links clock ticking rates to quantum state distinguishability while leaving the fundamental origin of quantum probabilities open.',
     category: 'CATEGORY B — DERIVED'
   },
   {
     id: 5,
     openProblem: '5. Cosmological Horizon Problem & Big Bang Singularity Without Unbounded Blowup',
     governingH11H12Equations: 'H11 Ekpyrotic Bounce (n_s = 0.9637, r < 0.03) & App. B ΔN_eff = 0.0614 < 0.28',
-    coreResolutionAndPrediction: 'Combines singularity-free S¹/ℤ_2 orbifold bounce dynamics with ghost-free 5D Einstein–Maxwell bulk causal bridging (η_fold → 2/π) while keeping primordial Weyl radiation safely inside Planck/BBN N_eff limits.',
-    laymanTakeaway: 'Explains how distant sides of the infant universe balanced temperatures without bursting from a zero-volume Big Bang crash.',
+    coreResolutionAndPrediction: 'Constrains Weyl dark radiation below ΔN_eff < 0.28 and limits ghost-free Einstein–Maxwell bulk causal bridging to k Δx < π (η_fold → 2/π); remains conditional on unobserved 5D fields.',
+    laymanTakeaway: 'Places strict observational ceilings on how much hidden-dimension radiation could have existed in the early universe.',
     category: 'CATEGORY C — CONJECTURAL'
   },
   {
     id: 6,
     openProblem: '6. Reconciling Quantum Nonlocality, ER=EPR & Chronology Protection',
     governingH11H12Equations: 'Eq. (2.1) PU(H) ⊥ ∂/∂y, Theorem 8.1 [O_A, O_B] = 0, ρ_CTC = diag(0.5, 0.5)',
-    coreResolutionAndPrediction: 'Separates internal Hilbert state-space entanglement strictly from spatial coordinate y, enforcing airtight no-signaling and guaranteeing Deutsch fixed-point causal closure (Device H) against time paradoxes.',
-    laymanTakeaway: 'Proves why quantum entanglement links distant particles instantly in state space without letting anyone send faster-than-light messages or cause time-travel paradoxes.',
+    coreResolutionAndPrediction: 'Constrains bulk models to preserve microcausality and no-signaling [O_A, O_B] = 0 by decoupling Hilbert state space from y; flat-4D ER=EPR remains open.',
+    laymanTakeaway: 'Confirms entanglement obeys causality and forbids faster-than-light messages without resolving gravitational quantum duality.',
     category: 'CATEGORY B — DERIVED'
   },
   {
     id: 7,
-    openProblem: '7. Quantitative Resolution of Sci-Fi Portals & Over-Unity Free Energy Claims',
+    openProblem: '7. Quantitative Boundaries on Macroscopic Portals & Over-Unity Free Energy',
     governingH11H12Equations: 'Eq. (6.1–6.2) 10⁷¹ Casimir shortfall & Device I ΔW_out ≤ ΔF_mod passivity',
-    coreResolutionAndPrediction: 'Separates impossible macroscopic wormhole/perpetual-motion claims (blocked by Ford–Roman 10⁷¹ and Second-Law bounds) from real harvestable zero-point vacuum forces (P_C = 13.001 Pa / 1.3001 mN) and Unruh KMS thermality (40.55 μK).',
-    laymanTakeaway: 'Draws an unbreakable line between impossible perpetual motion machines and genuine quantum-vacuum sensors you can actually build in a lab.',
+    coreResolutionAndPrediction: 'Constrains admissible vacuum engineering to sub-unity passivity ΔW_out ≤ ΔF_mod (P_C = 13.001 Pa / 1.3001 mN) while ruling out macroscopic Casimir wormholes by 71 orders of magnitude.',
+    laymanTakeaway: 'Separates impossible perpetual-motion or wormhole machines from legitimate millinewton quantum-vacuum sensors.',
     category: 'CATEGORY B — DERIVED'
   }
 ];
@@ -2068,7 +2160,7 @@ export const APPENDIX_J_DEVICE_DOSSIERS: AppendixJDeviceDossier[] = [
     ],
     engineeringParagraphs: [
       'Cryogenic Fabry–Pérot Metrology & Shield Membrane Isolation: Device B places a 30 mm × 30 mm tungsten/gold source mass beneath a tensioned 150 nm Si₃N₄ membrane coated with 40 nm gold (electrostatic attenuation > 10¹²). Above the shield, a SiC sensor plate hangs on silicon flexure springs (Q_m > 10⁶ at 4.2 K) forming a high-finesse Fabry–Pérot readout interferometer (< 10⁻¹³ m/√Hz at 10 Hz), dropping Brownian pressure noise to 3 × 10⁻¹¹ N/m² over gaps d = 3–30 μm.',
-      'P5 / P7 Dual-Template Discrimination & 19.733 meV Reach: Modulating gaps between d = 5 μm and d = 20 μm separates H11 chameleon forces (Protocol P5) from H12 Kaluza–Klein Yukawa pressures ΔP_KK(d) = −2π G ρ_W² α_KK R_5² e^{−d/R_5} (Protocol P7, reaching m_KK^(1) = 19.733 meV at R_5 = 10 μm—a 3.9–4.4× advance beyond Eöt-Wash [5]).'
+      'P5 / P7 Dual-Template Discrimination & 19.733 meV Reach: Modulating gaps between d = 5 μm and d = 20 μm separates H11 chameleon forces (Protocol P5) from H12 Kaluza–Klein Yukawa pressures ΔP_KK(d) = −2π G ρ_W² α_KK R_5² e^{−d/R_5} in the thick-plate regime L_plate ≫ R_5 (Protocol P7, reaching m_KK^(1) = 19.733 meV at R_5 = 10 μm—a 4.4× advance beyond 44 μm S¹ and 3.86× beyond 38.6 μm single-Yukawa Eöt-Wash [5]).'
     ],
     impactParagraph:
       'Empirical Decisiveness: Device B tests predictions from both Paper 1 (H11 P5) and Paper 2 (H12 P7) on the exact same optical table before 2030.'
@@ -2140,7 +2232,7 @@ export const APPENDIX_J_DEVICE_DOSSIERS: AppendixJDeviceDossier[] = [
     ],
     engineeringParagraphs: [
       'Sub-NanoKelvin ⁸⁷Rb Optical Waterfall: ~8 × 10⁴ ⁸⁷Rb atoms at T ≈ 50 nK (ξ_h = 0.3445 μm, lifetime 500 ms) cross v = c_s = 1.5 mm/s via a 532 nm DMD barrier plus Feshbach core step.',
-      'Correlation Imaging: Connected G^(2)(x, x\') maps across ~4,000 shots extract off-diagonal Hawking bands and tortoise-barrier echoes (|R_eff| ≈ 0.184).'
+      'Correlation Imaging: Connected G^(2)(x, x\') maps across ~4,000 shots extract off-diagonal Hawking bands and tortoise-barrier echoes (|R_eff|² = e^{−3.386} ≈ 0.0338 ⇒ |R_eff| = K_echo ≈ 0.184).'
     ],
     impactParagraph:
       'Seeing Horizon Physics Up Close: Validates regular-core tortoise echo dynamics cleanly in a cold-atom trap decades before 3G space interferometers resolve Planckian ringdown tails.'
@@ -2334,6 +2426,86 @@ export const APPENDIX_J_SYNTHESIS_TABLE: Array<{
     strictNonClaim: 'Condensed-matter emergent gauge fields only; zero ambient spacetime warping.'
   }
 ];
+
+export const APPENDIX_J_SYNERGY: {
+  title: string;
+  overview: string;
+  clusters: Array<{
+    cluster: string;
+    devices: string;
+    mechanism: string;
+    jointConstraint: string;
+  }>;
+} = {
+  title: 'J.12 Cross-Device Synergy',
+  overview:
+    'No single benchtop instrument can independently disentangle five-dimensional bulk existence (R_5, m_KK), state-space QFI orthogonality (PU(H) ⊥ ∂/∂y), and asymmetric warp dispersion (α_t + α_x). Pairing Devices A–K across four coordinated clusters—governed by shared blind hardware-injection cross-calibration of Kelvin-probe electrostatic potentials and Lifshitz–Casimir pressure baselines before unblinding—eliminates nuisance degeneracies and links laboratory metrology directly to Protocols P7–P13.',
+  clusters: [
+    {
+      cluster: 'Cluster 1 · Low-Energy Bulk & QFI Clock Lock',
+      devices: 'Device A (QFI Clock) + Device B (CANNEX Force Balance) + Device D (Double-Slit Fisher)',
+      mechanism: 'Device B probes spatial inverse-square deviations down to R_5 = 10 μm (P7) via orthogonal exponential vs. Chameleon templates, Device A bounds modular clock detuning |δν/ν| < 10⁻¹⁹ (P8), and Device D checks fiber–bulk orthogonality V² + D_QFI² = 1 to 10⁻⁶ (P9).',
+      jointConstraint: 'Locks Θ_5D = (R_5, δν/ν, δV_5D) in joint likelihood ln ℒ_joint while proving 4D H11 preservation below 4.972 × 10⁻¹⁴.'
+    },
+    {
+      cluster: 'Cluster 2 · Asymmetric Bulk Analog Triangle',
+      devices: 'Device C (GRIN Slab) + Device G (Si₃N₄ Portal Cavity) + Device K (TaAs Weyl Interferometer)',
+      mechanism: 'Device C tests continuum Beltrami turning paths (η_analog ≈ 0.74), Device G validates discrete twin-brane tunneling (η_EM = 0.84147, C = 2.716 × 10⁵), and Device K tests solid-state Einstein–Maxwell NEC (+1.0, 0) within finite span kΔx < π.',
+      jointConstraint: 'Cross-validates all Chapter 4 numerical quadrature and ODE routines across photonic, cavity, and condensed-matter platforms without violating c_vac.'
+    },
+    {
+      cluster: 'Cluster 3 · Horizons, Causality & 3G Sky Interface',
+      devices: 'Device E (3G GW + 50-Qubit Probe) + Device F (Rb-87 BEC Waterfall) + Device H (Deutsch Time-Loop)',
+      mechanism: 'Device F validates Hayward tortoise echoes (|R_eff| ≈ 0.184) in cold atoms, Device E Track E1 isolates astrophysical scalar/KK leakage and ringdown echoes (P10/P13, cleanly orthogonal to H11 P4), and Track E2 + Device H enforce quantum no-signaling and ρ_CTC = diag(0.5, 0.5).',
+      jointConstraint: 'Unifies acoustic, qubit, and optical causality tests alongside multi-messenger P13 bounds (9.916 × 10⁻¹⁹ at 3G).'
+    },
+    {
+      cluster: 'Cluster 4 · Quantum Vacuum Thermodynamics Calibration',
+      devices: 'Device B (CANNEX Casimir Subtraction) + Device I (Casimir MEMS Harvester) + Device J (Unruh KMS Engine)',
+      mechanism: 'Device B calibrates planar Lifshitz–Zeta Casimir pressure backgrounds and Kelvin-probe patch compensation at 3–30 μm via shared blind injections, Device I extracts cyclic millinewton work at 100 nm strictly inside ΔW_out ≤ ΔF_mod, and Device J verifies KMS thermal-time equivalence t_th = −ℏ β_U s_mod.',
+      jointConstraint: 'Establishes a unified thermodynamic floor separating legitimate vacuum sensors from forbidden over-unity energy or macroscopic wormhole claims.'
+    }
+  ]
+};
+
+export const APPENDIX_J_RISK_ASSESSMENT: Array<{
+  deviceId: string;
+  technicalRisk: string;
+  severity: 'Low' | 'Moderate' | 'High';
+  mitigation: string;
+}> = [
+  { deviceId: 'Device A', technicalRisk: 'Blackbody radiation thermal gradients (ΔT > 10 mK) and Raman laser phase noise masking 10⁻¹⁹ modular sweeps.', severity: 'Moderate', mitigation: '77 K cryogenic silicon radiation shield + ULE cavity frequency-comb lock + interleaved m_F spin cancellation.' },
+  { deviceId: 'Device B', technicalRisk: 'Electrostatic patch potentials and cantilever pull-in instability below d = 5 μm plate spacing.', severity: 'High', mitigation: '150 nm Au-coated Si₃N₄ shield membrane (> 10¹² attenuation) with active Kelvin-probe bias feedback.' },
+  { deviceId: 'Device C', technicalRisk: 'PECVD stoichiometry index drift altering exponential profile n(y) and modal scattering loss.', severity: 'Low', mitigation: 'Ellipsometric layer calibration during deposition and adiabatic grating-coupler mode matching.' },
+  { deviceId: 'Device D', technicalRisk: 'Vibration-induced interferometer phase jitter and background gas collisions degrading V below 10⁻⁶.', severity: 'Moderate', mitigation: 'Monolithic ULE spacer in 10⁻¹¹ mbar UHV chamber with active sub-nanoradian piezo lock.' },
+  { deviceId: 'Device E', technicalRisk: '3G ET/CE funding/construction schedule slippage beyond 2035 and GRB jet-lag modeling systematics in P13; gate infidelity on Track E2.', severity: 'High', mitigation: 'Pair archival LVK O4/O5 + Fermi/SVOM stacking now while decoupling Track E2 qubit scrambling tests onto existing 50-qubit processors.' },
+  { deviceId: 'Device F', technicalRisk: 'Three-body recombination heating limiting BEC waterfall lifetime below 500 ms and masking 0.184 echo SNR.', severity: 'Moderate', mitigation: 'Feshbach magnetic tuning to reduce three-body loss and accumulate 4,000+ shot ensemble averages.' },
+  { deviceId: 'Device G', technicalRisk: 'Nanometer SiO₂ barrier thickness variations detuning tunnel splitting J/2π between stacked Si₃N₄ cores.', severity: 'Moderate', mitigation: 'Thermo-optic micro-heater fine tuning across the top brane ring to restore symmetric resonance.' },
+  { deviceId: 'Device H', technicalRisk: 'Post-selection herald efficiency loss (~0.8 dB/roundtrip) biasing state reconstruction over multiple loops.', severity: 'Low', mitigation: 'Low-loss splicing, low-jitter superconducting nanowire single-photon detectors (SNSPDs), and maximum-likelihood tomographic calibration.' },
+  { deviceId: 'Device I', technicalRisk: 'Plate parallelism drift (< 2 nm/cm) or snap-to-contact stiction at d = 100 nm gap.', severity: 'High', mitigation: 'Three-axis capacitive tilt feedback loop and stiffened Si₃N₄ flexure suspensions.' },
+  { deviceId: 'Device J', technicalRisk: 'Anomalous surface-electrode electric-field heating inflating apparent ion motional temperature above 40.55 μK.', severity: 'Moderate', mitigation: '4 K niobium superconducting trap operation plus argon-ion sputter cleaning prior to cooldown.' },
+  { deviceId: 'Device K', technicalRisk: 'Trivial bulk-band parallel conduction and BaTiO₃ ferroelectric hysteresis obscuring chiral strain transport.', severity: 'Moderate', mitigation: 'Thin 200 nm MBE epitaxial growth, gate-tuned Fermi level, and Hall asymmetry symmetrization.' }
+];
+
+export const APPENDIX_J_RESOURCE_REQUIREMENTS: Array<{
+  deviceId: string;
+  personnel: string;
+  equipment: string;
+  funding: string;
+}> = [
+  { deviceId: 'Device A', personnel: '4 FTE (atomic clock & comb physicists, cryo engineer)', equipment: 'Dual ⁸⁷Sr/¹⁷¹Yb lattice chambers, Ti:sapphire comb, 77 K silicon shield', funding: '$3.5M – $6.0M USD (multi-institution upgrade)' },
+  { deviceId: 'Device B', personnel: '3 FTE (precision torsion/MEMS experimentalists)', equipment: '4.2 K CANNEX Fabry–Pérot chamber, Si₃N₄ Au shield, active piezo isolation', funding: '$2.2M – $4.0M USD' },
+  { deviceId: 'Device C', personnel: '2 FTE (integrated photonics & ultrafast optics fellows)', equipment: 'PECVD SiO_x N_y GRIN foundry wafer, 1550 nm fs laser, optical autocorrelator', funding: '$0.25M – $0.45M USD' },
+  { deviceId: 'Device D', personnel: '2–3 FTE (quantum optics / atom interferometry team)', equipment: 'ULE Mach–Zehnder & ¹³³Cs Bragg vacuum rig, SPDC source, SNSPDs', funding: '$0.8M – $1.6M USD' },
+  { deviceId: 'Device E', personnel: 'Consortium (~1,000+ E1 3G team; 3 FTE E2 quantum team)', equipment: 'Einstein Telescope / Cosmic Explorer observatories (E1); 50-qubit dilution cryo-chip (E2)', funding: '$1.8B – $3.5B USD (3G consortium) / ~$2M (E2 allocation)' },
+  { deviceId: 'Device F', personnel: '3 FTE (ultracold-atom experimentalists)', equipment: '⁸⁷Rb BEC vacuum chamber, 532 nm DMD projector, Feshbach coils, EMCCD camera', funding: '$1.1M – $2.0M USD' },
+  { deviceId: 'Device G', personnel: '2 FTE (nanophotonics & RF heterodyne specialists)', equipment: 'Foundry Si₃N₄ bilayer die, tunable 1550 nm lasers, vector network analyzer', funding: '$0.4M – $0.9M USD' },
+  { deviceId: 'Device H', personnel: '2 FTE (quantum-information optics researchers)', equipment: 'LiNbO₃ Pockels modulator, 2 m PM fiber ring, 1550 nm SPDC & tomography polarizers', funding: '$0.35M – $0.75M USD' },
+  { deviceId: 'Device I', personnel: '3 FTE (MEMS nanofabrication & low-T cryogenics)', equipment: '4 K UHV cryostat, 1 cm² Au/Si₃N₄ MEMS capacitor plates, Kelvin probe controller', funding: '$1.4M – $2.8M USD' },
+  { deviceId: 'Device J', personnel: '3 FTE (trapped-ion quantum thermodynamics specialists)', equipment: '4 K Nb surface Paul trap, ⁴⁰Ca⁺/¹⁷¹Yb⁺ cooling & Raman laser bank', funding: '$2.0M – $3.8M USD' },
+  { deviceId: 'Device K', personnel: '2–3 FTE (MBE crystal grower & magneto-transport physicist)', equipment: 'TaAs/BaTiO₃ heterostructures, 1.8 K 14 T cryomagnet, lock-in amplifiers', funding: '$0.9M – $1.8M USD' }
+];
+
 
 
 

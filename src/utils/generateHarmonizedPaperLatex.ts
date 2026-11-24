@@ -971,10 +971,14 @@ function buildPreambleTex(): string {
 
 function buildTitleAndAbstractTex(): string {
   const authorsTex = PAPER_META.authors
-    .map(
-      (a) =>
-        `\\textbf{${proseToLatex(a.name)}} \\\\ {\\small\\color{igrtslate}${proseToLatex(a.affiliation)}} \\\\ {\\scriptsize\\ttfamily ORCID: \\url{https://orcid.org/${a.orcid}}}`
-    )
+    .map((a) => {
+      const idLine = a.orcid
+        ? `{\\scriptsize\\ttfamily ORCID: \\url{https://orcid.org/${a.orcid}}}`
+        : a.email
+          ? `{\\scriptsize\\ttfamily Email: ${escapeCodeText(a.email)}}`
+          : '';
+      return `\\textbf{${proseToLatex(a.name)}} \\\\ {\\small\\color{igrtslate}${proseToLatex(a.affiliation)}}${idLine ? ` \\\\ ${idLine}` : ''}`;
+    })
     .join(' \\\\[0.8em]\n');
 
   const absParas = SHORTENED_ABSTRACT.paragraphs.map((p) => proseToLatex(p)).join('\n\n');
@@ -1038,7 +1042,7 @@ function buildFrontmatterTex(): string {
     lines.push(`\\end{scopebox}\n`);
   }
 
-  lines.push(`\\section*{List of Illustrations (Plates I--IX)}`);
+  lines.push(`\\section*{List of Illustrations (Plates I--XIV)}`);
   lines.push(`\\begin{itemize}[leftmargin=1.5em]`);
   for (const pl of PAPER_ILLUSTRATIONS) {
     lines.push(`  \\item \\textbf{Plate ${pl.roman}:} ${proseToLatex(pl.title)}`);
@@ -1543,7 +1547,7 @@ function buildReadmeMd(): string {
   return `# IGRT Harmonized Research Monograph — LaTeX Source Distribution (${PAPER_META.edition})
 
 **Title:** ${PAPER_META.title}  
-**Authors:** ${PAPER_META.authors.map((a) => `${a.name} (ORCID: ${a.orcid})`).join('; ')}  
+**Authors:** ${PAPER_META.authors.map((a) => a.orcid ? `${a.name} (ORCID: ${a.orcid})` : a.email ? `${a.name} (Email: ${a.email})` : a.name).join('; ')}  
 **Edition:** ${PAPER_META.edition} · ${PAPER_META.eprint}
 
 ## Directory Contents
@@ -1556,7 +1560,7 @@ function buildReadmeMd(): string {
 - \`sections/10_governance.tex\` — CRediT, COI, Funding, Reproducibility & Data/Code Availability
 - \`references.bib\` — Complete 109-entry BibTeX bibliography (\`ref1\`..\`ref109\`)
 - \`figures/fig_01.svg\` … \`fig_12.svg\` — Analytical vector SVG Figures 1–12 (plus \`fig_01.png\` … \`fig_12.png\`)
-- \`illustrations/plate_01.jpg\` … \`plate_09.jpg\` — Archival Editorial Plates I–IX
+- \`illustrations/plate_01.jpg\` … \`plate_14.jpg\` — Archival Editorial Plates I–XIV
 - \`IGRT_Harmonized_Monograph_H11.tex\` — Single-file self-contained LaTeX version (embedded bibliography)
 - \`Makefile\` — Automated build targets
 
@@ -1876,7 +1880,7 @@ export async function buildLatexBundleZipBlob(): Promise<Blob> {
     data: encoder.encode(content)
   }));
 
-  // Fetch all 9 archival JPEG plates
+  // Fetch all 14 archival JPEG plates
   await Promise.all(
     PAPER_ILLUSTRATIONS.map(async (plate) => {
       const bytes = await fetchPlateBytes(plate.imagePath);

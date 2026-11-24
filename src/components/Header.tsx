@@ -27,7 +27,8 @@ export const Header: React.FC<HeaderProps> = ({
         { id: 'refined-model-tech', name: 'Refined Model & Future Tech', badge: '1,740 pts' },
         { id: 'harmonized-model', name: 'The Harmonized Model (IGRT)', badge: '1,740 pts' },
         { id: 'harmonized-paper', name: 'Harmonized Model Research Paper', badge: 'Full Paper' },
-        { id: 'igrt-h12-paper', name: 'Follow-Up Paper (IGRT-H12: 5D & Portals)', badge: 'H12 New' },
+        { id: 'igrt-h12-paper', name: 'Follow-Up Paper (IGRT-H12: 5D & Portals)', badge: 'H12' },
+        { id: 'igrt-h13-paper', name: 'Paper 13 (IGRT-H13: Code, 5D & White Holes)', badge: 'H13 New' },
         { id: 'journal', name: 'Full Journal Manuscript', badge: '500-Crit.' },
         { id: 'pubdoc', name: '4-Page Publication & Verdict', badge: 'Archival' },
         { id: 'layman', name: "Layman's Guide", badge: 'Accessible' },
@@ -129,7 +130,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center gap-1.5 hover:text-[#081026] dark:hover:text-[#FDFBF7] transition-colors whitespace-nowrap shrink-0 font-medium py-1"
             >
-              <span>Explore All 18 Modules</span>
+              <span>Explore All 19 Modules</span>
               <span className="text-[10px] transform transition-transform" style={{ transform: dropdownOpen ? 'rotate(180deg)' : 'none' }}>▼</span>
             </button>
 

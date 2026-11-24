@@ -196,8 +196,8 @@ export const HarmonizedModelView: React.FC<HarmonizedModelViewProps> = ({
     { roman: 'VII', aPts: 72, bPts: 30, fix: 'O(N⁻²) Uhlmann–Frobenius convergence + compressed k_eff=2 A_F^{H11} unification [66/66 · 100%]' },
     { roman: 'VIII', aPts: 54, bPts: 10, fix: '3+1 BFV–BRST Ω²=0 (<10⁻¹⁵), Picard–Lefschetz thimble (2.412), EPRL Regge & Regge–CDT d_GH=0.0142' },
     { roman: 'IX', aPts: 44, bPts: 12, fix: 'Derived ξ_0=2⁻¹/⁴, 4D Israel–Darmois (0.4094<0.41 ρ_Pl), Kerr–Hayward ≤0.6639 & local QFC [180/180]' },
-    { roman: 'X', aPts: 26, bPts: 15, fix: '639-check verify-igrt-monograph.mjs, igrt-cosmology-suite.mjs & Plates I–IX / Figs 1–12 [ATK-20 peer review]' },
-    { roman: 'XI', aPts: 0, bPts: 0, fix: 'Theorem 4.1 derived α_mod = ℏ/(E_mod σ_1), P_LZ = exp(−3.14×10²⁰) & Kerr–Hayward horizons [120/120]' },
+    { roman: 'X', aPts: 26, bPts: 15, fix: '639-check verify-igrt-monograph.mjs, igrt-cosmology-suite.mjs & Plates I–XIV / Figs 1–12 [ATK-20 peer review]' },
+    { roman: 'XI', aPts: 0, bPts: 0, fix: 'Theorem 4.1 derived α_mod = ℏ/(E_mod σ_1), P_LZ = exp(−10²⁰) & Kerr–Hayward horizons [120/120]' },
     { roman: 'XII', aPts: 0, bPts: 0, fix: 'Theorem 3.2 derived κ_ψ, k_eff=2 A_F^{H11}, PSR J0737 (<3.44×10⁻¹⁵) & ΔAIC=−1.84 MCMC [120/120]' }
   ];
 

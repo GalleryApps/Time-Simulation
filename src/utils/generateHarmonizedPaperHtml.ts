@@ -5,7 +5,7 @@
  * Single Self-Contained HTML Monograph Exporter (Print-to-PDF Ready, A4 25mm margins)
  * - Zero LaTeX: pure Unicode/HTML typography
  * - CSS variables scaling body to 30px (14px + 16px), headings Playfair Display Regular (weight 400)
- * - Clean inline SVG figures (Figures 1–12) & archival Plates (Plates I–IX) embedded natively
+ * - Clean inline SVG figures (Figures 1–12) & archival Plates (Plates I–XIV) embedded natively
  * - Strict orphan/widow & heading keep-with-next pagination rules
  */
 
@@ -773,7 +773,7 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
         .map(
           (a) => `<div class="author-card">
         <strong>${esc(a.name)}</strong><br/>
-        ORCID: https://orcid.org/${esc(a.orcid)}<br/>
+        ${a.orcid ? `ORCID: https://orcid.org/${esc(a.orcid)}` : a.email ? `Email: ${esc(a.email)}` : ''}<br/>
         <span>${esc(a.affiliation)}</span>
       </div>`
         )

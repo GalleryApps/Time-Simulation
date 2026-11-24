@@ -147,7 +147,7 @@ export const H12_EXPANDED_CHAPTER_FIGURES: H12FigureSpec[] = [
     title: 'Tomita–Takesaki Modular KMS Analytic Strip & Seven Temporal Notions Hierarchy',
     category: 'CATEGORY B — DERIVED',
     caption:
-      'Complex modular time strip Im(tau) in [0, beta hbar] verifying Eq. (H12.0.2) analyticity (top) and the strict epistemic classification of the seven temporal notions in Table 3.1 (bottom). Coordinate time t and brane proper duration tau_4 obey Category A relativity; modular flow tau_mod links statistical relative entropy to thermal periodicity beta hbar = 2 pi c / a, while folding ratio eta_fold stays quarantined under Category C.',
+      'Complex modular time strip Im(tau) in [0, beta hbar] verifying Eq. (H12.0.2) analyticity (top) and the strict epistemic classification of the seven temporal notions in Table 3.1 (bottom). Coordinate time t and brane proper duration tau_4 obey Category A relativity; modular flow tau_mod links statistical relative entropy to thermal periodicity beta hbar = 2 pi c / a, while folding ratio η_fold stays quarantined under Category C.',
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 480" width="760" height="480" style="background:#FFFFFF;font-family:'DejaVu Sans','DejaVu Serif',Georgia,sans-serif">
   <rect x="0" y="0" width="760" height="480" fill="#FFFFFF"/>
   <rect x="14" y="14" width="732" height="452" fill="#FFFFFF" stroke="#0F0D0B" stroke-width="1.2"/>
@@ -187,8 +187,8 @@ export const H12_EXPANDED_CHAPTER_FIGURES: H12FigureSpec[] = [
   <text x="166" y="382" text-anchor="middle" font-size="9" fill="#0F0D0B">Cat. C: Requires assumed asymmetry</text>
 
   <rect x="278" y="348" width="204" height="42" fill="#FBF7F4" stroke="#8F5B4A" stroke-width="1.2"/>
-  <text x="380" y="366" text-anchor="middle" font-size="10" font-weight="bold" fill="#8F5B4A">6. Folding Ratio eta_fold</text>
-  <text x="380" y="382" text-anchor="middle" font-size="9" fill="#0F0D0B">Cat. B/C: dt_5 / dt_4 (&lt; 1 conjectural)</text>
+  <text x="380" y="366" text-anchor="middle" font-size="10" font-weight="bold" fill="#8F5B4A">6. Folding Ratio η_fold</text>
+  <text x="380" y="382" text-anchor="middle" font-size="9" fill="#0F0D0B">Cat. B/C: Δt₅ / Δt₄ (&lt; 1 conjectural)</text>
 
   <rect x="492" y="348" width="204" height="42" fill="#F7F5F0" stroke="#3A2E26" stroke-width="1.2"/>
   <text x="594" y="366" text-anchor="middle" font-size="10" font-weight="bold" fill="#0F0D0B">7. Causal Arrow / Microcausality</text>
@@ -231,7 +231,7 @@ export const H12_EXPANDED_CHAPTER_FIGURES: H12FigureSpec[] = [
   <line x1="428" y1="352" x2="704" y2="352" stroke="#0F0D0B" stroke-width="1.4"/>
   <line x1="428" y1="120" x2="428" y2="352" stroke="#0F0D0B" stroke-width="1.4"/>
   <line x1="428" y1="150" x2="704" y2="150" stroke="#0F0D0B" stroke-width="1.1" stroke-dasharray="4,3"/>
-  <text x="436" y="142" font-size="9.5" fill="#0F0D0B">eta_fold = 1.0 (Brane Limit)</text>
+  <text x="436" y="142" font-size="9.5" fill="#0F0D0B">η_fold = 1.0 (Brane Limit)</text>
 
   <!-- EM curve ending at k dx = pi -->
   <path d="M 428 150 Q 505 170 538 218" fill="none" stroke="#64705B" stroke-width="2.6"/>
@@ -258,7 +258,7 @@ export const H12_EXPANDED_CHAPTER_FIGURES: H12FigureSpec[] = [
     title: 'Hayward Regular Soliton Critical Mass (23.7744 ug) & Gregory–Laflamme Threshold (0.876)',
     category: 'CATEGORY B — DERIVED',
     caption:
-      'Parameter stability diagram separating regular 4D Hayward horizonless solitons (M < M_crit = 23.7744 ug, where l_0 = 1.359 x 10^-35 m suppresses event horizon formation) from regular two-horizon black holes (Class B) and 5D black-string Gregory–Laflamme instabilities along compactified extra dimensions below r_+ / R_AdS < 0.876.',
+      'Parameter stability diagram separating regular 4D Hayward horizonless solitons (M < M_crit = 23.7744 ug, where ℓ_0 = 1.359 × 10^-35 m suppresses event horizon formation) from regular two-horizon black holes (Class B) and 5D black-string Gregory–Laflamme instabilities along compactified extra dimensions below r_+ / R_AdS < 0.876.',
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 480" width="760" height="480" style="background:#FFFFFF;font-family:'DejaVu Sans','DejaVu Serif',Georgia,sans-serif">
   <rect x="0" y="0" width="760" height="480" fill="#FFFFFF"/>
   <rect x="14" y="14" width="732" height="452" fill="#FFFFFF" stroke="#0F0D0B" stroke-width="1.2"/>
@@ -541,8 +541,8 @@ export const H12_EXPANDED_CHAPTER_FIGURES: H12FigureSpec[] = [
   <!-- Pillar 1 -->
   <rect x="42" y="74" width="296" height="104" fill="#FAF8F4" stroke="#64705B" stroke-width="1.5"/>
   <text x="190" y="96" text-anchor="middle" font-size="11" font-weight="bold" fill="#64705B">LOCK I · SYMMETRIC / RS NO-GO</text>
-  <text x="190" y="116" text-anchor="middle" font-size="10" fill="#0F0D0B">Model 1 (S^1): eta_fold = 1.001249 &gt; 1</text>
-  <text x="190" y="134" text-anchor="middle" font-size="10" fill="#0F0D0B">Model 2A (RS AdS_5): eta_fold = 1.010321 &gt; 1</text>
+  <text x="190" y="116" text-anchor="middle" font-size="10" fill="#0F0D0B">Model 1 (M₄ × S¹): η_fold = 1.001249 &gt; 1</text>
+  <text x="190" y="134" text-anchor="middle" font-size="10" fill="#0F0D0B">Model 2A (RS AdS_5): η_fold = 1.010321 &gt; 1</text>
   <text x="190" y="156" text-anchor="middle" font-size="9.5" fill="#3A2E26">Conformally flat bulks lengthen coordinate time</text>
 
   <!-- Pillar 2 -->
@@ -600,7 +600,7 @@ export const H12_EXPANDED_CHAPTER_FIGURES: H12FigureSpec[] = [
   <text x="480" y="450" text-anchor="middle" font-size="10" font-weight="bold" fill="#0F0D0B">Magnitude Bar: |log10(Suppression / Shortfall Ratio)|</text>
 
   <!-- Bars (length ~ 5.8 px per decade) -->
-  <text x="242" y="116" text-anchor="end" font-size="10.5" fill="#0F0D0B">1. Planck Parity r0 = l_0</text>
+  <text x="242" y="116" text-anchor="end" font-size="10.5" fill="#0F0D0B">1. Planck Parity r₀ = ℓ₀</text>
   <rect x="255" y="100" width="10" height="22" fill="#64705B"/>
   <text x="275" y="116" font-size="10" fill="#64705B">0.2436 (log10 = -0.61)</text>
 
@@ -701,7 +701,7 @@ export const H12_EXPANDED_CHAPTER_FIGURES: H12FigureSpec[] = [
   <text x="48" y="124" font-size="10.5" font-weight="bold" fill="#0F0D0B">1. 4D Embedding Preservation</text>
   <text x="48" y="140" font-size="9.5" fill="#3A2E26">Sasaki-Shiromizu &amp; G_Ai = 0 keep H11 intact.</text>
   <text x="48" y="172" font-size="10.5" font-weight="bold" fill="#0F0D0B">2. Symmetric &amp; AdS_5 No-Go</text>
-  <text x="48" y="188" font-size="9.5" fill="#3A2E26">dt_5 &gt;= dt_4 proved by Beltrami Euler-Lagrange.</text>
+  <text x="48" y="188" font-size="9.5" fill="#3A2E26">Δt₅ ≥ Δt₄ proved by Beltrami Euler-Lagrange.</text>
   <text x="48" y="220" font-size="10.5" font-weight="bold" fill="#0F0D0B">3. Wormhole Casimir Shortfall</text>
   <text x="48" y="236" font-size="9.5" fill="#3A2E26">4.50e-71 ratio proved across r = r_0 sec(u).</text>
   <text x="48" y="268" font-size="10.5" font-weight="bold" fill="#0F0D0B">4. EM Finite Horizon Bound</text>
@@ -781,7 +781,7 @@ export const H12_EXPANDED_CHAPTER_FIGURES: H12FigureSpec[] = [
   <text x="638" y="134" text-anchor="middle" font-size="11" font-weight="bold" fill="#64705B">3. KINEMATICS</text>
   <text x="638" y="162" text-anchor="middle" font-size="10" fill="#0F0D0B">Beltrami ODE</text>
   <text x="638" y="182" text-anchor="middle" font-size="9.5" fill="#0F0D0B">Given ansatz Eq.(H12.0.1),</text>
-  <text x="638" y="200" text-anchor="middle" font-size="9.5" fill="#0F0D0B">dt_5 &lt; dt_4 solved</text>
+  <text x="638" y="200" text-anchor="middle" font-size="9.5" fill="#0F0D0B">Δt₅ &lt; Δt₄ solved</text>
   <text x="638" y="228" text-anchor="middle" font-size="10" font-weight="bold" fill="#64705B">EXACTLY VERIFIED</text>
 
   <!-- Summary Disclosure Box -->

@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  *
- * Publication-Grade Inline SVG Figures (Figures 1–12) & Archival Plates (Plates I–IX) for the IGRT Monograph.
+ * Publication-Grade Inline SVG Figures (Figures 1–12) & Archival Plates (Plates I–XIV) for the IGRT Monograph.
  * Zero LaTeX markup; pure Unicode symbols; analytical curves sampled from exact equations.
  */
 
@@ -13,6 +13,11 @@ import plate6ProblemTimeImg from '../assets/images/igrt_canonical_time_179479546
 import plate7Thm41CalibImg from '../assets/images/igrt_thm41_calibration_1794795469011.jpg';
 import plate8WdwUnfreezeImg from '../assets/images/igrt_wdw_unfreezing_1794795469398.jpg';
 import plate9SpectralDiscImg from '../assets/images/igrt_spectral_discrimination_1794795469345.jpg';
+import plate10DiamondImg from '../assets/images/h11_plate_diamond_clean_1795211426706.jpg';
+import plate11BkmImg from '../assets/images/h11_plate_bkm_clean_1795211425744.jpg';
+import plate12BfvImg from '../assets/images/h11_plate_bfv_1795211406436.jpg';
+import plate13H0Img from '../assets/images/h11_plate_h0_clean_1795211425708.jpg';
+import plate14LabImg from '../assets/images/h11_plate_lab_clean_1795211426734.jpg';
 
 export interface PaperFigureSpec {
   id: number;
@@ -135,6 +140,61 @@ export const PAPER_ILLUSTRATIONS: PaperIllustrationSpec[] = [
     title: 'Compressed A_F^{H11} Five-Scalar Seesaw (k_eff = 2) Across Six Orthogonal Observatories',
     caption:
       'Illustration Plate IX. Central compressed Krein–Connes spectral hub (twin continuous moduli k_eff = 2 tying five scalar sectors at |ε_{ψ,Ch}| = 4.42×10⁻¹⁶) radiating orthogonal discrimination channels to optical lattice clocks (P1), levitated SiO₂ interferometers (P2), CMB B-mode satellites (P3), gravitational-wave detectors (P4), Casimir parallel plates (P5), and HL-LHC Higgs-portal detectors (P6), separating IGRT from competing models by > 7.4σ.'
+  },
+  {
+    id: 10,
+    roman: 'X',
+    anchorId: 'plate-10',
+    chapterAnchor: 'chapter-3',
+    afterSubsectionAnchor: 'sec-3-2',
+    imagePath: plate10DiamondImg,
+    title: 'Theorem 3.2: Jacobson–CHM Causal Diamond & Hubbard–Stratonovich Saddle',
+    caption:
+      'Illustration Plate X. Cutaway of a geodesic causal diamond V(ℓ_CG) embedded inside 4D Lorentzian spacetime (M, g_μν), showing boundary null modular flow K_V and Casini–Huerta–Myers spherical weighting integrating short-wavelength matter fluctuations via Hubbard–Stratonovich Legendre transform S_HS[ψ] to select κ_ψ = ℏc ℓ_Pl/(12π) = 2.173 × 10⁻²¹ GeV⁻¹ at ψ_vac = 0.'
+  },
+  {
+    id: 11,
+    roman: 'XI',
+    anchorId: 'plate-11',
+    chapterAnchor: 'chapter-5',
+    afterSubsectionAnchor: 'sec-5-3',
+    imagePath: plate11BkmImg,
+    title: 'Carlen–Maas KMS Detailed-Balance BKM Flow vs. General CPTP Spohn Cone',
+    caption:
+      'Illustration Plate XI. Contrasting the exact relaxation-weighted Bogoliubov–Kubo–Mori (BKM) steepest-descent gradient trajectory (d/dτ) S_Araki = −g̃_ij^BKM θ̇^i θ̇^j strictly confined to KMS detailed-balance quantum Markov semigroups against the wider dissipative cone of non-detailed-balance CPTP channels obeying Spohn’s monotonicity bound (d/dτ) S_Araki ≤ 0.'
+  },
+  {
+    id: 12,
+    roman: 'XII',
+    anchorId: 'plate-12',
+    chapterAnchor: 'chapter-6',
+    afterSubsectionAnchor: 'sec-6-2',
+    imagePath: plate12BfvImg,
+    title: '3+1 BFV–BRST Nilpotent Hypersurface Algebra & WKB Hayward Echo Cavity',
+    caption:
+      'Illustration Plate XII. Dual UV–strong-field mechanism linking off-shell 3+1 Batalin–Fradkin–Vilkovisky ghost cohomology ({Ω_BFV, Ω_BFV} = 0) along Picard–Lefschetz thimbles with WKB barrier tunneling across the Hayward–Tortoise effective potential near r_+ + δr, yielding reflectivity K_echo = |R_eff| = 0.184 and interior unitary storage |T_int| = 0.9829 preserving |H|² = 1.'
+  },
+  {
+    id: 13,
+    roman: 'XIII',
+    anchorId: 'plate-13',
+    chapterAnchor: 'chapter-7',
+    afterSubsectionAnchor: 'sec-7-1',
+    imagePath: plate13H0Img,
+    title: 'Early-Braiding Acoustic Shrinkage (H_0 = 70.77 ± 0.72) vs. Planck, SH0ES & DESI DR2',
+    caption:
+      'Illustration Plate XIII. 5D marginalized posterior topography in (H_0, Ω_m, S_8) illustrating transient pre-recombination Horndeski early braiding (f_EDE = 0.148, r_s/r_s^{ΛCDM} = 0.9518), which shifts H_0 to 70.77 ± 0.72 km s⁻¹ Mpc⁻¹ (easing Planck–SH0ES tension from 4.8σ to 1.8σ while candidly exhibiting 2.6σ tension with DESI DR2) at net weak-to-positive ΔAIC = −1.84, Δln Z = +1.42.'
+  },
+  {
+    id: 14,
+    roman: 'XIV',
+    anchorId: 'plate-14',
+    chapterAnchor: 'chapter-7',
+    afterSubsectionAnchor: 'sec-7-3',
+    imagePath: plate14LabImg,
+    title: 'Coordinated Benchtop & 3G Probe Array: P2 1.028 μm Nanosphere & P5 CANNEX Chamber',
+    caption:
+      'Illustration Plate XIV. Engineering schematic pairing Protocol P2 cryo-UHV optical levitation of a 1.028 μm silica sphere (P < 10⁻¹³ mbar, T_env < 4 K) with Protocol P5 CANNEX parallel-plate Chameleon metrology (d ∈ [5, 30] μm slope discrimination isolating φ_Ch from Vainshtein-screened Galileon Z_ψ = 7.05 × 10¹⁴) under the locked H11 SHA-256 preregistration protocol.'
   }
 ];
 
@@ -1106,7 +1166,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <rect x="440" y="228" width="398" height="156" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
   <rect x="440" y="228" width="398" height="32" rx="4" fill="url(#fig8Header)"/>
   <text x="456" y="249" font-family="'DejaVu Serif', Georgia, serif" font-size="13.8" font-weight="700" fill="#9A3412">P4: LVK O5 / CE / ET Ringdowns</text>
-  <text x="822" y="249" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">SNR 9.0</text>
+  <text x="822" y="249" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">SNR 9.2</text>
   <text x="456" y="284" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Test: Hayward-core echo delay Δt_echo</text>
   <text x="456" y="309" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Delays: 17.8 ms (10 M_⊙); 109.2 ms (60 M_⊙)</text>
   <text x="456" y="334" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">WKB: K_echo = |R_eff| = 0.184 (|H| = 1)</text>

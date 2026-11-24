@@ -250,12 +250,13 @@ for (const fontFile of [
 
 // Check editorial typography, authors, Playfair Display PDF embedding & epistemic reclassification
 assert(
-  appSrc.includes('Jean-Charles Tassan, Marlon D. Bulaqueña, and Wilson John Sterking Lauret'),
-  'H12_META must credit Jean-Charles Tassan, Marlon D. Bulaqueña, and Wilson John Sterking Lauret'
+  appSrc.includes('Jean-Charles Tassan, Marlon D. Bulaqueña, Ph.D., Wilson John Sterking Lauret, Rupak Chatterjee, Ph.D., and Walter Goldberger'),
+  'H12_META must credit all 5 authors: Tassan, Bulaqueña Ph.D., Lauret, Chatterjee Ph.D., and Goldberger'
 );
-for (const orcid of ['0009-0000-8566-0486', '0009-0007-3966-0494', '0009-0004-7889-6641']) {
+for (const orcid of ['0009-0000-8566-0486', '0009-0007-3966-0494', '0009-0004-7889-6641', '0009-0002-8553-5401']) {
   assert(appSrc.includes(orcid), `H12_META missing ORCID ${orcid}`);
 }
+assert(appSrc.includes('walter.goldberger@yale.edu'), 'H12_META missing Walter Goldberger email');
 const cssSrc = fs.readFileSync(path.join(repoRoot, 'src/index.css'), 'utf8');
 assert(pdfSrc.includes("addFont('PlayfairDisplay-Regular.ttf', 'PlayfairDisplay', 'normal')"), 'PDF must embed static PlayfairDisplay-Regular');
 assert(pdfSrc.includes("headingFamily: PdfFontFamily = level === 1 ? 'playfair' : 'serif'"), 'PDF Level-1 chapters must render with PlayfairDisplay Regular');
@@ -362,22 +363,69 @@ assert(
   'Appendix J must be titled "Proposed Devices and Laboratory Analog Systems A–K"'
 );
 assert(
-  appSrc.includes("letter: 'K'") && appSrc.includes("title: 'Unified Solutions to Seven Open Problems in Physics'"),
-  'Appendix K must be titled "Unified Solutions to Seven Open Problems in Physics"'
+  appSrc.includes("letter: 'K'") && appSrc.includes("title: 'Seven Open Problems and How H12 Constrains Them'"),
+  'Appendix K must be titled "Seven Open Problems and How H12 Constrains Them"'
+);
+assert(
+  appSrc.includes("The eleven devices in Appendix J are a mix of Category B (testable now), Category C (conjectural), and Category D (speculative engineering)."),
+  'Abstract must explicitly classify Devices A–K across Categories B, C, and D'
+);
+assert(
+  dataSrc.includes("No 5D phenomenon has been observed, and the 5D extension is a constrained hypothesis, not a solution to everything."),
+  '§13.5 must contain the verbatim disclaimer on 5D observation status'
 );
 assert(
   dataSrc.includes("title: 'Extrapolations, Frontiers, and Final Synthesis'"),
   'Chapter 13 must be titled "Extrapolations, Frontiers, and Final Synthesis"'
 );
 assert(
-  dataSrc.includes("number: '13.5'") && dataSrc.includes("number: '13.6'") && dataSrc.includes("title: 'Comprehensive Conclusion: Established Limits, Epistemic Verdict & Open Horizons'"),
-  'Chapter 13 must include 13.5 (Solved Problems) and 13.6 Comprehensive Conclusion'
+  dataSrc.includes("number: '13.5'") &&
+    dataSrc.includes("title: 'Seven Open Problems: How H12 Constrains the Solution Space'") &&
+    dataSrc.includes("number: '13.6'") &&
+    dataSrc.includes("title: 'Comprehensive Conclusion: Established Limits, Epistemic Verdict & Open Horizons'"),
+  'Chapter 13 must include renamed 13.5 and 13.6 Comprehensive Conclusion'
 );
 assert(dataSrc.includes("title: 'Negative Results Summary'"), 'Chapter 9 must be Negative Results Summary');
 assert(dataSrc.includes("title: 'What Is Unique to 5D? Observational Bounds & Consistency'"), 'Chapter 10 must cover What Is Unique to 5D & Bounds');
 assert(dataSrc.includes("title: 'What Is Not Derived'"), 'Chapter 11 must be What Is Not Derived');
 assert(dataSrc.includes("number: '12.0'") && dataSrc.includes("number: '13.0'"), 'Chapters 12 and 13 must include 12.0 and 13.0 Introductions');
 assert(dataSrc.includes("number: '12.3'"), 'Chapter 12 must include dedicated 12.3 P13 protocols & checks');
+assert(
+  viewSrc.includes('Summary for Physicists') &&
+    exportSrc.includes('Summary for Physicists') &&
+    pdfSrc.includes('Summary for Physicists') &&
+    dataSrc.includes('Summary for Physicists'),
+  'All renderers must include explicit "Summary for Physicists" heading'
+);
+assert(
+  viewSrc.includes('Summary for Funding Agencies') &&
+    exportSrc.includes('Summary for Funding Agencies') &&
+    pdfSrc.includes('Summary for Funding Agencies') &&
+    dataSrc.includes('Summary for Funding Agencies'),
+  'All renderers must include explicit "Summary for Funding Agencies" heading'
+);
+for (const col of [
+  'Device Readiness Level',
+  'Cost Estimate',
+  'Timeline',
+  'Falsification Threshold',
+  'Confirmation Threshold',
+  'Systematics',
+  'Risk Assessment',
+  'Resource Requirements'
+]) {
+  assert(
+    viewSrc.includes(col) && exportSrc.includes(col) && pdfSrc.includes(col) && dataSrc.includes(col),
+    `All outputs must include Appendix J element: ${col}`
+  );
+}
+assert(
+  viewSrc.includes('APPENDIX_J_SYNERGY.title') &&
+    exportSrc.includes('APPENDIX_J_SYNERGY.title') &&
+    pdfSrc.includes('APPENDIX_J_SYNERGY.title') &&
+    dataSrc.includes('APPENDIX_J_SYNERGY.title'),
+  'All outputs must render APPENDIX_J_SYNERGY.title'
+);
 
 // Verify strictly alphabetical appendix order A -> L in H12_APPENDICES
 const compiledApp = buildSync({
@@ -395,9 +443,33 @@ assert.deepEqual(
   ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'],
   'Consolidated Appendices must be strictly ordered alphabetically A through L'
 );
+const appK = modApp.exports.H12_APPENDICES.find((a) => a.letter === 'K');
+assert.equal(appK.category, 'CATEGORY C — CONJECTURAL', 'Appendix K must be labeled Category C — Conjectural');
+const appKText = appK.bodyParagraphs.join(' ');
+for (const reqSentence of [
+  'These are not solutions; they are constraints on the solution space.',
+  'The 5D extension is a constrained hypothesis, not a solution to everything.',
+  'The negative theorems (Chapter 9) are the strongest part of H12.',
+  'No 5D phenomenon has been observed.',
+  'The seven open problems remain open.',
+  'H12 constrains the solution space but does not solve the problems.',
+  'The reader should not interpret this appendix as a claim of having solved the problems.',
+  'The 5D extension is a mathematical hypothesis, not an experimentally established fact.'
+]) {
+  assert(appKText.includes(reqSentence), `Appendix K missing required verbatim sentence: ${reqSentence}`);
+}
 assert.equal(modApp.exports.H12_PROPOSED_DEVICES.length, 11, 'Must define all 11 laboratory devices A–K');
+for (const dev of modApp.exports.H12_PROPOSED_DEVICES) {
+  for (const field of ['deviceReadinessLevel', 'costEstimate', 'timeline', 'falsificationThreshold', 'confirmationThreshold', 'systematics']) {
+    assert(typeof dev[field] === 'string' && dev[field].trim().length > 0, `${dev.deviceId} missing ${field}`);
+  }
+}
 assert.equal(modApp.exports.APPENDIX_J_DEVICE_DOSSIERS.length, 11, 'Must define all 11 Appendix J device dossiers A–K');
-assert.equal(modApp.exports.SEVEN_SOLVED_PHYSICS_PROBLEMS.length, 7, 'Must define all 7 solved physics problems');
+assert.equal(modApp.exports.APPENDIX_J_RISK_ASSESSMENT.length, 11, 'Must define Risk Assessment for all 11 devices A–K');
+assert.equal(modApp.exports.APPENDIX_J_RESOURCE_REQUIREMENTS.length, 11, 'Must define Resource Requirements for all 11 devices A–K');
+assert.equal(modApp.exports.APPENDIX_J_SYNERGY.title, 'J.12 Cross-Device Synergy', 'APPENDIX_J_SYNERGY title must be J.12 Cross-Device Synergy');
+assert(modApp.exports.APPENDIX_J_SYNERGY.clusters.length >= 4, 'Appendix J.12 Synergy must define coordinated clusters');
+assert.equal(modApp.exports.SEVEN_SOLVED_PHYSICS_PROBLEMS.length, 7, 'Must define all 7 constrained open problems');
 assert.equal(modApp.exports.EPISTEMIC_BC_GREY_AREA_RUBRIC.length, 5, 'Table 1.3 must define 5 boundary cases');
 for (const row of modApp.exports.EPISTEMIC_BC_GREY_AREA_RUBRIC) {
   assert(row.ruleApplied.includes('Why it applies:'), `Table 1.3 row "${row.boundaryCase}" must explain why the boundary rule applies`);
@@ -453,7 +525,38 @@ assert.equal(sumDomMax + sumAtkMax, H12_STRESS_TEST_SUMMARY.grandMaxPoints);
 assert.equal(sumDomSelf + sumAtkAwarded, H12_STRESS_TEST_SUMMARY.grandSelfContainedPoints);
 assert.equal(sumDomApp + sumAtkAwarded, H12_STRESS_TEST_SUMMARY.grandApplicablePoints);
 
-assert(figSrc.includes('H12_ARCHIVAL_PLATES') && figSrc.includes('H12_FIGURES'));
+assert(figSrc.includes('H12_ARCHIVAL_PLATES') && figSrc.includes('H12_FIGURES') && figSrc.includes('H12_THEORY_ILLUSTRATIONS'));
+assert(
+  viewSrc.includes('H12_THEORY_ILLUSTRATIONS') &&
+    exportSrc.includes('H12_THEORY_ILLUSTRATIONS') &&
+    pdfSrc.includes('H12_THEORY_ILLUSTRATIONS') &&
+    dataSrc.includes('H12_THEORY_ILLUSTRATIONS_META'),
+  'UI, Markdown, PDF, and LaTeX/HTML exports must integrate the 26 theory & dimension illustrations'
+);
+assert(
+  viewSrc.includes('List of Illustrations') &&
+    exportSrc.includes('List of Illustrations') &&
+    pdfSrc.includes('List of Illustrations') &&
+    dataSrc.includes('List of Illustrations'),
+  'All outputs must include explicit List of Illustrations heading'
+);
+
+const compiledMeta = buildSync({
+  entryPoints: [path.join(repoRoot, 'src/types/igrtH12IllustrationsMeta.ts')],
+  bundle: true,
+  platform: 'node',
+  format: 'cjs',
+  write: false
+});
+const reqMeta = createRequire(import.meta.url);
+const modMeta = { exports: {} };
+new Function('exports', 'require', 'module', compiledMeta.outputFiles[0].text)(modMeta.exports, reqMeta, modMeta);
+assert.equal(modMeta.exports.H12_THEORY_ILLUSTRATIONS_META.length, 26, 'Must define 26 theory & dimension illustrations (2 per chapter)');
+for (let chNum = 1; chNum <= 13; chNum++) {
+  const chCount = modMeta.exports.H12_THEORY_ILLUSTRATIONS_META.filter((i) => i.anchorChapter === chNum).length;
+  assert.equal(chCount, 2, `Chapter ${chNum} must have exactly 2 theory/dimension illustrations`);
+}
+assert.equal(modMeta.exports.H12_SUPPLEMENTAL_PLATES_META.length, 5, 'Must define 5 joint-audit supplemental plates (H12-S1..S5)');
 
 console.log(
   JSON.stringify(

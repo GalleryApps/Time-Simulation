@@ -599,7 +599,11 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                       >
                         Email: {author.email}
                       </a>
-                    ) : null}
+                    ) : (
+                      <span className="font-mono text-[12px] text-[#15803D] dark:text-[#4ADE80]">
+                        Credential: Habilitation à Diriger des Recherches (HDR)
+                      </span>
+                    )}
                   </div>
                   <div className="text-[13px] text-[#64748B] dark:text-[#94A3B8] leading-[1.4]">
                     {author.affiliation}

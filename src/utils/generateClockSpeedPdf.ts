@@ -20,9 +20,13 @@ import {
   TABLE_4_1_EVERYDAY_TESTS,
   TABLE_5_1_STRESS_TESTS,
   TABLE_5_2_PPN_BOUNDS,
+  TABLE_5_3_WILL_COMPARISON,
   TABLE_6_1_BLACK_HOLES,
   TABLE_8_1_PREDICTIONS_MATRIX,
   TABLE_8_2_NEXT_GEN_ROADMAP,
+  TABLE_8_3_MULTISURVEY_EMPIRICAL,
+  TABLE_8_4_TABLETOP_PROTOCOL,
+  CLOCK_SPEED_SYMBOL_GLOSSARY,
   CLOCK_SPEED_GLOSSARY,
   CLOCK_SPEED_APPENDICES,
   CLOCK_SPEED_REFERENCES,
@@ -163,6 +167,7 @@ function verifyRegisteredFonts(doc: jsPDF): boolean {
 function bmpSafe(raw: string): string {
   const step1 = pdfBmpSafeUnicode(raw)
     .replace(/𝐱/g, 'x')
+    .replace(/𝐲/g, 'y')
     .replace(/☉/g, '⊙');
   let out = '';
   for (const ch of step1) {
@@ -189,13 +194,14 @@ function fallbackAsciiSafe(raw: string): string {
 }
 
 const SERIF_USE_SANS = new Set([
+  '\u03D5', '\u03F5',
   '\u210B', '\u210F', '\u2112', '\u2113', '\u211D', '\u2124', '\u2131',
   '\u2190', '\u2192', '\u2194', '\u2197', '\u21A6', '\u21D2', '\u21D4',
-  '\u2200', '\u2202', '\u2203', '\u2207', '\u2208', '\u2209',
-  '\u2211', '\u2212', '\u221A', '\u221D', '\u221E', '\u2225', '\u222A',
-  '\u222B', '\u222E', '\u2243', '\u2245', '\u2248', '\u2260', '\u2261',
+  '\u2200', '\u2202', '\u2203', '\u2207', '\u2208', '\u2209', '\u220F',
+  '\u2211', '\u2212', '\u2218', '\u221A', '\u221D', '\u221E', '\u2225', '\u222A',
+  '\u222B', '\u222E', '\u223C', '\u2243', '\u2245', '\u2248', '\u2260', '\u2261',
   '\u2264', '\u2265', '\u226A', '\u226B', '\u2272', '\u2273', '\u2282',
-  '\u2295', '\u2297', '\u2299', '\u22A5', '\u22C5', '\u25A1', '\u27E8',
+  '\u2295', '\u2297', '\u2299', '\u22A3', '\u22A5', '\u22C5', '\u25A1', '\u27E8',
   '\u27E9', '\u2016', '\u2032', '\u2033', '\u2020', '\u2609'
 ]);
 
@@ -719,7 +725,8 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     level: 1 | 2 | 3,
     recordToc = false,
     tocIndent = 0,
-    startOnNewPage = false
+    startOnNewPage = false,
+    minFollowMm?: number
   ) => {
     if (level === 1 && startOnNewPage && y > topY + 2) {
       doc.addPage();
@@ -729,25 +736,29 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     const lineGap = level === 1 ? 10.8 : level === 2 ? 6.2 : 5.2;
     const boldHeading = level !== 1;
     const headingFamily: PdfFontFamily = level === 1 ? 'playfair' : 'serif';
-    const gapBefore = level === 1 ? (y <= topY + 2 ? 4 : 10) : level === 2 ? 9 : 6.5;
+    const headingStyle: PdfFontStyle | undefined = level === 1 ? 'normal' : undefined;
+    const wrappedHeading = wrapMixedLines(text, contentW, boldHeading, size, headingFamily, headingStyle);
+    const headingH = Math.max(1, wrappedHeading.length) * lineGap;
+    const baseGapBefore = level === 1 ? 10 : level === 2 ? 9 : 6.5;
     const gapAfter = level === 1 ? 12 : level === 2 ? 4.8 : 3.6;
-    ensureSpace(level === 1 ? 46 : level === 2 ? 24 : 20);
+    const followMm = minFollowMm ?? (level === 1 ? 48 : level === 2 ? 34 : 26);
+
+    const effectiveBeforeOnCurrentPage = y <= topY + 2 ? (level === 1 ? 4 : 2) : baseGapBefore;
+    if (y + effectiveBeforeOnCurrentPage + headingH + gapAfter + followMm > bottomLimit && y > topY + 2) {
+      doc.addPage();
+      y = topY;
+    }
+
+    const gapBefore = y <= topY + 2 ? (level === 1 ? 4 : 2) : baseGapBefore;
     y += gapBefore;
     if (recordToc) {
       tocEntries.push({ label: text, page: doc.getNumberOfPages(), indent: tocIndent });
     }
-    drawMathInlineText(
-      text,
-      marginX,
-      contentW,
-      size,
-      lineGap,
-      level === 1 ? MAGENTA_DEEP : TEAL_CORE,
-      boldHeading,
-      false,
-      headingFamily,
-      level === 1 ? 'normal' : undefined
-    );
+    doc.setTextColor(...(level === 1 ? MAGENTA_DEEP : TEAL_CORE));
+    for (const hLine of wrappedHeading) {
+      drawStyledSpans(hLine.spans, marginX, y, boldHeading, headingFamily, headingStyle);
+      y += lineGap;
+    }
     if (level === 1) {
       doc.setDrawColor(...MAGENTA_ROSE);
       doc.setLineWidth(0.35);
@@ -1152,10 +1163,22 @@ export async function generateClockSpeedPdf(): Promise<void> {
     ctx.addY(1.2);
   }
   ctx.addY(2);
-  ctx.drawHeading('Figures 1.1–9.1', 2, false, 1);
+  ctx.drawHeading('Figures 0.1–9.1', 2, false, 1);
   for (const fg of CLOCK_SPEED_FIGURES) {
     ctx.drawMathInlineText(`${fg.figureNumber} (Ch. ${fg.anchorChapter}): ${fg.title}`, marginX + 2, contentW - 2, 10.0, 5.2, TEAL_INK);
     ctx.addY(1.2);
+  }
+
+  for (const { fig, raster } of svgAssets.filter((x) => x.fig.anchorChapter === 0)) {
+    if (!raster) continue;
+    ctx.drawFullPageIllustration({
+      tag: `${fig.figureNumber} · Graphical Overview`,
+      title: fig.title,
+      caption: fig.caption,
+      asset: raster,
+      format: 'PNG',
+      accentRgb: MAGENTA_RICH
+    });
   }
 
   // Chapters 1–9 (every chapter begins cleanly on a dedicated new page with a Chapter Introduction)
@@ -1169,7 +1192,7 @@ export async function generateClockSpeedPdf(): Promise<void> {
     ctx.addY(5.0);
 
     if (ch.chapterIntro?.length) {
-      ctx.ensureSpace(24);
+      ctx.ensureSpace(34);
       ctx.setFontSafe('mono', 'normal', 8.0);
       doc.setTextColor(...PINE_CORE);
       doc.text('INTRODUCTION', marginX, ctx.getY());
@@ -1189,7 +1212,7 @@ export async function generateClockSpeedPdf(): Promise<void> {
     }
 
     for (const sub of ch.subsections) {
-      ctx.drawHeading(`${sub.number} ${sub.title}`, 2, true, 1);
+      ctx.drawHeading(`${sub.number} ${sub.title}`, 2, true, 1, false, 34);
       for (const p of sub.paragraphs) {
         ctx.drawMathInlineText(p, marginX, contentW, 11.6, 6.3, TEAL_INK, false, true);
         ctx.addY(3.8);
@@ -1278,6 +1301,17 @@ export async function generateClockSpeedPdf(): Promise<void> {
           `${r.dualUpdateGRValue} (${r.primaryExperiment})`
         ])
       );
+      ctx.drawTable(
+        'Table 5.3 · Step-by-Step Comparison Against Will (2014) PPN Derivation',
+        ['Stage', 'Will (2014) Canonical PPN', 'Present Paper Derivation', 'Status vs. Will'],
+        [28, 46, 52, 40],
+        TABLE_5_3_WILL_COMPARISON.map((r) => [
+          r.derivationStage,
+          r.will2014CanonicalPpn,
+          r.presentPaperDerivation,
+          r.statusRelativeToWill
+        ])
+      );
     }
 
     if (ch.number === 6) {
@@ -1296,14 +1330,14 @@ export async function generateClockSpeedPdf(): Promise<void> {
 
     if (ch.number === 8) {
       ctx.drawTable(
-        'Table 8.1 · Summary Prediction Matrix: Curved Geometry vs. Slowed Update Speed',
-        ['Physical Phenomenon', 'Curved Spacetime (GR)', 'Pure Scalar Clock-Slowing', 'Dual Update / IGRT & Outcome'],
-        [34, 38, 42, 52],
+        'Table 8.1 · Summary Prediction Matrix & Falsification Criteria',
+        ['Phenomenon & Verdict', 'GR vs. Scalar', 'Dual Update / IGRT', 'What Would Falsify'],
+        [36, 44, 42, 44],
         TABLE_8_1_PREDICTIONS_MATRIX.map((r) => [
-          r.phenomenon,
-          r.curvedSpacetimeGR,
-          r.pureClockSlowing,
-          `${r.fullDualUpdateRateIGRT} [${r.empiricalWinner}]`
+          `${r.phenomenon}\n[${r.statusBadge}]`,
+          `GR: ${r.curvedSpacetimeGR}\nScalar: ${r.pureClockSlowing}`,
+          `${r.fullDualUpdateRateIGRT}\n(${r.empiricalWinner})`,
+          r.falsificationCriterion
         ])
       );
       ctx.drawTable(
@@ -1316,6 +1350,32 @@ export async function generateClockSpeedPdf(): Promise<void> {
           r.targetPrecision,
           r.discriminatingReach
         ])
+      );
+      ctx.drawTable(
+        'Table 8.3 · Multi-Survey Empirical Grounding, Calibration & Systematics',
+        ['Regime & Dataset', 'Observed Bound', 'Systematics & Calibration', 'Discrimination'],
+        [36, 36, 52, 42],
+        TABLE_8_3_MULTISURVEY_EMPIRICAL.map((r) => [
+          `${r.regimeAndSurvey}\n(${r.keyDataset})`,
+          r.observedBound,
+          r.systematicsAndCalibration,
+          r.modelDiscrimination
+        ]),
+        7.8,
+        4.0
+      );
+      ctx.drawTable(
+        'Table 8.4 · 10⁻²⁰–10⁻²² Tabletop Experimental Protocol, Budget & Thresholds',
+        ['Subsystem', 'Sensitivity', 'Error Budget & Cost', 'Falsification & Power'],
+        [38, 30, 52, 46],
+        TABLE_8_4_TABLETOP_PROTOCOL.map((r) => [
+          r.subsystem,
+          r.targetSensitivity,
+          `${r.errorBudgetItem}; ${r.costAndSchedule}`,
+          r.falsificationAndPower
+        ]),
+        7.8,
+        4.0
       );
     }
 
@@ -1355,11 +1415,25 @@ export async function generateClockSpeedPdf(): Promise<void> {
       g.definition
     ])
   );
+  ctx.drawHeading('Glossary of Symbols', 2, true, 1, false, 44);
+  ctx.drawTable(
+    'Table G.1 · Core Mathematical Symbols & Physical Conventions',
+    ['Symbol', 'Quantity', 'Units / Domain', 'Operational Definition'],
+    [28, 34, 28, 76],
+    CLOCK_SPEED_SYMBOL_GLOSSARY.map((s) => [
+      s.symbol,
+      s.name,
+      s.unitsOrDomain,
+      s.definition
+    ]),
+    7.8,
+    4.1
+  );
 
   // Appendices
-  ctx.drawHeading('Appendices', 1, true, 0, true);
+  ctx.drawHeading('Appendices', 1, true, 0, true, 54);
   for (const app of CLOCK_SPEED_APPENDICES) {
-    ctx.drawHeading(`Appendix ${app.letter}: ${app.title}`, 2, true, 1);
+    ctx.drawHeading(`Appendix ${app.letter}: ${app.title}`, 2, true, 1, false, 44);
     ctx.drawMathInlineText(app.summary, marginX, contentW, 11.0, 5.8, TEAL_PETROL, false, true, 'serif', 'italic');
     ctx.addY(3.2);
 
@@ -1452,7 +1526,10 @@ export async function generateClockSpeedPdf(): Promise<void> {
   // References
   ctx.drawHeading('References', 1, true, 0, true);
   for (const ref of CLOCK_SPEED_REFERENCES) {
-    ctx.drawMathInlineText(`[${ref.id}] ${ref.citation}`, marginX, contentW, 10.2, 5.4, TEAL_INK, false, true);
+    const refStr = `[${ref.id}] ${ref.citation}`;
+    const refLines = ctx.wrapMixedLines(refStr, contentW, false, 10.2, 'serif');
+    ctx.ensureSpace(refLines.length * 5.4 + 2);
+    ctx.drawMathInlineText(refStr, marginX, contentW, 10.2, 5.4, TEAL_INK, false, true);
     ctx.addY(2.2);
   }
 

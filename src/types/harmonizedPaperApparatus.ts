@@ -240,7 +240,7 @@ export const LIST_OF_TABLES: { number: string; title: string; location: string }
   { number: 'Table 8.4', title: 'Spectral-Compressed Five-Scalar Parameter Budget & Bayesian Evidence (k_eff = 2, ΔAIC = −1.84)', location: '§8.2' },
   { number: 'Table H.1', title: 'Reproducible Numerical & Parameter Register (H_0 = 67.4–73.0 & H11 Closures)', location: 'Appendix H' },
   { number: 'Table I.1', title: 'Revision History (Editions H6 → H7 → H8 → H9 → H10 → H11)', location: 'Appendix I' },
-  { number: 'Table I.2', title: 'Formal Response to Reviewers Matrix (R1–R13)', location: 'Appendix I' },
+  { number: 'Table I.2', title: 'Formal Response to Reviewers Matrix (R1–R14)', location: 'Appendix I' },
   { number: 'Table J.1', title: '12-Family 980-Vector Adversarial Stress-Test Closure Scorecard (542/542 = 100.0% Technical)', location: 'Appendix J' },
   { number: 'Table M.1', title: 'Status Reclassification Audit of Table 0.3 Equations (Response to Reviewer 5)', location: 'Appendix M' }
 ];
@@ -602,11 +602,6 @@ export const CLAIM_EVIDENCE_LEDGER: ClaimEvidenceRow[] = [
 export const ETHICS_AND_GOVERNANCE = {
   creditRoles: [
     {
-      author: 'Marlon D. Bulaqueña, Ph.D. (ORCID: 0009-0007-3966-0494)',
-      roles:
-        'Conceptualization (IGEG scalar-metric core), Methodology (Horndeski / fiber-bundle synthesis), Formal Derivations (Λ_3 Vainshtein PPN, all-orders Bianchi consistency, L_UV bounce, Araki diamond scaling), Writing – Original Draft & Revision.'
-    },
-    {
       author: 'Jean-Charles Tassan (ORCID: 0009-0000-8566-0486)',
       roles:
         'Conceptualization (RES=RAG discrete causal cadence & CPTP thermodynamics), Formal Analysis (Uhlmann–Frobenius convergence, scattering vs. transfer unitarity, smeared Krein correspondence & BFV BRST), Writing – Review & Editing.'
@@ -615,6 +610,16 @@ export const ETHICS_AND_GOVERNANCE = {
       author: 'Wilson John Sterking Lauret (ORCID: 0009-0004-7889-6641)',
       roles:
         'Validation (Klein–Gordon ODE, linear perturbation & Laplace likelihood MCMC, Kerr/RN–Hayward & TOV solvers, Wetterich FRG fixed point, dual-clock Cramér–Rao P1, R_0 = 1.028 μm P2, CANNEX P5, HL-LHC P6, automated verification script), Visualization & Research Integrity.'
+    },
+    {
+      author: 'Marlon D. Bulaqueña, Ph.D. (ORCID: 0009-0007-3966-0494)',
+      roles:
+        'Conceptualization (IGEG scalar-metric core), Methodology (Horndeski / fiber-bundle synthesis), Formal Derivations (Λ_3 Vainshtein PPN, all-orders Bianchi consistency, L_UV bounce, Araki diamond scaling), Writing – Original Draft & Revision.'
+    },
+    {
+      author: "Manuel Avila Gomez (Maître de Conférences HDR, Université d'Orléans & Laboratoire PRISME)",
+      roles:
+        'Methodology & Control-Theoretic Analysis (closed-loop phase-to-time sensitivity α_mod, P2 feedback-cooling phase-margin & P5 CANNEX servo-parallelism bounds, optical-clock metrology & dynamical stability verification), Writing – Review & Editing.'
     },
     {
       author: 'Rupak Chatterjee, Ph.D. (ORCID: 0009-0002-8553-5401)',
@@ -785,7 +790,7 @@ export const REVISION_HISTORY_TABLE: RevisionHistoryRow[] = [
     physicsAndNumericalClosures:
       'Solved early-braiding H_0 = 70.77 ± 0.72 (4.8σ → 1.8σ), 8k MCMC (R̂−1 = 0.0053), C_ℓ^{TT,TE,EE}, bispectrum/trispectrum, NFW PM halo profile, k_eff = 2 A_F^{H11} compression (ΔAIC = −1.84, Δln Z = +1.42), WKB K_echo = 0.184 (e^{−3.386} ⇒ SNR 9.2), relativistic Regge–Wheeler tortoise WKB integral, Theorem 3.2 κ_ψ & Theorem 4.1 variational α_mod, 3+1 BFV–BRST Ω²=0, Picard–Lefschetz thimble, Regge–CDT d_GH = O(N⁻¹/⁴), Israel–Darmois mass-inflation saturation (0.4094 < 0.41), 30+30 M_⊙ IMR, & local QFC.',
     editorialAndVerificationClosures:
-      'Added Appendix P, Table 8.4 compressed budget, Table J.1 stress-test scorecard, R11–R13 Reviewer Responses, 14 bespoke archival editorial illustrations (Plates I–XIV), Figures 1–12, 5-author roster (with Chatterjee & Goldberger), computed PDF TOC page numbers, generous caption breathing space across React/HTML/PDF, and H11 SHA-256 preregistration digest (57cf3f1c…).'
+      'Added Appendix P, Table 8.4 compressed budget, Table J.1 stress-test scorecard, R1–R14 Reviewer Responses, 14 bespoke archival editorial illustrations (Plates I–XIV), Figures 1–12, standardized 6-author roster (with Manuel Avila Gomez, Chatterjee & Goldberger), computed PDF TOC page numbers, generous caption breathing space across React/HTML/PDF, and H11 SHA-256 preregistration digest (57cf3f1c…).'
   }
 ];
 
@@ -885,8 +890,15 @@ export const RESPONSE_TO_REVIEWERS: ReviewerResponseRow[] = [
     issueId: 'R13. Notational, Precision & Cross-Module Parity Synchronization',
     concernSummary: 'Harmonize Table 0.1 κ_ψ wording, Abstract SNR formatting, P4 WKB exponent/SNR 9.2 parity across Fig. 8 and App. F, §3.2 O(R ℓ_CG²) curvature correction, §6.2 title vs. Table M.1, and Plates I–XIV / [1]–[109] metadata across all views.',
     resolutionAndLocation:
-      'Synchronized Table 0.1 κ_ψ (Thm 3.2), List of Tables (R1–R13), Fig. 8 P4 card & App. F (K_echo = 0.184, e^{−3.386}, SNR 9.2), §3.2 Riemann normal curvature bound O(R r²), §6.2 spectral-trace title parity, References [1]–[109] header, and Plates I–XIV across HarmonizedPaperFigures, stress-test matrix, and interactive explorers.',
+      'Synchronized Table 0.1 κ_ψ (Thm 3.2), List of Tables (R1–R14), Fig. 8 P4 card & App. F (K_echo = 0.184, e^{−3.386}, SNR 9.2), §3.2 Riemann normal curvature bound O(R r²), §6.2 spectral-trace title parity, References [1]–[109] header, and Plates I–XIV across HarmonizedPaperFigures, stress-test matrix, and interactive explorers.',
     status: 'Resolved (Full Precision Parity)'
+  },
+  {
+    issueId: 'R14. Control-Systems Metrology, Analytic Stability & Expanded Co-Authorship Closures',
+    concernSummary: 'Integrate KYY stability bounds (G_T, F_T, G_S, F_S > 0), ε-depolarized boundary embedding, Fermi–Walker acceleration covariance, orthogonal multi-mode variance, bounce C¹ continuity, Kerr inspiral phase bound, P2/P5 control-loop tolerances, updated title, and 6-author roster.',
+    resolutionAndLocation:
+      'Applied across §§1.1, 2.1–2.3, 3.1–3.4, 4.1–4.4, 5.1–5.3, 6.2–6.4, 7.1–7.3, and Table 7.1; incorporated Kobayashi–Yamaguchi–Yokoyama inequalities, PSR J0737-3039 quadrupole check, P2 < 1 mrad phase-lock and P5 < 0.1 nm parallelism control budgets, HL-LHC partial-wave unitarity, and standardized 6-author masthead/CRediT disclosures.',
+    status: 'Resolved (Edition H11 Complete)'
   }
 ];
 

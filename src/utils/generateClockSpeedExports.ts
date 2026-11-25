@@ -13,9 +13,13 @@ import {
   TABLE_4_1_EVERYDAY_TESTS,
   TABLE_5_1_STRESS_TESTS,
   TABLE_5_2_PPN_BOUNDS,
+  TABLE_5_3_WILL_COMPARISON,
   TABLE_6_1_BLACK_HOLES,
   TABLE_8_1_PREDICTIONS_MATRIX,
   TABLE_8_2_NEXT_GEN_ROADMAP,
+  TABLE_8_3_MULTISURVEY_EMPIRICAL,
+  TABLE_8_4_TABLETOP_PROTOCOL,
+  CLOCK_SPEED_SYMBOL_GLOSSARY,
   CLOCK_SPEED_GLOSSARY,
   CLOCK_SPEED_APPENDICES,
   CLOCK_SPEED_REFERENCES,
@@ -93,6 +97,13 @@ function renderHtmlChapterTable(chapterNum: number): string {
         <tbody>
           ${TABLE_5_2_PPN_BOUNDS.map((r) => `<tr><td>${escapeHtml(r.parameter)}</td><td>${escapeHtml(r.physicalMeaning)}</td><td>${escapeHtml(r.will2014Bound)}</td><td>${escapeHtml(r.luhScalarValue)}</td><td>${escapeHtml(r.dualUpdateGRValue)}</td><td>${escapeHtml(r.primaryExperiment)}</td></tr>`).join('')}
         </tbody>
+      </table>
+      <h3>Table 5.3 · Step-by-Step Comparison Against Will (2014) PPN Derivation</h3>
+      <table>
+        <thead><tr><th>Derivation Stage</th><th>Will (2014) Canonical PPN</th><th>Present Paper Derivation</th><th>Status Relative to Will</th></tr></thead>
+        <tbody>
+          ${TABLE_5_3_WILL_COMPARISON.map((r) => `<tr><td>${escapeHtml(r.derivationStage)}</td><td>${escapeHtml(r.will2014CanonicalPpn)}</td><td>${escapeHtml(r.presentPaperDerivation)}</td><td>${escapeHtml(r.statusRelativeToWill)}</td></tr>`).join('')}
+        </tbody>
       </table>`;
   }
   if (chapterNum === 6) {
@@ -107,11 +118,11 @@ function renderHtmlChapterTable(chapterNum: number): string {
   }
   if (chapterNum === 8) {
     return `
-      <h3>Table 8.1 · Summary Prediction Matrix: Curved Geometry vs. Slowed Update Speed</h3>
+      <h3>Table 8.1 · Summary Prediction Matrix &amp; Falsification Criteria</h3>
       <table>
-        <thead><tr><th>Phenomenon</th><th>Curved Spacetime (GR)</th><th>Pure Clock-Slowing</th><th>Dual Update / IGRT</th><th>Outcome</th></tr></thead>
+        <thead><tr><th>Phenomenon</th><th>Status</th><th>Curved Spacetime (GR)</th><th>Pure Clock-Slowing</th><th>Dual Update / IGRT</th><th>Outcome</th><th>What Would Falsify</th></tr></thead>
         <tbody>
-          ${TABLE_8_1_PREDICTIONS_MATRIX.map((r) => `<tr><td>${escapeHtml(r.phenomenon)}</td><td>${escapeHtml(r.curvedSpacetimeGR)}</td><td>${escapeHtml(r.pureClockSlowing)}</td><td>${escapeHtml(r.fullDualUpdateRateIGRT)}</td><td>${escapeHtml(r.empiricalWinner)}</td></tr>`).join('')}
+          ${TABLE_8_1_PREDICTIONS_MATRIX.map((r) => `<tr><td>${escapeHtml(r.phenomenon)}</td><td>${escapeHtml(r.statusBadge)}</td><td>${escapeHtml(r.curvedSpacetimeGR)}</td><td>${escapeHtml(r.pureClockSlowing)}</td><td>${escapeHtml(r.fullDualUpdateRateIGRT)}</td><td>${escapeHtml(r.empiricalWinner)}</td><td>${escapeHtml(r.falsificationCriterion)}</td></tr>`).join('')}
         </tbody>
       </table>
       <h3>Table 8.2 · Next-Generation Experimental Roadmap (2026–2035)</h3>
@@ -120,12 +131,37 @@ function renderHtmlChapterTable(chapterNum: number): string {
         <tbody>
           ${TABLE_8_2_NEXT_GEN_ROADMAP.map((r) => `<tr><td>${escapeHtml(r.facility)}</td><td>${escapeHtml(r.timeframe)}</td><td>${escapeHtml(r.observable)}</td><td>${escapeHtml(r.targetPrecision)}</td><td>${escapeHtml(r.discriminatingReach)}</td></tr>`).join('')}
         </tbody>
+      </table>
+      <h3>Table 8.3 · Multi-Survey Empirical Grounding, Calibration &amp; Systematics</h3>
+      <table>
+        <thead><tr><th>Regime &amp; Survey</th><th>Key Dataset</th><th>Observed Bound</th><th>Systematics &amp; Calibration</th><th>Model Discrimination</th></tr></thead>
+        <tbody>
+          ${TABLE_8_3_MULTISURVEY_EMPIRICAL.map((r) => `<tr><td>${escapeHtml(r.regimeAndSurvey)}</td><td>${escapeHtml(r.keyDataset)}</td><td>${escapeHtml(r.observedBound)}</td><td>${escapeHtml(r.systematicsAndCalibration)}</td><td>${escapeHtml(r.modelDiscrimination)}</td></tr>`).join('')}
+        </tbody>
+      </table>
+      <h3>Table 8.4 · 10⁻²⁰–10⁻²² Tabletop Experimental Protocol, Budget &amp; Decision Thresholds</h3>
+      <table>
+        <thead><tr><th>Subsystem</th><th>Target Sensitivity</th><th>Error Budget</th><th>Cost &amp; Schedule</th><th>Falsification &amp; Power</th></tr></thead>
+        <tbody>
+          ${TABLE_8_4_TABLETOP_PROTOCOL.map((r) => `<tr><td>${escapeHtml(r.subsystem)}</td><td>${escapeHtml(r.targetSensitivity)}</td><td>${escapeHtml(r.errorBudgetItem)}</td><td>${escapeHtml(r.costAndSchedule)}</td><td>${escapeHtml(r.falsificationAndPower)}</td></tr>`).join('')}
+        </tbody>
       </table>`;
   }
   return '';
 }
 
 export function buildClockSpeedSelfContainedHtml(): string {
+  const graphicalAbstractHtml = CLOCK_SPEED_FIGURES.filter((f) => f.anchorChapter === 0)
+    .map(
+      (fg) => `
+    <figure>
+      <div class="fig-meta">${escapeHtml(fg.figureNumber)} · ${escapeHtml(fg.title)}</div>
+      ${formatSvgMathMarkup(fg.svgMarkup)}
+      <figcaption>${escapeHtml(fg.caption)}</figcaption>
+    </figure>`
+    )
+    .join('\n');
+
   const chaptersHtml = CLOCK_SPEED_CHAPTERS.map((ch) => {
     const figs = CLOCK_SPEED_FIGURES.filter((f) => f.anchorChapter === ch.number);
     return `
@@ -235,9 +271,18 @@ export function buildClockSpeedSelfContainedHtml(): string {
   <p><strong>Authors:</strong> ${escapeHtml(CLOCK_SPEED_META.authors.map((a) => `${a.name} (${a.affiliation})`).join('; '))}</p>
   <h2>Abstract</h2>
   ${CLOCK_SPEED_ABSTRACT.map((p) => `<p>${escapeHtml(p)}</p>`).join('')}
+  ${graphicalAbstractHtml}
   ${chaptersHtml}
   <h2>Glossary</h2>
+  <h3>Core Conceptual Terms</h3>
   ${CLOCK_SPEED_GLOSSARY.map((g) => `<p><strong>${escapeHtml(g.term)}${g.acronym ? ` (${escapeHtml(g.acronym)})` : ''}:</strong> ${escapeHtml(g.definition)}</p>`).join('')}
+  <h3>Glossary of Symbols</h3>
+  <table>
+    <thead><tr><th>Symbol</th><th>Physical Quantity</th><th>Units / Domain</th><th>Definition</th></tr></thead>
+    <tbody>
+      ${CLOCK_SPEED_SYMBOL_GLOSSARY.map((s) => `<tr><td>${escapeHtml(s.symbol)}</td><td>${escapeHtml(s.name)}</td><td>${escapeHtml(s.unitsOrDomain)}</td><td>${escapeHtml(s.definition)}</td></tr>`).join('')}
+    </tbody>
+  </table>
   <h2>Appendices</h2>
   ${appendicesHtml}
   <h2>References</h2>
@@ -280,27 +325,54 @@ export function buildClockSpeedLatex(): string {
       .replace(/β/g, '$\\beta$')
       .replace(/γ/g, '$\\gamma$')
       .replace(/δ/g, '$\\delta$')
-      .replace(/ε/g, '$\\varepsilon$')
+      .replace(/ε|ϵ/g, '$\\varepsilon$')
+      .replace(/ζ/g, '$\\zeta$')
       .replace(/η/g, '$\\eta$')
-      .replace(/θ/g, '$\\theta$')
+      .replace(/θ|ϑ/g, '$\\theta$')
       .replace(/κ/g, '$\\kappa$')
       .replace(/λ/g, '$\\lambda$')
       .replace(/μ/g, '$\\mu$')
       .replace(/ν/g, '$\\nu$')
+      .replace(/ξ/g, '$\\xi$')
       .replace(/ϖ/g, '$\\varpi$')
       .replace(/π/g, '$\\pi$')
       .replace(/ρ/g, '$\\rho$')
       .replace(/σ/g, '$\\sigma$')
       .replace(/τ/g, '$\\tau$')
-      .replace(/φ/g, '$\\phi$')
+      .replace(/φ|ϕ/g, '$\\phi$')
+      .replace(/χ/g, '$\\chi$')
+      .replace(/ψ/g, '$\\psi$')
       .replace(/ω/g, '$\\omega$')
+      .replace(/Γ/g, '$\\Gamma$')
       .replace(/Δ/g, '$\\Delta$')
+      .replace(/Θ/g, '$\\Theta$')
       .replace(/Φ/g, '$\\Phi$')
       .replace(/Λ/g, '$\\Lambda$')
+      .replace(/Ξ/g, '$\\Xi$')
+      .replace(/Σ/g, '$\\Sigma$')
+      .replace(/Ψ/g, '$\\Psi$')
       .replace(/Ω/g, '$\\Omega$')
       .replace(/∞/g, '$\\infty$')
       .replace(/ℓ/g, '$\\ell$')
       .replace(/ℏ/g, '$\\hbar$')
+      .replace(/ℱ/g, '$\\mathcal{F}$')
+      .replace(/ℋ/g, '$\\mathcal{H}$')
+      .replace(/ℒ/g, '$\\mathcal{L}$')
+      .replace(/□/g, '$\\Box$')
+      .replace(/⟨/g, '$\\langle$')
+      .replace(/⟩/g, '$\\rangle$')
+      .replace(/≅/g, '$\\cong$')
+      .replace(/↦/g, '$\\mapsto$')
+      .replace(/⊣/g, '$\\dashv$')
+      .replace(/∝/g, '$\\propto$')
+      .replace(/∘/g, '$\\circ$')
+      .replace(/∏/g, '$\\prod$')
+      .replace(/∑/g, '$\\sum$')
+      .replace(/∈/g, '$\\in$')
+      .replace(/∼/g, '$\\sim$')
+      .replace(/𝐱/g, '$\\mathbf{x}$')
+      .replace(/𝐲/g, '$\\mathbf{y}$')
+      .replace(/r̄/g, '$\\bar{r}$')
       .replace(/☉/g, '$\\odot$')
       .replace(/⊙/g, '$\\odot$')
       .replace(/⊕/g, '$\\oplus$')
@@ -319,6 +391,7 @@ export function buildClockSpeedLatex(): string {
       .replace(/≠/g, '$\\neq$')
       .replace(/≡/g, '$\\equiv$')
       .replace(/⟺/g, '$\\iff$')
+      .replace(/↔/g, '$\\leftrightarrow$')
       .replace(/→/g, '$\\rightarrow$')
       .replace(/⇒/g, '$\\Rightarrow$')
       .replace(/−/g, '-')
@@ -343,30 +416,56 @@ export function buildClockSpeedLatex(): string {
       .replace(/β/g, '\\beta ')
       .replace(/γ/g, '\\gamma ')
       .replace(/δ/g, '\\delta ')
-      .replace(/θ/g, '\\theta ')
-      .replace(/φ/g, '\\phi ')
+      .replace(/ε|ϵ/g, '\\varepsilon ')
+      .replace(/ζ/g, '\\zeta ')
+      .replace(/θ|ϑ/g, '\\theta ')
+      .replace(/φ|ϕ/g, '\\phi ')
+      .replace(/χ/g, '\\chi ')
+      .replace(/ψ/g, '\\psi ')
       .replace(/π/g, '\\pi ')
       .replace(/η/g, '\\eta ')
       .replace(/κ/g, '\\kappa ')
       .replace(/λ/g, '\\lambda ')
       .replace(/μ/g, '\\mu ')
       .replace(/ν/g, '\\nu ')
+      .replace(/ξ/g, '\\xi ')
       .replace(/ϖ/g, '\\varpi ')
       .replace(/ρ/g, '\\rho ')
       .replace(/σ/g, '\\sigma ')
       .replace(/τ/g, '\\tau ')
       .replace(/ω/g, '\\omega ')
+      .replace(/Γ/g, '\\Gamma ')
       .replace(/Δ/g, '\\Delta ')
+      .replace(/Θ/g, '\\Theta ')
       .replace(/Φ/g, '\\Phi ')
       .replace(/Λ/g, '\\Lambda ')
+      .replace(/Ξ/g, '\\Xi ')
+      .replace(/Σ/g, '\\Sigma ')
+      .replace(/Ψ/g, '\\Psi ')
       .replace(/Ω/g, '\\Omega ')
       .replace(/∞/g, '\\infty ')
       .replace(/ℓ/g, '\\ell ')
       .replace(/ℏ/g, '\\hbar ')
+      .replace(/ℱ/g, '\\mathcal{F} ')
+      .replace(/ℋ/g, '\\mathcal{H} ')
+      .replace(/ℒ/g, '\\mathcal{L} ')
+      .replace(/□/g, '\\Box ')
+      .replace(/⟨/g, '\\langle ')
+      .replace(/⟩/g, '\\rangle ')
+      .replace(/≅/g, '\\cong ')
+      .replace(/↦/g, '\\mapsto ')
+      .replace(/⊣/g, '\\dashv ')
+      .replace(/∝/g, '\\propto ')
+      .replace(/∘/g, '\\circ ')
+      .replace(/∏/g, '\\prod ')
+      .replace(/∑/g, '\\sum ')
+      .replace(/∈/g, '\\in ')
+      .replace(/∼/g, '\\sim ')
       .replace(/☉/g, '\\odot ')
       .replace(/⊙/g, '\\odot ')
       .replace(/⊕/g, '\\oplus ')
       .replace(/𝐱/g, '\\mathbf{x}')
+      .replace(/𝐲/g, '\\mathbf{y}')
       .replace(/r̄/g, '\\bar{r}')
       .replace(/∂/g, '\\partial ')
       .replace(/∫/g, '\\int ')
@@ -374,6 +473,7 @@ export function buildClockSpeedLatex(): string {
       .replace(/√/g, '\\sqrt ')
       .replace(/×/g, '\\times ')
       .replace(/·/g, '\\cdot ')
+      .replace(/±/g, '\\pm ')
       .replace(/≈/g, '\\approx ')
       .replace(/≤/g, '\\le ')
       .replace(/≥/g, '\\ge ')
@@ -382,6 +482,7 @@ export function buildClockSpeedLatex(): string {
       .replace(/≠/g, '\\neq ')
       .replace(/≡/g, '\\equiv ')
       .replace(/⟺/g, '\\iff ')
+      .replace(/↔/g, '\\leftrightarrow ')
       .replace(/→/g, '\\rightarrow ')
       .replace(/⇒/g, '\\Rightarrow ')
       .replace(/−/g, '-')
@@ -427,6 +528,18 @@ Parameter & Physical Meaning & Will (2014) Bound & LUH-Scalar & Dual Update / GR
 ${TABLE_5_2_PPN_BOUNDS.map((r) => `${escTex(r.parameter)} & ${escTex(r.physicalMeaning)} & ${escTex(r.will2014Bound)} & ${escTex(r.luhScalarValue)} & ${escTex(r.dualUpdateGRValue)} & ${escTex(r.primaryExperiment)} \\\\`).join('\n')}
 \\hline
 \\end{tabular}
+\\end{table}
+
+\\begin{table}[htbp]
+\\centering
+\\caption{Step-by-Step Comparison Against Will (2014) PPN Derivation}
+\\begin{tabular}{llll}
+\\hline
+Derivation Stage & Will (2014) Canonical PPN & Present Paper Derivation & Status \\\\
+\\hline
+${TABLE_5_3_WILL_COMPARISON.map((r) => `${escTex(r.derivationStage)} & ${escTex(r.will2014CanonicalPpn)} & ${escTex(r.presentPaperDerivation)} & ${escTex(r.statusRelativeToWill)} \\\\`).join('\n')}
+\\hline
+\\end{tabular}
 \\end{table}`;
     }
     if (chapterNum === 6) {
@@ -445,12 +558,12 @@ ${TABLE_6_1_BLACK_HOLES.map((r) => `${escTex(r.observable)} & ${escTex(r.instrum
     if (chapterNum === 8) {
       return `\\begin{table}[htbp]
 \\centering
-\\caption{Summary Prediction Matrix: Curved Geometry vs. Slowed Update Speed}
-\\begin{tabular}{lllll}
+\\caption{Summary Prediction Matrix and Falsification Criteria}
+\\begin{tabular}{lllllll}
 \\hline
-Phenomenon & Curved Spacetime & Pure Clock-Slowing & Dual Update / IGRT & Outcome \\\\
+Phenomenon & Status & Curved GR & Pure Scalar & Dual Update / IGRT & Outcome & What Would Falsify \\\\
 \\hline
-${TABLE_8_1_PREDICTIONS_MATRIX.map((r) => `${escTex(r.phenomenon)} & ${escTex(r.curvedSpacetimeGR)} & ${escTex(r.pureClockSlowing)} & ${escTex(r.fullDualUpdateRateIGRT)} & ${escTex(r.empiricalWinner)} \\\\`).join('\n')}
+${TABLE_8_1_PREDICTIONS_MATRIX.map((r) => `${escTex(r.phenomenon)} & ${escTex(r.statusBadge)} & ${escTex(r.curvedSpacetimeGR)} & ${escTex(r.pureClockSlowing)} & ${escTex(r.fullDualUpdateRateIGRT)} & ${escTex(r.empiricalWinner)} & ${escTex(r.falsificationCriterion)} \\\\`).join('\n')}
 \\hline
 \\end{tabular}
 \\end{table}
@@ -463,6 +576,30 @@ ${TABLE_8_1_PREDICTIONS_MATRIX.map((r) => `${escTex(r.phenomenon)} & ${escTex(r.
 Facility & Window & Observable & Precision & Discriminating Reach \\\\
 \\hline
 ${TABLE_8_2_NEXT_GEN_ROADMAP.map((r) => `${escTex(r.facility)} & ${escTex(r.timeframe)} & ${escTex(r.observable)} & ${escTex(r.targetPrecision)} & ${escTex(r.discriminatingReach)} \\\\`).join('\n')}
+\\hline
+\\end{tabular}
+\\end{table}
+
+\\begin{table}[htbp]
+\\centering
+\\caption{Multi-Survey Empirical Grounding, Calibration, and Systematics}
+\\begin{tabular}{lllll}
+\\hline
+Regime & Dataset & Bound & Calibration & Discrimination \\\\
+\\hline
+${TABLE_8_3_MULTISURVEY_EMPIRICAL.map((r) => `${escTex(r.regimeAndSurvey)} & ${escTex(r.keyDataset)} & ${escTex(r.observedBound)} & ${escTex(r.systematicsAndCalibration)} & ${escTex(r.modelDiscrimination)} \\\\`).join('\n')}
+\\hline
+\\end{tabular}
+\\end{table}
+
+\\begin{table}[htbp]
+\\centering
+\\caption{Tabletop Experimental Protocol, Budget, and Decision Thresholds}
+\\begin{tabular}{lllll}
+\\hline
+Subsystem & Sensitivity & Error Budget & Schedule & Falsification \\\\
+\\hline
+${TABLE_8_4_TABLETOP_PROTOCOL.map((r) => `${escTex(r.subsystem)} & ${escTex(r.targetSensitivity)} & ${escTex(r.errorBudgetItem)} & ${escTex(r.costAndSchedule)} & ${escTex(r.falsificationAndPower)} \\\\`).join('\n')}
 \\hline
 \\end{tabular}
 \\end{table}`;
@@ -512,6 +649,18 @@ ${renderTexChapterTables(ch.number)}`
 \\begin{description}
 ${CLOCK_SPEED_GLOSSARY.map((g) => `  \\item[${escTex(g.term)}] ${escTex(g.definition)}`).join('\n')}
 \\end{description}
+
+\\begin{table}[htbp]
+\\centering
+\\caption{Glossary of Symbols and Physical Conventions}
+\\begin{tabular}{llll}
+\\hline
+Symbol & Quantity & Units / Domain & Definition \\\\
+\\hline
+${CLOCK_SPEED_SYMBOL_GLOSSARY.map((s) => `${escTex(s.symbol)} & ${escTex(s.name)} & ${escTex(s.unitsOrDomain)} & ${escTex(s.definition)} \\\\`).join('\n')}
+\\hline
+\\end{tabular}
+\\end{table}
 
 \\appendix
 ${CLOCK_SPEED_APPENDICES.map(

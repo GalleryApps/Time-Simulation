@@ -1970,7 +1970,22 @@ requireIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts (SVG @font-face & glyph g
 ]);
 
 // Parity checks for apparatus indices, C_ell parser support, and [1]..[109] full citation coverage
-requireIncludes(appSrc, 'harmonizedPaperApparatus.ts (H10 indices)', ['Table I.1', 'Table I.2', 'Table M.1', '(K.1)', '(L.1)', '(N.1)', '(O.1)', '(O.3)', 'scripts/igrt-cosmology-suite.mjs']);
+requireIncludes(appSrc, 'harmonizedPaperApparatus.ts (H10/R14 indices)', ['Table I.1', 'Table I.2', 'Table M.1', 'R14.', '(K.1)', '(L.1)', '(N.1)', '(O.1)', '(O.3)', 'scripts/igrt-cosmology-suite.mjs']);
+requireIncludes(dataSrc, 'harmonizedPaperData.ts (Title & 6-author order)', [
+  'Quantum Clocks as Rulers of Becoming: Information-Geometric Resonant Time, Fiber-Bundle Unfreezing, and Falsifiable Horndeski Cosmology',
+  'Manuel Avila Gomez',
+  "IUT de l'Indre, Université d'Orléans & Laboratoire PRISME",
+  "affiliation: 'Independent Researcher'",
+  'Department of Physics, Yale University, New Haven, CT 06520, USA'
+]);
+forbidIncludes(dataSrc, 'harmonizedPaperData.ts (Legacy affiliations / leave text)', ['On leave from', 'on leave from', 'Laboratory of Resonant Epistemology', 'Extended Gravity & Quantum Information Metrology Consortium']);
+forbidIncludes(appSrc, 'harmonizedPaperApparatus.ts (Legacy affiliations / leave text)', ['On leave from', 'on leave from', '5-author roster']);
+const tIdx = dataSrc.indexOf("name: 'Jean-Charles Tassan'");
+const lIdx = dataSrc.indexOf("name: 'Wilson John Sterking Lauret'");
+const bIdx = dataSrc.indexOf("name: 'Marlon D. Bulaqueña, Ph.D.'");
+const mIdx = dataSrc.indexOf("name: 'Manuel Avila Gomez'");
+assert(tIdx > 0 && lIdx > tIdx && bIdx > lIdx && mIdx > bIdx, 'PAPER_META.authors must place Tassan & Lauret before Bulaqueña (middle) and Manuel Avila Gomez');
+programmaticChecks += 6;
 const fmtSrc = fs.readFileSync(path.join(repoRoot, 'src/utils/formatMathUnicode.ts'), 'utf8');
 requireIncludes(fmtSrc, 'formatMathUnicode.ts (ell/hbar/Unicode script parser)', ['∞ℓℏ𝒞', 'SUB_DIGIT_MAP', 'splitPlainTextUnicodeScripts']);
 const proseBeforeRefs = dataSrc.split('export const PAPER_REFERENCES')[0] + '\n' + appSrc;

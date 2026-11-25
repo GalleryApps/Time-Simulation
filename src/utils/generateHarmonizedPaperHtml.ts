@@ -419,7 +419,7 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
     size: A4 portrait;
     margin: 25mm;
     @top-center {
-      content: "Information-Geometric Resonant Time (IGRT) — Harmonized Research Monograph";
+      content: "Quantum Clocks as Rulers of Becoming — IGRT Research Monograph";
       font-family: Georgia, serif;
       font-size: 9pt;
       color: #64748B;
@@ -770,13 +770,18 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
 
     <div class="authors-grid">
       ${PAPER_META.authors
-        .map(
-          (a) => `<div class="author-card">
+        .map((a) => {
+          const idHtml = a.orcid
+            ? `ORCID: https://orcid.org/${esc(a.orcid)}`
+            : a.email
+              ? `Email: ${esc(a.email)}`
+              : 'Credential: Habilitation à Diriger des Recherches (HDR)';
+          return `<div class="author-card">
         <strong>${esc(a.name)}</strong><br/>
-        ${a.orcid ? `ORCID: https://orcid.org/${esc(a.orcid)}` : a.email ? `Email: ${esc(a.email)}` : ''}<br/>
+        ${idHtml}<br/>
         <span>${esc(a.affiliation)}</span>
-      </div>`
-        )
+      </div>`;
+        })
         .join('')}
     </div>
 

@@ -21,9 +21,13 @@ import {
   TABLE_4_1_EVERYDAY_TESTS,
   TABLE_5_1_STRESS_TESTS,
   TABLE_5_2_PPN_BOUNDS,
+  TABLE_5_3_WILL_COMPARISON,
   TABLE_6_1_BLACK_HOLES,
   TABLE_8_1_PREDICTIONS_MATRIX,
   TABLE_8_2_NEXT_GEN_ROADMAP,
+  TABLE_8_3_MULTISURVEY_EMPIRICAL,
+  TABLE_8_4_TABLETOP_PROTOCOL,
+  CLOCK_SPEED_SYMBOL_GLOSSARY,
   CLOCK_SPEED_GLOSSARY,
   CLOCK_SPEED_APPENDICES,
   CLOCK_SPEED_REFERENCES,
@@ -49,7 +53,16 @@ import {
   computeAdmConstraintResidual,
   computeHaywardStrongFieldObservables,
   computeLindbladClockVisibility,
-  computeBinaryPulsarRadiation
+  computeBinaryPulsarRadiation,
+  computeShapiroLogDelay,
+  computeHaywardIscoAndShadows,
+  computeFiberAndCramerRaoChecks,
+  computeMacroscopicInterferometerBound,
+  computeLikelihoodRatioGrVsScalar,
+  computeQuantumEntanglementAndClockCat,
+  computeAntimatterAndNeutrinoClockBounds,
+  computeCosmologicalAndGwUpdateBounds,
+  computeStrongFieldCoreExtensions
 } from '../physics/clockSpeedPaper';
 import { MathText } from './MathText';
 import {
@@ -133,9 +146,25 @@ export const ClockSpeedPaperView: React.FC<ClockSpeedPaperViewProps> = ({
   const pgBridge = useMemo(() => computePainleveGordonBridge(radiusOverRs, 10), [radiusOverRs]);
   const haywardCore = useMemo(() => computeHaywardRegularCore(Math.max(0.05, radiusOverRs), 10, l0OverRs), [radiusOverRs, l0OverRs]);
   const haywardSf = useMemo(() => computeHaywardStrongFieldObservables(10, l0OverRs), [l0OverRs]);
+  const haywardIscoShadows = useMemo(() => computeHaywardIscoAndShadows(l0OverRs), [l0OverRs]);
   const quantumClockHeightM = useMemo(() => Math.max(0.1, heightMeters / 1000), [heightMeters]);
   const lindblad = useMemo(() => computeLindbladClockVisibility(quantumClockHeightM, 1.0), [quantumClockHeightM]);
+  const macroBound = useMemo(() => computeMacroscopicInterferometerBound(1.0, 1e-6), []);
+  const fiberCrb = useMemo(() => computeFiberAndCramerRaoChecks(15, 2000, 1.0, 3600), []);
+  const cassiniLog = useMemo(() => computeShapiroLogDelay(gammaUpd, 1.6, 1.0, 8.43), [gammaUpd]);
+  const likelihood = useMemo(() => computeLikelihoodRatioGrVsScalar(), []);
   const pulsar = useMemo(() => computeBinaryPulsarRadiation(gammaUpd, betaUpd), [gammaUpd, betaUpd]);
+  const catAndTabletop = useMemo(
+    () => computeQuantumEntanglementAndClockCat(0.01 * (heightMeters / 3000), 1.0, 8, 25.0),
+    [heightMeters]
+  );
+  const strongFieldExt = useMemo(() => computeStrongFieldCoreExtensions(l0OverRs, 10), [l0OverRs]);
+  const cosmoGw = useMemo(() => computeCosmologicalAndGwUpdateBounds(1e-4, 0.01), []);
+  const antiNu = useMemo(
+    () => computeAntimatterAndNeutrinoClockBounds(Math.max(1, photonEnergyGeV), gammaUpd),
+    [photonEnergyGeV, gammaUpd]
+  );
+  const graphicalAbstractFigures = useMemo(() => CLOCK_SPEED_FIGURES.filter((f) => f.anchorChapter === 0), []);
 
   const liveSvgPaths = useMemo(() => {
     // Left chart domain: r/r_s in [0.05, 3.0], f in [-1.5, 1.0] mapped to x:[40..325], y:[25..175]
@@ -186,6 +215,17 @@ export const ClockSpeedPaperView: React.FC<ClockSpeedPaperViewProps> = ({
         g.term.toLowerCase().includes(q) ||
         (g.acronym && g.acronym.toLowerCase().includes(q)) ||
         g.definition.toLowerCase().includes(q)
+    );
+  }, [glossaryQuery]);
+
+  const filteredSymbols = useMemo(() => {
+    const q = glossaryQuery.trim().toLowerCase();
+    if (!q) return CLOCK_SPEED_SYMBOL_GLOSSARY;
+    return CLOCK_SPEED_SYMBOL_GLOSSARY.filter(
+      (s) =>
+        s.symbol.toLowerCase().includes(q) ||
+        s.name.toLowerCase().includes(q) ||
+        s.definition.toLowerCase().includes(q)
     );
   }, [glossaryQuery]);
 
@@ -445,6 +485,11 @@ export const ClockSpeedPaperView: React.FC<ClockSpeedPaperViewProps> = ({
               {CLOCK_SPEED_META.keywords.join(' · ')}
             </div>
           </section>
+
+          {/* Graphical Abstract & Deductive Architecture (Fig. 0.1) */}
+          {graphicalAbstractFigures.map((fig) => (
+            <ClockSpeedFigureCard key={fig.id} fig={fig} />
+          ))}
 
           {/* Interactive Two-Picture Comparative Physics Explorer */}
           <section
@@ -707,11 +752,16 @@ export const ClockSpeedPaperView: React.FC<ClockSpeedPaperViewProps> = ({
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-4 font-sans text-[#062429] dark:text-[#EDF5F6]">Shapiro Round-Trip Delay</td>
-                    <td className="py-3 px-4">{ppnResult.shapiroDelayUs.toFixed(1)} μs</td>
-                    <td className="py-3 px-4">{ppnResult.grShapiroDelayUs.toFixed(1)} μs (Cassini)</td>
-                    <td className={`py-3 pl-4 ${ppnResult.cassiniGammaTensionSigma < 3 ? 'text-[#0F3D2B] dark:text-[#4A9374]' : 'text-[#831B5B] dark:text-[#C46D9E]'}`}>
-                      {ppnResult.cassiniGammaTensionSigma < 3 ? 'Within Cassini 1σ' : `${ppnResult.cassiniGammaTensionSigma.toFixed(0)}σ Tension`}
+                    <td className="py-3 pr-4 font-sans text-[#062429] dark:text-[#EDF5F6]">Cassini Logarithmic Shapiro Integral (1.6 R_☉, 8.43 AU)</td>
+                    <td className="py-3 px-4">
+                      {cassiniLog.shapiroRoundTripUs.toFixed(2)} μs
+                      <span className="block text-[10.5px] text-[#278594] dark:text-[#6CB2BD]">
+                        Deficit vs. GR: {cassiniLog.fractionalDeficitPct.toFixed(1)}%
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">{cassiniLog.grRoundTripUs.toFixed(2)} μs (|γ−1| &lt; 2.3×10⁻⁵)</td>
+                    <td className={`py-3 pl-4 ${cassiniLog.cassiniGammaTensionSigma < 3 ? 'text-[#0F3D2B] dark:text-[#4A9374]' : 'text-[#831B5B] dark:text-[#C46D9E]'}`}>
+                      {cassiniLog.cassiniGammaTensionSigma < 3 ? 'Within Cassini 1σ' : `${cassiniLog.cassiniGammaTensionSigma.toFixed(0)}σ Tension`}
                     </td>
                   </tr>
                   <tr>
@@ -726,16 +776,29 @@ export const ClockSpeedPaperView: React.FC<ClockSpeedPaperViewProps> = ({
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-4 font-sans text-[#062429] dark:text-[#EDF5F6]">PSR B1913+16 Decay &amp; Periastron</td>
+                    <td className="py-3 pr-4 font-sans text-[#062429] dark:text-[#EDF5F6]">PSR B1913+16 Decay &amp; 7-Channel Likelihood</td>
                     <td className="py-3 px-4">
                       {pulsar.totalPredictedPeriodDot.toExponential(4)} s/s
                       <span className="block text-[10.5px] text-[#278594] dark:text-[#6CB2BD]">
-                        dω/dt = {pulsar.ppnPeriastronAdvanceDegYr.toFixed(3)}°/yr
+                        dω/dt = {pulsar.ppnPeriastronAdvanceDegYr.toFixed(3)}°/yr · Δ ln ℒ = {likelihood.deltaLogLikelihood.toExponential(2)}
                       </span>
                     </td>
-                    <td className="py-3 px-4">-2.402e-12 s/s · 4.226°/yr</td>
+                    <td className="py-3 px-4">-2.402e-12 s/s · χ²_GR = {likelihood.chiSquaredGr.toFixed(2)}</td>
                     <td className={`py-3 pl-4 ${pulsar.matchesHulseTaylor && Math.abs(pulsar.ppnPeriastronAdvanceDegYr - pulsar.grPeriastronAdvanceDegYr) < 0.05 ? 'text-[#0F3D2B] dark:text-[#4A9374]' : 'text-[#831B5B] dark:text-[#C46D9E]'}`}>
-                      {pulsar.matchesHulseTaylor && Math.abs(pulsar.ppnPeriastronAdvanceDegYr - pulsar.grPeriastronAdvanceDegYr) < 0.05 ? 'Matches Hulse-Taylor' : 'Dipole / Periastron Excess'}
+                      {pulsar.matchesHulseTaylor && Math.abs(pulsar.ppnPeriastronAdvanceDegYr - pulsar.grPeriastronAdvanceDegYr) < 0.05 ? 'Matches Hulse-Taylor' : `Scalar Rejected (${likelihood.sigmaRejectionEquivalent.toFixed(0)}σ)`}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-sans text-[#062429] dark:text-[#EDF5F6]">Hayward ISCO &amp; EHT Shadows (ℓ₀ = {l0OverRs.toFixed(3)} r_s)</td>
+                    <td className="py-3 px-4">
+                      r_ISCO = {haywardIscoShadows.iscoOverRs.toFixed(4)} r_s ({haywardIscoShadows.iscoShiftPct.toFixed(2)}%)
+                      <span className="block text-[10.5px] text-[#278594] dark:text-[#6CB2BD]">
+                        M87*: {haywardIscoShadows.m87ShadowDiameterUas.toFixed(2)} μas · Sgr A*: {haywardIscoShadows.sgrAShadowDiameterUas.toFixed(2)} μas
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">ISCO 3.00 r_s · M87* 42 μas / Sgr A* 51.8 μas</td>
+                    <td className={`py-3 pl-4 ${Math.abs(haywardIscoShadows.iscoShiftPct) < 2.0 ? 'text-[#0F3D2B] dark:text-[#4A9374]' : 'text-[#831B5B] dark:text-[#C46D9E]'}`}>
+                      {Math.abs(haywardIscoShadows.iscoShiftPct) < 2.0 ? 'Within EHT & X-Ray Bounds' : 'Macro Core Tension'}
                     </td>
                   </tr>
                   <tr>
@@ -765,16 +828,68 @@ export const ClockSpeedPaperView: React.FC<ClockSpeedPaperViewProps> = ({
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-4 font-sans text-[#062429] dark:text-[#EDF5F6]">⁸⁷Sr Interferometer Visibility ({quantumClockHeightM.toFixed(2)} m, 1 s)</td>
+                    <td className="py-3 pr-4 font-sans text-[#062429] dark:text-[#EDF5F6]">Quantum Cramér–Rao, 1 kg Decoherence &amp; Fiber Link</td>
                     <td className="py-3 px-4">
-                      V_unitary = {lindblad.unitaryVisibility.toFixed(4)}
+                      V({quantumClockHeightM.toFixed(1)}m) = {lindblad.unitaryVisibility.toFixed(4)} · σ_CRB = {fiberCrb.cramerRaoFloorFraction.toExponential(2)}
                       <span className="block text-[10.5px] text-[#278594] dark:text-[#6CB2BD]">
-                        Γ_dec = {lindblad.lindbladGammaSecInv.toExponential(2)} s⁻¹
+                        Γ_1kg(1μm) = {macroBound.planckLindbladRateSecInv.toExponential(2)} s⁻¹ · Fiber {fiberCrb.fiberOneWayDelayUsPerKm.toFixed(2)} μs/km
                       </span>
                     </td>
-                    <td className="py-3 px-4">Unitary cos(Δφ/2)</td>
+                    <td className="py-3 px-4">Unitary cos(Δφ/2) · 94.3 ps/d/10m</td>
                     <td className="py-3 pl-4 text-[#0F3D2B] dark:text-[#4A9374]">
                       QFI = {lindblad.quantumFisherInfo.toExponential(2)} rad²
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-sans text-[#062429] dark:text-[#EDF5F6]">8-Ion GHZ Clock Cat &amp; 4 K Cryo Tabletop Budget</td>
+                    <td className="py-3 px-4">
+                      Δν_GHZ = {catAndTabletop.ghzCatFreqDiffHz.toExponential(2)} Hz · C(1s) = {catAndTabletop.trappedIonConcurrenceDecay.toFixed(4)}
+                      <span className="block text-[10.5px] text-[#278594] dark:text-[#6CB2BD]">
+                        h_tot = {catAndTabletop.totalTabletopBudgetStrain.toExponential(2)} · Δφ_Sagnac = {catAndTabletop.rotatingAtomSagnacRad.toFixed(1)} rad
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">10⁻²⁰–10⁻²² Cryo Strain Floor</td>
+                    <td className="py-3 pl-4 text-[#0F3D2B] dark:text-[#4A9374]">
+                      Unitary V_GHZ = {catAndTabletop.ghzCatVisibilityShift.toFixed(4)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-sans text-[#062429] dark:text-[#EDF5F6]">Echo Comb Δf_comb, Tidal Love k₂ &amp; Page Shift</td>
+                    <td className="py-3 px-4">
+                      Δf_comb = {strongFieldExt.echoCombSpacingHz.toFixed(1)} Hz · k₂ = {strongFieldExt.loveNumberK2.toFixed(4)}
+                      <span className="block text-[10.5px] text-[#278594] dark:text-[#6CB2BD]">
+                        RW–Zerilli: +{strongFieldExt.rwZerilliIsospectralSplitPct.toFixed(2)}% · Page ΔS = {strongFieldExt.bekensteinEntropyCoreDeltaPct.toFixed(2)}%
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">k₂,GR = 0 · ln B = {strongFieldExt.bayesianLogEvidenceGrVsScalar.toExponential(2)}</td>
+                    <td className="py-3 pl-4 text-[#11505C] dark:text-[#6CB2BD]">
+                      CE/ET Core Spectroscopy Reach
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-sans text-[#062429] dark:text-[#EDF5F6]">GW Dispersion (LISA/PTA) &amp; CMB Acoustic θ_*</td>
+                    <td className="py-3 px-4">
+                      h_LISA = {cosmoGw.lisaGwDispersionSensitivity.toExponential(1)} · PTA = {cosmoGw.ptaUpdateMemoryStrain.toExponential(1)}
+                      <span className="block text-[10.5px] text-[#278594] dark:text-[#6CB2BD]">
+                        Δθ_* = {cosmoGw.cmbThetaStarInvarianceShift.toFixed(1)} · |ΔY_p| &lt; {cosmoGw.bbnHeliumMassFractionShift.toExponential(1)}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">|c_GW/c − 1| &lt; 3×10⁻¹⁵ (GW170817)</td>
+                    <td className="py-3 pl-4 text-[#0F3D2B] dark:text-[#4A9374]">
+                      Breathing h_b &lt; {cosmoGw.scalarBreathingStrainSuppression.toExponential(0)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-sans text-[#062429] dark:text-[#EDF5F6]">ALPHA-g Antimatter, IceCube ν &amp; Strong-Lens Slip</td>
+                    <td className="py-3 px-4">
+                      Δφ_ν({photonEnergyGeV} GeV) = {antiNu.neutrinoClockPhaseShiftRad.toExponential(2)} rad
+                      <span className="block text-[10.5px] text-[#278594] dark:text-[#6CB2BD]">
+                        Lens residual = {(antiNu.strongLensNonMetricResidualRatio * 100).toFixed(1)}% · Quasar Δμ/μ &lt; {antiNu.quasarElectronMassDeltaMuOverMu.toExponential(0)}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">ALPHA-g → 10⁻¹⁸ · H0LiCOW γ=1</td>
+                    <td className={`py-3 pl-4 ${antiNu.strongLensNonMetricResidualRatio < 0.02 ? 'text-[#0F3D2B] dark:text-[#4A9374]' : 'text-[#831B5B] dark:text-[#C46D9E]'}`}>
+                      {antiNu.strongLensNonMetricResidualRatio < 0.02 ? 'Universal Metric Consistent' : 'Strong-Lens Slip Excluded'}
                     </td>
                   </tr>
                 </tbody>
@@ -990,6 +1105,34 @@ export const ClockSpeedPaperView: React.FC<ClockSpeedPaperViewProps> = ({
                         </table>
                       </div>
                     </div>
+
+                    <div className="space-y-3">
+                      <h4 className="font-['Playfair_Display'] text-xl text-[#4A0E33] dark:text-[#F7EEF3]">
+                        Table 5.3 · Step-by-Step Comparison Against Will (2014) PPN Derivation
+                      </h4>
+                      <div className="overflow-x-auto rounded-lg border border-[#C46D9E]/40">
+                        <table className="w-full text-left border-collapse text-xs font-['Poppins']">
+                          <thead>
+                            <tr className="bg-[#F7EEF3] dark:bg-[#2E0820] text-[#2E0820] dark:text-[#F7EEF3] border-b border-[#C46D9E]/40">
+                              <th className="p-3">Derivation Stage</th>
+                              <th className="p-3">Will (2014) Canonical PPN</th>
+                              <th className="p-3">Present Paper Derivation</th>
+                              <th className="p-3">Status Relative to Will</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#F7EEF3] dark:divide-[#4A0E33]/40">
+                            {TABLE_5_3_WILL_COMPARISON.map((row) => (
+                              <tr key={row.derivationStage} className="even:bg-[#EEF5F1]/45 dark:even:bg-[#082419]/35">
+                                <td className="p-3 font-medium text-[#2E0820] dark:text-[#F7EEF3]">{row.derivationStage}</td>
+                                <td className="p-3">{row.will2014CanonicalPpn}</td>
+                                <td className="p-3">{row.presentPaperDerivation}</td>
+                                <td className="p-3 font-medium text-[#0F3D2B] dark:text-[#4A9374]">{row.statusRelativeToWill}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -1029,27 +1172,39 @@ export const ClockSpeedPaperView: React.FC<ClockSpeedPaperViewProps> = ({
                   <div className="space-y-10 pt-4">
                     <div className="space-y-3">
                       <h4 className="font-['Playfair_Display'] text-xl text-[#2E0820] dark:text-[#F7EEF3]">
-                        Table 8.1 · Summary Prediction Matrix: Curved Geometry vs. Slowed Update Speed
+                        Table 8.1 · Summary Prediction Matrix &amp; Falsification Criteria
                       </h4>
                       <div className="overflow-x-auto rounded-lg border border-[#C46D9E]/40">
                         <table className="w-full text-left border-collapse text-xs font-['Poppins']">
                           <thead>
                             <tr className="bg-[#F7EEF3] dark:bg-[#2E0820] text-[#2E0820] dark:text-[#F7EEF3] border-b border-[#C46D9E]/40">
                               <th className="p-3">Phenomenon</th>
+                              <th className="p-3">Status</th>
                               <th className="p-3">Curved Spacetime (GR)</th>
                               <th className="p-3">Pure Scalar Clock-Slowing</th>
                               <th className="p-3">Dual Update / IGRT</th>
-                              <th className="p-3">Winner</th>
+                              <th className="p-3">Outcome</th>
+                              <th className="p-3">What Would Falsify</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-[#EDF5F6] dark:divide-[#11505C]/40">
                             {TABLE_8_1_PREDICTIONS_MATRIX.map((row) => (
                               <tr key={row.phenomenon} className="even:bg-[#EEF5F1]/50 dark:even:bg-[#082419]/40">
                                 <td className="p-3 font-medium">{row.phenomenon}</td>
+                                <td className={`p-3 font-mono font-semibold whitespace-nowrap ${
+                                  row.statusBadge === 'PASS'
+                                    ? 'text-[#0F3D2B] dark:text-[#4A9374]'
+                                    : row.statusBadge === 'FAIL'
+                                      ? 'text-[#831B5B] dark:text-[#C46D9E]'
+                                      : 'text-[#186876] dark:text-[#6CB2BD]'
+                                }`}>
+                                  {row.statusBadge}
+                                </td>
                                 <td className="p-3 font-mono">{row.curvedSpacetimeGR}</td>
                                 <td className="p-3 font-mono text-[#831B5B] dark:text-[#C46D9E]">{row.pureClockSlowing}</td>
                                 <td className="p-3 font-mono text-[#0F3D2B] dark:text-[#4A9374]">{row.fullDualUpdateRateIGRT}</td>
                                 <td className="p-3 font-medium">{row.empiricalWinner}</td>
+                                <td className="p-3 text-[#0B3942] dark:text-[#EDF5F6]/85">{row.falsificationCriterion}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -1080,6 +1235,66 @@ export const ClockSpeedPaperView: React.FC<ClockSpeedPaperViewProps> = ({
                                 <td className="p-3">{row.observable}</td>
                                 <td className="p-3 font-mono tabular-nums">{row.targetPrecision}</td>
                                 <td className="p-3">{row.discriminatingReach}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h4 className="font-['Playfair_Display'] text-xl text-[#0B3942] dark:text-[#EDF5F6]">
+                        Table 8.3 · Multi-Survey Empirical Grounding, Calibration &amp; Systematics
+                      </h4>
+                      <div className="overflow-x-auto rounded-lg border border-[#186876]/35">
+                        <table className="w-full text-left border-collapse text-xs font-['Poppins']">
+                          <thead>
+                            <tr className="bg-[#EDF5F6] dark:bg-[#0B3942] text-[#062429] dark:text-[#EDF5F6] border-b border-[#186876]/35">
+                              <th className="p-3">Regime &amp; Survey</th>
+                              <th className="p-3">Key Dataset</th>
+                              <th className="p-3">Observed Bound</th>
+                              <th className="p-3">Systematics &amp; Calibration</th>
+                              <th className="p-3">Model Discrimination</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#EDF5F6] dark:divide-[#11505C]/40">
+                            {TABLE_8_3_MULTISURVEY_EMPIRICAL.map((row) => (
+                              <tr key={row.regimeAndSurvey} className="even:bg-[#EEF5F1]/45 dark:even:bg-[#082419]/35">
+                                <td className="p-3 font-medium text-[#2E0820] dark:text-[#F7EEF3]">{row.regimeAndSurvey}</td>
+                                <td className="p-3 font-mono text-[11px]">{row.keyDataset}</td>
+                                <td className="p-3 font-mono tabular-nums">{row.observedBound}</td>
+                                <td className="p-3">{row.systematicsAndCalibration}</td>
+                                <td className="p-3 text-[#0F3D2B] dark:text-[#4A9374]">{row.modelDiscrimination}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h4 className="font-['Playfair_Display'] text-xl text-[#4A0E33] dark:text-[#F7EEF3]">
+                        Table 8.4 · 10⁻²⁰–10⁻²² Tabletop Experimental Protocol, Budget &amp; Decision Thresholds
+                      </h4>
+                      <div className="overflow-x-auto rounded-lg border border-[#C46D9E]/40">
+                        <table className="w-full text-left border-collapse text-xs font-['Poppins']">
+                          <thead>
+                            <tr className="bg-[#F7EEF3] dark:bg-[#2E0820] text-[#2E0820] dark:text-[#F7EEF3] border-b border-[#C46D9E]/40">
+                              <th className="p-3">Subsystem</th>
+                              <th className="p-3">Target Sensitivity</th>
+                              <th className="p-3">Error Budget</th>
+                              <th className="p-3">Cost &amp; Schedule</th>
+                              <th className="p-3">Falsification &amp; Power</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#EDF5F6] dark:divide-[#11505C]/40">
+                            {TABLE_8_4_TABLETOP_PROTOCOL.map((row) => (
+                              <tr key={row.subsystem} className="even:bg-[#EEF5F1]/45 dark:even:bg-[#082419]/35">
+                                <td className="p-3 font-medium text-[#2E0820] dark:text-[#F7EEF3]">{row.subsystem}</td>
+                                <td className="p-3 font-mono tabular-nums text-[#661447] dark:text-[#C46D9E]">{row.targetSensitivity}</td>
+                                <td className="p-3">{row.errorBudgetItem}</td>
+                                <td className="p-3 font-mono text-[11px]">{row.costAndSchedule}</td>
+                                <td className="p-3 text-[#0F3D2B] dark:text-[#4A9374]">{row.falsificationAndPower}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -1125,23 +1340,57 @@ export const ClockSpeedPaperView: React.FC<ClockSpeedPaperViewProps> = ({
               </div>
             </div>
 
-            {filteredGlossary.length === 0 ? (
+            {filteredGlossary.length === 0 && filteredSymbols.length === 0 ? (
               <p className="text-sm font-['Poppins'] text-[#11505C] dark:text-[#6CB2BD]">
                 No glossary entries match “{glossaryQuery}”.
               </p>
             ) : (
-              <dl className="divide-y divide-[#EDF5F6] dark:divide-[#11505C]/40">
-                {filteredGlossary.map((entry) => (
-                  <div key={entry.term} className="py-5 space-y-1.5">
-                    <dt className="font-['Playfair_Display'] text-lg text-[#2E0820] dark:text-[#F7EEF3]">
-                      {entry.term}
-                    </dt>
-                    <dd className="text-[15.5px] leading-[1.75] text-[#062429] dark:text-[#EDF5F6]/90 max-w-[68ch]">
-                      <MathText text={entry.definition} />
-                    </dd>
+              <div className="space-y-10">
+                {filteredGlossary.length > 0 && (
+                  <dl className="divide-y divide-[#EDF5F6] dark:divide-[#11505C]/40">
+                    {filteredGlossary.map((entry) => (
+                      <div key={entry.term} className="py-5 space-y-1.5">
+                        <dt className="font-['Playfair_Display'] text-lg text-[#2E0820] dark:text-[#F7EEF3]">
+                          {entry.term}
+                        </dt>
+                        <dd className="text-[15.5px] leading-[1.75] text-[#062429] dark:text-[#EDF5F6]/90 max-w-[68ch]">
+                          <MathText text={entry.definition} />
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+
+                {filteredSymbols.length > 0 && (
+                  <div className="space-y-3 pt-4 border-t border-[#EDF5F6] dark:border-[#11505C]/40">
+                    <h3 className="font-['Playfair_Display'] font-normal text-2xl text-[#0B3942] dark:text-[#EDF5F6]">
+                      Glossary of Symbols &amp; Physical Conventions
+                    </h3>
+                    <div className="overflow-x-auto rounded-lg border border-[#186876]/30">
+                      <table className="w-full text-left border-collapse text-xs font-['Poppins']">
+                        <thead>
+                          <tr className="bg-[#EDF5F6] dark:bg-[#0B3942] text-[#062429] dark:text-[#EDF5F6] border-b border-[#186876]/30">
+                            <th className="p-3">Symbol</th>
+                            <th className="p-3">Quantity</th>
+                            <th className="p-3">Units / Domain</th>
+                            <th className="p-3">Operational Definition</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EDF5F6] dark:divide-[#11505C]/40">
+                          {filteredSymbols.map((sym) => (
+                            <tr key={sym.symbol} className="even:bg-[#EEF5F1]/45 dark:even:bg-[#082419]/35">
+                              <td className="p-3 font-mono font-medium text-[#661447] dark:text-[#C46D9E] whitespace-nowrap">{sym.symbol}</td>
+                              <td className="p-3 font-medium text-[#2E0820] dark:text-[#F7EEF3]">{sym.name}</td>
+                              <td className="p-3 font-mono text-[11px]">{sym.unitsOrDomain}</td>
+                              <td className="p-3"><MathText text={sym.definition} /></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                ))}
-              </dl>
+                )}
+              </div>
             )}
           </section>
 

@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  *
- * Pure vector SVG schematic definitions (Figs. 1.1–9.1) for Paper 14.
+ * Pure vector SVG schematic definitions (Figs. 0.1–9.1) for Paper 14.
  * Decoupled from raster/asset imports so HTML/LaTeX exporters and unit tests run in pure Node.
  */
 
@@ -19,6 +19,92 @@ export interface ClockFigureSpec {
 }
 
 export const CLOCK_SPEED_FIGURES: ClockFigureSpec[] = [
+  {
+    id: 'clock-fig-0',
+    figureNumber: 'Fig. 0.1',
+    anchorChapter: 0,
+    title: 'Graphical Abstract & Deductive Architecture: Scalar vs. Dual-Impedance vs. Strong-Field Cores',
+    tier: 'UPDATE-RATE REINTERPRETATION',
+    caption:
+      'Top: Three-regime comparison of pure scalar clock slowing (γ = 0), covariant dual update/GR (γ = 1, n_eff = α_upd⁻²), and capacity-regularized Hayward cores (ℓ₀ > 0). Bottom: Nine-chapter logical architecture connecting weak-field chronometry to PPN exclusion, strong-field echoes, ultraviolet limits, and structural realism.',
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400">
+  <defs>
+    <marker id="gaArrow" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#11505C"/>
+    </marker>
+  </defs>
+  <rect width="760" height="400" fill="#FFFFFF"/>
+  <!-- Upper Header -->
+  <text x="380" y="26" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="bold" fill="#2E0820">Graphical Overview: Empirical Regimes &amp; Deductive Architecture</text>
+  <!-- 3 Model Boxes -->
+  <rect x="24" y="42" width="224" height="156" rx="8" fill="#F7EEF3" stroke="#831B5B" stroke-width="1.6"/>
+  <text x="136" y="64" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="bold" fill="#4A0E33">LUH-Scalar (γ = 0)</text>
+  <text x="136" y="83" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#661447">Flat 3-Space (h_ij = δ_ij)</text>
+  <line x1="40" y1="92" x2="232" y2="92" stroke="#C46D9E" stroke-width="0.9"/>
+  <text x="136" y="110" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#0F3D2B">Clocks &amp; GPS: PASS (O(v²/c²))</text>
+  <text x="136" y="128" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#831B5B">Solar Bending: 0.8756″ (50% low)</text>
+  <text x="136" y="146" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#831B5B">Cassini / LLR: −43kσ / −60kσ</text>
+  <text x="136" y="164" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#831B5B">Δ ln ℒ = −3.09 × 10⁹</text>
+  <text x="136" y="185" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="bold" fill="#4A0E33">STATUS: REFUTED AT O(Φ/c²)</text>
+
+  <rect x="268" y="42" width="224" height="156" rx="8" fill="#EEF5F1" stroke="#17573E" stroke-width="1.8"/>
+  <text x="380" y="64" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="bold" fill="#082419">Covariant Dual / GR (γ = 1)</text>
+  <text x="380" y="83" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#0F3D2B">n_eff = α_upd⁻², β_sp = α_upd⁻¹</text>
+  <line x1="284" y1="92" x2="476" y2="92" stroke="#4A9374" stroke-width="0.9"/>
+  <text x="380" y="110" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#062429">Weak Clocks &amp; JILA 10⁻¹⁹: PASS</text>
+  <text x="380" y="128" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#062429">Cassini, Mercury, GP-B: PASS</text>
+  <text x="380" y="146" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#062429">PSR B1913+16 / J0737: PASS</text>
+  <text x="380" y="164" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#0F3D2B">Morita Functor F : Ext. Eq.</text>
+  <text x="380" y="185" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="bold" fill="#082419">STATUS: EXTERIOR INVARIANT</text>
+
+  <rect x="512" y="42" width="224" height="156" rx="8" fill="#EDF5F6" stroke="#186876" stroke-width="1.6"/>
+  <text x="624" y="64" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11.5" font-weight="bold" fill="#062429">Regular Core (ℓ₀ &gt; 0)</text>
+  <text x="624" y="83" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#11505C">Hayward K(0) = 24/ℓ₀⁴ &lt; ∞</text>
+  <line x1="528" y1="92" x2="720" y2="92" stroke="#6CB2BD" stroke-width="0.9"/>
+  <text x="624" y="110" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#0B3942">M87* / Sgr A* at ℓ₀ ≤ 0.05 r_s</text>
+  <text x="624" y="128" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#0B3942">GW Echo Comb Δf_comb, k₂ ≠ 0</text>
+  <text x="624" y="146" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#0B3942">n = 2 UV / CAT / ALPHA-g</text>
+  <text x="624" y="164" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#0B3942">Unitary Page-Curve Interior</text>
+  <text x="624" y="185" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="bold" fill="#11505C">FRONTIER: 2026–2035 PROBES</text>
+
+  <!-- Deductive Paper Flowchart -->
+  <text x="380" y="226" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" fill="#0B3942">Deductive Architecture Across Chapters I–IX</text>
+
+  <rect x="26" y="242" width="124" height="58" rx="6" fill="#EDF5F6" stroke="#186876" stroke-width="1.3"/>
+  <text x="88" y="263" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" font-weight="bold" fill="#062429">Ch. I–II · Kinematics</text>
+  <text x="88" y="280" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.5" fill="#11505C">10⁻¹⁹ Clocks &amp; Kruskal</text>
+
+  <line x1="150" y1="271" x2="170" y2="271" stroke="#11505C" stroke-width="1.5" marker-end="url(#gaArrow)"/>
+
+  <rect x="172" y="242" width="130" height="58" rx="6" fill="#EEF5F1" stroke="#17573E" stroke-width="1.3"/>
+  <text x="237" y="263" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" font-weight="bold" fill="#082419">Ch. III · Formalism</text>
+  <text x="237" y="280" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.5" fill="#0F3D2B">ADM, Gordon &amp; Lindblad</text>
+
+  <line x1="302" y1="271" x2="322" y2="271" stroke="#11505C" stroke-width="1.5" marker-end="url(#gaArrow)"/>
+
+  <rect x="324" y="242" width="126" height="58" rx="6" fill="#F7EEF3" stroke="#831B5B" stroke-width="1.3"/>
+  <text x="387" y="263" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" font-weight="bold" fill="#4A0E33">Ch. IV–V · PPN Cut</text>
+  <text x="387" y="280" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.5" fill="#661447">No-Go γ=0 &amp; Bayesian Δℒ</text>
+
+  <line x1="450" y1="271" x2="470" y2="271" stroke="#11505C" stroke-width="1.5" marker-end="url(#gaArrow)"/>
+
+  <rect x="472" y="242" width="126" height="58" rx="6" fill="#EDF5F6" stroke="#186876" stroke-width="1.3"/>
+  <text x="535" y="263" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" font-weight="bold" fill="#062429">Ch. VI–VII · Extremes</text>
+  <text x="535" y="280" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.5" fill="#11505C">Cores, UV, CMB &amp; Loops</text>
+
+  <line x1="598" y1="271" x2="618" y2="271" stroke="#11505C" stroke-width="1.5" marker-end="url(#gaArrow)"/>
+
+  <rect x="620" y="242" width="116" height="58" rx="6" fill="#EEF5F1" stroke="#17573E" stroke-width="1.3"/>
+  <text x="678" y="263" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" font-weight="bold" fill="#082419">Ch. VIII–IX · Verdict</text>
+  <text x="678" y="280" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.5" fill="#0F3D2B">Zσ Protocols &amp; OSR</text>
+
+  <!-- Summary Bottom Legend Strip -->
+  <rect x="26" y="316" width="710" height="66" rx="6" fill="#FAF9F7" stroke="#C46D9E" stroke-width="1.1"/>
+  <text x="380" y="336" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10" font-weight="bold" fill="#2E0820">Appendices A–F Complete Formal Apparatus</text>
+  <text x="380" y="354" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.7" fill="#0B3942">App. A (Gordon &amp; ADM) · App. B (PPN No-Go &amp; 3PN) · App. C (Kruskal–Hayward &amp; Echoes)</text>
+  <text x="380" y="371" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.7" fill="#0B3942">App. D (UV Dispersion, CMB &amp; Higgs Loops) · App. E (Morita Functor) · App. F (SI Ledger)</text>
+</svg>`
+  },
   {
     id: 'clock-fig-1',
     figureNumber: 'Fig. 1.1',
@@ -113,7 +199,7 @@ export const CLOCK_SPEED_FIGURES: ClockFigureSpec[] = [
   <path d="M 75 148 Q 202 248 330 148" fill="none" stroke="#278594" stroke-width="1.4" stroke-dasharray="5 4"/>
   <circle cx="202" cy="182" r="20" fill="#0B3942"/>
   <text x="202" y="186" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10" fill="#FFFFFF">Earth</text>
-  <text x="202" y="258" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#062429">δg_rr = r_s / R⊕ ≈ 1.39×10⁻⁹</text>
+  <text x="202" y="258" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#062429">δg_rr = r_s / R⊕ = 1.392×10⁻⁹</text>
   <text x="202" y="278" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#661447">Slow objects (v ≪ c) barely sample δg_rr</text>
   <!-- Right Card: 4D Spacetime Geodesic -->
   <rect x="395" y="32" width="320" height="270" fill="#F7EEF3" stroke="#831B5B" stroke-width="1.3" rx="8"/>
@@ -126,7 +212,7 @@ export const CLOCK_SPEED_FIGURES: ClockFigureSpec[] = [
   <text x="454" y="96" font-family="DejaVu Sans, sans-serif" font-size="11" fill="#0F3D2B">c t (1 s ≈ 3×10⁸ m)</text>
   <text x="678" y="234" font-family="DejaVu Sans, sans-serif" font-size="11" fill="#0F3D2B">r</text>
   <text x="615" y="130" font-family="DejaVu Sans, sans-serif" font-size="10" fill="#831B5B">Unaccelerated</text>
-  <text x="555" y="258" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#2E0820">a = c² (dα/dr) = c² × 1.09×10⁻¹⁶ m⁻¹</text>
+  <text x="555" y="258" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#2E0820">a = c² (dα/dr) = c² × 1.093×10⁻¹⁶ m⁻¹</text>
   <text x="555" y="278" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" fill="#4A0E33">= 9.82 m/s² Free-Fall Acceleration</text>
 </svg>`
   },
@@ -179,20 +265,24 @@ export const CLOCK_SPEED_FIGURES: ClockFigureSpec[] = [
   <polyline points="123,260 128,216 134,197 145,178 162,158 179,145 208,128 236,119 293,105 350,97 463,87 577,81 690,77" fill="none" stroke="#17573E" stroke-width="3"/>
   <!-- Exact Curve 2: coordinate radial null speed c_coord/c = 1 - 1/x -->
   <polyline points="123,260 128,250 134,242 145,227 162,208 179,193 208,174 236,160 293,140 350,127 463,110 577,100 690,93" fill="none" stroke="#831B5B" stroke-width="2.2" stroke-dasharray="7 4"/>
-  <!-- Photon Sphere Benchmark Dots -->
+  <!-- Photon Sphere & Outer Benchmark Dots -->
   <circle cx="179" cy="145" r="4.5" fill="#0F3D2B"/>
   <circle cx="179" cy="193" r="4.5" fill="#831B5B"/>
+  <circle cx="350" cy="97" r="4" fill="#0F3D2B"/>
+  <circle cx="350" cy="127" r="4" fill="#831B5B"/>
   <text x="187" y="142" font-family="DejaVu Sans, sans-serif" font-size="10" fill="#082419">r = 1.5 r_s: α = 0.577</text>
   <text x="187" y="205" font-family="DejaVu Sans, sans-serif" font-size="10" fill="#661447">c_r / c = 0.333</text>
-  <text x="130" y="45" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#831B5B">Horizon (r = r_s)</text>
+  <text x="357" y="91" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#082419">(3.0, 0.816)</text>
+  <text x="357" y="140" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#661447">(3.0, 0.667)</text>
+  <text x="130" y="45" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#831B5B">Horizon (r = r_s, α = 0)</text>
   <!-- Legend Box -->
   <rect x="435" y="175" width="240" height="62" rx="6" fill="#FAF9F7" stroke="#17573E" stroke-width="1"/>
   <line x1="448" y1="195" x2="478" y2="195" stroke="#17573E" stroke-width="2.8"/>
   <text x="486" y="199" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#082419">Clock Cadence α_upd = √(1 − r_s/r)</text>
   <line x1="448" y1="219" x2="478" y2="219" stroke="#831B5B" stroke-width="2.2" stroke-dasharray="6 3"/>
   <text x="486" y="223" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#4A0E33">Radial Light Speed (1 − r_s/r)</text>
-  <text x="395" y="314" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11.5" fill="#082419">Normalized Radial Distance (r / r_s)</text>
-  <text x="30" y="158" text-anchor="middle" transform="rotate(-90 30 158)" font-family="DejaVu Sans, sans-serif" font-size="11.5" fill="#17573E">Normalized Rate Ratio (rel. to r → ∞)</text>
+  <text x="395" y="314" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11.5" fill="#082419">Normalized Radial Distance (r / r_s ∈ [1.0, 6.0])</text>
+  <text x="30" y="158" text-anchor="middle" transform="rotate(-90 30 158)" font-family="DejaVu Sans, sans-serif" font-size="11.5" fill="#17573E">Dimensionless Rate Ratio (0.00 to 1.00)</text>
 </svg>`
   },
   {
@@ -310,9 +400,13 @@ export const CLOCK_SPEED_FIGURES: ClockFigureSpec[] = [
   <!-- Grid: r/r_s in [0.7, 4.5] -> x in [100, 690]; y in [265, 60] -->
   <g stroke="#EDF5F6" stroke-width="1">
     <line x1="100" y1="60" x2="690" y2="60"/>
+    <line x1="100" y1="111" x2="690" y2="111"/>
     <line x1="100" y1="162" x2="690" y2="162"/>
+    <line x1="100" y1="214" x2="690" y2="214"/>
     <line x1="302" y1="55" x2="302" y2="265"/>
+    <line x1="379" y1="55" x2="379" y2="265"/>
     <line x1="457" y1="55" x2="457" y2="265"/>
+    <line x1="534" y1="55" x2="534" y2="265"/>
     <line x1="612" y1="55" x2="612" y2="265"/>
   </g>
   <!-- Interior Zone r < r_s -->
@@ -324,32 +418,40 @@ export const CLOCK_SPEED_FIGURES: ClockFigureSpec[] = [
   <line x1="224" y1="55" x2="224" y2="265" stroke="#C46D9E" stroke-width="1.2" stroke-dasharray="3 3"/>
   <!-- Y Ticks -->
   <g font-family="DejaVu Sans, sans-serif" font-size="10" fill="#0B3942" text-anchor="end">
-    <text x="92" y="64">1.0</text>
-    <text x="92" y="166">0.5</text>
-    <text x="92" y="269">0.0</text>
+    <text x="92" y="64">1.00</text>
+    <text x="92" y="115">0.75</text>
+    <text x="92" y="166">0.50</text>
+    <text x="92" y="218">0.25</text>
+    <text x="92" y="269">0.00</text>
   </g>
   <!-- X Ticks -->
   <g font-family="DejaVu Sans, sans-serif" font-size="10" fill="#0B3942" text-anchor="middle">
+    <text x="100" y="283">0.7</text>
     <text x="147" y="283">1.0 (r_s)</text>
     <text x="224" y="283">1.5 (r_ph)</text>
     <text x="302" y="283">2.0</text>
+    <text x="379" y="283">2.5</text>
     <text x="457" y="283">3.0</text>
+    <text x="534" y="283">3.5</text>
     <text x="612" y="283">4.0</text>
+    <text x="690" y="283">4.5</text>
   </g>
   <!-- Exact Curves for r >= r_s -->
   <polyline points="147,265 154,220 162,203 178,180 224,147 302,120 379,106 457,98 612,88 690,84" fill="none" stroke="#186876" stroke-width="2.8"/>
   <polyline points="147,60 154,112 162,150 178,196 224,247 302,262 379,264 457,265 690,265" fill="none" stroke="#17573E" stroke-width="2.5" stroke-dasharray="7 4"/>
   <circle cx="147" cy="60" r="4.5" fill="#17573E"/>
   <circle cx="147" cy="265" r="4.5" fill="#661447"/>
+  <circle cx="224" cy="147" r="4" fill="#186876"/>
   <!-- Labels & Legend -->
-  <text x="154" y="46" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#4A0E33">Event Horizon r = r_s (α_upd → 0, K/K_s = 1.0)</text>
+  <text x="154" y="46" font-family="DejaVu Sans, sans-serif" font-size="10" fill="#4A0E33">Horizon r = r_s (α_upd = 0; K(r_s) = 12/r_s⁴ = 1.58×10⁻¹⁷ m⁻⁴ @ 10 M_☉)</text>
+  <text x="232" y="142" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#0B3942">r_ph: α = 0.577</text>
   <rect x="380" y="140" width="292" height="68" rx="6" fill="#FAF9F7" stroke="#186876" stroke-width="1"/>
   <line x1="394" y1="162" x2="424" y2="162" stroke="#186876" stroke-width="2.8"/>
   <text x="432" y="166" font-family="DejaVu Sans, sans-serif" font-size="10" fill="#0B3942">Update Rate α_upd = √(1 − r_s/r)</text>
   <line x1="394" y1="186" x2="424" y2="186" stroke="#17573E" stroke-width="2.5" stroke-dasharray="6 3"/>
   <text x="432" y="190" font-family="DejaVu Sans, sans-serif" font-size="10" fill="#0F3D2B">Tidal Scalar K(r)/K(r_s) = (r_s/r)⁶</text>
-  <text x="395" y="315" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11.5" fill="#062429">Radial Coordinate Ratio (r / r_s)</text>
-  <text x="38" y="160" text-anchor="middle" transform="rotate(-90 38 160)" font-family="DejaVu Sans, sans-serif" font-size="11.5" fill="#0B3942">Normalized Dimensionless Ratio</text>
+  <text x="395" y="315" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11.5" fill="#062429">Radial Coordinate Ratio (r / r_s ∈ [0.7, 4.5])</text>
+  <text x="38" y="160" text-anchor="middle" transform="rotate(-90 38 160)" font-family="DejaVu Sans, sans-serif" font-size="11.5" fill="#0B3942">Dimensionless Ratio (0.00 to 1.00)</text>
 </svg>`
   },
   {
@@ -455,6 +557,91 @@ export const CLOCK_SPEED_FIGURES: ClockFigureSpec[] = [
   <text x="614" y="145" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#11505C">LISA / ET / CE Ringdowns</text>
   <text x="614" y="164" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#11505C">AION / MAGIS / ngEHT</text>
   <text x="614" y="185" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10.5" font-weight="bold" fill="#4A0E33">GR vs. Regular Core (ℓ₀)</text>
+</svg>`
+  },
+  {
+    id: 'clock-fig-8-tree',
+    figureNumber: 'Fig. 8.2',
+    anchorChapter: 8,
+    title: 'Experimental Decision Tree and Companion 10⁻²⁰–10⁻²² Differential Tabletop Apparatus',
+    tier: 'FRONTIER OBSERVATIONAL PROBE',
+    caption:
+      'Left: Quantitative experimental decision tree tracing Bayesian Zσ / ln B cuts from 10⁻²⁰–10⁻²² differential optical/optomechanical sensors to LISA echoes, ngEHT photon rings, and CTAO/IceCube/ALPHA-g probes. Right: Companion cryogenic 4 K optomechanical and multiplexed ⁸⁷Sr/²⁷Al⁺ differential chamber with two-way fiber noise cancellation.',
+    svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 390">
+  <defs>
+    <marker id="dtArrow" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0B3942"/>
+    </marker>
+    <marker id="dtArrowMag" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#831B5B"/>
+    </marker>
+  </defs>
+  <rect width="760" height="390" fill="#FFFFFF"/>
+
+  <!-- Left Panel: Experimental Decision Tree -->
+  <text x="195" y="24" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" fill="#2E0820">A. Experimental Decision Tree (Zσ &amp; ln B)</text>
+
+  <rect x="24" y="42" width="342" height="48" rx="6" fill="#EEF5F1" stroke="#17573E" stroke-width="1.5"/>
+  <text x="195" y="62" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" font-weight="bold" fill="#082419">Tabletop Optical / Cat / Optomechanics (10⁻²⁰–10⁻²²)</text>
+  <text x="195" y="79" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.5" fill="#0F3D2B">Universal V(Δτ) &amp; β_clock = 0 (Z &lt; 2σ)  |  Γ_dec &gt; 0 (&gt;5σ)</text>
+
+  <line x1="115" y1="90" x2="115" y2="118" stroke="#0B3942" stroke-width="1.4" marker-end="url(#dtArrow)"/>
+  <line x1="275" y1="90" x2="275" y2="118" stroke="#831B5B" stroke-width="1.4" marker-end="url(#dtArrowMag)"/>
+
+  <rect x="24" y="120" width="166" height="58" rx="6" fill="#EDF5F6" stroke="#186876" stroke-width="1.4"/>
+  <text x="107" y="140" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="bold" fill="#062429">Unitary Dual Metric</text>
+  <text x="107" y="156" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.2" fill="#11505C">γ=1, β=1, η_N=0 Confirmed</text>
+  <text x="107" y="170" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.2" fill="#11505C">Scalar LUH FAILS (&gt;43kσ)</text>
+
+  <rect x="206" y="120" width="160" height="58" rx="6" fill="#F7EEF3" stroke="#831B5B" stroke-width="1.4"/>
+  <text x="286" y="140" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="bold" fill="#4A0E33">Non-Metric / Collapse</text>
+  <text x="286" y="156" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.2" fill="#661447">α_LPI ≠ 0 or Γ_dec &gt; 0</text>
+  <text x="286" y="170" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.2" fill="#661447">Rejects Unitary Lapse</text>
+
+  <line x1="107" y1="178" x2="107" y2="206" stroke="#0B3942" stroke-width="1.4" marker-end="url(#dtArrow)"/>
+
+  <rect x="24" y="208" width="342" height="54" rx="6" fill="#EDF5F6" stroke="#0B3942" stroke-width="1.4"/>
+  <text x="195" y="228" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" font-weight="bold" fill="#062429">LISA / ET Echoes (&lt;10⁻³) · ngEHT (&lt;5 μas) · Love k₂</text>
+  <text x="195" y="246" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.5" fill="#11505C">k₂ &gt; 0.01 or Δf_comb Echoes (ln B &gt; 5) =&gt; Finite Core ℓ₀</text>
+
+  <line x1="195" y1="262" x2="195" y2="290" stroke="#0B3942" stroke-width="1.4" marker-end="url(#dtArrow)"/>
+
+  <rect x="24" y="292" width="342" height="56" rx="6" fill="#EEF5F1" stroke="#17573E" stroke-width="1.4"/>
+  <text x="195" y="313" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" font-weight="bold" fill="#082419">CTAO / IceCube / ALPHA-g / CMB θ_* Check</text>
+  <text x="195" y="331" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.5" fill="#0F3D2B">E_QG,2 &gt; 10¹³ GeV &amp; |g_bar−g|/g &lt; 10⁻¹⁸ Lock Covariance</text>
+
+  <!-- Right Panel: Companion 10^-20-10^-22 Tabletop Schematic -->
+  <line x1="386" y1="16" x2="386" y2="365" stroke="#C46D9E" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="574" y="24" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11" font-weight="bold" fill="#2E0820">B. Companion Tabletop Apparatus (10⁻²⁰–10⁻²²)</text>
+
+  <!-- Outer Cryogenic & Seismic Shield -->
+  <rect x="410" y="42" width="326" height="306" rx="10" fill="#EDF5F6" stroke="#186876" stroke-width="1.8"/>
+  <text x="573" y="62" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="bold" fill="#062429">4 K Cryogenic Multi-Stage Seismic Shield (h_seis &lt; 2×10⁻²²)</text>
+
+  <!-- Upper Optical Lattice & GHZ Clock -->
+  <rect x="434" y="78" width="278" height="62" rx="6" fill="#FFFFFF" stroke="#17573E" stroke-width="1.5"/>
+  <text x="573" y="99" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" font-weight="bold" fill="#082419">Upper Ensemble: ⁸⁷Sr / 8-Ion GHZ Trap</text>
+  <text x="573" y="117" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.5" fill="#0F3D2B">Height h₀ + Δh (10 mm) · AC-Stark Magic Wavelength</text>
+  <text x="573" y="131" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.2" fill="#17573E">Differential BBR &lt; 10⁻²¹</text>
+
+  <!-- Optical Fiber & Optomechanical Fabry-Perot Cavity Bridge -->
+  <line x1="510" y1="140" x2="510" y2="198" stroke="#661447" stroke-width="2.2"/>
+  <line x1="636" y1="140" x2="636" y2="198" stroke="#11505C" stroke-width="2.2" stroke-dasharray="5 3"/>
+  <rect x="454" y="152" width="238" height="34" rx="5" fill="#F7EEF3" stroke="#831B5B" stroke-width="1.2"/>
+  <text x="573" y="167" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.5" font-weight="bold" fill="#4A0E33">Two-Way Doppler Link + 10 kg Cryo Cavity</text>
+  <text x="573" y="180" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8" fill="#661447">Q = 10⁸ Suspended Strain h_tot ≈ 3.47 × 10⁻²²</text>
+
+  <!-- Lower Optical Lattice + Rotating Atom Sagnac Sensor -->
+  <rect x="434" y="198" width="278" height="62" rx="6" fill="#FFFFFF" stroke="#17573E" stroke-width="1.5"/>
+  <text x="573" y="219" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9.5" font-weight="bold" fill="#082419">Lower Reference + Rotating Atom Sagnac Ring</text>
+  <text x="573" y="237" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.5" fill="#0F3D2B">Height h₀ · ²⁷Al⁺ / ⁸⁷Rb Twin-Arm Gradiometer</text>
+  <text x="573" y="251" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.2" fill="#17573E">Separates Φ_AB from Ω_⊕ Sagnac Phase</text>
+
+  <!-- Phase Correlator & Blinding Box -->
+  <rect x="434" y="274" width="278" height="58" rx="6" fill="#EEF5F1" stroke="#082419" stroke-width="1.4"/>
+  <text x="573" y="294" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="9" font-weight="bold" fill="#082419">Blinded Phase PSD &amp; Concurrence Correlator</text>
+  <text x="573" y="311" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8.2" fill="#0F3D2B">Measures V(Δτ), C(t), &amp; S_α(f) at 0.1–100 Hz</text>
+  <text x="573" y="324" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="8" fill="#661447">Hardware Blinding Offset Salt · 2026–2030 Run</text>
 </svg>`
   },
   {

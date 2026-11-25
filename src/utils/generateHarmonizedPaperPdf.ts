@@ -1213,7 +1213,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
 
   doc.setProperties({
     title: pdfBmpSafeUnicode(PAPER_META.title),
-    subject: 'Information-Geometric Resonant Time (IGRT) — Harmonized Research Monograph',
+    subject: 'Quantum Clocks as Rulers of Becoming: IGRT — Harmonized Research Monograph',
     author: PAPER_META.authors.map((a) => a.name).join(', '),
     keywords: pdfBmpSafeUnicode(PAPER_META.keywords.join(', ')),
     creator: 'IGRT Research Group'
@@ -2403,11 +2403,11 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   });
 
   drawRule([15, 23, 42], 0.015);
-  drawPlayfairHeadline(PAPER_META.title, 23, 0.06);
+  drawPlayfairHeadline(PAPER_META.title, 20.5, 0.05);
 
   writeRichParagraph(
     `${PAPER_META.eprint}  |  ${PAPER_META.doi}\nPhySH: ${PAPER_META.physh}  |  MSC 2020: ${PAPER_META.msc2020}`,
-    { font: 'mono', size: 7.7, lineHeight: (7.7 * 1.32) / 72, color: [100, 116, 139], justify: false, afterSpace: 0.055 }
+    { font: 'mono', size: 7.5, lineHeight: (7.5 * 1.30) / 72, color: [100, 116, 139], justify: false, afterSpace: 0.045 }
   );
 
   for (const a of PAPER_META.authors) {
@@ -2419,11 +2419,11 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     const authorLine = idTag ? `${a.name} (${idTag}) — ${a.affiliation}` : `${a.name} — ${a.affiliation}`;
     writeRichParagraph(authorLine, {
       font: 'serif',
-      size: 8.1,
-      lineHeight: (8.1 * 1.24) / 72,
+      size: 7.9,
+      lineHeight: (7.9 * 1.20) / 72,
       color: [15, 23, 42],
       justify: true,
-      afterSpace: 0.015
+      afterSpace: 0.012
     });
   }
 
@@ -2431,14 +2431,14 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
 
   writeRichParagraph('ABSTRACT', {
     font: 'sans',
-    size: 8.6,
+    size: 8.5,
     color: [139, 69, 19],
     justify: false,
-    afterSpace: 0.035
+    afterSpace: 0.03
   });
 
   for (const p of SHORTENED_ABSTRACT.paragraphs) {
-    writeRichParagraph(p, { size: 9.2, lineHeight: (9.2 * 1.33) / 72, afterSpace: 0.045 });
+    writeRichParagraph(p, { size: 9.0, lineHeight: (9.0 * 1.30) / 72, afterSpace: 0.04 });
   }
   drawEquationBox(
     MASTER_EQUATION_ABSTRACT.unicodeHtml,
@@ -2449,11 +2449,11 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   writeRichParagraph(PAPER_META.keywords.join(' · '), {
     prefixBold: 'Keywords: ',
     style: 'italic',
-    size: 8.6,
-    lineHeight: (8.6 * 1.30) / 72,
+    size: 8.5,
+    lineHeight: (8.5 * 1.28) / 72,
     color: [71, 85, 105],
     justify: true,
-    afterSpace: 0.03
+    afterSpace: 0.025
   });
 
   // =========================================================

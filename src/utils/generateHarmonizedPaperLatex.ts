@@ -871,7 +871,7 @@ function buildPreambleTex(): string {
 
 \\pagestyle{fancy}
 \\fancyhf{}
-\\fancyhead[L]{\\small\\itshape Information-Geometric Resonant Time (IGRT)}
+\\fancyhead[L]{\\small\\itshape Quantum Clocks as Rulers of Becoming: IGRT}
 \\fancyhead[R]{\\small\\color{igrtslate}\\leftmark}
 \\fancyfoot[C]{\\small\\thepage}
 \\renewcommand{\\headrulewidth}{0.4pt}
@@ -1509,7 +1509,7 @@ ${items.join('\n')}
 
 function buildMainTex(): string {
   return `% ===========================================================================
-% Master LaTeX Driver: Information-Geometric Resonant Time (IGRT)
+% Master LaTeX Driver: Quantum Clocks as Rulers of Becoming (IGRT)
 % Edition: ${PAPER_META.edition.replace(/·/g, '|')} (${PAPER_META.eprint})
 % Compile with:
 %   pdflatex main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex

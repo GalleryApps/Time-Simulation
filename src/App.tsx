@@ -29,6 +29,7 @@ import { IgrtH13PaperView } from './components/IgrtH13PaperView';
 import { AdversarialPanel580View } from './components/AdversarialPanel580View';
 import { RefinedModelTechnologiesView } from './components/RefinedModelTechnologiesView';
 import { SiteImprovements380View } from './components/SiteImprovements380View';
+import { H13Panel150View } from './components/H13Panel150View';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -137,7 +138,8 @@ export default function App() {
     { id: 'hm-sim', tab: 'harmonized-model', title: 'Live Computational Laboratory & Audio Synthesizer', category: 'Interactive Simulator', desc: 'FLRW Quantum Bounce engine, 2:1 Lissajous resonance audio synthesizer, coupled DESI w(z) & 8k 5D MCMC explorer, and Chameleon–Vainshtein / derived WKB K_echo=0.184 calculator.' },
     { id: 'hp-1', tab: 'harmonized-paper', title: 'Harmonized Model: Full Publishable Research Paper (IGRT-2026-H11)', category: 'Devoted Paper', desc: 'Complete 8-chapter publishable research monograph for IGRT-2026-H11 with Appendices A–P, Plates I–XIV & Figs 1–12, 5 authors, claim ledger, H11 SHA-256 preregistration digest, HTML/MD download, and Unicode DejaVuSans A4 PDF export.' },
     { id: 'h12-1', tab: 'igrt-h12-paper', title: 'IGRT-H12 Follow-Up Monograph: 5D Resonant Geometry, Temporal Folding & Portals', category: 'Follow-Up Monograph (H12)', desc: '13-chapter + Consolidated Appendices A–L rigorous 5D extension covering warped/flat geodesics, Hayward NEC proof, Morris–Thorne Casimir deficit, double-slit QFI V² + D² = 1, Devices A–K, Protocols P7–P13, and 31 scientific illustrations (26 theory + 5 supplemental).' },
-    { id: 'h13-1', tab: 'igrt-h13-paper', title: 'Paper 13 (IGRT-H13): Reality as Running Code, 5D Bridges, Portals & White Holes', category: 'Thirteenth Monograph (H13)', desc: 'Accessible & mathematical 12-chapter monograph integrating all 12 principles of compiled spacetime, dynamically stabilized 5D corridors, Class P portal black holes, black-hole-to-white-hole bounces (t_0 = 13.8 Gyr), Appendices A–J, Protocols P14–P18, 26 Figures & Proof-Device Plates, and downloadable PDF.' },
+    { id: 'h13-1', tab: 'igrt-h13-paper', title: 'Paper 13 (IGRT-H13): Information-Geometric Resonant Time, Portals & White-Hole Bounces', category: 'Thirteenth Monograph (H13)', desc: 'Journal-formatted 13-chapter research article (Executive Summary, concise scholarly abstract, 12 principles, 10 portal builds PR-1–PR-10, 59-term Glossary), Appendices A–K (incl. Table I.0 GJW assumption matrix), Protocols P14–P18, 26 Figures & Plates, and downloadable PDF.' },
+    { id: 'h13-panel-150', tab: 'h13-panel-150', title: '200-Expert Panel Evaluation & Applied Recommendations (Paper 13 · H13)', category: 'Adversarial Evaluation', desc: '200 named domain experts across 10 sub-panels auditing Paper 13 for physics rigor and journal publishability with all 200 recommendations REC-001–REC-200 applied.' },
     { id: 'c500', tab: 'criteria500', title: '500-Criterion Adversarial Matrix', category: 'Evaluation Matrix', desc: 'Granular point-by-point audit across 10 domains with filterable search and verified scores.' },
     { id: 'usim', tab: 'universesim', title: 'Dual Universe Simulation (Model A vs B)', category: 'Interactive Simulation', desc: 'Side-by-side comparative simulation across 5 physical scenarios with high-DPI canvases and coordinate probes.' },
     { id: 'harm1500', tab: 'harmonization', title: '1,500 Harmonization Lab & 6 Studies', category: 'Synthesis Lab', desc: 'Six independent formal studies proving the mathematical closure of the Bulaqueña–Tassan synthesis.' },
@@ -320,6 +322,17 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               <span className="font-mono text-[10px] opacity-90">H13 · NEW</span>
             </button>
             <button
+              onClick={() => setActiveTab('h13-panel-150')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
+                activeTab === 'h13-panel-150' 
+                  ? 'bg-[#15803D] text-white shadow-xs font-medium' 
+                  : 'text-[#166534] dark:text-[#86EFAC] hover:bg-[#DCFCE7]/60 dark:hover:bg-[#173065]'
+              }`}
+            >
+              <span>200-Expert Panel · H13</span>
+              <span className="font-mono text-[10px] opacity-90">200</span>
+            </button>
+            <button
               onClick={() => setActiveTab('universesim')}
               className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
                 activeTab === 'universesim' 
@@ -423,6 +436,12 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               onNavigateToH11Paper={() => setActiveTab('harmonized-paper')}
               onNavigateToH12Paper={() => setActiveTab('igrt-h12-paper')}
               onNavigateToH11Model={() => setActiveTab('harmonized-model')}
+              onNavigateToReview200={() => setActiveTab('h13-panel-150')}
+            />
+          )}
+          {activeTab === 'h13-panel-150' && (
+            <H13Panel150View
+              onNavigateToH13Paper={() => setActiveTab('igrt-h13-paper')}
             />
           )}
           {activeTab === 'site-improvements' && (

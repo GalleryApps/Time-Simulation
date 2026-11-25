@@ -243,6 +243,7 @@ export function parseMathSegments(input: string): MathSegment[] {
 function decodeHtmlEntities(s: string): string {
   return s
     .replace(/&nbsp;/g, ' ')
+    .replace(/&approx;/g, '≈')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&amp;/g, '&')

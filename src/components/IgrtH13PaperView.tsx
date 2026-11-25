@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Devoted Thirteenth Monograph View (IGRT-2026-H13):
- * "Reality as Running Code: Hidden Fifth Dimensions, Black Hole Portals,
- *  White Hole Bounces, and How Time Compiles the Universe"
+ * "Information-Geometric Resonant Time: Quantum Fisher Clocks, Stabilized 5D Portals,
+ *  and Falsifiable White-Hole Bounces"
  *
  * - Playfair Display Regular (weight 400, non-bold) chapter titles
  * - Justified Book Antiqua / Serif prose in pure Unicode + HTML <sup>/<sub>
  * - Exact 5 authors matching H11 & H12 (with ORCID links and email)
- * - Dual Scholarly + Plain-English Guide layers (Bridges, Analogies, Symbol Decoder, FAQ)
+ * - Dual Scholarly + Intuitive Guide layers (Narrative Bridges, Analogies, Symbol Decoder, Glossary, FAQ)
  * - Downloadable A4 PDF, Self-Contained HTML, Markdown & ASCII-Safe LaTeX exports
  * - Interactive Cosmic Software Frame-Rate, 5D Portal & White-Hole Bounce Simulator
  */
@@ -19,32 +19,50 @@ import {
   H13_META,
   H13_METRIC_SIGNATURE_BOX,
   H13_FOUNDATIONAL_NOTE,
-  H13_READING_GUIDE,
-  H13_MASTER_EQUATIONS,
   H13_ABSTRACT_PARAGRAPHS,
+  H13_AXIOMS,
+  H13_CORE_FALSIFICATION_CRITERIA,
+  H13_MASTER_EQUATIONS,
   H13_SCOPE_AND_NON_CLAIMS,
+  H13_CORE_RESEARCH_PROGRAM,
   H13_TWELVE_PRINCIPLES_MATRIX,
   H13_SYMBOL_DECODER,
   H13_DIMENSIONAL_AUDIT,
   H13_BLACK_HOLE_TO_PORTAL_TAXONOMY,
+  H13_PORTAL_BUILD_RECOMMENDATIONS,
   H13_WHITE_HOLE_BOUNCE_TABLE,
   H13_PROTOCOLS_P14_TO_P18,
+  H13_PROTOCOL_SIGNAL_VS_SENSITIVITY,
+  H13_PROTOCOL_CROSSCHECKS,
   H13_FALSIFICATION_CHECKLIST,
   H13_CONFIRMATION_CHECKLIST,
   H13_EPISTEMIC_LEDGER,
   H13_PROOF_DEVICES_AND_RECOMMENDATIONS,
-  H13_LAYMAN_FAQ,
+  H13_SCOPE_LIMITATIONS,
+  H13_RESEARCH_ROADMAP_2026_2035,
+  H13_GLOSSARY,
+  H13_FAQ,
   H13_APPENDICES,
   H13_ACTION_FIELD_TABLE,
   H13_KK_CONSTRAINTS_TABLE,
+  H13_GJW_ASSUMPTION_MATRIX,
   H13_GJW_PROOF_STEPS,
   H13_WH_PIPELINE_SPEC,
+  H13_RK4_SENSITIVITY_TABLE,
   H13_DEFINITIONS_LIST,
   H13_THEOREMS_LIST,
+  H13_JOURNAL_DECLARATIONS,
   H13_REFERENCES,
   type H13EpistemicCategory,
   type H13Equation
 } from '../types/igrtH13Apparatus';
+import {
+  H13_COMPANION_FRAMEWORK_SUMMARY,
+  H13_COMPANION_EXECUTIVE_SUMMARY,
+  H13_COMPANION_PHILOSOPHICAL_ESSAY,
+  H13_COMPANION_INTERPRETATIONS_COMPARISON,
+  H13_COMPANION_QG_APPROACHES_COMPARISON
+} from '../types/igrtH13Companion';
 import {
   H13_CHAPTERS,
   H13_FRONTMATTER_TABLES_LIST,
@@ -68,50 +86,42 @@ interface IgrtH13PaperViewProps {
   onNavigateToH11Paper?: () => void;
   onNavigateToH12Paper?: () => void;
   onNavigateToH11Model?: () => void;
+  onNavigateToReview200?: () => void;
 }
 
-type ReaderMode = 'COMPLETE' | 'PLAIN_GUIDE' | 'FORMAL';
+type ProgramScope = 'ALL' | 'CORE_ONLY';
 
-const H13EquationBox: React.FC<{ eq: H13Equation; showPlain?: boolean; showUnits?: boolean }> = ({
-  eq,
-  showPlain = true,
-  showUnits = true
-}) => (
-  <div className="my-8 rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-6 sm:p-7">
-    <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-3 border-b border-[#EAE2D2] dark:border-[#1E293B] text-[11px] font-mono">
-      <span className="text-[#64748B] dark:text-[#94A3B8] tracking-wide">{eq.category}</span>
-      <span className="text-[#8B4513] dark:text-[#FB923C] tabular-nums">{eq.label}</span>
-    </div>
-    <div
-      className="text-center text-[#0F172A] dark:text-[#FDFBF7] py-3 overflow-x-auto text-[17px] leading-[1.75]"
-      dangerouslySetInnerHTML={{ __html: eq.unicodeHtml }}
-    />
-    <div className="mt-3 pt-3 border-t border-[#EAE2D2] dark:border-[#1E293B] text-center text-[13.5px] leading-[1.65] italic text-[#475569] dark:text-[#94A3B8]">
-      <MathText text={eq.caption} />
-    </div>
-    {showPlain && eq.plainEnglishMeaning && (
-      <div className="mt-3 pt-2.5 border-t border-[#EAE2D2] dark:border-[#1E293B] text-[13.5px] leading-[1.6] text-[#3A2E26] dark:text-[#CBD9FC]">
-        <span className="font-mono text-[10.5px] uppercase tracking-wider text-[#64705B] dark:text-[#86EFAC] mr-2">
-          In Plain English
-        </span>
-        <MathText text={eq.plainEnglishMeaning} />
+const H13EquationBox: React.FC<{ eq: H13Equation }> = ({ eq }) => (
+  <div className="my-6 py-4 px-5 sm:px-7 border-y border-[#E2D9CB] dark:border-[#1E293B] bg-[#FAF8F3]/60 dark:bg-[#081026]/60">
+    <div className="flex items-center justify-between gap-4">
+      <div
+        className="flex-1 text-center text-[#0F172A] dark:text-[#FDFBF7] py-1.5 overflow-x-auto text-[16.5px] leading-[1.75]"
+        dangerouslySetInnerHTML={{ __html: eq.unicodeHtml }}
+      />
+      <div className="shrink-0 font-mono text-xs text-[#8B4513] dark:text-[#FB923C] tabular-nums">
+        {eq.label}
       </div>
-    )}
-    {showUnits && eq.unitsCheck && (
-      <div className="mt-2 font-mono text-[11px] text-[#64748B] dark:text-[#94A3B8]">
-        Units Check: <MathText text={eq.unitsCheck} />
-      </div>
-    )}
+    </div>
+    <div className="mt-2 pt-2 border-t border-[#EAE2D2]/80 dark:border-[#1E293B]/80 flex flex-wrap items-baseline justify-between gap-2 text-[12.5px] leading-[1.6] italic text-[#475569] dark:text-[#94A3B8]">
+      <span>
+        <MathText text={eq.caption} />
+      </span>
+      <span className="not-italic font-mono text-[10px] text-[#64748B] dark:text-[#64748B] shrink-0">
+        [{eq.category}]
+      </span>
+    </div>
   </div>
 );
 
 export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
   onNavigateToH11Paper,
   onNavigateToH12Paper,
-  onNavigateToH11Model
+  onNavigateToH11Model,
+  onNavigateToReview200
 }) => {
   const [categoryFilter, setCategoryFilter] = useState<'ALL' | H13EpistemicCategory>('ALL');
-  const [readerMode, setReaderMode] = useState<ReaderMode>('COMPLETE');
+  const [programScope, setProgramScope] = useState<ProgramScope>('ALL');
+  const [glossaryQuery, setGlossaryQuery] = useState('');
   const [pdfBusy, setPdfBusy] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
 
@@ -119,6 +129,17 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
   const [radiusRatio, setRadiusRatio] = useState<number>(3.0);
   const [portalSpan, setPortalSpan] = useState<number>(2.0);
   const [pbhLogMassG, setPbhLogMassG] = useState<number>(14.24);
+
+  const filteredGlossary = useMemo(() => {
+    const q = glossaryQuery.trim().toLowerCase();
+    if (!q) return H13_GLOSSARY;
+    return H13_GLOSSARY.filter(
+      (g) =>
+        g.term.toLowerCase().includes(q) ||
+        (g.acronym && g.acronym.toLowerCase().includes(q)) ||
+        g.definition.toLowerCase().includes(q)
+    );
+  }, [glossaryQuery]);
 
   const triggerDownload = (blob: Blob, filename: string) => {
     const url = URL.createObjectURL(blob);
@@ -155,7 +176,7 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
     const mPlGrams = 2.176434e-5;
     const secPerYear = 3.15576e7;
     const rhoPl = Math.pow(c, 5) / (hbar * G * G);
-    const rhoMax = 0.4094 * rhoPl;
+    const rhoMax = 0.409374 * rhoPl;
     const massGrams = Math.pow(10, pbhLogMassG);
     const massKg = massGrams / 1000;
     const massRatio = massGrams / mPlGrams;
@@ -208,22 +229,24 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
   }, [radiusRatio, portalSpan, pbhLogMassG]);
 
   const filteredChapters = useMemo(() => {
-    if (categoryFilter === 'ALL') return H13_CHAPTERS;
-    return H13_CHAPTERS.filter(
-      (ch) =>
+    return H13_CHAPTERS.filter((ch) => {
+      const matchesScope =
+        programScope === 'ALL' || ch.programTier === 'CORE PROTECTED PROGRAM' || ch.number === 1;
+      const matchesTier =
+        categoryFilter === 'ALL' ||
         ch.epistemicCategory === categoryFilter ||
-        ch.subsections.some((s) => s.category === categoryFilter)
-    );
-  }, [categoryFilter]);
-
-  const showPlainBridges = readerMode !== 'FORMAL';
-  const showFormalBoxes = readerMode !== 'PLAIN_GUIDE';
+        ch.subsections.some(
+          (s) =>
+            s.category === categoryFilter ||
+            s.theoremBox?.category === categoryFilter ||
+            s.equation?.category === categoryFilter
+        );
+      return matchesScope && matchesTier;
+    });
+  }, [categoryFilter, programScope]);
 
   return (
-    <div
-      className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-10 text-[#0F172A] dark:text-[#FDFBF7]"
-      style={{ fontFamily: '"Book Antiqua", "Palatino Linotype", Georgia, serif' }}
-    >
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-10 text-[#0F172A] dark:text-[#FDFBF7] font-['Book_Antiqua','Palatino_Linotype',Georgia,serif]">
       {/* Top Action Bar & Cross-Paper Navigation */}
       <div className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FAF8F3] dark:bg-[#081026] p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-2 text-xs font-sans">
@@ -249,6 +272,14 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
               className="px-3 py-1.5 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0C1836] hover:border-[#8F5B4A] transition-colors"
             >
               Open Harmonized Model
+            </button>
+          )}
+          {onNavigateToReview200 && (
+            <button
+              onClick={onNavigateToReview200}
+              className="px-3 py-1.5 rounded-lg border border-[#64705B] bg-[#64705B]/10 text-[#3F4A37] dark:text-[#86EFAC] hover:bg-[#64705B] hover:text-white font-medium transition-colors"
+            >
+              200-Reviewer Evaluation
             </button>
           )}
         </div>
@@ -303,14 +334,14 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
         </div>
       )}
 
-      {/* Cover Header Banner */}
-      <header className="rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-7 sm:p-11 space-y-6 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-[#8F5B4A] dark:text-[#FB923C] uppercase tracking-widest border-b border-[#EAE2D2] dark:border-[#1E293B] pb-3">
-          <span>{H13_META.monographId} · Thirteenth Edition Monograph</span>
-          <span>{H13_META.date} · 12 Chapters · 26 Figures &amp; Plates · Appendices A–J</span>
+      {/* Formal Journal Masthead */}
+      <header className="rounded-2xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-7 sm:p-11 space-y-5 shadow-xs">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-[#8F5B4A] dark:text-[#FB923C] uppercase tracking-widest border-b border-[#EAE2D2] dark:border-[#1E293B] pb-3">
+          <span>{H13_META.monographId} · {H13_META.journalType}</span>
+          <span>{H13_META.receivedRevised}</span>
         </div>
 
-        <h1 className="font-['Playfair_Display'] font-normal text-3xl sm:text-[40px] leading-[1.18] text-[#0F172A] dark:text-[#FDFBF7]">
+        <h1 className="font-['Playfair_Display'] font-normal text-3xl sm:text-[38px] leading-[1.18] text-[#0F172A] dark:text-[#FDFBF7]">
           {H13_META.title}
         </h1>
 
@@ -318,45 +349,48 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
           {H13_META.subtitle}
         </p>
 
-        {/* Five Authors Roster */}
-        <div className="pt-4 border-t border-[#EAE2D2] dark:border-[#1E293B]">
-          <div className="text-[11px] font-mono uppercase tracking-wider text-[#64748B] dark:text-[#94A3B8] mb-3">
-            Authors &amp; Affiliations
+        {/* Journal Author-Affiliation Line */}
+        <div className="pt-4 border-t border-[#EAE2D2] dark:border-[#1E293B] space-y-2.5 text-sm">
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-[#0F172A] dark:text-[#FDFBF7] font-medium">
+            {H13_META.authorRoster.map((author, idx) => (
+              <span key={author.name}>
+                {author.name}
+                <sup className="text-[#8F5B4A] dark:text-[#FB923C] font-mono text-[10px] ml-0.5">
+                  {idx + 1}
+                </sup>
+                {idx < H13_META.authorRoster.length - 1 ? ',' : ''}
+              </span>
+            ))}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {H13_META.authorRoster.map((author) => (
-              <div
-                key={author.name}
-                className="rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-[#FAF8F3] dark:bg-[#081026] p-3.5 space-y-1 text-xs"
-              >
-                <div className="font-semibold text-sm text-[#0F172A] dark:text-[#FDFBF7]">
-                  {author.name}
-                </div>
-                <div className="text-[#475569] dark:text-[#CBD9FC] leading-snug">
-                  {author.affiliation}
-                </div>
-                <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8] italic">
-                  {author.role}
-                </div>
-                {author.orcidUrl ? (
+          <ol className="text-xs text-[#475569] dark:text-[#CBD9FC] space-y-1 list-none pl-0">
+            {H13_META.authorRoster.map((author, idx) => (
+              <li key={author.name} className="leading-snug">
+                <sup className="font-mono text-[#8F5B4A] dark:text-[#FB923C] mr-1">{idx + 1}</sup>
+                {author.affiliation}
+                {author.orcidUrl && (
                   <a
                     href={author.orcidUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-block font-mono text-[10.5px] text-[#64705B] dark:text-[#86EFAC] hover:underline pt-0.5"
+                    className="ml-2 font-mono text-[10.5px] text-[#64705B] dark:text-[#86EFAC] hover:underline"
                   >
                     ORCID: {author.orcid}
                   </a>
-                ) : author.email ? (
+                )}
+                {author.email && (
                   <a
                     href={`mailto:${author.email}`}
-                    className="inline-block font-mono text-[10.5px] text-[#64705B] dark:text-[#86EFAC] hover:underline pt-0.5"
+                    className="ml-2 font-mono text-[10.5px] text-[#64705B] dark:text-[#86EFAC] hover:underline"
                   >
                     {author.email}
                   </a>
-                ) : null}
-              </div>
+                )}
+              </li>
             ))}
+          </ol>
+          <div className="pt-2 flex flex-wrap gap-x-6 gap-y-1 text-[11px] font-mono text-[#64748B] dark:text-[#94A3B8]">
+            <span><strong>PACS:</strong> {H13_META.pacsCodes}</span>
+            <span><strong>MSC 2020:</strong> {H13_META.msc2020Codes}</span>
           </div>
         </div>
       </header>
@@ -365,24 +399,23 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Sticky Left Navigation */}
         <aside className="lg:col-span-3 lg:sticky lg:top-28 space-y-5">
-          {/* Reading Lens Selector */}
+          {/* Program Scope Filter */}
           <div className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-4 space-y-3">
             <div className="text-[11px] font-mono uppercase tracking-wider text-[#64705B] dark:text-[#86EFAC] border-b border-[#EAE2D2] dark:border-[#1E293B] pb-2">
-              Reader Lens
+              Manuscript Scope
             </div>
             <div className="flex flex-col gap-1.5 text-xs font-sans">
               {(
                 [
-                  ['COMPLETE', 'Complete Edition (Plain + Formal)'],
-                  ['PLAIN_GUIDE', 'Plain-English Guided Tour'],
-                  ['FORMAL', 'Formal Equations & Proofs']
+                  ['ALL', 'Full Manuscript (Sections 1–13)'],
+                  ['CORE_ONLY', 'Core Program (Secs. 1–6, 8–10, 12)']
                 ] as const
               ).map(([mode, label]) => (
                 <button
                   key={mode}
-                  onClick={() => setReaderMode(mode)}
+                  onClick={() => setProgramScope(mode)}
                   className={`text-left px-2.5 py-1.5 rounded-lg transition-colors ${
-                    readerMode === mode
+                    programScope === mode
                       ? 'bg-[#64705B] text-white font-medium'
                       : 'hover:bg-[#FAF8F3] dark:hover:bg-[#142B5B] text-[#334155] dark:text-[#CBD5E1]'
                   }`}
@@ -400,10 +433,13 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
             <div className="flex flex-col gap-1.5 text-xs font-sans">
               {(
                 [
-                  ['ALL', 'All Tiers (Complete H13)'],
+                  ['ALL', 'All 6 Tiers (Complete H13)'],
                   ['CATEGORY A — ESTABLISHED', 'Cat A · Established Physics'],
-                  ['CATEGORY B — DERIVED', 'Cat B · Derived in IGRT'],
-                  ['CATEGORY C — CONJECTURAL', 'Cat C · 5D, Portals & White Holes']
+                  ['CATEGORY B1 — DERIVED (STANDARD PHYSICS)', 'Cat B1 · Derived (Standard Physics)'],
+                  ['CATEGORY B2 — AXIOMATIC / DERIVED WITHIN IGRT', 'Cat B2 · Axiomatic / IGRT'],
+                  ['CATEGORY C — CONJECTURAL', 'Cat C · 5D, Portals & White Holes'],
+                  ['CATEGORY D — SPECULATIVE ENGINEERING', 'Cat D · Speculative Engineering'],
+                  ['CATEGORY E — PHILOSOPHICAL / INTERPRETIVE', 'Cat E · Philosophical / Part II']
                 ] as const
               ).map(([val, label]) => (
                 <button
@@ -421,11 +457,12 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
             </div>
           </div>
 
-          <nav className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-4 space-y-1.5 max-h-[55vh] overflow-y-auto text-xs font-sans">
+          <nav className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-4 space-y-1.5 max-h-[58vh] overflow-y-auto text-xs font-sans">
             <div className="text-[11px] font-mono uppercase tracking-wider text-[#64705B] dark:text-[#86EFAC] border-b border-[#EAE2D2] dark:border-[#1E293B] pb-2">
-              Monograph Contents
+              Article Contents
             </div>
-            <a href="#h13-abstract" className="block py-1 hover:text-[#8F5B4A]">Abstract &amp; Reader Guide</a>
+            <a href="#h13-abstract" className="block py-1 hover:text-[#8F5B4A]">Abstract &amp; Overview</a>
+            <a href="#h13-axioms" className="block py-1 hover:text-[#8F5B4A]">Axioms A1–A5 &amp; Table 0.4</a>
             <a href="#h13-simulator" className="block py-1 hover:text-[#8F5B4A]">Interactive Explorer</a>
             <a href="#h13-principles" className="block py-1 hover:text-[#8F5B4A]">Table 0.1 · 12 Principles</a>
             <a href="#h13-symbols" className="block py-1 hover:text-[#8F5B4A]">Table 0.2 · Symbol Decoder</a>
@@ -434,62 +471,63 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
               <a
                 key={ch.id}
                 href={`#${ch.id}`}
-                className="block py-1 text-[#475569] dark:text-[#CBD5E1] hover:text-[#8F5B4A] truncate"
+                className="block py-1 leading-snug text-[#475569] dark:text-[#CBD5E1] hover:text-[#8F5B4A]"
               >
-                Ch. {ch.number}. {ch.title}
+                § {ch.number}. {ch.title}
               </a>
             ))}
-            <a href="#h13-faq" className="block py-1 pt-2 border-t border-[#EAE2D2] dark:border-[#1E293B] hover:text-[#8F5B4A]">
-              Common Questions (FAQ)
+            <a href="#h13-portal-builds" className="block py-1 pt-2 border-t border-[#EAE2D2] dark:border-[#1E293B] text-[#8F5B4A] dark:text-[#FB923C] hover:underline">
+              Table 9.2 · Portal Analogs &amp; No-Go (PR-1–PR-8)
+            </a>
+            <a href="#h13-part2" className="block py-1 hover:text-[#8F5B4A]">
+              Tables 13.6–13.7 (Scope &amp; Roadmap)
+            </a>
+            <a href="#h13-glossary" className="block py-1 hover:text-[#8F5B4A]">
+              Glossary of Terms &amp; Acronyms
+            </a>
+            <a href="#h13-faq" className="block py-1 hover:text-[#8F5B4A]">
+              Clarifications &amp; Adjudications
             </a>
             <a href="#h13-appendices" className="block py-1 hover:text-[#8F5B4A]">
-              Appendices A–J &amp; References
+              Appendices A–K &amp; References
             </a>
             <div className="pl-2.5 space-y-0.5 text-[11px] text-[#64748B] dark:text-[#94A3B8]">
               <a href="#h13-app-G" className="block py-0.5 hover:text-[#8F5B4A]">App. G · 5D+4D Action &amp; EL Eqs</a>
               <a href="#h13-app-H" className="block py-0.5 hover:text-[#8F5B4A]">App. H · KK Spectrum &amp; Bounds</a>
-              <a href="#h13-app-I" className="block py-0.5 hover:text-[#8F5B4A]">App. I · Non-AdS GJW Proof</a>
-              <a href="#h13-app-J" className="block py-0.5 hover:text-[#8F5B4A]">App. J · RK4 Bounce Pipeline</a>
+              <a href="#h13-app-I" className="block py-0.5 hover:text-[#8F5B4A]">App. I · Note I (Non-AdS GJW)</a>
+              <a href="#h13-app-J" className="block py-0.5 hover:text-[#8F5B4A]">App. J · RK4 Bounce &amp; Table J.2</a>
+              <a href="#h13-app-K" className="block py-0.5 hover:text-[#8F5B4A]">App. K · Pure Complementarity &amp; BKM</a>
             </div>
+            <a href="#h13-companion" className="block py-1 pt-1.5 border-t border-[#EAE2D2] dark:border-[#1E293B] text-[#64705B] dark:text-[#86EFAC] hover:underline">
+              Companion · Part II &amp; Policy Brief
+            </a>
           </nav>
         </aside>
 
         {/* Right Scholarly Column */}
         <article className="lg:col-span-9 space-y-12">
-          {/* Abstract, Reader Guide & Foundational Equations */}
+          {/* Abstract & Foundational Equations */}
           <section
             id="h13-abstract"
             className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-6 sm:p-9 space-y-5"
           >
             <h2 className="font-['Playfair_Display'] font-normal text-2xl sm:text-3xl border-b border-[#EAE2D2] dark:border-[#1E293B] pb-3">
-              Abstract &amp; Reader Navigation Guide
+              Abstract
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs sm:text-[13px]">
-              {H13_READING_GUIDE.map((item) => (
-                <div
-                  key={item.audience}
-                  className="rounded-lg border border-[#EAE2D2] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-3.5 space-y-1.5"
-                >
-                  <div className="font-semibold text-[#8F5B4A] dark:text-[#FB923C]">{item.audience}</div>
-                  <p className="leading-relaxed text-[#475569] dark:text-[#CBD9FC]">
-                    <MathText text={item.howToRead} />
-                  </p>
-                </div>
-              ))}
-            </div>
-
             {H13_ABSTRACT_PARAGRAPHS.map((p, idx) => (
-              <p key={idx} className="text-[16.5px] leading-[1.72] text-justify">
+              <p key={idx} className="text-[16px] leading-[1.72] text-justify">
                 <MathText text={p} />
               </p>
             ))}
 
-            <div className="rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-4 text-xs sm:text-sm space-y-2">
-              <div className="font-mono text-[11px] uppercase tracking-wider text-[#8F5B4A] dark:text-[#FB923C]">
-                Epistemic Guardrail &amp; Signature Convention
-              </div>
-              <p className="leading-relaxed">
+            <div className="pt-2 border-t border-[#EAE2D2] dark:border-[#1E293B] text-xs text-[#475569] dark:text-[#94A3B8] leading-relaxed">
+              <strong className="text-[#0F172A] dark:text-[#FDFBF7]">Keywords:</strong>{' '}
+              {H13_META.keywords.join('; ')}.
+            </div>
+
+            <div className="border-l-2 border-[#8F5B4A] pl-4 py-1 text-xs sm:text-sm space-y-1.5">
+              <p className="leading-relaxed text-[#3A2E26] dark:text-[#CBD9FC]">
                 <MathText text={H13_FOUNDATIONAL_NOTE} />
               </p>
               <p className="font-mono text-xs text-[#475569] dark:text-[#94A3B8]">
@@ -497,10 +535,50 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
               </p>
             </div>
 
-            {showFormalBoxes &&
-              H13_MASTER_EQUATIONS.map((eq) => (
-                <H13EquationBox key={eq.label} eq={eq} />
-              ))}
+            <div className="border-l-2 border-[#64705B] pl-4 py-1 text-xs sm:text-sm space-y-1">
+              <div className="font-mono text-[11px] uppercase tracking-wider text-[#64705B] dark:text-[#86EFAC]">
+                {H13_CORE_RESEARCH_PROGRAM.title}
+              </div>
+              <p className="leading-relaxed text-[#3A2E26] dark:text-[#CBD9FC]">
+                <MathText text={H13_CORE_RESEARCH_PROGRAM.rationale} />
+              </p>
+            </div>
+
+            <div id="h13-axioms" className="space-y-3 pt-2">
+              <h3 className="font-['Playfair_Display'] font-normal text-xl text-[#0F172A] dark:text-[#FDFBF7]">
+                Primitive Axioms of IGRT (A1–A5)
+              </h3>
+              <div className="grid grid-cols-1 gap-3">
+                {H13_AXIOMS.map((ax) => (
+                  <div
+                    key={ax.id}
+                    className="rounded-lg border border-[#EAE2D2] dark:border-[#334155] bg-[#FAF8F3]/60 dark:bg-[#081026]/60 p-4 space-y-1.5 text-xs sm:text-[13.5px]"
+                  >
+                    <div className="flex flex-wrap items-baseline justify-between gap-2">
+                      <span className="font-semibold text-[#8F5B4A] dark:text-[#FB923C]">
+                        {ax.id} · <MathText text={ax.title} />
+                      </span>
+                      <span className="font-mono text-[10px] text-[#64705B] dark:text-[#86EFAC]">
+                        {ax.epistemicCategory}
+                      </span>
+                    </div>
+                    <p className="leading-relaxed text-[#1E293B] dark:text-[#E2E8F0]">
+                      <MathText text={ax.statement} />
+                    </p>
+                    <div className="font-mono text-[11.5px] text-[#0F172A] dark:text-[#FDFBF7] bg-white/70 dark:bg-[#0B1530] px-3 py-1.5 rounded border border-[#EAE2D2] dark:border-[#1E293B]">
+                      <MathText text={ax.mathematicalForm} />
+                    </div>
+                    <p className="text-[11.5px] text-[#64748B] dark:text-[#94A3B8]">
+                      <strong>Provenance:</strong> <MathText text={ax.notesOnProvenance} />
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {H13_MASTER_EQUATIONS.map((eq) => (
+              <H13EquationBox key={eq.label} eq={eq} />
+            ))}
 
             <div className="space-y-2 pt-2">
               <h3 className="font-['Playfair_Display'] font-normal text-xl text-[#8F5B4A] dark:text-[#FB923C]">
@@ -513,6 +591,34 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                   </li>
                 ))}
               </ul>
+            </div>
+
+            <div className="rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-[#FAF8F3]/60 dark:bg-[#081026]/60 p-4 space-y-3">
+              <h3 className="font-['Playfair_Display'] font-normal text-xl text-[#0F172A] dark:text-[#FDFBF7]">
+                Table 0.4 · {H13_CORE_FALSIFICATION_CRITERIA.title}
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-[13px]">
+                <div className="space-y-1.5">
+                  <div className="font-mono text-[10.5px] uppercase tracking-wider text-[#8F5B4A] dark:text-[#FB923C]">
+                    QM/GR Consistency Checks (P15, P18)
+                  </div>
+                  <ul className="list-disc pl-4 space-y-1.5 leading-relaxed">
+                    {H13_CORE_FALSIFICATION_CRITERIA.coreAxiomFalsifiers.map((cf, i) => (
+                      <li key={i}><MathText text={cf} /></li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="space-y-1.5">
+                  <div className="font-mono text-[10.5px] uppercase tracking-wider text-[#64705B] dark:text-[#86EFAC]">
+                    Standalone Frontier Falsifiers (P14, P16, P17 — Cat C Only)
+                  </div>
+                  <ul className="list-disc pl-4 space-y-1.5 leading-relaxed">
+                    {H13_CORE_FALSIFICATION_CRITERIA.frontierSubHypothesisFalsifiers.map((ff, i) => (
+                      <li key={i}><MathText text={ff} /></li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -595,10 +701,10 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                 <div className="flex flex-col gap-0.5 text-[11px] font-mono">
                   <span>M = 10^{pbhLogMassG.toFixed(1)} g · τ_int ≈ {simOutputs.interiorMs.toExponential(1)} ms</span>
                   <span className="text-[#64705B] dark:text-[#86EFAC]">
-                    Cubic τ_WH^(3) ≈ 10^{simOutputs.log10CubicYears.toFixed(1)} yr
+                    Cubic τ_WH^(3) ≈ 10^{simOutputs.log10CubicYears.toFixed(1)} yr (13.8 Gyr: f=1 → 1.73×10¹⁴ g · f=15.35 → 4.30×10¹⁴ g · f≈24.14 → 5.00×10¹⁴ g)
                   </span>
                   <span className="text-[#8F5B4A] dark:text-[#FB923C]">
-                    Quad τ_WH^(2) ≈ 10^{simOutputs.log10QuadYears.toFixed(1)} yr
+                    Quad τ_WH^(2) ≈ 10^{simOutputs.log10QuadYears.toFixed(1)} yr (c_HR ∈ [10⁻², 10⁺¹] ⇒ [2.0×10²⁵, 6.2×10²⁶] g)
                   </span>
                 </div>
               </div>
@@ -626,7 +732,7 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                           {
                             monograph: H13_META.monographId,
                             ode: 'd2u/ds2 = -1/(2 u^2) + 2/u^5',
-                            rhoMaxOverRhoPl: 0.4094,
+                            rhoMaxOverRhoPl: 0.409374,
                             massGrams: Number(simOutputs.massGrams.toExponential(4)),
                             rBounceMeters: Number(simOutputs.rBounceM.toExponential(4)),
                             bounceAccelMs2: Number(simOutputs.aBounceMs2.toExponential(4)),
@@ -660,7 +766,7 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
             className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-6 sm:p-9 space-y-5"
           >
             <h2 className="font-['Playfair_Display'] font-normal text-2xl sm:text-3xl border-b border-[#EAE2D2] dark:border-[#1E293B] pb-3">
-              Table 0.1 · Twelve Principles of Reality as Running Code
+              Table 0.1 · Twelve Principles of Compiled Spacetime
             </h2>
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
@@ -675,10 +781,17 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                 <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
                   {H13_TWELVE_PRINCIPLES_MATRIX.map((pr) => (
                     <tr key={pr.id} className="hover:bg-[#FAF8F3]/60 dark:hover:bg-[#081026]/60">
-                      <td className="p-3 font-semibold align-top whitespace-nowrap">
-                        <a href={`#ch-${pr.chapterAnchor}`} className="text-[#8F5B4A] dark:text-[#FB923C] hover:underline">
+                      <td className="p-3 font-semibold align-top">
+                        <a href={`#ch-${pr.chapterAnchor}`} className="text-[#8F5B4A] dark:text-[#FB923C] hover:underline whitespace-nowrap">
                           {pr.id}. {pr.shortTitle}
                         </a>
+                        <div className={`mt-1 font-mono text-[10px] tracking-wide ${
+                          pr.programTier === 'CORE PROTECTED PROGRAM'
+                            ? 'text-[#64705B] dark:text-[#86EFAC]'
+                            : 'text-[#64748B] dark:text-[#94A3B8]'
+                        }`}>
+                          {pr.programTier} (Ch. {pr.chapterAnchor})
+                        </div>
                       </td>
                       <td className="p-3 italic align-top">“{pr.userStatement}”</td>
                       <td className="p-3 align-top space-y-1">
@@ -687,6 +800,9 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                         </div>
                         <div className="text-[11.5px] text-[#64748B] dark:text-[#94A3B8]">
                           <MathText text={pr.quantitativeAnchor} />
+                        </div>
+                        <div className="text-[11px] text-[#3A2E26] dark:text-[#CBD5E1] pt-0.5">
+                          <strong>Revision:</strong> <MathText text={pr.principalRecommendationApplied} />
                         </div>
                       </td>
                       <td className="p-3 font-mono text-[10.5px] align-top whitespace-nowrap">
@@ -699,16 +815,16 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
             </div>
           </section>
 
-          {/* Table 0.2 · Plain-English Symbol & Units Decoder */}
+          {/* Table 0.2 · Intuitive Symbol & Units Decoder */}
           <section
             id="h13-symbols"
             className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-6 sm:p-9 space-y-5"
           >
             <h2 className="font-['Playfair_Display'] font-normal text-2xl sm:text-3xl border-b border-[#EAE2D2] dark:border-[#1E293B] pb-3">
-              Table 0.2 · Plain-English Symbol &amp; Units Decoder
+              Table 0.2 · Intuitive Symbol &amp; Units Decoder
             </h2>
             <p className="text-sm text-[#475569] dark:text-[#CBD9FC]">
-              Every Greek symbol and shorthand quantity in this paper decoded cleanly in plain English alongside its formal physical units.
+              Every Greek symbol and shorthand quantity in this monograph decoded clearly in everyday language alongside its formal physical units.
             </p>
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
@@ -716,7 +832,7 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                   <tr className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
                     <th className="p-2.5">Symbol</th>
                     <th className="p-2.5">Spoken Name</th>
-                    <th className="p-2.5">Plain-English Meaning</th>
+                    <th className="p-2.5">Physical Meaning</th>
                     <th className="p-2.5">Formal Role &amp; SI Units</th>
                   </tr>
                 </thead>
@@ -727,7 +843,7 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                         <MathText text={sy.symbol} />
                       </td>
                       <td className="p-2.5 italic align-top whitespace-nowrap">{sy.spokenName}</td>
-                      <td className="p-2.5 align-top"><MathText text={sy.plainEnglishMeaning} /></td>
+                      <td className="p-2.5 align-top"><MathText text={sy.intuitiveMeaning} /></td>
                       <td className="p-2.5 align-top text-[#475569] dark:text-[#CBD9FC]">
                         <div><MathText text={sy.formalMathematicalRole} /></div>
                         <div className="font-mono text-[10.5px] text-[#64705B] dark:text-[#86EFAC] mt-0.5">
@@ -742,11 +858,10 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
           </section>
 
           {/* Table 0.3 · SI Units & Dimensional Consistency Audit */}
-          {showFormalBoxes && (
-            <section
-              id="h13-dimensions"
-              className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-6 sm:p-9 space-y-5"
-            >
+          <section
+            id="h13-dimensions"
+            className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-6 sm:p-9 space-y-5"
+          >
               <h2 className="font-['Playfair_Display'] font-normal text-2xl sm:text-3xl border-b border-[#EAE2D2] dark:border-[#1E293B] pb-3">
                 Table 0.3 · SI Units &amp; Dimensional Consistency Audit
               </h2>
@@ -780,20 +895,33 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                     ))}
                   </tbody>
                 </table>
-              </div>
-            </section>
-          )}
+            </div>
+          </section>
 
-          {/* Chapters 1 to 12 */}
+          {/* Journal Sections 1 to 13 */}
           {filteredChapters.map((ch) => (
             <section
               key={ch.id}
               id={ch.id}
               className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-6 sm:p-10 space-y-6"
             >
-              <div className="space-y-3 border-b border-[#EAE2D2] dark:border-[#1E293B] pb-4">
-                <div className="text-[11px] font-mono uppercase tracking-wider text-[#64705B] dark:text-[#86EFAC]">
-                  Chapter {ch.number} · {ch.epistemicCategory}
+              <div className="space-y-2.5 border-b border-[#EAE2D2] dark:border-[#1E293B] pb-4">
+                <div className="text-[10.5px] font-mono uppercase tracking-widest text-[#8F5B4A] dark:text-[#FB923C]">
+                  {ch.part}
+                </div>
+                <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono uppercase tracking-wider">
+                  <span className="text-[#64705B] dark:text-[#86EFAC]">
+                    § {ch.number} · {ch.epistemicCategory}
+                  </span>
+                  <span
+                    className={
+                      ch.programTier === 'CORE PROTECTED PROGRAM'
+                        ? 'text-[#8F5B4A] dark:text-[#FB923C] font-semibold'
+                        : 'text-[#64748B] dark:text-[#94A3B8]'
+                    }
+                  >
+                    {ch.programTier}
+                  </span>
                 </div>
                 <h2 className="font-['Playfair_Display'] font-normal text-2xl sm:text-3xl leading-snug">
                   {ch.number}. <MathText text={ch.title} />
@@ -801,39 +929,17 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                 <div className="text-[11.5px] font-mono text-[#64748B] dark:text-[#94A3B8]">
                   <strong>Provenance:</strong> <MathText text={ch.provenance} />
                 </div>
-                <blockquote className="rounded-lg border border-[#EAE2D2] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] px-4 py-3 italic text-[15.5px] text-[#3A2E26] dark:text-[#E2E8F0]">
+                <blockquote className="border-l-2 border-[#D6CABE] dark:border-[#334155] pl-4 py-1 italic text-[14.5px] text-[#475569] dark:text-[#CBD9FC]">
                   “{ch.principleQuote}”
                 </blockquote>
-
-                {showPlainBridges && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1 text-[13.5px]">
-                    <div className="rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-4 space-y-1">
-                      <div className="font-mono text-[10.5px] uppercase tracking-wider text-[#64705B] dark:text-[#86EFAC]">
-                        In Plain English
-                      </div>
-                      <p className="leading-relaxed text-[#0F172A] dark:text-[#E2E8F0]">
-                        <MathText text={ch.plainEnglishBridge} />
-                      </p>
-                    </div>
-                    <div className="rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-4 space-y-1">
-                      <div className="font-mono text-[10.5px] uppercase tracking-wider text-[#8F5B4A] dark:text-[#FB923C]">
-                        Everyday Analogy
-                      </div>
-                      <p className="leading-relaxed text-[#3A2E26] dark:text-[#CBD9FC]">
-                        <MathText text={ch.everydayAnalogy} />
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                <p className="text-[15px] italic text-[#64748B] dark:text-[#94A3B8] leading-relaxed">
+                <p className="text-[15px] italic text-[#475569] dark:text-[#94A3B8] leading-relaxed">
                   <MathText text={ch.leadSummary} />
                 </p>
               </div>
 
               {ch.subsections.map((sub) => (
                 <div key={sub.number} className="space-y-4">
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2 pt-1">
                     <h3 className="font-['Playfair_Display'] font-normal text-xl sm:text-2xl text-[#8F5B4A] dark:text-[#FB923C]">
                       {sub.number} <MathText text={sub.title} />
                     </h3>
@@ -842,141 +948,168 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                     </span>
                   </div>
                   {sub.paragraphs.map((p, idx) => (
-                    <p key={idx} className="text-[16.5px] leading-[1.72] text-justify">
+                    <p key={idx} className="text-[16.5px] leading-[1.75] text-justify">
                       <MathText text={p} />
                     </p>
                   ))}
-                  {showFormalBoxes && sub.equation && (
-                    <H13EquationBox eq={sub.equation} showPlain={showPlainBridges} showUnits />
-                  )}
-                  {showFormalBoxes && sub.theoremBox && (
-                    <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 space-y-2.5">
-                      <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-                        <span className="text-[#64705B] dark:text-[#86EFAC] font-semibold">
-                          {sub.theoremBox.number}: <MathText text={sub.theoremBox.title} />
+                  {sub.equation && <H13EquationBox eq={sub.equation} />}
+                  {sub.theoremBox && (
+                    <div className="my-6 border-l-2 border-[#64705B] dark:border-[#86EFAC] pl-5 py-2 space-y-2.5 bg-[#FAF8F3]/40 dark:bg-[#081026]/40">
+                      <div className="flex flex-wrap items-baseline justify-between gap-2">
+                        <span className="font-semibold text-[15px] text-[#0F172A] dark:text-[#FDFBF7]">
+                          {sub.theoremBox.number} (<MathText text={sub.theoremBox.title} />).
                         </span>
-                        <span className="text-[#64748B]">{sub.theoremBox.category}</span>
+                        <span className="font-mono text-[10.5px] text-[#64748B]">{sub.theoremBox.category}</span>
                       </div>
-                      <ul className="text-xs space-y-1 text-[#475569] dark:text-[#CBD9FC] list-disc pl-5">
-                        {sub.theoremBox.hypotheses.map((h, hi) => (
-                          <li key={hi}>
-                            <MathText text={h} />
-                          </li>
-                        ))}
-                      </ul>
-                      <p className="text-[15px] leading-relaxed font-medium">
-                        <MathText text={sub.theoremBox.statement} />
+                      <p className="text-[15px] leading-relaxed italic text-[#1E293B] dark:text-[#E2E8F0]">
+                        Suppose {sub.theoremBox.hypotheses.join(' ')} Then{' '}
+                        <span className="not-italic font-normal">
+                          <MathText text={sub.theoremBox.statement} />
+                        </span>
                       </p>
-                      <div className="pt-2 border-t border-[#EAE2D2] dark:border-[#1E293B] space-y-1.5">
-                        <div className="font-mono text-[10.5px] uppercase tracking-wider text-[#8F5B4A] dark:text-[#FB923C]">
-                          Formal Multi-Step Proof
+                      <div className="pt-1.5 space-y-1.5 text-[14.5px] leading-relaxed text-[#334155] dark:text-[#CBD9FC]">
+                        <div>
+                          <span className="italic font-semibold text-[#0F172A] dark:text-[#FDFBF7] mr-1.5">
+                            {sub.theoremBox.proofType === 'proof' ? 'Proof.' : 'Derivation / Proof Sketch.'}
+                          </span>
+                          <MathText text={sub.theoremBox.proofSteps[0]} />
                         </div>
-                        <ol className="text-[13.5px] leading-relaxed space-y-1.5 list-decimal pl-5 text-[#3A2E26] dark:text-[#E2E8F0]">
-                          {sub.theoremBox.proofSteps.map((step, si) => (
-                            <li key={si}>
-                              <MathText text={step} />
-                            </li>
-                          ))}
-                        </ol>
-                        <div className="text-[11.5px] font-mono text-[#64748B] dark:text-[#94A3B8] pt-1">
-                          <strong>Provenance:</strong> <MathText text={sub.theoremBox.provenance} />
+                        {sub.theoremBox.proofSteps.slice(1).map((step, si) => (
+                          <p key={si} className="text-justify">
+                            <MathText text={step} />
+                          </p>
+                        ))}
+                        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-[#64748B] dark:text-[#94A3B8] pt-1">
+                          <span>Sources: <MathText text={sub.theoremBox.provenance} /></span>
+                          {sub.theoremBox.proofType === 'proof' && (
+                            <span className="text-[#0F172A] dark:text-[#FDFBF7]">□</span>
+                          )}
                         </div>
                       </div>
-                      {showPlainBridges && sub.theoremBox.plainEnglishSummary && (
-                        <p className="text-[13.5px] pt-2 border-t border-[#EAE2D2] dark:border-[#1E293B] text-[#64705B] dark:text-[#86EFAC]">
-                          <strong>Plain-English Meaning:</strong>{' '}
-                          <MathText text={sub.theoremBox.plainEnglishSummary} />
-                        </p>
-                      )}
                     </div>
                   )}
                   {sub.workedExample && (
-                    <div className="rounded-xl border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 space-y-3">
+                    <div className="my-5 border-l-2 border-[#8F5B4A] dark:border-[#FB923C] pl-5 py-2 space-y-2.5">
                       <div className="font-semibold text-sm text-[#8F5B4A] dark:text-[#FB923C]">
                         <MathText text={sub.workedExample.title} />
                       </div>
-                      <p className="text-xs italic text-[#475569] dark:text-[#CBD9FC]">
+                      <p className="text-[14px] italic text-[#475569] dark:text-[#CBD9FC]">
                         <MathText text={sub.workedExample.setup} />
                       </p>
-                      <ol className="text-sm space-y-1.5 list-decimal pl-5">
+                      <ol className="text-[14.5px] space-y-1.5 list-decimal pl-5">
                         {sub.workedExample.steps.map((st, si) => (
                           <li key={si}>
                             <MathText text={st} />
                           </li>
                         ))}
                       </ol>
-                      {showFormalBoxes && (
-                        <H13EquationBox eq={sub.workedExample.resultEquation} showPlain={showPlainBridges} showUnits />
-                      )}
-                      <p className="text-xs font-medium text-[#64705B] dark:text-[#86EFAC]">
-                        Takeaway: <MathText text={sub.workedExample.takeaway} />
+                      <H13EquationBox eq={sub.workedExample.resultEquation} />
+                      <p className="text-xs italic text-[#475569] dark:text-[#94A3B8]">
+                        <MathText text={sub.workedExample.takeaway} />
                       </p>
                     </div>
                   )}
                 </div>
               ))}
 
-              {/* Chapter Key Takeaways */}
-              {showPlainBridges && (
-                <div className="rounded-lg border border-[#EAE2D2] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-4 space-y-1.5">
-                  <div className="font-mono text-[10.5px] uppercase tracking-wider text-[#8F5B4A] dark:text-[#FB923C]">
-                    Chapter {ch.number} Key Takeaways
-                  </div>
-                  <ul className="space-y-1 list-disc pl-5 text-xs sm:text-[13.5px]">
-                    {ch.keyTakeaways.map((kt, i) => (
-                      <li key={i}><MathText text={kt} /></li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Chapter 8 Portal Taxonomy Table */}
-              {ch.number === 8 && (
-                <div className="space-y-3 pt-4">
-                  <h4 className="font-['Playfair_Display'] font-normal text-lg text-[#0F172A] dark:text-[#FDFBF7]">
-                    Table 8.1 · Sealed Black-Hole Compression Vaults vs. Coupled Class P Portal Nodes
-                  </h4>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
-                      <thead>
-                        <tr className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
-                          <th className="p-2.5">Node Class</th>
-                          <th className="p-2.5">Geometry &amp; NEC Status</th>
-                          <th className="p-2.5">Portal Verdict &amp; Benchmark</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
-                        {H13_BLACK_HOLE_TO_PORTAL_TAXONOMY.map((row) => (
-                          <tr key={row.nodeClass}>
-                            <td className="p-2.5 font-semibold align-top">
-                              <div><MathText text={row.nodeClass} /></div>
-                              <div className="font-mono text-[10px] text-[#8F5B4A]">{row.category}</div>
-                            </td>
-                            <td className="p-2.5 align-top">
-                              <div><MathText text={row.geometryAndAction} /></div>
-                              <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8] mt-1">
-                                <MathText text={row.necAndCausalStatus} />
-                              </div>
-                            </td>
-                            <td className="p-2.5 align-top">
-                              <div className="font-medium"><MathText text={row.isPortalOrWhiteHole} /></div>
-                              <div className="font-mono text-[11px] text-[#64705B] dark:text-[#86EFAC] mt-1">
-                                <MathText text={row.foldingOrBounceMetric} />
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
-
-              {/* Chapter 9 White-Hole Bounce Table */}
+              {/* Chapter 9 Portal Taxonomy & 10 Portal Build Recommendations */}
               {ch.number === 9 && (
+                <div className="space-y-8 pt-4">
+                  <div className="space-y-3">
+                    <h4 className="font-['Playfair_Display'] font-normal text-lg text-[#0F172A] dark:text-[#FDFBF7]">
+                      Table 9.1 · Sealed Black-Hole Compression Vaults vs. Coupled Class P Portal Nodes
+                    </h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
+                        <thead>
+                          <tr className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                            <th className="p-2.5">Node Class</th>
+                            <th className="p-2.5">Geometry &amp; NEC Status</th>
+                            <th className="p-2.5">Portal Verdict &amp; Benchmark</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {H13_BLACK_HOLE_TO_PORTAL_TAXONOMY.map((row) => (
+                            <tr key={row.nodeClass}>
+                              <td className="p-2.5 font-semibold align-top">
+                                <div><MathText text={row.nodeClass} /></div>
+                                <div className="font-mono text-[10px] text-[#8F5B4A]">{row.category}</div>
+                              </td>
+                              <td className="p-2.5 align-top">
+                                <div><MathText text={row.geometryAndAction} /></div>
+                                <div className="text-[11px] text-[#64748B] dark:text-[#94A3B8] mt-1">
+                                  <MathText text={row.necAndCausalStatus} />
+                                </div>
+                              </td>
+                              <td className="p-2.5 align-top">
+                                <div className="font-medium"><MathText text={row.isPortalOrWhiteHole} /></div>
+                                <div className="font-mono text-[11px] text-[#64705B] dark:text-[#86EFAC] mt-1">
+                                  <MathText text={row.foldingOrBounceMetric} />
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div id="h13-portal-builds" className="space-y-3">
+                    <h4 className="font-['Playfair_Display'] font-normal text-lg text-[#0F172A] dark:text-[#FDFBF7]">
+                      Table 9.2 · Laboratory Analogs, Metrology Benchmarks &amp; No-Go Audit (PR-1–PR-8)
+                    </h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
+                        <thead>
+                          <tr className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                            <th className="p-2.5">ID · Platform &amp; TRL</th>
+                            <th className="p-2.5">Physical Mechanism &amp; Build Specification</th>
+                            <th className="p-2.5">Verification Metric &amp; Scientific Implications</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {H13_PORTAL_BUILD_RECOMMENDATIONS.map((pr) => (
+                            <tr key={pr.id}>
+                              <td className="p-2.5 font-semibold align-top">
+                                <div className="font-mono text-[10.5px] text-[#8F5B4A] dark:text-[#FB923C]">
+                                  {pr.id} · {pr.trl}
+                                </div>
+                                <div className="mt-0.5"><MathText text={pr.title} /></div>
+                                <div className="font-mono text-[10px] text-[#64705B] dark:text-[#86EFAC] mt-0.5">
+                                  {pr.portalClass}
+                                </div>
+                              </td>
+                              <td className="p-2.5 align-top space-y-1.5">
+                                <div><strong>Mechanism:</strong> <MathText text={pr.physicalMechanism} /></div>
+                                <div className="text-[#475569] dark:text-[#CBD9FC]">
+                                  <strong>Build Spec:</strong> <MathText text={pr.achievableBuildSpec} />
+                                </div>
+                              </td>
+                              <td className="p-2.5 align-top space-y-1.5">
+                                <div className="font-mono text-[11px] text-[#64705B] dark:text-[#86EFAC]">
+                                  <strong>Metric:</strong> <MathText text={pr.verificationMetric} />
+                                </div>
+                                <div className="font-mono text-[11px] text-[#8F5B4A] dark:text-[#FB923C]">
+                                  <strong>Falsification:</strong> <MathText text={pr.falsificationThreshold} />
+                                </div>
+                                <div className="text-[#3A2E26] dark:text-[#E2E8F0]">
+                                  <strong>Implications:</strong> <MathText text={pr.implications} />
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Chapter 10 White-Hole Bounce Table */}
+              {ch.number === 10 && (
                 <div className="space-y-3 pt-4">
                   <h4 className="font-['Playfair_Display'] font-normal text-lg text-[#0F172A] dark:text-[#FDFBF7]">
-                    Table 9.1 · Black-Hole-to-White-Hole Bounce Regimes (Planck to AGN)
+                    Table 10.1 · Black-Hole-to-White-Hole Bounce Regimes (Planck to AGN)
                   </h4>
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
@@ -1013,12 +1146,12 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                 </div>
               )}
 
-              {/* Chapter 12 Protocols, Checklists & Ledger */}
-              {ch.number === 12 && (
+              {/* Chapter 13 Protocols, Checklists & Ledger */}
+              {ch.number === 13 && (
                 <div className="space-y-6 pt-4">
                   <div className="space-y-3">
                     <h4 className="font-['Playfair_Display'] font-normal text-lg">
-                      Table 12.1 · Experimental Falsification Protocols (P14–P18)
+                      Table 13.1 · Experimental Falsification Protocols (P14–P18)
                     </h4>
                     <div className="overflow-x-auto">
                       <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
@@ -1045,9 +1178,88 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                                   <strong>Systematics:</strong> <MathText text={p.systematicsControl} />
                                 </div>
                               </td>
-                              <td className="p-2.5 align-top">
-                                <MathText text={p.falsificationCriterion} />
+                              <td className="p-2.5 align-top space-y-1">
+                                <div><MathText text={p.falsificationCriterion} /></div>
+                                <div className="font-mono text-[10.5px] text-[#64705B] dark:text-[#86EFAC]">
+                                  <strong>FPR:</strong> <MathText text={p.falsePositiveRate} />
+                                </div>
+                                <div className="font-mono text-[10.5px] text-[#8F5B4A] dark:text-[#FB923C]">
+                                  <strong>Est. Cost:</strong> <MathText text={p.estimatedCost} />
+                                </div>
                               </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="font-['Playfair_Display'] font-normal text-lg">
+                      Table 13.1b · Signal vs. Current Experimental Sensitivity, Systematics &amp; 5D Null Tests (R_5 → 0)
+                    </h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs">
+                        <thead>
+                          <tr className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                            <th className="p-2.5">Protocol</th>
+                            <th className="p-2.5">Predicted Signal vs. Current Sensitivity</th>
+                            <th className="p-2.5">Systematics &amp; 95% CL Falsifier</th>
+                            <th className="p-2.5">Null Limit (R_5 → 0 / g_int → 0)</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {H13_PROTOCOL_SIGNAL_VS_SENSITIVITY.map((ps) => (
+                            <tr key={ps.protocolId}>
+                              <td className="p-2.5 font-semibold align-top whitespace-nowrap text-[#8F5B4A] dark:text-[#FB923C]">
+                                {ps.protocolId}
+                              </td>
+                              <td className="p-2.5 align-top space-y-1">
+                                <div><strong>Signal:</strong> <MathText text={ps.predictedSignal} /></div>
+                                <div className="text-[#475569] dark:text-[#CBD9FC]">
+                                  <strong>Sensitivity:</strong> <MathText text={ps.currentSensitivity} />
+                                </div>
+                              </td>
+                              <td className="p-2.5 align-top space-y-1">
+                                <div><strong>Systematics:</strong> <MathText text={ps.dominantSystematics} /></div>
+                                <div className="font-mono text-[11px] text-[#8F5B4A] dark:text-[#FB923C]">
+                                  <strong>Falsifier:</strong> <MathText text={ps.falsification95CL} />
+                                </div>
+                              </td>
+                              <td className="p-2.5 align-top text-[#64705B] dark:text-[#86EFAC]">
+                                <MathText text={ps.nullTestLimit} />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="font-['Playfair_Display'] font-normal text-lg">
+                      Table 13.1c · Cross-Protocol Consistency &amp; Joint Multi-Channel Discrimination
+                    </h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs">
+                        <thead>
+                          <tr className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                            <th className="p-2.5">Joint Pattern</th>
+                            <th className="p-2.5">Physical Interpretation</th>
+                            <th className="p-2.5">Programmatic Impact</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {H13_PROTOCOL_CROSSCHECKS.map((cc) => (
+                            <tr key={cc.jointOutcomePattern}>
+                              <td className="p-2.5 font-semibold align-top">
+                                <div><MathText text={cc.jointOutcomePattern} /></div>
+                                <div className="font-mono text-[10px] text-[#64705B] dark:text-[#86EFAC] mt-0.5">
+                                  {cc.protocolsInvolved}
+                                </div>
+                              </td>
+                              <td className="p-2.5 align-top"><MathText text={cc.physicalInterpretation} /></td>
+                              <td className="p-2.5 align-top text-[#475569] dark:text-[#CBD9FC]"><MathText text={cc.programmaticImpact} /></td>
                             </tr>
                           ))}
                         </tbody>
@@ -1080,7 +1292,7 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
 
                   <div className="space-y-2">
                     <h4 className="font-['Playfair_Display'] font-normal text-lg">
-                      Table 12.2 · Epistemic Claim–Provenance–Proof Ledger (16 Claims C1–C16)
+                      Table 13.2 · Epistemic Claim–Provenance–Proof Ledger (Claims C1–C10)
                     </h4>
                     <div className="overflow-x-auto">
                       <table className="w-full text-left border-collapse text-xs">
@@ -1125,7 +1337,7 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
 
                   <div className="space-y-2">
                     <h4 className="font-['Playfair_Display'] font-normal text-lg">
-                      Table 12.3 · Experimental Proof Apparatus, Readiness Levels (TRL) &amp; Priority Recommendations
+                      Table 13.3 · Experimental Proof Apparatus, Readiness Levels (TRL) &amp; Priority Recommendations
                     </h4>
                     <div className="overflow-x-auto">
                       <table className="w-full text-left border-collapse text-xs">
@@ -1169,6 +1381,69 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                       </table>
                     </div>
                   </div>
+
+                  {/* Scope Limitations & Research Roadmap Tables */}
+                  <div id="h13-part2" className="space-y-6 pt-4 border-t border-[#EAE2D2] dark:border-[#1E293B]">
+                    <div className="space-y-2">
+                      <h4 className="font-['Playfair_Display'] font-normal text-lg">
+                        Table 13.6 · Explicit Scope Limitations &amp; Open Unsolved Problems (LIM-1–LIM-4)
+                      </h4>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse text-xs">
+                          <thead>
+                            <tr className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                              <th className="p-2.5">ID &amp; Domain</th>
+                              <th className="p-2.5">Unsolved Problem</th>
+                              <th className="p-2.5">Epistemic Boundary</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                            {H13_SCOPE_LIMITATIONS.map((lim) => (
+                              <tr key={lim.id}>
+                                <td className="p-2.5 font-semibold align-top whitespace-nowrap">
+                                  <span className="font-mono text-[#8F5B4A] dark:text-[#FB923C] mr-1">{lim.id}</span>
+                                  <MathText text={lim.domain} />
+                                </td>
+                                <td className="p-2.5 align-top"><MathText text={lim.unsolvedProblem} /></td>
+                                <td className="p-2.5 align-top text-[#475569] dark:text-[#CBD9FC]"><MathText text={lim.epistemicBoundary} /></td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h4 className="font-['Playfair_Display'] font-normal text-lg">
+                        Table 13.7 · 2026–2035 Research Roadmap (Including Standalone IGRT-2026-H13-Note I)
+                      </h4>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse text-xs">
+                          <thead>
+                            <tr className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                              <th className="p-2.5">Phase &amp; Horizon</th>
+                              <th className="p-2.5">Milestone</th>
+                              <th className="p-2.5">Deliverable / Decision Gate</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                            {H13_RESEARCH_ROADMAP_2026_2035.map((rm) => (
+                              <tr key={rm.phase}>
+                                <td className="p-2.5 font-semibold align-top">
+                                  <div className="text-[#8F5B4A] dark:text-[#FB923C]">{rm.phase}</div>
+                                  <div className="font-mono text-[10.5px] text-[#64705B] dark:text-[#86EFAC]">
+                                    {rm.horizon} · {rm.track}
+                                  </div>
+                                </td>
+                                <td className="p-2.5 align-top"><MathText text={rm.milestone} /></td>
+                                <td className="p-2.5 align-top text-[#475569] dark:text-[#CBD9FC]"><MathText text={rm.deliverableOrGate} /></td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -1182,16 +1457,65 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
             </section>
           ))}
 
-          {/* Plain-Language FAQ Section */}
+          {/* Glossary of Terms & Acronyms */}
+          <section
+            id="h13-glossary"
+            className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-6 sm:p-10 space-y-5"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE2D2] dark:border-[#1E293B] pb-3">
+              <div>
+                <h2 className="font-['Playfair_Display'] font-normal text-2xl sm:text-3xl">
+                  Glossary of Terms &amp; Acronyms
+                </h2>
+                <p className="text-xs sm:text-sm text-[#64748B] dark:text-[#94A3B8] mt-1">
+                  {filteredGlossary.length} of {H13_GLOSSARY.length} core concepts, equations, experimental detectors, and acronyms.
+                </p>
+              </div>
+              <input
+                type="text"
+                value={glossaryQuery}
+                onChange={(e) => setGlossaryQuery(e.target.value)}
+                placeholder="Filter terms or acronyms (e.g. GJW, BKM, TRL)..."
+                className="w-full sm:w-72 px-3 py-2 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] text-xs font-sans focus:outline-none focus:border-[#8F5B4A]"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {filteredGlossary.map((g) => (
+                <div
+                  key={g.term}
+                  className="rounded-lg border border-[#EAE2D2] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-4 space-y-1.5"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="font-semibold text-sm text-[#0F172A] dark:text-[#FDFBF7]">
+                      {g.term}{' '}
+                      {g.acronym && (
+                        <span className="font-mono text-xs text-[#8F5B4A] dark:text-[#FB923C]">
+                          ({g.acronym})
+                        </span>
+                      )}
+                    </div>
+                    <span className="font-mono text-[10px] text-[#64705B] dark:text-[#86EFAC]">
+                      {g.category}
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-[13px] leading-relaxed text-[#475569] dark:text-[#CBD9FC]">
+                    <MathText text={g.definition} />
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Methodological Clarifications & Technical Adjudications */}
           <section
             id="h13-faq"
             className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-6 sm:p-10 space-y-6"
           >
             <h2 className="font-['Playfair_Display'] font-normal text-2xl sm:text-3xl border-b border-[#EAE2D2] dark:border-[#1E293B] pb-3">
-              Common Questions &amp; Misconceptions Clarified
+              Methodological Clarifications &amp; Technical Adjudications
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {H13_LAYMAN_FAQ.map((faq) => (
+              {H13_FAQ.map((faq) => (
                 <div
                   key={faq.id}
                   className="rounded-lg border border-[#EAE2D2] dark:border-[#334155] bg-[#FAF8F3] dark:bg-[#081026] p-5 space-y-2"
@@ -1220,7 +1544,7 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
             className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0B1530] p-6 sm:p-10 space-y-8"
           >
             <h2 className="font-['Playfair_Display'] font-normal text-2xl sm:text-3xl border-b border-[#EAE2D2] dark:border-[#1E293B] pb-3">
-              Consolidated Appendices (A–J) &amp; Index
+              Consolidated Appendices (A–K) &amp; Index
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
@@ -1229,7 +1553,7 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                 {H13_FRONTMATTER_TABLES_LIST.map((t) => (
                   <div key={t.id}><strong>{t.id}</strong> ({t.location}): {t.title}</div>
                 ))}
-                {H13_FRONTMATTER_EQUATIONS_LIST.slice(0, 10).map((e) => (
+                {H13_FRONTMATTER_EQUATIONS_LIST.map((e) => (
                   <div key={e.label}><strong>{e.label}</strong>: <MathText text={e.title} /></div>
                 ))}
               </div>
@@ -1259,10 +1583,9 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                 <p className="text-[15px] italic text-[#475569] dark:text-[#CBD9FC]">
                   <MathText text={app.summary} />
                 </p>
-                {showFormalBoxes &&
-                  app.equations.map((eq) => (
-                    <H13EquationBox key={eq.label} eq={eq} showPlain={showPlainBridges} showUnits />
-                  ))}
+                {app.equations.map((eq) => (
+                  <H13EquationBox key={eq.label} eq={eq} />
+                ))}
                 {app.bodyParagraphs.map((p, idx) => (
                   <p key={idx} className="text-[16px] leading-[1.7] text-justify">
                     <MathText text={p} />
@@ -1336,8 +1659,36 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                 )}
 
                 {app.letter === 'I' && (
-                  <div className="space-y-2 pt-2">
+                  <div className="space-y-4 pt-2">
                     <h4 className="font-['Playfair_Display'] font-normal text-lg">
+                      Table I.0 · GJW Assumption Relaxation Matrix (AdS/CFT vs. Quasi-Local Boundary-Free Form)
+                    </h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs">
+                        <thead>
+                          <tr className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                            <th className="p-2.5">GJW (2016/2017) Assumption</th>
+                            <th className="p-2.5">Status</th>
+                            <th className="p-2.5">Original Role in AdS</th>
+                            <th className="p-2.5">Quasi-Local Boundary-Free Replacement</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {H13_GJW_ASSUMPTION_MATRIX.map((row) => (
+                            <tr key={row.gjwAssumption}>
+                              <td className="p-2.5 font-semibold align-top"><MathText text={row.gjwAssumption} /></td>
+                              <td className="p-2.5 font-mono text-[10.5px] text-[#8F5B4A] dark:text-[#FB923C] align-top whitespace-nowrap">
+                                {row.boundaryFreeStatus}
+                              </td>
+                              <td className="p-2.5 align-top text-[#64748B] dark:text-[#94A3B8]"><MathText text={row.originalRoleInAdS} /></td>
+                              <td className="p-2.5 align-top"><MathText text={row.quasiLocalReplacement} /></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <h4 className="font-['Playfair_Display'] font-normal text-lg pt-2">
                       Table I.1 · Five-Step Proof of Non-AdS GJW Traversable Portal Transfer
                     </h4>
                     <div className="overflow-x-auto">
@@ -1407,10 +1758,54 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
                         </tbody>
                       </table>
                     </div>
+
+                    <h4 className="font-['Playfair_Display'] font-normal text-lg pt-3">
+                      Table J.2 · RK4 Solver Step-Size (Δs) &amp; Initial-Condition (u_0) Sensitivity Audit
+                    </h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs">
+                        <thead>
+                          <tr className="bg-[#FAF8F3] dark:bg-[#081026] border-b border-[#D6CABE] dark:border-[#334155]">
+                            <th className="p-2.5">Run Case</th>
+                            <th className="p-2.5">Step Size Δs &amp; u(0)</th>
+                            <th className="p-2.5">u_min &amp; d²u/ds²</th>
+                            <th className="p-2.5">Max |E_res|</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                          {H13_RK4_SENSITIVITY_TABLE.map((rk) => (
+                            <tr key={rk.runCase}>
+                              <td className="p-2.5 font-semibold align-top">{rk.runCase}</td>
+                              <td className="p-2.5 font-mono text-[11px] align-top">
+                                <div><MathText text={rk.stepSizeDs} /></div>
+                                <div className="text-[#475569] dark:text-[#CBD9FC]"><MathText text={rk.initialRadiusU0} /></div>
+                              </td>
+                              <td className="p-2.5 font-mono text-[11px] align-top">
+                                <div>u_min = {rk.uMinObserved}</div>
+                                <div className="text-[#64705B] dark:text-[#86EFAC]">d²u/ds² = {rk.bounceAccelD2uDs2}</div>
+                              </td>
+                              <td className="p-2.5 font-mono text-[11px] align-top text-[#8F5B4A] dark:text-[#FB923C]">
+                                <MathText text={rk.maxHamiltonianResidual} />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
               </div>
             ))}
+
+            <div className="pt-6 border-t border-[#EAE2D2] dark:border-[#1E293B] space-y-3 text-[13.5px] leading-relaxed">
+              <h3 className="font-['Playfair_Display'] font-normal text-2xl">
+                Acknowledgments &amp; Journal Declarations
+              </h3>
+              <p><strong>Acknowledgments:</strong> <MathText text={H13_JOURNAL_DECLARATIONS.acknowledgments} /></p>
+              <p><strong>Author Contributions (CRediT):</strong> <MathText text={H13_JOURNAL_DECLARATIONS.authorContributions} /></p>
+              <p><strong>Data &amp; Code Availability:</strong> <MathText text={H13_JOURNAL_DECLARATIONS.dataAndCodeAvailability} /></p>
+              <p><strong>Competing Interests &amp; Funding:</strong> <MathText text={H13_JOURNAL_DECLARATIONS.competingInterestsAndFunding} /></p>
+            </div>
 
             <div className="pt-6 border-t border-[#EAE2D2] dark:border-[#1E293B] space-y-3">
               <h3 className="font-['Playfair_Display'] font-normal text-2xl">References</h3>
@@ -1421,6 +1816,121 @@ export const IgrtH13PaperView: React.FC<IgrtH13PaperViewProps> = ({
               </ol>
             </div>
           </section>
+
+          {/* Optional Non-Manuscript Companion Drawer (Part II & Policy Brief — Excluded from Paper 13 Exports) */}
+          <details
+            id="h13-companion"
+            className="rounded-xl border border-[#D6CABE] dark:border-[#1E293B] bg-[#FAF8F3] dark:bg-[#081026] p-6 sm:p-8 space-y-5"
+          >
+            <summary className="cursor-pointer font-['Playfair_Display'] font-normal text-xl sm:text-2xl text-[#0F172A] dark:text-[#FDFBF7] select-none">
+              Companion Document: Part II Interpretive Lens &amp; Programmatic Brief (Excluded from Paper 13 Exports)
+            </summary>
+            <div className="pt-4 space-y-6 text-sm leading-relaxed">
+              <div className="rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-white dark:bg-[#0B1530] p-4 space-y-2">
+                <div className="font-mono text-[11px] uppercase tracking-wider text-[#8F5B4A] dark:text-[#FB923C]">
+                  {H13_COMPANION_FRAMEWORK_SUMMARY.title}
+                </div>
+                <p><MathText text={H13_COMPANION_FRAMEWORK_SUMMARY.coreAxiomsLine} /></p>
+                <p><MathText text={H13_COMPANION_FRAMEWORK_SUMMARY.masterEquationsLine} /></p>
+                <p><MathText text={H13_COMPANION_FRAMEWORK_SUMMARY.frontierHypothesesLine} /></p>
+              </div>
+
+              <div className="rounded-lg border border-[#64705B]/40 bg-white dark:bg-[#0B1530] p-4 space-y-2">
+                <div className="font-mono text-[11px] uppercase tracking-wider text-[#64705B] dark:text-[#86EFAC]">
+                  {H13_COMPANION_EXECUTIVE_SUMMARY.title}
+                </div>
+                <p className="italic text-[#475569] dark:text-[#94A3B8]">
+                  <MathText text={H13_COMPANION_EXECUTIVE_SUMMARY.audienceNote} />
+                </p>
+                <ul className="list-disc pl-5 space-y-1.5">
+                  {H13_COMPANION_EXECUTIVE_SUMMARY.pillars.map((pil, i) => (
+                    <li key={i}><MathText text={pil} /></li>
+                  ))}
+                </ul>
+                <p><strong>Budget &amp; Timeline:</strong> <MathText text={H13_COMPANION_EXECUTIVE_SUMMARY.budgetAndTimeline} /></p>
+                <p className="text-[#3F4A37] dark:text-[#86EFAC]">
+                  <strong>Policy Verdict:</strong> <MathText text={H13_COMPANION_EXECUTIVE_SUMMARY.policyVerdict} />
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="font-['Playfair_Display'] font-normal text-lg text-[#0F172A] dark:text-[#FDFBF7]">
+                  Part II Essay: Computational Metaphors &amp; the Compiler Boundary
+                </h4>
+                {H13_COMPANION_PHILOSOPHICAL_ESSAY.map((para, idx) => (
+                  <p key={idx} className="text-justify"><MathText text={para} /></p>
+                ))}
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-['Playfair_Display'] font-normal text-lg">
+                  Companion Table C.1 · Comparison with Alternative Interpretations (QBism, RQM, Constructor Theory, Digital Physics)
+                </h4>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="bg-[#EFE8DA] dark:bg-[#0C1836] border-b border-[#D6CABE] dark:border-[#334155]">
+                        <th className="p-2.5">Framework</th>
+                        <th className="p-2.5">Primary Ontology &amp; Status of Time</th>
+                        <th className="p-2.5">Relation &amp; Key Distinction</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                      {H13_COMPANION_INTERPRETATIONS_COMPARISON.map((ic) => (
+                        <tr key={ic.framework}>
+                          <td className="p-2.5 font-semibold align-top text-[#8F5B4A] dark:text-[#FB923C]">
+                            <MathText text={ic.framework} />
+                          </td>
+                          <td className="p-2.5 align-top space-y-1">
+                            <div><strong>Ontology:</strong> <MathText text={ic.primaryOntology} /></div>
+                            <div><strong>Time:</strong> <MathText text={ic.statusOfTime} /></div>
+                          </td>
+                          <td className="p-2.5 align-top space-y-1">
+                            <div><strong>Relation:</strong> <MathText text={ic.relationToIgrt} /></div>
+                            <div><strong>Distinction:</strong> <MathText text={ic.keyDistinction} /></div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-['Playfair_Display'] font-normal text-lg">
+                  Companion Table C.2 · Comparison with Quantum Gravity Approaches
+                </h4>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="bg-[#EFE8DA] dark:bg-[#0C1836] border-b border-[#D6CABE] dark:border-[#334155]">
+                        <th className="p-2.5">Approach</th>
+                        <th className="p-2.5">Primitive &amp; Time Resolution</th>
+                        <th className="p-2.5">Singularities / Portals &amp; IGRT Difference</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#EAE2D2] dark:divide-[#1E293B]">
+                      {H13_COMPANION_QG_APPROACHES_COMPARISON.map((qg) => (
+                        <tr key={qg.approach}>
+                          <td className="p-2.5 font-semibold align-top text-[#8F5B4A] dark:text-[#FB923C]">
+                            <MathText text={qg.approach} />
+                          </td>
+                          <td className="p-2.5 align-top space-y-1">
+                            <div><strong>Primitive:</strong> <MathText text={qg.foundationalPrimitive} /></div>
+                            <div><strong>Time:</strong> <MathText text={qg.timeResolution} /></div>
+                          </td>
+                          <td className="p-2.5 align-top space-y-1">
+                            <div><strong>Portals/Cores:</strong> <MathText text={qg.singularityAndPortals} /></div>
+                            <div><strong>IGRT Link:</strong> <MathText text={qg.igrtOverlapAndDifference} /></div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </details>
         </article>
       </div>
     </div>

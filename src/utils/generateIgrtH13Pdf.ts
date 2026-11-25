@@ -8,8 +8,8 @@
  *   for captions/summaries, DejaVuSans for full Greek/math glyph coverage, and DejaVuSansMono
  *   for equation tags & epistemic labels.
  * - Dedicated Cover Page with all 5 authors + clickable ORCID/Email links, Unified Abstract,
- *   Dynamic Reserved Table of Contents, Front-Matter Lists, 12 Principles Matrix, Chapters 1–12,
- *   9 Archival & Proof Apparatus Plates, 17 Chapter Vector Schematics, References, and Appendices A–J.
+ *   Dynamic Reserved Table of Contents, Front-Matter Lists, 12 Principles Matrix, Chapters 1–13,
+ *   9 Archival & Proof Apparatus Plates, 17 Chapter Vector Schematics, Glossary, References, and Appendices A–K.
  */
 
 import { jsPDF } from 'jspdf';
@@ -17,28 +17,39 @@ import {
   H13_META,
   H13_METRIC_SIGNATURE_BOX,
   H13_FOUNDATIONAL_NOTE,
-  H13_READING_GUIDE,
+  H13_AXIOMS,
+  H13_CORE_FALSIFICATION_CRITERIA,
   H13_MASTER_EQUATIONS,
   H13_ABSTRACT_PARAGRAPHS,
   H13_SCOPE_AND_NON_CLAIMS,
+  H13_CORE_RESEARCH_PROGRAM,
   H13_TWELVE_PRINCIPLES_MATRIX,
   H13_SYMBOL_DECODER,
   H13_DIMENSIONAL_AUDIT,
   H13_BLACK_HOLE_TO_PORTAL_TAXONOMY,
+  H13_PORTAL_BUILD_RECOMMENDATIONS,
   H13_WHITE_HOLE_BOUNCE_TABLE,
   H13_PROTOCOLS_P14_TO_P18,
+  H13_PROTOCOL_SIGNAL_VS_SENSITIVITY,
+  H13_PROTOCOL_CROSSCHECKS,
   H13_FALSIFICATION_CHECKLIST,
   H13_CONFIRMATION_CHECKLIST,
   H13_EPISTEMIC_LEDGER,
   H13_PROOF_DEVICES_AND_RECOMMENDATIONS,
-  H13_LAYMAN_FAQ,
+  H13_GLOSSARY,
+  H13_FAQ,
   H13_APPENDICES,
   H13_ACTION_FIELD_TABLE,
   H13_KK_CONSTRAINTS_TABLE,
+  H13_GJW_ASSUMPTION_MATRIX,
   H13_GJW_PROOF_STEPS,
   H13_WH_PIPELINE_SPEC,
+  H13_RK4_SENSITIVITY_TABLE,
+  H13_SCOPE_LIMITATIONS,
+  H13_RESEARCH_ROADMAP_2026_2035,
   H13_DEFINITIONS_LIST,
   H13_THEOREMS_LIST,
+  H13_JOURNAL_DECLARATIONS,
   H13_REFERENCES,
   type H13Equation
 } from '../types/igrtH13Apparatus';
@@ -811,7 +822,9 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
   const drawCategoryTag = (cat: string) => {
     ensureSpace(8);
     setFontSafe('mono', 'normal', 8);
-    if (cat.includes('ESTABLISHED') || cat.includes('DERIVED')) doc.setTextColor(...EARTH_SAGE);
+    if (cat.includes('ESTABLISHED') || cat.includes('STANDARD PHYSICS')) doc.setTextColor(...EARTH_SAGE);
+    else if (cat.includes('AXIOMATIC') || cat.includes('DERIVED WITHIN IGRT')) doc.setTextColor(74, 96, 118);
+    else if (cat.includes('PHILOSOPHICAL')) doc.setTextColor(...EARTH_STONE);
     else doc.setTextColor(...EARTH_TERRACOTTA);
     doc.text(clipMixedLine(`[${safeStr(cat)}]`, contentW, false, 8, 'mono'), marginX, y);
     y += 6.2;
@@ -830,8 +843,8 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     const eqLineGap = 5.9;
     const capLineGap = 4.4;
     const capLines = wrapMixedLines(cap, contentW - 14, false, 8.8, 'serif', 'italic');
-    const plainLines = eq.plainEnglishMeaning
-      ? wrapMixedLines(`In Plain English: ${eq.plainEnglishMeaning}`, contentW - 14, false, 8.6, 'serif', 'normal')
+    const plainLines = eq.intuitiveMeaning
+      ? wrapMixedLines(eq.intuitiveMeaning, contentW - 14, false, 8.6, 'serif', 'normal')
       : [];
     const boxH =
       7.4 +
@@ -1084,6 +1097,7 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     setFontSafe,
     ensureSpace,
     measureTokenWidth,
+    wrapMixedLines,
     drawStyledSpans,
     clipMixedLine,
     clipStyledSpans,
@@ -1138,7 +1152,7 @@ export async function generateIgrtH13Pdf(): Promise<void> {
   ctx.addY(5);
 
   ctx.drawMathInlineText(
-    `${H13_META.monographId} · Thirteenth Edition Monograph (Chapters 1–12 · 26 Illustrations · Appendices A–J) · ${H13_META.date}`,
+    `${H13_META.monographId} · Refactored Monograph (Sections 1–13 · 26 Illustrations · Glossary · Appendices A–K) · ${H13_META.date}`,
     marginX,
     contentW,
     8.2,
@@ -1192,9 +1206,9 @@ export async function generateIgrtH13Pdf(): Promise<void> {
   doc.setLineWidth(0.3);
   doc.roundedRect(marginX, ctx.getY(), contentW, 28, 2, 2, 'FD');
   ctx.addY(5.5);
-  ctx.drawMathInlineText(`Foundation: ${H13_META.predecessors}`, marginX + 5, contentW - 10, 8.2, 4.2, EARTH_UMBER, false, false, 'mono');
-  ctx.drawMathInlineText(`Deterministic Verification: ${H13_META.verifyCommand}`, marginX + 5, contentW - 10, 8.2, 4.2, EARTH_SAGE, false, false, 'mono');
-  ctx.drawMathInlineText('Epistemic Discipline: Category A (Established) · B (Derived) · C (Conjectural) · D (Speculative)', marginX + 5, contentW - 10, 8.0, 4.2, EARTH_STONE, false, false, 'mono');
+  ctx.drawMathInlineText(`PACS: ${H13_META.pacsCodes}  |  MSC 2020: ${H13_META.msc2020Codes}`, marginX + 5, contentW - 10, 8.0, 4.1, EARTH_UMBER, false, false, 'mono');
+  ctx.drawMathInlineText(`Foundation: ${H13_META.predecessors}`, marginX + 5, contentW - 10, 7.9, 4.1, EARTH_SAGE, false, false, 'mono');
+  ctx.drawMathInlineText(`Epistemic Discipline: 6 Tiers (A · B1 · B2 · C · D · E)  |  ${H13_META.verifyCommand}`, marginX + 5, contentW - 10, 7.7, 4.0, EARTH_STONE, false, false, 'mono');
 
   // Abstract Page
   doc.addPage();
@@ -1205,30 +1219,21 @@ export async function generateIgrtH13Pdf(): Promise<void> {
     ctx.addY(2.0);
   }
   ctx.addY(1.6);
-  ctx.drawMathInlineText(`Keywords: ${H13_META.keywords.join(' · ')}`, marginX, contentW, 8.7, 4.3, EARTH_STONE, false, true);
+  ctx.drawMathInlineText(`Keywords: ${H13_META.keywords.join('; ')}.`, marginX, contentW, 8.7, 4.3, EARTH_STONE, false, true);
+  ctx.addY(1.6);
+  ctx.drawMathInlineText(`Article Classification: ${H13_META.journalType} | ${H13_META.receivedRevised}`, marginX, contentW, 8.2, 4.1, EARTH_STONE, false, false, 'mono');
 
-  // Reserve 5 Pages for Table of Contents
-  doc.addPage();
-  const tocPage1 = doc.getNumberOfPages();
-  doc.addPage();
-  const tocPage2 = doc.getNumberOfPages();
-  doc.addPage();
-  const tocPage3 = doc.getNumberOfPages();
-  doc.addPage();
-  const tocPage4 = doc.getNumberOfPages();
-  doc.addPage();
-  const tocPage5 = doc.getNumberOfPages();
+  // Reserve 8 Pages for Unwrapped Table of Contents
+  const tocPages: number[] = [];
+  for (let tp = 0; tp < 8; tp++) {
+    doc.addPage();
+    tocPages.push(doc.getNumberOfPages());
+  }
   doc.addPage();
   ctx.setY(topY);
 
   // Front-Matter Lists
-  ctx.drawHeading('Reader Guide & Lists of Figures, Tables, Equations & Theorems', 1, true, 0, false);
-  ctx.drawHeading('How to Read This Monograph (All Backgrounds)', 2, false, 1);
-  for (const rg of H13_READING_GUIDE) {
-    ctx.drawMathInlineText(`• ${rg.audience}: ${rg.howToRead}`, marginX + 2, contentW - 2, 10, 5.1, EARTH_UMBER, false, true);
-    ctx.addY(1.4);
-  }
-  ctx.addY(2);
+  ctx.drawHeading('Lists of Figures, Tables, Equations & Theorems', 1, true, 0, false);
   ctx.drawHeading('List of Archival Illustrations & Chapter Vector Figures', 2, false, 1);
   for (const pl of H13_ARCHIVAL_PLATES) {
     ctx.drawMathInlineText(`${pl.figureNumber} (Ch.${pl.anchorChapter}): ${pl.title} [${pl.category}]`, marginX + 2, contentW - 2, 10, 5.1);
@@ -1261,11 +1266,21 @@ export async function generateIgrtH13Pdf(): Promise<void> {
     ctx.addY(1.2);
   }
 
-  // Foundational Equations, Scope & Symbol / Dimensional Tables
-  ctx.drawHeading('Foundational Principles, Master Equations, Symbol Guide & Units Audit', 1, true, 0, true);
+  // Foundational Equations, Axioms A1-A5, Scope & Symbol / Dimensional Tables
+  ctx.drawHeading('Foundational Principles, Axioms, Master Equations, Symbol Guide & Units Audit', 1, true, 0, true);
   ctx.drawMathInlineText(H13_FOUNDATIONAL_NOTE, marginX, contentW, 11, 5.9, EARTH_TERRACOTTA, true, true);
   ctx.addY(3);
   ctx.drawCalloutBox('METRIC SIGNATURE & BUNDLE CONVENTION', H13_METRIC_SIGNATURE_BOX, 10.4, 5.2);
+  ctx.drawCalloutBox(H13_CORE_RESEARCH_PROGRAM.title.toUpperCase(), H13_CORE_RESEARCH_PROGRAM.rationale, 10.2, 5.1);
+  ctx.drawHeading('Primitive Axioms of IGRT (A1–A5)', 2, true, 1);
+  for (const ax of H13_AXIOMS) {
+    ctx.drawCalloutBox(
+      `${ax.id}: ${ax.title} [${ax.epistemicCategory}]`,
+      `${ax.statement}\n\nFormal Expression: ${ax.mathematicalForm}\nProvenance: ${ax.notesOnProvenance}`,
+      9.9,
+      4.95
+    );
+  }
   for (const eq of H13_MASTER_EQUATIONS) {
     ctx.drawEquationBox(eq);
   }
@@ -1275,24 +1290,33 @@ export async function generateIgrtH13Pdf(): Promise<void> {
     ctx.addY(2.0);
   }
   ctx.drawTable(
+    `Table 0.4 · ${H13_CORE_FALSIFICATION_CRITERIA.title}`,
+    ['Scope Class', 'Decisive Falsification Criterion'],
+    [38, 132],
+    [
+      ...H13_CORE_FALSIFICATION_CRITERIA.coreAxiomFalsifiers.map((c) => ['QM/GR Consistency Checks (P15, P18)', c]),
+      ...H13_CORE_FALSIFICATION_CRITERIA.frontierSubHypothesisFalsifiers.map((f) => ['Standalone Frontier Falsifiers (P14, P16, P17)', f])
+    ]
+  );
+  ctx.drawTable(
     'Table 0.1 · Twelve Computational-Reality Principles Mapped to Formal IGRT Mathematics',
-    ['# & Theme', 'Plain-Language Thesis', 'IGRT Mapping & Formula', 'Category'],
+    ['# & Theme', 'Intuitive Thesis', 'IGRT Mapping & Formula', 'Category'],
     [28, 52, 62, 28],
     H13_TWELVE_PRINCIPLES_MATRIX.map((row) => [
-      `${row.id}. ${row.shortTitle}`,
+      `${row.id}. ${row.shortTitle}\n[${row.programTier}]`,
       `"${row.userStatement}"`,
       `${row.governingFormula} | ${row.quantitativeAnchor}`,
       row.epistemicCategory
     ])
   );
   ctx.drawTable(
-    'Table 0.2 · Plain-English Symbol & Units Decoder',
-    ['Symbol', 'Name', 'Plain-English Meaning', 'Formal Role & Units'],
+    'Table 0.2 · Intuitive Symbol & Units Decoder',
+    ['Symbol', 'Name', 'Physical Meaning', 'Formal Role & Units'],
     [28, 24, 68, 50],
     H13_SYMBOL_DECODER.map((sy) => [
       sy.symbol,
       sy.spokenName,
-      sy.plainEnglishMeaning,
+      sy.intuitiveMeaning,
       `${sy.formalMathematicalRole} (${sy.units})`
     ])
   );
@@ -1308,15 +1332,17 @@ export async function generateIgrtH13Pdf(): Promise<void> {
     ])
   );
 
-  // Chapters 1 to 12
+  // Sections 1 to 13
   for (const ch of H13_CHAPTERS) {
-    ctx.drawHeading(`Chapter ${ch.number}. ${ch.title}`, 1, true, 0, true);
-    ctx.drawCategoryTag(ch.epistemicCategory);
+    ctx.drawHeading(`${ch.number}. ${ch.title}`, 1, true, 0, true);
+    ctx.drawMathInlineText(ch.part, marginX, contentW, 8.2, 4.0, EARTH_STONE, false, false, 'mono');
+    ctx.addY(0.8);
+    ctx.drawCategoryTag(`${ch.epistemicCategory} · ${ch.programTier}`);
     ctx.drawMathInlineText(`Provenance: ${ch.provenance}`, marginX, contentW, 8.8, 4.4, EARTH_STONE, false, false, 'mono');
     ctx.addY(2.2);
-    ctx.drawCalloutBox(`CORE PRINCIPLE ${ch.number}`, `"${ch.principleQuote}"`, 10.8, 5.5);
-    ctx.drawCalloutBox(`IN PLAIN ENGLISH & ANALOGY (CHAPTER ${ch.number})`, `In Plain English: ${ch.plainEnglishBridge}\n\nEveryday Analogy: ${ch.everydayAnalogy}`, 10.4, 5.3);
-    ctx.drawMathInlineText(ch.leadSummary, marginX, contentW, 11.4, 6.1, EARTH_STONE, false, true, 'serif', 'italic');
+    ctx.drawMathInlineText(`"${ch.principleQuote}"`, marginX + 4, contentW - 8, 10.6, 5.4, EARTH_STONE, false, true, 'serif', 'italic');
+    ctx.addY(2.2);
+    ctx.drawMathInlineText(ch.leadSummary, marginX, contentW, 11.2, 6.0, EARTH_STONE, false, true, 'serif', 'italic');
     ctx.addY(5.0);
 
     for (const sub of ch.subsections) {
@@ -1328,28 +1354,51 @@ export async function generateIgrtH13Pdf(): Promise<void> {
       }
       if (sub.equation) ctx.drawEquationBox(sub.equation);
       if (sub.theoremBox) {
+        const isFormalProof = sub.theoremBox.proofType === 'proof';
         ctx.ensureSpace(40);
         ctx.addY(2.0);
         ctx.drawCategoryTag(sub.theoremBox.category);
-        ctx.drawMathInlineText(`${sub.theoremBox.number}: ${sub.theoremBox.title}`, marginX + 2, contentW - 4, 11.4, 5.9, EARTH_SAGE, true, false);
+        ctx.drawMathInlineText(`${sub.theoremBox.number} (${sub.theoremBox.title}).`, marginX + 2, contentW - 4, 11.4, 5.9, EARTH_SAGE, true, false);
         ctx.addY(1.0);
-        for (const hyp of sub.theoremBox.hypotheses) {
-          ctx.drawMathInlineText(`• ${hyp}`, marginX + 4, contentW - 6, 10.4, 5.4, EARTH_SAGE, false, true);
-          ctx.addY(1.0);
-        }
-        ctx.drawMathInlineText(sub.theoremBox.statement, marginX + 2, contentW - 4, 11.2, 6.0, EARTH_UMBER, true, true);
+        ctx.drawMathInlineText(
+          `Suppose ${sub.theoremBox.hypotheses.join(' ')} ${sub.theoremBox.statement}`,
+          marginX + 2,
+          contentW - 4,
+          11.0,
+          5.9,
+          EARTH_UMBER,
+          false,
+          true
+        );
         ctx.addY(1.6);
-        ctx.drawMathInlineText('Formal Multi-Step Proof:', marginX + 2, contentW - 4, 10.2, 5.2, EARTH_TERRACOTTA, true, false);
+        ctx.drawMathInlineText(
+          isFormalProof ? 'Proof.' : 'Derivation / Proof Sketch.',
+          marginX + 2,
+          contentW - 4,
+          10.4,
+          5.2,
+          EARTH_TERRACOTTA,
+          true,
+          false,
+          'serif',
+          'italic'
+        );
         ctx.addY(1.0);
         sub.theoremBox.proofSteps.forEach((step, idx) => {
           ctx.drawMathInlineText(`${idx + 1}. ${step}`, marginX + 4, contentW - 6, 10.1, 5.25, EARTH_UMBER, false, true);
           ctx.addY(1.2);
         });
-        ctx.drawMathInlineText(`Provenance: ${sub.theoremBox.provenance}`, marginX + 2, contentW - 4, 8.8, 4.4, EARTH_STONE, false, true, 'mono');
-        if (sub.theoremBox.plainEnglishSummary) {
-          ctx.addY(1.2);
-          ctx.drawMathInlineText(`Plain-English Meaning: ${sub.theoremBox.plainEnglishSummary}`, marginX + 2, contentW - 4, 10.2, 5.3, EARTH_SAGE, true, true);
-        }
+        ctx.drawMathInlineText(
+          isFormalProof ? `Sources: ${sub.theoremBox.provenance} [Q.E.D.]` : `Sources: ${sub.theoremBox.provenance}`,
+          marginX + 2,
+          contentW - 4,
+          8.8,
+          4.4,
+          EARTH_STONE,
+          false,
+          true,
+          'mono'
+        );
         ctx.addY(4.5);
       }
       if (sub.workedExample) {
@@ -1364,21 +1413,14 @@ export async function generateIgrtH13Pdf(): Promise<void> {
           ctx.addY(1.2);
         });
         ctx.drawEquationBox(sub.workedExample.resultEquation);
-        ctx.drawMathInlineText(`Takeaway: ${sub.workedExample.takeaway}`, marginX + 2, contentW - 4, 10.8, 5.8, EARTH_SAGE, true, true);
+        ctx.drawMathInlineText(`Summary: ${sub.workedExample.takeaway}`, marginX + 2, contentW - 4, 10.6, 5.7, EARTH_SAGE, false, true, 'serif', 'italic');
         ctx.addY(4.5);
       }
     }
 
-    ctx.drawCalloutBox(
-      `CHAPTER ${ch.number} KEY TAKEAWAYS`,
-      ch.keyTakeaways.map((kt) => `• ${kt}`).join('\n'),
-      10.2,
-      5.2
-    );
-
-    if (ch.number === 8) {
+    if (ch.number === 9) {
       ctx.drawTable(
-        'Table 8.1 · Black Holes as Sealed Compression Nodes vs. Coupled Class P Portals',
+        'Table 9.1 · Black Holes as Sealed Compression Nodes vs. Coupled Class P Portals',
         ['Node Class', 'Geometry & Action', 'NEC & Causal Status', 'Portal / Metric Benchmark'],
         [34, 48, 44, 44],
         H13_BLACK_HOLE_TO_PORTAL_TAXONOMY.map((b) => [
@@ -1388,11 +1430,22 @@ export async function generateIgrtH13Pdf(): Promise<void> {
           `${b.isPortalOrWhiteHole} | ${b.foldingOrBounceMetric}`
         ])
       );
+      ctx.drawTable(
+        'Table 9.2 · Laboratory Analogs, Metrology Benchmarks & No-Go Audit (PR-1–PR-8)',
+        ['ID & Platform', 'TRL & Mechanism', 'Achievable Build Specification', 'Verification, Falsification & Implications'],
+        [34, 42, 46, 48],
+        H13_PORTAL_BUILD_RECOMMENDATIONS.map((pr) => [
+          `${pr.id} · ${pr.title}\n${pr.portalClass}`,
+          `${pr.trl}\n${pr.physicalMechanism}`,
+          pr.achievableBuildSpec,
+          `${pr.verificationMetric}\nFalsification: ${pr.falsificationThreshold}\nImplications: ${pr.implications}`
+        ])
+      );
     }
 
-    if (ch.number === 9) {
+    if (ch.number === 10) {
       ctx.drawTable(
-        'Table 9.1 · White-Hole Bounce Timescales Across Black-Hole Mass Scales',
+        'Table 10.1 · White-Hole Bounce Timescales Across Black-Hole Mass Scales',
         ['Progenitor Regime', 'Mass Scale', 'Interior vs. Exterior Delay', 'Astrophysical Signature'],
         [36, 32, 50, 52],
         H13_WHITE_HOLE_BOUNCE_TABLE.map((w) => [
@@ -1404,16 +1457,38 @@ export async function generateIgrtH13Pdf(): Promise<void> {
       );
     }
 
-    if (ch.number === 12) {
+    if (ch.number === 13) {
       ctx.drawTable(
-        'Table 12.1 · Falsification Protocols P14–P18',
-        ['Protocol & Window', 'Target Thesis', 'Threshold & Setup', 'Falsification Criterion'],
-        [34, 44, 46, 46],
+        'Table 13.1 · Falsification Protocols P14–P18',
+        ['Protocol & Window', 'Target Thesis', 'Threshold & Setup', 'Falsification, FPR & Est. Cost'],
+        [34, 42, 46, 48],
         H13_PROTOCOLS_P14_TO_P18.map((p) => [
           `${p.id} · ${p.name} [${p.category} | ${p.timeline}]`,
           p.targetThesis,
           `${p.quantitativeThreshold} (${p.experimentalSetup}) | Systematics: ${p.systematicsControl}`,
-          p.falsificationCriterion
+          `${p.falsificationCriterion}\nFPR: ${p.falsePositiveRate}\nCost: ${p.estimatedCost}`
+        ])
+      );
+      ctx.drawTable(
+        'Table 13.1b · Quantitative Signal-vs-Sensitivity & Dominant Systematics Audit (P14–P18)',
+        ['Protocol', 'Predicted Signal', 'Current Sensitivity & Null Limit', 'Systematics & 95% CL Falsification'],
+        [24, 48, 48, 50],
+        H13_PROTOCOL_SIGNAL_VS_SENSITIVITY.map((r) => [
+          r.protocolId,
+          r.predictedSignal,
+          `${r.currentSensitivity} | Null: ${r.nullTestLimit}`,
+          `${r.dominantSystematics} | 95% CL: ${r.falsification95CL}`
+        ])
+      );
+      ctx.drawTable(
+        'Table 13.1c · Joint Multi-Protocol Cross-Check Matrix (P14–P18)',
+        ['Joint Outcome Pattern', 'Protocols', 'Physical Interpretation', 'Programmatic Impact'],
+        [44, 24, 52, 50],
+        H13_PROTOCOL_CROSSCHECKS.map((r) => [
+          r.jointOutcomePattern,
+          r.protocolsInvolved,
+          r.physicalInterpretation,
+          r.programmaticImpact
         ])
       );
       ctx.drawHeading('Falsification & Confirmation Checklists', 3, false, 1);
@@ -1421,7 +1496,7 @@ export async function generateIgrtH13Pdf(): Promise<void> {
       for (const c of H13_CONFIRMATION_CHECKLIST) ctx.drawMathInlineText(`• [Confirm] ${c}`, marginX + 2, contentW - 2, 10.2, 5.1);
       ctx.addY(2);
       ctx.drawTable(
-        'Table 12.2 · Exhaustive Epistemic Claim–Provenance–Proof Ledger (16 Claims C1–C16)',
+        'Table 13.2 · Exhaustive Epistemic Claim–Provenance–Proof Ledger (Claims C1–C10)',
         ['ID & Claim', 'Category', 'Proof Anchor & Primary Provenance', 'Verification & Explicit Limit'],
         [40, 26, 54, 50],
         H13_EPISTEMIC_LEDGER.map((e) => [
@@ -1432,7 +1507,7 @@ export async function generateIgrtH13Pdf(): Promise<void> {
         ])
       );
       ctx.drawTable(
-        'Table 12.3 · Experimental Proof Apparatus, Readiness Levels (TRL) & Priority Recommendations',
+        'Table 13.3 · Experimental Proof Apparatus, Readiness Levels (TRL) & Priority Recommendations',
         ['Device & Plate', 'TRL & Target Proof', 'Engineering Recommendation', 'Statistical & Open Gate'],
         [36, 40, 56, 38],
         H13_PROOF_DEVICES_AND_RECOMMENDATIONS.map((dev) => [
@@ -1440,6 +1515,28 @@ export async function generateIgrtH13Pdf(): Promise<void> {
           `${dev.trl}\n${dev.provesOrTests}`,
           dev.engineeringRecommendation,
           dev.statisticalAndOpenScienceGate
+        ])
+      );
+      ctx.drawHeading('Explicit Scope Limitations & 2026–2035 Research Roadmap', 2, true, 1);
+      ctx.drawTable(
+        'Table 13.6 · Explicit Scope Limitations & Unsolved Open Problems (LIM-1–LIM-4)',
+        ['ID & Domain', 'Unsolved Technical Problem', 'Epistemic Boundary'],
+        [36, 68, 66],
+        H13_SCOPE_LIMITATIONS.map((r) => [
+          `${r.id} · ${r.domain}`,
+          r.unsolvedProblem,
+          r.epistemicBoundary
+        ])
+      );
+      ctx.drawTable(
+        'Table 13.7 · Ten-Year Experimental & Theoretical Research Roadmap (2026–2035)',
+        ['Phase & Horizon', 'Track', 'Milestone', 'Deliverable / Decision Gate'],
+        [34, 34, 52, 50],
+        H13_RESEARCH_ROADMAP_2026_2035.map((r) => [
+          `${r.phase} (${r.horizon})`,
+          r.track,
+          r.milestone,
+          r.deliverableOrGate
         ])
       );
     }
@@ -1471,16 +1568,40 @@ export async function generateIgrtH13Pdf(): Promise<void> {
     }
   }
 
-  // Common Questions & Misconceptions FAQ
-  ctx.drawHeading('Common Questions & Misconceptions Clarified', 1, true, 0, true);
-  for (const faq of H13_LAYMAN_FAQ) {
+  // Glossary of Terms & Acronyms
+  ctx.drawHeading('Glossary of Terms & Acronyms', 1, true, 0, true);
+  ctx.drawTable(
+    'Glossary · Core Physical Concepts, Formal Operators & Experimental Acronyms',
+    ['Term & Acronym', 'Tier', 'Definition'],
+    [46, 32, 92],
+    H13_GLOSSARY.map((g) => [
+      g.acronym ? `${g.term} (${g.acronym})` : g.term,
+      g.category,
+      g.definition
+    ])
+  );
+
+  // Methodological Clarifications & Technical Adjudications
+  ctx.drawHeading('Methodological Clarifications & Technical Adjudications', 1, true, 0, true);
+  for (const faq of H13_FAQ) {
     ctx.drawCalloutBox(
       `${faq.id}: ${faq.question} [${faq.category}]`,
-      `Short Answer: ${faq.shortAnswer}\n\n${faq.detailedExplanation}`,
+      `Summary Resolution: ${faq.shortAnswer}\n\n${faq.detailedExplanation}`,
       10.2,
       5.15
     );
   }
+
+  // Acknowledgments & Journal Declarations
+  ctx.drawHeading('Acknowledgments & Journal Declarations', 1, true, 0, true);
+  ctx.drawMathInlineText(`Acknowledgments: ${H13_JOURNAL_DECLARATIONS.acknowledgments}`, marginX, contentW, 10.8, 5.6, EARTH_UMBER, false, true);
+  ctx.addY(2.4);
+  ctx.drawMathInlineText(`Author Contributions (CRediT): ${H13_JOURNAL_DECLARATIONS.authorContributions}`, marginX, contentW, 10.8, 5.6, EARTH_UMBER, false, true);
+  ctx.addY(2.4);
+  ctx.drawMathInlineText(`Data & Code Availability: ${H13_JOURNAL_DECLARATIONS.dataAndCodeAvailability}`, marginX, contentW, 10.8, 5.6, EARTH_UMBER, false, true);
+  ctx.addY(2.4);
+  ctx.drawMathInlineText(`Competing Interests & Funding: ${H13_JOURNAL_DECLARATIONS.competingInterestsAndFunding}`, marginX, contentW, 10.8, 5.6, EARTH_UMBER, false, true);
+  ctx.addY(3.0);
 
   // References
   ctx.drawHeading('References', 1, true, 0, true);
@@ -1489,8 +1610,8 @@ export async function generateIgrtH13Pdf(): Promise<void> {
     ctx.addY(2.2);
   }
 
-  // Appendices A–J
-  ctx.drawHeading('Consolidated Appendices (A–J)', 1, true, 0, true);
+  // Appendices A–K
+  ctx.drawHeading('Consolidated Appendices (A–K)', 1, true, 0, true);
   for (const app of H13_APPENDICES) {
     ctx.drawHeading(`Appendix ${app.letter}: ${app.title}`, 2, true, 1);
     ctx.drawCategoryTag(app.category);
@@ -1529,6 +1650,17 @@ export async function generateIgrtH13Pdf(): Promise<void> {
     }
     if (app.letter === 'I') {
       ctx.drawTable(
+        'Table I.0 · GJW Assumption Relaxation Matrix (AdS/CFT vs. Quasi-Local Boundary-Free Form)',
+        ['GJW (2016/2017) Assumption', 'Status', 'Original AdS Role', 'Quasi-Local Boundary-Free Replacement'],
+        [40, 28, 44, 58],
+        H13_GJW_ASSUMPTION_MATRIX.map((r) => [
+          r.gjwAssumption,
+          r.boundaryFreeStatus,
+          r.originalRoleInAdS,
+          r.quasiLocalReplacement
+        ])
+      );
+      ctx.drawTable(
         'Table I.1 · Five-Step Quasi-Local Proof of Non-AdS GJW Traversable Portals',
         ['Proof Step', 'AdS Convention Replaced', 'H13 Boundary-Free Mechanism & Key Identity'],
         [34, 46, 90],
@@ -1551,12 +1683,23 @@ export async function generateIgrtH13Pdf(): Promise<void> {
           b.observableOrRk4Check
         ])
       );
+      ctx.drawTable(
+        'Table J.2 · RK4 Solver Step-Size (Δs) & Initial-Condition (u_0) Convergence Audit',
+        ['Run Case', 'Step Δs & Initial u_0', 'u_min & Bounce d²u/ds²', 'Max Hamiltonian Residual'],
+        [38, 44, 44, 44],
+        H13_RK4_SENSITIVITY_TABLE.map((s) => [
+          s.runCase,
+          `Δs = ${s.stepSizeDs} | u_0 = ${s.initialRadiusU0}`,
+          `u_min = ${s.uMinObserved} | d²u/ds² = ${s.bounceAccelD2uDs2}`,
+          s.maxHamiltonianResidual
+        ])
+      );
     }
   }
 
-  // Populate Reserved TOC
-  let currentTocPage = tocPage1;
-  doc.setPage(currentTocPage);
+  // Populate Reserved TOC (Multi-Line Wrapped Without Truncation)
+  let tocIdx = 0;
+  doc.setPage(tocPages[tocIdx]);
   let ty = topY;
   ctx.setFontSafe(hasUnicodeFonts ? 'playfair' : 'serif', 'normal', 26.25);
   doc.setTextColor(...EARTH_UMBER);
@@ -1568,15 +1711,18 @@ export async function generateIgrtH13Pdf(): Promise<void> {
   ty += 12;
 
   for (const entry of tocEntries) {
-    const step = entry.indent ? 7.4 : 9.0;
-    if (ty + step > bottomLimit) {
-      if (currentTocPage === tocPage1) currentTocPage = tocPage2;
-      else if (currentTocPage === tocPage2) currentTocPage = tocPage3;
-      else if (currentTocPage === tocPage3) currentTocPage = tocPage4;
-      else if (currentTocPage === tocPage4) currentTocPage = tocPage5;
-      else break;
+    const indentPx = (entry.indent ?? 0) * 5.0;
+    const fSize = entry.indent ? 9.0 : 10.1;
+    const lineStep = entry.indent ? 4.4 : 4.9;
+    const maxLabelW = contentW - indentPx - 16;
+    const labelLines = ctx.wrapMixedLines(entry.label, maxLabelW, false, fSize, 'serif');
+    const entryH = Math.max(1, labelLines.length) * lineStep + (entry.indent ? 1.8 : 2.8);
 
-      doc.setPage(currentTocPage);
+    if (ty + entryH > bottomLimit) {
+      tocIdx++;
+      if (tocIdx >= tocPages.length) break;
+
+      doc.setPage(tocPages[tocIdx]);
       ty = topY;
       ctx.setFontSafe(hasUnicodeFonts ? 'playfair' : 'serif', 'normal', 18);
       doc.setTextColor(...EARTH_UMBER);
@@ -1587,23 +1733,22 @@ export async function generateIgrtH13Pdf(): Promise<void> {
       doc.line(marginX, ty, marginX + contentW, ty);
       ty += 8;
     }
-    const indentPx = (entry.indent ?? 0) * 5.0;
-    const fSize = entry.indent ? 9.0 : 10.1;
+
     ctx.setFontSafe('serif', 'normal', fSize);
     doc.setTextColor(...(entry.indent ? EARTH_STONE : EARTH_UMBER));
-    const maxLabelW = contentW - indentPx - 16;
-    const clippedSpans = ctx.clipStyledSpans(entry.label, maxLabelW, false, fSize, 'serif');
-    ctx.drawStyledSpans(clippedSpans, marginX + indentPx, ty, false, 'serif', 'normal');
+    for (let li = 0; li < labelLines.length; li++) {
+      ctx.drawStyledSpans(labelLines[li].spans, marginX + indentPx, ty + li * lineStep, false, 'serif', 'normal');
+    }
     ctx.setFontSafe('mono', 'normal', 9.0);
     doc.setTextColor(...EARTH_TERRACOTTA);
     doc.text(String(entry.page), marginX + contentW, ty, { align: 'right' });
-    ty += step;
+    ty += entryH;
   }
 
   // Stamp Running Headers & Footers
   const totalPages = doc.getNumberOfPages();
   const runningHeader = ctx.clipMixedLine(
-    ctx.safeStr('IGRT-2026-H13 · Reality as Running Code · Bulaqueña, Tassan, Lauret, Chatterjee & Goldberger'),
+    ctx.safeStr('IGRT-2026-H13 · Information-Geometric Resonant Time · Bulaqueña, Tassan, Lauret, Chatterjee & Goldberger'),
     contentW,
     false,
     7.6,

@@ -1748,7 +1748,7 @@ export async function generateIgrtH13Pdf(): Promise<void> {
   // Stamp Running Headers & Footers
   const totalPages = doc.getNumberOfPages();
   const runningHeader = ctx.clipMixedLine(
-    ctx.safeStr('IGRT-2026-H13 · Information-Geometric Resonant Time · Bulaqueña, Tassan, Lauret, Chatterjee & Goldberger'),
+    ctx.safeStr('IGRT-2026-H13 · Information-Geometric Resonant Time · Tassan, Lauret, Bulaqueña, Avila Gomez, Chatterjee & Goldberger'),
     contentW,
     false,
     7.6,

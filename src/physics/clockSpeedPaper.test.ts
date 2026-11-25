@@ -323,9 +323,16 @@ test('Paper 14 referee standards: single-paragraph <=200-word Abstract, 12-term 
   const abstractWords = CLOCK_SPEED_ABSTRACT[0].trim().split(/\s+/).filter(Boolean).length;
   assert.ok(abstractWords >= 120 && abstractWords <= 200, `Expected single-paragraph abstract <= 200 words, got ${abstractWords}`);
 
-  // Clean Yale affiliation and no review-panel leaks or preprint label
-  const authorOne = CLOCK_SPEED_META.authors[0];
-  assert.equal(authorOne.affiliation, 'Department of Physics, Yale University, New Haven, CT 06520, USA');
+  // Clean 6-author roster: Independent Researcher (Tassan, Lauret), Bulaqueña in middle at Yale, Manuel Avila Gomez, Chatterjee, Goldberger
+  assert.equal(CLOCK_SPEED_META.authors.length, 6);
+  assert.equal(CLOCK_SPEED_META.authors[0].name, 'Jean-Charles Tassan');
+  assert.equal(CLOCK_SPEED_META.authors[0].affiliation, 'Independent Researcher');
+  assert.equal(CLOCK_SPEED_META.authors[1].name, 'Wilson John Sterking Lauret');
+  assert.equal(CLOCK_SPEED_META.authors[1].affiliation, 'Independent Researcher');
+  assert.equal(CLOCK_SPEED_META.authors[2].name, 'Marlon D. Bulaqueña, Ph.D.');
+  assert.equal(CLOCK_SPEED_META.authors[2].affiliation, 'Department of Physics, Yale University, New Haven, CT 06520, USA');
+  assert.equal(CLOCK_SPEED_META.authors[3].name, 'Manuel Avila Gomez');
+  assert.equal(CLOCK_SPEED_META.authors[3].affiliation, "Maître de Conférences HDR, IUT de l'Indre, Université d'Orléans & Laboratoire PRISME");
   assert.equal('monographId' in CLOCK_SPEED_META, false);
 
   // Chapter 1 covers history, post-LHC ultraviolet context, and applied metrology domains

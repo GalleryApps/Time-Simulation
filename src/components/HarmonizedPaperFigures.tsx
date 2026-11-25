@@ -117,7 +117,7 @@ export const PAPER_ILLUSTRATIONS: PaperIllustrationSpec[] = [
     imagePath: plate7Thm41CalibImg,
     title: 'Theorem 4.1 Variational Synchronization & O(N⁻²) Uhlmann–Frobenius Convergence',
     caption:
-      'Illustration Plate VII. Riemannian SLD Fisher–Rao geodesic arc (deep navy & emerald) inside a curved state manifold dome approached by a discrete Uhlmann–Frobenius polygonal staircase (terracotta chords ‖RAG_k − RES_k‖_F = 2 sin(Δθ_k/4)). Extremizing the coupled worldline–clock action δS_clock/δα_mod = 0 derives unique Mandelstam–Tamm calibration α_mod = ℏ/(E_mod σ_1) to 5.55×10⁻¹⁷ with O(N⁻²) continuum limit.'
+      'Illustration Plate VII. Riemannian SLD Fisher–Rao geodesic arc (deep navy & emerald) inside a curved state manifold dome approached by a discrete Uhlmann–Frobenius polygonal staircase (terracotta chords ‖RAG_k − RES_k‖_F = 2 sin(Δθ_k/4)). Extremizing the coupled worldline–clock action δS_clock/δα_mod = 0 analytically derives unique Mandelstam–Tamm calibration α_mod = ℏ/(E_mod σ_1) (IEEE-754 numerical check 5.55×10⁻¹⁷) with O(N⁻²) continuum limit.'
   },
   {
     id: 8,
@@ -1127,7 +1127,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <rect x="0" y="0" width="860" height="618" fill="url(#fig8Bg)" stroke="#D6CABE" stroke-width="1"/>
   <rect x="0" y="0" width="860" height="4" fill="#9A3412"/>
   <text x="22" y="30" font-family="'DejaVu Sans', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#9A3412" letter-spacing="0.6">EXPERIMENTAL ROADMAP — NON-NULL FALSIFICATION PROTOCOLS (P1–P6)</text>
-  <text x="838" y="30" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.4" fill="#15803D">2026–2035 WINDOW</text>
+  <text x="838" y="30" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.4" fill="#15803D">2026–2041 ROADMAP</text>
   <line x1="22" y1="42" x2="838" y2="42" stroke="#DFD5C3" stroke-width="1"/>
 
   <!-- Row 1: P1, P2 -->
@@ -1139,7 +1139,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <text x="38" y="112" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Test: 2:1 lock (f_PTA = 2 f_clock = 12.8 nHz)</text>
   <text x="38" y="137" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Signal: Y_{00} monopole; m_osc = 2.65×10^{−23} eV</text>
   <text x="38" y="162" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Bound: f_DM ≤ 0.02; 2.00 ± 0.25 (5y) / ±0.08 (15y)</text>
-  <text x="38" y="192" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Window: 2026–2035 (ε_0 ≈ 1.4×10^{−18}; PTA Red Noise)</text>
+  <text x="38" y="192" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">2026–2040: TT(BIPM)/DE440 Monopole; ε_0 ≈ 1.4×10^{−18}</text>
 
   <rect x="443" y="59" width="398" height="156" rx="4" fill="#0F172A" opacity="0.06"/>
   <rect x="440" y="56" width="398" height="156" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
@@ -1149,7 +1149,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <text x="456" y="112" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Test: Γ_Araki = (κ_ψ/κ_0) Γ_DP (DP overlap)</text>
   <text x="456" y="137" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Target: R_0 = 1.028 μm SiO_2; Δx = 180 nm</text>
   <text x="456" y="162" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Rate: Γ_Araki = 1.18 s^{−1} (η_Araki = 4/3)</text>
-  <text x="456" y="192" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: Γ_Araki &lt; 0.05 s^{−1} (2030–2035, UHV)</text>
+  <text x="456" y="192" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: Γ_Araki &lt; 0.05 s^{−1} (2030–2038, Cryo-UHV)</text>
 
   <!-- Row 2: P3, P4 -->
   <rect x="25" y="231" width="398" height="156" rx="4" fill="#0F172A" opacity="0.06"/>
@@ -1165,12 +1165,12 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <rect x="443" y="231" width="398" height="156" rx="4" fill="#0F172A" opacity="0.06"/>
   <rect x="440" y="228" width="398" height="156" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
   <rect x="440" y="228" width="398" height="32" rx="4" fill="url(#fig8Header)"/>
-  <text x="456" y="249" font-family="'DejaVu Serif', Georgia, serif" font-size="13.8" font-weight="700" fill="#9A3412">P4: LVK O5 / CE / ET Ringdowns</text>
-  <text x="822" y="249" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">SNR 9.2</text>
-  <text x="456" y="284" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Test: Hayward-core echo delay Δt_echo</text>
+  <text x="456" y="249" font-family="'DejaVu Serif', Georgia, serif" font-size="13.8" font-weight="700" fill="#9A3412">P4: LVK–KAGRA / CE / ET Echoes</text>
+  <text x="822" y="249" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">3G MF SNR 9.2</text>
+  <text x="456" y="284" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Test: Hayward–RW cavity transfer T_echo(ω)</text>
   <text x="456" y="309" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Delays: 17.8 ms (10 M_⊙); 109.2 ms (60 M_⊙)</text>
-  <text x="456" y="334" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">WKB: K_echo = |R_eff| = 0.184 (|H| = 1)</text>
-  <text x="456" y="364" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: |R_eff| &lt; 0.03 (2027–2035, 3G Stack)</text>
+  <text x="456" y="334" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">WKB: K_echo = |R_eff| = 0.184 (3G MF SNR ~ 9.2)</text>
+  <text x="456" y="364" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Falsifier: |R_eff| &lt; 0.03 (2035–2040, ≥50 SNR&gt;100)</text>
 
   <!-- Row 3: P5, P6 -->
   <rect x="25" y="403" width="398" height="156" rx="4" fill="#0F172A" opacity="0.06"/>
@@ -1186,12 +1186,12 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <rect x="443" y="403" width="398" height="156" rx="4" fill="#0F172A" opacity="0.06"/>
   <rect x="440" y="400" width="398" height="156" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
   <rect x="440" y="400" width="398" height="32" rx="4" fill="url(#fig8Header)"/>
-  <text x="456" y="421" font-family="'DejaVu Serif', Georgia, serif" font-size="13.8" font-weight="700" fill="#9A3412">P6: HL-LHC Portal &amp; Deep-Space</text>
+  <text x="456" y="421" font-family="'DejaVu Serif', Georgia, serif" font-size="13.8" font-weight="700" fill="#9A3412">P6: HL-LHC Run 4/5 Portal (Φ)</text>
   <text x="822" y="421" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="10.2" fill="#475569">4.7σ Reach</text>
   <text x="456" y="456" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#0F172A">Portal: Φ_portal (m_portal = 1.84 ± 0.18 TeV)</text>
   <text x="456" y="481" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Rates: sin θ_H = 0.04–0.08; σ = 0.18–0.70 fb</text>
-  <text x="456" y="506" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Coupling: δσ_Zh &gt; 1.5% vs. κ_Z ≈ 1.5% (1σ)</text>
-  <text x="456" y="536" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Reach: HL-LHC 3000 fb^{−1} (2029–2035)</text>
+  <text x="456" y="506" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.4" fill="#1E293B">Zh Shift: δσ_Zh &gt; 1.5% (1σ) / 3.0% (95% CL)</text>
+  <text x="456" y="536" font-family="'DejaVu Sans', Arial, sans-serif" font-size="12.2" font-weight="600" fill="#15803D">Reach: HL-LHC Run 4/5 3000 fb^{−1} (2030–2041)</text>
 
   <!-- Core Time Mechanism Falsifier Banner -->
   <rect x="22" y="571" width="816" height="33" rx="4" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.2"/>
@@ -1342,7 +1342,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
     afterSubsectionAnchor: 'sec-7-1',
     title: 'Cosmological Joint MCMC Posterior: Early-Braiding H_0 = 70.77 km/s/Mpc, ULDM T(k) & Spectral ΔAIC = −1.84',
     caption:
-      'Figure 11. Quantitative cosmological suite closures in H11 (scripts/igrt-cosmology-suite.mjs): Left panel plots the 8,000-sample Metropolis–Hastings 5D MCMC posterior (R̂ − 1 = 0.0053 < 0.01) along the transient early-braiding branch (f_EDE = 0.148, r_s compression = 0.9518), lifting H_0 to 70.77 ± 0.72 km/s/Mpc (cutting Planck–SH0ES tension from 4.8σ to 1.8σ) with coupled DESI DR2 parameters w_0^eff = −0.831, w_a^eff = −0.542. Right panel shows Eisenstein–Hu + 2% ULDM suppression ΔP/P = −3.96% at k = 10 h/Mpc, spherical collapse δ_c = 1.6862, halo breathing |h_b/h_+| = 1.9×10^{−13}, and spectral compression ΔAIC = −1.84 (Δln Z = +1.42).',
+      'Figure 11. Quantitative cosmological suite closures in H11 (scripts/igrt-cosmology-suite.mjs): Left panel plots the 8,000-sample Metropolis–Hastings 5D MCMC posterior (R̂ − 1 = 0.0053 < 0.01) along the transient early-braiding branch (f_EDE = 0.148, r_s compression = 0.9518), lifting H_0 to 70.77 ± 0.72 km/s/Mpc (1.8σ vs. SH0ES, 3.8σ vs. Planck 2018, 2.6σ vs. DESI DR2) with coupled DESI DR2 parameters w_0^eff = −0.831, w_a^eff = −0.542. Right panel shows Eisenstein–Hu + 2% ULDM suppression ΔP/P = −3.96% at k = 10 h/Mpc, spherical collapse δ_c = 1.6862, halo breathing |h_b/h_+| = 1.9×10^{−13}, and spectral compression ΔAIC = −1.84 (ΛCDM retains Δ_i &lt; 2 substantial support; Δln Z = +1.42).',
     isSchematic: false,
     svgMarkup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 390" width="100%" style="display:block;width:100%;height:auto;" role="img" aria-label="H11 cosmological MCMC H_0 resolution and ULDM transfer function chart">
   <defs>
@@ -1372,19 +1372,19 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <text x="337" y="114" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#9A3412">SH0ES 73.0</text>
   <!-- Planck dot -->
   <ellipse cx="145" cy="170" rx="22" ry="26" fill="#64748B" opacity="0.22" stroke="#475569" stroke-width="1.2"/>
-  <text x="145" y="138" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">ΛCDM (4.8σ)</text>
+  <text x="145" y="138" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">ΛCDM (3.8σ)</text>
   <!-- IGRT-H11 contour -->
   <ellipse cx="268" cy="196" rx="44" ry="38" fill="url(#fig11Mcmc)" stroke="#15803D" stroke-width="2"/>
   <circle cx="268" cy="196" r="4.5" fill="#15803D"/>
-  <text x="268" y="250" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="10.0" fill="#15803D">IGRT-H11: 70.77 ± 0.72 (1.8σ)</text>
+  <text x="268" y="250" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-size="10.0" fill="#15803D">IGRT-H11: 70.77 ± 0.72 (1.8σ SH0ES)</text>
   <text x="62" y="112" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">0.86</text>
   <text x="62" y="198" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">0.82</text>
   <text x="62" y="297" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">0.76</text>
   <text x="115" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">67.4</text>
   <text x="240" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">70.5</text>
   <text x="366" y="312" font-family="'DejaVu Sans Mono', monospace" font-size="9.5" fill="#475569">74.0 km/s/Mpc</text>
-  <text x="40" y="336" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#334155">• Spectral compression k_extra = 2 ⇒ ΔAIC = −1.84, Δln Z = +1.42</text>
-  <text x="40" y="355" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">• Coupled DESI DR2 branch: w_0 = −0.831, w_a = −0.542 (1.2σ)</text>
+  <text x="40" y="336" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#334155">• k_extra = 2 ⇒ ΔAIC = −1.84 (weak vs. ΛCDM), Δln Z = +1.42</text>
+  <text x="40" y="355" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">• 3.8σ vs. Planck, 2.6σ vs. DESI DR2; w_0 = −0.831, w_a = −0.542</text>
 
   <!-- Right panel: T(k) Suppression & Halo Screening -->
   <rect x="440" y="54" width="398" height="316" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1"/>

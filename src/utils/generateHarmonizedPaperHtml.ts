@@ -419,7 +419,7 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
     size: A4 portrait;
     margin: 25mm;
     @top-center {
-      content: "Quantum Clocks as Rulers of Becoming — IGRT Research Monograph";
+      content: "When Quantum States Become Time — IGRT Research Monograph";
       font-family: Georgia, serif;
       font-size: 9pt;
       color: #64748B;
@@ -906,7 +906,7 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
     <p>${fmt(ETHICS_AND_GOVERNANCE.dataAndCodeAvailability)}</p>
   </section>
 
-  <!-- COMPREHENSIVE REFERENCES [1]–[109] & CITED VERSION (NO ORCIDs IN REFERENCES) -->
+  <!-- COMPREHENSIVE REFERENCES [1]–[119] & CITED VERSION (NO ORCIDs IN REFERENCES) -->
   <section id="references" class="chapter-start">
     <div class="chapter-kicker">Bibliography</div>
     <h2>References</h2>

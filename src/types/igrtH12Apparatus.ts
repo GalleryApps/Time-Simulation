@@ -58,28 +58,33 @@ export const H12_META: H12Meta = {
   edition: 'Research Monograph Edition H12 (13 Chapters · Consolidated Appendices A–L)',
   date: 'November 2026',
   predecessor: 'IGRT-2026-H11 (Harmonized 4D Research Monograph)',
-  authors: 'Jean-Charles Tassan, Marlon D. Bulaqueña, Ph.D., Wilson John Sterking Lauret, Rupak Chatterjee, Ph.D., and Walter Goldberger',
+  authors: 'Jean-Charles Tassan, Wilson John Sterking Lauret, Marlon D. Bulaqueña, Ph.D., Manuel Avila Gomez, Rupak Chatterjee, Ph.D., and Walter Goldberger',
   authorRoster: [
     {
       name: 'Jean-Charles Tassan',
       orcid: '0009-0000-8566-0486',
       orcidUrl: 'https://orcid.org/0009-0000-8566-0486',
       role: 'Modular Time, SLD Fisher Geometry & Quantum Foundations',
-      affiliation: 'Laboratory of Resonant Epistemology & Open Quantum Systems'
-    },
-    {
-      name: 'Marlon D. Bulaqueña, Ph.D.',
-      orcid: '0009-0007-3966-0494',
-      orcidUrl: 'https://orcid.org/0009-0007-3966-0494',
-      role: 'Mathematical General Relativity & 5D Brane Geometry',
-      affiliation: 'Department of Physics, Yale University, New Haven, CT 06520, USA (On leave from: Department of Theoretical Physics, Extended Gravity Research Program)'
+      affiliation: 'Independent Researcher'
     },
     {
       name: 'Wilson John Sterking Lauret',
       orcid: '0009-0004-7889-6641',
       orcidUrl: 'https://orcid.org/0009-0004-7889-6641',
       role: 'Black-Hole Thermodynamics, Optical Analogs & Falsification',
-      affiliation: 'Extended Gravity & Quantum Information Metrology Consortium'
+      affiliation: 'Independent Researcher'
+    },
+    {
+      name: 'Marlon D. Bulaqueña, Ph.D.',
+      orcid: '0009-0007-3966-0494',
+      orcidUrl: 'https://orcid.org/0009-0007-3966-0494',
+      role: 'Mathematical General Relativity & 5D Brane Geometry',
+      affiliation: 'Department of Physics, Yale University, New Haven, CT 06520, USA'
+    },
+    {
+      name: 'Manuel Avila Gomez',
+      role: 'Control-Systems Metrology, Timing Stability & Experimental Bounds',
+      affiliation: "Maître de Conférences HDR, IUT de l'Indre, Université d'Orléans & Laboratoire PRISME"
     },
     {
       name: 'Rupak Chatterjee, Ph.D.',
@@ -1150,7 +1155,7 @@ export const TWELVE_EXTRAPOLATIONS: ExtrapolationRow[] = [
 ];
 
 export const H12_REFERENCES = [
-  { id: 1, citation: 'Bulaqueña, M. D., Tassan, J.-C., Lauret, W. J. S., Chatterjee, R., & Goldberger, W. (2026). Information-Geometric Resonant Time (IGRT), Harmonized Research Monograph Edition H11. [Predecessor Baseline, SHA-256: 57cf3f1c...048d].' },
+  { id: 1, citation: 'Tassan, J.-C., Lauret, W. J. S., Bulaqueña, M. D., Avila Gomez, M., Chatterjee, R., & Goldberger, W. (2026). Information-Geometric Resonant Time (IGRT), Harmonized Research Monograph Edition H11. [Predecessor Baseline, SHA-256: 57cf3f1c...048d].' },
   { id: 2, citation: 'Randall, L., & Sundrum, R. (1999). A Large Mass Hierarchy from a Small Extra Dimension; An Alternative to Compactification. Phys. Rev. Lett. 83, 3370 & 4690.' },
   { id: 3, citation: 'Chung, D. J. H., & Freese, K. (2000). Can Geodesics in Extra Dimensions Solve the Horizon Problem? Phys. Rev. D 62, 063513.' },
   { id: 4, citation: 'Shiromizu, T., Maeda, K., & Sasaki, M. (2000). The Einstein Equations on the 3-Brane World. Phys. Rev. D 62, 024012.' },

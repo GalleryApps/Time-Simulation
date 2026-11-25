@@ -2186,7 +2186,7 @@ export async function generateIgrtH12Pdf(): Promise<void> {
   // Stamp Running Headers & Page Numbers (Page 1 Cover remains clean without running header/footer)
   const totalPages = doc.getNumberOfPages();
   const runningHeader = ctx.clipMixedLine(
-    ctx.safeStr('IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Bulaqueña, Lauret, Chatterjee & Goldberger'),
+    ctx.safeStr('IGRT-2026-H12 · Folding Time Across Hidden Dimensions · Tassan, Lauret, Bulaqueña, Avila Gomez, Chatterjee & Goldberger'),
     contentW,
     false,
     7.6,

@@ -132,6 +132,20 @@ export const CLOCK_SPEED_META = {
   ],
   authors: [
     {
+      name: 'Jean-Charles Tassan',
+      affiliation: 'Independent Researcher',
+      orcid: '0009-0000-8566-0486',
+      orcidUrl: 'https://orcid.org/0009-0000-8566-0486',
+      creditRoles: 'Update-Rate Ontology, Epistemic Underdetermination, Review'
+    },
+    {
+      name: 'Wilson John Sterking Lauret',
+      affiliation: 'Independent Researcher',
+      orcid: '0009-0004-7889-6641',
+      orcidUrl: 'https://orcid.org/0009-0004-7889-6641',
+      creditRoles: 'Optical Clock Metrology, Quantum Fisher Step-Rate Mapping, Review'
+    },
+    {
       name: 'Marlon D. Bulaqueña, Ph.D.',
       affiliation: 'Department of Physics, Yale University, New Haven, CT 06520, USA',
       orcid: '0009-0007-3966-0494',
@@ -139,18 +153,9 @@ export const CLOCK_SPEED_META = {
       creditRoles: 'Conceptualization, PPN Equivalence Analysis, Formal Proofs, Writing'
     },
     {
-      name: 'Jean-Charles Tassan',
-      affiliation: 'Laboratory of Resonant Epistemology & Open Quantum Systems',
-      orcid: '0009-0000-8566-0486',
-      orcidUrl: 'https://orcid.org/0009-0000-8566-0486',
-      creditRoles: 'Update-Rate Ontology, Epistemic Underdetermination, Review'
-    },
-    {
-      name: 'Wilson John Sterking Lauret',
-      affiliation: 'Extended Gravity & Quantum Information Metrology Consortium',
-      orcid: '0009-0004-7889-6641',
-      orcidUrl: 'https://orcid.org/0009-0004-7889-6641',
-      creditRoles: 'Optical Clock Metrology, Quantum Fisher Step-Rate Mapping, Review'
+      name: 'Manuel Avila Gomez',
+      affiliation: "Maître de Conférences HDR, IUT de l'Indre, Université d'Orléans & Laboratoire PRISME",
+      creditRoles: 'Control-Systems Clock Synchronization, Timing Stability & Instrumentation Review'
     },
     {
       name: 'Rupak Chatterjee, Ph.D.',
@@ -1700,7 +1705,7 @@ export const CLOCK_SPEED_REFERENCES: ClockPaperReference[] = [
   { id: 37, citation: 'Brown, H. R. (2005); Pooley, O. (2013); Huggett, N., & Wüthrich, C. (2013). Physical Relativity, dynamical vs. geometrical approaches, & emergent spacetime. Oxford Univ. Press & Stud. Hist. Philos. Mod. Phys., 44, 276.' },
   { id: 38, citation: 'Barbour, J. (1999); Rovelli, C. (2004); Smolin, L. (2001); Oriti, D. (2014). Machian temporal relationalism, Quantum Gravity, & group field theory emergence. Cambridge Univ. Press.' },
   { id: 39, citation: 'Halvorson, H. (2012, 2019); Weatherall, J. O. (2016); Callender, C. (2017); Wallace, D. (2012). Categorical Morita equivalence, What Makes Time Special, & emergent Hilbert worlds. Oxford Univ. Press.' },
-  { id: 40, citation: 'Bulaqueña, M. D., Tassan, J.-C., Lauret, W. J. S., Chatterjee, R., & Goldberger, W. (2026a, 2026b). Information-Geometric Resonant Time (IGRT): Principal Fiber Bundle Foundations & Quantum Fisher Clocks (IGRT-2026-H11 & IGRT-2026-H13).' }
+  { id: 40, citation: 'Tassan, J.-C., Lauret, W. J. S., Bulaqueña, M. D., Avila Gomez, M., Chatterjee, R., & Goldberger, W. (2026a, 2026b). Information-Geometric Resonant Time (IGRT): Principal Fiber Bundle Foundations & Quantum Fisher Clocks (IGRT-2026-H11 & IGRT-2026-H13).' }
 ];
 
 export function buildClockSpeedMarkdown(): string {

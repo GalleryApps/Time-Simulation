@@ -1969,10 +1969,10 @@ requireIncludes(pdfSrc, 'generateHarmonizedPaperPdf.ts (SVG @font-face & glyph g
   'const pxW = 3400;'
 ]);
 
-// Parity checks for apparatus indices, C_ell parser support, and [1]..[109] full citation coverage
-requireIncludes(appSrc, 'harmonizedPaperApparatus.ts (H10/R14 indices)', ['Table I.1', 'Table I.2', 'Table M.1', 'R14.', '(K.1)', '(L.1)', '(N.1)', '(O.1)', '(O.3)', 'scripts/igrt-cosmology-suite.mjs']);
+// Parity checks for apparatus indices, C_ell parser support, and [1]..[119] full citation coverage
+requireIncludes(appSrc, 'harmonizedPaperApparatus.ts (H10/R14 indices)', ['Table I.1', 'Table I.2', 'Table M.1', 'R14.', 'R15.', '(K.1)', '(L.1)', '(N.1)', '(O.1)', '(O.3)', 'scripts/igrt-cosmology-suite.mjs']);
 requireIncludes(dataSrc, 'harmonizedPaperData.ts (Title & 6-author order)', [
-  'Quantum Clocks as Rulers of Becoming: Information-Geometric Resonant Time, Fiber-Bundle Unfreezing, and Falsifiable Horndeski Cosmology',
+  'When Quantum States Become Time: Information-Geometric Resonant Time, Fiber-Bundle Unfreezing, and Falsifiable Horndeski Cosmology',
   'Manuel Avila Gomez',
   "IUT de l'Indre, Université d'Orléans & Laboratoire PRISME",
   "affiliation: 'Independent Researcher'",
@@ -2006,10 +2006,84 @@ for (const m of proseBeforeRefs.matchAll(/\[([0-9,\s–\-]+)\]/g)) {
     }
   }
 }
-for (let refId = 1; refId <= 109; refId++) {
+for (let refId = 1; refId <= 119; refId++) {
   assert(citedIds.has(refId), `Reference [${refId}] must be cited in monograph prose or apparatus`);
   programmaticChecks++;
 }
+
+// Programmatic checks for R01–R30 & Part D closures + /20 (/600) Panel 30 audit
+requireIncludes(appSrc, 'harmonizedPaperApparatus.ts (R01–R30 & Part D Closures)', [
+  'PREDICTIONS_JSON_BUNDLE',
+  'R16.',
+  '2030–2041',
+  '3.0%',
+  '2.2771',
+  '3.8σ'
+]);
+requireIncludes(dataSrc, 'harmonizedPaperData.ts (R01–R30 & Part D Closures)', [
+  '2⁻⁵⁴',
+  '5.55 × 10⁻¹⁷',
+  'V_RW',
+  'T_echo',
+  'ρ_MF',
+  '3.79σ',
+  'Burnham–Anderson',
+  '2.11 nHz',
+  'TT(BIPM)',
+  'DE440',
+  '2.2771',
+  '[110]',
+  '[113]',
+  '[114]',
+  '[115]',
+  '[116]',
+  '[117]',
+  '[119]'
+]);
+requireIncludes(viewSrc, 'HarmonizedResearchPaperView.tsx (Predictions JSON Bundle)', [
+  'PREDICTIONS_JSON_BUNDLE',
+  'IGRT_H11_Predictions_Bundle.json',
+  'Download Predictions (.json)'
+]);
+const panelSrc = fs.readFileSync(path.join(repoRoot, 'src/types/panel30H11Review.ts'), 'utf8');
+const panelViewSrc = fs.readFileSync(path.join(repoRoot, 'src/components/H11Panel30View.tsx'), 'utf8');
+requireIncludes(panelSrc, 'panel30H11Review.ts (R01–R30 /20 Scale & Part D)', [
+  'totalExperts * 20',
+  'H11_PART_D_CONSOLIDATED_ITEMS',
+  "recommendationId: 'R01'",
+  "recommendationId: 'R30'",
+  'Prof. Takaaki Kajita',
+  'Prof. Masaru Shibata',
+  'Prof. Alessandra Buonanno',
+  'Prof. Kip S. Thorne',
+  'Prof. Emanuele Berti',
+  'Prof. Fabiola Gianotti',
+  'Prof. Alain Connes',
+  'Prof. Edward Witten'
+]);
+requireIncludes(panelViewSrc, 'H11Panel30View.tsx (/600 Scoreboard & Part D)', [
+  'H11_PART_D_CONSOLIDATED_ITEMS',
+  '/20',
+  'Part D — Consolidated Path to 20/20',
+  'KAGRA · LIGO · LHC',
+  '535.0'
+]);
+requireIncludes(appSrc, 'harmonizedPaperApparatus.ts (R17 KAGRA/LIGO/LHC Closures)', [
+  'R17.',
+  '535.0/600',
+  'kagraO5BnsRange_Mpc',
+  'bayesWaveVetoCriteria',
+  'Type II_∞',
+  'MadGraph5_aMC@NLO'
+]);
+requireIncludes(dataSrc, 'harmonizedPaperData.ts (R17 KAGRA/LIGO/LHC Closures)', [
+  'Davies–Melville–Noller',
+  'SEOBNRv5-IGRT',
+  'BayesWave',
+  'PDF4LHC21',
+  'Warsaw-basis SMEFT',
+  'Type II_∞'
+]);
 
 console.log(JSON.stringify({
   constants: { l_Pl, tau_0, M_Pl_kg, M_Pl_GeV, Mbar_Pl_GeV },

@@ -19,8 +19,8 @@ const URL_OR_NON_MATH_RE = /(https?:\/\/[^\s)]+|arXiv:[^\s)]+|DOI:[^\s)]+|\bhi_c
 
 // Subscript/superscript unbraced token pattern
 // Matches: "4,X", "x₁", "x₂", alphanumeric + Greek tokens, or single symbol (*, +, −, ±, ⊙, ∞)
-const UNBRACED_SUB_RE = /^(4,X|x[₁₂]|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχϖ∞ℓℏ☉⊙⊕𝒞𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±☉⊙⊕∞])/;
-const UNBRACED_SUP_RE = /^(\([+\-−]?\d+\)|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχϖ∞ℓℏ☉⊙⊕𝒞𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±∞])/;
+const UNBRACED_SUB_RE = /^(4,X|x[₁₂]|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχϖ∞ℓℏ𝒞☉⊙⊕𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±☉⊙⊕∞])/;
+const UNBRACED_SUP_RE = /^(\([+\-−]?\d+\)|[A-Za-z0-9α-ωΑ-Ωμνξψτσρκγδϵεηθλφχϖ∞ℓℏ𝒞☉⊙⊕𝒱𝒜𝒟𝒢ℋ𝒦]+|[*+−±∞])/;
 
 function findMatchingBrace(str: string, openIdx: number): number {
   let depth = 0;

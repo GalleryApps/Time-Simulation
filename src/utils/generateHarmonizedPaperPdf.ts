@@ -1213,7 +1213,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
 
   doc.setProperties({
     title: pdfBmpSafeUnicode(PAPER_META.title),
-    subject: 'Quantum Clocks as Rulers of Becoming: IGRT — Harmonized Research Monograph',
+    subject: 'When Quantum States Become Time: IGRT — Harmonized Research Monograph',
     author: PAPER_META.authors.map((a) => a.name).join(', '),
     keywords: pdfBmpSafeUnicode(PAPER_META.keywords.join(', ')),
     creator: 'IGRT Research Group'
@@ -3200,9 +3200,9 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   });
 
   // =========================================================
-  // CITED VERSION & REFERENCES [1]–[109] (NO ORCIDs IN REFERENCES)
+  // CITED VERSION & REFERENCES [1]–[119] (NO ORCIDs IN REFERENCES)
   // =========================================================
-  startChapterOnNewPage('References [1]–[109]');
+  startChapterOnNewPage('References [1]–[119]');
   tocSectionPageMap.set('references', doc.getNumberOfPages());
   drawPlayfairHeadline('References', 28, 0.16);
 

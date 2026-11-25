@@ -1583,7 +1583,7 @@ export async function generateClockSpeedPdf(): Promise<void> {
   // Stamp Running Headers & Footers
   const totalPages = doc.getNumberOfPages();
   const runningHeader = ctx.clipMixedLine(
-    ctx.safeStr('Gravity: Curved Spacetime vs. Local Update Speed · Bulaqueña et al.'),
+    ctx.safeStr('Gravity: Curved Spacetime vs. Local Update Speed · Tassan, Lauret, Bulaqueña et al.'),
     contentW,
     false,
     7.6,

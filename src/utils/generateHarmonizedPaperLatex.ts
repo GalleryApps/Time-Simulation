@@ -871,7 +871,7 @@ function buildPreambleTex(): string {
 
 \\pagestyle{fancy}
 \\fancyhf{}
-\\fancyhead[L]{\\small\\itshape Quantum Clocks as Rulers of Becoming: IGRT}
+\\fancyhead[L]{\\small\\itshape When Quantum States Become Time: IGRT}
 \\fancyhead[R]{\\small\\color{igrtslate}\\leftmark}
 \\fancyfoot[C]{\\small\\thepage}
 \\renewcommand{\\headrulewidth}{0.4pt}
@@ -1500,7 +1500,7 @@ function buildInlineTheBibliography(): string {
     const idStr = r.identifier ? ` \\texttt{${escapeCodeText(r.identifier)}}.` : '';
     return `  \\bibitem{ref${r.id}} \\textbf{${proseToLatex(r.authors)}} (${escapeRawText(r.year)}). \\textit{${proseToLatex(r.title)}}. ${proseToLatex(r.venue)}.${idStr}`;
   });
-  return `\\begin{thebibliography}{109}
+  return `\\begin{thebibliography}{119}
 \\addcontentsline{toc}{chapter}{References}
 ${items.join('\n')}
 \\end{thebibliography}
@@ -1509,7 +1509,7 @@ ${items.join('\n')}
 
 function buildMainTex(): string {
   return `% ===========================================================================
-% Master LaTeX Driver: Quantum Clocks as Rulers of Becoming (IGRT)
+% Master LaTeX Driver: When Quantum States Become Time (IGRT)
 % Edition: ${PAPER_META.edition.replace(/·/g, '|')} (${PAPER_META.eprint})
 % Compile with:
 %   pdflatex main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex
@@ -1558,7 +1558,7 @@ function buildReadmeMd(): string {
 - \`sections/01_chapter1.tex\` … \`sections/08_chapter8.tex\` — Chapters 1–8 with all inline tables
 - \`sections/09_appendices.tex\` — Appendices A–P (including Tables H.1, I.1, I.2, J.1, M.1)
 - \`sections/10_governance.tex\` — CRediT, COI, Funding, Reproducibility & Data/Code Availability
-- \`references.bib\` — Complete 109-entry BibTeX bibliography (\`ref1\`..\`ref109\`)
+- \`references.bib\` — Complete 119-entry BibTeX bibliography (\`ref1\`..\`ref119\`)
 - \`figures/fig_01.svg\` … \`fig_12.svg\` — Analytical vector SVG Figures 1–12 (plus \`fig_01.png\` … \`fig_12.png\`)
 - \`illustrations/plate_01.jpg\` … \`plate_14.jpg\` — Archival Editorial Plates I–XIV
 - \`IGRT_Harmonized_Monograph_H11.tex\` — Single-file self-contained LaTeX version (embedded bibliography)

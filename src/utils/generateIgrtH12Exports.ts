@@ -288,12 +288,12 @@ function buildH12Preamble(): string {
   citecolor=green!40!black,
   urlcolor=blue!50!black,
   pdftitle={${toLatex(H12_META.title)}},
-  pdfauthor={Jean-Charles Tassan, Marlon D. Bulaquena, Wilson John Sterking Lauret, Rupak Chatterjee, Walter Goldberger}
+  pdfauthor={Jean-Charles Tassan, Wilson John Sterking Lauret, Marlon D. Bulaquena, Manuel Avila Gomez, Rupak Chatterjee, Walter Goldberger}
 }
 \\usepackage{fancyhdr}
 \\pagestyle{fancy}
 \\fancyhf{}
-\\fancyhead[L]{\\small\\textit{IGRT-2026-H12 -- Folding Time Across Hidden Dimensions -- Tassan, Bulaque\\~{n}a, Lauret, Chatterjee \\& Goldberger}}
+\\fancyhead[L]{\\small\\textit{IGRT-2026-H12 -- Folding Time Across Hidden Dimensions -- Tassan, Lauret, Bulaque\\~{n}a, Avila Gomez, Chatterjee \\& Goldberger}}
 \\fancyhead[R]{\\small\\thepage}
 \\renewcommand{\\headrulewidth}{0.4pt}
 \\newtheorem{theorem}{Theorem}[section]

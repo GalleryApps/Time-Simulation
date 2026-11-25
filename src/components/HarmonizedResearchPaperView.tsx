@@ -50,7 +50,8 @@ import {
   TABLE_7_3_PROTOCOL_TIMELINE,
   TABLE_8_4_SCALAR_BUDGET,
   APPENDIX_M_STATUS_TABLE,
-  H11_PREREG_SHA256
+  H11_PREREG_SHA256,
+  PREDICTIONS_JSON_BUNDLE
 } from '../types/harmonizedPaperApparatus';
 import {
   PAPER_FIGURES,
@@ -78,6 +79,7 @@ interface HarmonizedResearchPaperViewProps {
   onNavigateToModel?: () => void;
   onNavigateToStressTest?: () => void;
   onNavigateToH12?: () => void;
+  onNavigateToPanel30?: () => void;
 }
 
 const UnicodeEquationBox: React.FC<{ eq: PaperEquation }> = ({ eq }) => (
@@ -105,7 +107,8 @@ const UnicodeEquationBox: React.FC<{ eq: PaperEquation }> = ({ eq }) => (
 export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewProps> = ({
   onNavigateToModel,
   onNavigateToStressTest,
-  onNavigateToH12
+  onNavigateToH12,
+  onNavigateToPanel30
 }) => {
   const [readingMode, setReadingMode] = useState<'continuous' | 'chapter'>('continuous');
   const [focusedAnchor, setFocusedAnchor] = useState<string>('chapter-1');
@@ -360,6 +363,18 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
             Verification Script (.mjs)
           </button>
           <button
+            onClick={() =>
+              downloadTextAsset(
+                JSON.stringify(PREDICTIONS_JSON_BUNDLE, null, 2),
+                'IGRT_H11_Predictions_Bundle.json',
+                'application/json;charset=utf-8'
+              )
+            }
+            className="px-3.5 py-2 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#081026] text-[#0C1836] dark:text-[#CBD5E1] hover:border-[#8B4513] transition-colors whitespace-nowrap shrink-0"
+          >
+            Download Predictions (.json)
+          </button>
+          <button
             onClick={() => setShowCiteModal(true)}
             className="px-3.5 py-2 rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#081026] text-[#0C1836] dark:text-[#CBD5E1] hover:border-[#8B4513] transition-colors whitespace-nowrap shrink-0"
           >
@@ -406,10 +421,18 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
               Stress-Test Matrix ↗
             </button>
           )}
+          {onNavigateToPanel30 && (
+            <button
+              onClick={onNavigateToPanel30}
+              className="px-3 py-1.5 rounded-lg bg-[#8B4513] dark:bg-[#0F766E] text-white text-[12px] font-medium hover:opacity-90 whitespace-nowrap shrink-0"
+            >
+              30-Expert Panel (R11-01–R11-30) ↗
+            </button>
+          )}
           {onNavigateToH12 && (
             <button
               onClick={onNavigateToH12}
-              className="px-3 py-1.5 rounded-lg bg-[#EA580C] text-white text-[12px] font-medium hover:bg-[#C2410C]"
+              className="px-3 py-1.5 rounded-lg bg-[#EA580C] text-white text-[12px] font-medium hover:bg-[#C2410C] whitespace-nowrap shrink-0"
             >
               Follow-Up Monograph (IGRT-H12) ↗
             </button>
@@ -1384,6 +1407,24 @@ export const HarmonizedResearchPaperView: React.FC<HarmonizedResearchPaperViewPr
                     )}
                     {app.letter === 'I' && (
                       <div className="space-y-6 mt-4">
+                        {onNavigateToPanel30 && (
+                          <div className="print:hidden rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530] p-4 flex flex-wrap items-center justify-between gap-3 text-[13.5px] font-['Poppins']">
+                            <div>
+                              <div className="font-medium text-[#0F172A] dark:text-[#F8FAFC]">
+                                30-Expert Multidisciplinary Panel Audit (R15 · R11-01–R11-30)
+                              </div>
+                              <div className="text-[#475569] dark:text-[#94A3B8] text-[12.5px]">
+                                Inspect the 30-expert scoring rubric (276.5/300 → 300.0/300) and trace every applied upgrade across Paper 11.
+                              </div>
+                            </div>
+                            <button
+                              onClick={onNavigateToPanel30}
+                              className="px-3.5 py-2 rounded-lg bg-[#8B4513] dark:bg-[#EA580C] text-white text-[12.5px] font-medium hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
+                            >
+                              Open 30-Expert Panel (R11-01–R11-30) ↗
+                            </button>
+                          </div>
+                        )}
                         <div className="overflow-x-auto rounded-lg border border-[#D6CABE] dark:border-[#334155] bg-white dark:bg-[#0B1530]">
                           <table className="w-full text-left igrt-tabular" style={{ fontSize: '13.5px', lineHeight: 1.5 }}>
                             <caption className="p-3 text-left font-['Playfair_Display'] text-[17px] bg-[#FAF6EE] dark:bg-[#081026] text-[#0F172A] dark:text-[#F8FAFC] border-b border-[#D6CABE] dark:border-[#334155]">

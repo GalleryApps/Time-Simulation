@@ -250,8 +250,15 @@ for (const fontFile of [
 
 // Check editorial typography, authors, Playfair Display PDF embedding & epistemic reclassification
 assert(
-  appSrc.includes('Jean-Charles Tassan, Marlon D. Bulaqueña, Ph.D., Wilson John Sterking Lauret, Rupak Chatterjee, Ph.D., and Walter Goldberger'),
-  'H12_META must credit all 5 authors: Tassan, Bulaqueña Ph.D., Lauret, Chatterjee Ph.D., and Goldberger'
+  appSrc.includes('Jean-Charles Tassan, Wilson John Sterking Lauret, Marlon D. Bulaqueña, Ph.D., Manuel Avila Gomez, Rupak Chatterjee, Ph.D., and Walter Goldberger'),
+  'H12_META must credit all 6 authors in canonical order: Tassan, Lauret, Bulaqueña Ph.D., Manuel Avila Gomez, Chatterjee Ph.D., and Goldberger'
+);
+assert(
+  appSrc.includes("affiliation: 'Independent Researcher'") &&
+    appSrc.includes("Maître de Conférences HDR, IUT de l'Indre, Université d'Orléans & Laboratoire PRISME") &&
+    !appSrc.includes('On leave from') &&
+    !appSrc.includes('on leave from'),
+  'H12_META must mark Tassan & Lauret Independent Researcher, credit Manuel Avila Gomez, and omit leave-from text'
 );
 for (const orcid of ['0009-0000-8566-0486', '0009-0007-3966-0494', '0009-0004-7889-6641', '0009-0002-8553-5401']) {
   assert(appSrc.includes(orcid), `H12_META missing ORCID ${orcid}`);

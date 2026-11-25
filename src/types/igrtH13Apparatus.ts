@@ -286,26 +286,30 @@ export const H13_META = {
   msc2020Codes: '83C05, 83E15, 83C57, 81P45, 53B20',
   authorRoster: [
     {
-      name: 'Marlon D. Bulaqueña, Ph.D.',
-      affiliation:
-        'Department of Physics, Yale University, New Haven, CT 06520, USA (On leave from: Department of Theoretical Physics, Extended Gravity Research Program)',
-      orcid: '0009-0007-3966-0494',
-      orcidUrl: 'https://orcid.org/0009-0007-3966-0494',
-      creditRoles: 'Conceptualization, Methodology, Formal Analysis, Software, Writing'
-    },
-    {
       name: 'Jean-Charles Tassan',
-      affiliation: 'Laboratory of Resonant Epistemology & Open Quantum Systems',
+      affiliation: 'Independent Researcher',
       orcid: '0009-0000-8566-0486',
       orcidUrl: 'https://orcid.org/0009-0000-8566-0486',
       creditRoles: 'Modular Time, 5D Variational Analysis, Kaluza–Klein Phenomenology, Review'
     },
     {
       name: 'Wilson John Sterking Lauret',
-      affiliation: 'Extended Gravity & Quantum Information Metrology Consortium',
+      affiliation: 'Independent Researcher',
       orcid: '0009-0004-7889-6641',
       orcidUrl: 'https://orcid.org/0009-0004-7889-6641',
       creditRoles: 'AQFT Split-Property Formulation, BKM Monotonicity, Falsification, Review'
+    },
+    {
+      name: 'Marlon D. Bulaqueña, Ph.D.',
+      affiliation: 'Department of Physics, Yale University, New Haven, CT 06520, USA',
+      orcid: '0009-0007-3966-0494',
+      orcidUrl: 'https://orcid.org/0009-0007-3966-0494',
+      creditRoles: 'Conceptualization, Methodology, Formal Analysis, Software, Writing'
+    },
+    {
+      name: 'Manuel Avila Gomez',
+      affiliation: "Maître de Conférences HDR, IUT de l'Indre, Université d'Orléans & Laboratoire PRISME",
+      creditRoles: 'Control-Theoretic Timing Sensitivity, Feedback Stability & Optical Metrology, Review'
     },
     {
       name: 'Rupak Chatterjee, Ph.D.',
@@ -1445,7 +1449,7 @@ export const H13_JOURNAL_DECLARATIONS = {
   acknowledgments:
     'The authors thank the mathematical physics and precision metrology colleagues whose critical feedback drove the separation of kinematic reparametrizations, isotropic 5D field closure, and astrophysical timescale corrections.',
   authorContributions:
-    'M.D.B. led conceptualization, code verification, and manuscript restructuring; J.-C.T. verified 5D Einstein–Maxwell closure and KK bounds; W.J.S.L. audited AQFT and BKM derivations; R.C. modeled P14–P17 sensitivities; W.G. verified white-hole RK4 numerics and Horndeski constraints.',
+    'J.-C.T. verified 5D Einstein–Maxwell closure and KK bounds; W.J.S.L. audited AQFT and BKM derivations; M.D.B. led conceptualization, code verification, and manuscript restructuring; M.A.G. audited control-loop stability and optical-clock metrology bounds; R.C. modeled P14–P17 sensitivities; W.G. verified white-hole RK4 numerics and Horndeski constraints.',
   dataAndCodeAvailability:
     'All numerical audits, 5-component algebraic checks, and RK4 bounce scripts are openly runnable locally via `node scripts/verify-igrt-h13.mjs`. Independent archival repository deposition and pre-registration identifiers are pending external Zenodo/OSF minting upon submission.',
   competingInterestsAndFunding:
@@ -1502,6 +1506,6 @@ export const H13_REFERENCES: H13ReferenceEntry[] = [
   { id: 47, citation: 'Brown, A. R. et al. (2023). Quantum gravity in the lab: teleportation by size and traversable wormholes. PRX Quantum 4, 010320.' },
   { id: 48, citation: 'Shiromizu, T., Maeda, K. & Sasaki, M. (2000). The Einstein equations on the 3-brane world. Phys. Rev. D 62, 024012.' },
   { id: 49, citation: 'Page, D. N. & Wootters, W. K. (1983). Evolution without evolution: dynamics described by stationary observables. Phys. Rev. D 27, 2885–2892.' },
-  { id: 50, citation: 'Bulaqueña, M. D. et al. (2025). Information-Geometric Resonant Time (IGRT-H11): Modular Clocks and Quantum Speed Limits. Monograph Series.' },
-  { id: 51, citation: 'Tassan, J.-C., Bulaqueña, M. D. et al. (2026). Folding Time Across Hidden Dimensions (IGRT-H12). Monograph Series.' }
+  { id: 50, citation: 'Tassan, J.-C., Lauret, W. J. S., Bulaqueña, M. D., Avila Gomez, M., Chatterjee, R. & Goldberger, W. (2026). When Quantum States Become Time: Information-Geometric Resonant Time (IGRT-H11). Monograph Series.' },
+  { id: 51, citation: 'Tassan, J.-C., Lauret, W. J. S., Bulaqueña, M. D., Avila Gomez, M., Chatterjee, R. & Goldberger, W. (2026). Folding Time Across Hidden Dimensions (IGRT-H12). Monograph Series.' }
 ];

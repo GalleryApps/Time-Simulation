@@ -2,7 +2,7 @@
 /**
  * Deterministic Verification Suite for Refactored IGRT-2026-H13 (Paper 13)
  * Verifies exact SI astrophysics & bounce timescales, isotropic 5D F_{0y} tensor closure,
- * RK4 bounce ODE residuals, Lee et al. (2020) 38.6 um KK bounds, 5-author roster integrity,
+ * RK4 bounce ODE residuals, Lee et al. (2020) 38.6 um KK bounds, 6-author roster integrity,
  * Cat C Proposition / Sketch labeling (zero premature Theorem / Q.E.D.),
  * clean separation from Companion Part II / Policy exports, unbundled [1..51] citations,
  * and 100% pure-ASCII pdflatex + HTML + Markdown export integrity.
@@ -223,22 +223,31 @@ const apparatusText = fs.readFileSync(h13Files[0], 'utf8');
 const dataText = fs.readFileSync(h13Files[2], 'utf8');
 const figFileText = fs.readFileSync(h13Files[3], 'utf8');
 
-// Check exact 5 authors + ORCIDs + email matching H11 & H12
+// Check exact 6 authors + ORCIDs + email + HDR affiliation matching H11 & H12
 const requiredAuthors = [
-  'Marlon D. Bulaqueña, Ph.D.',
-  '0009-0007-3966-0494',
   'Jean-Charles Tassan',
   '0009-0000-8566-0486',
   'Wilson John Sterking Lauret',
   '0009-0004-7889-6641',
+  'Marlon D. Bulaqueña, Ph.D.',
+  '0009-0007-3966-0494',
+  'Manuel Avila Gomez',
+  "Maître de Conférences HDR, IUT de l'Indre, Université d'Orléans & Laboratoire PRISME",
   'Rupak Chatterjee, Ph.D.',
   '0009-0002-8553-5401',
   'Walter Goldberger',
-  'walter.goldberger@yale.edu'
+  'walter.goldberger@yale.edu',
+  "affiliation: 'Independent Researcher'"
 ];
 for (const token of requiredAuthors) {
   assert(apparatusText.includes(token), `Author roster contains exact token: ${token}`);
 }
+assert(!/on leave from/i.test(apparatusText), 'Author roster omits "on leave from" Yale wording');
+const tIdx = apparatusText.indexOf("name: 'Jean-Charles Tassan'");
+const lIdx = apparatusText.indexOf("name: 'Wilson John Sterking Lauret'");
+const bIdx = apparatusText.indexOf("name: 'Marlon D. Bulaqueña, Ph.D.'");
+const mIdx = apparatusText.indexOf("name: 'Manuel Avila Gomez'");
+assert(tIdx > 0 && lIdx > tIdx && bIdx > lIdx && mIdx > bIdx, 'Bulaqueña appears in the middle after Tassan & Lauret and before Avila Gomez');
 
 // Check Zero-LaTeX hygiene in content data modules
 const forbiddenLatex = ['\\frac', '\\begin{', '\\end{', '\\mathbb', '\\mathcal'];

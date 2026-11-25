@@ -30,6 +30,7 @@ import { AdversarialPanel580View } from './components/AdversarialPanel580View';
 import { RefinedModelTechnologiesView } from './components/RefinedModelTechnologiesView';
 import { SiteImprovements380View } from './components/SiteImprovements380View';
 import { H13Panel150View } from './components/H13Panel150View';
+import { ClockSpeedPaperView } from './components/ClockSpeedPaperView';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -139,6 +140,7 @@ export default function App() {
     { id: 'hp-1', tab: 'harmonized-paper', title: 'Harmonized Model: Full Publishable Research Paper (IGRT-2026-H11)', category: 'Devoted Paper', desc: 'Complete 8-chapter publishable research monograph for IGRT-2026-H11 with Appendices A–P, Plates I–XIV & Figs 1–12, 5 authors, claim ledger, H11 SHA-256 preregistration digest, HTML/MD download, and Unicode DejaVuSans A4 PDF export.' },
     { id: 'h12-1', tab: 'igrt-h12-paper', title: 'IGRT-H12 Follow-Up Monograph: 5D Resonant Geometry, Temporal Folding & Portals', category: 'Follow-Up Monograph (H12)', desc: '13-chapter + Consolidated Appendices A–L rigorous 5D extension covering warped/flat geodesics, Hayward NEC proof, Morris–Thorne Casimir deficit, double-slit QFI V² + D² = 1, Devices A–K, Protocols P7–P13, and 31 scientific illustrations (26 theory + 5 supplemental).' },
     { id: 'h13-1', tab: 'igrt-h13-paper', title: 'Paper 13 (IGRT-H13): Information-Geometric Resonant Time, Portals & White-Hole Bounces', category: 'Thirteenth Monograph (H13)', desc: 'Journal-formatted 13-chapter research article (Executive Summary, concise scholarly abstract, 12 principles, 10 portal builds PR-1–PR-10, 59-term Glossary), Appendices A–K (incl. Table I.0 GJW assumption matrix), Protocols P14–P18, 26 Figures & Plates, and downloadable PDF.' },
+    { id: 'p14-clock', tab: 'clock-speed-paper', title: 'Paper 14: Does Gravity Bend Space, or Just Slow Down the Universe’s Clock Speed?', category: 'Research Article (Paper 14)', desc: 'Foundations of Physics and Episteme research article evaluating curved spacetime vs. local update-rate models across GPS, lensing, Shapiro delay, Mercury, pulsars, black holes, and UHECRs, with A4 PDF export.' },
     { id: 'h13-panel-150', tab: 'h13-panel-150', title: '200-Expert Panel Evaluation & Applied Recommendations (Paper 13 · H13)', category: 'Adversarial Evaluation', desc: '200 named domain experts across 10 sub-panels auditing Paper 13 for physics rigor and journal publishability with all 200 recommendations REC-001–REC-200 applied.' },
     { id: 'c500', tab: 'criteria500', title: '500-Criterion Adversarial Matrix', category: 'Evaluation Matrix', desc: 'Granular point-by-point audit across 10 domains with filterable search and verified scores.' },
     { id: 'usim', tab: 'universesim', title: 'Dual Universe Simulation (Model A vs B)', category: 'Interactive Simulation', desc: 'Side-by-side comparative simulation across 5 physical scenarios with high-DPI canvases and coordinate probes.' },
@@ -319,7 +321,18 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               }`}
             >
               <span>Paper 13 · Code &amp; White Holes</span>
-              <span className="font-mono text-[10px] opacity-90">H13 · NEW</span>
+              <span className="font-mono text-[10px] opacity-90">H13</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('clock-speed-paper')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
+                activeTab === 'clock-speed-paper' 
+                  ? 'bg-[#4A0E33] text-white shadow-xs font-medium' 
+                  : 'text-[#661447] dark:text-[#C46D9E] hover:bg-[#F7EEF3] dark:hover:bg-[#2E0820]'
+              }`}
+            >
+              <span>Paper 14 · Clock Speed vs. Space</span>
+              <span className="font-mono text-[10px] opacity-90">NEW</span>
             </button>
             <button
               onClick={() => setActiveTab('h13-panel-150')}
@@ -437,6 +450,13 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               onNavigateToH12Paper={() => setActiveTab('igrt-h12-paper')}
               onNavigateToH11Model={() => setActiveTab('harmonized-model')}
               onNavigateToReview200={() => setActiveTab('h13-panel-150')}
+            />
+          )}
+          {activeTab === 'clock-speed-paper' && (
+            <ClockSpeedPaperView
+              onNavigateToH11Paper={() => setActiveTab('harmonized-paper')}
+              onNavigateToH12Paper={() => setActiveTab('igrt-h12-paper')}
+              onNavigateToH13Paper={() => setActiveTab('igrt-h13-paper')}
             />
           )}
           {activeTab === 'h13-panel-150' && (

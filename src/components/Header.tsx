@@ -28,7 +28,8 @@ export const Header: React.FC<HeaderProps> = ({
         { id: 'harmonized-model', name: 'The Harmonized Model (IGRT)', badge: '1,740 pts' },
         { id: 'harmonized-paper', name: 'Harmonized Model Research Paper', badge: 'Full Paper' },
         { id: 'igrt-h12-paper', name: 'Follow-Up Paper (IGRT-H12: 5D & Portals)', badge: 'H12' },
-        { id: 'igrt-h13-paper', name: 'Paper 13 (IGRT-H13: Code, 5D & White Holes)', badge: 'H13 New' },
+        { id: 'igrt-h13-paper', name: 'Paper 13 (IGRT-H13: Code, 5D & White Holes)', badge: 'H13' },
+        { id: 'clock-speed-paper', name: 'Paper 14 (Clock Speed vs. Curved Space)', badge: 'New' },
         { id: 'journal', name: 'Full Journal Manuscript', badge: '500-Crit.' },
         { id: 'pubdoc', name: '4-Page Publication & Verdict', badge: 'Archival' },
         { id: 'layman', name: "Layman's Guide", badge: 'Accessible' },
@@ -75,19 +76,19 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
-      <header className="sticky top-0 z-50 flex items-center justify-between gap-6 border-b border-[#EAE2D2] dark:border-[#1E293B] bg-[#FDFBF7]/95 dark:bg-[#081026]/95 px-4 sm:px-6 py-3 backdrop-blur-md transition-colors">
+      <header className="sticky top-0 z-50 flex items-center justify-between gap-2 sm:gap-4 border-b border-[#EAE2D2] dark:border-[#1E293B] bg-[#FDFBF7]/95 dark:bg-[#081026]/95 px-3 sm:px-5 py-3 backdrop-blur-md transition-colors max-w-full overflow-x-clip">
         {/* Zone 1: Single text element wordmark */}
-        <div className="flex items-center gap-4 shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
           <button 
             onClick={() => setActiveTab('refined-model-tech')}
-            className="text-xl font-['Playfair_Display'] font-normal tracking-tight text-[#081026] dark:text-[#FDFBF7] whitespace-nowrap text-left hover:text-[#EA580C] transition-colors"
+            className="text-lg sm:text-xl font-['Playfair_Display'] font-normal tracking-tight text-[#081026] dark:text-[#FDFBF7] whitespace-nowrap text-left hover:text-[#EA580C] transition-colors"
           >
             Chronos-QG
           </button>
         </div>
 
         {/* Zone 2: Clean single-line text navigation links */}
-        <nav className="hidden lg:flex items-center gap-5 text-xs font-['Poppins'] text-[#475569] dark:text-[#94A3B8]">
+        <nav className="hidden xl:flex items-center gap-3.5 2xl:gap-5 text-[11px] 2xl:text-xs font-['Poppins'] text-[#475569] dark:text-[#94A3B8] min-w-0">
           <button
             onClick={() => setActiveTab('refined-model-tech')}
             className={`hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 ${activeTab === 'refined-model-tech' ? 'text-[#EA580C] font-semibold border-b-2 border-[#EA580C] pb-0.5' : ''}`}
@@ -102,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
           <button
             onClick={() => setActiveTab('harmonized-stresstest')}
-            className={`hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 ${activeTab === 'harmonized-stresstest' ? 'text-[#EA580C] font-semibold border-b-2 border-[#EA580C] pb-0.5' : ''}`}
+            className={`hidden 2xl:inline-block hover:text-[#EA580C] transition-colors whitespace-nowrap shrink-0 ${activeTab === 'harmonized-stresstest' ? 'text-[#EA580C] font-semibold border-b-2 border-[#EA580C] pb-0.5' : ''}`}
           >
             Harmonized Solo Stress-Test
           </button>
@@ -131,7 +132,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center gap-1.5 hover:text-[#081026] dark:hover:text-[#FDFBF7] transition-colors whitespace-nowrap shrink-0 font-medium py-1"
             >
-              <span>Explore All 20 Modules</span>
+              <span>Explore All 21 Modules</span>
               <span className="text-[10px] transform transition-transform" style={{ transform: dropdownOpen ? 'rotate(180deg)' : 'none' }}>▼</span>
             </button>
 
@@ -141,7 +142,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className="fixed inset-0 z-40" 
                   onClick={() => setDropdownOpen(false)} 
                 />
-                <div className="absolute left-0 mt-2 w-80 rounded-2xl bg-white dark:bg-[#0B1530] border border-[#EAE2D2] dark:border-[#1E293B] shadow-2xl p-3 z-50 space-y-3 max-h-[80vh] overflow-y-auto">
+                <div className="absolute right-0 xl:left-0 mt-2 w-80 rounded-2xl bg-white dark:bg-[#0B1530] border border-[#EAE2D2] dark:border-[#1E293B] shadow-2xl p-3 z-50 space-y-3 max-h-[80vh] overflow-y-auto">
                   {navCategories.map((cat) => (
                     <div key={cat.label} className="space-y-1">
                       <div className="font-cinzel text-[10px] uppercase tracking-wider text-[#9A3412] dark:text-[#FDBA74] px-2 py-1 border-b border-[#F4EFE6] dark:border-[#1A2645]">
@@ -177,16 +178,17 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         {/* Zone 3: Actions */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           {/* Global Search Button */}
           <button
             onClick={onOpenSearch}
-            className="flex items-center gap-2 rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0C1836] px-3 py-1.5 text-xs font-['Poppins'] text-[#475569] dark:text-[#CBD9FC] hover:text-[#081026] dark:hover:text-white hover:bg-[#F9F6F0] dark:hover:bg-[#142B5B] transition-colors whitespace-nowrap shrink-0 shadow-2xs"
+            className="flex items-center gap-1.5 rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0C1836] px-2.5 py-1.5 text-xs font-['Poppins'] text-[#475569] dark:text-[#CBD9FC] hover:text-[#081026] dark:hover:text-white hover:bg-[#F9F6F0] dark:hover:bg-[#142B5B] transition-colors whitespace-nowrap shrink-0 shadow-2xs"
             title="Search Academic Suite (Ctrl+K)"
+            aria-label="Search Academic Suite"
           >
             <span>🔍</span>
             <span className="hidden md:inline">Search</span>
-            <kbd className="hidden lg:inline-block font-mono text-[9px] bg-[#F4EFE6] dark:bg-[#081026] px-1.5 py-0.2 rounded border border-[#EAE2D2] dark:border-[#173065] text-[#64748B] dark:text-[#94B2F5]">⌘K</kbd>
+            <kbd className="hidden 2xl:inline-block font-mono text-[9px] bg-[#F4EFE6] dark:bg-[#081026] px-1.5 py-0.2 rounded border border-[#EAE2D2] dark:border-[#173065] text-[#64748B] dark:text-[#94B2F5]">⌘K</kbd>
           </button>
 
           {/* Theme Toggle Button */}
@@ -205,7 +207,7 @@ export const Header: React.FC<HeaderProps> = ({
           <a
             href="/assets/aistudio/IGEG_vs_RES-RAG_500-Criterion_Journal_Manuscript_3fd82f8c.txt"
             download="IGEG_vs_RES-RAG_500-Criterion_Journal_Manuscript.txt"
-            className="hidden sm:inline-flex rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0C1836] px-3 py-1.5 text-xs font-['Poppins'] text-[#0C1836] dark:text-[#CBD9FC] transition-colors hover:bg-[#F9F6F0] dark:hover:bg-[#142B5B] whitespace-nowrap shrink-0"
+            className="hidden sm:inline-flex rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0C1836] px-2.5 py-1.5 text-xs font-['Poppins'] text-[#0C1836] dark:text-[#CBD9FC] transition-colors hover:bg-[#F9F6F0] dark:hover:bg-[#142B5B] whitespace-nowrap shrink-0"
           >
             .txt
           </a>
@@ -213,7 +215,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* LaTeX Export CTA */}
           <button
             onClick={onExportLaTeX}
-            className="rounded-lg bg-[#0C1836] dark:bg-[#EA580C] px-3.5 py-1.5 text-xs font-cinzel text-[#FDFBF7] transition-colors hover:bg-[#1A3670] dark:hover:bg-[#C2410C] whitespace-nowrap shrink-0 shadow-xs"
+            className="hidden sm:inline-flex rounded-lg bg-[#0C1836] dark:bg-[#EA580C] px-3 py-1.5 text-xs font-cinzel text-[#FDFBF7] transition-colors hover:bg-[#1A3670] dark:hover:bg-[#C2410C] whitespace-nowrap shrink-0 shadow-xs"
           >
             Export LaTeX
           </button>
@@ -221,7 +223,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0C1836] text-[#0C1836] dark:text-[#FDFBF7] text-sm"
+            className="xl:hidden p-2 rounded-lg border border-[#EAE2D2] dark:border-[#1E293B] bg-[#FFFFFF] dark:bg-[#0C1836] text-[#0C1836] dark:text-[#FDFBF7] text-sm"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? '✕' : '☰'}
@@ -239,7 +241,7 @@ export const Header: React.FC<HeaderProps> = ({
                   Navigation &amp; Research Modules
                 </h3>
                 <p className="text-xs text-[#64748B] dark:text-[#94B2F5]">
-                  Select from 20 specialized quantum gravity modules
+                  Select from 21 specialized quantum gravity modules
                 </p>
               </div>
               <button

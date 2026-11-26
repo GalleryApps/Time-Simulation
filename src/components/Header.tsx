@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
         { id: 'igrt-h12-paper', name: 'Follow-Up Paper (IGRT-H12: 5D & Portals)', badge: 'H12' },
         { id: 'igrt-h13-paper', name: 'Paper 13 (IGRT-H13: Code, 5D & White Holes)', badge: 'H13' },
         { id: 'clock-speed-paper', name: 'Paper 14 (Clock Speed vs. Curved Space)', badge: 'P14' },
-        { id: 'synthese-paper', name: 'Paper 15 (Synthese Philosophy of Science)', badge: 'New' },
+        { id: 'synthese-paper', name: 'Paper 15 (Synthese: Who Is the Observer?)', badge: 'New' },
         { id: 'journal', name: 'Full Journal Manuscript', badge: '500-Crit.' },
         { id: 'pubdoc', name: '4-Page Publication & Verdict', badge: 'Archival' },
         { id: 'layman', name: "Layman's Guide", badge: 'Accessible' },

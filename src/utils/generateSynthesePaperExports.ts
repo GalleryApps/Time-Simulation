@@ -4,24 +4,30 @@
  *
  * Self-contained Scientific Magazine HTML, Markdown, and Pure-ASCII LaTeX Exporters
  * for Paper 15 (Synthese Journal):
- * "Structural Equivalence, Geometric Conventionalism, and Emergent Chronometry"
+ * "Where or Who Is the Observer? The Observer in Phenomenology, Quantum Foundations, and Systems Theory"
  */
 
 import {
   SYNTHESE_META,
   SYNTHESE_ABSTRACT,
+  SYNTHESE_AXIOM_TABLE,
+  SYNTHESE_HOW_TO_READ,
+  SYNTHESE_ARGUMENT_MAP,
+  SYNTHESE_32_MATRIX,
   SYNTHESE_CHAPTERS,
-  TABLE_2_1_CONVENTIONALISM,
-  TABLE_3_1_PPN_UNDERDETERMINATION,
-  TABLE_4_1_MORITA_LEDGER,
-  TABLE_5_1_FUNCTIONALISM_MATRIX,
-  TABLE_6_1_STRONG_FIELD_ONTOLOGY,
-  TABLE_7_1_BAYESIAN_MDL,
-  TABLE_8_1_CRUCIAL_EXPERIMENTS,
+  TABLE_2_1_PHENOMENOLOGY,
+  TABLE_3_1_DECONSTRUCTION,
+  TABLE_4_1_QUANTUM,
+  TABLE_5_1_SYSTEMS,
+  TABLE_6_1_RESOLUTION,
+  TABLE_7_1_IDENTITY_SYNTHESIS,
+  TABLE_8_1_TESTABLE_CORRELATION,
   SYNTHESE_SYMBOL_GLOSSARY,
   SYNTHESE_GLOSSARY,
   SYNTHESE_APPENDICES,
   SYNTHESE_REFERENCES,
+  SYNTHESE_INDEX_OF_NAMES,
+  SYNTHESE_INDEX_OF_CONCEPTS,
   type SyntheseEquation,
   type SyntheseTheoremBox,
   type SyntheseWorkedExample
@@ -33,30 +39,30 @@ const SYNTHESE_PLATES_INDEX = [
   {
     plateNumber: 'Plate I',
     anchorChapter: 1,
-    title: 'Dual Manifolds Across an Archival Meridian: Lorentzian Light Cones & Fisher-Rao Bundles',
+    title: 'The Divided Observer: Transcendental Pole vs. Physical Measurement Cut',
     caption:
-      'Editorial cover plate contrasting warped Lorentzian null-cone geometry (left) with information-geometric Fisher-Rao statistical state fibers (right) bridged across a brass meridian.'
+      'Editorial plate contrasting transcendental constitutive structures with localized physical measurement boundaries bridged across a single horizon.'
   },
   {
     plateNumber: 'Plate II',
-    anchorChapter: 2,
-    title: 'Poincare-Reichenbach Disk Duality: Hyperbolic Geodesic Chords vs. Scalar Rod Distortion',
+    anchorChapter: 3,
+    title: 'Trace, Split, and Horizon Geometry Across Non-Coincident Perspectives',
     caption:
-      'Geometric conventionalism dissected: trading curved hyperbolic chords for deformed flat-space ellipses succeeds only when spatial impedance enforces gamma = 1.'
+      'Visual synthesis of Part III: replacing an illusory punctual zero-point with deferred boundary traces and operationally separated horizons.'
   },
   {
     plateNumber: 'Plate III',
-    anchorChapter: 4,
-    title: 'Categorical Morita Bridge: Exterior Functorial Parity & Core Horizon Split',
+    anchorChapter: 7,
+    title: 'Perspective Manifold and Overlapping Local Reference Horizons',
     caption:
-      'Constructive Morita equivalence functor F: Lor_ext <-> InfoGeom_ext translating spacetime metric tensors into dual Amari statistical bundles up to regular core boundaries.'
+      'Illustrating the constructive resolution of Part VII: overlapping local reference perspectives united by relational consistency across finite boundaries.'
   },
   {
     plateNumber: 'Plate IV',
-    anchorChapter: 5,
-    title: 'Optical Chronometric Functionalism: 87Sr Lattice Resonator Probing Regular Photon Spheres',
+    anchorChapter: 8,
+    title: 'Chronometric Reference Horizons and the Structural Measure of Temporal Thickness',
     caption:
-      'Operational optical-lattice atomic clock ensembles calibrating local inertial-frame realization (Knox functionalism) against smooth regular Hayward black hole horizons.'
+      'Precision chronometric baselines bridging philosophical claims of living-present thickness to testable falsification conditions in philosophy of science.'
   }
 ];
 
@@ -68,16 +74,72 @@ function escapeHtml(raw: string): string {
     .replace(/"/g, '&quot;');
 }
 
+function htmlEquationToText(unicodeHtml: string): string {
+  return unicodeHtml
+    .replace(/<sup>(.*?)<\/sup>/gi, '^($1)')
+    .replace(/<sub>(.*?)<\/sub>/gi, '_$1')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/[ ]{2,}/g, ' ')
+    .trim();
+}
+
+function renderHtmlNonBoldTokens(raw: string): string {
+  const codeSplit = raw.split(/(`[^`]+`)/g);
+  return codeSplit
+    .map((seg, i) => {
+      if (!seg) return '';
+      if (i % 2 === 1) {
+        return `<code>${escapeHtml(seg.slice(1, -1))}</code>`;
+      }
+      const italicSplit = seg.split(/(\*(?!\s)[^*\n]+?(?<!\s)\*)/g);
+      return italicSplit
+        .map((itSeg, k) => {
+          if (!itSeg) return '';
+          if (k % 2 === 1) return `<em>${escapeHtml(itSeg.slice(1, -1))}</em>`;
+          return escapeHtml(itSeg);
+        })
+        .join('');
+    })
+    .join('');
+}
+
+function renderHtmlInlineTokens(raw: string): string {
+  const boldSplit = raw.split(/(\*\*[^\n]+?\*\*)/g);
+  return boldSplit
+    .map((bSeg, j) => {
+      if (!bSeg) return '';
+      if (j % 2 === 1) {
+        return `<strong>${renderHtmlNonBoldTokens(bSeg.slice(2, -2))}</strong>`;
+      }
+      return renderHtmlNonBoldTokens(bSeg);
+    })
+    .join('');
+}
+
+function renderHtmlRichParagraph(raw: string): string {
+  return raw
+    .split('\n')
+    .map((line) => {
+      if (line.startsWith('### ')) {
+        return `<h4 class="sub-head">${renderHtmlInlineTokens(line.slice(4))}</h4>`;
+      }
+      return `<p>${renderHtmlInlineTokens(line)}</p>`;
+    })
+    .join('');
+}
+
 function renderHtmlEquation(eq: SyntheseEquation): string {
   return `<div class="eq-box">
-    <div class="eq-math">${eq.unicodeHtml} <span class="eq-num">${escapeHtml(eq.label)}</span></div>
-    ${eq.plainMath ? `<div class="eq-plain"><strong>Plain Math Equation:</strong> <code>${escapeHtml(eq.plainMath)}</code></div>` : ''}
+    <div class="eq-math">${eq.unicodeHtml} <span class="eq-num">Logical Schema ${escapeHtml(eq.label)}</span></div>
     <div class="eq-cap">${escapeHtml(eq.caption)}</div>
     <div class="eq-meaning">${escapeHtml(eq.plainMeaning)}</div>
-    ${eq.provenance ? `<div class="box-note"><strong>Provenance:</strong> ${escapeHtml(eq.provenance)}</div>` : ''}
     ${
       eq.derivationSteps?.length
-        ? `<ol class="deriv-list">${eq.derivationSteps.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ol>`
+        ? `<ol class="deriv-list">${eq.derivationSteps.map((s) => `<li>${renderHtmlInlineTokens(s)}</li>`).join('')}</ol>`
         : ''
     }
   </div>`;
@@ -86,8 +148,8 @@ function renderHtmlEquation(eq: SyntheseEquation): string {
 function renderHtmlTheorem(tb: SyntheseTheoremBox): string {
   return `<div class="theorem-box">
     <div class="box-title">${escapeHtml(tb.kind)} ${escapeHtml(tb.number)} · ${escapeHtml(tb.title)}</div>
-    <p>${escapeHtml(tb.statement)}</p>
-    <ol>${tb.proofSteps.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ol>
+    <p>${renderHtmlInlineTokens(tb.statement)}</p>
+    <ol>${tb.proofSteps.map((s) => `<li>${renderHtmlInlineTokens(s)}</li>`).join('')}</ol>
     <div class="box-note">${escapeHtml(tb.sourceNote)}</div>
   </div>`;
 }
@@ -95,68 +157,78 @@ function renderHtmlTheorem(tb: SyntheseTheoremBox): string {
 function renderHtmlWorkedExample(wx: SyntheseWorkedExample): string {
   return `<div class="worked-box">
     <div class="box-title">${escapeHtml(wx.title)}</div>
-    <p class="epigraph">${escapeHtml(wx.setup)}</p>
-    <ol>${wx.steps.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ol>
+    <p class="epigraph">${renderHtmlInlineTokens(wx.setup)}</p>
+    <ol>${wx.steps.map((s) => `<li>${renderHtmlInlineTokens(s)}</li>`).join('')}</ol>
     ${renderHtmlEquation(wx.resultEquation)}
-    <p class="lead"><strong>Takeaway:</strong> ${escapeHtml(wx.takeaway)}</p>
+    <p class="lead"><strong>Conclusion:</strong> ${renderHtmlInlineTokens(wx.takeaway)}</p>
   </div>`;
 }
 
 function renderHtmlChapterTable(chapterNum: number): string {
   if (chapterNum === 2) {
     return `
-      <h3>Table 2.1 · Taxonomy of Geometric Conventionalisms (G + F) &amp; Empirical Constraints</h3>
+      <h3>Table 2.1 · Phenomenological &amp; Transcendental Genealogy Matrix (§§2–9)</h3>
       <table>
-        <thead><tr><th>Program</th><th>Metric Choice</th><th>Coordinative Bridge</th><th>Empirical Status</th><th>IGRT Diagnostic</th></tr></thead>
-        <tbody>${TABLE_2_1_CONVENTIONALISM.map((r) => `<tr><td>${escapeHtml(r.program)}</td><td>${escapeHtml(r.metricChoice)}</td><td>${escapeHtml(r.coordinativeBridge)}</td><td>${escapeHtml(r.empiricalStatus)}</td><td>${escapeHtml(r.igrtDiagnostic)}</td></tr>`).join('')}</tbody>
+        <thead><tr><th>Theory</th><th>Core Structural Claim</th><th>Paradox Encountered</th><th>Logical Counterpart</th></tr></thead>
+        <tbody>${TABLE_2_1_PHENOMENOLOGY.map((r) => `<tr><td>${escapeHtml(r.theory)}</td><td>${escapeHtml(r.coreClaim)}</td><td>${escapeHtml(r.paradoxEncountered)}</td><td>${escapeHtml(r.bundleCounterpart)}</td></tr>`).join('')}</tbody>
       </table>`;
   }
   if (chapterNum === 3) {
     return `
-      <h3>Table 3.1 · PPN Bounds &amp; Collapse of Scalar gamma = 0 Underdetermination</h3>
+      <h3>Table 3.1 · Deconstructive &amp; Post-Structuralist Matrix (§§10–15a)</h3>
       <table>
-        <thead><tr><th>Observable</th><th>Empirical Bound</th><th>Naive Scalar (gamma=0)</th><th>Morita IGRT &amp; GR</th><th>Philosophical Implication</th></tr></thead>
-        <tbody>${TABLE_3_1_PPN_UNDERDETERMINATION.map((r) => `<tr><td>${escapeHtml(r.observable)}</td><td>${escapeHtml(r.empiricalBound)}</td><td>${escapeHtml(r.naiveScalar)}</td><td>${escapeHtml(r.moritaIgrtAndGr)}</td><td>${escapeHtml(r.philosophicalImplication)}</td></tr>`).join('')}</tbody>
+        <thead><tr><th>Theory</th><th>Core Claim</th><th>Structural Dissolution</th><th>Logical Counterpart</th></tr></thead>
+        <tbody>${TABLE_3_1_DECONSTRUCTION.map((r) => `<tr><td>${escapeHtml(r.theory)}</td><td>${escapeHtml(r.coreClaim)}</td><td>${escapeHtml(r.structuralDissolution)}</td><td>${escapeHtml(r.bundleCounterpart)}</td></tr>`).join('')}</tbody>
       </table>`;
   }
   if (chapterNum === 4) {
     return `
-      <h3>Table 4.1 · Categorical &amp; Morita Functorial Equivalence Ledger</h3>
+      <h3>Table 4.1 · Orthodox Quantum Foundations Observer Models (§§16–20)</h3>
       <table>
-        <thead><tr><th>Categorical Object</th><th>Lorentzian GR</th><th>InfoGeom IGRT</th><th>Invariant Preserved</th><th>Status</th></tr></thead>
-        <tbody>${TABLE_4_1_MORITA_LEDGER.map((r) => `<tr><td>${escapeHtml(r.categoricalObject)}</td><td>${escapeHtml(r.lorentzianGR)}</td><td>${escapeHtml(r.infoGeomIGRT)}</td><td>${escapeHtml(r.invariantPreserved)}</td><td>${escapeHtml(r.status)}</td></tr>`).join('')}</tbody>
+        <thead><tr><th>Framework</th><th>Where Observer Sits</th><th>Cut / Collapse Status</th><th>Philosophical Mapping</th></tr></thead>
+        <tbody>${TABLE_4_1_QUANTUM.slice(0, 5).map((r) => `<tr><td>${escapeHtml(r.theory)}</td><td>${escapeHtml(r.observerSeat)}</td><td>${escapeHtml(r.cutStatus)}</td><td>${escapeHtml(r.bundleMapping)}</td></tr>`).join('')}</tbody>
       </table>`;
   }
   if (chapterNum === 5) {
     return `
-      <h3>Table 5.1 · Functionalist &amp; Structuralist Ontological Matrix</h3>
+      <h3>Table 5.1 · Relational, Epistemic, Decoherent &amp; Dynamical Quantum Models (§§21–27)</h3>
       <table>
-        <thead><tr><th>Stance</th><th>Ontic Commitments</th><th>Functional Role Status</th><th>Response to IGRT</th><th>Synthese Assessment</th></tr></thead>
-        <tbody>${TABLE_5_1_FUNCTIONALISM_MATRIX.map((r) => `<tr><td>${escapeHtml(r.stance)}</td><td>${escapeHtml(r.onticCommitments)}</td><td>${escapeHtml(r.functionalRoleStatus)}</td><td>${escapeHtml(r.responseToIGRT)}</td><td>${escapeHtml(r.syntheseAssessment)}</td></tr>`).join('')}</tbody>
+        <thead><tr><th>Framework</th><th>Where Observer Sits</th><th>Cut / Decoherence Status</th><th>Philosophical Mapping</th></tr></thead>
+        <tbody>${TABLE_4_1_QUANTUM.slice(5).map((r) => `<tr><td>${escapeHtml(r.theory)}</td><td>${escapeHtml(r.observerSeat)}</td><td>${escapeHtml(r.cutStatus)}</td><td>${escapeHtml(r.bundleMapping)}</td></tr>`).join('')}</tbody>
       </table>`;
   }
   if (chapterNum === 6) {
     return `
-      <h3>Table 6.1 · Strong-Field Horizon &amp; Regular-Core Ontological Scorecard</h3>
+      <h3>Table 6.1 · Systems-Theoretical &amp; Enactive Closure Matrix (§§28–33)</h3>
       <table>
-        <thead><tr><th>Domain Feature</th><th>Standard GR</th><th>Regular IGRT</th><th>Ontological Status</th><th>Empirical Handle</th></tr></thead>
-        <tbody>${TABLE_6_1_STRONG_FIELD_ONTOLOGY.map((r) => `<tr><td>${escapeHtml(r.domainFeature)}</td><td>${escapeHtml(r.standardGR)}</td><td>${escapeHtml(r.regularIGRT)}</td><td>${escapeHtml(r.ontologicalStatus)}</td><td>${escapeHtml(r.empiricalHandle)}</td></tr>`).join('')}</tbody>
+        <thead><tr><th>Theory</th><th>Core Claim</th><th>Closure Mechanism</th><th>Logical Counterpart</th></tr></thead>
+        <tbody>${TABLE_5_1_SYSTEMS.map((r) => `<tr><td>${escapeHtml(r.theory)}</td><td>${escapeHtml(r.coreClaim)}</td><td>${escapeHtml(r.closureMechanism)}</td><td>${escapeHtml(r.bundleCounterpart)}</td></tr>`).join('')}</tbody>
       </table>`;
   }
   if (chapterNum === 7) {
     return `
-      <h3>Table 7.1 · Bayesian Evidence &amp; Fisher MDL Epistemic Audit</h3>
+      <h3>Table 7.1 · Axiomatic Resolution of the Constitutive-Absence Paradox (§§34–37)</h3>
       <table>
-        <thead><tr><th>Framework</th><th>Params k</th><th>Chi-Square Data</th><th>Fisher MDL Penalty</th><th>Log Bayes vs GR</th><th>Methodology Lesson</th></tr></thead>
-        <tbody>${TABLE_7_1_BAYESIAN_MDL.map((r) => `<tr><td>${escapeHtml(r.framework)}</td><td>${escapeHtml(r.paramsK)}</td><td>${escapeHtml(r.chiSquareData)}</td><td>${escapeHtml(r.fisherMdlPenalty)}</td><td>${escapeHtml(r.logBayesVsGR)}</td><td>${escapeHtml(r.methodologyLesson)}</td></tr>`).join('')}</tbody>
+        <thead><tr><th>Logical Principle</th><th>Structural Role</th><th>Phenomenological Correlate</th><th>Antinomy Dissolved</th></tr></thead>
+        <tbody>${TABLE_6_1_RESOLUTION.map((r) => `<tr><td>${escapeHtml(r.formalObject)}</td><td>${escapeHtml(r.mathematicalRole)}</td><td>${escapeHtml(r.phenomenologicalCorrelate)}</td><td>${escapeHtml(r.obstructionResolved)}</td></tr>`).join('')}</tbody>
       </table>`;
   }
   if (chapterNum === 8) {
     return `
-      <h3>Table 8.1 · 2026–2035 Crucial Experiments &amp; Falsification Thresholds</h3>
+      <h3>Table 8.1 · Master 32-Position Axiomatic Cross-Reference Matrix (§§2–33 × A1–A4)</h3>
       <table>
-        <thead><tr><th>Experiment</th><th>Window</th><th>Observable</th><th>If Confirmed</th><th>If Null</th><th>Lakatosian Role</th></tr></thead>
-        <tbody>${TABLE_8_1_CRUCIAL_EXPERIMENTS.map((r) => `<tr><td>${escapeHtml(r.experiment)}</td><td>${escapeHtml(r.window)}</td><td>${escapeHtml(r.targetObservable)}</td><td>${escapeHtml(r.ifConfirmed)}</td><td>${escapeHtml(r.ifNull)}</td><td>${escapeHtml(r.lakatosianRole)}</td></tr>`).join('')}</tbody>
+        <thead><tr><th>§</th><th>Framework</th><th>A1</th><th>A2</th><th>A3</th><th>A4</th><th>Status &amp; Anomaly Note</th></tr></thead>
+        <tbody>${SYNTHESE_32_MATRIX.map((r) => `<tr><td>${escapeHtml(r.section)}</td><td>${escapeHtml(r.framework)}</td><td>${escapeHtml(r.a1)}</td><td>${escapeHtml(r.a2)}</td><td>${escapeHtml(r.a3)}</td><td>${escapeHtml(r.a4)}</td><td>${escapeHtml(r.statusNote)}</td></tr>`).join('')}</tbody>
+      </table>
+      <h3>Table 8.2 · Cross-Tradition Structural Identity Audit (§§38–39)</h3>
+      <table>
+        <thead><tr><th>Invariant Criterion</th><th>Husserl</th><th>Rovelli RQM</th><th>Autopoiesis</th><th>Four-Axiom Logic</th></tr></thead>
+        <tbody>${TABLE_7_1_IDENTITY_SYNTHESIS.map((r) => `<tr><td>${escapeHtml(r.structuralCriterion)}</td><td>${escapeHtml(r.husserlPhenom)}</td><td>${escapeHtml(r.rovelliRqm)}</td><td>${escapeHtml(r.autopoiesisBio)}</td><td>${escapeHtml(r.fiberBundleFormal)}</td></tr>`).join('')}</tbody>
+      </table>
+      <h3>Table 8.3 · Axiom-by-Axiom Empirical Falsification &amp; Anti-Holism Crucibles (§40)</h3>
+      <table>
+        <thead><tr><th>Domain</th><th>Target Observable</th><th>Philosophical Prediction</th><th>Null Consequence</th></tr></thead>
+        <tbody>${TABLE_8_1_TESTABLE_CORRELATION.map((r) => `<tr><td>${escapeHtml(r.channel)}</td><td>${escapeHtml(r.targetObservable)}</td><td>${escapeHtml(r.predictedSignal)}</td><td>${escapeHtml(r.nullConsequence)}</td></tr>`).join('')}</tbody>
       </table>`;
   }
   return '';
@@ -176,25 +248,38 @@ export function buildSyntheseSelfContainedHtml(): string {
 
   const chaptersHtml = SYNTHESE_CHAPTERS.map((ch) => {
     const figs = SYNTHESE_FIGURES.filter((f) => f.anchorChapter === ch.number);
+    const argMapHtml =
+      ch.number === 7
+        ? `<div class="worked-box">
+            <div class="box-title">${escapeHtml(SYNTHESE_ARGUMENT_MAP.title)}</div>
+            <p>${escapeHtml(SYNTHESE_ARGUMENT_MAP.summary)}</p>
+            <ol>${SYNTHESE_ARGUMENT_MAP.nodes
+              .map(
+                (n) =>
+                  `<li><strong>${escapeHtml(n.step)}:</strong> ${escapeHtml(n.rule)} — <em>${escapeHtml(n.leadsTo)}</em></li>`
+              )
+              .join('')}</ol>
+          </div>`
+        : '';
+
     return `
       <section class="chapter">
-        <div class="kicker">${escapeHtml(ch.kicker)}</div>
-        <h2>Chapter ${ch.number}: ${escapeHtml(ch.title)}</h2>
+        <h2>Part ${ch.number}: ${escapeHtml(ch.title)}</h2>
         <p class="epigraph">${escapeHtml(ch.epigraph)}</p>
         <blockquote class="pull-quote">${escapeHtml(ch.pullQuote)}</blockquote>
         <p class="lead">${escapeHtml(ch.leadSummary)}</p>
         ${
           ch.chapterIntro.length
-            ? `<div class="chapter-intro"><div class="intro-label">Editorial Opening</div>${ch.chapterIntro.map((p) => `<p>${escapeHtml(p)}</p>`).join('')}</div>`
+            ? `<div class="chapter-intro">${ch.chapterIntro.map((p) => renderHtmlRichParagraph(p)).join('')}</div>`
             : ''
         }
+        ${argMapHtml}
         ${ch.subsections
           .map(
             (sub) => `
           <div class="subsec">
-            <h3>${escapeHtml(sub.number)} · ${escapeHtml(sub.title)}</h3>
-            <div class="sub-meta">${escapeHtml(sub.epistemicFocus)}</div>
-            ${sub.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join('')}
+            <h3>§${escapeHtml(sub.number)} · ${escapeHtml(sub.title)}</h3>
+            ${sub.paragraphs.map((p) => renderHtmlRichParagraph(p)).join('')}
             ${sub.equation ? renderHtmlEquation(sub.equation) : ''}
             ${sub.theoremBox ? renderHtmlTheorem(sub.theoremBox) : ''}
             ${sub.workedExample ? renderHtmlWorkedExample(sub.workedExample) : ''}
@@ -220,13 +305,13 @@ export function buildSyntheseSelfContainedHtml(): string {
     (a) => `
       <h3>Appendix ${escapeHtml(a.letter)}: ${escapeHtml(a.title)}</h3>
       <p><em>${escapeHtml(a.summary)}</em></p>
-      ${a.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join('')}
+      ${a.paragraphs.map((p) => renderHtmlRichParagraph(p)).join('')}
       ${a.equations.map(renderHtmlEquation).join('')}
       ${a.theoremBoxes ? a.theoremBoxes.map(renderHtmlTheorem).join('') : ''}
       ${
         a.reproducibilityLedger?.length
           ? `<table>
-               <thead><tr><th>Checkpoint</th><th>Formula</th><th>Reference Constants</th><th>Computed Output</th></tr></thead>
+               <thead><tr><th>Condition</th><th>Logical Rule</th><th>Tradition Grounds</th><th>Deductive Outcome</th></tr></thead>
                <tbody>${a.reproducibilityLedger
                  .map(
                    (row) =>
@@ -254,23 +339,20 @@ export function buildSyntheseSelfContainedHtml(): string {
 <meta charset="utf-8" />
 <title>${escapeHtml(SYNTHESE_META.title)}</title>
 <style>
-  body { font-family: Georgia, "Times New Roman", serif; color: #062429; background: #FAF6EC; margin: 0; padding: 3rem 1.5rem; line-height: 1.78; }
-  main { max-width: 840px; margin: 0 auto; background: #FDFBF7; padding: 3.5rem; border: 1px solid #CBBBA0; }
-  h1, h2, h3 { font-weight: 400; color: #2E0820; }
+  body { font-family: Georgia, "Times New Roman", serif; color: #161A1D; background: #FAF6EC; margin: 0; padding: 3rem 1.5rem; line-height: 1.78; }
+  main { max-width: 860px; margin: 0 auto; background: #FDFBF7; padding: 3.5rem; border: 1px solid #CBBBA0; }
+  h1, h2, h3, h4 { font-weight: 400; color: #161A1D; }
   h1 { font-size: 2.25rem; line-height: 1.18; margin: 0.4rem 0 0.75rem; }
   h2 { font-size: 1.58rem; border-bottom: 1px solid #CBBBA0; padding-bottom: 0.45rem; margin-top: 2.8rem; }
   h3 { font-size: 1.18rem; color: #0B3942; margin-top: 1.9rem; }
-  .masthead-strip { height: 5px; display: flex; margin-bottom: 1.6rem; }
-  .masthead-strip span { flex: 1; }
-  .kicker { font-family: monospace; font-size: 0.78rem; color: #831B5B; letter-spacing: 0.08em; text-transform: uppercase; }
-  .layman-deck { font-size: 1.12rem; color: #9A3412; font-style: italic; margin: 0.5rem 0 1.2rem; }
-  .subtitle { font-style: italic; color: #11505C; font-size: 1.02rem; margin-bottom: 1.4rem; }
-  .epigraph { font-style: italic; color: #186876; }
+  h4.sub-head { font-size: 1.04rem; color: #4A0E33; margin: 1.1rem 0 0.4rem; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.86em; background: #FAF6EC; border: 1px solid #E2D6C1; padding: 0.08rem 0.3rem; color: #11505C; }
+  .masthead-rule { border-top: 3px solid #11505C; border-bottom: 1px solid #661447; height: 4px; margin-bottom: 1.8rem; }
+  .layman-deck { font-size: 1.12rem; color: #4A0E33; font-style: italic; margin: 0.5rem 0 1.2rem; }
+  .epigraph { font-style: italic; color: #11505C; }
   .pull-quote { border-top: 1px solid #CBBBA0; border-bottom: 1px solid #CBBBA0; margin: 1.4rem 0; padding: 0.9rem 0; font-size: 1.15rem; font-style: italic; color: #4A0E33; text-align: center; }
   .lead { color: #0F3D2B; font-style: italic; }
-  .sub-meta { font-family: monospace; font-size: 0.76rem; color: #9A3412; margin-bottom: 0.6rem; }
-  .chapter-intro { border-top: 1px solid #17573E; border-bottom: 1px solid #17573E; background: #EEF5F1; padding: 1rem 1.35rem; margin: 1.4rem 0 2rem; }
-  .intro-label { font-family: monospace; font-size: 0.75rem; color: #0F3D2B; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+  .chapter-intro { border-top: 1px solid #CBBBA0; border-bottom: 1px solid #CBBBA0; background: #FAF6EC; padding: 1rem 1.35rem; margin: 1.4rem 0 2rem; }
   @media print {
     @page { size: A4; margin: 20mm; }
     body { padding: 0; background: #FFFFFF; }
@@ -278,58 +360,87 @@ export function buildSyntheseSelfContainedHtml(): string {
     .chapter { page-break-before: always; }
     .eq-box, .theorem-box, .worked-box, figure { break-inside: avoid; }
   }
-  .eq-box { background: #EDF5F6; border: 1px solid #186876; padding: 1rem 1.25rem; margin: 1.4rem 0; }
-  .eq-math { text-align: center; font-size: 1.04rem; color: #2E0820; overflow-wrap: anywhere; }
-  .eq-num { float: right; font-family: monospace; font-size: 0.85rem; color: #831B5B; }
-  .eq-plain { margin-top: 0.55rem; padding: 0.4rem 0.65rem; background: #FDFBF7; border: 1px solid #CBBBA0; font-size: 0.8rem; color: #2E0820; overflow-wrap: anywhere; }
-  .eq-plain code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem; }
+  .eq-box { background: #FAF6EC; border: 1px solid #CBBBA0; padding: 1rem 1.25rem; margin: 1.4rem 0; }
+  .eq-math { text-align: center; font-size: 1.04rem; color: #161A1D; overflow-wrap: anywhere; }
+  .eq-num { float: right; font-family: monospace; font-size: 0.85rem; color: #661447; }
   .eq-cap { font-size: 0.86rem; color: #0B3942; margin-top: 0.5rem; text-align: center; font-style: italic; }
   .eq-meaning { font-size: 0.82rem; color: #0F3D2B; margin-top: 0.25rem; text-align: center; }
-  .deriv-list { font-size: 0.82rem; color: #062429; margin: 0.6rem 0 0.4rem; padding-left: 1.2rem; }
-  .theorem-box { background: #F9EEF4; border: 1px solid #831B5B; padding: 1.1rem 1.35rem; margin: 1.4rem 0; }
-  .worked-box { background: #FFF4EB; border: 1px solid #C2410C; padding: 1.1rem 1.35rem; margin: 1.4rem 0; }
+  .deriv-list { font-size: 0.82rem; color: #161A1D; margin: 0.6rem 0 0.4rem; padding-left: 1.2rem; }
+  .theorem-box { background: #F9EEF4; border: 1px solid #661447; padding: 1.1rem 1.35rem; margin: 1.4rem 0; }
+  .worked-box { background: #FAF6EC; border: 1px solid #11505C; padding: 1.1rem 1.35rem; margin: 1.4rem 0; }
   .box-title { color: #4A0E33; margin-bottom: 0.5rem; font-weight: bold; }
   .box-note { font-family: monospace; font-size: 0.78rem; color: #11505C; margin-top: 0.5rem; overflow-wrap: anywhere; }
-  table { width: 100%; table-layout: fixed; border-collapse: collapse; margin: 1.6rem 0; font-size: 0.82rem; }
-  th { background: #EDF5F6; color: #062429; text-align: left; padding: 0.5rem; border: 1px solid #186876; word-break: break-word; overflow-wrap: anywhere; }
-  td { padding: 0.45rem; border: 1px solid #CBBBA0; vertical-align: top; word-break: break-word; overflow-wrap: anywhere; }
+  table { width: 100%; table-layout: fixed; border-collapse: collapse; margin: 1.6rem 0; font-size: 0.80rem; }
+  th { background: #EDF5F6; color: #161A1D; text-align: left; padding: 0.48rem; border: 1px solid #11505C; word-break: break-word; overflow-wrap: anywhere; }
+  td { padding: 0.42rem; border: 1px solid #CBBBA0; vertical-align: top; word-break: break-word; overflow-wrap: anywhere; }
   tr:nth-child(even) td { background: #F4EFE6; }
   figure { margin: 2rem 0; padding: 1rem; border: 1px solid #CBBBA0; background: #FAF6EC; }
   figure svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-  .fig-meta { font-family: monospace; font-size: 0.82rem; color: #831B5B; margin-bottom: 0.6rem; }
+  .fig-meta { font-family: monospace; font-size: 0.82rem; color: #11505C; margin-bottom: 0.6rem; }
   figcaption { font-size: 0.88rem; color: #0B3942; margin-top: 0.6rem; }
+  .idx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; font-size: 0.84rem; }
+  .idx-row { display: flex; justify-content: space-between; border-bottom: 1px solid #E2D6C1; padding: 0.25rem 0; gap: 0.5rem; }
 </style>
 </head>
 <body>
 <main>
-  <div class="masthead-strip">
-    <span style="background:#EA580C"></span>
-    <span style="background:#4A0E33"></span>
-    <span style="background:#0B3942"></span>
-    <span style="background:#0F3D2B"></span>
-    <span style="background:#1E2D52"></span>
-  </div>
-  <div class="kicker">${escapeHtml(SYNTHESE_META.paperNumber)} · ${escapeHtml(SYNTHESE_META.journalTarget)}</div>
+  <div class="masthead-rule"></div>
   <h1>${escapeHtml(SYNTHESE_META.title)}</h1>
   <p class="layman-deck">${escapeHtml(SYNTHESE_META.laymanDeck)}</p>
-  <p class="subtitle">${escapeHtml(SYNTHESE_META.subtitle)}</p>
-  <p><strong>Authors:</strong> ${escapeHtml(SYNTHESE_META.authors.map((a) => `${a.name} (${a.affiliation})`).join('; '))}</p>
+  <p><strong>Authors:</strong> ${SYNTHESE_META.authors
+    .map(
+      (a) =>
+        `${escapeHtml(a.name)} (${escapeHtml(a.affiliation)}${
+          a.orcidUrl ? `; ORCID: <a href="${escapeHtml(a.orcidUrl)}">${escapeHtml(a.orcid ?? a.orcidUrl)}</a>` : ''
+        })`
+    )
+    .join('; ')}</p>
   <h2>Abstract</h2>
   ${SYNTHESE_ABSTRACT.map((p) => `<p>${escapeHtml(p)}</p>`).join('')}
   ${graphicalAbstractHtml}
+
+  <h2>Table of Axioms (A1–A4)</h2>
+  <table>
+    <thead><tr><th>Axiom</th><th>Canonical S4 Formula</th><th>Modal &amp; Epistemic Status</th><th>Reductio on Denial</th><th>Falsification Trigger</th></tr></thead>
+    <tbody>${SYNTHESE_AXIOM_TABLE.map(
+      (ax) =>
+        `<tr><td>${escapeHtml(ax.code)} · ${escapeHtml(ax.name)}</td><td><code>${escapeHtml(ax.canonicalFormula)}</code></td><td>${escapeHtml(ax.modalAndEpistemicStatus)}</td><td>${escapeHtml(ax.reductioOnDenial)}</td><td>${escapeHtml(ax.falsificationTrigger)}</td></tr>`
+    ).join('')}</tbody>
+  </table>
+
+  <h2>How to Read This Treatise</h2>
+  <table>
+    <thead><tr><th>Audience</th><th>Essential Reading Path</th><th>Primary Focus</th></tr></thead>
+    <tbody>${SYNTHESE_HOW_TO_READ.map(
+      (tr) =>
+        `<tr><td>${escapeHtml(tr.audience)}</td><td><code>${escapeHtml(tr.essentialSections)}</code></td><td>${escapeHtml(tr.entryFocus)}</td></tr>`
+    ).join('')}</tbody>
+  </table>
+
   ${chaptersHtml}
   <h2>Glossary</h2>
-  <h3>Philosophical &amp; Technical Concepts</h3>
+  <h3>Philosophical &amp; Conceptual Lexicon</h3>
   ${SYNTHESE_GLOSSARY.map((g) => `<p><strong>${escapeHtml(g.term)}${g.acronym ? ` (${escapeHtml(g.acronym)})` : ''}:</strong> ${escapeHtml(g.definition)}</p>`).join('')}
-  <h3>Glossary of Formal Symbols</h3>
+  <h3>Logical Symbols &amp; Axioms</h3>
   <table>
-    <thead><tr><th>Symbol</th><th>Formal Quantity</th><th>Domain</th><th>Definition</th></tr></thead>
+    <thead><tr><th>Symbol</th><th>Concept</th><th>Domain</th><th>Logical Definition</th></tr></thead>
     <tbody>${SYNTHESE_SYMBOL_GLOSSARY.map((s) => `<tr><td>${escapeHtml(s.symbol)}</td><td>${escapeHtml(s.name)}</td><td>${escapeHtml(s.domain)}</td><td>${escapeHtml(s.definition)}</td></tr>`).join('')}</tbody>
   </table>
-  <h2>Appendices</h2>
+  <h2>Supplementary Appendices</h2>
   ${appendicesHtml}
   <h2>References</h2>
   ${SYNTHESE_REFERENCES.map((r) => `<p>[${r.id}] ${escapeHtml(r.citation)}</p>`).join('')}
+  <h2>Index of Names &amp; Index of Concepts</h2>
+  <div class="idx-grid">
+    <div>
+      <h3>Index of Names</h3>
+      ${SYNTHESE_INDEX_OF_NAMES.map((it) => `<div class="idx-row"><span>${escapeHtml(it.entry)}</span><span>${escapeHtml(it.sections)}</span></div>`).join('')}
+    </div>
+    <div>
+      <h3>Index of Concepts</h3>
+      ${SYNTHESE_INDEX_OF_CONCEPTS.map((it) => `<div class="idx-row"><span>${escapeHtml(it.entry)}</span><span>${escapeHtml(it.sections)}</span></div>`).join('')}
+    </div>
+  </div>
 </main>
 </body>
 </html>`;
@@ -340,26 +451,47 @@ export function buildSyntheseMarkdown(): string {
   lines.push(`# ${SYNTHESE_META.title}`);
   lines.push(`*${SYNTHESE_META.laymanDeck}*`);
   lines.push('');
-  lines.push(`**Target Journal:** ${SYNTHESE_META.journalTarget}`);
-  lines.push(`**Authors:** ${SYNTHESE_META.authors.map((a) => `${a.name} (${a.affiliation})`).join('; ')}`);
+  lines.push(
+    `**Authors:** ${SYNTHESE_META.authors
+      .map((a) => `${a.name} (${a.affiliation}${a.orcid ? `; ORCID ${a.orcid}` : ''})`)
+      .join('; ')}`
+  );
   lines.push(`**Keywords:** ${SYNTHESE_META.keywords.join(', ')}`);
   lines.push('');
   lines.push('## Abstract');
   SYNTHESE_ABSTRACT.forEach((p) => lines.push(p, ''));
 
+  lines.push('## Table of Axioms (A1–A4)');
+  SYNTHESE_AXIOM_TABLE.forEach((ax) => {
+    lines.push(`- **${ax.code} · ${ax.name}:** \`${ax.canonicalFormula}\` — ${ax.modalAndEpistemicStatus} Reductio: ${ax.reductioOnDenial}. Falsifier: ${ax.falsificationTrigger}`);
+  });
+  lines.push('');
+
+  lines.push('## How to Read This Treatise');
+  SYNTHESE_HOW_TO_READ.forEach((tr) => {
+    lines.push(`- **${tr.audience}** (\`${tr.essentialSections}\`): ${tr.entryFocus}`);
+  });
+  lines.push('');
+
   SYNTHESE_CHAPTERS.forEach((ch) => {
-    lines.push(`## Chapter ${ch.number}: ${ch.title}`);
+    lines.push(`## Part ${ch.number}: ${ch.title}`);
     lines.push(`> *${ch.epigraph}*`);
     lines.push('');
-    lines.push(`> **Pull Quote:** ${ch.pullQuote}`);
+    lines.push(`> ${ch.pullQuote}`);
     lines.push('');
     lines.push(ch.leadSummary, '');
     ch.chapterIntro.forEach((p) => lines.push(p, ''));
+    if (ch.number === 7) {
+      lines.push(`### ${SYNTHESE_ARGUMENT_MAP.title}`);
+      lines.push(SYNTHESE_ARGUMENT_MAP.summary, '');
+      SYNTHESE_ARGUMENT_MAP.nodes.forEach((n) => lines.push(`- **${n.step}:** ${n.rule} → ${n.leadsTo}`));
+      lines.push('');
+    }
     ch.subsections.forEach((sub) => {
-      lines.push(`### ${sub.number} ${sub.title}`);
+      lines.push(`### §${sub.number} ${sub.title}`);
       sub.paragraphs.forEach((p) => lines.push(p, ''));
       if (sub.equation) {
-        lines.push(`**Equation ${sub.equation.label}:** \`${sub.equation.plainMath}\``);
+        lines.push(`**Logical Schema ${sub.equation.label}:** \`${htmlEquationToText(sub.equation.unicodeHtml)}\``);
         lines.push(`*${sub.equation.caption}* — ${sub.equation.plainMeaning}`, '');
       }
       if (sub.theoremBox) {
@@ -370,10 +502,19 @@ export function buildSyntheseMarkdown(): string {
       if (sub.workedExample) {
         lines.push(`**${sub.workedExample.title}:** ${sub.workedExample.setup}`);
         sub.workedExample.steps.forEach((s, i) => lines.push(`${i + 1}. ${s}`));
-        lines.push(`*Result ${sub.workedExample.resultEquation.label}:* \`${sub.workedExample.resultEquation.plainMath}\``);
-        lines.push(`*Takeaway:* ${sub.workedExample.takeaway}`, '');
+        lines.push(`*Logical Schema ${sub.workedExample.resultEquation.label}:* \`${htmlEquationToText(sub.workedExample.resultEquation.unicodeHtml)}\``);
+        lines.push(`*Conclusion:* ${sub.workedExample.takeaway}`, '');
       }
     });
+    if (ch.number === 8) {
+      lines.push('### Table 8.1 · Master 32-Position Cross-Reference Matrix (§§2–33 × A1–A4)');
+      lines.push('| § | Framework | A1 | A2 | A3 | A4 | Status Note |');
+      lines.push('|---|---|---|---|---|---|---|');
+      SYNTHESE_32_MATRIX.forEach((r) => {
+        lines.push(`| ${r.section} | ${r.framework} | ${r.a1} | ${r.a2} | ${r.a3} | ${r.a4} | ${r.statusNote} |`);
+      });
+      lines.push('');
+    }
   });
 
   lines.push('## Glossary');
@@ -386,7 +527,7 @@ export function buildSyntheseMarkdown(): string {
     lines.push(`*${a.summary}*`, '');
     a.paragraphs.forEach((p) => lines.push(p, ''));
     a.equations.forEach((eq) => {
-      lines.push(`**${eq.label}:** \`${eq.plainMath}\` — ${eq.caption}`, '');
+      lines.push(`**Logical Schema ${eq.label}:** \`${htmlEquationToText(eq.unicodeHtml)}\` — ${eq.caption}`, '');
     });
     a.refereeObjections?.forEach((o) => {
       lines.push(`- **${o.objection}** ${o.reply}`);
@@ -395,6 +536,12 @@ export function buildSyntheseMarkdown(): string {
   });
   lines.push('## References');
   SYNTHESE_REFERENCES.forEach((r) => lines.push(`${r.id}. ${r.citation}`));
+  lines.push('');
+  lines.push('## Index of Names');
+  SYNTHESE_INDEX_OF_NAMES.forEach((it) => lines.push(`- ${it.entry} — ${it.sections}`));
+  lines.push('');
+  lines.push('## Index of Concepts');
+  SYNTHESE_INDEX_OF_CONCEPTS.forEach((it) => lines.push(`- ${it.entry} — ${it.sections}`));
   return lines.join('\n');
 }
 
@@ -423,7 +570,9 @@ const TEXT_LATIN_ACCENTS: Record<string, string> = {
   'à': '\\`{a}', 'á': "\\'{a}", 'â': '\\^{a}', 'ä': '\\"{a}', 'é': "\\'{e}",
   'è': '\\`{e}', 'ê': '\\^{e}', 'ë': '\\"{e}', 'í': "\\'{i}", 'î': '\\^{i}',
   'ï': '\\"{i}', 'ñ': '\\~{n}', 'ó': "\\'{o}", 'ô': '\\^{o}', 'ö': '\\"{o}',
-  'ú': "\\'{u}", 'û': '\\^{u}', 'ü': '\\"{u}', 'ç': '\\c{c}', 'É': "\\'{E}"
+  'ú': "\\'{u}", 'û': '\\^{u}', 'ü': '\\"{u}', 'ç': '\\c{c}', 'É': "\\'{E}",
+  'Ä': '\\"{A}', 'Ö': '\\"{O}', 'Ü': '\\"{U}', 'ß': '\\ss{}',
+  'Č': '\\v{C}', 'č': '\\v{c}', 'š': '\\v{s}', 'ž': '\\v{z}', 'ł': '\\l{}'
 };
 
 const TEXT_PUNCT_MAP: Record<string, string> = {
@@ -435,39 +584,49 @@ const TEXT_PUNCT_MAP: Record<string, string> = {
   '“': '``',
   '”': "''",
   '…': '\\ldots{}',
-  '•': '\\textbullet{} '
+  '•': '\\textbullet{} ',
+  '✓': '$\\checkmark$',
+  '✗': '$\\times$'
 };
 
 const MATH_UNICODE_MAP: Record<string, string> = {
   'Γ': '\\Gamma ', 'Δ': '\\Delta ', 'Θ': '\\Theta ', 'Λ': '\\Lambda ',
-  'Φ': '\\Phi ', 'Ω': '\\Omega ', 'α': '\\alpha ', 'β': '\\beta ',
-  'γ': '\\gamma ', 'δ': '\\delta ', 'ε': '\\varepsilon ', 'θ': '\\theta ',
-  'κ': '\\kappa ', 'λ': '\\lambda ', 'μ': '\\mu ', 'ν': '\\nu ',
-  'ξ': '\\xi ', 'π': '\\pi ', 'ρ': '\\rho ', 'σ': '\\sigma ',
-  'τ': '\\tau ', 'φ': '\\varphi ', 'χ': '\\chi ', 'ψ': '\\psi ',
-  'ω': '\\omega ',
+  'Φ': '\\Phi ', 'Ω': '\\Omega ', 'Π': '\\Pi ', 'Ψ': '\\Psi ', 'Σ': '\\Sigma ',
+  'α': '\\alpha ', 'β': '\\beta ', 'γ': '\\gamma ', 'δ': '\\delta ',
+  'ε': '\\varepsilon ', 'θ': '\\theta ', 'κ': '\\kappa ', 'λ': '\\lambda ',
+  'μ': '\\mu ', 'ν': '\\nu ', 'ξ': '\\xi ', 'π': '\\pi ',
+  'ρ': '\\rho ', 'σ': '\\sigma ', 'τ': '\\tau ', 'φ': '\\varphi ',
+  'χ': '\\chi ', 'ψ': '\\psi ', 'ω': '\\omega ',
   'ℱ': '\\mathcal{F}', '𝒢': '\\mathcal{G}', 'ℐ': '\\mathcal{I}', 'ℒ': '\\mathcal{L}',
   'ℳ': '\\mathcal{M}', '𝒪': '\\mathcal{O}', '𝒥': '\\mathcal{J}',
-  '𝐋': '\\mathbf{L}', '𝐨': '\\mathbf{o}', '𝐫': '\\mathbf{r}',
-  '𝐈': '\\mathbf{I}', '𝐧': '\\mathbf{n}', '𝐟': '\\mathbf{f}',
-  '𝐆': '\\mathbf{G}', '𝐞': '\\mathbf{e}', '𝐦': '\\mathbf{m}',
+  'ℝ': '\\mathbb{R}', '♮': '\\natural ',
+  '∀': '\\forall ', '∃': '\\exists ', '∄': '\\nexists ', '¬': '\\neg ',
+  '∅': '\\emptyset ', '∈': '\\in ', '∉': '\\notin ', '⊂': '\\subset ',
+  '⊆': '\\subseteq ', '⊊': '\\subsetneq ', '∩': '\\cap ', '∪': '\\cup ',
+  '≺': '\\prec ', '≻': '\\succ ',
+  '≅': '\\cong ', '⟨': '\\langle ', '⟩': '\\rangle ',
+  '∧': '\\wedge ', '∨': '\\vee ', '⊕': '\\oplus ', '⊗': '\\otimes ', '∮': '\\oint ',
+  '⊢': '\\vdash ', '⊬': '\\nvdash ', '⊥': '\\bot ', '□': '\\Box ', '◇': '\\Diamond ',
+  '†': '^\\dagger ', '↦': '\\mapsto ', '⊣': '\\dashv ', '∝': '\\propto ', '∑': '\\sum ',
   'ℓ': '\\ell ', '∇': '\\nabla ', '∂': '\\partial ', '∫': '\\int ',
   '∞': '\\infty ', '×': '\\times ', '·': '\\cdot ', '±': '\\pm ',
   '≈': '\\approx ', '≤': '\\le ', '≥': '\\ge ', '≪': '\\ll ', '≫': '\\gg ',
-  '≠': '\\neq ', '≡': '\\equiv ', '⇔': '\\iff ', '⇄': '\\leftrightarrow ',
-  '→': '\\rightarrow ', '⇒': '\\Rightarrow ', '−': '-', '‖': '\\|',
-  '⊊': '\\subsetneq ', '⊔': '\\sqcup ', '∘': '\\circ ', '⊙': '\\odot ', '☉': '\\odot ',
-  '½': '\\frac{1}{2}', '″': '^{\\prime\\prime}'
+  '≠': '\\neq ', '≡': '\\equiv ', '⇔': '\\iff ', '⇄': '\\leftrightarrow ', '↔': '\\leftrightarrow ',
+  '→': '\\rightarrow ', '←': '\\leftarrow ', '⇒': '\\Rightarrow ', '−': '-', '‖': '\\|',
+  '⊔': '\\sqcup ', '∘': '\\circ ', '⊙': '\\odot ', '☉': '\\odot ',
+  '½': '\\frac{1}{2}', '′': '\\prime ', '″': '^{\\prime\\prime}',
+  '✓': '\\checkmark ', '✗': '\\times '
 };
 
 const ROMAN_WORDS = new Set([
-  'upd', 'obs', 'loc', 'eff', 'core', 'ext', 'int', 'sing', 'reg', 'Morita',
-  'Gordon', 'Hayward', 'BKM', 'SLD', 'MDL', 'PPN', 'GR', 'IGRT', 'LUH',
-  'Lor', 'InfoGeom', 'LC', 'diag', 'Tr', 'det', 'ln', 'log', 'lim', 'echo'
+  'upd', 'obs', 'loc', 'eff', 'core', 'ext', 'int', 'sing', 'reg',
+  'KMS', 'PTA', 'clk', 'aut', 'min', 'global', 'now', 'delay', 'instant',
+  'Cut', 'ego', 'Kant', 'obj', 'env', 'mod', 'diag', 'Tr', 'det', 'ln', 'log', 'lim',
+  'split', 'present', 'inv', 'coh', 'ret', 'prot', 'FOH', 'context', 'ordinary'
 ]);
 
 const MATH_TOKEN_UNICODE_RE =
-  /[ΓΔΘΛΦΩαβγδεθκλμνξπρστυφχψωℱ𝒢ℐℒℳ𝒪𝒥ℓ∇∂∫∞×·±≈≤≥≪≫≠≡⇔⇄→⇒−‖⊊⊔∘⊙☉½″√⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻ⁿʳⁱʲ₀₁₂₃₄₅₆₇₈₉₊₋ᵢ]/u;
+  /[ΓΔΘΛΦΩΠΨΣαβγδεθκλμνξπρστυφχψωℱ𝒢ℐℒℳ𝒪𝒥ℝ♮∀∃∄¬∅∈∉⊂⊆⊊∩∪≺≻≅⟨⟩∧∨⊕⊗∮⊢⊬⊥□◇†↦⊣∝∑ℓ∇∂∫∞×·±≈≤≥≪≫≠≡⇔⇄↔→←⇒−‖⊔∘⊙☉½′″√⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻ⁿʳⁱʲ₀₁₂₃₄₅₆₇₈₉₊₋ᵢ]/u;
 
 function escapeTextChar(ch: string): string {
   if (ch in TEXT_LATIN_ACCENTS) return TEXT_LATIN_ACCENTS[ch];
@@ -565,7 +724,6 @@ function balanceSqrt(tex: string): string {
 }
 
 function balanceLiteralBracesInMath(s: string): string {
-  // Check brace balance across math expression; escape unmatched braces if any
   let depth = 0;
   let out = '';
   for (let i = 0; i < s.length; i++) {
@@ -622,52 +780,88 @@ function renderMathBodyToLatex(rawMath: string): string {
   return s.replace(/[ ]{2,}/g, ' ').trim();
 }
 
-function texProse(input: string): string {
-  if (!input) return '';
-  const chunks = input.replace(/\r\n/g, '\n').split(/(\bBulaqueña\b|`[^`]+`)/g);
-  return chunks
-    .map((chunk, i) => {
-      if (!chunk) return '';
-      if (i % 2 === 1) {
-        if (chunk === 'Bulaqueña') return 'Bulaque\\~{n}a';
-        return `\\texttt{${escapeCodeText(chunk.slice(1, -1))}}`;
+function texInlineSegment(segment: string): string {
+  return segment
+    .split(/(\s+)/)
+    .map((tok) => {
+      if (!tok) return '';
+      if (/^\s+$/.test(tok)) return tok;
+      if (MATH_TOKEN_UNICODE_RE.test(tok) || (/[_^]/.test(tok) && !tok.includes('http'))) {
+        let core = tok;
+        let lead = '';
+        let trail = '';
+        while (core.length > 1 && /[.,;:!?]$/.test(core)) {
+          trail = core[core.length - 1] + trail;
+          core = core.slice(0, -1);
+        }
+        if ((core.match(/\(/g) || []).length > (core.match(/\)/g) || []).length && core.startsWith('(')) {
+          lead += '(';
+          core = core.slice(1);
+        } else if ((core.match(/\)/g) || []).length > (core.match(/\(/g) || []).length && core.endsWith(')')) {
+          trail = ')' + trail;
+          core = core.slice(0, -1);
+        }
+        if ((core.match(/\{/g) || []).length > (core.match(/\}/g) || []).length && core.startsWith('{')) {
+          lead += '{';
+          core = core.slice(1);
+        } else if ((core.match(/\}/g) || []).length > (core.match(/\{/g) || []).length && core.endsWith('}')) {
+          trail = '}' + trail;
+          core = core.slice(0, -1);
+        }
+        if (core && !SUP_CHAR_RE.test(lead) && !SUB_CHAR_RE.test(trail)) {
+          return `${escapeRawText(lead)}$${renderMathBodyToLatex(core)}$${escapeRawText(trail)}`;
+        }
       }
-      return chunk
-        .split(/(\s+)/)
-        .map((tok) => {
-          if (!tok) return '';
-          if (/^\s+$/.test(tok)) return tok;
-          if (MATH_TOKEN_UNICODE_RE.test(tok) || (/[_^]/.test(tok) && !tok.includes('http'))) {
-            let core = tok;
-            let lead = '';
-            let trail = '';
-            while (core.length > 1 && /[.,;:!?]$/.test(core)) {
-              trail = core[core.length - 1] + trail;
-              core = core.slice(0, -1);
-            }
-            if ((core.match(/\(/g) || []).length > (core.match(/\)/g) || []).length && core.startsWith('(')) {
-              lead += '(';
-              core = core.slice(1);
-            } else if ((core.match(/\)/g) || []).length > (core.match(/\(/g) || []).length && core.endsWith(')')) {
-              trail = ')' + trail;
-              core = core.slice(0, -1);
-            }
-            if ((core.match(/\{/g) || []).length > (core.match(/\}/g) || []).length && core.startsWith('{')) {
-              lead += '{';
-              core = core.slice(1);
-            } else if ((core.match(/\}/g) || []).length > (core.match(/\{/g) || []).length && core.endsWith('}')) {
-              trail = '}' + trail;
-              core = core.slice(0, -1);
-            }
-            if (core && !SUP_CHAR_RE.test(lead) && !SUB_CHAR_RE.test(trail)) {
-              return `${escapeRawText(lead)}$${renderMathBodyToLatex(core)}$${escapeRawText(trail)}`;
-            }
-          }
-          return escapeRawText(tok);
-        })
-        .join('');
+      return escapeRawText(tok);
     })
     .join('');
+}
+
+function texNonBoldLine(content: string): string {
+  const chunks = content.split(/(\bBulaqueña\b|`[^`]+`|\*(?!\s)[^*\n]+?(?<!\s)\*)/g);
+  return chunks
+    .map((chunk) => {
+      if (!chunk) return '';
+      if (chunk === 'Bulaqueña') return 'Bulaque\\~{n}a';
+      if (chunk.startsWith('`') && chunk.endsWith('`') && chunk.length >= 2) {
+        const inner = chunk.slice(1, -1);
+        if (MATH_TOKEN_UNICODE_RE.test(inner) || /[_^]/.test(inner)) {
+          return `$${renderMathBodyToLatex(inner)}$`;
+        }
+        return `\\texttt{${escapeCodeText(inner)}}`;
+      }
+      if (chunk.startsWith('*') && chunk.endsWith('*') && chunk.length >= 2) {
+        return `\\textit{${texInlineSegment(chunk.slice(1, -1))}}`;
+      }
+      return texInlineSegment(chunk);
+    })
+    .join('');
+}
+
+function texProse(input: string): string {
+  if (!input) return '';
+  const lines = input.replace(/\r\n/g, '\n').split('\n');
+  return lines
+    .map((line) => {
+      let headingPrefix = '';
+      let content = line;
+      if (content.startsWith('### ')) {
+        headingPrefix = '\\paragraph{';
+        content = content.slice(4);
+      }
+      const boldSplit = content.split(/(\*\*[^\n]+?\*\*)/g);
+      const rendered = boldSplit
+        .map((chunk, j) => {
+          if (!chunk) return '';
+          if (j % 2 === 1) {
+            return `\\textbf{${texNonBoldLine(chunk.slice(2, -2))}}`;
+          }
+          return texNonBoldLine(chunk);
+        })
+        .join('');
+      return headingPrefix ? `${headingPrefix}${rendered}}` : rendered;
+    })
+    .join('\n\n');
 }
 
 function renderTexEquation(eq: SyntheseEquation): string {
@@ -685,10 +879,8 @@ function renderTexEquation(eq: SyntheseEquation): string {
   const safeLabel = cleanTag.replace(/[^A-Za-z0-9.\-]/g, '-').toLowerCase();
   const parts: string[] = [
     `\\begin{equation}\\label{eq:${safeLabel}}\\tag{${cleanTag}}\n  ${body}\n\\end{equation}`,
-    `\\noindent\\textbf{Plain Math Equation:} \\texttt{${escapeCodeText(eq.plainMath)}}`,
     `\\noindent{\\small\\textit{${texProse(eq.caption)}}} \\\\ {\\small ${texProse(eq.plainMeaning)}}`
   ];
-  if (eq.provenance) parts.push(`\\noindent\\textbf{Provenance:} ${texProse(eq.provenance)}`);
   if (eq.derivationSteps?.length) {
     parts.push(`\\begin{enumerate}\n${eq.derivationSteps.map((s) => `\\item ${texProse(s)}`).join('\n')}\n\\end{enumerate}`);
   }
@@ -719,59 +911,73 @@ ${rowLines}
 function renderTexChapterTables(chapterNum: number): string {
   if (chapterNum === 2) {
     return makeLongTable(
-      'Taxonomy of Geometric Conventionalisms (G + F) and Empirical Constraints',
-      'L{0.18} L{0.18} L{0.18} L{0.16} L{0.18}',
-      ['Program', 'Metric Choice', 'Coordinative Bridge', 'Empirical Status', 'IGRT Diagnostic'],
-      TABLE_2_1_CONVENTIONALISM.map((r) => [r.program, r.metricChoice, r.coordinativeBridge, r.empiricalStatus, r.igrtDiagnostic])
+      'Table 2.1: Phenomenological and Transcendental Genealogy Matrix (Sections 2-9)',
+      'L{0.20} L{0.22} L{0.24} L{0.22}',
+      ['Theory', 'Core Structural Claim', 'Paradox Encountered', 'Logical Counterpart'],
+      TABLE_2_1_PHENOMENOLOGY.map((r) => [r.theory, r.coreClaim, r.paradoxEncountered, r.bundleCounterpart])
     );
   }
   if (chapterNum === 3) {
     return makeLongTable(
-      'PPN Bounds and Collapse of Scalar gamma = 0 Underdetermination',
-      'L{0.18} L{0.18} L{0.16} L{0.14} L{0.22}',
-      ['Observable', 'Empirical Bound', 'Naive Scalar', 'Morita & GR', 'Philosophical Implication'],
-      TABLE_3_1_PPN_UNDERDETERMINATION.map((r) => [r.observable, r.empiricalBound, r.naiveScalar, r.moritaIgrtAndGr, r.philosophicalImplication])
+      'Table 3.1: Deconstructive and Post-Structuralist Matrix (Sections 10-15a)',
+      'L{0.20} L{0.22} L{0.24} L{0.22}',
+      ['Theory', 'Core Claim', 'Structural Dissolution', 'Logical Counterpart'],
+      TABLE_3_1_DECONSTRUCTION.map((r) => [r.theory, r.coreClaim, r.structuralDissolution, r.bundleCounterpart])
     );
   }
   if (chapterNum === 4) {
     return makeLongTable(
-      'Categorical and Morita Functorial Equivalence Ledger',
-      'L{0.16} L{0.20} L{0.20} L{0.18} L{0.14}',
-      ['Categorical Object', 'Lorentzian GR', 'InfoGeom IGRT', 'Invariant Preserved', 'Status'],
-      TABLE_4_1_MORITA_LEDGER.map((r) => [r.categoricalObject, r.lorentzianGR, r.infoGeomIGRT, r.invariantPreserved, r.status])
+      'Table 4.1: Orthodox Quantum Foundations Observer Models (Sections 16-20)',
+      'L{0.20} L{0.22} L{0.22} L{0.24}',
+      ['Framework', 'Where Observer Sits', 'Cut / Collapse Status', 'Philosophical Mapping'],
+      TABLE_4_1_QUANTUM.slice(0, 5).map((r) => [r.theory, r.observerSeat, r.cutStatus, r.bundleMapping])
     );
   }
   if (chapterNum === 5) {
     return makeLongTable(
-      'Functionalist and Structuralist Ontological Matrix',
-      'L{0.18} L{0.18} L{0.18} L{0.18} L{0.16}',
-      ['Stance', 'Ontic Commitments', 'Functional Role', 'Response to IGRT', 'Synthese Verdict'],
-      TABLE_5_1_FUNCTIONALISM_MATRIX.map((r) => [r.stance, r.onticCommitments, r.functionalRoleStatus, r.responseToIGRT, r.syntheseAssessment])
+      'Table 5.1: Relational, Epistemic, Decoherent and Dynamical Quantum Models (Sections 21-27)',
+      'L{0.20} L{0.22} L{0.22} L{0.24}',
+      ['Framework', 'Where Observer Sits', 'Cut / Decoherence Status', 'Philosophical Mapping'],
+      TABLE_4_1_QUANTUM.slice(5).map((r) => [r.theory, r.observerSeat, r.cutStatus, r.bundleMapping])
     );
   }
   if (chapterNum === 6) {
     return makeLongTable(
-      'Strong-Field Horizon and Regular-Core Ontological Scorecard',
-      'L{0.16} L{0.18} L{0.18} L{0.18} L{0.18}',
-      ['Domain Feature', 'Standard GR', 'Regular IGRT', 'Ontological Status', 'Empirical Handle'],
-      TABLE_6_1_STRONG_FIELD_ONTOLOGY.map((r) => [r.domainFeature, r.standardGR, r.regularIGRT, r.ontologicalStatus, r.empiricalHandle])
+      'Table 6.1: Systems-Theoretical and Enactive Closure Matrix (Sections 28-33)',
+      'L{0.20} L{0.22} L{0.24} L{0.22}',
+      ['Theory', 'Core Claim', 'Closure Mechanism', 'Logical Counterpart'],
+      TABLE_5_1_SYSTEMS.map((r) => [r.theory, r.coreClaim, r.closureMechanism, r.bundleCounterpart])
     );
   }
   if (chapterNum === 7) {
     return makeLongTable(
-      'Bayesian Evidence and Fisher MDL Epistemic Audit',
-      'L{0.18} L{0.08} L{0.16} L{0.12} L{0.16} L{0.18}',
-      ['Framework', 'k', 'Chi2 Data', 'MDL Penalty', 'Log Bayes vs GR', 'Methodology Lesson'],
-      TABLE_7_1_BAYESIAN_MDL.map((r) => [r.framework, r.paramsK, r.chiSquareData, r.fisherMdlPenalty, r.logBayesVsGR, r.methodologyLesson])
+      'Table 7.1: Axiomatic Resolution of the Constitutive-Absence Paradox (Sections 34-37)',
+      'L{0.20} L{0.22} L{0.23} L{0.23}',
+      ['Logical Principle', 'Structural Role', 'Phenomenological Correlate', 'Antinomy Dissolved'],
+      TABLE_6_1_RESOLUTION.map((r) => [r.formalObject, r.mathematicalRole, r.phenomenologicalCorrelate, r.obstructionResolved])
     );
   }
   if (chapterNum === 8) {
-    return makeLongTable(
-      '2026-2035 Crucial Experiments and Falsification Thresholds',
-      'L{0.16} L{0.09} L{0.17} L{0.16} L{0.15} L{0.15}',
-      ['Experiment', 'Window', 'Observable', 'If Confirmed', 'If Null', 'Lakatosian Role'],
-      TABLE_8_1_CRUCIAL_EXPERIMENTS.map((r) => [r.experiment, r.window, r.targetObservable, r.ifConfirmed, r.ifNull, r.lakatosianRole])
-    );
+    return [
+      makeLongTable(
+        'Table 8.1: Master 32-Position Axiomatic Cross-Reference Matrix (Sections 2-33 x A1-A4)',
+        'L{0.06} L{0.22} L{0.07} L{0.07} L{0.07} L{0.07} L{0.30}',
+        ['Sec.', 'Framework', 'A1', 'A2', 'A3', 'A4', 'Audit Status'],
+        SYNTHESE_32_MATRIX.map((r) => [r.section, r.framework, r.a1, r.a2, r.a3, r.a4, r.statusNote])
+      ),
+      makeLongTable(
+        'Table 8.2: Cross-Tradition Structural Identity Audit (Sections 38-39)',
+        'L{0.16} L{0.18} L{0.18} L{0.18} L{0.18}',
+        ['Criterion', 'Husserl', 'Rovelli RQM', 'Autopoiesis', 'Four-Axiom Logic'],
+        TABLE_7_1_IDENTITY_SYNTHESIS.map((r) => [r.structuralCriterion, r.husserlPhenom, r.rovelliRqm, r.autopoiesisBio, r.fiberBundleFormal])
+      ),
+      makeLongTable(
+        'Table 8.3: Empirical Falsification and Methodological Crucibles (Section 40)',
+        'L{0.20} L{0.22} L{0.24} L{0.22}',
+        ['Domain', 'Target Observable', 'Philosophical Prediction', 'Null Consequence'],
+        TABLE_8_1_TESTABLE_CORRELATION.map((r) => [r.channel, r.targetObservable, r.predictedSignal, r.nullConsequence])
+      )
+    ].join('\n\n');
   }
   return '';
 }
@@ -793,8 +999,10 @@ export function buildSyntheseLatex(): string {
 }
 
 \\title{${texProse(SYNTHESE_META.title)} \\\\ \\large\\textit{${texProse(SYNTHESE_META.laymanDeck)}}}
-\\author{${SYNTHESE_META.authors.map((a) => `${texProse(a.name)} (${texProse(a.affiliation)})`).join(' \\and ')}}
-\\date{2026 (Synthese Journal Submission Manuscript)}
+\\author{${SYNTHESE_META.authors
+    .map((a) => `${texProse(a.name)} (${texProse(a.affiliation)}${a.orcid ? `; ORCID ${a.orcid}` : ''})`)
+    .join(' \\and ')}}
+\\date{2026}
 
 \\begin{document}
 \\sloppy
@@ -808,10 +1016,30 @@ ${SYNTHESE_ABSTRACT.map((p) => texProse(p)).join('\n\n')}
 
 \\tableofcontents
 
+${makeLongTable(
+  'Table of Axioms (A1-A4)',
+  'L{0.14} L{0.22} L{0.18} L{0.17} L{0.17}',
+  ['Axiom', 'Canonical Formula', 'Modal Status', 'Reductio on Denial', 'Empirical Falsifier'],
+  SYNTHESE_AXIOM_TABLE.map((ax) => [
+    `${ax.code} ${ax.name}`,
+    ax.canonicalFormula,
+    ax.modalAndEpistemicStatus,
+    ax.reductioOnDenial,
+    ax.falsificationTrigger
+  ])
+)}
+
+${makeLongTable(
+  'How to Read This Treatise',
+  'L{0.22} L{0.26} L{0.40}',
+  ['Discipline / Audience', 'Essential Reading Path', 'Entry Focus'],
+  SYNTHESE_HOW_TO_READ.map((tr) => [tr.audience, tr.essentialSections, tr.entryFocus])
+)}
+
 \\section*{List of Plates and Figures}
 \\begin{description}
-${SYNTHESE_PLATES_INDEX.map((pl) => `  \\item[${texProse(pl.plateNumber)} (Ch. ${pl.anchorChapter})] ${texProse(pl.title)}: ${texProse(pl.caption)}`).join('\n')}
-${SYNTHESE_FIGURES.map((fg) => `  \\item[${texProse(fg.figureNumber)} (Ch. ${fg.anchorChapter})] ${texProse(fg.title)}: ${texProse(fg.caption)}`).join('\n')}
+${SYNTHESE_PLATES_INDEX.map((pl) => `  \\item[${texProse(pl.plateNumber)} (Part ${pl.anchorChapter})] ${texProse(pl.title)}: ${texProse(pl.caption)}`).join('\n')}
+${SYNTHESE_FIGURES.map((fg) => `  \\item[${texProse(fg.figureNumber)} (Part ${fg.anchorChapter})] ${texProse(fg.title)}: ${texProse(fg.caption)}`).join('\n')}
 \\end{description}
 
 ${SYNTHESE_CHAPTERS.map(
@@ -819,25 +1047,30 @@ ${SYNTHESE_CHAPTERS.map(
 \\section{${texProse(ch.title)}}
 \\noindent\\textit{${texProse(ch.leadSummary)}}
 
-\\paragraph*{Editorial Opening}
 ${ch.chapterIntro.map((p) => texProse(p)).join('\n\n')}
 
-${ch.subsections
-  .map(
-    (sub) => `\\subsection{${texProse(sub.title)}}
+${
+  ch.number === 7
+    ? `\\subsection*{${texProse(SYNTHESE_ARGUMENT_MAP.title)}}\n${texProse(SYNTHESE_ARGUMENT_MAP.summary)}\n\\begin{enumerate}\n${SYNTHESE_ARGUMENT_MAP.nodes
+        .map((n) => `\\item \\textbf{${texProse(n.step)}:} ${texProse(n.rule)} (${texProse(n.leadsTo)})`)
+        .join('\n')}\n\\end{enumerate}\n`
+    : ''
+}${ch.subsections
+    .map(
+      (sub) => `\\subsection{${texProse(sub.title)}}
 ${sub.paragraphs.map((p) => texProse(p)).join('\n\n')}${
-      sub.equation ? `\n\n${renderTexEquation(sub.equation)}` : ''
-    }${
-      sub.theoremBox
-        ? `\n\n\\noindent\\textbf{${texProse(sub.theoremBox.kind)} ${texProse(sub.theoremBox.number)}: ${texProse(sub.theoremBox.title)}.} ${texProse(sub.theoremBox.statement)}\n\\begin{enumerate}\n${sub.theoremBox.proofSteps.map((s) => `\\item ${texProse(s)}`).join('\n')}\n\\end{enumerate}\n\\textit{Provenance:} ${texProse(sub.theoremBox.sourceNote)}`
-        : ''
-    }${
-      sub.workedExample
-        ? `\n\n\\noindent\\textbf{${texProse(sub.workedExample.title)}.} \\textit{${texProse(sub.workedExample.setup)}}\n\\begin{enumerate}\n${sub.workedExample.steps.map((s) => `\\item ${texProse(s)}`).join('\n')}\n\\end{enumerate}\n${renderTexEquation(sub.workedExample.resultEquation)}\n\\textit{Takeaway:} ${texProse(sub.workedExample.takeaway)}`
-        : ''
-    }`
-  )
-  .join('\n\n')}
+        sub.equation ? `\n\n${renderTexEquation(sub.equation)}` : ''
+      }${
+        sub.theoremBox
+          ? `\n\n\\noindent\\textbf{${texProse(sub.theoremBox.kind)} ${texProse(sub.theoremBox.number)}: ${texProse(sub.theoremBox.title)}.} ${texProse(sub.theoremBox.statement)}\n\\begin{enumerate}\n${sub.theoremBox.proofSteps.map((s) => `\\item ${texProse(s)}`).join('\n')}\n\\end{enumerate}\n\\textit{${texProse(sub.theoremBox.sourceNote)}}`
+          : ''
+      }${
+        sub.workedExample
+          ? `\n\n\\noindent\\textbf{${texProse(sub.workedExample.title)}.} \\textit{${texProse(sub.workedExample.setup)}}\n\\begin{enumerate}\n${sub.workedExample.steps.map((s) => `\\item ${texProse(s)}`).join('\n')}\n\\end{enumerate}\n${renderTexEquation(sub.workedExample.resultEquation)}\n\\textit{Conclusion:} ${texProse(sub.workedExample.takeaway)}`
+          : ''
+      }`
+    )
+    .join('\n\n')}
 
 ${renderTexChapterTables(ch.number)}`
 ).join('\n\n')}
@@ -849,9 +1082,9 @@ ${SYNTHESE_GLOSSARY.map((g) => `  \\item[${texProse(g.term)}] ${texProse(g.defin
 \\end{description}
 
 ${makeLongTable(
-  'Glossary of Formal Symbols',
-  'L{0.14} L{0.20} L{0.18} L{0.36}',
-  ['Symbol', 'Formal Quantity', 'Domain', 'Definition'],
+  'Logical Symbols and Axioms',
+  'L{0.16} L{0.20} L{0.18} L{0.34}',
+  ['Symbol', 'Concept', 'Domain', 'Logical Definition'],
   SYNTHESE_SYMBOL_GLOSSARY.map((s) => [s.symbol, s.name, s.domain, s.definition])
 )}
 
@@ -868,9 +1101,9 @@ ${a.equations.map((eq) => renderTexEquation(eq)).join('\n\n')}
 ${
   a.reproducibilityLedger?.length
     ? makeLongTable(
-        'Epistemic and Numerical Reproducibility Ledger',
+        'Logical and Dialectical Axiomatic Concordance',
         'L{0.20} L{0.22} L{0.22} L{0.24}',
-        ['Checkpoint', 'Formula', 'Reference Constants', 'Computed Output'],
+        ['Condition', 'Logical Rule', 'Tradition Grounds', 'Deductive Outcome'],
         a.reproducibilityLedger.map((r) => [r.checkpoint, r.formula, r.referenceConstants, r.computedOutput])
       )
     : ''
@@ -888,6 +1121,17 @@ ${
 ${SYNTHESE_REFERENCES.map((r) => `\\bibitem{ref${r.id}} ${texProse(r.citation)}`).join('\n')}
 \\end{thebibliography}
 
+\\clearpage
+\\section*{Index of Names}
+\\begin{description}
+${SYNTHESE_INDEX_OF_NAMES.map((it) => `  \\item[${texProse(it.entry)}] ${texProse(it.sections)}`).join('\n')}
+\\end{description}
+
+\\section*{Index of Concepts}
+\\begin{description}
+${SYNTHESE_INDEX_OF_CONCEPTS.map((it) => `  \\item[${texProse(it.entry)}] ${texProse(it.sections)}`).join('\n')}
+\\end{description}
+
 \\end{document}
 `;
   return raw.replace(/[^\x00-\x7F]/g, '');
@@ -898,7 +1142,7 @@ export function downloadSyntheseHtml(): void {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'Paper_15_Synthese_Structural_Equivalence.html';
+  a.download = 'Paper_15_Synthese_Where_Is_The_Observer.html';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -910,7 +1154,7 @@ export function downloadSyntheseMarkdown(): void {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'Paper_15_Synthese_Structural_Equivalence.md';
+  a.download = 'Paper_15_Synthese_Where_Is_The_Observer.md';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -922,7 +1166,7 @@ export function downloadSyntheseLatex(): void {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'Paper_15_Synthese_Structural_Equivalence.tex';
+  a.download = 'Paper_15_Synthese_Where_Is_The_Observer.tex';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

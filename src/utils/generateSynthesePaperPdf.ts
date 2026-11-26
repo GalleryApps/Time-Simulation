@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Scientific Magazine A4 Direct PDF Exporter for Paper 15 (Synthese Journal):
- * "Structural Equivalence, Geometric Conventionalism, and Emergent Chronometry"
+ * "Where or Who Is the Observer? The Observer in Phenomenology, Quantum Foundations, and Systems Theory"
  *
  * Implements the 40-Shade Ecru, Orange, Dark Magenta, Dark Teal, Pine Green & Complementary Palette:
  * - Warm Archival Ecru magazine cover & pull-quote typography
@@ -16,22 +16,28 @@ import { jsPDF } from 'jspdf';
 import {
   SYNTHESE_META,
   SYNTHESE_ABSTRACT,
+  SYNTHESE_AXIOM_TABLE,
+  SYNTHESE_HOW_TO_READ,
+  SYNTHESE_ARGUMENT_MAP,
+  SYNTHESE_32_MATRIX,
   SYNTHESE_CHAPTERS,
-  TABLE_2_1_CONVENTIONALISM,
-  TABLE_3_1_PPN_UNDERDETERMINATION,
-  TABLE_4_1_MORITA_LEDGER,
-  TABLE_5_1_FUNCTIONALISM_MATRIX,
-  TABLE_6_1_STRONG_FIELD_ONTOLOGY,
-  TABLE_7_1_BAYESIAN_MDL,
-  TABLE_8_1_CRUCIAL_EXPERIMENTS,
+  TABLE_2_1_PHENOMENOLOGY,
+  TABLE_3_1_DECONSTRUCTION,
+  TABLE_4_1_QUANTUM,
+  TABLE_5_1_SYSTEMS,
+  TABLE_6_1_RESOLUTION,
+  TABLE_7_1_IDENTITY_SYNTHESIS,
+  TABLE_8_1_TESTABLE_CORRELATION,
   SYNTHESE_SYMBOL_GLOSSARY,
   SYNTHESE_GLOSSARY,
   SYNTHESE_APPENDICES,
   SYNTHESE_REFERENCES,
+  SYNTHESE_INDEX_OF_NAMES,
+  SYNTHESE_INDEX_OF_CONCEPTS,
   type SyntheseEquation
 } from '../types/synthesePaperData';
 import { SYNTHESE_PLATES, SYNTHESE_FIGURES } from '../components/SynthesePaperFigures';
-import { PALETTE_40_SHADES, SHADE_BY_ID } from '../physics/synthesePhilosophyPaper';
+import { SHADE_BY_ID } from '../physics/synthesePhilosophyPaper';
 import {
   parseMathSegments,
   parseHtmlMathSegments,
@@ -177,8 +183,29 @@ function bmpSafe(raw: string): string {
   return out;
 }
 
+function stripPdfInlineMarkdown(raw: string): string {
+  const noBold = raw.replace(/\*\*([^\n]+?)\*\*/g, '$1');
+  return noBold
+    .split(/(`[^`]+`)/g)
+    .map((seg, i) => {
+      if (!seg) return '';
+      if (i % 2 === 1) return seg.slice(1, -1);
+      return seg.replace(/\*(?!\s)([^*\n]+?)(?<!\s)\*/g, '$1');
+    })
+    .join('');
+}
+
 function fallbackAsciiSafe(raw: string): string {
   return bmpSafe(raw)
+    .replace(/✓/g, 'yes')
+    .replace(/✗/g, 'no')
+    .replace(/∅/g, '{}')
+    .replace(/∩/g, 'n')
+    .replace(/∪/g, 'U')
+    .replace(/⊆/g, '<=')
+    .replace(/⊊/g, '<')
+    .replace(/≺/g, '<')
+    .replace(/≻/g, '>')
     .replace(/−|–|—/g, '-')
     .replace(/×/g, 'x')
     .replace(/≤/g, '<=')
@@ -189,19 +216,25 @@ function fallbackAsciiSafe(raw: string): string {
     .replace(/≈/g, '~=')
     .replace(/≡/g, '===')
     .replace(/⇒|→|⇄|⇔/g, '->')
+    .replace(/←/g, '<-')
+    .replace(/⊢/g, '|-')
+    .replace(/⊥/g, '_|_')
+    .replace(/¬/g, '~')
+    .replace(/□/g, '[]')
+    .replace(/◇/g, '<>')
     .replace(/″/g, '"')
     .replace(/[^\x20-\x7E\xA0-\xFF]/g, '');
 }
 
 const SERIF_USE_SANS = new Set([
-  '\u03D5', '\u03F5', '\u210B', '\u210F', '\u2112', '\u2113', '\u211D', '\u2124', '\u2131',
+  '\u00AC', '\u03D5', '\u03F5', '\u210B', '\u210F', '\u2112', '\u2113', '\u211D', '\u2124', '\u2131',
   '\u2190', '\u2192', '\u2194', '\u2197', '\u21A6', '\u21C4', '\u21D2', '\u21D4',
-  '\u2200', '\u2202', '\u2203', '\u2207', '\u2208', '\u2209', '\u220F', '\u2211',
-  '\u2212', '\u2218', '\u221A', '\u221D', '\u221E', '\u2225', '\u222A', '\u222B',
+  '\u2200', '\u2202', '\u2203', '\u2204', '\u2205', '\u2207', '\u2208', '\u2209', '\u220A', '\u220F', '\u2211',
+  '\u2212', '\u2218', '\u221A', '\u221D', '\u221E', '\u2225', '\u2227', '\u2228', '\u2229', '\u222A', '\u222B',
   '\u222E', '\u223C', '\u2243', '\u2245', '\u2248', '\u2260', '\u2261', '\u2264',
-  '\u2265', '\u226A', '\u226B', '\u2272', '\u2273', '\u2282', '\u228A', '\u2294',
-  '\u2295', '\u2297', '\u2299', '\u22A3', '\u22A5', '\u22C5', '\u25A1', '\u27E8',
-  '\u27E9', '\u2016', '\u2032', '\u2033', '\u2020', '\u2609'
+  '\u2265', '\u226A', '\u226B', '\u2272', '\u2273', '\u227A', '\u227B', '\u2282', '\u2284', '\u2286', '\u228A', '\u2294',
+  '\u2295', '\u2297', '\u2299', '\u22A2', '\u22A3', '\u22A5', '\u22AC', '\u22C5', '\u25A1', '\u25C7', '\u266E',
+  '\u2713', '\u2717', '\u27E8', '\u27E9', '\u2016', '\u2032', '\u2033', '\u2020', '\u2609'
 ]);
 
 const PT_TO_MM = 25.4 / 72;
@@ -299,6 +332,9 @@ async function fetchImageDataUrl(urlPath: string): Promise<{ dataUrl: string; as
             resolve(null);
             return;
           }
+          if ('filter' in ctx) {
+            ctx.filter = 'saturate(0.55) sepia(0.14) contrast(0.96)';
+          }
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           URL.revokeObjectURL(objUrl);
           resolve({ dataUrl: canvas.toDataURL('image/jpeg', 0.9), aspect: canvas.height / canvas.width });
@@ -320,16 +356,11 @@ async function fetchImageDataUrl(urlPath: string): Promise<{ dataUrl: string; as
 }
 
 type RgbTuple = [number, number, number];
-// 40-Shade Semantic Bindings
+// Restrained Archival Editorial Bindings
 const ECRU_PAPER: RgbTuple = SHADE_BY_ID[1].rgb; // #FDFBF7
 const ECRU_FOLIO: RgbTuple = SHADE_BY_ID[2].rgb; // #FAF6EC
 const ECRU_CREAM: RgbTuple = SHADE_BY_ID[3].rgb; // #F4EFE6
 const ECRU_RULE: RgbTuple = SHADE_BY_ID[6].rgb; // #CBBBA0
-
-const ORANGE_WASH: RgbTuple = SHADE_BY_ID[7].rgb; // #FFF4EB
-const ORANGE_BURNISHED: RgbTuple = SHADE_BY_ID[10].rgb; // #EA580C
-const ORANGE_SIENNA: RgbTuple = SHADE_BY_ID[11].rgb; // #C2410C
-const ORANGE_RUST: RgbTuple = SHADE_BY_ID[12].rgb; // #9A3412
 
 const MAGENTA_WASH: RgbTuple = SHADE_BY_ID[14].rgb; // #F9EEF4
 const MAGENTA_ROSE: RgbTuple = SHADE_BY_ID[15].rgb; // #C974A6
@@ -345,10 +376,10 @@ const TEAL_PETROL: RgbTuple = SHADE_BY_ID[25].rgb; // #11505C
 const TEAL_CORE: RgbTuple = SHADE_BY_ID[26].rgb; // #0B3942
 const TEAL_INK: RgbTuple = SHADE_BY_ID[27].rgb; // #062429
 
-const PINE_WASH: RgbTuple = SHADE_BY_ID[28].rgb; // #EEF5F1
 const PINE_CONIFER: RgbTuple = SHADE_BY_ID[31].rgb; // #17573E
 const PINE_CORE: RgbTuple = SHADE_BY_ID[32].rgb; // #0F3D2B
 const PINE_DARK: RgbTuple = SHADE_BY_ID[33].rgb; // #082419
+const CHARCOAL_INK: RgbTuple = SHADE_BY_ID[40].rgb; // #161A1D
 
 type PdfFontFamily = 'playfair' | 'serif' | 'sans' | 'mono';
 type PdfFontStyle = 'normal' | 'bold' | 'italic';
@@ -773,13 +804,13 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     if (recordToc) {
       tocEntries.push({ label: text, page: doc.getNumberOfPages(), indent: tocIndent });
     }
-    doc.setTextColor(...(level === 1 ? MAGENTA_DEEP : TEAL_CORE));
+    doc.setTextColor(...(level === 1 ? CHARCOAL_INK : TEAL_CORE));
     for (const hLine of wrappedHeading) {
       drawStyledSpans(hLine.spans, marginX, y, boldHeading, headingFamily, headingStyle);
       y += lineGap;
     }
     if (level === 1) {
-      doc.setDrawColor(...ORANGE_BURNISHED);
+      doc.setDrawColor(...TEAL_PETROL);
       doc.setLineWidth(0.45);
       doc.line(marginX, y + 1.5, marginX + 42, y + 1.5);
       doc.setDrawColor(...ECRU_RULE);
@@ -813,7 +844,7 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
   };
 
   const drawEquationBox = (eq: SyntheseEquation) => {
-    const cap = `${eq.label} — ${eq.caption}`;
+    const cap = `Logical Schema ${eq.label} — ${eq.caption}`;
     const eqInnerW = contentW - 14;
     const baseEqFont = hasUnicodeFonts ? 'serif' : 'sans';
     let eqFontSize = 10.0;
@@ -828,37 +859,33 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     }
     const eqLineGap = eqFontSize <= 8.4 ? 4.8 : 5.5;
     const capLines = wrapMixedLines(cap, contentW - 14, false, 8.6, 'serif', 'italic');
-    const pmLines = eq.plainMath
-      ? wrapMixedLines(`Plain Math Equation: ${eq.plainMath}`, contentW - 14, false, 7.5, 'mono', 'normal')
-      : [];
-    const plainLines = wrapMixedLines(eq.plainMeaning, contentW - 14, false, 8.4, 'serif', 'normal');
+    const plainLines = wrapMixedLines(stripPdfInlineMarkdown(eq.plainMeaning), contentW - 14, false, 8.4, 'serif', 'normal');
     const boxH =
       7.0 +
       eqLines.length * eqLineGap +
       4.0 +
       capLines.length * 4.2 +
-      (pmLines.length > 0 ? 2.0 + pmLines.length * 3.85 : 0) +
       2.2 +
       plainLines.length * 4.2 +
       3.5;
 
     ensureSpace(Math.min(boxH + 9, bottomLimit - topY - 4));
     y += 1.5;
-    doc.setFillColor(...TEAL_TINT);
-    doc.setDrawColor(...TEAL_OCEAN);
+    doc.setFillColor(...ECRU_FOLIO);
+    doc.setDrawColor(...ECRU_RULE);
     doc.setLineWidth(0.32);
     doc.roundedRect(marginX, y, contentW, boxH, 1.5, 1.5, 'FD');
 
     let cy = y + 7.0;
-    doc.setTextColor(...MAGENTA_DEEP);
+    doc.setTextColor(...CHARCOAL_INK);
     for (const l of eqLines) {
       const lw = measureSpansWidth(l.spans, false, baseEqFont, 'normal');
       const cx = marginX + Math.max(6, Math.min(contentW - lw - 6, (contentW - lw) / 2));
       drawStyledSpans(l.spans, cx, cy, false, baseEqFont, 'normal');
       cy += eqLineGap;
     }
-    doc.setDrawColor(...TEAL_SLATE);
-    doc.setLineWidth(0.18);
+    doc.setDrawColor(...ECRU_RULE);
+    doc.setLineWidth(0.2);
     doc.line(marginX + 10, cy - 1.4, marginX + contentW - 10, cy - 1.4);
     cy += 3.0;
     doc.setTextColor(...TEAL_CORE);
@@ -867,14 +894,6 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
       const cx = marginX + Math.max(6, Math.min(contentW - clw - 6, (contentW - clw) / 2));
       drawStyledSpans(cl.spans, cx, cy, false, 'serif', 'italic');
       cy += 4.2;
-    }
-    if (pmLines.length > 0) {
-      cy += 2.0;
-      doc.setTextColor(...ORANGE_RUST);
-      for (const pm of pmLines) {
-        drawStyledSpans(pm.spans, marginX + 7, cy, false, 'mono', 'normal');
-        cy += 3.85;
-      }
     }
     cy += 2.2;
     doc.setTextColor(...PINE_CORE);
@@ -1068,7 +1087,7 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     doc.setTextColor(...opts.accentRgb);
     doc.text(clipMixedLine(safeStr(opts.tag), contentW, false, 8.0, 'mono'), marginX, y);
     y += 3.5;
-    doc.setDrawColor(...ORANGE_BURNISHED);
+    doc.setDrawColor(...ECRU_RULE);
     doc.setLineWidth(0.32);
     doc.line(marginX, y, marginX + contentW, y);
     y += 7.5;
@@ -1106,6 +1125,28 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     y = bottomLimit;
   };
 
+  const drawFormattedParagraph = (
+    rawPara: string,
+    xStart = marginX,
+    maxW = contentW,
+    fontSize = 11.2,
+    lineGap = 6.0,
+    color: RgbTuple = CHARCOAL_INK,
+    justify = true
+  ) => {
+    const lines = rawPara.split('\n');
+    for (let li = 0; li < lines.length; li++) {
+      const line = lines[li];
+      if (!line.trim()) continue;
+      if (line.startsWith('### ')) {
+        drawHeading(stripPdfInlineMarkdown(line.slice(4)), 3, false, 1, false, 24);
+      } else {
+        drawMathInlineText(stripPdfInlineMarkdown(line), xStart, maxW, fontSize, lineGap, color, false, justify);
+        if (li < lines.length - 1) y += 2.0;
+      }
+    }
+  };
+
   return {
     pageW,
     marginX,
@@ -1125,6 +1166,7 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     drawStyledSpans,
     clipMixedLine,
     drawMathInlineText,
+    drawFormattedParagraph,
     drawHeading,
     drawPullQuote,
     drawEquationBox,
@@ -1167,45 +1209,31 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
     Promise.all(SYNTHESE_PLATES.map(async (p) => ({ plate: p, raster: await fetchImageDataUrl(p.imagePath) })))
   ]);
 
-  // Magazine Cover Page (Page 1) — Warm Ecru Folio + Full 40-Shade Spectral Band + Magazine Deck
+  // Restrained Archival Cover Page (Page 1)
   ctx.paintEcruSpreadBackdrop();
-  ctx.setY(22);
-  const swatchW = contentW / PALETTE_40_SHADES.length;
-  PALETTE_40_SHADES.forEach((shade, idx) => {
-    doc.setFillColor(...shade.rgb);
-    doc.rect(marginX + idx * swatchW, ctx.getY(), swatchW, 3.0, 'F');
-  });
-  ctx.addY(8.5);
+  ctx.setY(26);
+  doc.setDrawColor(...TEAL_PETROL);
+  doc.setLineWidth(0.8);
+  doc.line(marginX, ctx.getY(), marginX + contentW, ctx.getY());
+  ctx.addY(1.6);
+  doc.setDrawColor(...MAGENTA_RICH);
+  doc.setLineWidth(0.28);
+  doc.line(marginX, ctx.getY(), marginX + contentW, ctx.getY());
+  ctx.addY(12.0);
 
-  ctx.drawMathInlineText(
-    `${SYNTHESE_META.paperNumber} · ${SYNTHESE_META.journalTarget}`,
-    marginX,
-    contentW,
-    8.0,
-    4.0,
-    MAGENTA_ACCENT,
-    false,
-    false,
-    'mono'
-  );
-  ctx.addY(5.5);
+  ctx.drawMathInlineText(SYNTHESE_META.title, marginX, contentW, 23.0, 10.2, CHARCOAL_INK, false, false, 'playfair', 'normal');
+  ctx.addY(4.5);
 
-  ctx.drawMathInlineText(SYNTHESE_META.title, marginX, contentW, 23.0, 10.2, MAGENTA_DEEP, false, false, 'playfair', 'normal');
-  ctx.addY(3.5);
+  doc.setDrawColor(...TEAL_PETROL);
+  doc.setLineWidth(0.6);
+  doc.line(marginX, ctx.getY(), marginX + 48, ctx.getY());
+  ctx.addY(6.5);
 
-  doc.setDrawColor(...ORANGE_BURNISHED);
-  doc.setLineWidth(0.75);
-  doc.line(marginX, ctx.getY(), marginX + 52, ctx.getY());
-  ctx.addY(5.5);
-
-  ctx.drawMathInlineText(SYNTHESE_META.laymanDeck, marginX, contentW, 12.2, 5.6, ORANGE_SIENNA, false, false, 'serif', 'italic');
-  ctx.addY(3.5);
-
-  ctx.drawMathInlineText(SYNTHESE_META.subtitle, marginX, contentW, 10.2, 4.9, TEAL_CORE, false, false, 'serif', 'normal');
-  ctx.addY(7.0);
+  ctx.drawMathInlineText(SYNTHESE_META.laymanDeck, marginX, contentW, 12.2, 5.8, MAGENTA_CORE, false, false, 'serif', 'italic');
+  ctx.addY(10.0);
 
   for (const author of SYNTHESE_META.authors) {
-    ctx.drawMathInlineText(author.name, marginX, contentW, 9.8, 4.2, TEAL_INK, true, false);
+    ctx.drawMathInlineText(author.name, marginX, contentW, 9.8, 4.2, CHARCOAL_INK, true, false);
     ctx.drawMathInlineText(author.affiliation, marginX + 2, contentW - 2, 8.2, 3.7, TEAL_PETROL, false, false);
     if (author.orcidUrl) {
       const orcidText = `ORCID: ${author.orcidUrl}`;
@@ -1219,15 +1247,13 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
       const emailText = `Email: ${author.email}`;
       ctx.drawMathInlineText(emailText, marginX + 2, contentW - 2, 7.2, 3.4, PINE_CONIFER, false, false, 'mono');
     }
-    ctx.addY(1.6);
+    ctx.addY(2.2);
   }
 
-  if (ctx.getY() < 252) ctx.setY(252);
+  if (ctx.getY() < 256) ctx.setY(256);
   doc.setDrawColor(...ECRU_RULE);
   doc.setLineWidth(0.32);
   doc.line(marginX, ctx.getY(), marginX + contentW, ctx.getY());
-  ctx.addY(5.0);
-  ctx.drawMathInlineText(SYNTHESE_META.volumeLine, marginX, contentW, 7.8, 4.0, PINE_CORE, false, false, 'mono');
 
   // Abstract Page
   doc.addPage();
@@ -1235,15 +1261,15 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
   ctx.setY(topY);
   ctx.drawHeading('Abstract', 1, true, 0, false);
   for (const p of SYNTHESE_ABSTRACT) {
-    ctx.drawMathInlineText(p, marginX, contentW, 10.6, 5.5, TEAL_INK, false, true);
+    ctx.drawMathInlineText(p, marginX, contentW, 10.6, 5.5, CHARCOAL_INK, false, true);
     ctx.addY(3.0);
   }
   ctx.addY(2.5);
-  ctx.drawMathInlineText(`Keywords: ${SYNTHESE_META.keywords.join('; ')}.`, marginX, contentW, 8.7, 4.4, ORANGE_RUST, false, true);
+  ctx.drawMathInlineText(`Keywords: ${SYNTHESE_META.keywords.join('; ')}.`, marginX, contentW, 8.7, 4.4, TEAL_PETROL, false, true);
 
-  // Reserve 3 TOC Pages
+  // Reserve 4 TOC Pages
   const tocPages: number[] = [];
-  for (let tp = 0; tp < 3; tp++) {
+  for (let tp = 0; tp < 4; tp++) {
     doc.addPage();
     ctx.paintEcruSpreadBackdrop();
     tocPages.push(doc.getNumberOfPages());
@@ -1252,40 +1278,65 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
   ctx.paintEcruSpreadBackdrop();
   ctx.setY(topY);
 
+  // Front-Matter Table of Axioms & How to Read Guide
+  ctx.drawHeading('Table of Axioms (A1–A4) & Reading Guide', 1, true, 0, false);
+  ctx.drawTable(
+    'Table A.0 · Canonical Statement, Modal Status, Reductio & Empirical Falsifier for Axioms A1–A4',
+    ['Axiom', 'Canonical S4 Formula', 'Modal / Epistemic Status', 'Reductio on Denial', 'Empirical Falsifier'],
+    [28, 42, 32, 32, 32],
+    SYNTHESE_AXIOM_TABLE.map((ax) => [
+      `${ax.code} · ${ax.name}`,
+      ax.canonicalFormula,
+      ax.modalAndEpistemicStatus,
+      ax.reductioOnDenial,
+      ax.falsificationTrigger
+    ]),
+    7.4,
+    3.85
+  );
+
+  ctx.drawHeading('How to Read This Treatise', 2, true, 1, false, 36);
+  ctx.drawTable(
+    'Recommended Disciplinary Entry Paths',
+    ['Audience', 'Essential Reading Path', 'Primary Focus'],
+    [36, 46, 84],
+    SYNTHESE_HOW_TO_READ.map((tr) => [tr.audience, tr.essentialSections, tr.entryFocus]),
+    7.8,
+    4.0
+  );
+
   // Front-Matter Illustrations Index
-  ctx.drawHeading('List of Plates & Figures', 1, true, 0, false);
+  ctx.drawHeading('List of Plates & Figures', 1, true, 0, true);
   ctx.drawHeading('Editorial Plates I–IV', 2, false, 1);
   for (const pl of SYNTHESE_PLATES) {
-    ctx.drawMathInlineText(`${pl.plateNumber} (Ch. ${pl.anchorChapter}): ${pl.title}`, marginX + 2, contentW - 2, 9.8, 5.0, TEAL_INK);
+    ctx.drawMathInlineText(`${pl.plateNumber} (Part ${pl.anchorChapter}): ${pl.title}`, marginX + 2, contentW - 2, 9.8, 5.0, TEAL_INK);
     ctx.addY(1.2);
   }
   ctx.addY(2.0);
-  ctx.drawHeading('Conceptual Schematics 0.1–7.1', 2, false, 1);
+  ctx.drawHeading('Conceptual Schematics 0.1–8.1', 2, false, 1);
   for (const fg of SYNTHESE_FIGURES) {
-    ctx.drawMathInlineText(`${fg.figureNumber} (Ch. ${fg.anchorChapter}): ${fg.title}`, marginX + 2, contentW - 2, 9.8, 5.0, TEAL_INK);
+    ctx.drawMathInlineText(`${fg.figureNumber} (${fg.anchorChapter === 0 ? 'Abstract' : `Part ${fg.anchorChapter}`}): ${fg.title}`, marginX + 2, contentW - 2, 9.8, 5.0, TEAL_INK);
     ctx.addY(1.2);
   }
 
   for (const { fig, raster } of svgAssets.filter((x) => x.fig.anchorChapter === 0)) {
     if (!raster) continue;
     ctx.drawFullPageIllustration({
-      tag: `${fig.figureNumber} · Graphical Abstract`,
+      tag: `${fig.figureNumber}`,
       title: fig.title,
       caption: fig.caption,
       asset: raster,
       format: 'PNG',
-      accentRgb: ORANGE_RUST
+      accentRgb: TEAL_PETROL
     });
   }
 
-  // Chapters 1–9
+  // Parts I–IX
   for (const ch of SYNTHESE_CHAPTERS) {
     doc.addPage();
     ctx.paintEcruSpreadBackdrop();
     ctx.setY(topY);
-    ctx.drawMathInlineText(ch.kicker, marginX, contentW, 8.2, 4.0, ORANGE_SIENNA, false, false, 'mono');
-    ctx.addY(1.5);
-    ctx.drawHeading(`Chapter ${ch.number}: ${ch.title}`, 1, true, 0, false);
+    ctx.drawHeading(`Part ${ch.number}: ${ch.title}`, 1, true, 0, false);
     ctx.drawMathInlineText(ch.epigraph, marginX + 4, contentW - 8, 10.4, 5.3, TEAL_PETROL, false, true, 'serif', 'italic');
     ctx.addY(2.5);
     ctx.drawPullQuote(ch.pullQuote);
@@ -1293,17 +1344,9 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
     ctx.addY(4.5);
 
     if (ch.chapterIntro.length > 0) {
-      ctx.ensureSpace(34);
-      ctx.setFontSafe('mono', 'normal', 7.8);
-      doc.setTextColor(...PINE_CORE);
-      doc.text('EDITORIAL OPENING', marginX, ctx.getY());
-      ctx.addY(2.0);
-      doc.setDrawColor(...PINE_CONIFER);
-      doc.setLineWidth(0.35);
-      doc.line(marginX, ctx.getY(), marginX + 34, ctx.getY());
-      ctx.addY(5.0);
+      ctx.ensureSpace(24);
       for (const introPara of ch.chapterIntro) {
-        ctx.drawMathInlineText(introPara, marginX, contentW, 11.1, 6.0, TEAL_INK, false, true);
+        ctx.drawFormattedParagraph(introPara, marginX, contentW, 11.1, 6.0, CHARCOAL_INK, true);
         ctx.addY(3.2);
       }
       if (ctx.getY() + 2 <= bottomLimit) {
@@ -1316,21 +1359,33 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
       }
     }
 
+    if (ch.number === 7) {
+      ctx.drawHeading(SYNTHESE_ARGUMENT_MAP.title, 2, false, 1, false, 40);
+      ctx.drawMathInlineText(SYNTHESE_ARGUMENT_MAP.summary, marginX, contentW, 10.2, 5.2, TEAL_PETROL, false, true);
+      ctx.addY(2.5);
+      ctx.drawTable(
+        'Argument Map · Stratified Dependencies Among A1–A4 & SIT',
+        ['Stage', 'Logical Rule', 'Establishes'],
+        [38, 66, 62],
+        SYNTHESE_ARGUMENT_MAP.nodes.map((n) => [n.step, n.rule, n.leadsTo]),
+        7.8,
+        4.0
+      );
+    }
+
     for (const sub of ch.subsections) {
-      ctx.drawHeading(`${sub.number} ${sub.title}`, 2, true, 1, false, 32);
-      ctx.drawMathInlineText(`Focus: ${sub.epistemicFocus}`, marginX, contentW, 8.0, 4.0, ORANGE_RUST, false, false, 'mono');
-      ctx.addY(1.5);
+      ctx.drawHeading(`§${sub.number}. ${sub.title}`, 2, true, 1, false, 32);
       for (const p of sub.paragraphs) {
-        ctx.drawMathInlineText(p, marginX, contentW, 11.2, 6.0, TEAL_INK, false, true);
+        ctx.drawFormattedParagraph(p, marginX, contentW, 11.2, 6.0, CHARCOAL_INK, true);
         ctx.addY(3.5);
       }
       if (sub.equation) ctx.drawEquationBox(sub.equation);
       if (sub.theoremBox) {
         ctx.drawCalloutBox(
           `${sub.theoremBox.kind} ${sub.theoremBox.number} · ${sub.theoremBox.title}`,
-          `${sub.theoremBox.statement}\n\nFormal Steps:\n${sub.theoremBox.proofSteps.map((s, i) => `${i + 1}. ${s}`).join('\n')}\n\nSource: ${sub.theoremBox.sourceNote}`,
+          `${stripPdfInlineMarkdown(sub.theoremBox.statement)}\n\nDeductive Steps:\n${sub.theoremBox.proofSteps.map((s, i) => `${i + 1}. ${stripPdfInlineMarkdown(s)}`).join('\n')}\n\nSource: ${sub.theoremBox.sourceNote}`,
           MAGENTA_WASH,
-          MAGENTA_ACCENT,
+          MAGENTA_RICH,
           9.8,
           4.9
         );
@@ -1339,89 +1394,103 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
         ctx.ensureSpace(36);
         ctx.addY(2.0);
         const headerY = ctx.getY();
-        doc.setFillColor(...ORANGE_WASH);
-        doc.setDrawColor(...ORANGE_SIENNA);
+        doc.setFillColor(...ECRU_FOLIO);
+        doc.setDrawColor(...TEAL_PETROL);
         doc.setLineWidth(0.3);
         doc.roundedRect(marginX, headerY, contentW, 8.0, 1.2, 1.2, 'FD');
         ctx.setFontSafe('mono', 'normal', 7.6);
-        doc.setTextColor(...ORANGE_RUST);
+        doc.setTextColor(...TEAL_PETROL);
         doc.text(ctx.clipMixedLine(ctx.safeStr(sub.workedExample.title), contentW - 8, false, 7.6, 'mono'), marginX + 4, headerY + 5.2);
         ctx.setY(headerY + 11.2);
 
-        const orangeRule = { x: marginX + 1.5, color: ORANGE_BURNISHED, width: 0.7 };
-        ctx.drawMathInlineText(sub.workedExample.setup, marginX + 5, contentW - 7, 10.1, 5.2, TEAL_PETROL, false, true, 'serif', 'normal', orangeRule);
+        const tealRule = { x: marginX + 1.5, color: TEAL_PETROL, width: 0.6 };
+        ctx.drawMathInlineText(stripPdfInlineMarkdown(sub.workedExample.setup), marginX + 5, contentW - 7, 10.1, 5.2, TEAL_CORE, false, true, 'serif', 'normal', tealRule);
         ctx.addY(1.2);
         sub.workedExample.steps.forEach((st, idx) => {
-          ctx.drawMathInlineText(`${idx + 1}. ${st}`, marginX + 6, contentW - 8, 10.0, 5.2, TEAL_INK, false, true, 'serif', 'normal', orangeRule);
+          ctx.drawMathInlineText(`${idx + 1}. ${stripPdfInlineMarkdown(st)}`, marginX + 6, contentW - 8, 10.0, 5.2, CHARCOAL_INK, false, true, 'serif', 'normal', tealRule);
           ctx.addY(1.0);
         });
         ctx.drawEquationBox(sub.workedExample.resultEquation);
-        ctx.drawMathInlineText(`Takeaway: ${sub.workedExample.takeaway}`, marginX + 3, contentW - 5, 9.9, 5.1, PINE_CORE, false, true, 'serif', 'italic');
+        ctx.drawMathInlineText(`Conclusion: ${stripPdfInlineMarkdown(sub.workedExample.takeaway)}`, marginX + 3, contentW - 5, 9.9, 5.1, PINE_CORE, false, true, 'serif', 'italic');
         ctx.addY(4.2);
       }
     }
 
     if (ch.number === 2) {
       ctx.drawTable(
-        'Table 2.1 · Taxonomy of Geometric Conventionalisms (G + F) & Empirical Constraints',
-        ['Program', 'Metric Choice', 'Coordinative Bridge', 'IGRT Diagnostic'],
-        [36, 40, 46, 44],
-        TABLE_2_1_CONVENTIONALISM.map((r) => [r.program, r.metricChoice, `${r.coordinativeBridge} (${r.empiricalStatus})`, r.igrtDiagnostic])
+        'Table 2.1 · Phenomenological & Transcendental Genealogy Matrix (§§2–9)',
+        ['Theory', 'Core Structural Claim', 'Paradox Encountered', 'Logical Counterpart'],
+        [38, 42, 44, 42],
+        TABLE_2_1_PHENOMENOLOGY.map((r) => [r.theory, r.coreClaim, r.paradoxEncountered, r.bundleCounterpart])
       );
     }
     if (ch.number === 3) {
       ctx.drawTable(
-        'Table 3.1 · PPN Bounds & Collapse of Scalar gamma = 0 Underdetermination',
-        ['Observable', 'Empirical Bound', 'Naive Scalar vs GR', 'Philosophical Implication'],
-        [38, 40, 44, 44],
-        TABLE_3_1_PPN_UNDERDETERMINATION.map((r) => [r.observable, r.empiricalBound, `LUH0: ${r.naiveScalar} | GR: ${r.moritaIgrtAndGr}`, r.philosophicalImplication])
+        'Table 3.1 · Deconstructive & Post-Structuralist Matrix (§§10–15a)',
+        ['Theory', 'Core Claim', 'Structural Dissolution', 'Logical Counterpart'],
+        [38, 42, 44, 42],
+        TABLE_3_1_DECONSTRUCTION.map((r) => [r.theory, r.coreClaim, r.structuralDissolution, r.bundleCounterpart])
       );
     }
     if (ch.number === 4) {
       ctx.drawTable(
-        'Table 4.1 · Categorical & Morita Functorial Equivalence Ledger',
-        ['Object', 'Lorentzian GR', 'InfoGeom IGRT', 'Preserved Invariant & Status'],
-        [32, 44, 44, 46],
-        TABLE_4_1_MORITA_LEDGER.map((r) => [r.categoricalObject, r.lorentzianGR, r.infoGeomIGRT, `${r.invariantPreserved} [${r.status}]`])
+        'Table 4.1 · Orthodox Quantum Foundations Observer Models (§§16–20)',
+        ['Framework', 'Where Observer Sits', 'Cut Status', 'Philosophical Mapping'],
+        [38, 40, 42, 46],
+        TABLE_4_1_QUANTUM.slice(0, 5).map((r) => [r.theory, r.observerSeat, r.cutStatus, r.bundleMapping])
       );
     }
     if (ch.number === 5) {
       ctx.drawTable(
-        'Table 5.1 · Functionalist & Structuralist Ontological Matrix',
-        ['Stance', 'Ontic Commitments', 'Response to IGRT', 'Synthese Assessment'],
-        [36, 44, 44, 42],
-        TABLE_5_1_FUNCTIONALISM_MATRIX.map((r) => [r.stance, `${r.onticCommitments} (${r.functionalRoleStatus})`, r.responseToIGRT, r.syntheseAssessment])
+        'Table 5.1 · Relational, Epistemic, Decoherent & Dynamical Quantum Models (§§21–27)',
+        ['Framework', 'Where Observer Sits', 'Cut / Decoherence Status', 'Philosophical Mapping'],
+        [38, 40, 42, 46],
+        TABLE_4_1_QUANTUM.slice(5).map((r) => [r.theory, r.observerSeat, r.cutStatus, r.bundleMapping])
       );
     }
     if (ch.number === 6) {
       ctx.drawTable(
-        'Table 6.1 · Strong-Field Horizon & Regular-Core Ontological Scorecard',
-        ['Domain Feature', 'Standard GR', 'Regular IGRT', 'Ontological Status & Handle'],
-        [34, 42, 44, 46],
-        TABLE_6_1_STRONG_FIELD_ONTOLOGY.map((r) => [r.domainFeature, r.standardGR, r.regularIGRT, `${r.ontologicalStatus}; ${r.empiricalHandle}`])
+        'Table 6.1 · Systems-Theoretical & Enactive Closure Matrix (§§28–33)',
+        ['Theory', 'Core Claim', 'Closure Mechanism', 'Logical Counterpart'],
+        [38, 42, 44, 42],
+        TABLE_5_1_SYSTEMS.map((r) => [r.theory, r.coreClaim, r.closureMechanism, r.bundleCounterpart])
       );
     }
     if (ch.number === 7) {
       ctx.drawTable(
-        'Table 7.1 · Bayesian Evidence & Fisher MDL Epistemic Audit',
-        ['Framework & k', 'Chi2 & MDL Penalty', 'Log Bayes vs GR', 'Methodology Lesson'],
-        [40, 42, 42, 42],
-        TABLE_7_1_BAYESIAN_MDL.map((r) => [`${r.framework} (k=${r.paramsK})`, `chi2: ${r.chiSquareData}; MDL: ${r.fisherMdlPenalty}`, r.logBayesVsGR, r.methodologyLesson])
+        'Table 7.1 · Axiomatic Resolution of the Constitutive-Absence Paradox (§§34–37)',
+        ['Logical Principle', 'Structural Role', 'Phenomenological Correlate', 'Antinomy Dissolved'],
+        [38, 42, 43, 43],
+        TABLE_6_1_RESOLUTION.map((r) => [r.formalObject, r.mathematicalRole, r.phenomenologicalCorrelate, r.obstructionResolved])
       );
     }
     if (ch.number === 8) {
       ctx.drawTable(
-        'Table 8.1 · 2026–2035 Crucial Experiments & Falsification Thresholds',
-        ['Experiment & Window', 'Observable', 'If Confirmed vs Null', 'Lakatosian Role'],
-        [38, 44, 48, 36],
-        TABLE_8_1_CRUCIAL_EXPERIMENTS.map((r) => [`${r.experiment} (${r.window})`, r.targetObservable, `+ ${r.ifConfirmed} / 0 ${r.ifNull}`, r.lakatosianRole])
+        'Table 8.1 · Master 32-Position Axiomatic Cross-Reference Matrix (§§2–33 × A1–A4)',
+        ['§', 'Framework', 'A1', 'A2', 'A3', 'A4', 'Audit Status & Anomaly Note'],
+        [12, 42, 11, 11, 11, 11, 68],
+        SYNTHESE_32_MATRIX.map((r) => [r.section, r.framework, r.a1, r.a2, r.a3, r.a4, r.statusNote]),
+        7.3,
+        3.75
+      );
+      ctx.drawTable(
+        'Table 8.2 · Cross-Tradition Structural Identity Audit (§§38–39)',
+        ['Criterion', 'Husserl', 'Rovelli RQM', 'Autopoiesis & Four-Axiom Logic'],
+        [34, 42, 42, 48],
+        TABLE_7_1_IDENTITY_SYNTHESIS.map((r) => [r.structuralCriterion, r.husserlPhenom, r.rovelliRqm, `${r.autopoiesisBio} · ${r.fiberBundleFormal}`])
+      );
+      ctx.drawTable(
+        'Table 8.3 · Axiom-by-Axiom Empirical Falsification & Methodological Crucibles (§40)',
+        ['Domain', 'Target Observable', 'Philosophical Prediction', 'Null Consequence'],
+        [38, 44, 44, 40],
+        TABLE_8_1_TESTABLE_CORRELATION.map((r) => [r.channel, r.targetObservable, r.predictedSignal, r.nullConsequence])
       );
     }
 
     for (const { plate, raster } of plateAssets.filter((x) => x.plate.anchorChapter === ch.number)) {
       if (!raster) continue;
       ctx.drawFullPageIllustration({
-        tag: `${plate.plateNumber} · Chapter ${ch.number}`,
+        tag: `${plate.plateNumber} · Part ${ch.number}`,
         title: plate.title,
         caption: plate.caption,
         asset: raster,
@@ -1433,12 +1502,12 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
     for (const { fig, raster } of svgAssets.filter((x) => x.fig.anchorChapter === ch.number)) {
       if (!raster) continue;
       ctx.drawFullPageIllustration({
-        tag: `${fig.figureNumber} · Chapter ${ch.number}`,
+        tag: `${fig.figureNumber} · Part ${ch.number}`,
         title: fig.title,
         caption: fig.caption,
         asset: raster,
         format: 'PNG',
-        accentRgb: TEAL_OCEAN
+        accentRgb: TEAL_PETROL
       });
     }
   }
@@ -1446,30 +1515,30 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
   // Glossary
   ctx.drawHeading('Glossary', 1, true, 0, true);
   ctx.drawTable(
-    'Philosophical & Formal Concepts',
+    'Philosophical & Conceptual Lexicon',
     ['Term', 'Definition'],
     [48, 118],
     SYNTHESE_GLOSSARY.map((g) => [g.acronym ? `${g.term} (${g.acronym})` : g.term, g.definition])
   );
-  ctx.drawHeading('Glossary of Formal Symbols', 2, true, 1, false, 44);
+  ctx.drawHeading('Logical Symbols & Axioms', 2, true, 1, false, 44);
   ctx.drawTable(
-    'Table G.1 · Formal Symbols & Conventions',
-    ['Symbol', 'Quantity', 'Domain', 'Definition'],
+    'Table G.1 · Logical Symbols & Conventions',
+    ['Symbol', 'Concept', 'Domain', 'Logical Definition'],
     [28, 34, 32, 72],
     SYNTHESE_SYMBOL_GLOSSARY.map((s) => [s.symbol, s.name, s.domain, s.definition]),
     7.8,
     4.0
   );
 
-  // Appendices
-  ctx.drawHeading('Appendices', 1, true, 0, true, 54);
+  // Supplementary Appendices
+  ctx.drawHeading('Supplementary Appendices', 1, true, 0, true, 54);
   for (const app of SYNTHESE_APPENDICES) {
     ctx.drawHeading(`Appendix ${app.letter}: ${app.title}`, 2, true, 1, false, 40);
     ctx.drawMathInlineText(app.summary, marginX, contentW, 10.6, 5.5, TEAL_PETROL, false, true, 'serif', 'italic');
     ctx.addY(3.0);
 
     for (const p of app.paragraphs) {
-      ctx.drawMathInlineText(p, marginX, contentW, 10.8, 5.8, TEAL_INK, false, true);
+      ctx.drawFormattedParagraph(p, marginX, contentW, 10.8, 5.8, CHARCOAL_INK, true);
       ctx.addY(3.0);
     }
     for (const eq of app.equations) {
@@ -1477,8 +1546,8 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
     }
     if (app.reproducibilityLedger?.length) {
       ctx.drawTable(
-        'Table D.1 · Epistemic & Numerical Reproducibility Ledger',
-        ['Checkpoint', 'Formula', 'Reference Constants', 'Computed Output'],
+        'Table A.1 · Logical & Dialectical Axiomatic Concordance',
+        ['Condition', 'Logical Rule', 'Tradition Grounds', 'Deductive Outcome'],
         [36, 42, 46, 42],
         app.reproducibilityLedger.map((r) => [r.checkpoint, r.formula, r.referenceConstants, r.computedOutput]),
         7.8,
@@ -1487,7 +1556,7 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
     }
     if (app.refereeObjections?.length) {
       for (const obj of app.refereeObjections) {
-        ctx.drawCalloutBox(obj.objection, obj.reply, ORANGE_WASH, ORANGE_SIENNA, 9.7, 4.9);
+        ctx.drawCalloutBox(obj.objection, obj.reply, ECRU_FOLIO, ECRU_RULE, 9.7, 4.9);
       }
     }
   }
@@ -1501,6 +1570,27 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
     ctx.drawMathInlineText(refStr, marginX, contentW, 9.9, 5.1, TEAL_INK, false, true);
     ctx.addY(2.0);
   }
+
+  // Back-Matter Indexes
+  ctx.drawHeading('Index of Names', 1, true, 0, true);
+  ctx.drawTable(
+    'Index of Names (Philosophers, Physicists & Systems Theorists)',
+    ['Author / Thinker', 'Sections'],
+    [114, 52],
+    SYNTHESE_INDEX_OF_NAMES.map((it) => [it.entry, it.sections]),
+    8.2,
+    4.1
+  );
+
+  ctx.drawHeading('Index of Concepts', 1, true, 0, true);
+  ctx.drawTable(
+    'Index of Concepts & Theorems',
+    ['Concept / Theorem', 'Sections'],
+    [114, 52],
+    SYNTHESE_INDEX_OF_CONCEPTS.map((it) => [it.entry, it.sections]),
+    8.2,
+    4.1
+  );
 
   // Populate Reserved TOC and prune unused trailing TOC pages
   let simTocIdx = 0;
@@ -1531,10 +1621,10 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
   doc.setPage(tocPages[tocIdx]);
   let ty = topY;
   ctx.setFontSafe(hasUnicodeFonts ? 'playfair' : 'serif', 'normal', 23.0);
-  doc.setTextColor(...MAGENTA_DEEP);
+  doc.setTextColor(...CHARCOAL_INK);
   doc.text('Table of Contents', marginX, ty);
   ty += 5.5;
-  doc.setDrawColor(...ORANGE_BURNISHED);
+  doc.setDrawColor(...TEAL_PETROL);
   doc.setLineWidth(0.35);
   doc.line(marginX, ty, marginX + contentW, ty);
   ty += 10;
@@ -1552,7 +1642,7 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
       doc.setPage(tocPages[tocIdx]);
       ty = topY;
       ctx.setFontSafe(hasUnicodeFonts ? 'playfair' : 'serif', 'normal', 18);
-      doc.setTextColor(...MAGENTA_DEEP);
+      doc.setTextColor(...CHARCOAL_INK);
       doc.text('Table of Contents (continued)', marginX, ty);
       ty += 5;
       doc.setDrawColor(...MAGENTA_ROSE);
@@ -1562,12 +1652,12 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
     }
 
     ctx.setFontSafe('serif', 'normal', fSize);
-    doc.setTextColor(...(entry.indent ? TEAL_PETROL : TEAL_INK));
+    doc.setTextColor(...(entry.indent ? TEAL_PETROL : CHARCOAL_INK));
     for (let li = 0; li < labelLines.length; li++) {
       ctx.drawStyledSpans(labelLines[li].spans, marginX + indentPx, ty + li * lineStep, false, 'serif', 'normal');
     }
     ctx.setFontSafe('mono', 'normal', 8.5);
-    doc.setTextColor(...ORANGE_RUST);
+    doc.setTextColor(...MAGENTA_RICH);
     doc.text(String(entry.page), marginX + contentW, ty, { align: 'right' });
     ty += entryH;
   }
@@ -1575,7 +1665,7 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
   // Stamp Running Headers & Footers
   const totalPages = doc.getNumberOfPages();
   const runningHeader = ctx.clipMixedLine(
-    ctx.safeStr('Synthese · Structural Equivalence & Emergent Chronometry · Paper 15'),
+    ctx.safeStr('Where or Who Is the Observer?'),
     contentW,
     false,
     7.6,
@@ -1601,5 +1691,5 @@ export async function buildSynthesePdfDocument(existingDoc?: jsPDF): Promise<jsP
 
 export async function generateSynthesePaperPdf(): Promise<void> {
   const doc = await buildSynthesePdfDocument();
-  doc.save('Paper_15_Synthese_Structural_Equivalence.pdf');
+  doc.save('Paper_15_Synthese_Where_Is_The_Observer.pdf');
 }

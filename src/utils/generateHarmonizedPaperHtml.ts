@@ -38,7 +38,6 @@ import {
   ETHICS_AND_GOVERNANCE,
   TABLE_H1_CLOSURES,
   REVISION_HISTORY_TABLE,
-  RESPONSE_TO_REVIEWERS,
   KNOWN_OPEN_PROBLEMS,
   TABLE_7_2_FITTED_VS_PREDICTED,
   TABLE_7_3_PROTOCOL_TIMELINE,
@@ -297,7 +296,7 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
     (row) =>
       `<tr><td>${fmt(row.parameter)}</td><td>${fmt(row.formula)}</td><td>${fmt(row.value)}</td><td>${fmt(row.regime)}</td></tr>`
   ).join('')}</tbody>
-  <tfoot><tr><td colspan="4" style="font-family:var(--paper-font-mono);font-size:11.5px;background:#FAF6EE;"><div><strong style="color:#8B4513;">H11 Preregistration Digest (SHA-256):</strong></div><div style="white-space:nowrap;margin-top:2px;">${H11_PREREG_SHA256}</div></td></tr></tfoot>
+  <tfoot><tr><td colspan="4" style="font-family:var(--paper-font-mono);font-size:11.5px;background:#FAF6EE;"><div><strong style="color:#8B4513;">H11 Preregistration Digest (SHA-256):</strong></div><div style="overflow-wrap:anywhere;word-break:break-all;margin-top:2px;">${H11_PREREG_SHA256}</div></td></tr></tfoot>
 </table>`
       : ''
   }
@@ -309,14 +308,6 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
   <tbody>${REVISION_HISTORY_TABLE.map(
     (rev) =>
       `<tr><td><strong>${fmt(rev.edition)}</strong></td><td>${fmt(rev.scope)}</td><td>${fmt(rev.physicsAndNumericalClosures)}</td><td>${fmt(rev.editorialAndVerificationClosures)}</td></tr>`
-  ).join('')}</tbody>
-</table>
-<table class="data-table">
-  <caption>Table I.2: Formal Response to Reviewers Matrix</caption>
-  <thead><tr><th>Topic / ID</th><th>Referee Concern Summary</th><th>Resolution &amp; Exact Monograph Location</th><th>Status</th></tr></thead>
-  <tbody>${RESPONSE_TO_REVIEWERS.map(
-    (resp) =>
-      `<tr><td><strong>${fmt(resp.issueId)}</strong></td><td>${fmt(resp.concernSummary)}</td><td>${fmt(resp.resolutionAndLocation)}</td><td><strong>${fmt(resp.status)}</strong></td></tr>`
   ).join('')}</tbody>
 </table>
 <h4>Known Open Problems (OP-1 to OP-5)</h4>
@@ -447,8 +438,15 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
     font-size: var(--paper-body-size);
     line-height: 1.62;
     font-variant-numeric: tabular-nums;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
     orphans: 3;
     widows: 3;
+  }
+
+  p, li {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
 
   p {
@@ -467,6 +465,7 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
     margin: 0 0 0.55em 0;
   }
   h1 { font-size: var(--paper-h1-size); line-height: 1.18; }
+  .paper-subtitle { font-family: var(--paper-font-body); font-style: italic; font-size: 19px; line-height: 1.48; color: var(--paper-muted); margin: 0 0 18px 0; padding-left: 14px; border-left: 3px solid var(--paper-accent); text-align: left; }
   h2 { font-size: var(--paper-h2-size); line-height: 1.2; border-bottom: 1px solid var(--paper-rule); padding-bottom: 0.45em; margin-bottom: 0.85em; }
   h3 { font-size: var(--paper-h3-size); line-height: 1.28; margin-top: 1.6em; margin-bottom: 0.85em; }
   h3.sub-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; }
@@ -561,8 +560,11 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
   }
   .eq-main {
     flex: 1;
+    min-width: 0;
     text-align: center;
     font-size: 0.98em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
   .eq-main sub,
   .eq-main sup,
@@ -676,6 +678,8 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
 
   table.data-table {
     width: 100%;
+    max-width: 100%;
+    table-layout: auto;
     border-collapse: collapse;
     margin: 26px 0;
     font-size: 0.84em;
@@ -693,6 +697,8 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
     padding: 10px 12px;
     text-align: left;
     vertical-align: top;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
   table.data-table th {
     background: #FAF6EE;
@@ -702,6 +708,27 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
   table.data-table tr {
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+  @media print {
+    body {
+      padding: 0;
+      max-width: 100%;
+      font-size: 13.5px;
+    }
+    h3.sub-head {
+      align-items: flex-start;
+    }
+    .status-tag {
+      white-space: normal;
+    }
+    figure, .eq-box, .theorem-box, .worked-box {
+      max-width: 100%;
+      overflow: hidden;
+    }
+    figure svg {
+      max-width: 100%;
+      height: auto;
+    }
   }
 
   ul, ol {
@@ -763,6 +790,7 @@ export function buildSelfContainedMonographHtml(embeddedPlates?: Record<number, 
       ${esc(PAPER_META.publicationStatus)} &nbsp;·&nbsp; ${esc(PAPER_META.edition)}
     </div>
     <h1>${fmt(PAPER_META.title)}</h1>
+    <p class="paper-subtitle">${fmt(PAPER_META.subtitle)}</p>
     <div class="sub-meta">
       <strong>Identifiers:</strong> ${esc(PAPER_META.eprint)} &nbsp;|&nbsp; ${esc(PAPER_META.doi)}<br/>
       <strong>PhySH:</strong> ${esc(PAPER_META.physh)} &nbsp;|&nbsp; <strong>MSC 2020:</strong> ${esc(PAPER_META.msc2020)}

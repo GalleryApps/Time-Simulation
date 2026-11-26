@@ -1462,7 +1462,7 @@ export const PAPER_FIGURES: PaperFigureSpec[] = [
   <!-- Horizontal bars -->
   <text x="458" y="114" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">Standard ΛCDM</text>
   <rect x="592" y="101" width="212" height="16" rx="2" fill="url(#fig12Bar)"/>
-  <text x="808" y="113" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#FFFFFF">11.8σ</text>
+  <text x="798" y="113" text-anchor="end" font-family="'DejaVu Sans Mono', monospace" font-size="9.6" fill="#FFFFFF">11.8σ</text>
 
   <text x="458" y="148" font-family="'DejaVu Sans', Arial, sans-serif" font-size="10.6" fill="#0F172A">Plain Quintessence</text>
   <rect x="592" y="135" width="184" height="16" rx="2" fill="url(#fig12Bar)"/>

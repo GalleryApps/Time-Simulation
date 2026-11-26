@@ -443,7 +443,7 @@ export const CLOCK_SPEED_FIGURES: ClockFigureSpec[] = [
   <circle cx="147" cy="265" r="4.5" fill="#661447"/>
   <circle cx="224" cy="147" r="4" fill="#186876"/>
   <!-- Labels & Legend -->
-  <text x="154" y="46" font-family="DejaVu Sans, sans-serif" font-size="10" fill="#4A0E33">Horizon r = r_s (α_upd = 0; K(r_s) = 12/r_s⁴ = 1.58×10⁻¹⁷ m⁻⁴ @ 10 M_☉)</text>
+  <text x="154" y="46" font-family="DejaVu Sans, sans-serif" font-size="9.2" fill="#4A0E33">Horizon r = r_s (α_upd = 0; K = 12/r_s⁴ = 1.58×10⁻¹⁷ m⁻⁴ @ 10 M_☉)</text>
   <text x="232" y="142" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#0B3942">r_ph: α = 0.577</text>
   <rect x="380" y="140" width="292" height="68" rx="6" fill="#FAF9F7" stroke="#186876" stroke-width="1"/>
   <line x1="394" y1="162" x2="424" y2="162" stroke="#186876" stroke-width="2.8"/>
@@ -505,11 +505,11 @@ export const CLOCK_SPEED_FIGURES: ClockFigureSpec[] = [
   <circle cx="607" cy="176" r="5" fill="#0F3D2B"/>
   <!-- Callouts -->
   <line x1="185" y1="86" x2="185" y2="98" stroke="#831B5B" stroke-width="1"/>
-  <text x="115" y="112" font-family="DejaVu Sans, sans-serif" font-size="10.5" fill="#4A0E33">Fermi-LAT GRB 090510 Exclusion Floor (Δt_obs &lt; 0.83 s)</text>
+  <text x="115" y="112" font-family="DejaVu Sans, sans-serif" font-size="9.5" fill="#4A0E33">Fermi-LAT GRB 090510 Exclusion Floor (Δt_obs &lt; 0.83 s)</text>
   <line x1="488" y1="72" x2="508" y2="46" stroke="#661447" stroke-width="1"/>
-  <text x="514" y="45" font-family="DejaVu Sans, sans-serif" font-size="10.5" font-weight="bold" fill="#661447">Linear Grid (n = 1 · Refuted)</text>
+  <text x="514" y="45" font-family="DejaVu Sans, sans-serif" font-size="10.2" font-weight="bold" fill="#661447">Linear Grid (n = 1 · Refuted)</text>
   <line x1="607" y1="176" x2="585" y2="155" stroke="#0F3D2B" stroke-width="1"/>
-  <text x="580" y="152" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="10.5" font-weight="bold" fill="#0F3D2B">Quadratic / LHAASO 18 TeV (n = 2 · Viable)</text>
+  <text x="580" y="152" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="9.4" font-weight="bold" fill="#0F3D2B">Quadratic / LHAASO 18 TeV (n = 2 · Viable)</text>
   <text x="400" y="322" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11.5" fill="#0B3942">Photon Energy E_γ (Log Scale, GeV to 100 TeV)</text>
   <text x="34" y="162" text-anchor="middle" transform="rotate(-90 34 162)" font-family="DejaVu Sans, sans-serif" font-size="11.5" fill="#0B3942">Arrival Lag Δt_LIV (Log Scale)</text>
 </svg>`

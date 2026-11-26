@@ -455,16 +455,16 @@ const BASE_500_SPECS: Record<number, BaseTuple> = {
   282: [3, 'verify-igrt-monograph.mjs, cosmology-suite', 'Two standalone public Node scripts (639 assertions in verify-igrt-monograph.mjs + scripts/igrt-cosmology-suite.mjs) make every table reproducible from UI/repo.'],
   283: [3, 'App. F–G, Table H.1', 'Propagates G (11 ppm), H_0 = 70.77 ± 0.72, θ_i = 1.95, and full Cramér–Rao σ_r = ±0.25/±0.08 error bars.'],
   284: [3, 'WHAT_CHANGED, §7.1–7.2', 'Explicitly reports retractions (blue n_T, 10⁻²¹ Skytree, zero-tuning DE), coupled DESI DR2 fit (w_0=−0.831, w_a=−0.542), and undetectable f_NL.'],
-  285: [3, 'RESPONSE_TO_REVIEWERS, App. P', 'R1–R13 technical closures + Appendix P closures verified deterministically by 639 script assertions (external journal peer review tracked cleanly at #286/#483/ATK-20).'],
+  285: [3, 'REVISION_HISTORY, App. P', 'Full self-contained H11 technical & Appendix P closures verified deterministically by 639 script assertions (external journal evaluation tracked cleanly at #286/#483/ATK-20).'],
   286: [0, 'External Milestone', 'EXTERNAL MILESTONE: All self-contained technical closures verified in-repo; foundational preprints [1]–[3] and H11 await independent anonymous journal peer review.'],
   287: [3, 'SCOPE, CLAIM_LEDGER', 'Claims strictly capped to verified evidence with candid k_eff = 2 spectral scalar and theorem-derived disclosures.'],
-  288: [3, '§1–§8, App. A–P', 'Entirely equation-, code-, and referee-ledger-driven without appeal to authority.'],
+  288: [3, '§1–§8, App. A–P', 'Entirely equation-, code-, and reproducible claim-ledger-driven without appeal to authority.'],
   289: [3, 'SCOPE #2', 'Completely purged of mysticism, consciousness claims, and vague resonance metaphors.'],
   290: [3, 'PLAIN_LANGUAGE_SUMMARY', 'Provides dedicated Plain-Language Summary and Shortened Abstract separating analogies from formal derivations.'],
   291: [3, 'Table 0.1, Eq.(3.1)–(8.1)', 'Standard differential-geometry, AQFT, and Horndeski tensor notation enforced cleanly (zero barred-h or LaTeX errors).'],
   292: [3, 'Table 0.1', 'Every symbol explicitly defined with dimensionality in List of Symbols.'],
   293: [3, 'SCOPE, Layman/Paper split', 'Clean boundary between formal research monograph and lay pedagogical summary.'],
-  294: [3, 'RESPONSE_TO_REVIEWERS R1–R13', 'Directly resolves UV divergences, Pauli theorem, BKM limits, BKL shear, Cauchy horizon mass-inflation, Kerr/FRG/CDT, τ_re/η_B, and H_0/DESI DR2 likelihood.'],
+  294: [3, 'App. C–P, Table H.1', 'Directly resolves UV divergences, Pauli theorem, BKM limits, BKL shear, Cauchy horizon mass-inflation, Kerr/FRG/CDT, τ_re/η_B, and H_0/DESI DR2 likelihood.'],
   295: [3, 'Refs [1]–[109]', 'Deep engagement with Horndeski, GW170817, Cassini, Carballo-Rubio regular BHs, and CMB/DESI literature.'],
   296: [3, '§2.2–2.3, App. B', 'Correctly uses Petz (1996), Čencov, Amari, Šafránek (2017), Carlen–Maas (2017), and Wirth–Zhang (2023).'],
   297: [0, 'SCOPE #2', 'OUT OF SCOPE: Intentionally excludes consciousness literature from core physics derivations (SCOPE #2).'],
@@ -472,7 +472,7 @@ const BASE_500_SPECS: Record<number, BaseTuple> = {
   299: [3, '§1.1, §8.1, [9, 10, 101]', 'Engages Problem of Time literature (Kuchař, Isham, Page–Wootters, Connes–Rovelli, Höhn–Smith–Lock).'],
   300: [3, 'REVISION_HISTORY H6→H11', 'Reconciles legacy H6–H10 contradictions cleanly via explicit versioned theorems & App. P closures.'],
   301: [3, 'SCOPE_AND_NON_CLAIMS', 'Strict non-claims enforce disciplined boundaries on ToE, consciousness, CC, DM, and preprints.'],
-  302: [3, 'REVISION_HISTORY, WHAT_CHANGED', 'Detailed H6 → H7 → H8 → H9 → H10 → H11 changelog and R1–R13 audit matrix documented in full.'],
+  302: [3, 'REVISION_HISTORY, WHAT_CHANGED', 'Detailed H6 → H7 → H8 → H9 → H10 → H11 changelog and cross-monograph technical closure ledger documented in full.'],
   303: [3, 'verify-igrt, Plates I–XIV, Figs 1–12', 'Integrates 14 bespoke archival editorial plates (Plates I–XIV) + 12 high-precision SVG figures with clean caption spacing verified across React, HTML, and zero-glyph-regression PDF.'],
   304: [3, 'ETHICS_AND_GOVERNANCE', 'Full ORCIDs, CRediT roles, non-commercial COI, and preprint [1]–[3] self-citation disclosure stated.'],
   305: [3, 'SCOPE #2, ETHICS', 'Cleanly severs IGRT physics from third-party mystical or anthropomorphic RES=RAG readings.'],
@@ -481,7 +481,7 @@ const BASE_500_SPECS: Record<number, BaseTuple> = {
   308: [3, 'App. C–P', 'Complete worked numerical calculations for 300K diamond, QES island, nanosphere DP, WKB K_echo=0.184, mass inflation, and Cramér–Rao σ_r.'],
   309: [3, 'Table H.1, App. F–G, App. P', 'Explicit error bars and parameter ranges quoted on H_0 (70.77 ± 0.72), θ_i, Φ_portal, and σ_r.'],
   310: [3, '§7.1–7.4 P1–P6', 'Pre-committed hard falsification conditions across P1–P6 before upcoming DR3/LiteBIRD releases.'],
-  311: [3, 'RESPONSE_TO_REVIEWERS R1–R13, App. P', 'R1–R13 internal critiques & OP-1..OP-5 technical closures verified deterministically via 639 checks + App. P; external peer critique tracked at #286/#312.'],
+  311: [3, 'App. I, Table M.1, App. P', 'All self-contained technical items & OP-1..OP-5 internal closures verified deterministically via 639 checks + App. P; external peer critique tracked at #286/#312.'],
   312: [0, 'External Milestone', 'EXTERNAL MILESTONE: Zero independent external citations or third-party uptake documented prior to journal publication.'],
   313: [3, '§2.2, §3.2, App. B–D', 'Operator algebras (Type I/III_1, Doplicher–Longo split, Krein triples, BKM metric) used with technical precision.'],
   314: [3, 'ETHICS_AND_GOVERNANCE', 'Explicitly upholds ethical communication restraint, disclaiming speculative applications.'],
@@ -642,7 +642,7 @@ const BASE_500_SPECS: Record<number, BaseTuple> = {
   461: [0, 'External Milestone', 'EXTERNAL MILESTONE: Independent third-party groups reproducing IGRT-2026-H11 await post-publication community uptake.'],
   462: [0, 'External Milestone', 'EXTERNAL MILESTONE: Independent external derivations or third-party journal replications await publication.'],
   463: [3, '§7.1–7.4, WHAT_CHANGED, App. P', 'H6 → H11 progressive Lakatosian shift closes every self-contained theoretical, cosmological MCMC, and BH dynamical gate cleanly (empirical runs tracked at #206).'],
-  464: [3, 'RESPONSE R1–R13, App. P', 'Closes all R1–R13 critiques and all technical OP-1..OP-5 gates inside IGRT-2026-H11 (external empirical runs/peer review cleanly isolated).'],
+  464: [3, 'Table I.1, App. P', 'Closes all technical OP-1..OP-5 gates inside IGRT-2026-H11 (external empirical runs and independent publication milestones cleanly isolated).'],
   465: [3, '§7.1–7.4, verify-igrt', 'Sharp falsification conditions P1–P6 and open reproducibility scripts satisfy Popperian demarcation cleanly.'],
   466: [3, 'SCOPE #2', 'Explicitly excises mystical, consciousness, and anthropomorphic readings in Scope & Non-Claims #2.'],
   467: [3, '§1–§8, App. A–P', 'Rigorously bridges 7 disciplines: GR, Horndeski cosmology, AQFT operator algebras, FRG/CDT, QIT/Amari geometry, precision metrology, and QGP/BMV foundations.'],
@@ -650,21 +650,21 @@ const BASE_500_SPECS: Record<number, BaseTuple> = {
   469: [3, 'App. A–P, Plates I–XIV, Figs 1–12', 'Worked examples (qubit Uhlmann, diamond, ODE, Kerr/FRG, 8k MCMC, IMR, BMV, MERA, dimensional tables, Plates I–XIV) provide complete graduate monograph pedagogy.'],
   470: [3, 'ETHICS, App. J', 'Full monograph prose, 2 executable verification/cosmology scripts, and PDF/HTML/MD generators openly accessible in repository.'],
   471: [3, 'App. J, verify-igrt', 'Canonical H11 SHA-256 preregistration digest 57cf3f1cef74a45cd936663f1b017212e2f64b1bee05f55cdff9068a2b05048d deterministically locks frozen k_eff = 2 parameters & P1–P6 SNR thresholds in repo & App. J.'],
-  472: [3, 'RESPONSE R1–R13, App. P', 'Complete internal red-team + R1–R13 + 980-vector audit closed in-repo with reproducible Node suites (external community peer review isolated to #286/#483/ATK-20).'],
+  472: [3, 'App. P, Table J.1', 'Complete internal red-team + 980-vector audit closed in-repo with reproducible Node suites (external community evaluation isolated to #286/#483/ATK-20).'],
   473: [3, 'Table 0.1', 'Strict community-standard tensor, Horndeski, and Petz notation enforced by List of Symbols.'],
   474: [3, 'Refs [1]–[109], verify-igrt', 'Dense 109-reference outbound scholarly citation network across 7 physics disciplines (inbound external citations tracked cleanly at #312).'],
   475: [0, 'External Milestone', 'EXTERNAL MILESTONE: Core preprints [1]–[3] and H11 await external peer-reviewed journal publication.'],
   476: [0, 'External Milestone', 'EXTERNAL MILESTONE: ETHICS_AND_GOVERNANCE declares independent research conducted with zero external institutional grant funding.'],
-  477: [3, 'ETHICS_AND_GOVERNANCE', 'Complete CRediT role breakdown with verified ORCIDs for all three authors.'],
+  477: [3, 'ETHICS_AND_GOVERNANCE', 'Complete CRediT role breakdown with verified ORCIDs for all six authors.'],
   478: [3, 'ETHICS_AND_GOVERNANCE', 'Explicitly upholds ethical claims discipline and zero commercial conflict of interest.'],
   479: [3, '§7.2–7.4, Table 7.3', 'Delivers exact quantitative 2026–2036 metrology roadmaps for DESI DR2/DR3, LiteBIRD, IPTA, LVK/CE, CANNEX, and HL-LHC cleanly separated from policy overreach.'],
   480: [3, 'App. P, §1–§8', 'Full self-contained derivations, 8k MCMC, C_ℓ^{TT,TE,EE}, BFV–BRST, Regge–CDT, & 30+30 M_⊙ IMR establish complete research-program infrastructure.'],
   481: [3, '§1.2, App. P, Table 8.4', 'A_F^{H11} spectral trace invariance compresses all 5 scalars cleanly into k_eff = 2 continuous moduli, yielding ΔAIC = −1.84 and Δln Z = +1.42 vs ΛCDM (superior Occam economy!).'],
   482: [3, 'CLAIM_LEDGER, Table 8.3', 'Exemplary awareness of theory-laden couplings (now theorem-derived κ_ψ/α_mod/ξ_0/K_echo) and model-dependent observables.'],
-  483: [0, 'External Milestone', 'EXTERNAL MILESTONE: External anonymous journal referee reports await formal journal submission (R1–R13 technical closures audited internally).'],
+  483: [0, 'External Milestone', 'EXTERNAL MILESTONE: External anonymous journal referee reports await formal journal submission (internal technical closures audited in App. P).'],
   484: [3, 'verify-igrt, cosmology-suite', '639 programmatic assertions + standalone cosmology suite make every numerical table and H11 figure immediately machine-reproducible.'],
   485: [3, 'SCOPE, CLAIM_LEDGER', 'Exemplary communication discipline separating Derived theorems from Benchmark inputs, Scope exclusions, and External milestones.'],
-  486: [3, 'REVISION_HISTORY, R1–R13, App. P', 'Complete H6 → H7 → H8 → H9 → H10 → H11 audit trail, R1–R13 closures, and App. P proofs archived deterministically in repo.'],
+  486: [3, 'REVISION_HISTORY, App. P', 'Complete H6 → H7 → H8 → H9 → H10 → H11 technical changelog and App. P proofs archived deterministically in repo.'],
   487: [3, 'REVISION_HISTORY H6→H11', 'Transparent versioning documents exact equations stabilized vs retracted across H6 through H11.'],
   488: [3, 'P1–P6, App. F', 'Directly calibrated to existing/active pipelines (IPTA TEMPO2, DESI/Planck, LiteBIRD NILC, LVK/CE, CANNEX, HL-LHC).'],
   489: [3, 'CLAIM_LEDGER, App. P', '980-vector adversarial audit, 639-check verify script, and SHA-256 preregistration realize maximum self-contained scrutiny; external uptake tracked at #461.'],
@@ -917,7 +917,7 @@ const ATTACK_H8_SPECS: Record<
     h8Rating: 'Wounded',
     citation: 'ETHICS, OP-5, Refs [1]–[3]',
     defenseAndJustification:
-      'Complete self-contained epistemic rigor: 639-assertion verify-igrt-monograph.mjs, scripts/igrt-cosmology-suite.mjs, H11 SHA-256 preregistration digest 57cf3f1c…, Plates I–XIV & Figs 1–12, CRediT ORCIDs, and R1–R13 referee closures.',
+      'Complete self-contained epistemic rigor: 639-assertion verify-igrt-monograph.mjs, scripts/igrt-cosmology-suite.mjs, H11 SHA-256 preregistration digest 57cf3f1c…, Plates I–XIV & Figs 1–12, CRediT ORCIDs, and Appendix P technical closures.',
     remainingVulnerability:
       'WOUNDED (External Milestone): Foundational author preprints [1]–[3] and H11 remain un-refereed externally, zero independent replications exist prior to publication, and independent grant funding is absent.'
   }
@@ -1012,9 +1012,9 @@ const UPGRADE_H8_OVERRIDES: Record<
   },
   'METR-10': {
     h8Status: 'Superseded / Corrected in H11',
-    citation: 'RESPONSE R5',
+    citation: 'WHAT_CHANGED, §7.3 P5',
     h8AuditNote:
-      'RETRACTED: Legacy 10⁻²¹ sub-mm clock-redshift claim remains explicitly excluded per Response R5.'
+      'RETRACTED: Legacy 10⁻²¹ sub-mm clock-redshift claim remains explicitly excluded per §7.3 & What Changed.'
   },
   'SIM-04': {
     h8Status: 'Superseded / Corrected in H11',
@@ -1024,7 +1024,7 @@ const UPGRADE_H8_OVERRIDES: Record<
   },
   'SIM-22': {
     h8Status: 'Superseded / Corrected in H11',
-    citation: 'RESPONSE R5',
+    citation: 'WHAT_CHANGED, §7.3 P5',
     h8AuditNote:
       'RETRACTED IN PAPER: Sub-millimeter 10⁻²¹ clock shift claim omitted; replaced by CANNEX Chameleon metrology.'
   },

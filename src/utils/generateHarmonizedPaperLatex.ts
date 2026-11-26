@@ -39,7 +39,6 @@ import {
   ETHICS_AND_GOVERNANCE,
   TABLE_H1_CLOSURES,
   REVISION_HISTORY_TABLE,
-  RESPONSE_TO_REVIEWERS,
   KNOWN_OPEN_PROBLEMS,
   TABLE_7_2_FITTED_VS_PREDICTED,
   TABLE_7_3_PROTOCOL_TIMELINE,
@@ -76,7 +75,8 @@ const COMBINED_ACCENTS: Record<string, string> = {
 const PRECOMPOSED_MATH_ACCENTS: Record<string, string> = {
   'Ĥ': '\\hat{H}',
   'ẋ': '\\dot{x}',
-  'ȧ': '\\dot{a}'
+  'ȧ': '\\dot{a}',
+  'Ṗ': '\\dot{P}'
 };
 
 const MATH_UNICODE_MAP: Record<string, string> = {
@@ -85,7 +85,10 @@ const MATH_UNICODE_MAP: Record<string, string> = {
   'Δ': '\\Delta ',
   'Θ': '\\Theta ',
   'Λ': '\\Lambda ',
+  'Ξ': '\\Xi ',
+  'Π': '\\Pi ',
   'Σ': '\\Sigma ',
+  'Υ': '\\Upsilon ',
   'Φ': '\\Phi ',
   'Ψ': '\\Psi ',
   'Ω': '\\Omega ',
@@ -107,7 +110,13 @@ const MATH_UNICODE_MAP: Record<string, string> = {
   'ρ': '\\rho ',
   'σ': '\\sigma ',
   'τ': '\\tau ',
+  'υ': '\\upsilon ',
   'φ': '\\varphi ',
+  'ϕ': '\\phi ',
+  'ϑ': '\\vartheta ',
+  'ϖ': '\\varpi ',
+  'ϵ': '\\epsilon ',
+  'ς': '\\varsigma ',
   'χ': '\\chi ',
   'ψ': '\\psi ',
   'ω': '\\omega ',
@@ -123,7 +132,12 @@ const MATH_UNICODE_MAP: Record<string, string> = {
   '𝒜': '\\mathcal{A}',
   '𝒞': '\\mathcal{C}',
   '𝒟': '\\mathcal{D}',
+  '𝒢': '\\mathcal{G}',
+  '𝒦': '\\mathcal{K}',
+  '𝒩': '\\mathcal{N}',
+  '𝒪': '\\mathcal{O}',
   '𝒫': '\\mathcal{P}',
+  '𝒱': '\\mathcal{V}',
   'ℏ': '\\hbar ',
   'ℓ': '\\ell ',
   // Operators, relations, symbols
@@ -149,10 +163,12 @@ const MATH_UNICODE_MAP: Record<string, string> = {
   '∝': '\\propto ',
   '∞': '\\infty ',
   '∪': '\\cup ',
+  '∩': '\\cap ',
   '∫': '\\int ',
   '∼': '\\sim ',
   '≃': '\\simeq ',
   '≈': '\\approx ',
+  '≅': '\\cong ',
   '≠': '\\ne ',
   '≡': '\\equiv ',
   '≤': '\\le ',
@@ -163,32 +179,83 @@ const MATH_UNICODE_MAP: Record<string, string> = {
   '≳': '\\gtrsim ',
   '≺': '\\prec ',
   '⊂': '\\subset ',
+  '⊆': '\\subseteq ',
+  '⊇': '\\supseteq ',
   '⊕': '\\oplus ',
   '⊗': '\\otimes ',
+  '⨂': '\\bigotimes ',
   '⊙': '\\odot ',
+  '⋊': '\\rtimes ',
   '⊥': '\\perp ',
+  '∧': '\\wedge ',
+  '∨': '\\vee ',
+  '∀': '\\forall ',
+  '∃': '\\exists ',
+  '∗': '\\ast ',
+  '⋆': '\\star ',
+  '∘': '\\circ ',
   '□': '\\Box ',
   '⟨': '\\langle ',
   '⟩': '\\rangle ',
   '¼': '\\frac{1}{4}',
   '½': '\\frac{1}{2}',
   'ä': '\\ddot{a}',
-  'Ġ': '\\dot{G}'
+  'Ġ': '\\dot{G}',
+  'Ṗ': '\\dot{P}'
 };
 
 const TEXT_LATIN_ACCENTS: Record<string, string> = {
+  'à': '\\`{a}',
   'á': "\\'{a}",
+  'â': '\\^{a}',
   'ä': '\\"{a}',
+  'å': '\\aa{}',
+  'À': '\\`{A}',
+  'Á': "\\'{A}",
+  'Ä': '\\"{A}',
+  'Å': '\\AA{}',
+  'ç': '\\c{c}',
+  'Ç': '\\c{C}',
   'è': '\\`{e}',
   'é': "\\'{e}",
+  'ê': '\\^{e}',
+  'ë': '\\"{e}',
+  'È': '\\`{E}',
+  'É': "\\'{E}",
+  'ì': '\\`{i}',
+  'í': "\\'{i}",
   'î': '\\^{i}',
+  'ï': '\\"{i}',
   'ñ': '\\~{n}',
+  'Ñ': '\\~{N}',
+  'ò': '\\`{o}',
   'ó': "\\'{o}",
+  'ô': '\\^{o}',
   'ö': '\\"{o}',
+  'ø': '\\o{}',
+  'Ø': '\\O{}',
+  'ù': '\\`{u}',
+  'ú': "\\'{u}",
+  'û': '\\^{u}',
+  'ü': '\\"{u}',
+  'Ü': '\\"{U}',
   'Č': '\\v{C}',
+  'č': '\\v{c}',
+  'ć': "\\'{c}",
   'Ġ': '\\.{G}',
+  'ł': '\\l{}',
+  'Ł': '\\L{}',
+  'ń': "\\'{n}",
   'ř': '\\v{r}',
-  'Š': '\\v{S}'
+  'Š': '\\v{S}',
+  'š': '\\v{s}',
+  'Ž': '\\v{Z}',
+  'ž': '\\v{z}',
+  'ā': '\\={a}',
+  'ē': '\\={e}',
+  'ī': '\\={i}',
+  'ō': '\\={o}',
+  'ū': '\\={u}'
 };
 
 const TEXT_PUNCT_MAP: Record<string, string> = {
@@ -249,8 +316,11 @@ function escapeTextChar(ch: string): string {
       return '\\textgreater{}';
     case '|':
       return '\\textbar{}';
-    default:
+    default: {
+      if (ch in MATH_UNICODE_MAP) return `$${MATH_UNICODE_MAP[ch].trim()}$`;
+      if (ch.charCodeAt(0) > 127) return '';
       return ch;
+    }
   }
 }
 
@@ -278,6 +348,8 @@ function escapeCodeText(s: string): string {
       if (ch === '–') return '-';
       if (ch === '—') return '--';
       if (ch in TEXT_LATIN_ACCENTS) return TEXT_LATIN_ACCENTS[ch];
+      if (ch in MATH_UNICODE_MAP) return `$${MATH_UNICODE_MAP[ch].trim()}$`;
+      if (ch.charCodeAt(0) > 127) return '';
       return ch;
     })
     .join('');
@@ -311,22 +383,13 @@ function escapeBibtexText(s: string): string {
       }
       out += `$_{${run}}$`;
     } else if (ch in TEXT_LATIN_ACCENTS) out += TEXT_LATIN_ACCENTS[ch];
-    else if (ch === '–' || ch === '—') out += '--';
-    else if (ch === '’') out += "'";
-    else if (ch === '“') out += '``';
-    else if (ch === '”') out += "''";
-    else if (ch === '·') out += ' ';
+    else if (ch in TEXT_PUNCT_MAP) out += TEXT_PUNCT_MAP[ch];
     else if (ch === '&') out += '\\&';
     else if (ch === '%') out += '\\%';
     else if (ch === '#') out += '\\#';
     else if (ch === '_') out += '\\_';
-    else if (ch === 'ℓ') out += '$\\ell$';
-    else if (ch === 'ℏ') out += '$\\hbar$';
-    else if (ch === 'ψ') out += '$\\psi$';
-    else if (ch === 'φ') out += '$\\varphi$';
-    else if (ch === 'Λ') out += '$\\Lambda$';
-    else if (ch === 'Ω') out += '$\\Omega$';
-    else if (ch === '−') out += '-';
+    else if (ch in MATH_UNICODE_MAP) out += `$${MATH_UNICODE_MAP[ch].trim()}$`;
+    else if (ch.charCodeAt(0) > 127) out += '';
     else out += ch;
   }
   return out;
@@ -429,7 +492,7 @@ function mathSegmentToLatex(seg: MathSegment, insideScript = false): string {
 }
 
 const MATH_UNICODE_RE =
-  /[ΓΔΘΛΣΦΨΩαβγδεζηθκλμνξπρστυφχψωℂℍℝℤℋℐℒℛ𝒜𝒞𝒟𝒫ℏℓ°±·×†‖′″→↔⇒∂∅∇∈∉∑−√∝∞∪∫∼≃≈≠≡≤≥≪≫≲≳≺⊂⊕⊗⊙⊥□⟨⟩¼½ĤẋȧäĠ⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻₀₁₂\u0302\u0303\u0304\u0307\u0308\u20D7]/u;
+  /[ΓΔΘΛΞΠΣΥΦΨΩαβγδεζηθκλμνξπρστυφϕϑϖϵςχψωℂℍℝℤℋℐℒℛ𝒜𝒞𝒟𝒢𝒦𝒩𝒪𝒫𝒱ℏℓ°±·×†‖′″→↔⇒∂∅∇∈∉∑−√∝∞∪∩∫∼≃≈≅≠≡≤≥≪≫≲≳≺⊂⊆⊇⊕⊗⨂⊙⋊⊥∧∨∀∃∗⋆∘□⟨⟩¼½ĤẋȧäĠṖ⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻₀₁₂₃₄₅₆₇₈₉\u0302\u0303\u0304\u0307\u0308\u20D7]/u;
 
 function isMathToken(tok: string): boolean {
   if (!tok) return false;
@@ -708,6 +771,60 @@ export function proseToLatex(input: string, options: { allowCitations?: boolean 
   return out.join('');
 }
 
+function visibleMathLength(expr: string): number {
+  return expr
+    .replace(/\\(?:mathbb|mathcal|mathrm|mathbf|mathit|text|sqrt|frac|hat|tilde|bar|dot|ddot|vec|tag|label)/g, '')
+    .replace(/\\[A-Za-z]+/g, 'x')
+    .replace(/[{}^_\s]/g, '').length;
+}
+
+function wrapLongDisplayMathSegment(segment: string, maxVisLen = 78): string[] {
+  if (visibleMathLength(segment) <= maxVisLen) return [segment];
+  const splitOps = ['\\Rightarrow', '\\equiv', '\\approx', '\\simeq', '\\le', '\\ge', '=', ',\\quad', ',\\;', ', '];
+  const candidates: Array<{ pos: number; opLen: number }> = [];
+  let braceDepth = 0;
+  let parenDepth = 0;
+  for (let i = 0; i < segment.length; i++) {
+    const ch = segment[i];
+    if (ch === '{') {
+      braceDepth++;
+    } else if (ch === '}') {
+      if (braceDepth > 0) braceDepth--;
+    } else if (ch === '(' || ch === '[') {
+      parenDepth++;
+    } else if (ch === ')' || ch === ']') {
+      if (parenDepth > 0) parenDepth--;
+    } else if (braceDepth === 0 && parenDepth === 0) {
+      for (const op of splitOps) {
+        if (segment.startsWith(op, i)) {
+          if (i > 12 && i + op.length < segment.length - 8) {
+            candidates.push({ pos: i, opLen: op.length });
+          }
+          break;
+        }
+      }
+    }
+  }
+  if (candidates.length === 0) return [segment];
+  const targetMid = segment.length * 0.48;
+  candidates.sort((a, b) => Math.abs(a.pos - targetMid) - Math.abs(b.pos - targetMid));
+  const best = candidates[0];
+  const opStr = segment.slice(best.pos, best.pos + best.opLen);
+  const left = segment.slice(0, best.pos).trim();
+  const right = (opStr.startsWith(',') ? segment.slice(best.pos + best.opLen) : segment.slice(best.pos)).trim();
+  if (!left || !right) return [segment];
+  return [
+    ...wrapLongDisplayMathSegment(left, maxVisLen),
+    ...wrapLongDisplayMathSegment(right, maxVisLen)
+  ];
+}
+
+function wrapLongDisplayMath(body: string): string {
+  const rawLines = body.split(/\s*\\\\\s*/);
+  const wrapped = rawLines.flatMap((ln) => wrapLongDisplayMathSegment(ln.trim(), 78));
+  return wrapped.join(' \\\\\n  ');
+}
+
 /**
  * Converts PaperEquation.unicodeHtml (or { unicodeHtml, label }) to display math LaTeX.
  */
@@ -729,11 +846,12 @@ export function equationToLatex(unicodeHtml: string, label: string, caption?: st
     }
     rawBody += piece;
   }
-  const body = rawBody
+  const normalizedBody = rawBody
     .replace(/\\\|\s*/g, '\\| ')
     .replace(/[ ]{2,}/g, ' ')
     .replace(/ \\\\ /g, ' \\\\\n  ')
     .trim();
+  const body = wrapLongDisplayMath(normalizedBody);
 
   const cleanTag = label.replace(/^\(|\)$/g, '').trim();
   const safeLabel = cleanTag.replace(/[^A-Za-z0-9.\-]/g, '-').toLowerCase();
@@ -765,10 +883,12 @@ function makeLongTable(
     .map((cols) => cols.join(' & ') + ' \\\\\n\\midrule[0.25pt]')
     .join('\n');
   const foot = footerNote
-    ? `\\multicolumn{${headers.length}}{@{}p{0.96\\textwidth}@{}}{\\footnotesize\\itshape ${footerNote}} \\\\\n\\bottomrule`
+    ? `\\multicolumn{${headers.length}}{@{}>{\\RaggedRight\\arraybackslash}p{0.94\\textwidth}@{}}{\\footnotesize\\itshape ${footerNote}} \\\\\n\\bottomrule`
     : '\\bottomrule';
 
-  return `\\begin{small}
+  return `\\begingroup
+\\small
+\\setlength{\\tabcolsep}{3.5pt}
 \\begin{longtable}{${colSpec}}
 \\caption{${proseToLatex(caption)}} \\\\
 \\toprule
@@ -786,7 +906,7 @@ ${headerRow}
 ${foot}
 ${bodyRows}
 \\end{longtable}
-\\end{small}
+\\endgroup
 `;
 }
 
@@ -847,7 +967,7 @@ function buildPreambleTex(): string {
 
 \\usepackage[a4paper,margin=22mm,headheight=14pt]{geometry}
 \\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
-\\usepackage{booktabs,longtable,array,tabularx}
+\\usepackage{booktabs,longtable,array,tabularx,ragged2e}
 \\usepackage{graphicx}
 \\usepackage{xcolor}
 \\usepackage[most]{tcolorbox}
@@ -855,8 +975,13 @@ function buildPreambleTex(): string {
 \\usepackage{titlesec}
 \\usepackage{fancyhdr}
 \\usepackage{microtype}
-\\usepackage{url}
+\\usepackage{xurl}
 \\usepackage[colorlinks=true,linkcolor=igrtnavy,citecolor=igrtaccent,urlcolor=igrtnavy]{hyperref}
+
+\\newcolumntype{L}[1]{>{\\RaggedRight\\arraybackslash}p{#1}}
+\\setlength{\\emergencystretch}{3em}
+\\setlength{\\hfuzz}{2pt}
+\\hyphenpenalty=50
 
 \\definecolor{igrtnavy}{HTML}{0F172A}
 \\definecolor{igrtaccent}{HTML}{8B4513}
@@ -992,10 +1117,13 @@ function buildTitleAndAbstractTex(): string {
 \\thispagestyle{empty}
 \\noindent{\\scriptsize\\scshape\\color{igrtaccent} ${proseToLatex(PAPER_META.publicationStatus)} \\quad|\\quad ${proseToLatex(PAPER_META.edition)}}\\\\[4pt]
 {\\color{igrtnavy}\\hrule height 1.5pt}
-\\vspace{1.4em}
+\\vspace{1.1em}
 
 {\\LARGE\\normalfont\\color{igrtnavy} ${proseToLatex(PAPER_META.title)} \\par}
-\\vspace{1.0em}
+\\vspace{0.6em}
+
+{\\large\\itshape\\color{igrtslate} ${proseToLatex(PAPER_META.subtitle)} \\par}
+\\vspace{0.9em}
 
 {\\small\\color{igrtslate}
 \\textbf{Identifier:} ${proseToLatex(PAPER_META.eprint)} \\quad|\\quad ${proseToLatex(PAPER_META.doi)} \\\\
@@ -1053,7 +1181,7 @@ function buildFrontmatterTex(): string {
   lines.push(
     makeLongTable(
       'Index of Monograph Tables',
-      'p{0.12\\textwidth} p{0.58\\textwidth} p{0.24\\textwidth}',
+      'L{0.11\\textwidth} L{0.56\\textwidth} L{0.23\\textwidth}',
       ['Table', 'Title', 'Location'],
       LIST_OF_TABLES.map((t) => [proseToLatex(t.number), proseToLatex(t.title), proseToLatex(t.location)])
     )
@@ -1063,7 +1191,7 @@ function buildFrontmatterTex(): string {
   lines.push(
     makeLongTable(
       'Table 0.1: List of Symbols & Collision Disambiguation',
-      'p{0.16\\textwidth} p{0.28\\textwidth} p{0.20\\textwidth} p{0.28\\textwidth}',
+      'L{0.15\\textwidth} L{0.27\\textwidth} L{0.19\\textwidth} L{0.27\\textwidth}',
       ['Symbol', 'Definition', 'Units', 'Collision Disambiguation'],
       LIST_OF_SYMBOLS.map((sym) => [
         `\\textbf{${proseToLatex(sym.symbol, { allowCitations: false })}}`,
@@ -1078,7 +1206,7 @@ function buildFrontmatterTex(): string {
   lines.push(
     makeLongTable(
       'Acronyms Glossary',
-      'p{0.16\\textwidth} p{0.30\\textwidth} p{0.48\\textwidth}',
+      'L{0.15\\textwidth} L{0.28\\textwidth} L{0.46\\textwidth}',
       ['Acronym', 'Expansion', 'Operational Definition'],
       ACRONYMS_GLOSSARY.map((a) => [
         `\\textbf{${proseToLatex(a.term)}}`,
@@ -1092,7 +1220,7 @@ function buildFrontmatterTex(): string {
   lines.push(
     makeLongTable(
       'Table 0.2a: Dimensional-Analysis Closure --- Part I: Bundle, Clock & Quantum Information (Items 1--11)',
-      'p{0.14\\textwidth} p{0.20\\textwidth} p{0.16\\textwidth} p{0.16\\textwidth} p{0.24\\textwidth}',
+      'L{0.13\\textwidth} L{0.20\\textwidth} L{0.15\\textwidth} L{0.15\\textwidth} L{0.24\\textwidth}',
       ['Quantity', 'Expression', 'SI Units', 'Natural Units', 'Derivation Note'],
       DIMENSIONAL_ANALYSIS_CLOSURE_A.map((d) => [
         proseToLatex(d.quantity, { allowCitations: false }),
@@ -1107,7 +1235,7 @@ function buildFrontmatterTex(): string {
   lines.push(
     makeLongTable(
       'Table 0.2b: Dimensional-Analysis Closure --- Part II: Gravity, Bounce, Black Holes & Metrology (Items 12--20)',
-      'p{0.14\\textwidth} p{0.20\\textwidth} p{0.16\\textwidth} p{0.16\\textwidth} p{0.24\\textwidth}',
+      'L{0.13\\textwidth} L{0.20\\textwidth} L{0.15\\textwidth} L{0.15\\textwidth} L{0.24\\textwidth}',
       ['Quantity', 'Expression', 'SI Units', 'Natural Units', 'Derivation Note'],
       DIMENSIONAL_ANALYSIS_CLOSURE_B.map((d) => [
         proseToLatex(d.quantity, { allowCitations: false }),
@@ -1123,7 +1251,7 @@ function buildFrontmatterTex(): string {
   lines.push(
     makeLongTable(
       'Table 0.3: Master Equation Index',
-      'p{0.10\\textwidth} p{0.46\\textwidth} p{0.20\\textwidth} p{0.16\\textwidth}',
+      'L{0.09\\textwidth} L{0.44\\textwidth} L{0.19\\textwidth} L{0.16\\textwidth}',
       ['Eq.', 'Description', 'Section', 'Status'],
       EQUATION_INDEX.map((e) => [
         proseToLatex(e.label),
@@ -1140,12 +1268,14 @@ function buildFrontmatterTex(): string {
 function buildChapterTex(chapterIndex: number): string {
   const ch = PAPER_CHAPTERS[chapterIndex];
   const out: string[] = [];
-  out.push(`\\chapter{${proseToLatex(ch.title)}}\\label{${ch.anchorId}}`);
+  out.push(`\\chapter{${proseToLatex(ch.title, { allowCitations: false })}}\\label{${ch.anchorId}}`);
   out.push(`\\noindent{\\itshape\\color{igrtslate} ${proseToLatex(ch.leadSummary)}}\\par\\medskip\n`);
 
   for (const sub of ch.subsections) {
-    out.push(`\\section*{${sub.number}\\quad ${proseToLatex(sub.title)} \\epistemic{${sub.epistemicStatus}}}\\label{${sub.anchorId}}`);
-    out.push(`\\addcontentsline{toc}{section}{${sub.number}\\quad ${proseToLatex(sub.title)}}`);
+    const cleanSubTitle = proseToLatex(sub.title, { allowCitations: false });
+    out.push(`\\section*{${sub.number}\\quad ${cleanSubTitle}}\\label{${sub.anchorId}}`);
+    out.push(`\\addcontentsline{toc}{section}{${sub.number}\\quad ${cleanSubTitle}}`);
+    out.push(`\\noindent{\\scriptsize\\ttfamily\\color{igrtaccent}[Status: ${escapeRawText(sub.epistemicStatus)}]}\\par\\smallskip`);
     out.push(renderParagraphListLatex(sub.paragraphs));
 
     if (sub.theoremBox) {
@@ -1192,7 +1322,7 @@ function buildChapterTex(chapterIndex: number): string {
       out.push(
         makeLongTable(
           'Table 1.1: Foundational Postulates of IGRT (Postulates I--VII)',
-          'p{0.13\\textwidth} p{0.25\\textwidth} p{0.56\\textwidth}',
+          'L{0.12\\textwidth} L{0.24\\textwidth} L{0.54\\textwidth}',
           ['Postulate', 'Name', 'Formal Statement'],
           PAPER_POSTULATES.map((p) => [
             `\\textbf{${proseToLatex(p.code)}}`,
@@ -1207,7 +1337,7 @@ function buildChapterTex(chapterIndex: number): string {
       out.push(
         makeLongTable(
           'Table 7.2: Fitted Inputs vs. Genuine Predictions',
-          'p{0.46\\textwidth} p{0.48\\textwidth}',
+          'L{0.44\\textwidth} L{0.46\\textwidth}',
           ['Fitted / Tuned Input', 'Genuine Prediction (No Free Parameter)'],
           TABLE_7_2_FITTED_VS_PREDICTED.map((r) => [
             proseToLatex(r.fittedInput),
@@ -1222,7 +1352,7 @@ function buildChapterTex(chapterIndex: number): string {
       out.push(
         makeLongTable(
           'Table 7.1: Experimental & Observational Falsification Protocols (P1--P6)',
-          'p{0.06\\textwidth} p{0.20\\textwidth} p{0.24\\textwidth} p{0.42\\textwidth}',
+          'L{0.06\\textwidth} L{0.19\\textwidth} L{0.23\\textwidth} L{0.40\\textwidth}',
           ['ID', 'Protocol & Facility', 'Observable Formula', 'Signal Budget & Falsification Criterion'],
           AUDITED_TEST_PROTOCOLS.map((pr) => [
             `P${pr.id}`,
@@ -1242,7 +1372,7 @@ function buildChapterTex(chapterIndex: number): string {
       out.push(
         makeLongTable(
           'Table 7.3: Protocol Timeline and Required Sensitivity (P1--P6)',
-          'p{0.18\\textwidth} p{0.28\\textwidth} p{0.34\\textwidth} p{0.12\\textwidth}',
+          'L{0.17\\textwidth} L{0.27\\textwidth} L{0.33\\textwidth} L{0.11\\textwidth}',
           ['Protocol', 'Required Sensitivity', 'Current State of the Art', 'Expected Year'],
           TABLE_7_3_PROTOCOL_TIMELINE.map((r) => [
             `\\textbf{${proseToLatex(r.protocol)}}`,
@@ -1258,7 +1388,7 @@ function buildChapterTex(chapterIndex: number): string {
       out.push(
         makeLongTable(
           'Table 8.1: Comparison of IGRT With String Theory & Six Quantum-Gravity Approaches',
-          'p{0.14\\textwidth} p{0.20\\textwidth} p{0.13\\textwidth} p{0.14\\textwidth} p{0.15\\textwidth} p{0.16\\textwidth}',
+          'L{0.13\\textwidth} L{0.19\\textwidth} L{0.12\\textwidth} L{0.13\\textwidth} L{0.14\\textwidth} L{0.15\\textwidth}',
           ['Framework', 'Key Mechanism', '4D Lorentzian', 'WDW Unfreezing', 'Singularity Status', 'Open Limitations'],
           FRAMEWORKS_COMPARISON_TABLE.map((r) => [
             `\\textbf{${proseToLatex(r.framework)}}`,
@@ -1274,7 +1404,7 @@ function buildChapterTex(chapterIndex: number): string {
       out.push(
         makeLongTable(
           'Table 8.2: Summary of Seven Core Formal Results',
-          'p{0.22\\textwidth} p{0.18\\textwidth} p{0.13\\textwidth} p{0.40\\textwidth}',
+          'L{0.21\\textwidth} L{0.17\\textwidth} L{0.12\\textwidth} L{0.38\\textwidth}',
           ['Result', 'Domain', 'Status', 'Summary'],
           AUDITED_CLOSURE_THEOREMS.map((t) => [
             `\\textbf{${proseToLatex(t.title)}}`,
@@ -1288,7 +1418,7 @@ function buildChapterTex(chapterIndex: number): string {
       out.push(
         makeLongTable(
           'Table 8.3: Epistemic Claim, Status, Quantitative Evidence & Evasion Parameters Ledger',
-          'p{0.20\\textwidth} p{0.13\\textwidth} p{0.36\\textwidth} p{0.23\\textwidth}',
+          'L{0.19\\textwidth} L{0.12\\textwidth} L{0.35\\textwidth} L{0.22\\textwidth}',
           ['Claim', 'Status', 'Quantitative Derivation / Evidence', 'Free / Evasion Parameters'],
           CLAIM_EVIDENCE_LEDGER.map((row) => [
             proseToLatex(row.claim),
@@ -1304,7 +1434,7 @@ function buildChapterTex(chapterIndex: number): string {
       out.push(
         makeLongTable(
           'Table 8.4: Minimal Active Parameter Budget & Information Criterion (k_eff = 2, ΔAIC = −1.84, Δln Z = +1.42)',
-          'p{0.26\\textwidth} p{0.54\\textwidth} p{0.12\\textwidth}',
+          'L{0.25\\textwidth} L{0.53\\textwidth} L{0.11\\textwidth}',
           ['Scalar Field', 'Free Parameters', 'Count'],
           TABLE_8_4_SCALAR_BUDGET.map((row) => [
             `\\textbf{${proseToLatex(row.scalar)}}`,
@@ -1333,7 +1463,9 @@ function buildChapterTex(chapterIndex: number): string {
 
 function buildAppendixLatex(app: PaperAppendix): string {
   const out: string[] = [];
-  out.push(`\\section{Appendix ${app.letter}: ${proseToLatex(app.title)} \\epistemic{${app.status}}}\\label{${app.anchorId}}`);
+  const cleanAppTitle = proseToLatex(app.title, { allowCitations: false });
+  out.push(`\\section[Appendix ${app.letter}: ${cleanAppTitle}]{Appendix ${app.letter}: ${cleanAppTitle}}\\label{${app.anchorId}}`);
+  out.push(`\\noindent{\\scriptsize\\ttfamily\\color{igrtaccent}[Status: ${escapeRawText(app.status)}]}\\par\\smallskip`);
   out.push(`\\textbf{Statement (${proseToLatex(app.tag)}):} ${proseToLatex(app.theoremStatement)}\n`);
   out.push(renderParagraphListLatex(app.proofParagraphs));
 
@@ -1342,10 +1474,11 @@ function buildAppendixLatex(app: PaperAppendix): string {
   }
 
   if (app.letter === 'H') {
+    const wrappedSha = H11_PREREG_SHA256.match(/.{1,8}/g)?.join('\\allowbreak ') ?? H11_PREREG_SHA256;
     out.push(
       makeLongTable(
         'Table H.1: Complete Numerical & Parameter Closure Summary',
-        'p{0.18\\textwidth} p{0.28\\textwidth} p{0.26\\textwidth} p{0.20\\textwidth}',
+        'L{0.17\\textwidth} L{0.27\\textwidth} L{0.25\\textwidth} L{0.19\\textwidth}',
         ['Parameter / Scale', 'Defining Relation', 'Numerical Value', 'Regime / Protocol'],
         TABLE_H1_CLOSURES.map((row) => [
           proseToLatex(row.parameter),
@@ -1353,7 +1486,7 @@ function buildAppendixLatex(app: PaperAppendix): string {
           proseToLatex(row.value),
           proseToLatex(row.regime)
         ]),
-        `H11 Preregistration Digest (SHA-256): \\texttt{${H11_PREREG_SHA256}}`
+        `H11 Preregistration Digest (SHA-256): \\texttt{${wrappedSha}}`
       )
     );
   }
@@ -1362,26 +1495,13 @@ function buildAppendixLatex(app: PaperAppendix): string {
     out.push(
       makeLongTable(
         'Table I.1: Revision History (Editions H6 -> H7 -> H8 -> H9 -> H10 -> H11)',
-        'p{0.12\\textwidth} p{0.22\\textwidth} p{0.32\\textwidth} p{0.26\\textwidth}',
+        'L{0.12\\textwidth} L{0.20\\textwidth} L{0.31\\textwidth} L{0.25\\textwidth}',
         ['Edition', 'Scope', 'Physics & Numerical Closures', 'Editorial & Verification Closures'],
         REVISION_HISTORY_TABLE.map((rev) => [
           `\\textbf{${proseToLatex(rev.edition)}}`,
           proseToLatex(rev.scope),
           proseToLatex(rev.physicsAndNumericalClosures),
           proseToLatex(rev.editorialAndVerificationClosures)
-        ])
-      )
-    );
-    out.push(
-      makeLongTable(
-        'Table I.2: Formal Response to Reviewers Matrix',
-        'p{0.14\\textwidth} p{0.24\\textwidth} p{0.40\\textwidth} p{0.14\\textwidth}',
-        ['Topic / ID', 'Referee Concern Summary', 'Resolution & Exact Location', 'Status'],
-        RESPONSE_TO_REVIEWERS.map((resp) => [
-          `\\textbf{${proseToLatex(resp.issueId)}}`,
-          proseToLatex(resp.concernSummary),
-          proseToLatex(resp.resolutionAndLocation),
-          `\\textbf{${proseToLatex(resp.status)}}`
         ])
       )
     );
@@ -1399,7 +1519,7 @@ function buildAppendixLatex(app: PaperAppendix): string {
     out.push(
       makeLongTable(
         'Table J.1: Complete 12-Family 980-Vector Adversarial Stress-Test Closure Scorecard (542/542 = 100.0% Technical)',
-        'p{0.30\\textwidth} p{0.10\\textwidth} p{0.18\\textwidth} p{0.34\\textwidth}',
+        'L{0.28\\textwidth} L{0.09\\textwidth} L{0.18\\textwidth} L{0.33\\textwidth}',
         ['Family', 'Criteria', 'H11 Score / Max', 'Status & Audit Notes'],
         H8_TWELVE_FAMILIES_SUMMARY.map((fam) => [
           `\\textbf{Family ${fam.id}:} ${proseToLatex(fam.name)}`,
@@ -1418,7 +1538,7 @@ function buildAppendixLatex(app: PaperAppendix): string {
     out.push(
       makeLongTable(
         'Table M.1: Status Reclassification Matrix (Table 0.3 Audit)',
-        'p{0.18\\textwidth} p{0.18\\textwidth} p{0.18\\textwidth} p{0.38\\textwidth}',
+        'L{0.17\\textwidth} L{0.17\\textwidth} L{0.17\\textwidth} L{0.37\\textwidth}',
         ['Equation', 'Old Status', 'New Status', 'Justification'],
         APPENDIX_M_STATUS_TABLE.map((row) => [
           proseToLatex(row.equation),
@@ -1556,7 +1676,7 @@ function buildReadmeMd(): string {
 - \`sections/00_title_abstract.tex\` — Title page, Abstract, Eq. (0.1), TOC/LOF/LOT
 - \`sections/00_frontmatter.tex\` — Plain-language summary, Scope, List of Illustrations, Tables 0.1–0.3, Acronyms
 - \`sections/01_chapter1.tex\` … \`sections/08_chapter8.tex\` — Chapters 1–8 with all inline tables
-- \`sections/09_appendices.tex\` — Appendices A–P (including Tables H.1, I.1, I.2, J.1, M.1)
+- \`sections/09_appendices.tex\` — Appendices A–P (including Tables H.1, I.1, J.1, M.1)
 - \`sections/10_governance.tex\` — CRediT, COI, Funding, Reproducibility & Data/Code Availability
 - \`references.bib\` — Complete 119-entry BibTeX bibliography (\`ref1\`..\`ref119\`)
 - \`figures/fig_01.svg\` … \`fig_12.svg\` — Analytical vector SVG Figures 1–12 (plus \`fig_01.png\` … \`fig_12.png\`)

@@ -43,7 +43,6 @@ import {
   ETHICS_AND_GOVERNANCE,
   TABLE_H1_CLOSURES,
   REVISION_HISTORY_TABLE,
-  RESPONSE_TO_REVIEWERS,
   KNOWN_OPEN_PROBLEMS,
   TABLE_7_2_FITTED_VS_PREDICTED,
   TABLE_7_3_PROTOCOL_TIMELINE,
@@ -1219,8 +1218,8 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     creator: 'IGRT Research Group'
   });
 
-  let currentRunningSection = 'Title & Abstract';
-  const pageSectionLabels: Record<number, string> = { 1: 'Title & Abstract' };
+  let currentRunningSection = 'Cover Page';
+  const pageSectionLabels: Record<number, string> = { 1: 'Cover Page' };
 
   const addPage = () => {
     doc.addPage('a4', 'portrait');
@@ -1459,13 +1458,85 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         continue;
       }
 
-      // Split exceptionally long tokens cleanly so narrow table columns never overflow across cell borders
+      // Split exceptionally long tokens cleanly so narrow table/prose columns never overflow margins
+      const splitAtomicRunsToMaxW = (runs: InlineRun[], maxW: number): InlineWord[] => {
+        const totalW = runs.reduce((a, r) => a + r.width, 0);
+        if (totalW <= maxW || maxW <= 0.12) {
+          return [{ runs, width: totalW }];
+        }
+        if (runs.length > 1) {
+          const out: InlineWord[] = [];
+          let accRuns: InlineRun[] = [];
+          let accW = 0;
+          for (const run of runs) {
+            if (run.width > maxW) {
+              if (accRuns.length > 0) {
+                out.push({ runs: accRuns, width: accW });
+                accRuns = [];
+                accW = 0;
+              }
+              out.push(...splitAtomicRunsToMaxW([run], maxW));
+            } else if (accRuns.length > 0 && accW + run.width > maxW) {
+              out.push({ runs: accRuns, width: accW });
+              accRuns = [run];
+              accW = run.width;
+            } else {
+              accRuns.push(run);
+              accW += run.width;
+            }
+          }
+          if (accRuns.length > 0) {
+            out.push({ runs: accRuns, width: accW });
+          }
+          return out;
+        }
+        const single = runs[0];
+        const parts = single.text.split(/(?<=[=+\-\u2212\/,;\)\]_])/).filter(Boolean);
+        const out: InlineWord[] = [];
+        let buf = '';
+        const pushBuf = (txt: string) => {
+          if (!txt) return;
+          const w = measureTextMixed(txt, single.family, single.style, single.size, single.dy !== 0);
+          out.push({ runs: [{ ...single, text: txt, width: w }], width: w });
+        };
+        for (const part of parts) {
+          const partW = measureTextMixed(part, single.family, single.style, single.size, single.dy !== 0);
+          if (partW > maxW) {
+            if (buf) {
+              pushBuf(buf);
+              buf = '';
+            }
+            let cbuf = '';
+            for (const ch of part) {
+              const test = cbuf + ch;
+              if (measureTextMixed(test, single.family, single.style, single.size, single.dy !== 0) > maxW && cbuf) {
+                pushBuf(cbuf);
+                cbuf = ch;
+              } else {
+                cbuf = test;
+              }
+            }
+            if (cbuf) buf = cbuf;
+          } else {
+            const candidate = buf + part;
+            if (buf && measureTextMixed(candidate, single.family, single.style, single.size, single.dy !== 0) > maxW) {
+              pushBuf(buf);
+              buf = part;
+            } else {
+              buf = candidate;
+            }
+          }
+        }
+        pushBuf(buf);
+        return out;
+      };
+
+      const maxTokenW = Math.max(0.25, Math.min(availWidthFirst, availWidthRest));
       const safeWords: InlineWord[] = [];
       for (const word of words) {
-        if (word.width <= availWidthRest) {
+        if (word.width <= maxTokenW) {
           safeWords.push(word);
         } else if (word.runs.length > 1) {
-          // Break long multi-run formulas into atomic (base + attached sub/sup) or delimiter-split chunks
           const groups: InlineRun[][] = [];
           for (const run of word.runs) {
             if (run.dy !== 0 && groups.length > 0) {
@@ -1473,7 +1544,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
             } else if (run.dy === 0 && run.text.length > 8 && /[=+\-−\/,;)]/.test(run.text)) {
               const pieces = run.text.split(/(?<=[=+\-−\/,;)])/).filter(Boolean);
               for (const piece of pieces) {
-                const pw = measureTextMixed(piece, run.family, run.style, run.size);
+                const pw = measureTextMixed(piece, run.family, run.style, run.size, run.dy !== 0);
                 groups.push([{ ...run, text: piece, width: pw }]);
               }
             } else {
@@ -1484,7 +1555,14 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           let accW = 0;
           for (const g of groups) {
             const gW = g.reduce((a, r) => a + r.width, 0);
-            if (accRuns.length > 0 && accW + gW > availWidthRest) {
+            if (gW > maxTokenW) {
+              if (accRuns.length > 0) {
+                safeWords.push({ runs: accRuns, width: accW });
+                accRuns = [];
+                accW = 0;
+              }
+              safeWords.push(...splitAtomicRunsToMaxW(g, maxTokenW));
+            } else if (accRuns.length > 0 && accW + gW > maxTokenW) {
               safeWords.push({ runs: accRuns, width: accW });
               accRuns = [...g];
               accW = gW;
@@ -1494,46 +1572,10 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
             }
           }
           if (accRuns.length > 0) {
-            safeWords.push({ runs: accRuns, width: accW });
+            safeWords.push(...splitAtomicRunsToMaxW(accRuns, maxTokenW));
           }
         } else {
-          const single = word.runs[0];
-          const parts = single.text.split(/(?<=[\/\-\u2013_,=])/).filter(Boolean);
-          let buf = '';
-          const pushBuf = (txt: string) => {
-            if (!txt) return;
-            const w = measureTextMixed(txt, single.family, single.style, single.size);
-            safeWords.push({ runs: [{ ...single, text: txt, width: w }], width: w });
-          };
-          for (const part of parts) {
-            const partW = measureTextMixed(part, single.family, single.style, single.size);
-            if (partW > availWidthRest) {
-              if (buf) {
-                pushBuf(buf);
-                buf = '';
-              }
-              let cbuf = '';
-              for (const ch of part) {
-                const test = cbuf + ch;
-                if (measureTextMixed(test, single.family, single.style, single.size) > availWidthRest && cbuf) {
-                  pushBuf(cbuf);
-                  cbuf = ch;
-                } else {
-                  cbuf = test;
-                }
-              }
-              if (cbuf) buf = cbuf;
-            } else {
-              const candidate = buf + part;
-              if (buf && measureTextMixed(candidate, single.family, single.style, single.size) > availWidthRest) {
-                pushBuf(buf);
-                buf = part;
-              } else {
-                buf = candidate;
-              }
-            }
-          }
-          pushBuf(buf);
+          safeWords.push(...splitAtomicRunsToMaxW(word.runs, maxTokenW));
         }
       }
 
@@ -1588,7 +1630,7 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         const eqBraceIdx = rl.indexOf('= {');
         const leadSpacesMatch = rl.match(/^(\s*)/);
         const contPad =
-          eqBraceIdx !== -1
+          eqBraceIdx !== -1 && measureTextMixed(' '.repeat(eqBraceIdx + 3), family, style, size) < maxPreW * 0.45
             ? ' '.repeat(eqBraceIdx + 3)
             : `${leadSpacesMatch ? leadSpacesMatch[1] : ''}  `;
         const words = rl.split(/(\s+)/).filter(Boolean);
@@ -1602,6 +1644,17 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
             cur = contPad + token.trimStart();
           } else {
             cur = candidate;
+          }
+          // Hard character wrap if a single unbroken token still exceeds maxPreW
+          while (cur.trim().length > 1 && measureTextMixed(cur, family, style, size) > maxPreW) {
+            let cut = cur.length - 1;
+            while (cut > 1 && measureTextMixed(cur.slice(0, cut), family, style, size) > maxPreW) {
+              cut--;
+            }
+            ensureSpace(lineHeight + 0.03);
+            drawTextMixed(cur.slice(0, cut), MARGIN + indent, y, family, style, size);
+            y += lineHeight;
+            cur = contPad + cur.slice(cut);
           }
         }
         if (cur.trim().length > 0) {
@@ -1623,24 +1676,24 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     for (let pi = 0; pi < paraChunks.length; pi++) {
       let segs = paraChunks[pi];
       if (pi === 0 && opts.prefixBold) {
+        const maxMergeW = Math.max(0.25, CONTENT_W - indent - hanging);
         const prefixSegs = parseMathSegments(pdfBmpSafeUnicode(opts.prefixBold));
         const boldPrefixWord = buildWordLines(
           prefixSegs,
-          CONTENT_W - indent,
-          CONTENT_W - indent - hanging,
+          maxMergeW,
+          maxMergeW,
           family,
           'bold',
           size
         );
         const bodyRes = buildWordLines(
           segs,
-          CONTENT_W - indent,
-          CONTENT_W - indent - hanging,
+          maxMergeW,
+          maxMergeW,
           family,
           style,
           size
         );
-        // Merge boldPrefixWords with body words cleanly
         const prefixWords = boldPrefixWord.lines.flat();
         const bodyWords = bodyRes.lines.flat();
         const mergedWords = [...prefixWords, ...bodyWords];
@@ -1896,6 +1949,9 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         buildWordLines(parseMathSegments(pdfBmpSafeUnicode(c.header)), c.width - 2 * padX, c.width - 2 * padX, 'serif', 'bold', headerSize)
       );
       const maxH = Math.max(1, ...headerLinesPerCol.map((r) => r.lines.length)) * headerLineH + 2 * padY;
+      if (y + maxH > MAX_Y) {
+        addPage();
+      }
 
       doc.setFillColor(250, 246, 238);
       doc.setDrawColor(214, 202, 190);
@@ -2013,287 +2069,201 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     y += 0.14;
   };
 
-  const drawFramedTheoremBox = (theoremBox: {
-    number: string;
-    title: string;
-    hypotheses: string[];
-    statement: string;
-  }) => {
+  const drawPaginatedFramedBody = (
+    paragraphs: Array<{ res: { lines: InlineWord[][]; spaceWidth: number }; indent?: number; lineH?: number; after?: number; color?: [number, number, number] }>,
+    fillRgb: [number, number, number],
+    borderRgb: [number, number, number],
+    borderW: number,
+    kickerText: string,
+    kickerRgb: [number, number, number],
+    titleRes: { lines: InlineWord[][]; spaceWidth: number },
+    extraEq?: {
+      img: { dataUrl: string; widthIn: number; heightIn: number } | null;
+      unicodeHtml: string;
+      label?: string;
+      capRes: { lines: InlineWord[][]; spaceWidth: number } | null;
+      eqBoxH: number;
+      capH: number;
+      capLineH: number;
+      eqLabelReserve: number;
+    },
+    trailingParagraphs: Array<{ res: { lines: InlineWord[][]; spaceWidth: number }; indent?: number; lineH?: number; after?: number; color?: [number, number, number] }> = []
+  ) => {
     const boxPad = 0.16;
     const innerW = CONTENT_W - 2 * boxPad;
-    const bodySize = 10.2;
-    const bodyLineH = (bodySize * 1.48) / 72;
+    const defaultLineH = (10.1 * 1.48) / 72;
+    const titleLineH = (11 * 1.38) / 72;
     const kickerH = 0.22;
+    const titleH = titleRes.lines.length * titleLineH + 0.08;
 
-    const titleRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(theoremBox.title)), innerW, innerW, 'serif', 'bold', 11);
-    const titleH = titleRes.lines.length * ((11 * 1.38) / 72) + 0.08;
+    const estimateBlockH = (blks: typeof paragraphs) =>
+      blks.reduce((acc, b) => acc + b.res.lines.length * (b.lineH ?? defaultLineH) + (b.after ?? 0), 0);
 
-    const hypRes = buildWordLines(
-      parseMathSegments(pdfBmpSafeUnicode(`Hypotheses: ${theoremBox.hypotheses.join(' ')}`)),
-      innerW,
-      innerW,
-      'serif',
-      'normal',
-      bodySize
-    );
-    const stmtRes = buildWordLines(
-      parseMathSegments(pdfBmpSafeUnicode(`Statement: ${theoremBox.statement}`)),
-      innerW,
-      innerW,
-      'serif',
-      'normal',
-      bodySize
-    );
+    const estEqH = extraEq ? extraEq.eqBoxH + extraEq.capH + 0.10 : 0;
+    const totalH = boxPad + kickerH + titleH + estimateBlockH(paragraphs) + estEqH + estimateBlockH(trailingParagraphs) + boxPad;
 
-    const totalH =
-      boxPad +
-      kickerH +
-      titleH +
-      hypRes.lines.length * bodyLineH +
-      0.08 +
-      stmtRes.lines.length * bodyLineH +
-      boxPad;
-
-    ensureSpace(totalH + 0.15);
+    // Move cleanly to fresh page if whole box fits on a page, or at least header + first lines fit
+    if (totalH <= MAX_Y - MARGIN - 0.10) {
+      ensureSpace(totalH + 0.12);
+    } else {
+      ensureSpace(Math.min(1.65, MAX_Y - MARGIN - 0.10));
+    }
     y += 0.06;
 
-    doc.setFillColor(250, 248, 243);
-    doc.setDrawColor(214, 202, 190);
-    doc.setLineWidth(0.01);
-    doc.rect(MARGIN, y, CONTENT_W, totalH, 'FD');
+    const pageSliceHeight = (needed: number): number => {
+      if (y + needed <= MAX_Y) return y;
+      addPage();
+      return y;
+    };
 
-    let cy = y + boxPad + 0.04;
-    setInkColor([139, 69, 19]);
-    const kickerText = `FORMAL STATEMENT  ·  ${theoremBox.number.toUpperCase()}`;
+    const drawBoxFrameBand = (yTop: number, h: number) => {
+      doc.setFillColor(fillRgb[0], fillRgb[1], fillRgb[2]);
+      doc.setDrawColor(borderRgb[0], borderRgb[1], borderRgb[2]);
+      doc.setLineWidth(borderW);
+      doc.rect(MARGIN, yTop, CONTENT_W, h, 'FD');
+    };
+
+    // Fast path: fits cleanly on current page inside [MARGIN, MAX_Y]
+    if (y + totalH <= MAX_Y) {
+      drawBoxFrameBand(y, totalH);
+      let cy = y + boxPad + 0.04;
+      setInkColor(kickerRgb);
+      const kickerW8 = measureTextMixed(kickerText, 'sans', 'normal', 8);
+      const kickerSize = kickerW8 > innerW ? Math.max(6.4, 8 * (innerW / kickerW8) * 0.98) : 8;
+      drawTextMixed(kickerText, MARGIN + boxPad, cy, 'sans', 'normal', kickerSize);
+      cy += 0.08;
+      doc.setDrawColor(226, 217, 200);
+      doc.line(MARGIN + boxPad, cy, PAGE_W - MARGIN - boxPad, cy);
+      cy += 0.15;
+
+      setInkColor([15, 23, 42]);
+      for (const lw of titleRes.lines) {
+        let lx = MARGIN + boxPad;
+        for (let wi = 0; wi < lw.length; wi++) {
+          if (wi > 0) lx += titleRes.spaceWidth;
+          for (const r of lw[wi].runs) {
+            drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
+            lx += r.width;
+          }
+        }
+        cy += titleLineH;
+      }
+      cy += 0.06;
+
+      const drawInnerLines = (res: { lines: InlineWord[][]; spaceWidth: number }, leftOffset = 0, lineH = defaultLineH, color: [number, number, number] = [24, 34, 56]) => {
+        const avail = innerW - leftOffset;
+        setInkColor(color);
+        for (let li = 0; li < res.lines.length; li++) {
+          const lineWords = res.lines[li];
+          const isLast = li === res.lines.length - 1;
+          const totalWordsW = lineWords.reduce((a, w) => a + w.width, 0);
+          let gap = res.spaceWidth;
+          if (!isLast && lineWords.length > 1) {
+            const candidate = (avail - totalWordsW) / (lineWords.length - 1);
+            if (candidate >= res.spaceWidth * 0.7 && candidate <= res.spaceWidth * 6) gap = candidate;
+          }
+          let lx = MARGIN + boxPad + leftOffset;
+          for (let wi = 0; wi < lineWords.length; wi++) {
+            for (const r of lineWords[wi].runs) {
+              drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
+              lx += r.width;
+            }
+            if (wi < lineWords.length - 1) lx += gap;
+          }
+          cy += lineH;
+        }
+      };
+
+      for (const b of paragraphs) {
+        drawInnerLines(b.res, b.indent ?? 0, b.lineH ?? defaultLineH, b.color ?? [24, 34, 56]);
+        cy += b.after ?? 0;
+      }
+
+      if (extraEq) {
+        doc.setFillColor(255, 255, 255);
+        doc.setDrawColor(214, 202, 190);
+        doc.setLineWidth(0.008);
+        doc.rect(MARGIN + boxPad, cy, innerW, extraEq.eqBoxH + extraEq.capH, 'FD');
+        if (extraEq.img) {
+          const eqX = MARGIN + boxPad + Math.max(0.12, (innerW - extraEq.eqLabelReserve - extraEq.img.widthIn) / 2);
+          doc.addImage(extraEq.img.dataUrl, 'PNG', eqX, cy + 0.11, extraEq.img.widthIn, extraEq.img.heightIn);
+          if (extraEq.label) {
+            setInkColor([139, 69, 19]);
+            const safeLabel = pdfBmpSafeUnicode(extraEq.label);
+            const lw = measureTextMixed(safeLabel, 'mono', 'normal', 9.0);
+            drawTextMixed(safeLabel, MARGIN + boxPad + innerW - 0.12 - lw, cy + 0.11 + extraEq.img.heightIn / 2 + 0.03, 'mono', 'normal', 9.0);
+          }
+        } else {
+          setInkColor([15, 23, 42]);
+          const fallbackText = pdfBmpSafeUnicode(extraEq.unicodeHtml.replace(/<[^>]+>/g, ''));
+          drawTextMixed(fallbackText, MARGIN + boxPad + 0.12, cy + 0.25, 'serif', 'italic', 10.0);
+        }
+        cy += extraEq.eqBoxH;
+        if (extraEq.capRes && extraEq.capRes.lines.length > 0) {
+          doc.setDrawColor(229, 221, 208);
+          doc.line(MARGIN + boxPad + 0.1, cy - 0.02, MARGIN + boxPad + innerW - 0.1, cy - 0.02);
+          cy += 0.12;
+          drawInnerLines(extraEq.capRes, 0.12, extraEq.capLineH, [71, 85, 105]);
+        }
+        cy += 0.10;
+      }
+
+      for (const b of trailingParagraphs) {
+        drawInnerLines(b.res, b.indent ?? 0, b.lineH ?? defaultLineH, b.color ?? [24, 34, 56]);
+        cy += b.after ?? 0;
+      }
+
+      y += totalH + 0.16;
+      return;
+    }
+
+    // Multi-page paginated fallback for unusually tall boxes: never overflows MAX_Y
+    let boxStartY = y;
+    const startBoxPage = () => {
+      boxStartY = y;
+      const maxH = MAX_Y - boxStartY;
+      drawBoxFrameBand(boxStartY, maxH);
+    };
+    startBoxPage();
+
+    y += boxPad + 0.04;
+    setInkColor(kickerRgb);
     const kickerW8 = measureTextMixed(kickerText, 'sans', 'normal', 8);
     const kickerSize = kickerW8 > innerW ? Math.max(6.4, 8 * (innerW / kickerW8) * 0.98) : 8;
-    drawTextMixed(kickerText, MARGIN + boxPad, cy, 'sans', 'normal', kickerSize);
-    cy += 0.08;
+    drawTextMixed(kickerText, MARGIN + boxPad, y, 'sans', 'normal', kickerSize);
+    y += 0.08;
     doc.setDrawColor(226, 217, 200);
-    doc.line(MARGIN + boxPad, cy, PAGE_W - MARGIN - boxPad, cy);
-    cy += 0.15;
+    doc.line(MARGIN + boxPad, y, PAGE_W - MARGIN - boxPad, y);
+    y += 0.15;
 
     setInkColor([15, 23, 42]);
     for (const lw of titleRes.lines) {
+      if (y + titleLineH + boxPad > MAX_Y) {
+        addPage();
+        startBoxPage();
+        y += boxPad;
+      }
       let lx = MARGIN + boxPad;
       for (let wi = 0; wi < lw.length; wi++) {
         if (wi > 0) lx += titleRes.spaceWidth;
         for (const r of lw[wi].runs) {
-          drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
+          drawTextMixed(r.text, lx, y + r.dy, r.family, r.style, r.size, r.dy !== 0);
           lx += r.width;
         }
       }
-      cy += (11 * 1.38) / 72;
+      y += titleLineH;
     }
-    cy += 0.06;
-
-    const drawJustifiedBlock = (res: { lines: InlineWord[][]; spaceWidth: number }) => {
-      for (let li = 0; li < res.lines.length; li++) {
-        const lineWords = res.lines[li];
-        const isLast = li === res.lines.length - 1;
-        const totalWordsW = lineWords.reduce((a, w) => a + w.width, 0);
-        let gap = res.spaceWidth;
-        if (!isLast && lineWords.length > 1) {
-          const candidate = (innerW - totalWordsW) / (lineWords.length - 1);
-          if (candidate >= res.spaceWidth * 0.7 && candidate <= res.spaceWidth * 6) gap = candidate;
-        }
-        let lx = MARGIN + boxPad;
-        for (let wi = 0; wi < lineWords.length; wi++) {
-          for (const r of lineWords[wi].runs) {
-            drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
-            lx += r.width;
-          }
-          if (wi < lineWords.length - 1) lx += gap;
-        }
-        cy += bodyLineH;
-      }
-    };
-
-    doc.setTextColor(24, 34, 56);
-    activeInkRgb = [24, 34, 56];
-    drawJustifiedBlock(hypRes);
-    cy += 0.08;
-    drawJustifiedBlock(stmtRes);
-
-    y += totalH + 0.16;
-  };
-
-  const drawFramedCoreFalsifierBox = (falsifier: typeof CORE_TIME_MECHANISM_FALSIFIER) => {
-    const boxPad = 0.16;
-    const innerW = CONTENT_W - 2 * boxPad;
-    const bodySize = 10.1;
-    const bodyLineH = (bodySize * 1.48) / 72;
-    const kickerH = 0.22;
-
-    const titleRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.heading)), innerW, innerW, 'serif', 'bold', 11);
-    const titleH = titleRes.lines.length * ((11 * 1.38) / 72) + 0.08;
-
-    const introRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.intro)), innerW, innerW, 'serif', 'normal', bodySize);
-    const coreRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.coreFalsifier)), innerW, innerW, 'serif', 'normal', bodySize);
-    const pracRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.practicalRealization)), innerW, innerW, 'serif', 'normal', bodySize);
-
-    const totalH =
-      boxPad +
-      kickerH +
-      titleH +
-      introRes.lines.length * bodyLineH +
-      0.07 +
-      coreRes.lines.length * bodyLineH +
-      0.07 +
-      pracRes.lines.length * bodyLineH +
-      boxPad;
-
-    ensureSpace(totalH + 0.15);
     y += 0.06;
 
-    doc.setFillColor(255, 253, 248);
-    doc.setDrawColor(154, 52, 18);
-    doc.setLineWidth(0.012);
-    doc.rect(MARGIN, y, CONTENT_W, totalH, 'FD');
-
-    let cy = y + boxPad + 0.04;
-    setInkColor([139, 69, 19]);
-    drawTextMixed('CORE MECHANISM FALSIFICATION  ·  DIRECT TEST OF EQ. (4.1)', MARGIN + boxPad, cy, 'sans', 'normal', 8);
-    cy += 0.08;
-    doc.setDrawColor(226, 217, 200);
-    doc.line(MARGIN + boxPad, cy, PAGE_W - MARGIN - boxPad, cy);
-    cy += 0.15;
-
-    setInkColor([15, 23, 42]);
-    for (const lw of titleRes.lines) {
-      let lx = MARGIN + boxPad;
-      for (let wi = 0; wi < lw.length; wi++) {
-        if (wi > 0) lx += titleRes.spaceWidth;
-        for (const r of lw[wi].runs) {
-          drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
-          lx += r.width;
-        }
-      }
-      cy += (11 * 1.38) / 72;
-    }
-    cy += 0.06;
-
-    const drawJustifiedPara = (res: { lines: InlineWord[][]; spaceWidth: number }) => {
+    const renderPaginatedBlock = (res: { lines: InlineWord[][]; spaceWidth: number }, leftOffset = 0, lineH = defaultLineH, color: [number, number, number] = [24, 34, 56]) => {
+      const avail = innerW - leftOffset;
       for (let li = 0; li < res.lines.length; li++) {
-        const lineWords = res.lines[li];
-        const isLast = li === res.lines.length - 1;
-        const totalWordsW = lineWords.reduce((a, w) => a + w.width, 0);
-        let gap = res.spaceWidth;
-        if (!isLast && lineWords.length > 1) {
-          const candidate = (innerW - totalWordsW) / (lineWords.length - 1);
-          if (candidate >= res.spaceWidth * 0.7 && candidate <= res.spaceWidth * 6) gap = candidate;
+        if (y + lineH + boxPad > MAX_Y) {
+          addPage();
+          startBoxPage();
+          y += boxPad;
         }
-        let lx = MARGIN + boxPad;
-        for (let wi = 0; wi < lineWords.length; wi++) {
-          for (const r of lineWords[wi].runs) {
-            drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
-            lx += r.width;
-          }
-          if (wi < lineWords.length - 1) lx += gap;
-        }
-        cy += bodyLineH;
-      }
-    };
-
-    doc.setTextColor(24, 34, 56);
-    activeInkRgb = [24, 34, 56];
-    drawJustifiedPara(introRes);
-    cy += 0.07;
-    drawJustifiedPara(coreRes);
-    cy += 0.07;
-    drawJustifiedPara(pracRes);
-
-    y += totalH + 0.16;
-  };
-
-  const drawFramedWorkedBox = (worked: {
-    title: string;
-    setup: string;
-    steps: string[];
-    resultEquation: { unicodeHtml: string; label?: string; caption?: string };
-    takeaway: string;
-  }) => {
-    const boxPad = 0.16;
-    const innerW = CONTENT_W - 2 * boxPad;
-    const bodySize = 10.1;
-    const bodyLineH = (bodySize * 1.48) / 72;
-    const kickerH = 0.22;
-
-    const titleRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(worked.title)), innerW, innerW, 'serif', 'bold', 11);
-    const titleH = titleRes.lines.length * ((11 * 1.38) / 72) + 0.08;
-
-    const setupRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(worked.setup)), innerW, innerW, 'serif', 'normal', bodySize);
-    const stepResList = worked.steps.map((st) =>
-      buildWordLines(parseMathSegments(pdfBmpSafeUnicode(st)), innerW - 0.12, innerW - 0.12, 'serif', 'normal', bodySize)
-    );
-
-    const eqLabelReserve = worked.resultEquation.label ? 0.65 : 0.16;
-    const eqImg = renderUnicodeEquationPng(worked.resultEquation.unicodeHtml, innerW - eqLabelReserve - 0.24);
-    const eqBoxH = eqImg ? eqImg.heightIn + 0.24 : 0.42;
-
-    const capSize = 9.4;
-    const capLineH = (capSize * 1.42) / 72;
-    const capRes = worked.resultEquation.caption
-      ? buildWordLines(parseMathSegments(pdfBmpSafeUnicode(worked.resultEquation.caption)), innerW - 0.24, innerW - 0.24, 'serif', 'italic', capSize)
-      : null;
-    const capH = capRes && capRes.lines.length > 0 ? capRes.lines.length * capLineH + 0.12 : 0;
-
-    const takeRes = buildWordLines(
-      parseMathSegments(pdfBmpSafeUnicode(`Result: ${worked.takeaway}`)),
-      innerW,
-      innerW,
-      'serif',
-      'normal',
-      bodySize
-    );
-
-    const stepsTotalH = stepResList.reduce((acc, r) => acc + r.lines.length * bodyLineH + 0.05, 0);
-    const totalH =
-      boxPad +
-      kickerH +
-      titleH +
-      setupRes.lines.length * bodyLineH +
-      0.07 +
-      stepsTotalH +
-      0.06 +
-      eqBoxH +
-      capH +
-      0.1 +
-      takeRes.lines.length * bodyLineH +
-      boxPad;
-
-    ensureSpace(Math.min(totalH + 0.16, MAX_Y - MARGIN));
-    y += 0.06;
-
-    doc.setFillColor(250, 248, 243);
-    doc.setDrawColor(214, 202, 190);
-    doc.setLineWidth(0.01);
-    doc.rect(MARGIN, y, CONTENT_W, totalH, 'FD');
-
-    let cy = y + boxPad + 0.04;
-    setInkColor([21, 128, 61]);
-    drawTextMixed('WORKED EXAMPLE  ·  EXPLICIT VERIFICATION', MARGIN + boxPad, cy, 'sans', 'normal', 8);
-    cy += 0.08;
-    doc.setDrawColor(226, 217, 200);
-    doc.line(MARGIN + boxPad, cy, PAGE_W - MARGIN - boxPad, cy);
-    cy += 0.15;
-
-    setInkColor([15, 23, 42]);
-    for (const lw of titleRes.lines) {
-      let lx = MARGIN + boxPad;
-      for (let wi = 0; wi < lw.length; wi++) {
-        if (wi > 0) lx += titleRes.spaceWidth;
-        for (const r of lw[wi].runs) {
-          drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
-          lx += r.width;
-        }
-      }
-      cy += (11 * 1.38) / 72;
-    }
-    cy += 0.06;
-
-    const drawJustifiedInner = (res: { lines: InlineWord[][]; spaceWidth: number }, leftOffset = 0, avail = innerW, lineH = bodyLineH) => {
-      for (let li = 0; li < res.lines.length; li++) {
+        setInkColor(color);
         const lineWords = res.lines[li];
         const isLast = li === res.lines.length - 1;
         const totalWordsW = lineWords.reduce((a, w) => a + w.width, 0);
@@ -2305,72 +2275,172 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         let lx = MARGIN + boxPad + leftOffset;
         for (let wi = 0; wi < lineWords.length; wi++) {
           for (const r of lineWords[wi].runs) {
-            drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
+            drawTextMixed(r.text, lx, y + r.dy, r.family, r.style, r.size, r.dy !== 0);
             lx += r.width;
           }
           if (wi < lineWords.length - 1) lx += gap;
         }
-        cy += lineH;
+        y += lineH;
       }
     };
 
-    doc.setTextColor(24, 34, 56);
-    activeInkRgb = [24, 34, 56];
-    drawJustifiedInner(setupRes);
-    cy += 0.07;
-
-    for (const stRes of stepResList) {
-      drawJustifiedInner(stRes, 0.12, innerW - 0.12);
-      cy += 0.05;
+    for (const b of paragraphs) {
+      renderPaginatedBlock(b.res, b.indent ?? 0, b.lineH ?? defaultLineH, b.color ?? [24, 34, 56]);
+      y += b.after ?? 0;
     }
-    cy += 0.04;
 
-    // Inner result equation plate
-    doc.setFillColor(255, 255, 255);
-    doc.setDrawColor(214, 202, 190);
-    doc.setLineWidth(0.008);
-    doc.rect(MARGIN + boxPad, cy, innerW, eqBoxH + capH, 'FD');
-
-    if (eqImg) {
-      const eqX = MARGIN + boxPad + Math.max(0.12, (innerW - eqLabelReserve - eqImg.widthIn) / 2);
-      doc.addImage(eqImg.dataUrl, 'PNG', eqX, cy + 0.11, eqImg.widthIn, eqImg.heightIn);
-      if (worked.resultEquation.label) {
-        doc.setTextColor(139, 69, 19);
-        activeInkRgb = [139, 69, 19];
-        const safeLabel = pdfBmpSafeUnicode(worked.resultEquation.label);
-        const lw = measureTextMixed(safeLabel, 'mono', 'normal', 9.0);
-        drawTextMixed(
-          safeLabel,
-          MARGIN + boxPad + innerW - 0.12 - lw,
-          cy + 0.11 + eqImg.heightIn / 2 + 0.03,
-          'mono',
-          'normal',
-          9.0
-        );
+    if (extraEq) {
+      const needEq = extraEq.eqBoxH + extraEq.capH + boxPad;
+      if (y + needEq > MAX_Y) {
+        addPage();
+        startBoxPage();
+        y += boxPad;
       }
-    } else {
-      doc.setTextColor(15, 23, 42);
-      activeInkRgb = [15, 23, 42];
-      const fallbackText = pdfBmpSafeUnicode(worked.resultEquation.unicodeHtml.replace(/<[^>]+>/g, ''));
-      drawTextMixed(fallbackText, MARGIN + boxPad + 0.12, cy + 0.25, 'serif', 'italic', 10.0);
+      doc.setFillColor(255, 255, 255);
+      doc.setDrawColor(214, 202, 190);
+      doc.setLineWidth(0.008);
+      doc.rect(MARGIN + boxPad, y, innerW, extraEq.eqBoxH + extraEq.capH, 'FD');
+      if (extraEq.img) {
+        const eqX = MARGIN + boxPad + Math.max(0.12, (innerW - extraEq.eqLabelReserve - extraEq.img.widthIn) / 2);
+        doc.addImage(extraEq.img.dataUrl, 'PNG', eqX, y + 0.11, extraEq.img.widthIn, extraEq.img.heightIn);
+        if (extraEq.label) {
+          setInkColor([139, 69, 19]);
+          const safeLabel = pdfBmpSafeUnicode(extraEq.label);
+          const lw = measureTextMixed(safeLabel, 'mono', 'normal', 9.0);
+          drawTextMixed(safeLabel, MARGIN + boxPad + innerW - 0.12 - lw, y + 0.11 + extraEq.img.heightIn / 2 + 0.03, 'mono', 'normal', 9.0);
+        }
+      } else {
+        setInkColor([15, 23, 42]);
+        const fallbackText = pdfBmpSafeUnicode(extraEq.unicodeHtml.replace(/<[^>]+>/g, ''));
+        drawTextMixed(fallbackText, MARGIN + boxPad + 0.12, y + 0.25, 'serif', 'italic', 10.0);
+      }
+      y += extraEq.eqBoxH;
+      if (extraEq.capRes && extraEq.capRes.lines.length > 0) {
+        doc.setDrawColor(229, 221, 208);
+        doc.line(MARGIN + boxPad + 0.1, y - 0.02, MARGIN + boxPad + innerW - 0.1, y - 0.02);
+        y += 0.12;
+        renderPaginatedBlock(extraEq.capRes, 0.12, extraEq.capLineH, [71, 85, 105]);
+      }
+      y += 0.10;
     }
-    cy += eqBoxH;
 
-    if (capRes && capRes.lines.length > 0) {
-      doc.setDrawColor(229, 221, 208);
-      doc.line(MARGIN + boxPad + 0.1, cy - 0.02, MARGIN + boxPad + innerW - 0.1, cy - 0.02);
-      cy += 0.12;
-      doc.setTextColor(71, 85, 105);
-      activeInkRgb = [71, 85, 105];
-      drawJustifiedInner(capRes, 0.12, innerW - 0.24, capLineH);
+    for (const b of trailingParagraphs) {
+      renderPaginatedBlock(b.res, b.indent ?? 0, b.lineH ?? defaultLineH, b.color ?? [24, 34, 56]);
+      y += b.after ?? 0;
     }
-    cy += 0.12;
+    void pageSliceHeight;
+    y += boxPad + 0.14;
+  };
 
-    doc.setTextColor(24, 34, 56);
-    activeInkRgb = [24, 34, 56];
-    drawJustifiedInner(takeRes);
+  const drawFramedTheoremBox = (theoremBox: {
+    number: string;
+    title: string;
+    hypotheses: string[];
+    statement: string;
+  }) => {
+    const innerW = CONTENT_W - 0.32;
+    const bodySize = 10.2;
+    const bodyLineH = (bodySize * 1.48) / 72;
+    const titleRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(theoremBox.title)), innerW, innerW, 'serif', 'bold', 11);
+    const hypRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(`Hypotheses: ${theoremBox.hypotheses.join(' ')}`)), innerW, innerW, 'serif', 'normal', bodySize);
+    const stmtRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(`Statement: ${theoremBox.statement}`)), innerW, innerW, 'serif', 'normal', bodySize);
+    drawPaginatedFramedBody(
+      [
+        { res: hypRes, lineH: bodyLineH, after: 0.08 },
+        { res: stmtRes, lineH: bodyLineH, after: 0 }
+      ],
+      [250, 248, 243],
+      [214, 202, 190],
+      0.01,
+      `FORMAL STATEMENT  ·  ${theoremBox.number.toUpperCase()}`,
+      [139, 69, 19],
+      titleRes
+    );
+  };
 
-    y += totalH + 0.16;
+  const drawFramedCoreFalsifierBox = (falsifier: typeof CORE_TIME_MECHANISM_FALSIFIER) => {
+    const innerW = CONTENT_W - 0.32;
+    const bodySize = 10.1;
+    const bodyLineH = (bodySize * 1.48) / 72;
+    const titleRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.heading)), innerW, innerW, 'serif', 'bold', 11);
+    const introRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.intro)), innerW, innerW, 'serif', 'normal', bodySize);
+    const coreRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.coreFalsifier)), innerW, innerW, 'serif', 'normal', bodySize);
+    const pracRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(falsifier.practicalRealization)), innerW, innerW, 'serif', 'normal', bodySize);
+    drawPaginatedFramedBody(
+      [
+        { res: introRes, lineH: bodyLineH, after: 0.07 },
+        { res: coreRes, lineH: bodyLineH, after: 0.07 },
+        { res: pracRes, lineH: bodyLineH, after: 0 }
+      ],
+      [255, 253, 248],
+      [154, 52, 18],
+      0.012,
+      'CORE MECHANISM FALSIFICATION  ·  DIRECT TEST OF EQ. (4.1)',
+      [139, 69, 19],
+      titleRes
+    );
+  };
+
+  const drawFramedWorkedBox = (worked: {
+    title: string;
+    setup: string;
+    steps: string[];
+    resultEquation: { unicodeHtml: string; label?: string; caption?: string };
+    takeaway: string;
+  }) => {
+    const innerW = CONTENT_W - 0.32;
+    const bodySize = 10.1;
+    const bodyLineH = (bodySize * 1.48) / 72;
+    const titleRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(worked.title)), innerW, innerW, 'serif', 'bold', 11);
+    const setupRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(worked.setup)), innerW, innerW, 'serif', 'normal', bodySize);
+    const stepResList = worked.steps.map((st) =>
+      buildWordLines(parseMathSegments(pdfBmpSafeUnicode(st)), innerW - 0.12, innerW - 0.12, 'serif', 'normal', bodySize)
+    );
+    const eqLabelReserve = worked.resultEquation.label ? 0.65 : 0.16;
+    const eqImg = renderUnicodeEquationPng(worked.resultEquation.unicodeHtml, innerW - eqLabelReserve - 0.24);
+    const eqBoxH = eqImg ? eqImg.heightIn + 0.24 : 0.42;
+    const capSize = 9.4;
+    const capLineH = (capSize * 1.42) / 72;
+    const capRes = worked.resultEquation.caption
+      ? buildWordLines(parseMathSegments(pdfBmpSafeUnicode(worked.resultEquation.caption)), innerW - 0.24, innerW - 0.24, 'serif', 'italic', capSize)
+      : null;
+    const capH = capRes && capRes.lines.length > 0 ? capRes.lines.length * capLineH + 0.12 : 0;
+    const takeRes = buildWordLines(
+      parseMathSegments(pdfBmpSafeUnicode(`Result: ${worked.takeaway}`)),
+      innerW,
+      innerW,
+      'serif',
+      'normal',
+      bodySize
+    );
+    drawPaginatedFramedBody(
+      [
+        { res: setupRes, lineH: bodyLineH, after: 0.07 },
+        ...stepResList.map((stRes, idx) => ({
+          res: stRes,
+          indent: 0.12,
+          lineH: bodyLineH,
+          after: idx === stepResList.length - 1 ? 0.04 : 0.05
+        }))
+      ],
+      [250, 248, 243],
+      [214, 202, 190],
+      0.01,
+      'WORKED EXAMPLE  ·  EXPLICIT VERIFICATION',
+      [21, 128, 61],
+      titleRes,
+      {
+        img: eqImg,
+        unicodeHtml: worked.resultEquation.unicodeHtml,
+        label: worked.resultEquation.label,
+        capRes,
+        eqBoxH,
+        capH,
+        capLineH,
+        eqLabelReserve
+      },
+      [{ res: takeRes, lineH: bodyLineH, after: 0 }]
+    );
   };
 
   // Pre-load 14 archival illustration plates & pre-rasterize all 12 SVG diagrams
@@ -2392,53 +2462,201 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   }
 
   // =========================================================
-  // PAGE 1: MASTHEAD, TITLE, RESEARCH TEAM & ABSTRACT
+  // PAGE 1: DEDICATED ARCHIVAL COVER PAGE
   // =========================================================
-  writeRichParagraph(`${PAPER_META.publicationStatus}  |  ${PAPER_META.edition}`, {
+  doc.setDrawColor(15, 23, 42);
+  doc.setLineWidth(0.024);
+  doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+  y += 0.05;
+  doc.setLineWidth(0.008);
+  doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+  y += 0.16;
+
+  writeRichParagraph(PAPER_META.journalHeader.toUpperCase(), {
     font: 'sans',
-    size: 7.9,
-    color: [139, 69, 19],
-    justify: false,
-    afterSpace: 0.04
-  });
-
-  drawRule([15, 23, 42], 0.015);
-  drawPlayfairHeadline(PAPER_META.title, 20.5, 0.05);
-
-  writeRichParagraph(
-    `${PAPER_META.eprint}  |  ${PAPER_META.doi}\nPhySH: ${PAPER_META.physh}  |  MSC 2020: ${PAPER_META.msc2020}`,
-    { font: 'mono', size: 7.5, lineHeight: (7.5 * 1.30) / 72, color: [100, 116, 139], justify: false, afterSpace: 0.045 }
-  );
-
-  for (const a of PAPER_META.authors) {
-    const idTag = a.orcid
-      ? `ORCID: https://orcid.org/${a.orcid}`
-      : a.email
-        ? `Email: ${a.email}`
-        : '';
-    const authorLine = idTag ? `${a.name} (${idTag}) — ${a.affiliation}` : `${a.name} — ${a.affiliation}`;
-    writeRichParagraph(authorLine, {
-      font: 'serif',
-      size: 7.9,
-      lineHeight: (7.9 * 1.20) / 72,
-      color: [15, 23, 42],
-      justify: true,
-      afterSpace: 0.012
-    });
-  }
-
-  drawRule([214, 202, 190], 0.01);
-
-  writeRichParagraph('ABSTRACT', {
-    font: 'sans',
-    size: 8.5,
+    size: 8.6,
     color: [139, 69, 19],
     justify: false,
     afterSpace: 0.03
   });
+  writeRichParagraph(`${PAPER_META.publicationStatus}  |  ${PAPER_META.edition}`, {
+    font: 'sans',
+    size: 7.7,
+    color: [71, 85, 105],
+    justify: false,
+    afterSpace: 0.05
+  });
+  writeRichParagraph(PAPER_META.eprint, {
+    font: 'mono',
+    size: 8.2,
+    color: [139, 69, 19],
+    justify: false,
+    afterSpace: 0.14
+  });
+
+  drawRule([214, 202, 190], 0.008);
+  y += 0.10;
+
+  drawPlayfairHeadline(PAPER_META.title, 24.5, 0.14);
+
+  // Terracotta accent bar separating Title from Layman-Friendly Subtitle
+  doc.setDrawColor(139, 69, 19);
+  doc.setLineWidth(0.026);
+  doc.line(MARGIN, y, MARGIN + 1.15, y);
+  y += 0.18;
+
+  writeRichParagraph(PAPER_META.subtitle, {
+    style: 'italic',
+    size: 11.4,
+    lineHeight: (11.4 * 1.48) / 72,
+    color: [51, 65, 85],
+    justify: false,
+    afterSpace: 0.24
+  });
+
+  // Framed Archival Authors & Affiliations Panel
+  {
+    const boxPad = 0.15;
+    const innerW = CONTENT_W - 2 * boxPad;
+    const nameLineH = (9.6 * 1.32) / 72;
+    const affLineH = (8.2 * 1.32) / 72;
+    const preparedAuthors = PAPER_META.authors.map((a) => {
+      const idTag = a.orcid
+        ? `ORCID: https://orcid.org/${a.orcid}`
+        : a.email
+          ? `Email: ${a.email}`
+          : 'Credential: HDR';
+      const nameRes = buildWordLines(parseMathSegments(pdfBmpSafeUnicode(a.name)), innerW, innerW, 'serif', 'bold', 9.6);
+      const affRes = buildWordLines(
+        parseMathSegments(pdfBmpSafeUnicode(`${a.affiliation}  ·  ${idTag}`)),
+        innerW,
+        innerW,
+        'serif',
+        'normal',
+        8.2
+      );
+      return { nameRes, affRes };
+    });
+
+    const authorsContentH = preparedAuthors.reduce(
+      (acc, item, idx) =>
+        acc +
+        item.nameRes.lines.length * nameLineH +
+        item.affRes.lines.length * affLineH +
+        (idx < preparedAuthors.length - 1 ? 0.08 : 0),
+      0
+    );
+    const panelH = boxPad + 0.25 + authorsContentH + boxPad;
+
+    doc.setFillColor(250, 248, 243);
+    doc.setDrawColor(214, 202, 190);
+    doc.setLineWidth(0.01);
+    doc.rect(MARGIN, y, CONTENT_W, panelH, 'FD');
+
+    let ay = y + boxPad + 0.03;
+    setInkColor([139, 69, 19]);
+    drawTextMixed('AUTHORS & RESEARCH AFFILIATIONS', MARGIN + boxPad, ay, 'sans', 'normal', 7.8);
+    ay += 0.08;
+    doc.setDrawColor(226, 217, 200);
+    doc.setLineWidth(0.006);
+    doc.line(MARGIN + boxPad, ay, PAGE_W - MARGIN - boxPad, ay);
+    ay += 0.15;
+
+    for (let ai = 0; ai < preparedAuthors.length; ai++) {
+      const item = preparedAuthors[ai];
+      setInkColor([15, 23, 42]);
+      for (const lw of item.nameRes.lines) {
+        let lx = MARGIN + boxPad;
+        for (let wi = 0; wi < lw.length; wi++) {
+          if (wi > 0) lx += item.nameRes.spaceWidth;
+          for (const r of lw[wi].runs) {
+            drawTextMixed(r.text, lx, ay + r.dy, r.family, r.style, r.size, r.dy !== 0);
+            lx += r.width;
+          }
+        }
+        ay += nameLineH;
+      }
+      setInkColor([71, 85, 105]);
+      for (const lw of item.affRes.lines) {
+        let lx = MARGIN + boxPad;
+        for (let wi = 0; wi < lw.length; wi++) {
+          if (wi > 0) lx += item.affRes.spaceWidth;
+          for (const r of lw[wi].runs) {
+            drawTextMixed(r.text, lx, ay + r.dy, r.family, r.style, r.size, r.dy !== 0);
+            lx += r.width;
+          }
+        }
+        ay += affLineH;
+      }
+      if (ai < preparedAuthors.length - 1) ay += 0.08;
+    }
+
+    y += panelH + 0.18;
+  }
+
+  // Bottom Cover Colophon Strip (bounded strictly above MAX_Y)
+  {
+    const colPad = 0.13;
+    const innerW = CONTENT_W - 2 * colPad;
+    const colLineH = (8.0 * 1.38) / 72;
+    const colEntries = [
+      buildWordLines(parseMathSegments(pdfBmpSafeUnicode(PAPER_META.doi)), innerW, innerW, 'sans', 'normal', 8.0),
+      buildWordLines(parseMathSegments(pdfBmpSafeUnicode(`PhySH: ${PAPER_META.physh}`)), innerW, innerW, 'serif', 'normal', 8.0),
+      buildWordLines(
+        parseMathSegments(
+          pdfBmpSafeUnicode(
+            `MSC 2020: ${PAPER_META.msc2020}  ·  Monograph Structure: Chapters 1–8, 12 Figures, 14 Plates, Appendices A–P, Refs [1]–[${PAPER_REFERENCES.length}]`
+          )
+        ),
+        innerW,
+        innerW,
+        'mono',
+        'normal',
+        7.5
+      )
+    ];
+    const colH = colPad * 2 + colEntries.reduce((a, e) => a + e.lines.length * colLineH + 0.03, 0);
+    const colY = Math.max(y, MAX_Y - colH);
+    if (colY + colH <= MAX_Y + 0.005) {
+      doc.setFillColor(250, 246, 238);
+      doc.setDrawColor(214, 202, 190);
+      doc.setLineWidth(0.009);
+      doc.rect(MARGIN, colY, CONTENT_W, colH, 'FD');
+
+      let cy = colY + colPad + 0.05;
+      colEntries.forEach((res, idx) => {
+        setInkColor(idx === 0 ? [139, 69, 19] : [51, 65, 85]);
+        for (const lw of res.lines) {
+          let lx = MARGIN + colPad;
+          for (let wi = 0; wi < lw.length; wi++) {
+            if (wi > 0) lx += res.spaceWidth;
+            for (const r of lw[wi].runs) {
+              drawTextMixed(r.text, lx, cy + r.dy, r.family, r.style, r.size, r.dy !== 0);
+              lx += r.width;
+            }
+          }
+          cy += colLineH;
+        }
+        cy += 0.03;
+      });
+    }
+  }
+
+  // =========================================================
+  // PAGE 2: ABSTRACT, MASTER EQUATION (0.1) & KEYWORDS
+  // =========================================================
+  startChapterOnNewPage('Abstract & Master Equation');
+  writeRichParagraph(`${PAPER_META.eprint}  ·  ABSTRACT & EXECUTIVE EQUATION`, {
+    font: 'sans',
+    size: 8.4,
+    color: [139, 69, 19],
+    justify: false,
+    afterSpace: 0.05
+  });
+  drawPlayfairHeadline('Abstract', 24, 0.14);
 
   for (const p of SHORTENED_ABSTRACT.paragraphs) {
-    writeRichParagraph(p, { size: 9.0, lineHeight: (9.0 * 1.30) / 72, afterSpace: 0.04 });
+    writeRichParagraph(p, { size: 10.4, lineHeight: (10.4 * 1.48) / 72, afterSpace: 0.10 });
   }
   drawEquationBox(
     MASTER_EQUATION_ABSTRACT.unicodeHtml,
@@ -2449,11 +2667,19 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
   writeRichParagraph(PAPER_META.keywords.join(' · '), {
     prefixBold: 'Keywords: ',
     style: 'italic',
-    size: 8.5,
-    lineHeight: (8.5 * 1.28) / 72,
+    size: 9.1,
+    lineHeight: (9.1 * 1.42) / 72,
     color: [71, 85, 105],
     justify: true,
-    afterSpace: 0.025
+    afterSpace: 0.10
+  });
+  writeRichParagraph(PAPER_APA, {
+    prefixBold: 'How to Cite: ',
+    size: 8.7,
+    lineHeight: (8.7 * 1.38) / 72,
+    color: [71, 85, 105],
+    justify: true,
+    afterSpace: 0.06
   });
 
   // =========================================================
@@ -2903,9 +3129,13 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         if (pImg) {
           const cardPad = 0.14;
           const topBarH = 0.29;
-          const plateFrameH = cardPad + topBarH + pImg.heightIn + cardPad;
           const gapAboveRule = 0.28;
           const gapBelowRule = 0.34;
+          const maxImgH = Math.max(2.0, MAX_Y - MARGIN - cardPad * 2 - topBarH - gapAboveRule - gapBelowRule - capEstH - 0.18);
+          const scale = pImg.heightIn > maxImgH ? maxImgH / pImg.heightIn : 1;
+          const drawW = pImg.widthIn * scale;
+          const drawH = pImg.heightIn * scale;
+          const plateFrameH = cardPad + topBarH + drawH + cardPad;
           ensureSpace(plateFrameH + gapAboveRule + gapBelowRule + capEstH);
 
           // Archival #FAF8F3 outer plate frame
@@ -2934,13 +3164,13 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           doc.setLineWidth(0.006);
           doc.line(MARGIN + cardPad, y + cardPad + 0.16, PAGE_W - MARGIN - cardPad, y + cardPad + 0.16);
 
-          // Plate artwork inset
-          const imgX = MARGIN + (CONTENT_W - pImg.widthIn) / 2;
+          // Plate artwork inset (proportionally scaled so full plate + caption stays within [MARGIN, MAX_Y])
+          const imgX = MARGIN + (CONTENT_W - drawW) / 2;
           const imgY = y + cardPad + topBarH;
-          doc.addImage(pImg.dataUrl, pImg.format, imgX, imgY, pImg.widthIn, pImg.heightIn);
+          doc.addImage(pImg.dataUrl, pImg.format, imgX, imgY, drawW, drawH);
           doc.setDrawColor(226, 217, 200);
           doc.setLineWidth(0.008);
-          doc.rect(imgX, imgY, pImg.widthIn, pImg.heightIn);
+          doc.rect(imgX, imgY, drawW, drawH);
 
           // Generous whitespace above illustration description (both above & below separator hairline)
           y += plateFrameH + gapAboveRule;
@@ -2975,13 +3205,17 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         if (img) {
           const gapAboveRule = 0.26;
           const gapBelowRule = 0.32;
-          ensureSpace(img.heightIn + gapAboveRule + gapBelowRule + capEstH);
-          const imgX = MARGIN + (CONTENT_W - img.widthIn) / 2;
-          doc.addImage(img.dataUrl, 'PNG', imgX, y, img.widthIn, img.heightIn);
+          const maxFigH = Math.max(2.0, MAX_Y - MARGIN - gapAboveRule - gapBelowRule - capEstH - 0.18);
+          const scale = img.heightIn > maxFigH ? maxFigH / img.heightIn : 1;
+          const drawW = img.widthIn * scale;
+          const drawH = img.heightIn * scale;
+          ensureSpace(drawH + gapAboveRule + gapBelowRule + capEstH);
+          const imgX = MARGIN + (CONTENT_W - drawW) / 2;
+          doc.addImage(img.dataUrl, 'PNG', imgX, y, drawW, drawH);
           doc.setDrawColor(214, 202, 190);
           doc.setLineWidth(0.009);
-          doc.rect(imgX, y, img.widthIn, img.heightIn);
-          y += img.heightIn + gapAboveRule;
+          doc.rect(imgX, y, drawW, drawH);
+          y += drawH + gapAboveRule;
           doc.setDrawColor(226, 217, 200);
           doc.setLineWidth(0.007);
           doc.line(MARGIN, y, PAGE_W - MARGIN, y);
@@ -3046,18 +3280,21 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
         TABLE_H1_CLOSURES.map((row) => [row.parameter, row.formula, row.value, row.regime]),
         { cellSize: 8.4, padX: 0.055 }
       );
-      ensureSpace(0.45);
+      ensureSpace(0.62);
       doc.setFillColor(250, 246, 238);
       doc.setDrawColor(214, 202, 190);
       doc.setLineWidth(0.009);
-      doc.rect(MARGIN, y, CONTENT_W, 0.36, 'FD');
+      doc.rect(MARGIN, y, CONTENT_W, 0.50, 'FD');
       doc.setTextColor(139, 69, 19);
       activeInkRgb = [139, 69, 19];
-      drawTextMixed('H11 PREREGISTRATION DIGEST (SHA-256):', MARGIN + 0.08, y + 0.145, 'sans', 'normal', 7.4);
+      drawTextMixed('H11 PREREGISTRATION DIGEST (SHA-256):', MARGIN + 0.08, y + 0.14, 'sans', 'normal', 7.4);
       doc.setTextColor(15, 23, 42);
       activeInkRgb = [15, 23, 42];
-      drawTextMixed(H11_PREREG_SHA256, MARGIN + 0.08, y + 0.285, 'mono', 'normal', 8.1);
-      y += 0.50;
+      const sha1 = H11_PREREG_SHA256.slice(0, 32);
+      const sha2 = H11_PREREG_SHA256.slice(32);
+      drawTextMixed(sha1, MARGIN + 0.08, y + 0.285, 'mono', 'normal', 8.0);
+      drawTextMixed(sha2, MARGIN + 0.08, y + 0.415, 'mono', 'normal', 8.0);
+      y += 0.62;
     }
     if (app.letter === 'I') {
       drawPdfTable(
@@ -3073,22 +3310,6 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
           rev.scope,
           rev.physicsAndNumericalClosures,
           rev.editorialAndVerificationClosures
-        ]),
-        { cellSize: 7.9, padX: 0.055 }
-      );
-      drawPdfTable(
-        'TABLE I.2: FORMAL RESPONSE TO REVIEWERS MATRIX',
-        [
-          { header: 'Topic / ID', width: 1.05, font: 'serif', style: 'bold', color: [139, 69, 19] },
-          { header: 'Referee Concern Summary', width: 1.50, justify: true },
-          { header: 'Resolution & Exact Monograph Location', width: CONTENT_W - 3.50, justify: true },
-          { header: 'Status', width: 0.95, font: 'serif', style: 'normal', color: [21, 128, 61] }
-        ],
-        RESPONSE_TO_REVIEWERS.map((resp) => [
-          resp.issueId,
-          resp.concernSummary,
-          resp.resolutionAndLocation,
-          resp.status
         ]),
         { cellSize: 7.9, padX: 0.055 }
       );
@@ -3307,16 +3528,21 @@ export async function generateHarmonizedPaperPdf(): Promise<void> {
     activeInkRgb = [110, 120, 138];
     if (p > 1) {
       const leftHeader = 'Information-Geometric Resonant Time (IGRT)';
-      const rightHeader = pageSectionLabels[p] ?? 'Harmonized Research Monograph';
+      let rightHeader = pageSectionLabels[p] ?? 'Harmonized Research Monograph';
       drawTextMixed(leftHeader, MARGIN, 0.48, 'serif', 'italic', 8.2);
+      const leftW = measureTextMixed(leftHeader, 'serif', 'italic', 8.2);
+      const maxRightW = Math.max(1.0, CONTENT_W - leftW - 0.25);
+      while (measureTextMixed(rightHeader, 'sans', 'normal', 7.6) > maxRightW && rightHeader.length > 10) {
+        rightHeader = `${rightHeader.slice(0, -2).trim()}…`;
+      }
       const rhw = measureTextMixed(rightHeader, 'sans', 'normal', 7.6);
       drawTextMixed(rightHeader, PAGE_W - MARGIN - rhw, 0.48, 'sans', 'normal', 7.6);
       doc.line(MARGIN, 0.58, PAGE_W - MARGIN, 0.58);
+      doc.line(MARGIN, PAGE_H - 0.58, PAGE_W - MARGIN, PAGE_H - 0.58);
+      const footerTxt = `Page ${p} of ${totalPages}`;
+      const fw = measureTextMixed(footerTxt, 'mono', 'normal', 8.4);
+      drawTextMixed(footerTxt, (PAGE_W - fw) / 2, PAGE_H - 0.42, 'mono', 'normal', 8.4);
     }
-    doc.line(MARGIN, PAGE_H - 0.58, PAGE_W - MARGIN, PAGE_H - 0.58);
-    const footerTxt = `Page ${p} of ${totalPages}`;
-    const fw = measureTextMixed(footerTxt, 'mono', 'normal', 8.4);
-    drawTextMixed(footerTxt, (PAGE_W - fw) / 2, PAGE_H - 0.42, 'mono', 'normal', 8.4);
   }
 
   doc.save('IGRT_Harmonized_Monograph_H11_FiveAuthors.pdf');

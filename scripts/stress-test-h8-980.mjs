@@ -45,7 +45,7 @@ assert(paperDataSrc.includes('S_8 = 0.8216'), 'H11 must include RK4 linear growt
 assert(paperAppSrc.includes('4.0×10^{−15}'), 'H11 must include 2-stage ekpyrotic BKL shear 4.0×10^-15');
 assert(paperAppSrc.includes('A_F^{H11} = ℂ ⊕ ℍ ⊕ M_3(ℂ) ⊕ ℂ_hol ⊕ ℂ_Ch'), 'H11 must include 5-mode extended Krein-Connes A_F^{H11}');
 assert(paperAppSrc.includes('g_* = 1.3105') && paperAppSrc.includes('λ_* = 0.1440'), 'H11 must include Wetterich FRG UV fixed point');
-assert(paperAppSrc.includes('d_s: 3.989 → 2.002'), 'H11 must include CDT spectral dimension flow');
+assert(paperAppSrc.includes('d_s: 3.989→2.002') || paperAppSrc.includes('d_s: 3.989 → 2.002'), 'H11 must include CDT spectral dimension flow');
 assert(paperAppSrc.includes('d_GH = 0.0142'), 'H11 must include Regge-CDT Gromov-Hausdorff convergence');
 assert(paperAppSrc.includes('τ_re = 0.0537') && paperAppSrc.includes('η_B = 6.13×10⁻¹⁰'), 'H11 must include reionization and leptogenesis closures');
 assert(paperDataSrc.includes("letter: 'P'"), 'H11 must contain Appendix P technical closures');

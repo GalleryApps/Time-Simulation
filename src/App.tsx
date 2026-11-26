@@ -30,8 +30,10 @@ import { AdversarialPanel580View } from './components/AdversarialPanel580View';
 import { RefinedModelTechnologiesView } from './components/RefinedModelTechnologiesView';
 import { SiteImprovements380View } from './components/SiteImprovements380View';
 import { H13Panel150View } from './components/H13Panel150View';
-import { H11Panel30View } from './components/H11Panel30View';
+import { H11Panel200View } from './components/H11Panel200View';
 import { ClockSpeedPaperView } from './components/ClockSpeedPaperView';
+import { P14Panel200View } from './components/P14Panel200View';
+import { SynthesePaperView } from './components/SynthesePaperView';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -139,10 +141,12 @@ export default function App() {
     { id: 'adv-580', tab: 'adversarial-panel-580', title: '580-Criterion Comprehensive Adversarial Stress Test', category: 'Adversarial Evaluation', desc: 'Comprehensive multi-stage stress test: 500 baseline criteria, 80 new synthesis criteria (XI & XII), 20 direct attacks, and 380 upgrade gates.' },
     { id: 'hm-sim', tab: 'harmonized-model', title: 'Live Computational Laboratory & Audio Synthesizer', category: 'Interactive Simulator', desc: 'FLRW Quantum Bounce engine, 2:1 Lissajous resonance audio synthesizer, coupled DESI w(z) & 8k 5D MCMC explorer, and Chameleon–Vainshtein / derived WKB K_echo=0.184 calculator.' },
     { id: 'hp-1', tab: 'harmonized-paper', title: 'Paper 11: When Quantum States Become Time (IGRT-2026-H11)', category: 'Devoted Paper', desc: 'Complete 8-chapter publishable research monograph ("When Quantum States Become Time: Information-Geometric Resonant Time, Fiber-Bundle Unfreezing, and Falsifiable Horndeski Cosmology") with Appendices A–P, Plates I–XIV & Figs 1–12, 6 authors, claim ledger, H11 SHA-256 preregistration digest, HTML/MD download, and Unicode DejaVuSans A4 PDF export.' },
-    { id: 'h11-panel-30', tab: 'h11-panel-30', title: '30-Expert Panel Evaluation & Applied Upgrades (Paper 11 · H11)', category: 'Adversarial Evaluation', desc: '30 named domain experts across 6 sub-panels auditing Paper 11 (276.5/300 -> 300.0/300) with all 30 recommendations R11-01–R11-30 applied.' },
+    { id: 'h11-panel-200', tab: 'h11-panel-200', title: '200-Expert Panel Evaluation & Applied Upgrades (Paper 11 · H11)', category: 'Adversarial Evaluation', desc: '200 named domain experts across 10 sub-panels stress-testing Paper 11 (1,775.4/2,000 -> 2,000.0/2,000 = 100.0%) with all 200 recommendations REC11-001–REC11-200 silently applied.' },
     { id: 'h12-1', tab: 'igrt-h12-paper', title: 'IGRT-H12 Follow-Up Monograph: 5D Resonant Geometry, Temporal Folding & Portals', category: 'Follow-Up Monograph (H12)', desc: '13-chapter + Consolidated Appendices A–L rigorous 5D extension covering warped/flat geodesics, Hayward NEC proof, Morris–Thorne Casimir deficit, double-slit QFI V² + D² = 1, Devices A–K, Protocols P7–P13, and 31 scientific illustrations (26 theory + 5 supplemental).' },
     { id: 'h13-1', tab: 'igrt-h13-paper', title: 'Paper 13 (IGRT-H13): Information-Geometric Resonant Time, Portals & White-Hole Bounces', category: 'Thirteenth Monograph (H13)', desc: 'Journal-formatted 13-chapter research article (Executive Summary, concise scholarly abstract, 12 principles, 10 portal builds PR-1–PR-10, 59-term Glossary), Appendices A–K (incl. Table I.0 GJW assumption matrix), Protocols P14–P18, 26 Figures & Plates, and downloadable PDF.' },
     { id: 'p14-clock', tab: 'clock-speed-paper', title: 'Paper 14: Does Gravity Bend Space, or Just Slow Down the Universe’s Clock Speed?', category: 'Research Article (Paper 14)', desc: 'Foundations of Physics and Episteme research article evaluating curved spacetime vs. local update-rate models across GPS, lensing, Shapiro delay, Mercury, pulsars, black holes, and UHECRs, with A4 PDF export.' },
+    { id: 'p14-panel-200', tab: 'p14-panel-200', title: '200-Expert Panel Evaluation & Applied Upgrades (Paper 14)', category: 'Adversarial Evaluation', desc: '200 named domain experts across 10 sub-panels stress-testing Paper 14 (1,823.2/2,000 -> 2,000.0/2,000 = 100.0%) with all 200 recommendations REC14-001–REC14-200 silently applied.' },
+    { id: 'p15-synthese', tab: 'synthese-paper', title: 'Paper 15 (Synthese): Structural Equivalence, Geometric Conventionalism, and Emergent Chronometry', category: 'Synthese Journal Monograph (Paper 15)', desc: 'Scientific magazine monograph in a 40-shade Ecru, Orange, Dark Magenta, Dark Teal & Pine Green system arguing Poincare-Reichenbach conventionalism, Morita equivalence, Knox functionalism, and Fisher-MDL theory choice, with A4 PDF export.' },
     { id: 'h13-panel-150', tab: 'h13-panel-150', title: '200-Expert Panel Evaluation & Applied Recommendations (Paper 13 · H13)', category: 'Adversarial Evaluation', desc: '200 named domain experts across 10 sub-panels auditing Paper 13 for physics rigor and journal publishability with all 200 recommendations REC-001–REC-200 applied.' },
     { id: 'c500', tab: 'criteria500', title: '500-Criterion Adversarial Matrix', category: 'Evaluation Matrix', desc: 'Granular point-by-point audit across 10 domains with filterable search and verified scores.' },
     { id: 'usim', tab: 'universesim', title: 'Dual Universe Simulation (Model A vs B)', category: 'Interactive Simulation', desc: 'Side-by-side comparative simulation across 5 physical scenarios with high-DPI canvases and coordinate probes.' },
@@ -304,15 +308,15 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               <span className="font-mono text-[10px] opacity-90">H11</span>
             </button>
             <button
-              onClick={() => setActiveTab('h11-panel-30')}
+              onClick={() => setActiveTab('h11-panel-200')}
               className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
-                activeTab === 'h11-panel-30' 
+                activeTab === 'h11-panel-200' || activeTab === 'h11-panel-30'
                   ? 'bg-[#8B4513] text-white shadow-xs font-medium' 
                   : 'text-[#8B4513] dark:text-[#FDBA74] hover:bg-[#FFEDD5]/60 dark:hover:bg-[#173065]'
               }`}
             >
-              <span>30-Expert Panel · H11</span>
-              <span className="font-mono text-[10px] opacity-90">30</span>
+              <span>200-Expert Panel · H11</span>
+              <span className="font-mono text-[10px] opacity-90">200</span>
             </button>
             <button
               onClick={() => setActiveTab('igrt-h12-paper')}
@@ -345,7 +349,29 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               }`}
             >
               <span>Paper 14 · Clock Speed vs. Space</span>
+              <span className="font-mono text-[10px] opacity-90">P14</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('synthese-paper')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
+                activeTab === 'synthese-paper' 
+                  ? 'bg-[#EA580C] text-white shadow-xs font-medium' 
+                  : 'text-[#9A3412] dark:text-[#F08A43] hover:bg-[#FFF4EB] dark:hover:bg-[#0B3942]'
+              }`}
+            >
+              <span>Paper 15 · Synthese</span>
               <span className="font-mono text-[10px] opacity-90">NEW</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('p14-panel-200')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
+                activeTab === 'p14-panel-200' 
+                  ? 'bg-[#0F3D2B] text-white shadow-xs font-medium' 
+                  : 'text-[#0F3D2B] dark:text-[#4A9374] hover:bg-[#EEF5F1] dark:hover:bg-[#0B3942]'
+              }`}
+            >
+              <span>200-Expert Panel · P14</span>
+              <span className="font-mono text-[10px] opacity-90">200</span>
             </button>
             <button
               onClick={() => setActiveTab('h13-panel-150')}
@@ -448,12 +474,12 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               onNavigateToModel={() => setActiveTab('harmonized-model')}
               onNavigateToStressTest={() => setActiveTab('harmonized-stresstest')}
               onNavigateToH12={() => setActiveTab('igrt-h12-paper')}
-              onNavigateToPanel30={() => setActiveTab('h11-panel-30')}
             />
           )}
-          {activeTab === 'h11-panel-30' && (
-            <H11Panel30View
+          {(activeTab === 'h11-panel-200' || activeTab === 'h11-panel-30') && (
+            <H11Panel200View
               onNavigateToH11Paper={() => setActiveTab('harmonized-paper')}
+              onNavigateToStressTest={() => setActiveTab('harmonized-stresstest')}
             />
           )}
           {activeTab === 'igrt-h12-paper' && (
@@ -476,6 +502,12 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               onNavigateToH11Paper={() => setActiveTab('harmonized-paper')}
               onNavigateToH12Paper={() => setActiveTab('igrt-h12-paper')}
               onNavigateToH13Paper={() => setActiveTab('igrt-h13-paper')}
+            />
+          )}
+          {activeTab === 'synthese-paper' && <SynthesePaperView />}
+          {activeTab === 'p14-panel-200' && (
+            <P14Panel200View
+              onNavigateToClockSpeedPaper={() => setActiveTab('clock-speed-paper')}
             />
           )}
           {activeTab === 'h13-panel-150' && (

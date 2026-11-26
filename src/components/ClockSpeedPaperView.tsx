@@ -89,6 +89,14 @@ const EquationDisplay: React.FC<{ eq: ClockPaperEquation }> = ({ eq }) => (
       </div>
     </div>
     <div className="mt-3 pt-3 border-t border-[#186876]/20 dark:border-[#186876]/40 space-y-1.5 text-[13px] leading-[1.65] text-[#0B3942] dark:text-[#6CB2BD]">
+      {eq.plainMath && (
+        <div className="py-1.5 px-3 rounded bg-[#FFFFFF]/80 dark:bg-[#0B3942]/40 border border-[#186876]/20 font-mono text-[11.5px] leading-[1.55] text-[#2E0820] dark:text-[#EDF5F6] overflow-x-auto">
+          <span className="uppercase text-[10px] tracking-wider text-[#661447] dark:text-[#C46D9E] mr-2 font-semibold">
+            Plain Math Equation:
+          </span>
+          <span>{eq.plainMath}</span>
+        </div>
+      )}
       <div className="italic">
         <MathText text={eq.caption} />
       </div>

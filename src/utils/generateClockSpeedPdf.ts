@@ -690,12 +690,18 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     boldBase = false,
     justify = false,
     baseFamily: PdfFontFamily = 'serif',
-    baseStyle?: PdfFontStyle
+    baseStyle?: PdfFontStyle,
+    leftRule?: { x: number; color: RgbTuple; width: number }
   ) => {
-    doc.setTextColor(...color);
     const lines = wrapMixedLines(rawText, maxW, boldBase, fontSize, baseFamily, baseStyle);
     for (const line of lines) {
       ensureSpace(lineGap + 1);
+      if (leftRule) {
+        doc.setDrawColor(...leftRule.color);
+        doc.setLineWidth(leftRule.width);
+        doc.line(leftRule.x, y - fontSize * 0.25, leftRule.x, y + lineGap * 0.58);
+      }
+      doc.setTextColor(...color);
       if (justify && !line.isHardEnd && line.words.length > 1) {
         let wordsWidth = 0;
         const wWidths = line.words.map((wd) => {
@@ -771,53 +777,81 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     const cap = `${eq.label} — ${eq.caption}`;
     const eqInnerW = contentW - 14;
     const baseEqFont = hasUnicodeFonts ? 'serif' : 'sans';
-    let eqFontSize = 10.4;
+    let eqFontSize = 10.2;
     let eqLines = wrapMixedLines(eq.unicodeHtml, eqInnerW, false, eqFontSize, baseEqFont, 'normal', true);
     if (eqLines.length > 3) {
-      eqFontSize = 9.2;
+      eqFontSize = 9.0;
       eqLines = wrapMixedLines(eq.unicodeHtml, eqInnerW, false, eqFontSize, baseEqFont, 'normal', true);
     }
-    const eqLineGap = 5.8;
-    const capLineGap = 4.4;
-    const capLines = wrapMixedLines(cap, contentW - 14, false, 8.8, 'serif', 'italic');
-    const plainLines = wrapMixedLines(eq.plainMeaning, contentW - 14, false, 8.6, 'serif', 'normal');
-    const boxH = 7.4 + eqLines.length * eqLineGap + 4.4 + capLines.length * capLineGap + 2.4 + plainLines.length * 4.3 + 3.4;
+    if (eqLines.length > 4) {
+      eqFontSize = 8.2;
+      eqLines = wrapMixedLines(eq.unicodeHtml, eqInnerW, false, eqFontSize, baseEqFont, 'normal', true);
+    }
+    if (eqLines.length > 5) {
+      eqFontSize = 7.6;
+      eqLines = wrapMixedLines(eq.unicodeHtml, eqInnerW, false, eqFontSize, baseEqFont, 'normal', true);
+    }
+    const eqLineGap = eqFontSize <= 8.4 ? 4.9 : 5.6;
+    const capLineGap = 4.3;
+    const pmLineGap = 3.9;
+    const capLines = wrapMixedLines(cap, contentW - 14, false, 8.7, 'serif', 'italic');
+    const pmLines = eq.plainMath
+      ? wrapMixedLines(`Plain Math Equation: ${eq.plainMath}`, contentW - 14, false, 7.6, 'mono', 'normal')
+      : [];
+    const plainLines = wrapMixedLines(eq.plainMeaning, contentW - 14, false, 8.5, 'serif', 'normal');
+    const boxH =
+      7.2 +
+      eqLines.length * eqLineGap +
+      4.2 +
+      capLines.length * capLineGap +
+      (pmLines.length > 0 ? 2.0 + pmLines.length * pmLineGap : 0) +
+      2.2 +
+      plainLines.length * 4.3 +
+      3.4;
 
-    ensureSpace(boxH + 9);
+    ensureSpace(Math.min(boxH + 9, bottomLimit - topY - 4));
     y += 1.5;
     doc.setFillColor(...TEAL_TINT);
     doc.setDrawColor(...TEAL_OCEAN);
     doc.setLineWidth(0.32);
     doc.roundedRect(marginX, y, contentW, boxH, 2.2, 2.2, 'FD');
 
-    let cy = y + 7.4;
+    let cy = y + 7.2;
     doc.setTextColor(...MAGENTA_DEEP);
     for (const l of eqLines) {
       const lw = measureSpansWidth(l.spans, false, baseEqFont, 'normal');
-      const cx = marginX + Math.max(5, (contentW - lw) / 2);
+      const cx = marginX + Math.max(6, Math.min(contentW - lw - 6, (contentW - lw) / 2));
       drawStyledSpans(l.spans, cx, cy, false, baseEqFont, 'normal');
       cy += eqLineGap;
     }
     doc.setDrawColor(...TEAL_SLATE);
     doc.setLineWidth(0.18);
     doc.line(marginX + 10, cy - 1.5, marginX + contentW - 10, cy - 1.5);
-    cy += 3.2;
+    cy += 3.0;
     doc.setTextColor(...TEAL_CORE);
     for (const cl of capLines) {
       const clw = measureSpansWidth(cl.spans, false, 'serif', 'italic');
-      const cx = marginX + Math.max(5, (contentW - clw) / 2);
+      const cx = marginX + Math.max(6, Math.min(contentW - clw - 6, (contentW - clw) / 2));
       drawStyledSpans(cl.spans, cx, cy, false, 'serif', 'italic');
       cy += capLineGap;
+    }
+    if (pmLines.length > 0) {
+      cy += 2.0;
+      doc.setTextColor(...MAGENTA_RICH);
+      for (const pm of pmLines) {
+        drawStyledSpans(pm.spans, marginX + 7, cy, false, 'mono', 'normal');
+        cy += pmLineGap;
+      }
     }
     cy += 2.2;
     doc.setTextColor(...PINE_CORE);
     for (const pl of plainLines) {
       const plw = measureSpansWidth(pl.spans, false, 'serif', 'normal');
-      const cx = marginX + Math.max(5, (contentW - plw) / 2);
+      const cx = marginX + Math.max(6, Math.min(contentW - plw - 6, (contentW - plw) / 2));
       drawStyledSpans(pl.spans, cx, cy, false, 'serif', 'normal');
       cy += 4.3;
     }
-    y += boxH + 8.0;
+    y += boxH + 7.5;
   };
 
   const drawCalloutBox = (
@@ -830,27 +864,57 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
   ) => {
     const bodyLines = wrapMixedLines(rawBody, contentW - 12, false, fontSize, 'serif');
     const hasLabel = Boolean(label && label.trim().length > 0);
-    const boxH = (hasLabel ? 5.8 : 0) + bodyLines.length * lineGap + 11.0;
-    ensureSpace(boxH + 8);
-    y += 1.4;
-    doc.setFillColor(...fillColor);
-    doc.setDrawColor(...borderColor);
-    doc.setLineWidth(0.32);
-    doc.roundedRect(marginX, y, contentW, boxH, 2.2, 2.2, 'FD');
+    const padTop = 6.4;
+    const padBottom = 5.2;
+    const totalNeeded = (hasLabel ? 5.8 : 0) + bodyLines.length * lineGap + padTop + padBottom;
 
-    let cy = y + 6.6;
-    if (hasLabel && label) {
-      setFontSafe('mono', 'normal', 8.0);
-      doc.setTextColor(...MAGENTA_RICH);
-      doc.text(clipMixedLine(safeStr(label), contentW - 12, false, 8.0, 'mono'), marginX + 6, cy);
-      cy += 5.8;
+    // Move to new page only if whole box fits cleanly on next page without fitting here
+    if (y + totalNeeded + 6 > bottomLimit && totalNeeded + 6 <= bottomLimit - topY && y > topY + 2) {
+      doc.addPage();
+      y = topY;
     }
-    doc.setTextColor(...TEAL_INK);
-    for (const line of bodyLines) {
-      drawStyledSpans(line.spans, marginX + 6, cy, false, 'serif', 'normal');
-      cy += lineGap;
+
+    let lineIdx = 0;
+    let isFirstSlice = true;
+    while (lineIdx < bodyLines.length || isFirstSlice) {
+      const labelH = isFirstSlice && hasLabel ? 5.8 : 0;
+      const overhead = padTop + labelH + padBottom;
+      if (y + overhead + lineGap * 2 > bottomLimit && y > topY + 2) {
+        doc.addPage();
+        y = topY;
+        continue;
+      }
+      y += 1.2;
+      const maxLinesFit = Math.max(1, Math.floor((bottomLimit - y - overhead - 1.5) / lineGap));
+      const slice = bodyLines.slice(lineIdx, lineIdx + maxLinesFit);
+      const sliceH = Math.max(14, padTop + labelH + slice.length * lineGap + padBottom - lineGap * 0.2);
+
+      doc.setFillColor(...fillColor);
+      doc.setDrawColor(...borderColor);
+      doc.setLineWidth(0.32);
+      doc.roundedRect(marginX, y, contentW, sliceH, 2.2, 2.2, 'FD');
+
+      let cy = y + padTop;
+      if (isFirstSlice && hasLabel && label) {
+        setFontSafe('mono', 'normal', 8.0);
+        doc.setTextColor(...MAGENTA_RICH);
+        doc.text(clipMixedLine(safeStr(label), contentW - 12, false, 8.0, 'mono'), marginX + 6, cy);
+        cy += 5.8;
+      }
+      doc.setTextColor(...TEAL_INK);
+      for (const line of slice) {
+        drawStyledSpans(line.spans, marginX + 6, cy, false, 'serif', 'normal');
+        cy += lineGap;
+      }
+      y += sliceH + 5.5;
+      lineIdx += slice.length;
+      isFirstSlice = false;
+      if (lineIdx < bodyLines.length) {
+        doc.addPage();
+        y = topY;
+      }
     }
-    y += boxH + 7.5;
+    y += 2.0;
   };
 
   const drawTable = (
@@ -984,7 +1048,7 @@ function createPdfContext(doc: jsPDF, hasUnicodeFonts: boolean) {
     const capLines = wrapMixedLines(opts.caption, contentW - 4, false, capFontSize, 'serif');
     const capBlockH = 5.0 + capLines.length * capLineGap + 2.0;
 
-    const availArtH = Math.max(90, bottomLimit - y - capBlockH - 6.0);
+    const availArtH = Math.max(55, bottomLimit - y - capBlockH - 12.0);
     let drawW = contentW;
     let drawH = drawW * opts.asset.aspect;
     if (drawH > availArtH) {
@@ -1146,9 +1210,9 @@ export async function generateClockSpeedPdf(): Promise<void> {
   ctx.addY(2.5);
   ctx.drawMathInlineText(`Keywords: ${CLOCK_SPEED_META.keywords.join('; ')}.`, marginX, contentW, 8.8, 4.5, TEAL_PETROL, false, true);
 
-  // Reserve 2 Pages for Unwrapped Table of Contents (avoids trailing blank page)
+  // Reserve 3 Pages for Table of Contents (unused trailing reserved pages deleted automatically)
   const tocPages: number[] = [];
-  for (let tp = 0; tp < 2; tp++) {
+  for (let tp = 0; tp < 3; tp++) {
     doc.addPage();
     tocPages.push(doc.getNumberOfPages());
   }
@@ -1241,20 +1305,11 @@ export async function generateClockSpeedPdf(): Promise<void> {
         doc.text(ctx.clipMixedLine(ctx.safeStr(sub.workedExample.title), contentW - 8, false, 7.8, 'mono'), marginX + 4, headerY + 5.3);
         ctx.setY(headerY + 11.5);
 
-        const drawPineLeftRule = (fromY: number, toY: number) => {
-          doc.setDrawColor(...PINE_CONIFER);
-          doc.setLineWidth(0.7);
-          doc.line(marginX + 1.5, fromY - 2.5, marginX + 1.5, toY);
-        };
-
-        const setupStartY = ctx.getY();
-        ctx.drawMathInlineText(sub.workedExample.setup, marginX + 5, contentW - 7, 10.3, 5.4, TEAL_PETROL, false, true);
-        drawPineLeftRule(setupStartY, ctx.getY() - 1.5);
+        const pineRule = { x: marginX + 1.5, color: PINE_CONIFER, width: 0.7 };
+        ctx.drawMathInlineText(sub.workedExample.setup, marginX + 5, contentW - 7, 10.3, 5.4, TEAL_PETROL, false, true, 'serif', 'normal', pineRule);
         ctx.addY(1.2);
         sub.workedExample.steps.forEach((st, idx) => {
-          const stepStartY = ctx.getY();
-          ctx.drawMathInlineText(`${idx + 1}. ${st}`, marginX + 6, contentW - 8, 10.2, 5.4, TEAL_INK, false, true);
-          drawPineLeftRule(stepStartY, ctx.getY() - 1.5);
+          ctx.drawMathInlineText(`${idx + 1}. ${st}`, marginX + 6, contentW - 8, 10.2, 5.4, TEAL_INK, false, true, 'serif', 'normal', pineRule);
           ctx.addY(1.0);
         });
         ctx.drawEquationBox(sub.workedExample.resultEquation);
@@ -1479,20 +1534,11 @@ export async function generateClockSpeedPdf(): Promise<void> {
         doc.text(ctx.clipMixedLine(ctx.safeStr(wx.title), contentW - 8, false, 7.8, 'mono'), marginX + 4, headerY + 5.3);
         ctx.setY(headerY + 11.5);
 
-        const drawPineLeftRule = (fromY: number, toY: number) => {
-          doc.setDrawColor(...PINE_CONIFER);
-          doc.setLineWidth(0.7);
-          doc.line(marginX + 1.5, fromY - 2.5, marginX + 1.5, toY);
-        };
-
-        const setupStartY = ctx.getY();
-        ctx.drawMathInlineText(wx.setup, marginX + 5, contentW - 7, 10.3, 5.4, TEAL_PETROL, false, true);
-        drawPineLeftRule(setupStartY, ctx.getY() - 1.5);
+        const pineRule = { x: marginX + 1.5, color: PINE_CONIFER, width: 0.7 };
+        ctx.drawMathInlineText(wx.setup, marginX + 5, contentW - 7, 10.3, 5.4, TEAL_PETROL, false, true, 'serif', 'normal', pineRule);
         ctx.addY(1.2);
         wx.steps.forEach((st, idx) => {
-          const stepStartY = ctx.getY();
-          ctx.drawMathInlineText(`${idx + 1}. ${st}`, marginX + 6, contentW - 8, 10.2, 5.4, TEAL_INK, false, true);
-          drawPineLeftRule(stepStartY, ctx.getY() - 1.5);
+          ctx.drawMathInlineText(`${idx + 1}. ${st}`, marginX + 6, contentW - 8, 10.2, 5.4, TEAL_INK, false, true, 'serif', 'normal', pineRule);
           ctx.addY(1.0);
         });
         ctx.drawEquationBox(wx.resultEquation);
@@ -1533,7 +1579,32 @@ export async function generateClockSpeedPdf(): Promise<void> {
     ctx.addY(2.2);
   }
 
-  // Populate Reserved TOC (compact spacing ensures all entries fit cleanly on 2 pages)
+  // Populate Reserved TOC cleanly and remove any unused reserved TOC pages
+  let simTocIdx = 0;
+  let simY = topY + 15.5;
+  for (const entry of tocEntries) {
+    const indentPx = (entry.indent ?? 0) * 4.2;
+    const fSize = entry.indent ? 8.1 : 9.3;
+    const lineStep = entry.indent ? 3.55 : 4.2;
+    const maxLabelW = contentW - indentPx - 16;
+    const labelLines = ctx.wrapMixedLines(entry.label, maxLabelW, false, fSize, 'serif');
+    const entryH = Math.max(1, labelLines.length) * lineStep + (entry.indent ? 0.95 : 1.65);
+    if (simY + entryH > bottomLimit) {
+      simTocIdx++;
+      if (simTocIdx >= tocPages.length) break;
+      simY = topY + 13.0;
+    }
+    simY += entryH;
+  }
+  const usedTocPages = Math.min(tocPages.length, simTocIdx + 1);
+  const removedTocPages = tocPages.length - usedTocPages;
+  for (let k = tocPages.length - 1; k >= usedTocPages; k--) {
+    doc.deletePage(tocPages[k]);
+  }
+  for (const entry of tocEntries) {
+    entry.page = Math.max(1, entry.page - removedTocPages);
+  }
+
   let tocIdx = 0;
   doc.setPage(tocPages[tocIdx]);
   let ty = topY;
@@ -1556,7 +1627,7 @@ export async function generateClockSpeedPdf(): Promise<void> {
 
     if (ty + entryH > bottomLimit) {
       tocIdx++;
-      if (tocIdx >= tocPages.length) break;
+      if (tocIdx >= usedTocPages) break;
       doc.setPage(tocPages[tocIdx]);
       ty = topY;
       ctx.setFontSafe(hasUnicodeFonts ? 'playfair' : 'serif', 'normal', 18);

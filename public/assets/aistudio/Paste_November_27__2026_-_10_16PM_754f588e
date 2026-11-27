@@ -1,0 +1,226 @@
+1. [CRITICAL] The "proof" of A1–A4 is question-begging. You claim "numbered reductio derivations" prove convergence on exactly four axioms. But reductio shows that denying an axiom produces incoherence—this only establishes that if one accepts the axioms' background logic and semantics, denial is costly. It does not prove the axioms are true, nor that they are minimal (you assert minimality without a formal independence proof beyond "suspending any single axiom triggers a distinct classical incoherence"). A genuine minimality proof requires: (a) a formal independence model for each axiom (you gesture at M~A1..M~A4 in Plate XIV, but this must be in the main text, not a plate), and (b) proof that no weaker axiom set suffices. Fix: Add a formal §34.5 "Independence and Minimality Theorem" with explicit countermodels in tabular form in the main text.
+
+2. [CRITICAL] Varying-domain S4 blocks Barcan—but at what cost? You invoke varying domains D(w) to block both Barcan and Converse Barcan. But standard varying-domain semantics with non-monotonic domains raises the existence predicate problem: you need an existence predicate E(x) and careful treatment of quantifier restriction in modal contexts. The manuscript never specifies the axiomatization of the existence predicate or how identity across worlds is handled. Fix: Add a formal semantics appendix specifying the existence predicate, world-relative identity, and the exact Kripke frame conditions.
+
+3. [CRITICAL] "Friedman's relativized a priori" is invoked but never operationalized. Friedman's framework (2001, 2008) concerns constitutive mathematical principles (e.g., Newtonian absolute space, Minkowski geometry) that are relativized across theory change. You use it to license A1 as "relativized a priori condition." But Friedman's a priori is mathematical-physical, not phenomenological-transcendental. Fix: Either (a) provide a precise reconstruction of how Friedman's relativized a priori maps onto A1–A4 with citations to specific Friedman texts and a worked example, or (b) drop the claim and use a weaker "constitutive framework" language.
+
+4. [MAJOR] The Structural Identity Thesis (SIT) as "faithful composition-preserving functors onto an invariant relational signature" is asserted, not proven. Functors F_Phen, F_Quant, F_Sys → Σ_Obs require: (a) explicit definition of source categories (objects, morphisms, composition, identities), (b) explicit definition of Σ_Obs, (c) proof that each F preserves composition and identity, (d) proof of faithfulness (injectivity on hom-sets). The manuscript's Plate XV shows arrows; the text must contain the actual functor definitions and preservation proofs. Fix: Add a full §38.1–38.4 with commutative diagrams rendered as text/tables and explicit hom-set mappings.
+
+5. [MAJOR] "No-Go Theorem 5.1" over bipartite quantum cuts is referenced but its statement and proof are never given in the excerpt. If F > 1/2 vs. r = m is the core formal result bridging RQM to A2, it needs a precise statement: what are the assumptions, what is the contradiction, what is the proof? Fix: Provide the full theorem statement, assumptions, and a proof sketch or full proof in §21.
+
+6. [MAJOR] The claim that Levinas, Marion, Cramer, and Relational Blockworld are "genuine anomalies" is philosophically contestable. Levinas's ethical subject is arguably not an observer-model at all in the epistemic sense—it is an ethical relation that exceeds ontology. Calling it an "anomaly" to be diagnosed presupposes it should fit A1–A4. Fix: Clarify whether these are (a) counterexamples to SIT (which would falsify it), (b) scope exclusions (outside the theory's domain), or (c) confirmations via structural role. You cannot have it both ways.
+
+7. [MODERATE] The modal status column in Table A.0 conflates necessity types. A1 is labeled "varying-domain S4 necessity" and "relativized a priori condition"—these are different modal notions (logical vs. constitutive). Fix: Add a column distinguishing logical necessity, constitutive a priori, and empirical regularity, and justify each assignment.
+
+8. [MODERATE] Equiv_inv is claimed to be an equivalence relation but reflexivity/symmetry/transitivity are asserted without proof. For A2's "no master frame" claim, transitivity is the crucial and most contestable property (it implies a single equivalence class under overlap chains). Fix: Prove or qualify each property; note that transitivity may fail for perspectival overlap (cf. non-transitive indistinguishability in vagueness literature).
+
+9. [MODERATE] The Archimedean ω-regress reductio for A1 assumes an infinite meta-observer hierarchy is incoherent—but ω-regresses are not automatically vicious. Some infinite regresses are benign (e.g., truth-theoretic Tarski hierarchy). Fix: Specify why this regress is vicious (e.g., it violates finite epistemic access, or generates no fixed point) and cite regress literature (Rescher, Nolan).
+
+10. [MODERATE] "Solipsistic collapse" as the reductio for A2 needs precision. Why exactly does denying frame parity entail solipsism? One could deny parity while maintaining intersubjectivity under an asymmetric hierarchy (e.g., a privileged observer with others as observed). Fix: Sharpen the reductio: show the specific logical step from ¬A2 to solipsism.
+
+11. [MODERATE] A3's "UnmarkedWithin(B_o, o)" is undefined. The Spencer-Brown-inspired "unmarked" terminology appears in the formalism but is never given a set-theoretic or topological definition. Fix: Define UnmarkedWithin precisely (e.g., o ∉ Inside_o or o ∈ B_o but not in the marked interior).
+
+12. [MINOR] The Kant epigraph paraphrase ("The eye does not actually see itself...") attributes a synthetic paraphrase to Kant B131 and Wittgenstein TLP 5.632. TLP 5.632 is about the subject not being part of the world; B131 is about the "I think" accompanying representations. The paraphrase is loose. Fix: Quote precisely or label clearly as reconstruction.
+
+13. [MINOR] "Thirty traditions across thirty-two named observer-frameworks" is numerically confusing. The count (30 vs. 32) is explained (three Husserl mutations + §15a bridge), but the abstract should state this clearly rather than leaving the reader to reconcile.
+
+14. [MINOR] The claim that the treatise operates "explicitly within" hybrid many-sorted modal logic is under-supported by the excerpt. Many-sortedness requires sort declarations and sort-respecting quantifier rules. Fix: Add a sort signature table (sorts: Observer, Horizon, Frame, Cut, Interval, etc.) with their sorts.
+
+15. [MINOR] "Decoupled empirical falsification tests" (Table 8.3–8.4) are advertised but the excerpt gives no test specifications. The falsifiers in Table A.0 are gestural ("Experimental demonstration of observer-independent absolute macro-facts"). Fix: Provide operationalized protocols: what apparatus, what measurement, what threshold counts as falsification.
+
+B. PHENOMENOLOGY & CONTINENTAL PHILOSOPHY (Recommendations 16–30)
+16. [MAJOR] Husserl's three treatments (§3 Early, §4 Late Bernau, §5 Intersubjective) are collapsed too quickly into a single "transcendental ego" family. The Bernau manuscripts on time-consciousness (1917–18) are fundamentally about absolute flowing temporality, not the ego per se. Fix: Distinguish the ego's constitution from the absolute flow; cite Husserliana X and XXXIII precisely.
+
+17. [MAJOR] Sartre's critique of the transcendental ego (§3) is mentioned but its structural role is unclear. Sartre's "transcendence of the ego" argues the ego is an object for consciousness, not its structure—this directly challenges A1's "situated horizon" if the horizon is ego-structured. Fix: Explain how Sartre's position is either absorbed or excluded, and whether the pre-reflective cogito satisfies A1.
+
+18. [MODERATE] Heidegger's Dasein (§6) is not obviously an "observer" in your technical sense. Dasein is being-in-the-world, characterized by thrownness, projection, and care—not by a measurement cut. Mapping Dasein onto A3 (operational demarcation) risks instrumentalizing Heidegger. Fix: Justify the reconstruction explicitly or treat Dasein as a scope-limiting case.
+
+19. [MODERATE] Merleau-Ponty's body-subject (§7) and the "chiasmic écart" are invoked in Plate IV but the formal mapping to A4 (asymmetric self-relation) is asserted, not shown. The écart (gap/fissure) is precisely a non-coincidence, which may resist the "asymmetric self-relation" formalization. Fix: Show how écart satisfies Asym(S_o) or acknowledge it as a limit case.
+
+20. [MODERATE] Michel Henry's auto-affection (§8) is described as "non-temporal"—but A4 requires temporal observation (TemporalObs(o) → ...). If Henry's subject is non-temporal, it cannot satisfy A4. Fix: Either exclude Henry from the A4 mapping or explain how "non-temporal" auto-affection is compatible with the thick present.
+
+21. [MAJOR] Levinas's ethical subject (§9) is the hardest case and gets the least formal treatment. The face of the Other exceeds representation—this is arguably a structural limit on any observer-model that totalizes. Fix: Give Levinas a full formal subsection showing either (a) how ethical overflow maps onto an axiom-suspension (which one?), or (b) why it is a genuine anomaly requiring SIT revision (and what revision).
+
+22. [MODERATE] Derrida's différance (§10) is said to "map onto quantum measurement cuts" via §15a, but the morphism is asserted. Différance is deferral/difference—a temporal-ontological structure. Measurement cuts are operational boundaries. Fix: Provide the explicit structural-role morphism: what preserves what?
+
+23. [MODERATE] Foucault's dispersed subject (§11) and Lacan's split subject (§12) are treated as parallel "ruptures," but their logical structures differ radically. Foucault's subject is an effect of power/knowledge dispositifs (external); Lacan's is barred by the signifier (internal). Fix: Distinguish the two rupture-types formally; do not lump them under one "post-structuralist rupture" heading.
+
+24. [MODERATE] Deleuze's fractured cogito (§13) and Nancy's singular plural (§14) are each given one section but the "fracture" and "singular plural" are structurally different. Fix: Add a comparison table of rupture-types (deferral, dispersion, splitting, fracturing, plurality, saturation) mapped to distinct axiom-stresses.
+
+25. [MAJOR] Marion's saturated phenomenon (§15) is the most important test case: saturation exceeds the horizon of possible experience. If A1 posits a "situated horizon H_o excluding a global view," saturation is precisely the overflow of any horizon. Fix: Address whether Marion falsifies A1 or confirms it (by showing the horizon's limits are internal to it). This is the crux of the "genuine anomaly" claim.
+
+26. [MODERATE] §15a's "structural bridge" from post-structuralism to quantum cuts is the most speculative move in the book. It needs either a formal functor (which would make it a second SIT) or a careful argument by analogy with explicit disanalogies noted. Fix: Add a "limits of the bridge" subsection listing where the analogy breaks.
+
+27. [MINOR] The "six ruptures of presence" framing (Derrida, Foucault, Lacan, Deleuze, Nancy, Marion) omits Irigaray, Kristeva, and Butler—major theorists of the subject. Fix: Either justify exclusion explicitly or add a scope note.
+
+28. [MINOR] "Presence" is used throughout without definition. The metaphysics of presence (Derrida) vs. phenomenological presence (Husserl) vs. temporal presence (A4) are different. Fix: Add a glossary entry distinguishing these.
+
+29. [MINOR] The claim that analytic philosophers "exposed the irreducibility of essential indexicals" (Perry, Lewis, Shoemaker) is correct but never integrated into the formal apparatus. Indexicality is directly relevant to A1 (situated horizon). Fix: Add a subsection on indexical semantics and its relation to H_o.
+
+30. [MINOR] Fichte's self-positing regress is mentioned in §1 but never given a section. Given its centrality to the "Archimedean ω-regress" reductio, it deserves explicit treatment. Fix: Add a subsection or appendix on Fichte's Anstoß and the regress structure.
+
+C. QUANTUM FOUNDATIONS (Recommendations 31–50)
+31. [CRITICAL] The "measurement cut" is treated as a single concept across Bohr, von Neumann, Heisenberg, and Rovelli—but these are fundamentally different. Bohr's cut is epistemic-pragmatic (classical/quantum boundary); von Neumann's is a formal division within Hilbert space (I/II); Heisenberg's is the observer/object divide; Rovelli's is relational (no absolute cut). Fix: Add a taxonomy table of cut-types with formal definitions and show which map to A3.
+
+32. [CRITICAL] Wigner's Friend and extended parity no-go theorems (§18) are invoked to support A2, but the logic is backwards. Wigner's Friend shows that assuming a global perspective (Wigner's) leads to contradiction with the friend's perspective—this supports no master frame, but only under specific assumptions (unitary dynamics, single outcomes). Fix: State the no-go theorem precisely (Frauchiger-Renner? Brukner?), its assumptions, and show exactly how it entails A2's denial-reductio.
+
+33. [MAJOR] Everett's relative states (§19) is the hardest case for A1. Everettian quantum mechanics arguably does provide a global view (the universal wavefunction) from which all branches are relative. If so, Everett violates A1—but you classify it as an "orthodox quantum program" that fits the framework. Fix: Explain whether Everett's global wavefunction is a "global view" in A1's sense (¬GlobalView(o)) or not, and if not, why not.
+
+34. [MAJOR] Wheeler's participatory universe (§20) and delayed-choice erasers are cited but the "participation" is never formalized. Wheeler's "it from bit" is a metaphysical thesis, not a formal observer-model. Fix: Specify what formal role "participation" plays (does it satisfy A4's asymmetric self-relation? A3's cut?).
+
+35. [MAJOR] Rovelli's RQM (§21) is the linchpin of the SIT (F_RQM → Σ_Obs), but RQM's core claim—that states are always relative to other systems, not observers—is not addressed. RQM does not privilege observers; any physical system can be a "observer." This may conflict with A1's Obs(o) predicate. Fix: Address whether RQM's "system" is coextensive with your Obs(o), and if so, whether A1's perspectival immanence survives (any system has a horizon?).
+
+36. [MAJOR] No-Go Theorem 5.1 (F > 1/2 vs. r = m) is never stated. This is the formal bridge between RQM and the axiom system. Fix: Provide full statement and proof (see Rec. 5).
+
+37. [MAJOR] QBism (§22) is split between Fuchs's participatory realism and Schack's formal coherence—but QBism's central claim (quantum states are personal Bayesian degrees of belief) directly challenges A2 (egalitarian frame parity). If states are personal, how is cross-perspective equivalence (Equiv_inv) maintained? Fix: Address the subjectivism objection explicitly.
+
+38. [MAJOR] Decoherence (§23) is invoked as supporting A3 (operational demarcation), but decoherence is a dynamical process (einselection), not a demarcation cut. Zurek's einselection explains why certain bases are stable, not where the cut is. Fix: Clarify the relationship: does decoherence ground A3, illustrate it, or replace it?
+
+39. [MODERATE] Consistent histories (§24) and the "selection critique" are mentioned but the logical lattice parity claim is opaque. Griffiths's consistent histories is a decoherent framework; its relation to A3 (bounded inside/unmarked within) needs explicit argument. Fix: Add a worked example of a consistent history family and its demarcation structure.
+
+40. [MODERATE] Cramer's transactional interpretation (§25) and "relativistic foliation tensions" are flagged as a "genuine anomaly," but the anomaly is never specified. What exactly fails—A4 (asymmetry)? A2 (parity)? Fix: Specify which axiom Cramer's retrocausality violates and why it is or is not fatal.
+
+41. [MODERATE] Relational Blockworld (§26) and the "static block vs. A4 asymmetry" anomaly are named but not analyzed. If the block is static, A4's irreversible entropy-update (S_o ≥ 0) fails. Fix: Show whether RBW is a countermodel to A4 (which would falsify SIT) or a scope exclusion.
+
+42. [MODERATE] The First Observer Hypothesis (§27) with "negentropy, Markov blankets, and IGUS" is a bold synthesis but its formal status is unclear. Is FOH an axiom, a theorem, or a heuristic? Fix: Classify FOH within the formal architecture.
+
+43. [MODERATE] The "movable cut" covariance (Plate VII: c₁, c₂) is central to Bohr/Heisenberg but the covariance claim is never formalized. "The cut can be moved without changing predictions" is a physical invariance claim that needs a formal statement (what is invariant under cut-movement?). Fix: Provide a formal covariance principle.
+
+44. [MODERATE] Von Neumann's chain and Lüders's rule (§17) are invoked but the "psychophysical parallelism" is not connected to A1's perspectival immanence. Fix: Show how von Neumann's I/II divide maps onto Inside_o/Ext_o (A3).
+
+45. [MODERATE] The claim that "canonical dynamics systematically places the measurement cut outside the unitary evolution it describes" (Abstract) is a strong interpretive claim that many physicists would contest. Unitary evolution is cut-independent; the cut is epistemic, not dynamical. Fix: Qualify: the cut is not in the dynamics but is required for outcomes—this is the measurement problem, not a feature of dynamics.
+
+46. [MINOR] Brukner-Zeilinger (2009) "informationally elementary systems" is cited once but never used. Fix: Integrate or drop.
+
+47. [MINOR] The "Two-Qubit Witness" in Chapter 5 is mentioned in the roadmap but not described. Fix: Provide the witness (a Bell inequality? a contextuality proof?) with explicit operational meaning.
+
+48. [MINOR] "Darwinism" appears in Figure 5.1's caption ("Doplicher–Longo Split Collar & Darwinism")—this is Zurek's quantum Darwinism, but the term is unexplained. Fix: Define quantum Darwinism and its relation to A3.
+
+49. [MINOR] The Solvay-EPR discussion (§16) is historical but its formal payoff is unclear. Fix: Connect Bohr's complementarity explicitly to A1 (situated horizon) or drop the historical detail.
+
+50. [MINOR] The "extended parity no-go theorems" (§18) plural is vague—which theorems? Fix: Name them (Frauchiger-Renner 2018; Bong et al. 2020; Brukner 2018) and state which supports which axiom.
+
+D. SYSTEMS THEORY & ENACTIVISM (Recommendations 51–63)
+51. [MAJOR] Von Foerster's "eigenbehaviors" (§28) and second-order formalism are invoked, but the formal eigenbehavior definition (fixed points of an operator) is never given. Fix: Provide the operator-theoretic definition and show how it satisfies A3 (operational closure).
+
+52. [MAJOR] Luhmann's triple system-reference (§29) and "unmarked exterior re-entry" are Spencer-Brown-derived, but the re-entry formalism (the form's indication of itself) is never formalized. Fix: Give the Spencer-Brown calculus (marked/unmarked, re-entry) and its mapping to A3.
+
+53. [MAJOR] Maturana-Varela's autopoiesis (§30) is given a formal Markov blanket partition (μ ⊥ η | B), but this is Friston's free-energy formulation, not Maturana-Varela's original autopoiesis. The conflation is significant: autopoiesis is about self-production of components, not Bayesian boundary. Fix: Distinguish autopoiesis (Maturana-Varela) from active inference (Friston) and specify which is being formalized.
+
+54. [MODERATE] The Markov blanket partition μ ⊥ η | B (internal ⊥ external | blanket) is a conditional independence claim—this is a statistical, not a topological, demarcation. A3 requires a topological cut (Sep(B_o, Inside_o, Ext_o)). Fix: Show how statistical conditional independence grounds topological separation, or acknowledge the gap.
+
+55. [MODERATE] Noë's enactive perception (§31) and sensorimotor contingencies are invoked but the "contingency" structure is never formalized. Fix: Provide a formal definition (e.g., a sensorimotor contingency is a mapping from actions to sensory changes) and its relation to A3/A4.
+
+56. [MODERATE] Metzinger's self-model theory (§32) and the "transparent self-model" are directly relevant to A1 (the observer cannot appear as object)—but the connection is not drawn. Fix: Show how transparency (the model's inability to appear as a model) maps onto ¬GlobalView(o).
+
+57. [MODERATE] Dennett's "center of narrative gravity" (§33) is a deflationary account of self—arguably eliminativist about the observer. If the self is a fiction, does Obs(o) have a referent? Fix: Address whether Dennett's position satisfies or violates A1's existential commitment to observers.
+
+58. [MODERATE] The claim that systems theory models "embody operational demarcation (A3) and non-reductive structural realism" is asserted but the structural realism is never defined. Fix: Specify which structural realism (Worrall, Ladyman, French) and how it relates to SIT.
+
+59. [MINOR] The "IGUS" (International General Utility System?) in §27—actually "It from Bit" / "IGUS" is a Wheeler term (Information Gathering and Utilizing System)—is unexplained. Fix: Define IGUS and cite Wheeler.
+
+60. [MINOR] The "S/A" (sensory/active) notation in Plate XI is never defined in the text. Fix: Define the S/A states and their formal role.
+
+61. [MINOR] The "100–3000 ms band" (Varela) in Figure 0.1's caption is a specific empirical claim about the specious present—this needs a citation and justification for the range. Fix: Cite Varela (1999) and Pöppel; justify the range.
+
+62. [MINOR] The claim that autopoiesis provides a "formal Markov blanket partition" is anachronistic—Maturana-Varela (1972) predates Markov blankets (Pearl 1988; Friston 2013). Fix: Frame as a reconstruction, not an attribution.
+
+63. [MINOR] Luhmann's "anti-humanism" is mentioned but its implication for A1 (Obs(o) as human or system?) is not drawn. Fix: Clarify whether Obs(o) ranges over humans, systems, or both (many-sorted logic should specify this).
+
+E. FORMAL & MATHEMATICAL RIGOR (Recommendations 64–80)
+64. [CRITICAL] The "Lean 4 type signatures" (Appendix D) are advertised but the excerpt shows no actual Lean code. If formal verification is claimed, the signatures must be provided—and they must typecheck. Fix: Include actual Lean 4 code for at least A1–A4 and the SIT functors, with a reproducibility statement (Lean version, dependencies).
+
+65. [CRITICAL] The "Gentzen/Fitch natural-deduction trees" (Appendix D) are advertised but not shown. Fix: Provide at least one full derivation tree (e.g., the reductio for A1) in the main text or appendix.
+
+66. [MAJOR] The topological "Anti-Continuum Lemma" (§35) is named but never stated or proved. Fix: State the lemma precisely (what topological space, what property, what proof) and prove it.
+
+67. [MAJOR] The Doplicher-Longo split property is invoked (§21, §35) but its precise content is never stated. The split property: for a inclusion of von Neumann algebras M(O₁) ⊂ M(O₂) with a "collar," there exists a Type I factor N with M(O₁) ⊂ N ⊂ M(O₂). Fix: State the theorem, cite Doplicher-Longo (1984), and show exactly how it grounds A3's bounded Inside_o.
+
+68. [MAJOR] Allen's interval logic (§37) is invoked for the thick present, but the 13 Allen relations and the specific axioms used are never listed. Fix: Provide the Allen relations used (Overlaps, Meets, etc.) and the specific interval axioms for A4b.
+
+69. [MAJOR] "Soundness, Open Completeness & Independence" (§37) are claimed but not proved. Open completeness (completeness with respect to open theories?) is a technical notion requiring careful statement. Fix: State the soundness theorem, the completeness theorem (with respect to which semantics?), and the independence results with proofs or proof sketches.
+
+70. [MODERATE] The "four separating countermodels" (M~A1..M~A4, Plate XIV) are the core independence evidence but are not given in the text. Fix: Provide a table of the four countermodels with their worlds, domains, and the axiom each violates.
+
+71. [MODERATE] The entropy-update functional S_o ≥ 0 (A4a) is asserted but never defined. What is the domain? What is the update rule? Is it von Neumann entropy, Shannon entropy, or a phenomenological measure? Fix: Define S_o precisely and justify Asym(S_o).
+
+72. [MODERATE] "Dur(I_now) > 0" (A4b) is the thick present claim, but the justification for a positive duration (vs. zero-width) is empirical, not logical. Fix: Cite the empirical literature (Pöppel's ~3s window, Varela's 1/10 s) and specify the falsification condition.
+
+73. [MODERATE] The "many-sorted hybrid" logic is never given a proof theory. Hybrid logic adds nominals (@, ↓) for worlds—are these used? If so, the proof rules must be stated. Fix: Specify the hybrid apparatus (nominals, satisfaction operators) and its proof theory, or drop "hybrid."
+
+74. [MODERATE] The claim that the logic is "S4" (reflexive, transitive) is asserted but the accessibility relation R is never interpreted. What does R represent—epistemic accessibility? Temporal succession? Constitutive grounding? Fix: Interpret R explicitly (this matters enormously for the axioms' meaning).
+
+75. [MODERATE] "Equiv_inv" is claimed to be proven in §34, but the proof requires the overlap relation to be an equivalence—which is contestable (see Rec. 8). Fix: Provide the proof and address transitivity.
+
+76. [MODERATE] The "category isomorphism Σ_Obs" (§38) is claimed but isomorphism requires inverse functors—only faithful functors are mentioned. Fix: Distinguish faithful functors (injective on hom-sets) from isomorphism (invertible); prove which is claimed and why.
+
+77. [MINOR] The notation "M(O₁) ⊂ N ⊂ M(O₂)" uses ⊂ for inclusion—is this proper or non-strict? Fix: Specify.
+
+78. [MINOR] The "Type I factor" in the Doplicher-Longo theorem is a technical notion (a von Neumann algebra isomorphic to B(H))—this should be defined for non-specialists. Fix: Add a glossary entry.
+
+79. [MINOR] The claim that "Barcan and Converse Barcan are blocked" is correct for varying domains, but the consequences (e.g., no necessary existence, no necessary identity) should be noted. Fix: Add a remark on the metaphysical cost of blocking Barcan.
+
+80. [MINOR] The "extended thick living present" is a Husserlian notion (lebendige Gegenwart) but the formalization as Allen intervals is a reconstruction—this should be flagged as such, not presented as Husserl's own view. Fix: Add a scholarly caveat.
+
+F. EMPIRICAL FALSIFICATION & METHODOLOGY (Recommendations 81–90)
+81. [CRITICAL] The "empirical falsifiers" in Table A.0 are not operationalized. "Experimental demonstration of observer-independent absolute macro-facts violating Local Friendliness" is a research program, not a falsification condition. Fix: For each axiom, specify: (a) the observable, (b) the predicted value under the axiom, (c) the value under ¬A, (d) the experimental threshold, (e) the apparatus.
+
+82. [CRITICAL] The "decoupled empirical falsification tests (Table 8.3–8.4)" are advertised but not shown. Fix: Provide the tables in full with operationalized protocols.
+
+83. [MAJOR] The claim that A1's denial is falsified by "violating Local Friendliness" is backwards. Local Friendliness violations (Bong et al. 2020) show that no theory can simultaneously satisfy Local Friendliness and certain quantum predictions—this is evidence against a class of hidden-variable theories, not directly for A1. Fix: Clarify the logical relation: does LF-violation entail A1, support A1, or is it merely consistent with A1?
+
+84. [MAJOR] A2's falsifier ("reproducible breakdown of cross-perspective covariance favoring one absolute cosmic observer-frame") is not a real experimental protocol. What would such a breakdown look like? Fix: Specify a concrete test (e.g., a preferred-frame effect in Bell tests, or a CMB-frame-dependent quantum correlation).
+
+85. [MAJOR] A3's falsifier ("passive non-autonomous substrates sustaining identical long-range coherence autonomy as dissipative units") is opaque. Fix: Translate into an experimental protocol: what substrate, what coherence measure, what autonomy criterion?
+
+86. [MAJOR] A4's falsifier ("evidence that zero-duration slices mediate temporal change judgment") is not experimentally realizable as stated. Zero-duration slices are mathematical ideals; no experiment can test them directly. Fix: Specify an operational proxy (e.g., temporal binding windows, flash-lag effects) and the predicted difference.
+
+87. [MODERATE] The "Duhem-Quine crucibles" (Tables 8.3–8.4) invoke holism but the specific auxiliary hypotheses are not listed. Fix: For each test, list the auxiliaries (apparatus assumptions, background theory) and which are at risk.
+
+88. [MODERATE] "SIT Revision Triggers" (§40) are mentioned but not specified. Fix: State the conditions under which SIT would be revised (e.g., a framework that satisfies A1–A4 but cannot be functorially mapped to Σ_Obs).
+
+89. [MODERATE] The claim of "decoupled" tests is methodologically suspicious—if the axioms are interdependent (A4 ⊢ A3 in Fig. 7.1), tests cannot be fully decoupled. Fix: Address the interdependence: which tests are truly independent, and which are conditional?
+
+90. [MINOR] The "optical-PTA residuals" (A4's optional H_phys) are unexplained. Fix: Define PTA (pulsar timing array?) and the specific residual signature.
+
+G. STRUCTURE, SCHOLARSHIP & PRESENTATION (Recommendations 91–100)
+91. [MAJOR] The manuscript is 135 pages with 18 plates and 11 figures—a monograph, not an article. For journal submission, this must be restructured (series of papers) or submitted as a monograph with a press. Fix: Decide the venue and restructure accordingly.
+
+92. [MAJOR] The abstract promises "thirty traditions" but the treatise delivers 32 sections—the numerical framing is confusing (see Rec. 13). Fix: Harmonize the count in abstract, title, and TOC.
+
+93. [MAJOR] The author list includes "ORCID: Pending Institutional Verification (Directory)" and a blank ORCID for Bulaqueña—this is unprofessional for submission. Fix: Complete all ORCIDs or remove placeholders.
+
+94. [MODERATE] The reference to "Marlon D. Bulaqueña, Ph.D., Department of Physics, Yale University" without an ORCID and with an incomplete affiliation raises verification concerns. Fix: Provide full verifiable affiliation or remove.**
+
+95. [MODERATE] The title's subtitle ("Thirty-Two Theories of Self and Time, from Transcendental Philosophy to Quantum Mechanics—and the Hidden Structure They Share") overpromises "self and time"—the treatise is primarily about the observer, not the self or time per se. Fix: Revise subtitle to match content.
+
+96. [MODERATE] The glossary, logical symbols table, and indices are advertised but the excerpt shows only fragments. Fix: Ensure completeness and cross-referencing.
+
+97. [MODERATE] The "Index of Names" and "Index of Concepts" (pp. 128–135) are essential for a work of this scope but their quality cannot be assessed from the excerpt. Fix: Ensure entries are substantive, not merely page-lists.
+
+98. [MINOR] The epigraph attribution to "Kant B131 and Wittgenstein TLP 5.632" as a "Synthetic Paraphrase" is honest but the paraphrase is not clearly marked as such in the running text. Fix: Add quotation marks or a footnote.
+
+99. [MINOR] Figure 0.1's caption describes "four situated human and scientific vantage points"—but the diagram shows boxes labeled "Phenomenology," "Deconstruction," "Quantum Optics," "Autopoiesis," which are traditions, not vantage points. Fix: Correct the caption or the diagram labels.
+
+100. [MINOR] The repeated phrase "constitutive absence" is the book's central concept but is never given a formal definition (only a gloss: "simultaneously constitutive of the world and absent from it"). Fix: Add a formal definition (e.g., o is constitutively absent iff o ∈ Conditions(World) and o ∉ World) and use it consistently.
+
+H. TEN ADDITIONAL ILLUSTRATION SUGGESTIONS (Recommendations 101–110)
+101. [NEW PLATE XIX] The Existence Predicate and Varying Domains. A visual showing D(w₀) ∉ D(w₁) with objects appearing/disappearing across worlds, illustrating the Barcan-blocking semantics. This is referenced but never visualized.
+
+102. [NEW FIGURE 7.3] The Independence Countermodels M~A1..M~A4 as Explicit Kripke Diagrams. Plate XIV is mentioned but the countermodels are not shown as world-diagrams. A four-panel figure with worlds, accessibility arrows, domains, and the violated axiom marked would make the minimality claim visible.
+
+103. [NEW FIGURE 8.2] The Functorial SIT as Commutative Diagrams. Plate XV shows convergence arrows; a proper commutative-diagram figure (objects, morphisms, F_Phen, F_Quant, F_Sys, composition preservation) is needed for the category-theoretic claim.
+
+104. [NEW PLATE XX] The Measurement-Cut Taxonomy. A visual taxonomy: Bohr's epistemic cut, von Neumann's I/II divide, Heisenberg's observer/object divide, Rovelli's relational cut—each with its formal structure and mapping to A3. This addresses Rec. 31.
+
+105. [NEW FIGURE 5.2] No-Go Theorem 5.1 Circuit Diagram with Fidelity Bounds. A quantum circuit showing the two-qubit witness, the F > 1/2 vs. r = m parameters, and the contradiction region shaded.
+
+106. [NEW PLATE XXI] The Levinas-Marion Anomaly Zone. A visual showing where ethical overflow (Levinas) and saturation (Marion) exceed the A1–A4 axiom architecture—depicting the "genuine anomaly" claim spatially (Rec. 6, 21, 25).
+
+107. [NEW FIGURE 3.2] The Six Rupture-Types Distinguished. A comparison chart: deferral (Derrida), dispersion (Foucault), splitting (Lacan), fracturing (Deleuze), plurality (Nancy), saturation (Marion)—each mapped to a distinct axiom-stress. Addresses Rec. 23–24.
+
+108. [NEW FIGURE 6.2] Autopoiesis vs. Active Inference: Two Formalizations. A side-by-side diagram distinguishing Maturana-Varela's component-production closure from Friston's Markov-blanket free-energy formulation, with the μ ⊥ η | B partition shown. Addresses Rec. 53.
+
+109. [NEW PLATE XXII] The Empirical Falsification Protocol Matrix. A visual table/flowchart: each axiom → observable → predicted value → ¬A value → apparatus → threshold. This operationalizes Table A.0 (Rec. 81).
+
+110. [NEW FIGURE 9.2] The Constitutive-Absence Resolution as a Topological Diagram. A visual showing o ∈ Conditions(World) and o ∉ World simultaneously—e.g., the vanishing point of a perspective (the point that organizes the visual field but is not in it). This would make the book's central concept visible (Rec. 100).

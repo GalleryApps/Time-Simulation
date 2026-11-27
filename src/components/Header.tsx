@@ -61,6 +61,7 @@ export const Header: React.FC<HeaderProps> = ({
         { id: 'h11-panel-200', name: '200-Expert Panel · Paper 11 (H11)', badge: '200 Recs' },
         { id: 'h13-panel-150', name: '200-Expert Panel · Paper 13 (H13)', badge: '200 Recs' },
         { id: 'p14-panel-200', name: '200-Expert Panel · Paper 14 (Clock)', badge: '200 Recs' },
+        { id: 'p15-panel-60', name: '60-Expert Panel · Paper 15 (Synthese)', badge: '250 Recs' },
         { id: 'adversarial-panel-580', name: '580-Criterion Adversarial Stress Test', badge: '1,740 pts' },
         { id: 'redteam', name: '20 Red-Team Hard Attacks', badge: '4 Waves' },
         { id: 'counterfactual', name: '14 Counterfactual Worlds', badge: 'Phase Space' },
@@ -135,7 +136,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center gap-1.5 hover:text-[#081026] dark:hover:text-[#FDFBF7] transition-colors whitespace-nowrap shrink-0 font-medium py-1"
             >
-              <span>Explore All 24 Modules</span>
+              <span>Explore All 25 Modules</span>
               <span className="text-[10px] transform transition-transform" style={{ transform: dropdownOpen ? 'rotate(180deg)' : 'none' }}>▼</span>
             </button>
 
@@ -244,7 +245,7 @@ export const Header: React.FC<HeaderProps> = ({
                   Navigation &amp; Research Modules
                 </h3>
                 <p className="text-xs text-[#64748B] dark:text-[#94B2F5]">
-                  Select from 24 specialized quantum gravity modules
+                  Select from 25 specialized quantum gravity &amp; philosophy modules
                 </p>
               </div>
               <button

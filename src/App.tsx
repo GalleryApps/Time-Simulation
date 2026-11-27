@@ -33,8 +33,9 @@ import { H13Panel150View } from './components/H13Panel150View';
 import { H11Panel200View } from './components/H11Panel200View';
 import { ClockSpeedPaperView } from './components/ClockSpeedPaperView';
 import { P14Panel200View } from './components/P14Panel200View';
-import { P15Panel60View } from './components/P15Panel60View';
 import { SynthesePaperView } from './components/SynthesePaperView';
+import { RetrocausalityPaperView } from './components/RetrocausalityPaperView';
+import { MindCompressionPaperView } from './components/MindCompressionPaperView';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -147,8 +148,9 @@ export default function App() {
     { id: 'h13-1', tab: 'igrt-h13-paper', title: 'Paper 13 (IGRT-H13): Information-Geometric Resonant Time, Portals & White-Hole Bounces', category: 'Thirteenth Monograph (H13)', desc: 'Journal-formatted 13-chapter research article (Executive Summary, concise scholarly abstract, 12 principles, 10 portal builds PR-1–PR-10, 59-term Glossary), Appendices A–K (incl. Table I.0 GJW assumption matrix), Protocols P14–P18, 26 Figures & Plates, and downloadable PDF.' },
     { id: 'p14-clock', tab: 'clock-speed-paper', title: 'Paper 14: Does Gravity Bend Space, or Just Slow Down the Universe’s Clock Speed?', category: 'Research Article (Paper 14)', desc: 'Foundations of Physics and Episteme research article evaluating curved spacetime vs. local update-rate models across GPS, lensing, Shapiro delay, Mercury, pulsars, black holes, and UHECRs, with A4 PDF export.' },
     { id: 'p14-panel-200', tab: 'p14-panel-200', title: '200-Expert Panel Evaluation & Applied Upgrades (Paper 14)', category: 'Adversarial Evaluation', desc: '200 named domain experts across 10 sub-panels stress-testing Paper 14 (1,823.2/2,000 -> 2,000.0/2,000 = 100.0%) with all 200 recommendations REC14-001–REC14-200 silently applied.' },
-    { id: 'p15-synthese', tab: 'synthese-paper', title: 'Paper 15 (Synthese): Where or Who Is the Observer? Phenomenology, Quantum Foundations & Systems Theory', category: 'Synthese Journal Monograph (Paper 15)', desc: 'Scientific magazine monograph in a 40-shade Ecru, Orange, Dark Magenta, Dark Teal & Pine Green system uniting 32 observer positions across Kant, Husserl, Derrida, Bohr, Rovelli, and Autopoiesis as situated horizon structures, with A4 PDF export.' },
-    { id: 'p15-panel-60', tab: 'p15-panel-60', title: '60-Expert Panel & 250 Recommendations (Paper 15 · Synthese)', category: 'Adversarial Evaluation', desc: '60 named domain experts across 10 sub-panels stress-testing Paper 15 on a 1–20 scale (1,200.0 / 1,200.0 = 100.0%) with all 250 recommendations REC15-001–REC15-250 silently applied.' },
+    { id: 'p15-synthese', tab: 'synthese-paper', title: 'Paper 15 (Synthese): Where or Who Is the Observer? Phenomenology, Quantum Foundations & Systems Theory', category: 'Synthese Journal Monograph (Paper 15)', desc: 'Scientific magazine monograph in a 40-shade Ecru, Orange, Dark Magenta, Dark Teal & Pine Green system uniting 30+ observer theories across Kant, Husserl, Derrida, Bohr, Rovelli, and Autopoiesis as local sections of P(M, PU(H)) over split Type I factors, with A4 PDF export.' },
+    { id: 'p16-retrocausality', tab: 'retrocausality-paper', title: 'Paper 16: The Universe Remembers Its Future (Retrocausality, Temporal Boundary Conditions & Causal Reality)', category: 'Foundational Monograph (Paper 16)', desc: 'Bidirectional causal structure monograph in Paper 15’s 40-shade Ecru, Teal, Plum & Pine system examining advanced/retarded solutions, two-boundary ABL/TSVF selection, global consistency vs. backward signalling, and thermodynamic arrows, with interactive ABL workbench and A4 PDF export.' },
+    { id: 'p17-mind-compression', tab: 'mind-compression-paper', title: 'Paper 17 (Mind): Consciousness as a Thermodynamic Compression Artifact', category: 'Mind Philosophical Monograph (Paper 17)', desc: 'Popperian information-geometric dissolution of the hard problem via resource-bounded K_{t,s} compression, Landauer erasure bounds, Fisher metric pullbacks, localized compression locus, 30 full-page plates, and A4 PDF export.' },
     { id: 'h13-panel-150', tab: 'h13-panel-150', title: '200-Expert Panel Evaluation & Applied Recommendations (Paper 13 · H13)', category: 'Adversarial Evaluation', desc: '200 named domain experts across 10 sub-panels auditing Paper 13 for physics rigor and journal publishability with all 200 recommendations REC-001–REC-200 applied.' },
     { id: 'c500', tab: 'criteria500', title: '500-Criterion Adversarial Matrix', category: 'Evaluation Matrix', desc: 'Granular point-by-point audit across 10 domains with filterable search and verified scores.' },
     { id: 'usim', tab: 'universesim', title: 'Dual Universe Simulation (Model A vs B)', category: 'Interactive Simulation', desc: 'Side-by-side comparative simulation across 5 physical scenarios with high-DPI canvases and coordinate probes.' },
@@ -362,6 +364,28 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
               }`}
             >
               <span>Paper 15 · Synthese</span>
+              <span className="font-mono text-[10px] opacity-90">P15</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('retrocausality-paper')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
+                activeTab === 'retrocausality-paper' 
+                  ? 'bg-[#11505C] text-white shadow-xs font-medium' 
+                  : 'text-[#11505C] dark:text-[#78C2CE] hover:bg-[#EDF5F6] dark:hover:bg-[#0B3942]'
+              }`}
+            >
+              <span>Paper 16 · Remembers Its Future</span>
+              <span className="font-mono text-[10px] opacity-90">P16</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('mind-compression-paper')}
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
+                activeTab === 'mind-compression-paper' 
+                  ? 'bg-[#3D132B] text-white shadow-xs font-medium' 
+                  : 'text-[#3D132B] dark:text-[#E29EC4] hover:bg-[#F7EEF3] dark:hover:bg-[#2E0820]'
+              }`}
+            >
+              <span>Paper 17 · Consciousness Compression</span>
               <span className="font-mono text-[10px] opacity-90">NEW</span>
             </button>
             <button
@@ -374,17 +398,6 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
             >
               <span>200-Expert Panel · P14</span>
               <span className="font-mono text-[10px] opacity-90">200</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('p15-panel-60')}
-              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap text-xs flex items-center gap-1.5 ${
-                activeTab === 'p15-panel-60'
-                  ? 'bg-[#4A0E33] text-white shadow-xs font-medium'
-                  : 'text-[#661447] dark:text-[#C46D9E] hover:bg-[#F7EEF3] dark:hover:bg-[#2E0820]'
-              }`}
-            >
-              <span>60-Expert Panel · P15</span>
-              <span className="font-mono text-[10px] opacity-90">60 / 250</span>
             </button>
             <button
               onClick={() => setActiveTab('h13-panel-150')}
@@ -518,11 +531,8 @@ f_{\\text{PTA}} = \\frac{2\\omega}{2\\pi} = \\frac{\\omega}{\\pi}, \\quad \\frac
             />
           )}
           {activeTab === 'synthese-paper' && <SynthesePaperView />}
-          {activeTab === 'p15-panel-60' && (
-            <P15Panel60View
-              onNavigateToSynthesePaper={() => setActiveTab('synthese-paper')}
-            />
-          )}
+          {activeTab === 'retrocausality-paper' && <RetrocausalityPaperView />}
+          {activeTab === 'mind-compression-paper' && <MindCompressionPaperView />}
           {activeTab === 'p14-panel-200' && (
             <P14Panel200View
               onNavigateToClockSpeedPaper={() => setActiveTab('clock-speed-paper')}
